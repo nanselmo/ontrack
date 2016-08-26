@@ -16,7 +16,7 @@ class Student(models.Model):
 class Subject(models.Model):
     subject_id=models.IntegerField(primary_key=True)
     subject_name = models.CharField(max_length=60)
-    image = models.ImageField('Subject Icon', upload_to='images/subj_icons')
+    image = models.ImageField('Subject Icon', upload_to='static/images/subj_icons')
 
     def __str__(self):
         return "{0}: {1}".format(self.subject_id, self.subject_name)
