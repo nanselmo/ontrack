@@ -118,72 +118,25 @@ def show_student(request, student_id):
     df_all_grades = pandas.read_sql(all_grades_sql, con=connection)
     df_grades_indexed=df_all_grades.pivot(index='grade_date', columns='subject_name', values='grade')
 
-    #create Bokeh plot
-    numlines=len(df_grades_indexed.columns)
-    mypalette=Spectral11[0:numlines]
-
-    _tools_to_show = 'pan,save,hover,resize,reset,wheel_zoom'
-
-    p5 = figure(width=500, height=300, x_axis_type="datetime", tools=_tools_to_show)
-    p5.multi_line(xs=[df_grades_indexed.index.values]*numlines,
-                    ys=[df_grades_indexed[subject].values for subject in df_grades_indexed],
-                    line_color=mypalette,
-                    line_width=5)
-
-    # THEN put  scatter one at a time on top of each one to get tool tips (HACK! lines with tooltips not yet supported by Bokeh?)
-    for (name, series) in df_grades_indexed.iteritems():
-        # need to repmat the name to be same dimension as index
-        name_for_display = np.tile(name, [len(df_grades_indexed.index),1])
-
-        source = ColumnDataSource({'x': df_grades_indexed.index, 'y': series.values,
-                                   'series_name': name_for_display, 'Date': df_grades_indexed.index.format()})
-
-        p5.scatter('x', 'y', source = source, size=20, fill_alpha=0, line_alpha=0, line_color="grey")
-
-        hover = p5.select(dict(type=HoverTool))
-        hover.tooltips = [("Subject", "@series_name"), ("Date", "@Date"),  ("FinalAvg", "@y"),]
-        hover.mode = 'mouse'
-
-    #turn Bokeh plot into javascript and html div
-    bokeh_script, bokeh_div = components(p5, CDN)
-
-
-    #JUST FOR COMPARRISON/REFERENCE, ADD GOOGLE charts
-    #all_grades_sql = "SELECT grade, grade_date, subject_name  FROM student_grade, student_subject  \
-           #WHERE student_grade.student_id = '%s' AND student_grade.subject_id=student_subject.subject_id" %(student_id )
-
-    #df_all_grades = pandas.read_sql(all_grades_sql, con=connection)
-    #df_grades_indexed=df_all_grades.pivot(index='grade_date', columns='subject_name', values='grade')
 
     subject_names=list(df_grades_indexed.columns.values)
     df_grades_indexed.insert(0,'date', df_grades_indexed.index)
     all_grades_data=df_grades_indexed.values
     all_grades_data
 
-    # I need to  make this dynamic with a loop!!!
-    #for index,subject in enumerate(subject_names):
-    #print 'subj'+str(index+1), ', number, ', subject
-    grades_description = [("grade_date", "date", "Date" ),
-                   ("subj1", "number", subject_names[0] ),
-                   ("subj2", "number", subject_names[1] ),
-                   ("subj3", "number", subject_names[2]),
-                   ("subj4", "number", subject_names[3] )]
+    grades_desc =[]
+    grades_desc.append(("grade_date", "date", "Date" ))
+    for index,subject in enumerate(subject_names):
+        grades_desc.append( ("subj"+str(index+1), "number", subject))
 
     # Loading it into gviz_api.DataTable
-    all_grades_data_table = gviz_api.DataTable(grades_description)
+    all_grades_data_table = gviz_api.DataTable(grades_desc)
     all_grades_data_table.LoadData(all_grades_data)
     historical_grades_json = all_grades_data_table.ToJSon()
     historical_grades_json
 
 
-
-    subject_logo = "http://www.freeiconspng.com/uploads/geometry-icon-31.png"
-
-
     template_vars = {'current_grades_dict': current_grades_dict,
-                     'bokeh_chart_script': bokeh_script,
-                     'bokeh_chart_div' : bokeh_div,
                      'current_student' : student ,
-                     'subject_logo' : subject_logo,
                      'all_grades_json' : historical_grades_json}
     return render(request, 'student/show_student.html',template_vars )
