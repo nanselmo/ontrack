@@ -41,10 +41,10 @@
           </div>
           <div class="row icon-grade-box">
               <div class="col-sm-6 icon-img-box">
-                <img class="subject-icon" href=
-                {% with 'student/'|add:value.image as image_static %}
-                  {% static image_static %}
-                {% endwith %} alt="subject-icon"/>
+                <img class="subject-icon" src=
+              {% with "student/"|add:value.image as image_static %}
+                {% static image_static %}
+              {% endwith %} alt="subject-icon"/>
               </div>
               <div class="col-sm-6">
               <p class="student-grade">{{value.grade}} </p>

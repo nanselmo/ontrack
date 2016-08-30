@@ -53,4 +53,5 @@ terminado==0.6
 tornado==4.4.1
 traitlets==4.2.2
 wcwidth==0.1.7
+whitenoise==3.2.1
 widgetsnbextension==1.2.6
