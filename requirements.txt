@@ -6,6 +6,7 @@ bokeh==0.12.1
 certifi==2016.8.8
 configparser==3.5.0
 decorator==4.0.10
+dj-database-url==0.4.1
 Django==1.10
 django-extensions==1.7.2
 entrypoints==0.2.2
@@ -55,3 +56,4 @@ traitlets==4.2.2
 wcwidth==0.1.7
 whitenoise==3.2.1
 widgetsnbextension==1.2.6
+psycopg2==2.5.4

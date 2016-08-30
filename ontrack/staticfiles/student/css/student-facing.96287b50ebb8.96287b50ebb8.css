@@ -1,0 +1,57 @@
+p{
+  text-align: center;
+  font-family: font-family: 'Raleway', sans-serif;
+  color: grey;
+}
+
+div {
+  height : 100%;
+}
+h2, h3, h4, h1, h5 {
+
+  font-family: 'Oswald', sans-serif;
+  font-weight: bold;
+}
+
+.subject-heading {
+  color: navy;
+  text-align: center;
+}
+
+.grade-box{
+}
+
+
+
+#attend_chart_div{
+    margin: 0 auto;
+}
+
+#grades_chart_div{
+    margin: 0 auto;
+}
+
+.subject-icon{
+  width: 100%;
+  height: auto;
+  max-height: 150px;
+}
+
+
+
+#grades-over-time-chart{
+  padding: 20px;
+  background: white;
+}
+
+
+#student-facing-grades{
+  border: black solid 3px;
+}
+
+#student-facing-grades .student-grade {
+  color: black;
+  font-size: 5em;
+
+
+}

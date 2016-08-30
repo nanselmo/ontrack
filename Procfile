@@ -1,1 +1,1 @@
-web: gunicorn ontrack.wsgi
+web: gunicorn --pythonpath ontrack ontrack.wsgi
