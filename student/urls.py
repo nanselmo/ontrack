@@ -1,5 +1,7 @@
 from django.conf.urls import url
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^$', views.show_student_grades, name='show_student_grades'),
@@ -11,4 +13,4 @@ urlpatterns = [
     # ex: /student/attendance/5/
     url(r'^student/attendance/(?P<student_id>[0-9]+)/$', views.show_student_attendance, name='show_student_attendance'),
 
-]
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
