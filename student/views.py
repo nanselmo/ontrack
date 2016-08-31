@@ -2,24 +2,16 @@ from django.shortcuts import render
 from student.models import Grade, Student, Attendance
 from django.db import connection
 import pandas
+import math
 
 #for plotting
 import gviz_api
 from django.shortcuts import render
-from bokeh.plotting import figure
-from bokeh.resources import CDN
-from bokeh.embed import components
-from bokeh.charts import Scatter, TimeSeries
-from bokeh.plotting import figure
-from bokeh.models import TapTool, HoverTool, ColumnDataSource, DatetimeTickFormatter
-from collections import OrderedDict
-import numpy as np
-from bokeh.palettes import Spectral11
 
-#bokeh
+
 from django.db import connection
 
-# Create your views here.
+
 
 def google_chart(request):
 
@@ -88,6 +80,69 @@ def simple_chart(request):
 
 
     return render(request, "simple_chart.html", {"the_script": script, "the_div": div})
+
+def show_student(request, student_id):
+
+    student=Student.objects.get(student_id= "%s"%(student_id))
+    def getPoints(x):
+    # if no grade for that subject at that date
+        if math.isnan(x):
+            # just return it untouched
+            return x
+        # but, if not, return the points
+        elif x:
+            if x>=90:
+                return 4
+            elif x>=80:
+                return 3
+            elif x>=70:
+                return 2
+            elif x>=60:
+                return 1
+            else:
+                return 0
+        # and leave everything else
+        else:
+            return
+
+    all_grades_sql = "SELECT grade, grade_date, subject_name  FROM student_grade, student_subject  \
+               WHERE student_grade.student_id = '%s' \
+                AND student_grade.subject_id=student_subject.subject_id\
+                ORDER BY date(grade_date) DESC" %(student_id)
+
+    df_all_grades = pandas.read_sql(all_grades_sql, con=connection)
+
+    # disconnect from server
+    connection.close()
+
+
+    df_grades_indexed=df_all_grades.pivot(index='grade_date', columns='subject_name', values='grade')
+    df_points=df_grades_indexed.applymap(getPoints)
+    df_points['gpa']=df_points.mean(axis=1)
+    df_points=df_points.reset_index()
+    gpa_values=df_points[['grade_date', 'gpa']].values
+
+    #set up Google Table to pass to View
+    gpa_desc=[("grade_date", "date", "Date" ),
+              ("gpa", "number", "GPA")]
+    gpa_data_table=gviz_api.DataTable(gpa_desc)
+    gpa_data_table.LoadData(gpa_values)
+    gpa_json=gpa_data_table.ToJSon()
+
+    #will be the GPA of the most recently entered grades
+    #maybe change this to be the 4 most recent grades per subject!
+    gpa=df_points.sort_values('grade_date',0,False)['gpa'].iloc[0]
+
+    #Attendance
+    attend_pct=round(Attendance.objects.filter(student_id="%s"%(student_id)).order_by('-attend_date')[1].calc_pct())
+    attend_pct='{0:g}'.format(float(attend_pct))
+
+    template_vars = {'current_gpa': gpa,
+                     'current_student' : student ,
+                     'gpa_json_data' : gpa_json,
+                     'attendance_pct' : attend_pct}
+    return render(request, 'student/student.html',template_vars )
+
 
 def show_student_grades(request, student_id):
 

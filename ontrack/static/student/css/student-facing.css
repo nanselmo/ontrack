@@ -16,6 +16,7 @@ h2, h3, h4, h1, h5 {
 .subject-heading {
   color: navy;
   text-align: center;
+  font-size: 200%;
 }
 
 .grade-box{
@@ -35,6 +36,8 @@ h2, h3, h4, h1, h5 {
   width: 100%;
   height: auto;
   max-height: 150px;
+  -webkit-filter: saturate(0%) grayscale(100%) brightness(69%) contrast(1000%); /* Chrome, Safari, Opera */
+    filter: saturate(0%) grayscale(100%) brightness(69%) contrast(1000%);
 }
 
 
