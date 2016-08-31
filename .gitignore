@@ -3,5 +3,6 @@ venv
 .env
 *.ipynb
 db.sqlite3
+*secret_key.txt
 __pycache__
 local_settings.py
