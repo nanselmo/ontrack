@@ -177,11 +177,12 @@ def show_student_grades(request, student_id):
     # disconnect from server
     connection.close()
 
-    #SQL to dictionary for all grades
+    #historical grades grades
     all_grades_sql = "SELECT grade, grade_date, subject_name  FROM student_grade, student_subject  \
            WHERE student_grade.student_id = '%s' AND student_grade.subject_id=student_subject.subject_id" %(student_id )
     df_all_grades = pandas.read_sql(all_grades_sql, con=connection)
     df_grades_indexed=df_all_grades.pivot(index='grade_date', columns='subject_name', values='grade')
+
 
 
     subject_names=list(df_grades_indexed.columns.values)
@@ -201,9 +202,46 @@ def show_student_grades(request, student_id):
     historical_grades_json
 
 
+    #GPA
+    def getPoints(x):
+    # if no grade for that subject at that date
+        if math.isnan(x):
+            # just return it untouched
+            return x
+        # but, if not, return the points
+        elif x:
+            if x>=90:
+                return 4
+            elif x>=80:
+                return 3
+            elif x>=70:
+                return 2
+            elif x>=60:
+                return 1
+            else:
+                return 0
+        # and leave everything else
+        else:
+            return
+
+    df_grades_indexed2=df_all_grades.pivot(index='grade_date', columns='subject_name', values='grade')
+    df_points=df_grades_indexed2.applymap(getPoints)
+    df_points['gpa']=df_points.mean(axis=1)
+    df_points=df_points.reset_index()
+    gpa_values=df_points[['grade_date', 'gpa']].values
+
+    #set up Google Table to pass to View
+    gpa_desc=[("grade_date", "date", "Date" ),
+              ("gpa", "number", "GPA")]
+    gpa_data_table=gviz_api.DataTable(gpa_desc)
+    gpa_data_table.LoadData(gpa_values)
+    gpa_json=gpa_data_table.ToJSon()
+
+
     template_vars = {'current_grades_dict': current_grades_dict,
                      'current_student' : student ,
-                     'all_grades_json' : historical_grades_json}
+                     'all_grades_json' : historical_grades_json,
+                     'gpa_json_data' : gpa_json}
     return render(request, 'student/student_grades.html',template_vars )
 
 

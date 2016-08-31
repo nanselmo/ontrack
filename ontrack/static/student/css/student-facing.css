@@ -20,17 +20,12 @@ h2, h3, h4, h1, h5 {
   text-transform: uppercase;
 }
 
-.grade-box{
-}
 
 
-#attend_chart_div{
+.google-chart{
     margin: 0 auto;
 }
 
-#grades_chart_div{
-    margin: 0 auto;
-}
 
 .subject-icon{
   width: 100%;
@@ -42,10 +37,6 @@ h2, h3, h4, h1, h5 {
 
 
 
-#grades-over-time-chart{
-  padding: 20px;
-  background: white;
-}
 
 
 #student-facing-grades{

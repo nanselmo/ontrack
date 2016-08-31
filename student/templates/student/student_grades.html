@@ -9,9 +9,11 @@
     <script type='text/javascript' src='http://www.google.com/jsapi'></script>
     <script type='text/javascript'>
       google.load('visualization', '1.1', {'packages':['corechart']});
-      google.setOnLoadCallback(drawChart)
 
-      function drawChart() {
+
+      google.setOnLoadCallback(drawGradesChart)
+
+      function drawGradesChart() {
         var data = new google.visualization.DataTable({{all_grades_json|safe}});
         var chart = new google.visualization.LineChart(document.getElementById('grades_chart_div'));
 
@@ -22,6 +24,22 @@
 
         chart.draw(data, options);
       }
+
+      google.setOnLoadCallback(drawGPAChart)
+
+      function drawGPAChart() {
+        var data = new google.visualization.DataTable({{gpa_json_data|safe}});
+        var chart = new google.visualization.LineChart(document.getElementById('gpa_chart_div'));
+
+        var options = {
+          title : "GPA over Time",
+          lineWidth: 6,
+        };
+
+        chart.draw(data, options);
+      }
+
+
     </script>
 {% endblock %}
 
@@ -59,7 +77,8 @@
     </div><!--end first row-->
 
 
-    <div id='grades_chart_div' style='width: 900px; height: 500px;'></div>
+    <div class="google-chart" id='grades_chart_div' style='width: 900px; height: 500px;'></div>
+    <div class="google-chart" id='gpa_chart_div' style='width: 900px; height: 500px;'></div>
 
 </div>
 
