@@ -22,7 +22,7 @@ PROJECT_DIR=os.path.dirname(__file__)
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-with open('ontrack/secret_key.txt') as f:
+with open(os.path.join(PROJECT_DIR, 'secret_key.txt')) as f:
     SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
