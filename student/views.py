@@ -81,6 +81,15 @@ def simple_chart(request):
 
     return render(request, "simple_chart.html", {"the_script": script, "the_div": div})
 
+def show_hr(request):
+
+    students=Student.objects.all()
+
+
+    template_vars={'all_students': students}
+
+    return render(request, "student/homeroom.html", template_vars)
+
 def show_student(request, student_id):
 
     student=Student.objects.get(student_id= "%s"%(student_id))

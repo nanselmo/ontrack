@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    url(r'^$', views.show_student_grades, name='show_student_grades'),
+    url(r'^$', views.show_hr, name='show_hr'),
     url(r'^simple_chart/$', views.simple_chart, name="simple_chart"),
     url(r'^google_chart/$', views.google_chart),
     url(r'^google_table/$', views.google_table),

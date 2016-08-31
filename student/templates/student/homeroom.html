@@ -1,0 +1,17 @@
+{% extends 'student/base.html' %}
+{% load static %}
+
+{% block content %}
+  <div id="page-container">
+
+  <h1>Fake Homeroom Students</h1>
+    {% for student in all_students %}
+    <a href={% url 'show_student' student_id=student.student_id %}>
+        <p>
+          {{student.first_name}} {{student.last_name}}
+        </p>
+    </a>
+    {% endfor %}
+
+  </div>
+{% endblock %}

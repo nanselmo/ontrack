@@ -17,11 +17,11 @@ h2, h3, h4, h1, h5 {
   color: navy;
   text-align: center;
   font-size: 200%;
+  text-transform: uppercase;
 }
 
 .grade-box{
 }
-
 
 
 #attend_chart_div{
