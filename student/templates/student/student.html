@@ -1,29 +1,5 @@
 {% extends 'student/base.html' %}
 {% load static %}
-{% block extra_head_content  %}
-    {{ block.super }}
-    <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.0.min.js"></script>
-    <link
-    href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.0.min.css"
-    rel="stylesheet" type="text/css">
-    <script type='text/javascript' src='http://www.google.com/jsapi'></script>
-    <script type='text/javascript'>
-      google.load('visualization', '1.1', {'packages':['corechart']});
-      google.setOnLoadCallback(drawChart)
-
-      function drawChart() {
-        var data = new google.visualization.DataTable({{gpa_json_data|safe}});
-        var chart = new google.visualization.LineChart(document.getElementById('gpa_chart_div'));
-
-        var options = {
-          title : "GPA over Time",
-          lineWidth: 6,
-        };
-
-        chart.draw(data, options);
-      }
-    </script>
-{% endblock %}
 
 {% block content %}
 <div id="page-container">
@@ -32,6 +8,21 @@
     <h2>{{current_student.first_name}} {{current_student.last_name}}</h2>
   </div>
   <div class="row" id="student-facing-grades">
+
+    <!--OnTrack-->
+    <div class="col-sm-4 grade-box">
+        <div class="row">
+          <h4 class="subject-heading">ONTRACK</h4>
+        </div>
+        <div class="row icon-grade-box">
+            <div class="col-sm-6 icon-img-box">
+              <img class="subject-icon" src="http://icons.iconarchive.com/icons/icons8/windows-8/256/Business-Graduation-Cap-icon.png" alt="subject-icon"/>
+            </div>
+            <div class="col-sm-6">
+            <p class="student-grade"> 4</p>
+            </div>
+        </div>
+    </div>
 
     <!--GPA-->
       <div class="col-sm-4 grade-box">
@@ -67,20 +58,7 @@
           </div>
       </div>
 
-      <!--OnTrack-->
-      <div class="col-sm-4 grade-box">
-          <div class="row">
-            <h4 class="subject-heading">ONTRACK</h4>
-          </div>
-          <div class="row icon-grade-box">
-              <div class="col-sm-6 icon-img-box">
-                <img class="subject-icon" src="http://icons.iconarchive.com/icons/icons8/windows-8/256/Business-Graduation-Cap-icon.png" alt="subject-icon"/>
-              </div>
-              <div class="col-sm-6">
-              <p class="student-grade"> 4</p>
-              </div>
-          </div>
-      </div>
+
 
 
 
@@ -88,7 +66,7 @@
 
 
 
-    <div id='gpa_chart_div' style='width: 900px; height: 500px;'></div>
+    <!-- <div id='gpa_chart_div' style='width: 900px; height: 500px;'></div> -->
 
 </div>
 

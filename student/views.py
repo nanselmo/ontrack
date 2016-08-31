@@ -141,6 +141,7 @@ def show_student(request, student_id):
     #will be the GPA of the most recently entered grades
     #maybe change this to be the 4 most recent grades per subject!
     gpa=df_points.sort_values('grade_date',0,False)['gpa'].iloc[0]
+    gpa='{:.2f}'.format(float(gpa))
 
     #Attendance
     attend_pct=round(Attendance.objects.filter(student_id="%s"%(student_id)).order_by('-attend_date')[1].calc_pct())
