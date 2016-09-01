@@ -41,6 +41,19 @@
 
 
     </script>
+    <script type='text/javascript'>
+      $(document).ready(function() {
+        $(".student-grade").click(function() {
+          var $this = $(this);
+          $this.toggleClass("cumulative");
+          if ($this.hasClass("cumulative")) {
+              $this.html("56");
+          } else {
+              $this.html("78");
+          }
+        });
+      });
+    </script>
 {% endblock %}
 
 {% block content %}
@@ -69,7 +82,7 @@
               {% endwith %} alt="subject-icon"/>
               </div>
               <div class="col-sm-6">
-              <p class="student-grade">{{value.grade}} </p>
+              <p class="student-grade cumulative">{{value.grade}} </p>
               </div>
           </div>
       </div>
