@@ -154,6 +154,16 @@ def show_student(request, student_id):
     return render(request, 'student/student.html',template_vars )
 
 
+def show_student_ontrack(request, student_id):
+
+    student=Student.objects.get(student_id= "%s"%(student_id))
+
+
+    template_vars={'current_student': student}
+
+    return render(request, "student/student_ontrack.html", template_vars)    
+
+
 def show_student_grades(request, student_id):
 
     student=Student.objects.get(student_id= "%s"%(student_id))
@@ -241,7 +251,8 @@ def show_student_grades(request, student_id):
     template_vars = {'current_grades_dict': current_grades_dict,
                      'current_student' : student ,
                      'all_grades_json' : historical_grades_json,
-                     'gpa_json_data' : gpa_json}
+                     'gpa_json_data' : gpa_json,
+                     'fake_cum_grade' : "99"}
     return render(request, 'student/student_grades.html',template_vars )
 
 

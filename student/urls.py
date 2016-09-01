@@ -15,5 +15,7 @@ urlpatterns = [
     url(r'^student/grades/(?P<student_id>[0-9]+)/$', views.show_student_grades, name='show_student_grades'),
     # ex: /student/attendance/5/
     url(r'^student/attendance/(?P<student_id>[0-9]+)/$', views.show_student_attendance, name='show_student_attendance'),
+    # ex: /student/ontrack/5/
+    url(r'^student/ontrack/(?P<student_id>[0-9]+)/$', views.show_student_ontrack, name='show_student_ontrack'),
 
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

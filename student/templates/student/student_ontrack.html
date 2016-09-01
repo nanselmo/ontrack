@@ -1,62 +1,73 @@
 {% extends 'student/base.html' %}
 {% load static %}
 
+
+
 {% block content %}
 <div id="page-container">
 
   <div class="row student-name">
-    <h2>{{current_student.first_name}} {{current_student.last_name}}</h2>
+    <a href={% url 'show_student' student_id=current_student.student_id %}>
+        <h2>
+          {{current_student.first_name}} {{current_student.last_name}}
+        </h2>
+    </a>
   </div>
+
+  <div >
+    <h3>On Track: 4 </h3>
+  </div>
+
+
+
+
   <div class="row" id="student-facing-grades">
 
-    <!--OnTrack-->
+    <!--SES Points-->
     <div class="col-sm-4 grade-box">
         <div class="row">
-          <h4 class="subject-heading">ONTRACK</h4>
+          <h4 class="subject-heading">SES Points</h4>
         </div>
         <div class="row icon-grade-box">
             <div class="col-sm-6 icon-img-box">
               <img class="subject-icon" src="http://icons.iconarchive.com/icons/icons8/windows-8/256/Business-Graduation-Cap-icon.png" alt="subject-icon"/>
             </div>
             <div class="col-sm-6">
-              <a href={% url 'show_student_ontrack' student_id=current_student.student_id %}>
-                <p class="student-grade"> 4</p>
-              </a>
+                <p class="student-grade">278</p>
             </div>
         </div>
     </div>
 
-    <!--GPA-->
+    <!--IB Points-->
       <div class="col-sm-4 grade-box">
           <div class="row">
-            <h4 class="subject-heading">GPA</h4>
+            <h4 class="subject-heading">IB POINTS</h4>
           </div>
           <div class="row icon-grade-box">
               <div class="col-sm-6 icon-img-box">
                 <img class="subject-icon" src="https://cdn3.iconfinder.com/data/icons/education/512/Grades-512.png" alt="subject-icon"/>
               </div>
               <div class="col-sm-6">
-                <a href={% url 'show_student_grades' student_id=current_student.student_id %}>
-                  <p class="student-grade"> {{current_gpa}}</p>
-                </a>
+                  <p class="student-grade"> 258</p>
               </div>
           </div>
       </div>
 
-      <!--Attendance-->
+      <!--High School 1-->
       <div class="col-sm-4 grade-box">
           <div class="row">
-            <h4 class="subject-heading">ATTENDANCE</h4>
+            <h4 class="subject-heading">My Top High School</h4>
           </div>
           <div class="row icon-grade-box">
-              <div class="col-sm-6 icon-img-box">
-                <img class="subject-icon" src="https://cdn1.iconfinder.com/data/icons/education-solid-icons-vol-2/48/053-512.png" alt="subject-icon"/>
-              </div>
-              <div class="col-sm-6">
-                <a href={% url 'show_student_attendance' student_id=current_student.student_id %}>
-                  <p class="student-grade"> {{attendance_pct}}%</p>
-                </a>
-              </div>
+            <div class="col-sm-6 icon-img-box">
+              <a href="http://wyoung.org/">
+                <img class="subj-icon" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJW6QhUH1xulluWVAOsQAzy3W-RSRyYgJjycy3L0dmVAxHQ7fT" alt="subject-icon"/>
+              </a>
+            </div>
+            <div class="col-sm-6">
+               <span class="vert-helper"></span>
+              <img class="checkmark" src="http://www.clipartbest.com/cliparts/RcA/AaR/RcAAaRb7i.jpeg" alt="subject-icon"/>
+            </div>
           </div>
       </div>
 
@@ -68,11 +79,8 @@
 
 
 
-    <!-- <div id='gpa_chart_div' style='width: 900px; height: 500px;'></div> -->
 
 </div>
-
-
 
 
 {% endblock %}
