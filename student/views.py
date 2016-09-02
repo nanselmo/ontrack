@@ -161,7 +161,15 @@ def show_student_ontrack(request, student_id):
 
     template_vars={'current_student': student}
 
-    return render(request, "student/student_ontrack.html", template_vars)    
+    return render(request, "student/student_ontrack.html", template_vars)
+
+def show_student_calc(request, student_id):
+
+    student=Student.objects.get(student_id= "%s"%(student_id))
+
+    template_vars={'current_student': student}
+
+    return render(request, "student/student_calc.html", template_vars)
 
 
 def show_student_grades(request, student_id):
