@@ -8,12 +8,13 @@ configparser==3.5.0
 decorator==4.0.10
 dj-database-url==0.4.1
 Django==1.10
+django-allauth==0.27.0
 django-extensions==1.7.2
 entrypoints==0.2.2
 functools32==3.2.3.post2
 futures==3.0.5
 gunicorn==19.6.0
-git+git://github.com/google/google-visualization-python.git
+gviz-api.py==1.8.2
 gviz-data-table==1.0.2
 ipykernel==4.4.1
 ipython==5.1.0
@@ -32,6 +33,7 @@ nbconvert==4.2.0
 nbformat==4.1.0
 notebook==4.2.2
 numpy==1.11.1
+oauthlib==2.0.0
 pandas==0.18.1
 pathlib2==2.1.0
 pexpect==4.2.1
@@ -40,12 +42,16 @@ Pillow==3.3.1
 prompt-toolkit==1.0.7
 ptyprocess==0.5.1
 Pygments==2.1.3
+PyJWT==1.4.2
 python-dateutil==2.5.3
+python-openid==2.2.5
+python-social-auth==0.2.21
 pytz==2016.6.1
 PyYAML==3.11
 pyzmq==15.4.0
 qtconsole==4.2.1
 requests==2.11.1
+requests-oauthlib==0.6.2
 simplegeneric==0.8.1
 simplejson==3.8.2
 singledispatch==3.4.0.3
@@ -56,4 +62,3 @@ traitlets==4.2.2
 wcwidth==0.1.7
 whitenoise==3.2.1
 widgetsnbextension==1.2.6
-psycopg2==2.5.4
