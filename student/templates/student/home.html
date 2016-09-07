@@ -1,16 +1,6 @@
 {% extends 'student/base.html' %}
 {% load static %}
-{% block extra_head_content  %}
-<script type='text/javascript'>
-function onSignIn(googleUser) {
-  var profile = googleUser.getBasicProfile();
-  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-  console.log('Name: ' + profile.getName());
-  console.log('Image URL: ' + profile.getImageUrl());
-  console.log('Email: ' + profile.getEmail());
-}
-</script>
-{% endblock %}
+
 
 
 {% block content %}
@@ -31,7 +21,9 @@ function onSignIn(googleUser) {
         {% if user.is_authenticated %}
             <h1>WELCOME {{user.first_name}}</h1>
             <h2>{{user.email}}</h2>
-            <h2>My Dashboard</h2>
+            <a href={% url 'show_student'  %}>
+              <h2>My Dashboard</h2>
+            </a>
         {% else %}
               <h1>PLEASE SIGN IN</h1>
         {% endif %}

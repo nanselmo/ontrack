@@ -13,6 +13,13 @@ class Student(models.Model):
     def __str__(self):
         return self.first_name + " " + self.last_name
 
+class Email(models.Model):
+    student_id = models.CharField(max_length=20, primary_key=True)
+    email = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.student_id + " " + self.email
+
 class Subject(models.Model):
     subject_id=models.IntegerField(primary_key=True)
     subject_name = models.CharField(max_length=60)
