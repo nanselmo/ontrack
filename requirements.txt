@@ -14,7 +14,7 @@ entrypoints==0.2.2
 functools32==3.2.3.post2
 futures==3.0.5
 gunicorn==19.6.0
-gviz-api.py==1.8.2
+git+git://github.com/google/google-visualization-python.git
 gviz-data-table==1.0.2
 ipykernel==4.4.1
 ipython==5.1.0
