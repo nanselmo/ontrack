@@ -1,10 +1,14 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    url(r'^$', views.show_hr, name='show_hr'),
+    url(r'^$', views.show_home, name='show_home'),
+
+    #for django-allauth
+    url(r'^accounts/', include('allauth.urls')),
+    url(r'^homeroom', views.show_hr, name='show_hr'),
     url(r'^simple_chart/$', views.simple_chart, name="simple_chart"),
     url(r'^google_chart/$', views.google_chart),
     url(r'^google_table/$', views.google_table),

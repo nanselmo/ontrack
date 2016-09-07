@@ -80,6 +80,9 @@ def simple_chart(request):
 
 
     return render(request, "simple_chart.html", {"the_script": script, "the_div": div})
+def show_home(request):
+
+    return render(request, "student/home.html")
 
 def show_hr(request):
 

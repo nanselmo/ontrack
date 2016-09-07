@@ -43,6 +43,22 @@ INSTALLED_APPS = [
     'student',
 ]
 
+#for allauth
+INSTALLED_APPS += (
+    # The Django sites framework is required
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    # Login via Google
+    'allauth.socialaccount.providers.google',
+)
+
+#production (pythonanywhere.com)
+SITE_ID = 1
+#development (localhost:8000)
+SITE_ID = 2
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -57,22 +73,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'ontrack.urls'
 
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.media',
-            ],
-        },
-    },
-]
+
 
 WSGI_APPLICATION = 'ontrack.wsgi.application'
 
@@ -87,12 +88,7 @@ DATABASES = {
     }
 }
 
-#heroku
-#MIDDLEWARE_CLASSES = [
-  # 'django.middleware.security.SecurityMiddleware',
-  #'whitenoise.middleware.WhiteNoiseMiddleware',
-  # ...
-#]
+
 
 
 # Password validation
@@ -149,15 +145,37 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
-#for heroku
-#import dj_database_url
-#DATABASES['default'] = dj_database_url.config()
+#allauth
 
-#SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 
-#ALLOWED_HOSTS = ['*']
+AUTHENTICATION_BACKENDS = (
+    # Default backend -- used to login by username in Django admin
+    "django.contrib.auth.backends.ModelBackend",
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
 
-#DEBUG = False
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = "none"
+SOCIALACCOUNT_QUERY_EMAIL = False
+LOGIN_REDIRECT_URL = "/"
+ACCOUNT_LOGOUT_ON_GET = True
+
 
 try:
     from .local_settings import *
