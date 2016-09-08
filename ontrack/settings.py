@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'student',
 ]
 
+
+
 #for allauth
 INSTALLED_APPS += (
     # The Django sites framework is required
@@ -54,10 +56,7 @@ INSTALLED_APPS += (
     'allauth.socialaccount.providers.google',
 )
 
-#production (pythonanywhere.com)
-SITE_ID = 1
-#development (localhost:8000)
-SITE_ID = 2
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
