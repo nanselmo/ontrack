@@ -85,23 +85,17 @@ def show_home(request):
     return render(request, "student/home.html")
 
 def show_dashboard(request):
-    #write a script to show their student_id based on their email
     try:
         lookup_user_id=Email.objects.get(email=request.user.email).student_id
     except Email.DoesNotExist:
         lookup_user_id = "Does Not Exist - Login With CPS Gmail"
-
-
 
     return render(request, "student/dashboard.html", {'user_email': lookup_user_id})
 
 def show_hr(request):
 
     students=Student.objects.all()
-
-
     template_vars={'all_students': students}
-
     return render(request, "student/homeroom.html", template_vars)
 
 def show_student(request):
@@ -167,145 +161,167 @@ def show_student(request):
                          'gpa_json_data' : gpa_json,
                          'attendance_pct' : attend_pct}
         return render(request, 'student/student.html',template_vars )
+
     except Email.DoesNotExist:
         return render(request, 'student/no-match-found.html')
 
 
 
 
-def show_student_ontrack(request, student_id):
-
-    student=Student.objects.get(student_id= "%s"%(student_id))
-
-
-    template_vars={'current_student': student}
-
-    return render(request, "student/student_ontrack.html", template_vars)
-
-def show_student_calc(request, student_id):
-
-    student=Student.objects.get(student_id= "%s"%(student_id))
-
-    template_vars={'current_student': student}
-
-    return render(request, "student/student_calc.html", template_vars)
-
-
-def show_student_grades(request, student_id):
-
-    student=Student.objects.get(student_id= "%s"%(student_id))
-
-
-    # Prepare SQL for current grades
-    #table names in django are appname_modelname
-
-    current_grades_sql= "SELECT grade, MAX(grade_date) as most_recent_grade_date, subject_name, image \
-              FROM student_grade, student_subject \
-              WHERE student_id = '%s' AND student_grade.subject_id = student_subject.subject_id \
-              GROUP BY student_grade.subject_id ORDER BY student_subject.subject_id"%(student_id)
-
-    #load into pandas dataframe,
-    #should be refactored to do without this step (can use .values on a query set not sure about SQL)
-    df_current_grades = pandas.read_sql(current_grades_sql, con=connection)
-
-    #put into dictionary to use in templates
-    current_grades_dict=df_current_grades.set_index('subject_name').to_dict('index')
-
-    # disconnect from server
-    connection.close()
-
-    #historical grades grades
-    all_grades_sql = "SELECT grade, grade_date, subject_name  FROM student_grade, student_subject  \
-           WHERE student_grade.student_id = '%s' AND student_grade.subject_id=student_subject.subject_id" %(student_id )
-    df_all_grades = pandas.read_sql(all_grades_sql, con=connection)
-    df_grades_indexed=df_all_grades.pivot(index='grade_date', columns='subject_name', values='grade')
+def show_student_ontrack(request):
+    try:
+        student_id = Email.objects.get(email=request.user.email).student_id
+        student=Student.objects.get(student_id= "%s"%(student_id))
+        template_vars={'current_student': student}
+        return render(request, "student/student_ontrack.html", template_vars)
+    except Email.DoesNotExist:
+        return render(request, 'student/no-match-found.html')
 
 
 
-    subject_names=list(df_grades_indexed.columns.values)
-    df_grades_indexed.insert(0,'date', df_grades_indexed.index)
-    all_grades_data=df_grades_indexed.values
-    all_grades_data
-
-    grades_desc =[]
-    grades_desc.append(("grade_date", "date", "Date" ))
-    for index,subject in enumerate(subject_names):
-        grades_desc.append( ("subj"+str(index+1), "number", subject))
-
-    # Loading it into gviz_api.DataTable
-    all_grades_data_table = gviz_api.DataTable(grades_desc)
-    all_grades_data_table.LoadData(all_grades_data)
-    historical_grades_json = all_grades_data_table.ToJSon()
-    historical_grades_json
+def show_student_calc(request):
+    try:
+        student_id = Email.objects.get(email=request.user.email).student_id
+        student=Student.objects.get(student_id= "%s"%(student_id))
+        template_vars={'current_student': student}
+        return render(request, "student/student_calc.html", template_vars)
+    except Email.DoesNotExist:
+        return render(request, 'student/no-match-found.html')
 
 
-    #GPA
-    def getPoints(x):
-    # if no grade for that subject at that date
-        if math.isnan(x):
-            # just return it untouched
-            return x
-        # but, if not, return the points
-        elif x:
-            if x>=90:
-                return 4
-            elif x>=80:
-                return 3
-            elif x>=70:
-                return 2
-            elif x>=60:
-                return 1
+
+
+
+    #try:
+        #student_id = Email.objects.get(email=request.user.email).student_id
+        #student=Student.objects.get(student_id= "%s"%(student_id))
+
+    #except Email.DoesNotExist:
+        #return render(request, 'student/no-match-found.html')
+
+def show_student_grades(request):
+
+    try:
+        student_id = Email.objects.get(email=request.user.email).student_id
+        student=Student.objects.get(student_id= "%s"%(student_id))
+        # Prepare SQL for current grades
+        #table names in django are appname_modelname
+
+        current_grades_sql= "SELECT grade, MAX(grade_date) as most_recent_grade_date, subject_name, image \
+                  FROM student_grade, student_subject \
+                  WHERE student_id = '%s' AND student_grade.subject_id = student_subject.subject_id \
+                  GROUP BY student_grade.subject_id ORDER BY student_subject.subject_id"%(student_id)
+
+        #load into pandas dataframe,
+        #should be refactored to do without this step (can use .values on a query set not sure about SQL)
+        df_current_grades = pandas.read_sql(current_grades_sql, con=connection)
+
+        #put into dictionary to use in templates
+        current_grades_dict=df_current_grades.set_index('subject_name').to_dict('index')
+
+        # disconnect from server
+        connection.close()
+
+        #historical grades grades
+        all_grades_sql = "SELECT grade, grade_date, subject_name  FROM student_grade, student_subject  \
+               WHERE student_grade.student_id = '%s' AND student_grade.subject_id=student_subject.subject_id" %(student_id )
+        df_all_grades = pandas.read_sql(all_grades_sql, con=connection)
+        df_grades_indexed=df_all_grades.pivot(index='grade_date', columns='subject_name', values='grade')
+
+
+
+        subject_names=list(df_grades_indexed.columns.values)
+        df_grades_indexed.insert(0,'date', df_grades_indexed.index)
+        all_grades_data=df_grades_indexed.values
+        all_grades_data
+
+        grades_desc =[]
+        grades_desc.append(("grade_date", "date", "Date" ))
+        for index,subject in enumerate(subject_names):
+            grades_desc.append( ("subj"+str(index+1), "number", subject))
+
+        # Loading it into gviz_api.DataTable
+        all_grades_data_table = gviz_api.DataTable(grades_desc)
+        all_grades_data_table.LoadData(all_grades_data)
+        historical_grades_json = all_grades_data_table.ToJSon()
+        historical_grades_json
+
+
+        #GPA
+        def getPoints(x):
+        # if no grade for that subject at that date
+            if math.isnan(x):
+                # just return it untouched
+                return x
+            # but, if not, return the points
+            elif x:
+                if x>=90:
+                    return 4
+                elif x>=80:
+                    return 3
+                elif x>=70:
+                    return 2
+                elif x>=60:
+                    return 1
+                else:
+                    return 0
+            # and leave everything else
             else:
-                return 0
-        # and leave everything else
-        else:
-            return
+                return
 
-    df_grades_indexed2=df_all_grades.pivot(index='grade_date', columns='subject_name', values='grade')
-    df_points=df_grades_indexed2.applymap(getPoints)
-    df_points['gpa']=df_points.mean(axis=1)
-    df_points=df_points.reset_index()
-    gpa_values=df_points[['grade_date', 'gpa']].values
+        df_grades_indexed2=df_all_grades.pivot(index='grade_date', columns='subject_name', values='grade')
+        df_points=df_grades_indexed2.applymap(getPoints)
+        df_points['gpa']=df_points.mean(axis=1)
+        df_points=df_points.reset_index()
+        gpa_values=df_points[['grade_date', 'gpa']].values
 
-    #set up Google Table to pass to View
-    gpa_desc=[("grade_date", "date", "Date" ),
-              ("gpa", "number", "GPA")]
-    gpa_data_table=gviz_api.DataTable(gpa_desc)
-    gpa_data_table.LoadData(gpa_values)
-    gpa_json=gpa_data_table.ToJSon()
+        #set up Google Table to pass to View
+        gpa_desc=[("grade_date", "date", "Date" ),
+                  ("gpa", "number", "GPA")]
+        gpa_data_table=gviz_api.DataTable(gpa_desc)
+        gpa_data_table.LoadData(gpa_values)
+        gpa_json=gpa_data_table.ToJSon()
 
 
-    template_vars = {'current_grades_dict': current_grades_dict,
-                     'current_student' : student ,
-                     'all_grades_json' : historical_grades_json,
-                     'gpa_json_data' : gpa_json,
-                     'fake_cum_grade' : "99"}
-    return render(request, 'student/student_grades.html',template_vars )
+        template_vars = {'current_grades_dict': current_grades_dict,
+                         'current_student' : student ,
+                         'all_grades_json' : historical_grades_json,
+                         'gpa_json_data' : gpa_json,
+                         'fake_cum_grade' : "99"}
+        return render(request, 'student/student_grades.html',template_vars )
+
+    except Email.DoesNotExist:
+        return render(request, 'student/no-match-found.html')
 
 
 
-def show_student_attendance(request, student_id):
+def show_student_attendance(request):
 
-    student=Student.objects.get(student_id= "%s"%(student_id))
-    attend_pct=round(Attendance.objects.filter(student_id="%s"%(student_id)).order_by('-attend_date')[1].calc_pct())
-    attend_sql="Select attend_date, absent_days \
-    FROM student_attendance WHERE student_id=%s"%(student_id)
-    df_attend = pandas.read_sql(attend_sql, con=connection)
-    attend_data_matrix=df_attend.as_matrix() #<--maybe just use values.tolist() here?
+    try:
+        student_id = Email.objects.get(email=request.user.email).student_id
+        student=Student.objects.get(student_id= "%s"%(student_id))
+        attend_pct=round(Attendance.objects.filter(student_id="%s"%(student_id)).order_by('-attend_date')[1].calc_pct())
+        attend_sql="Select attend_date, absent_days \
+        FROM student_attendance WHERE student_id=%s"%(student_id)
+        df_attend = pandas.read_sql(attend_sql, con=connection)
+        attend_data_matrix=df_attend.as_matrix() #<--maybe just use values.tolist() here?
 
-    #make Google Viz' DataTable schema to describe the columns
-    description = [("attend_date", "date", "Date" ),
-               ("absent_days", "number", "Absences")]
+        #make Google Viz' DataTable schema to describe the columns
+        description = [("attend_date", "date", "Date" ),
+                   ("absent_days", "number", "Absences")]
 
-    # Load the schema and data
-    attend_data_table = gviz_api.DataTable(description)
-    attend_data_table.LoadData(attend_data_matrix)
+        # Load the schema and data
+        attend_data_table = gviz_api.DataTable(description)
+        attend_data_table.LoadData(attend_data_matrix)
 
-    #turn into json to pass to the template
-    attend_json = attend_data_table.ToJSon()
+        #turn into json to pass to the template
+        attend_json = attend_data_table.ToJSon()
 
-    template_vars={ 'current_student': student,
-                    'current_attend_pct': attend_pct,
-                    'attend_json_data': attend_json}
+        template_vars={ 'current_student': student,
+                        'current_attend_pct': attend_pct,
+                        'attend_json_data': attend_json}
 
-    return render(request, "student/student_attendance.html", template_vars)
+        return render(request, "student/student_attendance.html", template_vars)
+
+    except Email.DoesNotExist:
+        return render(request, 'student/no-match-found.html')
