@@ -7,8 +7,13 @@
   <div id="page-container">
 
     {% if user.is_authenticated %}
-    <h2>Email not found</h2>
-      <a id="logout" href="/accounts/logout" class="btn btn-success">Login With Different Email</a>
+    <h1>WOOF!</h1>
+    <p>A Chavez Bulldog with that email can not be found</p>
+    <img src="http://www.sikeston.k12.mo.us/mchessor/sad%20bullog.jpg" />
+    <a id="logout" href="/accounts/logout" class="btn btn-success">Login With Different Email</a>
+
+
+
     {% else %}
     <h2>You need to Log in First!</h2>
       <a id="google_login" href="/accounts/google/login" class="btn btn-success">
