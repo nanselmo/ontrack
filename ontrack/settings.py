@@ -175,6 +175,11 @@ SOCIALACCOUNT_QUERY_EMAIL = False
 LOGIN_REDIRECT_URL = "/"
 ACCOUNT_LOGOUT_ON_GET = True
 
+#production - pythonanywhere.com
+SITE_ID=1
+
+#development - localhost:8000
+#SITE_ID=2
 
 try:
     from .local_settings import *
