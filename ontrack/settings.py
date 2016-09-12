@@ -184,7 +184,6 @@ ACCOUNT_LOGOUT_ON_GET = True
 SOCIALACCOUNT_QUERY_EMAIL = True
 ACCOUNT_UNIQUE_EMAIL = True
 SOCIALACCOUNT_AUTO_SIGNUP= True
-SOCIALACCOUNT_ADAPTER = 'ontrack.social-adapter.SocialAccountAdapter'
 
 #production - pythonanywhere.com
 #SITE_ID=1

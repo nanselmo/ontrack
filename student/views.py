@@ -82,12 +82,19 @@ def simple_chart(request):
 
     return render(request, "simple_chart.html", {"the_script": script, "the_div": div})
 def show_home(request):
-    if request.user.is_authenticated:
-        social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
-    else:
-        social_email = "none"
+    try:
+        if request.user.is_authenticated:
+            social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
 
-    return render(request, "student/home.html", {'social_email': social_email})
+        else:
+            social_email= "none"
+
+        return render(request, "student/home.html", {'social_email': social_email})
+
+    except SocialAccount.DoesNotExist:
+        return render(request, 'student/no-match-found.html')
+
+
 
 def show_dashboard(request):
     try:
