@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from student.models import Grade, Student, Attendance, Email
+from allauth.socialaccount.models import SocialAccount
 from django.db import connection
 import pandas
 import math
@@ -81,12 +82,17 @@ def simple_chart(request):
 
     return render(request, "simple_chart.html", {"the_script": script, "the_div": div})
 def show_home(request):
+    if request.user.is_authenticated:
+        social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
+    else:
+        social_email = "none"
 
-    return render(request, "student/home.html")
+    return render(request, "student/home.html", {'social_email': social_email})
 
 def show_dashboard(request):
     try:
-        lookup_user_id=Email.objects.get(email=request.user.email).student_id
+        social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
+        lookup_user_id=Email.objects.get(email=social_email).student_id
     except Email.DoesNotExist:
         lookup_user_id = "Does Not Exist - Login With CPS Gmail"
 
@@ -100,7 +106,8 @@ def show_hr(request):
 
 def show_student(request):
     try:
-        student_id = Email.objects.get(email=request.user.email).student_id
+        social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
+        student_id = Email.objects.get(email=social_email).student_id
         student=Student.objects.get(student_id= "%s"%(student_id))
         def getPoints(x):
         # if no grade for that subject at that date
@@ -164,13 +171,16 @@ def show_student(request):
 
     except Email.DoesNotExist:
         return render(request, 'student/no-match-found.html')
+        console.log('Logged In Email: '+ str(request.user.email))
+        console.log('Logged In ID: '+ str(Email.objects.get(email=request.user.email).student_id))
 
 
 
 
 def show_student_ontrack(request):
     try:
-        student_id = Email.objects.get(email=request.user.email).student_id
+        social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
+        student_id = Email.objects.get(email=social_email).student_id
         student=Student.objects.get(student_id= "%s"%(student_id))
         template_vars={'current_student': student}
         return render(request, "student/student_ontrack.html", template_vars)
@@ -181,7 +191,8 @@ def show_student_ontrack(request):
 
 def show_student_calc(request):
     try:
-        student_id = Email.objects.get(email=request.user.email).student_id
+        social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
+        student_id = Email.objects.get(email=social_email).student_id
         student=Student.objects.get(student_id= "%s"%(student_id))
         template_vars={'current_student': student}
         return render(request, "student/student_calc.html", template_vars)
@@ -202,7 +213,8 @@ def show_student_calc(request):
 def show_student_grades(request):
 
     try:
-        student_id = Email.objects.get(email=request.user.email).student_id
+        social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
+        student_id = Email.objects.get(email=social_email).student_id
         student=Student.objects.get(student_id= "%s"%(student_id))
         # Prepare SQL for current grades
         #table names in django are appname_modelname
@@ -298,7 +310,8 @@ def show_student_grades(request):
 def show_student_attendance(request):
 
     try:
-        student_id = Email.objects.get(email=request.user.email).student_id
+        social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
+        student_id = Email.objects.get(email=social_email).student_id
         student=Student.objects.get(student_id= "%s"%(student_id))
         attend_pct=round(Attendance.objects.filter(student_id="%s"%(student_id)).order_by('-attend_date')[1].calc_pct())
         attend_sql="Select attend_date, absent_days \

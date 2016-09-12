@@ -20,7 +20,8 @@
 
         {% if user.is_authenticated %}
             <h1>WELCOME {{user.first_name}}</h1>
-            <h2>{{user.email}}</h2>
+              <h2>User: {{request.user}}</h2>\
+            <h2>User Email: {{social_email}}</h2>
             <a href={% url 'show_student'  %}>
               <h2>My Dashboard</h2>
             </a>
