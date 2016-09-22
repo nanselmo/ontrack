@@ -1,3 +1,20 @@
+Skip to content
+This repository
+Search
+Pull requests
+Issues
+Gist
+ @nanselmo
+ Watch 0
+  Star 0
+ Fork 0 nanselmo/ontrack
+ Code  Issues 0  Pull requests 0  Projects 0  Wiki  Pulse  Graphs  Settings
+Branch: master Find file Copy pathontrack/student/management/commands/loadStudents.py
+6798707  13 days ago
+ Nicki Anselmo added test users and emails
+0 contributors
+RawBlameHistory
+36 lines (27 sloc)  1.33 KB
 from django.core.management import BaseCommand
 import sys,os
 from student.models import Attendance
@@ -33,3 +50,5 @@ class Command(BaseCommand):
                 Attendance.objects.get_or_create( student_id=row[0],total_days=row[1],absent_days=row[2], attend_date=row[3])
 
         self.stdout.write("Done Loading Attendance File")
+Contact GitHub API Training Shop Blog About
+© 2016 GitHub, Inc. Terms Privacy Security Status Help

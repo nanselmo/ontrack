@@ -65,7 +65,7 @@ class Grade(models.Model):
 
 
     def __str__(self):
-        return "{0}: {1}, {2}".format(self.student, self.subject, self.grade_date)
+        return "{0}: {1}".format(self.subject, self.grade_date)
 
 class Attendance(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
