@@ -26,6 +26,7 @@ class Command(BaseCommand):
 
     # A command must define handle()
     def handle(self, *args, **options):
+        df=attend_df
         for i in range(0,len(df)):
              Attendance.objects.get_or_create(student_id=df.iloc[i]['Student ID'].astype(str),
                                     total_days=df.iloc[i]['Membership Days'].astype(float),

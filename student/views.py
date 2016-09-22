@@ -167,13 +167,13 @@ def show_student(request):
         gpa='{:.2f}'.format(float(gpa))
 
         #Attendance
-        attend_pct=round(Attendance.objects.filter(student_id="%s"%(student_id)).order_by('-attend_date')[1].calc_pct())
+        attend_pct=round(Attendance.objects.filter(student_id="%s"%(student_id)).order_by('-attend_date')[0].calc_pct())
         attend_pct='{0:g}'.format(float(attend_pct))
 
         template_vars = {'current_gpa': gpa,
                          'current_student' : student ,
                          'gpa_json_data' : gpa_json,
-                         'attendance_pct' : attend_pct}
+                         'attendance_pct' : "100"}
         return render(request, 'student/student.html',template_vars )
 
     except Email.DoesNotExist:
@@ -320,7 +320,7 @@ def show_student_attendance(request):
         social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
         student_id = Email.objects.get(email=social_email).student_id
         student=Student.objects.get(student_id= "%s"%(student_id))
-        attend_pct=round(Attendance.objects.filter(student_id="%s"%(student_id)).order_by('-attend_date')[1].calc_pct())
+        attend_pct=round(Attendance.objects.filter(student_id="%s"%(student_id)).order_by('-attend_date')[0].calc_pct())
         attend_sql="Select attend_date, absent_days \
         FROM student_attendance WHERE student_id=%s"%(student_id)
         df_attend = pandas.read_sql(attend_sql, con=connection)

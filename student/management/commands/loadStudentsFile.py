@@ -31,22 +31,18 @@ class Command(BaseCommand):
         df=fifth_df
 
         for i in range(0,len(df)):
-            Student.objects.get_or_create(student_id=df.iloc[i]['ID'].astype(int),
-                                #in the SIM report, some student's first and last names are separated with " , " instead of ", "
-                                first_name=df.iloc[i]['Student Name (LFM)'].replace(" , ", ", ").split()[1],
-                                last_name=df.iloc[i]['Student Name (LFM)'].replace(" , ", ", ").split()[0].rstrip(','),
-                                gender=df.iloc[i]['Gender'],
-                                birthdate=datetime.strptime(df.iloc[i]['Birth Date'], '%b %d, %Y'))
+            user=Student.objects.get_or_create(student_id=df.iloc[i]['ID'].astype(int))
+            #in the SIM report, some student's first and last names are separated with " , " instead of ", "
+            user[0].first_name=df.iloc[i]['Student Name (LFM)'].replace(" , ", ", ").split()[1]
+            user[0].last_name=df.iloc[i]['Student Name (LFM)'].replace(" , ", ", ").split()[0].rstrip(',')
+            user[0].gender=df.iloc[i]['Gender']
+            user[0].birthdate=datetime.strptime(df.iloc[i]['Birth Date'], '%b %d, %Y')
+
 
             Roster.objects.get_or_create(student_id=df.iloc[i]['ID'].astype(int),
                                 hr_id=df.iloc[i]['HR(A)'],
                                 grade_level=df.iloc[i]['Gr(A)'])
 
-        # for index, row in df.iterrows():
-        #     Student.objects.get_or_create(student_id=df.row['ID'].astype(int),
-        #                     first_name=df.row['Student Name (LFM)'].split()[1],
-        #                     last_name=df.row['Student Name (LFM)'].split()[0].rstrip(','),
-        #                     gender=df.row['Gender'],
-        #                     birthdate=datetime.strptime(df.row['Birth Date'], '%b %d, %Y'))
+
 
         self.stdout.write("Done Loading Student SIM File into Student and Roster Model")
