@@ -8,11 +8,15 @@ import math
 #for plotting
 import gviz_api
 from django.shortcuts import render
-
-
 from django.db import connection
 
-
+def get_user_id(da_request):
+    social_email=SocialAccount.objects.get(user=da_request.user).extra_data['email']
+    try:
+        lookup_user_id=Email.objects.get(email=social_email).student_id
+    except Email.DoesNotExist:
+        lookup_user_id = "1"
+    return lookup_user_id
 
 def google_chart(request):
 
@@ -97,11 +101,8 @@ def show_home(request):
 
 
 def show_dashboard(request):
-    try:
-        social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
-        lookup_user_id=Email.objects.get(email=social_email).student_id
-    except Email.DoesNotExist:
-        lookup_user_id = "Does Not Exist - Login With CPS Gmail"
+    lookup_user_id=get_user_id(request)
+
 
     return render(request, "student/dashboard.html", {'user_email': lookup_user_id})
 
@@ -112,9 +113,7 @@ def show_hr(request):
     return render(request, "student/homeroom.html", template_vars)
 
 def show_student(request):
-    try:
-        social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
-        student_id = Email.objects.get(email=social_email).student_id
+        student_id = get_user_id(request)
         student=Student.objects.get(student_id= "%s"%(student_id))
         def getPoints(x):
         # if no grade for that subject at that date
@@ -176,56 +175,35 @@ def show_student(request):
                          'attendance_pct' : "100"}
         return render(request, 'student/student.html',template_vars )
 
-    except Email.DoesNotExist:
-        return render(request, 'student/no-match-found.html')
-        console.log('Logged In Email: '+ str(request.user.email))
-        console.log('Logged In ID: '+ str(Email.objects.get(email=request.user.email).student_id))
+
 
 
 
 
 def show_student_ontrack(request):
-    try:
-        social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
-        student_id = Email.objects.get(email=social_email).student_id
+        student_id = get_user_id(request)
         student=Student.objects.get(student_id= "%s"%(student_id))
         template_vars={'current_student': student}
         return render(request, "student/student_ontrack.html", template_vars)
-    except Email.DoesNotExist:
-        return render(request, 'student/no-match-found.html')
+
 
 
 
 def show_student_calc(request):
-    try:
-        social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
-        student_id = Email.objects.get(email=social_email).student_id
+        student_id = get_user_id(request)
         student=Student.objects.get(student_id= "%s"%(student_id))
         template_vars={'current_student': student}
         return render(request, "student/student_calc.html", template_vars)
-    except Email.DoesNotExist:
-        return render(request, 'student/no-match-found.html')
 
 
 
 
 
-    #try:
-        #student_id = Email.objects.get(email=request.user.email).student_id
-        #student=Student.objects.get(student_id= "%s"%(student_id))
-
-    #except Email.DoesNotExist:
-        #return render(request, 'student/no-match-found.html')
 
 def show_student_grades(request):
 
-    try:
-        social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
-        student_id = Email.objects.get(email=social_email).student_id
+        student_id = get_user_id(request)
         student=Student.objects.get(student_id= "%s"%(student_id))
-        # Prepare SQL for current grades
-        #table names in django are appname_modelname
-
         current_grades_sql= "SELECT grade, MAX(grade_date) as most_recent_grade_date, subject_name, image \
                   FROM student_grade, student_subject \
                   WHERE student_id = '%s' AND student_grade.subject_id = student_subject.subject_id \
@@ -309,16 +287,12 @@ def show_student_grades(request):
                          'fake_cum_grade' : "99"}
         return render(request, 'student/student_grades.html',template_vars )
 
-    except Email.DoesNotExist:
-        return render(request, 'student/no-match-found.html')
 
 
 
 def show_student_attendance(request):
 
-    try:
-        social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
-        student_id = Email.objects.get(email=social_email).student_id
+        student_id = get_user_id(request)
         student=Student.objects.get(student_id= "%s"%(student_id))
         attend_pct=round(Attendance.objects.filter(student_id="%s"%(student_id)).order_by('-attend_date')[0].calc_pct())
         attend_sql="Select attend_date, absent_days \
@@ -342,6 +316,3 @@ def show_student_attendance(request):
                         'attend_json_data': attend_json}
 
         return render(request, "student/student_attendance.html", template_vars)
-
-    except Email.DoesNotExist:
-        return render(request, 'student/no-match-found.html')

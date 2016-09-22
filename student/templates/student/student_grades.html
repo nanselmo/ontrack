@@ -78,7 +78,7 @@
           <div class="row icon-grade-box">
               <div class="col-sm-6 icon-img-box">
                 <img class="subject-icon" src=
-              {% with "student/"|add:value.image as image_static %}
+              {% with value.image as image_static %}
                 {% static image_static %}
               {% endwith %} alt="subject-icon"/>
               </div>
