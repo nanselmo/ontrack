@@ -1,5 +1,4 @@
 {% extends 'student/base.html' %}
-{% load static %}
 {% block extra_head_content  %}
     {{ block.super }}
     <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.0.min.js"></script>
@@ -77,10 +76,7 @@
           </div>
           <div class="row icon-grade-box">
               <div class="col-sm-6 icon-img-box">
-                <img class="subject-icon" src=
-              {% with value.image as image_static %}
-                {% static image_static %}
-              {% endwith %} alt="subject-icon"/>
+                <img class="subject-icon" src="{{MEDIA_URL}}{{value.image}}" alt="subject-icon"/>
               </div>
               <div class="col-sm-6">
               <p class="student-grade cumulative">{{value.grade}} </p>

@@ -18,4 +18,4 @@ urlpatterns = [
     url(r'^student/ontrack/$', views.show_student_ontrack, name='show_student_ontrack'),
     url(r'^student/calculator/$', views.show_student_calc, name='show_student_calc'),
 
-]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

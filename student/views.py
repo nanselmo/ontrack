@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from student.models import Grade, Student, Attendance, Email
+from student.models import Grade, Student, Attendance, Email, Subject
 from allauth.socialaccount.models import SocialAccount
 from django.db import connection
 import pandas
@@ -92,8 +92,8 @@ def show_home(request):
 
         else:
             social_email= "none"
-
-        return render(request, "student/home.html", {'social_email': social_email})
+        math = Subject.objects.get(subject_id=12)
+        return render(request, "student/home.html", {'social_email': social_email,  "math" : math})
 
     except SocialAccount.DoesNotExist:
         return render(request, 'student/no-match-found.html')

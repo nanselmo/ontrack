@@ -6,3 +6,5 @@ db.sqlite3
 *secret_key.txt
 __pycache__
 local_settings.py
+ontrack/student_data/
+.ipynb_checkpoints
