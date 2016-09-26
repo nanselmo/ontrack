@@ -1,21 +1,14 @@
 from django.core.management import BaseCommand
 import sys,os
-from student.models import Grade
+from student.models import Grade, Subject
 import csv
 from django.db import connection
 import pandas
 from datetime import datetime
 
+
+
 grades_file='ontrack/student-data/Grades-09-16-16.csv'
-grades_df = pandas.read_csv(open(grades_file,'rb'))
-grades_df
-
-#get file date
-file_date_start=grades_file.find('Grades-') + 7
-file_date_end= grades_file.find('.csv', file_date_start)
-file_date = grades_file[file_date_start:file_date_end]
-
-
 
 
 
@@ -26,6 +19,16 @@ class Command(BaseCommand):
 
     # A command must define handle()
     def handle(self, *args, **options):
+
+
+        grades_df = pandas.read_csv(open(grades_file,'rb'))
+        grades_df
+
+        #get file date
+        file_date_start=grades_file.find('Grades-') + 7
+        file_date_end= grades_file.find('.csv', file_date_start)
+        file_date = grades_file[file_date_start:file_date_end]
+
         #add column for subject_id
         subjects=grades_df.SubjectName.unique()
         subjects.sort()
@@ -34,8 +37,8 @@ class Command(BaseCommand):
         subject_id_df = subject_id_df.rename(columns={0: 'SubjectName'})
         subject_id_df['SubjectID'] = subject_id_df.index + 1
         for i in range(0,len(subject_id_df.index)):
-            Subject.objects.get_or_create(subject_id=subject_id_df.iloc[i]['SubjectID'],
-                                            subject_name=subject_id_df.iloc[i]['SubjectName'])
+            subject=Subject.objects.get_or_create(subject_id=subject_id_df.iloc[i]['SubjectID'])
+            subject[0].subject_name=subject_id_df.iloc[i]['SubjectName']
 
 
         subject_dict=subject_id_df.set_index('SubjectName').to_dict()
@@ -47,9 +50,9 @@ class Command(BaseCommand):
         df = grades_fifth_df
 
         for i in range(0,len(df)):
-            Grade.objects.get_or_create(student_id=grades_fifth_df.iloc[i]['StudentID'].astype(str),
-                                    subject_id=grades_df.iloc[i]['SubjectID'],
-                                    grade=grades_df.iloc[i]['QuarterAvg'].astype(int),
-                                    grade_date=datetime.strptime('09-16-16', '%m-%d-%y'))
+            Grade.objects.get_or_create(student_id=df.iloc[i]['StudentID'].astype(str),
+                                    subject_id=df.iloc[i]['SubjectID'],
+                                    grade=df.iloc[i]['QuarterAvg'].astype(int),
+                                    grade_date=datetime.strptime(file_date, '%m-%d-%y'))
 
         self.stdout.write("Done Loading Grades")

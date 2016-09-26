@@ -9,8 +9,8 @@ from django.db import connection
 sys.path.append('Users/administrator/Desktop/django-ontrack')
 os.environ['DJANGO_SETTINGS_MODULE']= 'settings'
 
-#make sure csv is saved as a microsof or ms-dos csv. the default on Mac will not work
-gradesCSV = "/Users/administrator/Desktop/django-ontrack/ontrack/ontrack/student-data/grades_win.csv"
+#make sure csv is saved as a Windows csv. the default on Mac will not work
+gradesCSV = "/Users/administrator/Desktop/django-ontrack/ontrack/ontrack/student-data/sample-grades.csv"
 #grades_file = csv.reader(open(), dialect='excel', delimiter=',')
 
 
