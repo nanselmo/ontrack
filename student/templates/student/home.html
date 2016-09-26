@@ -4,35 +4,14 @@
 
 
 {% block content %}
-  <div id="page-container">
-    <div class="navbar-collapse collapse">
-  <div class="navbar-form navbar-right">
-    {% if user.is_authenticated %}
-      <a id="logout" href="/accounts/logout" class="btn btn-success">Logout</a>
-    {% else %}
-      <a id="google_login" href="/accounts/google/login" class="btn btn-success">
-        Sign in with Google
-      </a>
-    {% endif %}
-  </div>
-</div><!--/.navbar-collapse -->
-
-
         {% if user.is_authenticated %}
             <h1>WELCOME {{user.first_name}}</h1>
-            <h2>User: {{request.user}}</h2>
             <h2>User Email: {{social_email}}</h2>
             <a href={% url 'show_student'  %}>
               <h2>My Dashboard</h2>
-
             </a>
         {% else %}
               <h1>PLEASE SIGN IN</h1>
         {% endif %}
-
-
-
-
-
   </div>
 {% endblock %}

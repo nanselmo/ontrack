@@ -51,6 +51,7 @@ class Teacher(models.Model):
 class Subject(models.Model):
     subject_id=models.IntegerField(primary_key=True)
     subject_name = models.CharField(max_length=60)
+    display_name = models.CharField(max_length=60, null=True)
     image = models.ImageField('Subject Icon', upload_to='images/subj_icons')
 
     def __str__(self):

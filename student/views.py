@@ -136,7 +136,7 @@ def show_student(request):
             else:
                 return
 
-        all_grades_sql = "SELECT grade, grade_date, subject_name  FROM student_grade, student_subject  \
+        all_grades_sql = "SELECT grade, grade_date, display_name  FROM student_grade, student_subject  \
                    WHERE student_grade.student_id = '%s' \
                     AND student_grade.subject_id=student_subject.subject_id\
                     ORDER BY date(grade_date) DESC" %(student_id)
@@ -147,7 +147,7 @@ def show_student(request):
         connection.close()
 
 
-        df_grades_indexed=df_all_grades.pivot(index='grade_date', columns='subject_name', values='grade')
+        df_grades_indexed=df_all_grades.pivot(index='grade_date', columns='display_name', values='grade')
         df_points=df_grades_indexed.applymap(getPoints)
         df_points['gpa']=df_points.mean(axis=1)
         df_points=df_points.reset_index()
@@ -204,7 +204,7 @@ def show_student_grades(request):
 
         student_id = get_user_id(request)
         student=Student.objects.get(student_id= "%s"%(student_id))
-        current_grades_sql= "SELECT grade, MAX(grade_date) as most_recent_grade_date, subject_name, image \
+        current_grades_sql= "SELECT grade, MAX(grade_date) as most_recent_grade_date, display_name, image \
                   FROM student_grade, student_subject \
                   WHERE student_id = '%s' AND student_grade.subject_id = student_subject.subject_id \
                   GROUP BY student_grade.subject_id ORDER BY student_subject.subject_id"%(student_id)
@@ -214,16 +214,16 @@ def show_student_grades(request):
         df_current_grades = pandas.read_sql(current_grades_sql, con=connection)
 
         #put into dictionary to use in templates
-        current_grades_dict=df_current_grades.set_index('subject_name').to_dict('index')
+        current_grades_dict=df_current_grades.set_index('display_name').to_dict('index')
 
         # disconnect from server
         connection.close()
 
-        #historical grades grades
-        all_grades_sql = "SELECT grade, grade_date, subject_name  FROM student_grade, student_subject  \
+        #historical grades
+        all_grades_sql = "SELECT grade, grade_date, display_name  FROM student_grade, student_subject  \
                WHERE student_grade.student_id = '%s' AND student_grade.subject_id=student_subject.subject_id" %(student_id )
         df_all_grades = pandas.read_sql(all_grades_sql, con=connection)
-        df_grades_indexed=df_all_grades.pivot(index='grade_date', columns='subject_name', values='grade')
+        df_grades_indexed=df_all_grades.pivot(index='grade_date', columns='display_name', values='grade')
 
 
 
@@ -232,6 +232,7 @@ def show_student_grades(request):
         all_grades_data=df_grades_indexed.values
         all_grades_data
 
+        #description/header  table for Google Viz
         grades_desc =[]
         grades_desc.append(("grade_date", "date", "Date" ))
         for index,subject in enumerate(subject_names):
@@ -266,7 +267,7 @@ def show_student_grades(request):
             else:
                 return
 
-        df_grades_indexed2=df_all_grades.pivot(index='grade_date', columns='subject_name', values='grade')
+        df_grades_indexed2=df_all_grades.pivot(index='grade_date', columns='display_name', values='grade')
         df_points=df_grades_indexed2.applymap(getPoints)
         df_points['gpa']=df_points.mean(axis=1)
         df_points=df_points.reset_index()
