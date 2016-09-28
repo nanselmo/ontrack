@@ -12,7 +12,7 @@ sys.path.append('Users/administrator/Desktop/django-ontrack')
 os.environ['DJANGO_SETTINGS_MODULE']= 'settings'
 
 #get from SIM
-simXLS = "/Users/administrator/Desktop/django-ontrack/ontrack/ontrack/student-data/SIM-09-21-2016.xls"
+simXLS = "/Users/administrator/Desktop/django-ontrack/ontrack/ontrack/student-data/SIM-09-23-16.xls"
 
 
 #The class must be named Command, and subclass BaseCommand
@@ -28,7 +28,7 @@ class Command(BaseCommand):
         #for testing only
         fifth_df=df.loc[df['Gr(A)'] == '5']
         num_fifth=len(fifth_df)
-        df=fifth_df
+        df=df
 
         for i in range(0,len(df)):
             user=Student.objects.get_or_create(student_id=df.iloc[i]['ID'].astype(int))

@@ -8,7 +8,7 @@ from datetime import datetime
 
 
 
-grades_file='ontrack/student-data/Grades-09-16-16.csv'
+grades_file='ontrack/student-data/Grades-09-23-16.csv'
 
 
 
@@ -46,8 +46,7 @@ class Command(BaseCommand):
 
         grades_df['SubjectID'] = grades_df['SubjectName'].map(subject_dict)
         grades_df=grades_df.dropna(subset=["QuarterAvg"])
-        grades_fifth_df=grades_df[grades_df["StudentGradeLevel"]=='05']
-        df = grades_fifth_df
+        df = grades_df
 
         for i in range(0,len(df)):
             Grade.objects.get_or_create(student_id=df.iloc[i]['StudentID'].astype(str),
