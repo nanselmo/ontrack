@@ -18,6 +18,57 @@ def get_user_id(da_request):
         lookup_user_id = "1"
     return lookup_user_id
 
+def getOnTrack(att, gpa):
+    if gpa>=3:
+        if att>=95:
+            onTrack=5
+        elif att>=90:
+            onTrack=4
+        else:
+            onTrack=3
+    elif gpa>=2:
+        if att>=98:
+            onTrack=4
+        elif att>=90:
+            onTrack=3
+        else:
+            onTrack=2
+    elif gpa>=1:
+        if att>=98:
+            onTrack=3
+        elif att>=80:
+            onTrack=2
+        else:
+            onTrack=1
+    else:
+        if att>=90:
+            onTrack=2
+        else:
+            onTrack=1
+    return onTrack
+
+
+def getPoints(x):
+# if no grade for that subject at that date
+    if math.isnan(x):
+        # just return it untouched
+        return x
+    # but, if not, return the points
+    elif x:
+        if x>=90:
+            return 4
+        elif x>=80:
+            return 3
+        elif x>=70:
+            return 2
+        elif x>=60:
+            return 1
+        else:
+            return 0
+    # and leave everything else
+    else:
+        return
+
 def google_chart(request):
 
     #use pandas to turn sql into dataframe and then a matrix (list of lists)
@@ -115,26 +166,7 @@ def show_hr(request):
 def show_student(request):
         student_id = get_user_id(request)
         student=Student.objects.get(student_id= "%s"%(student_id))
-        def getPoints(x):
-        # if no grade for that subject at that date
-            if math.isnan(x):
-                # just return it untouched
-                return x
-            # but, if not, return the points
-            elif x:
-                if x>=90:
-                    return 4
-                elif x>=80:
-                    return 3
-                elif x>=70:
-                    return 2
-                elif x>=60:
-                    return 1
-                else:
-                    return 0
-            # and leave everything else
-            else:
-                return
+
 
         all_grades_sql = "SELECT grade, grade_date, display_name  FROM student_grade, student_subject  \
                    WHERE student_grade.student_id = '%s' \
@@ -163,16 +195,22 @@ def show_student(request):
         #will be the GPA of the most recently entered grades
         #maybe change this to be the 4 most recent grades per subject!
         gpa=df_points.sort_values('grade_date',0,False)['gpa'].iloc[0]
-        gpa='{:.2f}'.format(float(gpa))
+
 
         #Attendance
         attend_pct=round(Attendance.objects.filter(student_id="%s"%(student_id)).order_by('-attend_date')[0].calc_pct())
-        attend_pct='{0:g}'.format(float(attend_pct))
 
-        template_vars = {'current_gpa': gpa,
+        onTrack = getOnTrack(attend_pct, gpa)
+
+
+        #format the numbers as strings
+        gpa_as_string='{:.2f}'.format(float(gpa))
+        attend_as_string='{0:g}'.format(float(attend_pct))
+        template_vars = {'current_gpa': gpa_as_string,
                          'current_student' : student ,
                          'gpa_json_data' : gpa_json,
-                         'attendance_pct' : "100"}
+                         'attendance_pct' : attend_as_string,
+                         'ontrack' : onTrack}
         return render(request, 'student/student.html',template_vars )
 
 
@@ -244,28 +282,6 @@ def show_student_grades(request):
         historical_grades_json = all_grades_data_table.ToJSon()
         historical_grades_json
 
-
-        #GPA
-        def getPoints(x):
-        # if no grade for that subject at that date
-            if math.isnan(x):
-                # just return it untouched
-                return x
-            # but, if not, return the points
-            elif x:
-                if x>=90:
-                    return 4
-                elif x>=80:
-                    return 3
-                elif x>=70:
-                    return 2
-                elif x>=60:
-                    return 1
-                else:
-                    return 0
-            # and leave everything else
-            else:
-                return
 
         df_grades_indexed2=df_all_grades.pivot(index='grade_date', columns='display_name', values='grade')
         df_points=df_grades_indexed2.applymap(getPoints)
