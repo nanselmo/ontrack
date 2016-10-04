@@ -47,6 +47,7 @@ def getOnTrack(att, gpa):
             onTrack=1
     return onTrack
 
+gpa_subjects_list = ['Math', 'Science', 'Social Studies', 'ELA']
 
 def getPoints(x):
 # if no grade for that subject at that date
@@ -178,9 +179,12 @@ def show_student(request):
         # disconnect from server
         connection.close()
 
-
-        df_grades_indexed=df_all_grades.pivot(index='grade_date', columns='display_name', values='grade')
+        #only get GPA of core subjects
+        df_current_core_grades = df_all_grades[df_all_grades["display_name"].isin(gpa_subjects_list)]
+        df_grades_indexed=df_current_core_grades.pivot(index='grade_date', columns='display_name', values='grade')
         df_points=df_grades_indexed.applymap(getPoints)
+
+
         df_points['gpa']=df_points.mean(axis=1)
         df_points=df_points.reset_index()
         gpa_values=df_points[['grade_date', 'gpa']].values
@@ -251,13 +255,16 @@ def show_student_grades(request):
         #should be refactored to do without this step (can use .values on a query set not sure about SQL)
         df_current_grades = pandas.read_sql(current_grades_sql, con=connection)
 
-        #put into dictionary to use in templates
-        current_grades_dict=df_current_grades.set_index('display_name').to_dict('index')
+        df_current_core_grades = df_current_grades[df_current_grades["display_name"].isin(gpa_subjects_list)]
+
+
+        #put into dictionary to use in student_grades.html template
+        current_core_grades_dict=df_current_core_grades.set_index('display_name').to_dict('index')
 
         # disconnect from server
         connection.close()
 
-        #historical grades
+        #historical grades for Google Viz
         all_grades_sql = "SELECT grade, grade_date, display_name  FROM student_grade, student_subject  \
                WHERE student_grade.student_id = '%s' AND student_grade.subject_id=student_subject.subject_id" %(student_id )
         df_all_grades = pandas.read_sql(all_grades_sql, con=connection)
@@ -270,6 +277,8 @@ def show_student_grades(request):
         all_grades_data=df_grades_indexed.values
         all_grades_data
 
+
+        ##pass grades data to Google Viz
         #description/header  table for Google Viz
         grades_desc =[]
         grades_desc.append(("grade_date", "date", "Date" ))
@@ -283,7 +292,9 @@ def show_student_grades(request):
         historical_grades_json
 
 
-        df_grades_indexed2=df_all_grades.pivot(index='grade_date', columns='display_name', values='grade')
+        df_current_core_grades = df_all_grades[df_all_grades["display_name"].isin(gpa_subjects_list)]
+        df_grades_indexed2=df_current_core_grades.pivot(index='grade_date', columns='display_name', values='grade')
+
         df_points=df_grades_indexed2.applymap(getPoints)
         df_points['gpa']=df_points.mean(axis=1)
         df_points=df_points.reset_index()
@@ -297,7 +308,7 @@ def show_student_grades(request):
         gpa_json=gpa_data_table.ToJSon()
 
 
-        template_vars = {'current_grades_dict': current_grades_dict,
+        template_vars = {'current_core_grades_dict': current_core_grades_dict,
                          'current_student' : student ,
                          'all_grades_json' : historical_grades_json,
                          'gpa_json_data' : gpa_json,
