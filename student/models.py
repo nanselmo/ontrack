@@ -2,6 +2,12 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.utils import timezone
+#import User from Django's built-in auth
+from django.contrib.auth.models import User
+
+#to use to create new Profile instance every time a User is created
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Create your models here.
 
@@ -13,7 +19,7 @@ class Student(models.Model):
     birthdate = models.DateField(null=True)
 
     def __str__(self):
-        return self.first_name + " " + self.last_name
+        return self.student_id + ": " + self.first_name + " " + self.last_name + self.gender
 
 class Email(models.Model):
     student_id = models.CharField(max_length=20, primary_key=True)
@@ -80,3 +86,7 @@ class Attendance(models.Model):
 
     def __str__(self):
         return "{0}: {1}/{2}".format(self.student, self.absent_days, self.total_days)
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user_type = models.CharField(max_length=60, default="Student")

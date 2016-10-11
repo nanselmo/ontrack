@@ -12,7 +12,7 @@ sys.path.append('Users/administrator/Desktop/django-ontrack')
 os.environ['DJANGO_SETTINGS_MODULE']= 'settings'
 
 #get from SIM
-simXLS = "/Users/administrator/Desktop/django-ontrack/ontrack/ontrack/student-data/SIM-09-30-16.xls"
+simXLS = "/Users/administrator/Desktop/django-ontrack/ontrack/ontrack/student-data/SIM-10-07-16.xls"
 
 
 #The class must be named Command, and subclass BaseCommand
@@ -37,7 +37,6 @@ class Command(BaseCommand):
             user[0].last_name=df.iloc[i]['Student Name (LFM)'].replace(" , ", ", ").split()[0].rstrip(',')
             user[0].gender=df.iloc[i]['Gender']
             user[0].birthdate=datetime.strptime(df.iloc[i]['Birth Date'], '%b %d, %Y')
-
 
             Roster.objects.get_or_create(student_id=df.iloc[i]['ID'].astype(int),
                                 hr_id=df.iloc[i]['HR(A)'],

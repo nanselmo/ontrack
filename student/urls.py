@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^google_chart/$', views.google_chart),
     url(r'^google_table/$', views.google_table),
     url(r'^student/$', views.show_student, name='show_student'),
+    url(r'^student/(?P<student_id>[0-9]+)$', views.show_student, name='show_student'),
     url(r'^student/grades/$', views.show_student_grades, name='show_student_grades'),
     url(r'^student/attendance/$', views.show_student_attendance, name='show_student_attendance'),
     url(r'^student/ontrack/$', views.show_student_ontrack, name='show_student_ontrack'),

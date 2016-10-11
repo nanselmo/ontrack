@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from student.models import Grade, Student, Attendance, Email, Subject
 from allauth.socialaccount.models import SocialAccount
 from django.db import connection
+from ontrack import get_user_id, getOnTrack, getPoints, gpa_subjects_list
 import pandas
 import math
 
@@ -10,65 +11,9 @@ import gviz_api
 from django.shortcuts import render
 from django.db import connection
 
-def get_user_id(da_request):
-    social_email=SocialAccount.objects.get(user=da_request.user).extra_data['email']
-    try:
-        lookup_user_id=Email.objects.get(email=social_email).student_id
-    except Email.DoesNotExist:
-        lookup_user_id = "1"
-    return lookup_user_id
+#debug
+#import pdb;
 
-def getOnTrack(att, gpa):
-    if gpa>=3:
-        if att>=95:
-            onTrack=5
-        elif att>=90:
-            onTrack=4
-        else:
-            onTrack=3
-    elif gpa>=2:
-        if att>=98:
-            onTrack=4
-        elif att>=90:
-            onTrack=3
-        else:
-            onTrack=2
-    elif gpa>=1:
-        if att>=98:
-            onTrack=3
-        elif att>=80:
-            onTrack=2
-        else:
-            onTrack=1
-    else:
-        if att>=90:
-            onTrack=2
-        else:
-            onTrack=1
-    return onTrack
-
-gpa_subjects_list = ['Math', 'Science', 'Social Studies', 'ELA']
-
-def getPoints(x):
-# if no grade for that subject at that date
-    if math.isnan(x):
-        # just return it untouched
-        return x
-    # but, if not, return the points
-    elif x:
-        if x>=90:
-            return 4
-        elif x>=80:
-            return 3
-        elif x>=70:
-            return 2
-        elif x>=60:
-            return 1
-        else:
-            return 0
-    # and leave everything else
-    else:
-        return
 
 def google_chart(request):
 
@@ -160,19 +105,58 @@ def show_dashboard(request):
 
 def show_hr(request):
 
-    students=Student.objects.all()
-    template_vars={'all_students': students}
+    hr = "B314"
+    hr_grades_sql = "SELECT grade, MAX(grade_date) as recent_grade_date, display_name, \
+    student_roster.student_id from student_roster, student_grade, student_subject \
+    WHERE hr_id='%s' AND  \
+    student_grade.student_id=student_roster.student_id AND student_grade.subject_id=student_subject.subject_id \
+    GROUP BY student_roster.student_id, student_grade.subject_id"%(hr)
+
+    hr_grades_df = pandas.read_sql(hr_grades_sql, con=connection)
+    hr_grades_wide=hr_grades_df.pivot(index='student_id', columns='display_name', values='grade')
+    hr_grades_indexed = hr_grades_wide.reset_index()
+
+    #calc GPA
+    df_current_core_grades = hr_grades_df[hr_grades_df["display_name"].isin(gpa_subjects_list)]
+    df_core_grades_indexed=df_current_core_grades.pivot(index='student_id', columns='display_name', values='grade')
+    df_points=df_core_grades_indexed.applymap(getPoints)
+    df_points['gpa']=df_points.mean(axis=1)
+    df_points=df_points.reset_index()
+    gpa_df=df_points[['student_id', 'gpa']]
+
+    #get attendance
+    hr_attend_sql = "SELECT  ((total_days-absent_days)/total_days) *100 as attend_pct, \
+    MAX(attend_date) as recent_attend_date, student_roster.student_id \
+    from student_roster, student_attendance \
+    WHERE hr_id='%s' AND student_attendance.student_id = student_roster.student_id \
+    GROUP BY student_roster.student_id"%(hr)
+
+    hr_attend_df = pandas.read_sql(hr_attend_sql, con=connection)
+    hr_attend_df = hr_attend_df[["student_id", "attend_pct"]]
+
+    #merge them all together (but maybe refactor to just send as separate dictionaries?)
+    hr_data=hr_attend_df.merge(hr_grades_indexed, on="student_id")
+    hr_data=hr_data.merge(gpa_df, on="student_id")
+
+    #calc ontrack
+    hr_data["onTrack"] = hr_data.apply(lambda hr_data: getOnTrack(hr_data["attend_pct"], hr_data["gpa"]), axis=1)
+
+    #get dictionary
+    hr_dict=hr_data.to_dict('index')
+
+    template_vars={'hr_dict': hr_dict}
     return render(request, "student/homeroom.html", template_vars)
 
-def show_student(request):
-        student_id = get_user_id(request)
-        student=Student.objects.get(student_id= "%s"%(student_id))
+def show_student(request, student_id="1"):
+
+        this_student_id = get_user_id(request, student_id)
+        student=Student.objects.get(student_id= "%s"%(this_student_id))
 
 
         all_grades_sql = "SELECT grade, grade_date, display_name  FROM student_grade, student_subject  \
                    WHERE student_grade.student_id = '%s' \
                     AND student_grade.subject_id=student_subject.subject_id\
-                    ORDER BY date(grade_date) DESC" %(student_id)
+                    ORDER BY date(grade_date) DESC" %(this_student_id)
 
         df_all_grades = pandas.read_sql(all_grades_sql, con=connection)
 
@@ -189,6 +173,10 @@ def show_student(request):
         df_points=df_points.reset_index()
         gpa_values=df_points[['grade_date', 'gpa']].values
 
+        #will be the GPA of the most recently entered grades
+        #maybe change this to be the 4 most recent grades per subject!
+        gpa=df_points.sort_values('grade_date',0,False)['gpa'].iloc[0]
+
         #set up Google Table to pass to View
         gpa_desc=[("grade_date", "date", "Date" ),
                   ("gpa", "number", "GPA")]
@@ -196,13 +184,11 @@ def show_student(request):
         gpa_data_table.LoadData(gpa_values)
         gpa_json=gpa_data_table.ToJSon()
 
-        #will be the GPA of the most recently entered grades
-        #maybe change this to be the 4 most recent grades per subject!
-        gpa=df_points.sort_values('grade_date',0,False)['gpa'].iloc[0]
+
 
 
         #Attendance
-        attend_pct=round(Attendance.objects.filter(student_id="%s"%(student_id)).order_by('-attend_date')[0].calc_pct())
+        attend_pct=round(Attendance.objects.filter(student_id="%s"%(this_student_id)).order_by('-attend_date')[0].calc_pct())
 
         onTrack = getOnTrack(attend_pct, gpa)
 

@@ -8,7 +8,7 @@ from datetime import datetime
 
 
 
-grades_file='ontrack/student-data/Grades-09-30-16.csv'
+grades_file='ontrack/student-data/Grades-10-07-16.csv'
 
 
 
@@ -39,6 +39,7 @@ class Command(BaseCommand):
         for i in range(0,len(subject_id_df.index)):
             subject=Subject.objects.get_or_create(subject_id=subject_id_df.iloc[i]['SubjectID'])
             subject[0].subject_name=subject_id_df.iloc[i]['SubjectName']
+            subject[0].save()
 
 
         subject_dict=subject_id_df.set_index('SubjectName').to_dict()

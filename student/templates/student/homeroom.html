@@ -4,13 +4,13 @@
 {% block content %}
   <div id="page-container">
 
-  <h1>Fake Homeroom Students</h1>
-    {% for student in all_students %}
-    <a href={% url 'show_student' student_id=student.student_id %}>
+  <h1>Homeroom Students</h1>\
+    {% for student, data in hr_dict.items %}
+  <a href={% url 'show_student' student_id=data.student_id %}>
         <p>
-          {{student.first_name}} {{student.last_name}}
+          {{data.student_id}} OnTrack:  {{data.onTrack}} GPA:  {{data.gpa}} Attendance:  {{data.attend_pct}}
         </p>
-    </a>
+     </a>
     {% endfor %}
 
   </div>

@@ -4,7 +4,7 @@ from student.models import Email
 from django.db import connection
 import pandas
 
-email_file='ontrack/student-data/Usernames-09-22-16.xls'
+email_file='ontrack/student-data/Usernames-10-04-16.xls'
 
 
 
@@ -22,6 +22,7 @@ class Command(BaseCommand):
         for i in range(0,len(df)):
             user= Email.objects.get_or_create(student_id=df.iloc[i]['Student ID'].astype(int))
             user[0].email=df.iloc[i]['mail']
+
 
 
         self.stdout.write("Done Loading Email File")
