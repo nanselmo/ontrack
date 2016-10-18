@@ -88,5 +88,5 @@ class Attendance(models.Model):
         return "{0}: {1}/{2}".format(self.student, self.absent_days, self.total_days)
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(Email, on_delete=models.CASCADE)
     user_type = models.CharField(max_length=60, default="Student")

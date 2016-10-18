@@ -7,9 +7,24 @@
   <h1>Homeroom Students</h1>\
     {% for student, data in hr_dict.items %}
   <a href={% url 'show_student' student_id=data.student_id %}>
-        <p>
-          {{data.student_id}} OnTrack:  {{data.onTrack}} GPA:  {{data.gpa}} Attendance:  {{data.attend_pct}}
-        </p>
+        <div class="row">
+          <div class="col-sm-2">
+            OnTrack:  {{data.onTrack}}
+          </div>
+          <div class="col-sm-3">
+            Name:  Sample Student
+          </div>
+          <div class="col-sm-2">
+            GPA:  {{ %d % data.gpa}}
+
+            {{ %d % data.gpa }}
+
+          </div>
+          <div class="col-sm-2">
+            Attendance:  {{%d % data.attend_pct}}
+          </div>
+
+        </div>
      </a>
     {% endfor %}
 

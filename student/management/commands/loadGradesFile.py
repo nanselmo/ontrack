@@ -8,7 +8,7 @@ from datetime import datetime
 
 
 
-grades_file='ontrack/student-data/Grades-10-07-16.csv'
+grades_file='ontrack/student-data/Grades-10-17-16.csv'
 
 
 
@@ -19,10 +19,9 @@ class Command(BaseCommand):
 
     # A command must define handle()
     def handle(self, *args, **options):
-
-
         grades_df = pandas.read_csv(open(grades_file,'rb'))
         grades_df
+
 
         #get file date
         file_date_start=grades_file.find('Grades-') + 7
@@ -47,12 +46,15 @@ class Command(BaseCommand):
 
         grades_df['SubjectID'] = grades_df['SubjectName'].map(subject_dict)
         grades_df=grades_df.dropna(subset=["QuarterAvg"])
-        df = grades_df
+        #take out students who have the letters B or C in their Quarter Avg
+        clean_grades=grades_df[~grades_df['QuarterAvg'].isin(["B", "C"])]
+        df = clean_grades
 
         for i in range(0,len(df)):
             Grade.objects.get_or_create(student_id=df.iloc[i]['StudentID'].astype(str),
                                     subject_id=df.iloc[i]['SubjectID'],
-                                    grade=df.iloc[i]['QuarterAvg'].astype(int),
+                                    #grade=df.iloc[i]['QuarterAvg'].astype(int),
+                                    grade=df.iloc[i]['QuarterAvg']
                                     grade_date=datetime.strptime(file_date, '%m-%d-%y'))
 
         self.stdout.write("Done Loading Grades")
