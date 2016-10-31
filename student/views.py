@@ -106,19 +106,19 @@ def show_dashboard(request):
 def show_hr(request):
 
     hr = "B314"
-    hr_grades_sql = "SELECT grade, MAX(grade_date) as recent_grade_date, display_name, \
-    student_roster.student_id from student_roster, student_grade, student_subject \
+    hr_grades_sql = "SELECT grade, MAX(grade_date) as recent_grade_date, subject, \
+    student_roster.student_id from student_roster, student_grade \
     WHERE hr_id='%s' AND  \
-    student_grade.student_id=student_roster.student_id AND student_grade.subject_id=student_subject.subject_id \
+    student_grade.student_id=student_roster.student_id  \
     GROUP BY student_roster.student_id, student_grade.subject_id"%(hr)
 
     hr_grades_df = pandas.read_sql(hr_grades_sql, con=connection)
-    hr_grades_wide=hr_grades_df.pivot(index='student_id', columns='display_name', values='grade')
+    hr_grades_wide=hr_grades_df.pivot(index='student_id', columns='subject', values='grade')
     hr_grades_indexed = hr_grades_wide.reset_index()
 
     #calc GPA
-    df_current_core_grades = hr_grades_df[hr_grades_df["display_name"].isin(gpa_subjects_list)]
-    df_core_grades_indexed=df_current_core_grades.pivot(index='student_id', columns='display_name', values='grade')
+    df_current_core_grades = hr_grades_df[hr_grades_df["subject"].isin(gpa_subjects_list)]
+    df_core_grades_indexed=df_current_core_grades.pivot(index='student_id', columns='subject', values='grade')
     df_points=df_core_grades_indexed.applymap(getPoints)
     df_points['gpa']=df_points.mean(axis=1)
     df_points=df_points.reset_index()
@@ -152,11 +152,12 @@ def show_student(request, student_id="1"):
         this_student_id = get_user_id(request, student_id)
         student=Student.objects.get(student_id= "%s"%(this_student_id))
 
+        all_grades_sql = "SELECT grade, grade_date, subject, MAX(created), display_name \
+           FROM student_grade, student_subject  \
+           WHERE student_grade.student_id = '%s' AND student_grade.subject=student_subject.subject_name  \
+           GROUP BY student_grade.grade_date, subject \
+           ORDER BY date(grade_date) DESC" %(this_student_id )
 
-        all_grades_sql = "SELECT grade, grade_date, display_name  FROM student_grade, student_subject  \
-                   WHERE student_grade.student_id = '%s' \
-                    AND student_grade.subject_id=student_subject.subject_id\
-                    ORDER BY date(grade_date) DESC" %(this_student_id)
 
         df_all_grades = pandas.read_sql(all_grades_sql, con=connection)
 
@@ -184,14 +185,10 @@ def show_student(request, student_id="1"):
         gpa_data_table.LoadData(gpa_values)
         gpa_json=gpa_data_table.ToJSon()
 
-
-
-
         #Attendance
         attend_pct=round(Attendance.objects.filter(student_id="%s"%(this_student_id)).order_by('-attend_date')[0].calc_pct())
 
         onTrack = getOnTrack(attend_pct, gpa)
-
 
         #format the numbers as strings
         gpa_as_string='{:.2f}'.format(float(gpa))
@@ -232,10 +229,11 @@ def show_student_grades(request):
 
         student_id = get_user_id(request)
         student=Student.objects.get(student_id= "%s"%(student_id))
-        current_grades_sql= "SELECT grade, MAX(grade_date) as most_recent_grade_date, display_name, image \
+        #image
+        current_grades_sql= "SELECT grade, MAX(grade_date) as most_recent_grade_date, subject, display_name, image \
                   FROM student_grade, student_subject \
-                  WHERE student_id = '%s' AND student_grade.subject_id = student_subject.subject_id \
-                  GROUP BY student_grade.subject_id ORDER BY student_subject.subject_id"%(student_id)
+                  WHERE student_id = '%s' AND student_subject.subject_name=student_grade.subject  \
+                  GROUP BY student_grade.subject"%(student_id)
 
         #load into pandas dataframe,
         #should be refactored to do without this step (can use .values on a query set not sure about SQL)
@@ -251,8 +249,9 @@ def show_student_grades(request):
         connection.close()
 
         #historical grades for Google Viz
-        all_grades_sql = "SELECT grade, grade_date, display_name  FROM student_grade, student_subject  \
-               WHERE student_grade.student_id = '%s' AND student_grade.subject_id=student_subject.subject_id" %(student_id )
+        all_grades_sql = "SELECT grade, grade_date, subject, MAX(created), display_name  FROM student_grade, student_subject  \
+           WHERE student_grade.student_id = '%s' AND student_subject.subject_name=student_grade.subject \
+           GROUP BY student_grade.grade_date, subject" %(student_id )
         df_all_grades = pandas.read_sql(all_grades_sql, con=connection)
         df_grades_indexed=df_all_grades.pivot(index='grade_date', columns='display_name', values='grade')
 
@@ -261,7 +260,6 @@ def show_student_grades(request):
         subject_names=list(df_grades_indexed.columns.values)
         df_grades_indexed.insert(0,'date', df_grades_indexed.index)
         all_grades_data=df_grades_indexed.values
-        all_grades_data
 
 
         ##pass grades data to Google Viz
@@ -308,7 +306,8 @@ def show_student_attendance(request):
 
         student_id = get_user_id(request)
         student=Student.objects.get(student_id= "%s"%(student_id))
-        attend_pct=round(Attendance.objects.filter(student_id="%s"%(student_id)).order_by('-attend_date')[0].calc_pct())
+        attend_data=Attendance.objects.filter(student_id="%s"%(student_id)).order_by('-attend_date')[0]
+        attend_pct=round(attend_data.calc_pct())
         attend_sql="Select attend_date, absent_days \
         FROM student_attendance WHERE student_id=%s"%(student_id)
         df_attend = pandas.read_sql(attend_sql, con=connection)
@@ -327,6 +326,7 @@ def show_student_attendance(request):
 
         template_vars={ 'current_student': student,
                         'current_attend_pct': attend_pct,
-                        'attend_json_data': attend_json}
+                        'attend_json_data': attend_json,
+                        'attend_data': attend_data}
 
         return render(request, "student/student_attendance.html", template_vars)

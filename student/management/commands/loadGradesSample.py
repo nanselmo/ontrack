@@ -10,7 +10,7 @@ sys.path.append('Users/administrator/Desktop/django-ontrack')
 os.environ['DJANGO_SETTINGS_MODULE']= 'settings'
 
 #make sure csv is saved as a Windows csv. the default on Mac will not work
-gradesCSV = "/Users/administrator/Desktop/django-ontrack/ontrack/ontrack/student-data/sample-grades.csv"
+gradesCSV = "/Users/administrator/Desktop/django-ontrack/ontrack/ontrack/student-data/student-grades-sample2.csv"
 #grades_file = csv.reader(open(), dialect='excel', delimiter=',')
 
 
@@ -30,9 +30,9 @@ class Command(BaseCommand):
                 # Apply conversions to the row items
                 row = tuple(convert(value) for convert, value in zip(col_types, row))
                 student_id = row[0]
-                subject_id = row[1]
+                subject_name = row[1]
                 grade=row[2]
                 grade_date=row[3]
-                Grade.objects.get_or_create(grade=grade, subject_id=subject_id, student_id=student_id, grade_date=grade_date)
+                Grade.objects.get_or_create(grade=grade, subject=subject_name, student_id=student_id, grade_date=grade_date)
 
         self.stdout.write("Done Loading Grades")

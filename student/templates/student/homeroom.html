@@ -4,7 +4,7 @@
 {% block content %}
   <div id="page-container">
 
-  <h1>Homeroom Students</h1>\
+  <h1>Homeroom Students</h1>
     {% for student, data in hr_dict.items %}
   <a href={% url 'show_student' student_id=data.student_id %}>
         <div class="row">
@@ -15,13 +15,11 @@
             Name:  Sample Student
           </div>
           <div class="col-sm-2">
-            GPA:  {{ %d % data.gpa}}
-
-            {{ %d % data.gpa }}
-
+             GPA:   {{ data.gpa }}
+             {{ 42.55|round(1, 'floor') }}
           </div>
           <div class="col-sm-2">
-            Attendance:  {{%d % data.attend_pct}}
+             Attendance:  {{data.attend_pct}}
           </div>
 
         </div>
