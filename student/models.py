@@ -63,9 +63,17 @@ class Subject(models.Model):
     def __str__(self):
         return "{0}: {1}".format(self.subject_id, self.subject_name)
 
+class SubjectInfo(models.Model):
+    subject_name = models.CharField(max_length=60)
+    display_name = models.CharField(max_length=60, null=True)
+    image = models.ImageField('Subject Icon', upload_to='images/subj_icons')
+
+    def __str__(self):
+        return "{0}: {1}".format(self.subject_id, self.subject_name)
+
 class Grade(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    subject = models.CharField(max_length=60)
     grade = models.IntegerField()
     grade_date = models.DateField(default=timezone.now)
     created = models.DateField(auto_now_add=True)

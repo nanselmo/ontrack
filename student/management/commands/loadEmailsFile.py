@@ -4,7 +4,7 @@ from student.models import Email
 from django.db import connection
 import pandas
 
-email_file='ontrack/student-data/Usernames-10-04-16.xls'
+email_file='ontrack/student-data/Email-10-21-16.xls'
 
 
 

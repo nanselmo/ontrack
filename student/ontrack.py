@@ -6,7 +6,7 @@ import math
 
 #variables
 gpa_subjects_list = ['Math', 'Science', 'Social Studies', 'ELA']
-
+#gpa_subjects_list=['CHGO READING FRMWK','MATHEMATICS STD','SCIENCE  STANDARDS','SOCIAL SCIENCE STD']
 
 #functions
 def get_user_id(da_request, admin_student_id="1"):

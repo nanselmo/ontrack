@@ -12,7 +12,7 @@ sys.path.append('Users/administrator/Desktop/django-ontrack')
 os.environ['DJANGO_SETTINGS_MODULE']= 'settings'
 
 #get from SIM
-simXLS = "/Users/administrator/Desktop/django-ontrack/ontrack/ontrack/student-data/SIM-10-07-16.xls"
+simXLS = "/Users/administrator/Desktop/django-ontrack/ontrack/ontrack/student-data/SIM-10-21-16.xls"
 
 
 #The class must be named Command, and subclass BaseCommand
