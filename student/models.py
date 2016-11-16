@@ -75,6 +75,7 @@ class Grade(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     subject = models.CharField(max_length=60)
     grade = models.IntegerField()
+    quarter_grade = models.IntegerField(null=True)
     grade_date = models.DateField(default=timezone.now)
     created = models.DateField(auto_now_add=True)
 
@@ -98,3 +99,14 @@ class Attendance(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(Email, on_delete=models.CASCADE)
     user_type = models.CharField(max_length=60, default="Student")
+
+class TestScore(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    test_name = models.CharField(max_length=60)
+    score = models.CharField(max_length=5)
+    percentile = models.CharField(max_length=3, null=True)
+    test_session = models.CharField(max_length=60, null=True)
+    subject = models.CharField(max_length=60, null=True)
+
+    def __str__(self):
+        return "{0}: {1} - {2}".format(self.student, self.test_name, self.test_session)

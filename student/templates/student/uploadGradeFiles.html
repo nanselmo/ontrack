@@ -1,0 +1,18 @@
+{% extends 'student/base.html' %}
+{% load static %}
+
+{% block content %}
+  <div id="page-container">
+
+  <form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type = "file" style = "margin-left:20%;"
+                  placeholder = "Missing Assignments" name = "missing" />
+
+
+                  <button type = "submit" value = "Upload" >
+                                <strong>Upload</strong>
+                             </button>
+  </form>
+  </div>
+{% endblock %}

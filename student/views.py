@@ -3,8 +3,11 @@ from student.models import Grade, Student, Attendance, Email, Subject
 from allauth.socialaccount.models import SocialAccount
 from django.db import connection
 from ontrack import get_user_id, getOnTrack, getPoints, gpa_subjects_list
+from grade_audit import *
 import pandas
 import math
+from django.http import HttpResponseRedirect
+from forms import UploadFileForm
 
 #for plotting
 import gviz_api
@@ -14,6 +17,24 @@ from django.db import connection
 #debug
 #import pdb;
 
+def upload_grade_files(request):
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_file = request.FILES['html-file-attribute-name']
+            # Write the file to disk
+            fout = open("on-track/student-data/%s" % uploaded_file.name, 'wb')
+            for chunk in uploaded_file.chunks():
+                fout.write(chunk)
+            fout.close()
+            return HttpResponseRedirect('/grade_report/')
+    else:
+        form = UploadFileForm()
+    return render(request, 'student/uploadGradeFiles.html', {'form': form})
+
+def grade_report(request):
+    template_vars=summarize_data("admin")
+    return render(request, "student/ind-teacher-report.html", template_vars)
 
 def google_chart(request):
 
