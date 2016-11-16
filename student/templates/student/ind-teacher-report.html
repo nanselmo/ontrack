@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>{{ title }} Weekly Grade Report</title>
+</head>
+<body>
+  <h1>{{ title }} Weekly Grade Report</h1>
+  <h4>Students With Grades Below 60%</h4>
+  {% autoescape off %}
+  {{failing_grades}}
+  {% endautoescape %}
+<br />
+<h4>Unused Categories</h4>
+  {% autoescape off %}
+  {{ teacher_unused_cats }}
+  {% endautoescape %}
+<br />
+<h4># of Missing or Zero Assignments</h4>
+  {% autoescape off %}
+  {{ teacher_missing_assign }}
+  {% endautoescape %}
+<br />
+<h4>Teacher Categories and Weights</h4>
+  {% autoescape off %}
+  {{ teacher_categories }}
+  {% endautoescape %}
+</body>
+</html>
