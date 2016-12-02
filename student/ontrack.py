@@ -1,7 +1,11 @@
-from student.models import  Email
+from student.models import  Email, Attendance, TestScore
 from allauth.socialaccount.models import SocialAccount
 from django.db import connection
 import math
+
+#sql to pandas
+import pandas
+from django.db import connection
 
 
 #variables
@@ -69,3 +73,49 @@ def getPoints(x):
     # and leave everything else
     else:
         return
+
+def get_attend_pct(student_id):
+    pct=round(Attendance.objects.filter(student_id="%s"%(student_id)).order_by('-attend_date')[0].calc_pct())
+    return(pct)
+
+def get_gpa(student_id):
+    current_grades_sql = "SELECT grade, grade_date, subject, MAX(created),  display_name \
+               FROM student_grade, student_subject  \
+               WHERE student_grade.student_id = '%s' AND \
+                student_grade.subject=student_subject.subject_name  \
+               GROUP BY student_grade.grade_date, subject \
+               ORDER BY date(grade_date) DESC" %(student_id)
+
+
+    df_current_grades = pandas.read_sql(current_grades_sql, con=connection)
+
+    # disconnect from server
+    connection.close()
+
+
+    #only get GPA of core subjects
+    df_current_core_grades = df_current_grades[df_current_grades["display_name"].isin(gpa_subjects_list)]
+    df_grades_indexed=df_current_core_grades.pivot(index='grade_date', columns='display_name', values='grade')
+
+    #get current grades
+
+    current_grades=df_grades_indexed.reset_index()
+    current_grades=current_grades.sort_values('grade_date',0,False).iloc[0]
+    grade_dict=current_grades.to_dict()
+
+
+    #get gpa
+    df_points=df_grades_indexed.applymap(getPoints)
+    df_points['gpa']=df_points.mean(axis=1)
+    df_points=df_points.reset_index()
+    gpa_values=df_points[['grade_date', 'gpa']].values
+    gpa=df_points.sort_values('grade_date',0,False)['gpa'].iloc[0]
+
+    return {'gpa':gpa, 'values':gpa_values, 'current_dict': grade_dict}
+
+def get_test_score(student_id, test_type):
+    student_scores=TestScore.objects.filter(student_id="%s"%(student_id))
+    nwea_scores=student_scores.filter(test_name="%s"%(test_type))
+    math = student_scores.filter(subject="Mathematics")[0]
+    reading=student_scores.filter(subject="Reading")[0]
+    return {'read_pct': reading.percentile, 'math_pct':math.percentile}

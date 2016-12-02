@@ -1,0 +1,36 @@
+{% extends 'student/base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+<div id="page-container">
+
+  <div class="row student-name">
+    <a href={% url 'show_student'  %}>
+        <h2>
+          {{current_student.first_name}} {{current_student.last_name}}
+        </h2>
+    </a>
+  </div>
+
+    {% for key, value in hs_dict.items %}
+    <div class="row">
+      <div class="col-sm-8">
+        {{value.full_name}}
+      </div>
+      <div class="col-sm-4">
+        {{value.RemainingPts}}
+      </div>
+
+
+    </div>
+
+    {% endfor%}
+
+
+
+</div>
+
+
+{% endblock %}

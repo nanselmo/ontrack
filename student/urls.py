@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^student/$', views.show_student, name='show_student'),
     url(r'^student/(?P<student_id>[0-9]+)$', views.show_student, name='show_student'),
     url(r'^student/grades/$', views.show_student_grades, name='show_student_grades'),
+    url(r'^student/highschool/$', views.show_hs_options, name='show_hs_options'),
     url(r'^student/attendance/$', views.show_student_attendance, name='show_student_attendance'),
     url(r'^student/ontrack/$', views.show_student_ontrack, name='show_student_ontrack'),
     url(r'^student/calculator/$', views.show_student_calc, name='show_student_calc'),
