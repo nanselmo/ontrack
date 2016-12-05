@@ -30,10 +30,12 @@ h2, h3, h4, h1, h5 {
 .subject-icon{
   width: 100%;
   height: auto;
-  max-height: 150px;
+  max-height: 400px;
   -webkit-filter: saturate(0%) grayscale(100%) brightness(69%) contrast(1000%); /* Chrome, Safari, Opera */
     filter: saturate(0%) grayscale(100%) brightness(69%) contrast(1000%);
 }
+
+
 
 .vert-helper {
     display: inline-block;
@@ -58,6 +60,16 @@ h2, h3, h4, h1, h5 {
 #student-facing-grades .student-grade {
   color: black;
   font-size: 4em;
+}
 
+.hs-logo{
+  max-height: 100px;
+  margin: auto;
+}
 
+.high-school-list{
+  line-height:100px;
+  font-family: 'Oswald', sans-serif;
+  font-weight: bold;
+  font-size: 100%;
 }

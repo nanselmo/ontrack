@@ -117,16 +117,16 @@ class TestScore(models.Model):
 
 class HighSchool(models.Model):
     short_name = models.CharField(max_length=100)
-    full_name = models.CharField(max_length=400, null=True)
-    website = models.CharField(max_length=500, null=True)
-    logo = models.ImageField('Subject Icon', upload_to='images/hs_icons')
+    full_name = models.CharField(max_length=400, null=True, blank=True)
+    website = models.CharField(max_length=500, null=True, blank=True)
+    logo = models.ImageField('HS Logo', upload_to='images/hs_icons')
     school_type = models.CharField(max_length=50, null=True)
-    tier1_points =  models.IntegerField(null=True)
-    tier2_points =  models.IntegerField(null=True)
-    tier3_points =  models.IntegerField(null=True)
-    tier4_points =  models.IntegerField(null=True)
-    address = map_fields.AddressField(max_length=200, null=True)
-    geolocation = map_fields.GeoLocationField(max_length=100, null=True)
+    tier1_points =  models.IntegerField(null=True, blank=True)
+    tier2_points =  models.IntegerField(null=True, blank=True)
+    tier3_points =  models.IntegerField(null=True, blank=True)
+    tier4_points =  models.IntegerField(null=True, blank=True)
+    address = map_fields.AddressField(max_length=200, null=True, blank=True)
+    geolocation = map_fields.GeoLocationField(max_length=100, null=True, blank=True)
 
 
     def __str__(self):

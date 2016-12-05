@@ -14,23 +14,42 @@
     </a>
   </div>
 
+<h3>SES Schools</h3>
     {% for key, value in hs_dict.items %}
-    <div class="row">
-      <div class="col-sm-8">
-        {{value.full_name}}
+      {% if value.school_type == "SES" %}
+      <div class="row high-school-list">
+        <div class="col-md-3">
+          <img class="hs-logo" src="{{STATIC_URL}}student/images/hs-logos/{{value.short_name}}-default-logo.png " alt="hs-logo"/ />
+        </div>
+        <div class="col-md-5">
+          {{value.full_name}}
+        </div>
+        <div class="col-md-4">
+          {{value.RemainingPts}}
+        </div>
       </div>
-      <div class="col-sm-4">
-        {{value.RemainingPts}}
-      </div>
-
-
-    </div>
-
+      {% endif %}
     {% endfor%}
-
-
-
 </div>
+
+<br />
+<br />
+<h3>IB Schools</h3>
+{% for key, value in hs_dict.items %}
+  {% if value.school_type == "IB" %}
+  <div class="row high-school-list" height=400px>
+    <div class="col-md-3">
+      <img class="hs-logo" src="{{STATIC_URL}}student/images/hs-logos/{{value.short_name}}-default-logo.png " alt="hs-logo"/ />
+    </div>
+    <div class="col-md-5">
+      {{value.full_name}}
+    </div>
+    <div class="col-md-4">
+      {{value.RemainingPts}}
+    </div>
+  </div>
+  {% endif %}
+{% endfor%}
 
 
 {% endblock %}
