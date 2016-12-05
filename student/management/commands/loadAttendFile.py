@@ -9,7 +9,7 @@ from django.db import connection
 import pandas
 from datetime import datetime
 
-attend_file='ontrack/student-data/Attendance-11-28-16.csv'
+attend_file='ontrack/student-data/Attendance-12-05-16.csv'
 attend_df = pandas.read_csv(open(attend_file,'rb'))
 attend_df = attend_df.loc[attend_df['Attendance School'] == "CHAVEZ"]
 

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from student.models import Grade, Student, Attendance, Email, Subject
 from allauth.socialaccount.models import SocialAccount
 from django.db import connection
-from ontrack import get_user_id, getOnTrack, getPoints, gpa_subjects_list, get_gpa, get_attend_pct, get_test_score
+from ontrack import get_user_id, getOnTrack, getPoints, gpa_subjects_list, get_gpa, get_attend_pct, get_test_score, take_out_subjects_list
 from grade_audit import *
 import pandas
 import math
@@ -215,7 +215,7 @@ def show_hs_options(request, ):
 
 
     #still need to change this to default to an A for 8th grade SS
-    def total_hs_points(grade_dict):
+    def total_hs_points(grade_dict, nwea_score_dict):
 
         def get_points(num):
             ib_points=0
@@ -243,9 +243,12 @@ def show_hs_options(request, ):
                 tot_ib=tot_ib+get_points(grade_dict[subject])['ib']
                 tot_ses=tot_ses+get_points(grade_dict[subject])['ses']
 
+        #total points are the points awarded by letter grade plus a factor times the NWEA percentiles
+        tot_ib=tot_ib+2.2727*(int(nwea_scores['math_pct']) + int(nwea_scores['read_pct']))
+        tot_ses=tot_ses+1.515*(int(nwea_scores['math_pct']) + int(nwea_scores['read_pct']))
         return({'ib_totl': tot_ib, 'ses_totl': tot_ses })
 
-    points=total_hs_points(current_grades)
+    points=total_hs_points(current_grades, nwea_scores)
 
     hs_sql = "SELECT * from student_highschool"
 
@@ -272,12 +275,16 @@ def show_hs_options(request, ):
         elif row['school_type']=="SES":
             student_pts=admit_pts-points['ses_totl']
         if student_pts<0:
-            student_pts="Admitted"
+            student_pts="Eligible"
         return(student_pts)
 
 
     hs_df['RemainingPts'] = hs_df.apply(lambda row: getAppPts(row), axis=1)
+    hs_df=hs_df.sort_values('RemainingPts')
+    hs_df.index = range(1,len(hs_df) + 1)
     student_hs_dict=hs_df.to_dict(orient='index')
+
+
 
 
 
@@ -335,6 +342,11 @@ def show_student_grades(request):
            WHERE student_grade.student_id = '%s' AND student_subject.subject_name=student_grade.subject \
            GROUP BY student_grade.grade_date, subject" %(student_id )
         df_all_grades = pandas.read_sql(all_grades_sql, con=connection)
+
+
+        #only include core grades
+        df_current_core_grades = df_all_grades[df_all_grades["display_name"].isin(gpa_subjects_list)]
+        df_all_grades=df_current_core_grades
         df_grades_indexed=df_all_grades.pivot(index='grade_date', columns='display_name', values='grade')
 
 
@@ -358,7 +370,7 @@ def show_student_grades(request):
         historical_grades_json
 
 
-        df_current_core_grades = df_all_grades[df_all_grades["display_name"].isin(gpa_subjects_list)]
+
         df_grades_indexed2=df_current_core_grades.pivot(index='grade_date', columns='display_name', values='grade')
 
         df_points=df_grades_indexed2.applymap(getPoints)

@@ -9,7 +9,8 @@ from django.db import connection
 
 
 #variables
-gpa_subjects_list = ['Math', 'Science', 'Social Studies', 'ELA']
+gpa_subjects_list = ['Math', 'Science', 'Social Studies', 'Reading' ]
+take_out_subjects_list=['Speaking', 'Listening']
 #gpa_subjects_list=['CHGO READING FRMWK','MATHEMATICS STD','SCIENCE  STANDARDS','SOCIAL SCIENCE STD']
 
 #functions
