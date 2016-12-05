@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Student,Grade,Subject, Attendance, Email, Roster, Profile, TestScore
+from .models import Student,Grade,Subject, Attendance, Email, Roster, Profile, TestScore, HighSchool
 
 
 # Register your models here.
@@ -11,3 +11,4 @@ admin.site.register(Email)
 admin.site.register(Roster)
 admin.site.register(Profile)
 admin.site.register(TestScore)
+admin.site.register(HighSchool)

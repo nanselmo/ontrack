@@ -9,6 +9,9 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+#import map_fields
+from django_google_maps import fields as map_fields
+
 # Create your models here.
 
 class Student(models.Model):
@@ -19,7 +22,7 @@ class Student(models.Model):
     birthdate = models.DateField(null=True)
 
     def __str__(self):
-        return self.student_id + ": " + self.first_name + " " + self.last_name + self.gender
+        return self.student_id + ": " + self.first_name + " " + self.last_name
 
 class Email(models.Model):
     student_id = models.CharField(max_length=20, primary_key=True)
@@ -101,7 +104,7 @@ class Profile(models.Model):
     user_type = models.CharField(max_length=60, default="Student")
 
 class TestScore(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE,  db_constraint=False)
     test_name = models.CharField(max_length=60)
     score = models.CharField(max_length=5)
     percentile = models.CharField(max_length=3, null=True)
@@ -109,4 +112,22 @@ class TestScore(models.Model):
     subject = models.CharField(max_length=60, null=True)
 
     def __str__(self):
-        return "{0}: {1} - {2}".format(self.student, self.test_name, self.test_session)
+        return "{0}: {1} - {2} - {3}".format(self.student, self.test_name, self.test_session, self.subject)
+
+
+class HighSchool(models.Model):
+    short_name = models.CharField(max_length=100)
+    full_name = models.CharField(max_length=400, null=True, blank=True)
+    website = models.CharField(max_length=500, null=True, blank=True)
+    logo = models.ImageField('HS Logo', upload_to='images/hs_icons')
+    school_type = models.CharField(max_length=50, null=True)
+    tier1_points =  models.IntegerField(null=True, blank=True)
+    tier2_points =  models.IntegerField(null=True, blank=True)
+    tier3_points =  models.IntegerField(null=True, blank=True)
+    tier4_points =  models.IntegerField(null=True, blank=True)
+    address = map_fields.AddressField(max_length=200, null=True, blank=True)
+    geolocation = map_fields.GeoLocationField(max_length=100, null=True, blank=True)
+
+
+    def __str__(self):
+        return "{0}: Website:{1} Type: {2} Points:{3} ".format(self.short_name, self.website, self.school_type, self.tier1_points)
