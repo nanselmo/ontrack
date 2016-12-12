@@ -10,7 +10,7 @@ sys.path.append('Users/administrator/Desktop/django-ontrack')
 os.environ['DJANGO_SETTINGS_MODULE']= 'settings'
 
 #make sure csv is saved as a microsof or ms-dos csv. the default on Mac will not work
-attendanceCSV = "/Users/administrator/Desktop/django-ontrack/ontrack/ontrack/student-data/attend_win.csv"
+sampleattendanceCSV = "/Users/administrator/Desktop/django-ontrack/ontrack/ontrack/student-data/attend_win.csv"
 #grades_file = csv.reader(open(), dialect='excel', delimiter=',')
 
 
@@ -24,7 +24,7 @@ class Command(BaseCommand):
         #define the data types for each column
         col_types = [str, float, float, str]
 
-        with open(attendanceCSV) as f:
+        with open(sampleattendanceCSV) as f:
             f_csv = csv.reader(f)
             headers = next(f_csv)
             for row in f_csv:
