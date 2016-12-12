@@ -1,4 +1,0 @@
-loadStudentsFile
-loadEmailsFile
-loadGradesFile
-loadAttendFile

@@ -311,9 +311,6 @@ def show_student_calc(request):
 
 
 
-
-
-
 def show_student_grades(request):
 
         student_id = get_user_id(request)

@@ -38,9 +38,7 @@ class Command(BaseCommand):
             user[0].gender=df.iloc[i]['Gender']
             user[0].birthdate=datetime.strptime(df.iloc[i]['Birth Date'], '%b %d, %Y')
 
-            Roster.objects.get_or_create(student_id=df.iloc[i]['ID'].astype(int),
-                                hr_id=df.iloc[i]['HR(A)'],
-                                grade_level=df.iloc[i]['Gr(A)'])
+            
 
 
 
