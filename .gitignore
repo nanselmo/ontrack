@@ -8,4 +8,4 @@ local_settings.py
 ontrack/student_data/**/*
 .ipynb_checkpoints
 student-data
-dev-db.sqlite3
+*.sqlite3
