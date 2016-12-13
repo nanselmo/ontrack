@@ -1,5 +1,5 @@
+from django.core.management import BaseCommand
 from student.models import  Email, Attendance, TestScore, Student, Grade
-from allauth.socialaccount.models import SocialAccount
 from django.db import connection
 import math
 import pandas
