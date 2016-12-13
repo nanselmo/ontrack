@@ -3,7 +3,7 @@ from student.models import Grade, Student, Attendance, Email, Subject
 from allauth.socialaccount.models import SocialAccount
 from django.db import connection
 from ontrack import get_user_id, getOnTrack, getPoints, gpa_subjects_list, get_gpa, get_attend_pct, get_test_score, take_out_subjects_list
-from grade_audit import *
+#from grade_audit import *
 import pandas
 import math
 from django.http import HttpResponseRedirect
