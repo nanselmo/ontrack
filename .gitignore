@@ -9,3 +9,4 @@ ontrack/student_data/**/*
 .ipynb_checkpoints
 student-data
 *.sqlite3
+dev-db.sqlite3
