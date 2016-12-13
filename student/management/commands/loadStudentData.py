@@ -146,9 +146,10 @@ def loadFile(file):
 class Command(BaseCommand):
     # Show this when the user types help
     help = "Populates the database will all files in Student Data directory"
-    data_dir="ontrack/student-data/"
+
     # A command must define handle()
     def handle(self, *args, **options):
+        data_dir="ontrack/student-data/"
         data_files = [join(data_dir, f) for f in listdir(data_dir) if isfile(join(data_dir, f))]
         data_files
 
