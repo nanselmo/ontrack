@@ -27,7 +27,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ['DEBUG1']
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ontrack.pythonanywhere.com', 'localhost']
 
 
 # Application definition
@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'ontrack.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'dev-db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, os.environ['DATABASE_URL']),
     }
 }
 
@@ -151,6 +151,7 @@ STATICFILES_FINDERS = (
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 MEDIA_URL = '/media/'
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -197,3 +198,12 @@ SOCIALACCOUNT_AUTO_SIGNUP= True
 
 #development - localhost:8000
 SITE_ID=2
+
+#deployment
+#SECURE_CONTENT_TYPE_NOSNIFF = True
+#SECURE_BROWSER_XSS_FILTER = True
+#SECURE_SSL_REDIRECT = os.environ['SSL_REDIRECT']
+#SESSION_COOKIE_SECURE = True
+#CSRF_COOKIE_SECURE = True
+#CSRF_COOKIE_HTTPONLY = True
+#X_FRAME_OPTIONS = "DENY"
