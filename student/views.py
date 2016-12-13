@@ -110,8 +110,8 @@ def show_home(request):
 
         else:
             social_email= "none"
-        math = Subject.objects.get(subject_id=12)
-        return render(request, "student/home.html", {'social_email': social_email,  "math" : math})
+
+        return render(request, "student/home.html", {'social_email': social_email})
 
     except SocialAccount.DoesNotExist:
         return render(request, 'student/no-match-found.html')
