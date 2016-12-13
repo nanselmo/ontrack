@@ -9,7 +9,7 @@ from os.path import isfile, join
 
 
 #loads all student files that are in the student-directory
-def loadStudents(file):
+def loadStudents(simXLS):
     df = pandas.read_excel(open(simXLS,'rb'), header=5, skip_footer=2)
     df = df.dropna(axis=['index', 'columns'], how='all')
 
@@ -22,8 +22,8 @@ def loadStudents(file):
         user[0].gender=df.iloc[i]['Gender']
         user[0].birthdate=datetime.strptime(df.iloc[i]['Birth Date'], '%b %d, %Y')
 
-def loadGrades(file):
-    grades_df = pandas.read_csv(open(file,'rb'))
+def loadGrades(grades_file):
+    grades_df = pandas.read_csv(open(grades_file,'rb'))
     grades_df=grades_df[grades_df['SubjectName']!='GEOMETRY']
 
     #get file date
@@ -149,7 +149,8 @@ class Command(BaseCommand):
 
     # A command must define handle()
     def handle(self, *args, **options):
-        data_dir="ontrack/student-data/"
+        data_dir="/home/ontrack/ontrack/student-data"
+        #data_dir="ontrack/student-data/"
         data_files = [join(data_dir, f) for f in listdir(data_dir) if isfile(join(data_dir, f))]
         data_files
 
@@ -160,7 +161,9 @@ class Command(BaseCommand):
         #load most recent sim file
         recent_sim=sim_files[-1]
         loadFile(recent_sim)
+        print (recent_sim +" has been loaded")
 
         #load other files
         for each_file in non_sim_files:
             loadFile(each_file)
+            print (each_file +" has been loaded")

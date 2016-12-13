@@ -194,10 +194,11 @@ ACCOUNT_UNIQUE_EMAIL = True
 SOCIALACCOUNT_AUTO_SIGNUP= True
 
 #production - pythonanywhere.com
-#SITE_ID=1
+SITE_ID=3
 
 #development - localhost:8000
-SITE_ID=2
+#SITE_ID=2
+
 
 #deployment
 #SECURE_CONTENT_TYPE_NOSNIFF = True
