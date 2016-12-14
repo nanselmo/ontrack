@@ -2,7 +2,7 @@
 venv
 .env
 
-#python files
+#python notebook files
 __pycache__
 *.pyc
 
