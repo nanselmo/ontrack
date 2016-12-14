@@ -40,14 +40,15 @@ class Command(BaseCommand):
             except ValueError:
                tier4 = None
 
+           highschool = HighSchool.objects.get_or_create(short_name=df.iloc[i]['DisplayName'])
 
-            HighSchool.objects.get_or_create(short_name=df.iloc[i]['DisplayName'],
-                            full_name=df.iloc[i]['FullName'],
-                            website=df.iloc[i]['WebsiteURL'],
-                            school_type=df.iloc[i]['Type'],
-                            tier1_points=tier1,
-                            tier2_points=tier2,
-                            tier3_points=tier3,
-                            tier4_points=tier4)
+                            highschool[0].full_name=df.iloc[i]['FullName']
+                            highschool[0].website=df.iloc[i]['WebsiteURL']
+                            highschool[0].school_type=df.iloc[i]['Type']
+                            highschool[0].tier1_points=tier1
+                            highschool[0].tier2_points=tier2
+                            highschool[0].tier3_points=tier3
+                            highschool[0].tier4_points=tier4
+            highschool[0].save()                    
 
         self.stdout.write("Done Loading HS Info")
