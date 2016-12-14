@@ -14,15 +14,16 @@
     </a>
   </div>
 
-<h3>SES Schools</h3>
+
+<div class="col-md-4">
+  <h3>SES Schools</h3>
     {% for key, value in hs_dict.items %}
       {% if value.school_type == "SES" %}
       <div class="row high-school-list">
-        <div class="col-md-3">
-          <img class="hs-logo" src="{{STATIC_URL}}student/images/hs-logos/{{value.short_name}}-default-logo.png " alt="hs-logo"/ />
-        </div>
-        <div class="col-md-5">
-          {{value.full_name}}
+        <div class="col-md-8">
+          <a href={{value.website}}>
+            <img class="hs-logo" src="{{STATIC_URL}}student/images/hs-logos/{{value.short_name}}-default-logo.png " alt="hs-logo"/ />
+          </a>
         </div>
         <div class="col-md-4">
           {{value.RemainingPts}}
@@ -32,17 +33,15 @@
     {% endfor%}
 </div>
 
-<br />
-<br />
+<div class="col-md-4">
 <h3>IB Schools</h3>
 {% for key, value in hs_dict.items %}
   {% if value.school_type == "IB" %}
   <div class="row high-school-list" height=400px>
-    <div class="col-md-3">
+    <div class="col-md-8">
+      <a href={{value.website}}>
       <img class="hs-logo" src="{{STATIC_URL}}student/images/hs-logos/{{value.short_name}}-default-logo.png " alt="hs-logo"/ />
-    </div>
-    <div class="col-md-5">
-      {{value.full_name}}
+    </a>
     </div>
     <div class="col-md-4">
       {{value.RemainingPts}}
@@ -50,6 +49,6 @@
   </div>
   {% endif %}
 {% endfor%}
-
+</div>
 
 {% endblock %}
