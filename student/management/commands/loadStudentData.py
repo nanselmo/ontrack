@@ -21,6 +21,7 @@ def loadStudents(simXLS):
         user[0].last_name=df.iloc[i]['Student Name (LFM)'].replace(" , ", ", ").split()[0].rstrip(',')
         user[0].gender=df.iloc[i]['Gender']
         user[0].birthdate=datetime.strptime(df.iloc[i]['Birth Date'], '%b %d, %Y')
+        user[0].save()
 
 def loadGrades(grades_file):
     grades_df = pandas.read_csv(open(grades_file,'rb'))

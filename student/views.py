@@ -139,7 +139,7 @@ def show_hs_options(request, ):
     student=Student.objects.get(student_id= "%s"%(student_id))
 
     #hardcode tier for now
-    tier=3
+    tier=2
 
     student=Student.objects.get(student_id= "%s"%(student_id))
     current_grades=get_gpa(student_id)['current_dict']
