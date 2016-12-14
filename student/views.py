@@ -36,73 +36,7 @@ from django.db import connection
 #     template_vars=summarize_data("admin")
 #     return render(request, "student/ind-teacher-report.html", template_vars)
 
-def google_chart(request):
 
-    #use pandas to turn sql into dataframe and then a matrix (list of lists)
-    attend_sql="Select attend_date, absent_days \
-    FROM student_attendance WHERE student_id=1"
-    df_attend = pandas.read_sql(attend_sql, con=connection)
-    attend_data_matrix=df_attend.as_matrix() #<--maybe just use values.tolist() here?
-
-    #make Google Viz' DataTable schema to describe the columns
-    description = [("attend_date", "date", "Date" ),
-               ("absent_days", "number", "Absences")]
-
-    # Load the schema and data
-    attend_data_table = gviz_api.DataTable(description)
-    attend_data_table.LoadData(attend_data_matrix)
-
-    #turn into json to pass to the template
-    attend_json = attend_data_table.ToJSon()
-
-    return render(request, "google_chart.html", {'attend_json_data': attend_json})
-
-
-def google_table(request):
-
-    attend_sql="Select attend_date, absent_days, total_days \
-    FROM student_attendance WHERE student_id=1"
-    df_attend = pandas.read_sql(attend_sql, con=connection)
-    attend_dict=df_attend.to_dict(orient="records")
-    description = {"absent_days": ("number", "Absences"),
-                 "attend_date": ("date", "Date"),
-                 "total_days": ("number", "Total Days")}
-
-
-    # Loading it into gviz_api.DataTable
-    data_table = gviz_api.DataTable(description)
-    data_table.LoadData(attend_dict)
-
-
-    # Create a JavaScript code string.
-    jscode = data_table.ToJSCode("jscode_data",
-                               columns_order=("attend_date", "absent_days", "total_days"),
-                               order_by="attend_date")
-    # Create a JSON string.
-    json = data_table.ToJSon(columns_order=("attend_date", "absent_days", "total_days"),
-    order_by="attend_date")
-    return render(request, "google_chart.html", {'json': json, 'jscode':jscode})
-
-
-def simple_chart(request):
-    #SQL to dictionary
-    grades_sql = "SELECT grade, grade_date, subject_id  FROM student_grade  \
-           WHERE student_id = '%s' AND subject_id = '%s'" %('50155809', '4')
-    df_grades = pandas.read_sql(grades_sql, con=connection)
-    grades_dict = OrderedDict({'grade_date': df_grades.grade_date})
-    grades_dict['grade'] = df_grades.grade
-
-    #create Bokeh plot
-    source = ColumnDataSource(data=grades_dict)
-    TOOLS = ['hover', 'pan', 'tap']
-    plot = figure(x_axis_type='datetime', plot_height=250, tools=TOOLS)
-    plot.line('grade_date', 'grade', line_width=5, source=source)
-
-    #turn Bokeh plot into javascript and html div
-    script, div = components(plot, CDN)
-
-
-    return render(request, "simple_chart.html", {"the_script": script, "the_div": div})
 def show_home(request):
     try:
         if request.user.is_authenticated:

@@ -1,12 +1,23 @@
+#virtual environments
 venv
-*.pyc
 .env
-*.ipynb
-*secret_key.txt
+
+#python files
 __pycache__
-local_settings.py
-ontrack/student_data/**/*
+*.pyc
+
+# python notebooks
+*.ipynb
 .ipynb_checkpoints
-student-data
+
+
+#student data
 *.sqlite3
 dev-db.sqlite3
+ontrack/student_data/**/*
+student-data
+
+#os files
+*/.DS_Store
+.DS_Store
+.DS_Store?
