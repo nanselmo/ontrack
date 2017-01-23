@@ -4,6 +4,7 @@ from allauth.socialaccount.models import SocialAccount
 from django.db import connection
 from ontrack import get_user_id, getOnTrack, getPoints, gpa_subjects_list, get_gpa, get_attend_pct, get_test_score, take_out_subjects_list
 from grade_audit import summarize_data
+from classdata import hr_data
 import pandas
 import math
 from django.http import HttpResponseRedirect
@@ -63,43 +64,7 @@ def show_dashboard(request):
 def show_hr(request):
 
     hr = "B314"
-    hr_grades_sql = "SELECT grade, MAX(grade_date) as recent_grade_date, subject, \
-    student_roster.student_id from student_roster, student_grade \
-    WHERE hr_id='%s' AND  \
-    student_grade.student_id=student_roster.student_id  \
-    GROUP BY student_roster.student_id, student_grade.subject_id"%(hr)
-
-    hr_grades_df = pandas.read_sql(hr_grades_sql, con=connection)
-    hr_grades_wide=hr_grades_df.pivot(index='student_id', columns='subject', values='grade')
-    hr_grades_indexed = hr_grades_wide.reset_index()
-
-    #calc GPA
-    df_current_core_grades = hr_grades_df[hr_grades_df["subject"].isin(gpa_subjects_list)]
-    df_core_grades_indexed=df_current_core_grades.pivot(index='student_id', columns='subject', values='grade')
-    df_points=df_core_grades_indexed.applymap(getPoints)
-    df_points['gpa']=df_points.mean(axis=1)
-    df_points=df_points.reset_index()
-    gpa_df=df_points[['student_id', 'gpa']]
-
-    #get attendance
-    hr_attend_sql = "SELECT  ((total_days-absent_days)/total_days) *100 as attend_pct, \
-    MAX(attend_date) as recent_attend_date, student_roster.student_id \
-    from student_roster, student_attendance \
-    WHERE hr_id='%s' AND student_attendance.student_id = student_roster.student_id \
-    GROUP BY student_roster.student_id"%(hr)
-
-    hr_attend_df = pandas.read_sql(hr_attend_sql, con=connection)
-    hr_attend_df = hr_attend_df[["student_id", "attend_pct"]]
-
-    #merge them all together (but maybe refactor to just send as separate dictionaries?)
-    hr_data=hr_attend_df.merge(hr_grades_indexed, on="student_id")
-    hr_data=hr_data.merge(gpa_df, on="student_id")
-
-    #calc ontrack
-    hr_data["onTrack"] = hr_data.apply(lambda hr_data: getOnTrack(hr_data["attend_pct"], hr_data["gpa"]), axis=1)
-
-    #get dictionary
-    hr_dict=hr_data.to_dict('index')
+    hr_dict=hr_data(hr)
 
     template_vars={'hr_dict': hr_dict}
     return render(request, "student/homeroom.html", template_vars)
