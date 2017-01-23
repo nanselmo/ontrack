@@ -128,6 +128,9 @@ class HighSchool(models.Model):
     address = map_fields.AddressField(max_length=200, null=True, blank=True)
     geolocation = map_fields.GeoLocationField(max_length=100, null=True, blank=True)
 
+class DataFile(models.Model):
+    document = models.FileField(upload_to='documents/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return "{0}: Website:{1} Type: {2} Points:{3} ".format(self.short_name, self.website, self.school_type, self.tier1_points)

@@ -25,8 +25,7 @@ PROJECT_DIR=os.path.dirname(__file__)
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = os.environ['DEBUG1']
-DEBUG = False
+DEBUG = os.environ['DEBUG1']
 
 ALLOWED_HOSTS = ['ontrack.pythonanywhere.com', 'localhost']
 

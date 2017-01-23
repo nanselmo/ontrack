@@ -3,11 +3,11 @@ from student.models import Grade, Student, Attendance, Email, Subject
 from allauth.socialaccount.models import SocialAccount
 from django.db import connection
 from ontrack import get_user_id, getOnTrack, getPoints, gpa_subjects_list, get_gpa, get_attend_pct, get_test_score, take_out_subjects_list
-#from grade_audit import *
+from grade_audit import summarize_data
 import pandas
 import math
 from django.http import HttpResponseRedirect
-from forms import UploadFileForm
+#from forms import DataFileForm
 
 #for plotting
 import gviz_api
@@ -16,25 +16,27 @@ from django.db import connection
 
 #debug
 #import pdb;
-
-# def upload_grade_files(request):
-#     if request.method == 'POST':
-#         form = UploadFileForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             uploaded_file = request.FILES['html-file-attribute-name']
-#             # Write the file to disk
-#             fout = open("on-track/student-data/%s" % uploaded_file.name, 'wb')
-#             for chunk in uploaded_file.chunks():
-#                 fout.write(chunk)
-#             fout.close()
-#             return HttpResponseRedirect('/grade_report/')
-#     else:
-#         form = UploadFileForm()
-#     return render(request, 'student/uploadGradeFiles.html', {'form': form})
 #
-# def grade_report(request):
-#     template_vars=summarize_data("admin")
-#     return render(request, "student/ind-teacher-report.html", template_vars)
+def upload_grade_files(request):
+    #     if request.method == 'POST':
+    #         #DataFileForm is a class defined in forms.py
+    #         upload_form = DataFileForm(request.POST, request.FILES)
+    #         if upload_form.is_valid():
+    #             upload_form.save()
+    #             #return redirect('home')
+    #     else:
+    #         upload_form = DataFileForm()
+     upload_form="test"
+     return render(request, 'student/uploadGradeFiles.html', {
+         'upload_form': upload_form
+     })
+
+
+
+
+def grade_report(request):
+    template_vars=summarize_data("admin")
+    return render(request, "student/ind-teacher-report.html", template_vars)
 
 
 def show_home(request):

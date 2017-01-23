@@ -1,8 +1,7 @@
 from django import forms
+#(in models.py)
+from student.models import DataFile
 
-class UploadFileForm(forms.Form):
-    title = forms.CharField(max_length=50)
-    file = forms.FileField()
-
-class FileFieldForm(forms.Form):
-    file_field = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+# class DataFileForm(forms.ModelForm):
+#     class Meta:
+#         model = DataFile

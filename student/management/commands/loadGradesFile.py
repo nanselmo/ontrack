@@ -8,7 +8,7 @@ from datetime import datetime
 
 
 
-grades_file='ontrack/student-data/Grades-12-12-16.csv'
+grades_file='ontrack/student-data/Grades-01-18-17.csv'
 
 #The class must be named Command, and subclass BaseCommand
 class Command(BaseCommand):

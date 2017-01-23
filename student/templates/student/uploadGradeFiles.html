@@ -2,17 +2,20 @@
 {% load static %}
 
 {% block content %}
-  <div id="page-container">
-
-  <form action="" method="post" enctype="multipart/form-data">
+<div class="file-upload-container">
+  <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <input type = "file" style = "margin-left:20%;"
-                  placeholder = "Missing Assignments" name = "missing" />
-
-
-                  <button type = "submit" value = "Upload" >
-                                <strong>Upload</strong>
-                             </button>
+    <p style="text-align: left">
+      Missing Assignments
+    </p>
+    {{ upload_form}}
+    <br />
+    <p style="text-align: left">
+      Teacher Categories
+    </p>
+    {{ upload_form }}
+    <button type="submit">Upload</button>
   </form>
-  </div>
+</div>
+
 {% endblock %}
