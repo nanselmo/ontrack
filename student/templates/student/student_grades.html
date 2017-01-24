@@ -59,7 +59,7 @@
 <div id="page-container">
 
   <div class="row student-name">
-    <a href={% url 'show_student' %}>
+    <a href={% url 'show_student' student_id=student_id %}>
         <h2>
           {{current_student.first_name}} {{current_student.last_name}}
         </h2>
@@ -86,7 +86,7 @@
       {% endfor %}<!--end grade divs-->
     </div><!--end first row-->
 
-  
+
 
 
     <div class="google-chart" id='grades_chart_div' style='width: 900px; height: 500px;'></div>

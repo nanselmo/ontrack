@@ -18,6 +18,10 @@ from django.db import connection
 #debug
 #import pdb;
 #
+
+admin_email_list=['nanselmo1@cps.edu', 'badassinger@cps.edu',
+'jarosen2@cps.edu', 'mmwilkinson@cps.edu ', 'ejdavis@cps.edu']
+
 def upload_grade_files(request):
     #     if request.method == 'POST':
     #         #DataFileForm is a class defined in forms.py
@@ -63,15 +67,25 @@ def show_dashboard(request):
 
 def show_hr(request):
 
-    hr = "B314"
-    hr_dict=hr_data(hr)
+    social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
+    if social_email in admin_email_list:
+        hr = "B314"
+        hr_dict=hr_data(hr)
+    else:
+        hr_dict={}
 
     template_vars={'hr_dict': hr_dict}
     return render(request, "student/homeroom.html", template_vars)
 
-def show_student(request, student_id="1"):
+def show_student(request, student_id=1):
+        social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
+        if social_email in admin_email_list:
+            this_student_id=student_id
+        else:
+            this_student_id = get_user_id(request, student_id)
 
-        this_student_id = get_user_id(request, student_id)
+
+
         student=Student.objects.get(student_id= "%s"%(this_student_id))
 
 
@@ -97,12 +111,18 @@ def show_student(request, student_id="1"):
                          'current_student' : student ,
                          'gpa_json_data' : gpa_json,
                          'attendance_pct' : attend_as_string,
-                         'ontrack' : onTrack}
+                         'ontrack' : onTrack,
+                         'student_id': student_id}
         return render(request, 'student/student.html',template_vars )
 
 
-def show_hs_options(request, ):
-    student_id = get_user_id(request)
+def show_hs_options(request, student_id=1 ):
+    social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
+    if social_email in admin_email_list:
+        student_id=student_id
+    else:
+        student_id = get_user_id(request, student_id)
+
     student=Student.objects.get(student_id= "%s"%(student_id))
 
     #hardcode tier for now
@@ -189,14 +209,23 @@ def show_hs_options(request, ):
 
 
 
-    template_vars={'current_student': student, 'hs_dict':student_hs_dict, 'ses_points': points["ses_totl"], 'ib_points': points["ib_totl"]}
+    template_vars={'current_student': student,
+        'hs_dict':student_hs_dict,
+        'ses_points': points["ses_totl"],
+        'ib_points': points["ib_totl"],
+        'student_id':student_id}
     return render(request, "student/student_hs.html", template_vars)
 
 
 
 
-def show_student_ontrack(request):
-        student_id = get_user_id(request)
+def show_student_ontrack(request, student_id=1):
+        social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
+        if social_email in admin_email_list:
+            student_id=student_id
+        else:
+            student_id = get_user_id(request, student_id)
+
         student=Student.objects.get(student_id= "%s"%(student_id))
         template_vars={'current_student': student}
         return render(request, "student/student_ontrack.html", template_vars)
@@ -204,17 +233,32 @@ def show_student_ontrack(request):
 
 
 
-def show_student_calc(request):
-        student_id = get_user_id(request)
+def show_student_calc(request, student_id=1):
+        social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
+        if social_email in admin_email_list:
+            student_id=student_id
+        else:
+            student_id = get_user_id(request, student_id)
+
+
         student=Student.objects.get(student_id= "%s"%(student_id))
-        template_vars={'current_student': student}
+        template_vars={'current_student': student,
+        'student_id':student_id}
         return render(request, "student/student_calc.html", template_vars)
 
 
 
-def show_student_grades(request):
+def show_student_grades(request, student_id=1):
 
-        student_id = get_user_id(request)
+        social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
+        if social_email in admin_email_list:
+            student_id=student_id
+        else:
+            student_id = get_user_id(request, student_id)
+
+
+
+
         student=Student.objects.get(student_id= "%s"%(student_id))
         #image
         current_grades_sql= "SELECT grade, MAX(grade_date) as most_recent_grade_date, subject, display_name, image \
@@ -288,15 +332,22 @@ def show_student_grades(request):
                          'current_student' : student ,
                          'all_grades_json' : historical_grades_json,
                          'gpa_json_data' : gpa_json,
-                         'fake_cum_grade' : "99"}
+                         'fake_cum_grade' : "99",
+                         'student_id': student_id}
         return render(request, 'student/student_grades.html',template_vars )
 
 
 
 
-def show_student_attendance(request):
+def show_student_attendance(request, student_id=1):
 
-        student_id = get_user_id(request)
+        social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
+        if social_email in admin_email_list:
+            student_id=student_id
+        else:
+            student_id = get_user_id(request, student_id)
+
+
         student=Student.objects.get(student_id= "%s"%(student_id))
         attend_data=Attendance.objects.filter(student_id="%s"%(student_id)).order_by('-attend_date')[0]
         attend_pct=round(attend_data.calc_pct())
@@ -319,6 +370,7 @@ def show_student_attendance(request):
         template_vars={ 'current_student': student,
                         'current_attend_pct': attend_pct,
                         'attend_json_data': attend_json,
-                        'attend_data': attend_data}
+                        'attend_data': attend_data,
+                        'student_id':student_id}
 
         return render(request, "student/student_attendance.html", template_vars)

@@ -14,12 +14,11 @@ take_out_subjects_list=['Speaking', 'Listening']
 #gpa_subjects_list=['CHGO READING FRMWK','MATHEMATICS STD','SCIENCE  STANDARDS','SOCIAL SCIENCE STD']
 
 #functions
-def get_user_id(da_request, admin_student_id="1"):
+def get_user_id(the_request, admin_student_id="1"):
+    social_email = SocialAccount.objects.get(user=the_request.user).extra_data['email']
     try:
-        social_email=SocialAccount.objects.get(user=da_request.user).extra_data['email']
         lookup_user_id=Email.objects.get(email=social_email).student_id
     except:
-        #add if statement to see if user is teacher/admin before returning the student data
             lookup_user_id = admin_student_id
     return lookup_user_id
 
