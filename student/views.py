@@ -82,7 +82,7 @@ def show_student(request, student_id=1):
         if social_email in admin_email_list:
             this_student_id=student_id
         else:
-            this_student_id = get_user_id(request, student_id)
+            this_student_id = get_user_id(request)
 
 
 
@@ -121,7 +121,7 @@ def show_hs_options(request, student_id=1 ):
     if social_email in admin_email_list:
         student_id=student_id
     else:
-        student_id = get_user_id(request, student_id)
+        student_id = get_user_id(request)
 
     student=Student.objects.get(student_id= "%s"%(student_id))
 
@@ -224,7 +224,7 @@ def show_student_ontrack(request, student_id=1):
         if social_email in admin_email_list:
             student_id=student_id
         else:
-            student_id = get_user_id(request, student_id)
+            student_id = get_user_id(request)
 
         student=Student.objects.get(student_id= "%s"%(student_id))
         template_vars={'current_student': student}
@@ -238,7 +238,7 @@ def show_student_calc(request, student_id=1):
         if social_email in admin_email_list:
             student_id=student_id
         else:
-            student_id = get_user_id(request, student_id)
+            student_id = get_user_id(request)
 
 
         student=Student.objects.get(student_id= "%s"%(student_id))
@@ -254,7 +254,7 @@ def show_student_grades(request, student_id=1):
         if social_email in admin_email_list:
             student_id=student_id
         else:
-            student_id = get_user_id(request, student_id)
+            student_id = get_user_id(request)
 
 
 
@@ -345,7 +345,7 @@ def show_student_attendance(request, student_id=1):
         if social_email in admin_email_list:
             student_id=student_id
         else:
-            student_id = get_user_id(request, student_id)
+            student_id = get_user_id(request)
 
 
         student=Student.objects.get(student_id= "%s"%(student_id))

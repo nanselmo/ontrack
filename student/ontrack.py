@@ -14,12 +14,12 @@ take_out_subjects_list=['Speaking', 'Listening']
 #gpa_subjects_list=['CHGO READING FRMWK','MATHEMATICS STD','SCIENCE  STANDARDS','SOCIAL SCIENCE STD']
 
 #functions
-def get_user_id(the_request, admin_student_id="1"):
+def get_user_id(the_request):
     social_email = SocialAccount.objects.get(user=the_request.user).extra_data['email']
     try:
         lookup_user_id=Email.objects.get(email=social_email).student_id
     except:
-            lookup_user_id = admin_student_id
+            lookup_user_id = 1
     return lookup_user_id
 
 def getOnTrack(att, gpa):
