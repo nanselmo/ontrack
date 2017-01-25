@@ -86,6 +86,21 @@ class Grade(models.Model):
     def __str__(self):
         return "{0}: {1}".format(self.subject, self.grade_date)
 
+class Assignment(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    subject = models.CharField(max_length=60)
+    assign_name = models.CharField(max_length=300)
+    assign_score = models.IntegerField()
+    assign_score_possible = models.IntegerField()
+    category_name = models.CharField(max_length=300)
+    assignment_due = models.DateField()
+    grade_entered = models.DateField()
+    created = models.DateField(auto_now_add=True)
+
+
+    def __str__(self):
+        return "{0}: {1} - {2}/{3}".format(self.student, self.assign_name, self.assign_score, self.assign_score_possible)
+
 class Attendance(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     total_days = models.DecimalField(max_digits=4, decimal_places=1)

@@ -4,7 +4,7 @@
 {% block content %}
   <div id="page-container">
 
-  <h1>{{title}} Students</h1>
+  <h1>{{title}} </h1>
     {% for student, data in hr_dict.items %}
   <a href={% url 'show_student' student_id=data.student_id %}>
         <div class="row">

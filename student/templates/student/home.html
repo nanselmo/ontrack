@@ -7,9 +7,17 @@
         {% if user.is_authenticated %}
             <h1>WELCOME {{user.first_name}}</h1>
             <h2>User Email: {{social_email}}</h2>
+            {% if hr_list == "none" %}
             <a href={% url 'show_student'  %}>
               <h2>My Dashboard</h2>
             </a>
+            {% else %}
+              {% for hr in hr_list %}
+                <a href={% url 'show_hr' selected_hr=hr  %}>
+                  <h2>{{hr}}</h2>
+                </a>
+              {% endfor %}
+            {% endif %}
         {% else %}
               <h1>PLEASE SIGN IN</h1>
         {% endif %}

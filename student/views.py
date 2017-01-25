@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from student.models import Grade, Student, Attendance, Email, Subject
+from student.models import Grade, Student, Attendance, Email, Subject, Roster
 from allauth.socialaccount.models import SocialAccount
 from django.db import connection
 from ontrack import get_user_id, getOnTrack, getPoints, gpa_subjects_list, get_gpa, get_attend_pct, get_test_score, take_out_subjects_list
@@ -21,6 +21,14 @@ from django.db import connection
 
 admin_email_list=['nanselmo1@cps.edu', 'badassinger@cps.edu',
 'jarosen2@cps.edu', 'mmwilkinson@cps.edu ', 'ejdavis@cps.edu']
+
+teacher_email_list=['nickianselmo@gmail.com']
+
+hr_list = [hr.encode("utf8") for hr in Roster.objects.values_list('hr_id', flat=True).distinct()]
+all_hr_list = ["All"] + hr_list
+
+
+seventh_hr_list=['B313', 'B318', 'B316']
 
 def upload_grade_files(request):
     #     if request.method == 'POST':
@@ -48,11 +56,18 @@ def show_home(request):
     try:
         if request.user.is_authenticated:
             social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
+            if social_email in admin_email_list:
+                hr_list=all_hr_list
+            elif social_email in teacher_email_list:
+                hr_list=seventh_hr_list
+            else:
+                hr_list="none"
 
         else:
             social_email= "none"
+            hr_list="none"
 
-        return render(request, "student/home.html", {'social_email': social_email})
+        return render(request, "student/home.html", {'social_email': social_email, 'hr_list': hr_list})
 
     except SocialAccount.DoesNotExist:
         return render(request, 'student/no-match-found.html')
@@ -73,9 +88,12 @@ def show_hr(request, selected_hr="B314"):
         return render(request, "student/home.html", {'social_email': social_email})
 
 
-    if social_email in admin_email_list:
+    if social_email in admin_email_list and selected_hr=="All":
         hr_dict=hr_data(selected_hr, True)
-        title="All"
+        title="All Students"
+    elif social_email in teacher_email_list or social_email in admin_email_list:
+        hr_dict=hr_data(selected_hr, False)
+        title=selected_hr + ' Students'
     else:
         hr_dict={}
         title="Not Authorized"

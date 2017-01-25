@@ -7,7 +7,7 @@ urlpatterns = [
     url(r'^$', views.show_home, name='show_home'),
     #for django-allauth
     url(r'^accounts/', include('allauth.urls')),
-    url(r'^homeroom', views.show_hr, name='show_hr'),
+    url(r'^homeroom/(?P<selected_hr>[a-zA-Z0-9]+)$', views.show_hr, name='show_hr'),
     url(r'^student/dashboard/', views.show_dashboard, name='show_dashboard'),
     url(r'^upload_grade_files/$', views.upload_grade_files),
     url(r'^grade_report/$', views.grade_report),
