@@ -2,17 +2,27 @@ import pandas
 from django.db import connection
 from student.ontrack import gpa_subjects_list, getPoints, getOnTrack
 
-def hr_data(hr):
-    hr_grades_sql = "SELECT grade, MAX(grade_date) as recent_grade_date, display_name, \
-    student_roster.student_id FROM student_roster, student_grade, student_subject \
-    WHERE hr_id='%s' AND  \
-    student_grade.student_id=student_roster.student_id AND  \
-    student_subject.subject_name=student_grade.subject \
-    GROUP BY student_roster.student_id, student_grade.subject"%(hr)
+def hr_data(hr, admin=False):
+    if admin==True:
+        hr_grades_sql= "SELECT grade,  MAX(grade_date) as recent_grade_date, display_name, \
+        student_grade.student_id FROM  student_grade, student_subject \
+        WHERE student_subject.subject_name=student_grade.subject \
+        GROUP BY  student_grade.subject, student_id"
+    else:
+        hr_grades_sql = "SELECT grade, MAX(grade_date) as recent_grade_date, display_name, \
+        student_roster.student_id FROM student_roster, student_grade, student_subject \
+        WHERE hr_id='%s' AND  \
+        student_grade.student_id=student_roster.student_id AND  \
+        student_subject.subject_name=student_grade.subject \
+        GROUP BY student_roster.student_id, student_grade.subject"%(hr)
 
     hr_grades_df = pandas.read_sql(hr_grades_sql, con=connection)
 
-    hr_grades_wide=hr_grades_df.pivot(index='student_id', columns='display_name', values='grade')
+    #remove duplicates
+    #i need to add code to catch this earlier during grade updating, but for now, remove here
+    hr_grades_df.drop_duplicates()
+
+    hr_grades_wide=hr_grades_df.pivot_table(index='student_id', columns='display_name', values='grade')
     hr_grades_indexed = hr_grades_wide.reset_index()
 
     #calc GPA
@@ -26,21 +36,37 @@ def hr_data(hr):
 
     #get attendance
     #multiply days by 1.0 to coerce into float
-    hr_attend_sql = "SELECT  total_days, absent_days, \
-    ((total_days-absent_days)/ (total_days*1.0))*100  as attend_pct, \
-    MAX(attend_date) as recent_attend_date, student_roster.student_id \
-    from student_roster, student_attendance \
-    WHERE hr_id='%s' AND student_attendance.student_id = student_roster.student_id \
-    GROUP BY student_roster.student_id"%(hr)
+
+    if admin==True:
+        hr_attend_sql = "SELECT  total_days, absent_days, \
+        ((total_days-absent_days)/ (total_days*1.0))*100  as attend_pct, \
+        MAX(attend_date) as recent_attend_date, student_roster.student_id \
+        from student_roster, student_attendance \
+        WHERE  student_attendance.student_id = student_roster.student_id \
+        GROUP BY student_roster.student_id"
+
+    else:
+        hr_attend_sql = "SELECT  total_days, absent_days, \
+        ((total_days-absent_days)/ (total_days*1.0))*100  as attend_pct, \
+        MAX(attend_date) as recent_attend_date, student_roster.student_id \
+        from student_roster, student_attendance \
+        WHERE hr_id='%s' AND student_attendance.student_id = student_roster.student_id \
+        GROUP BY student_roster.student_id"%(hr)
 
 
     hr_attend_df = pandas.read_sql(hr_attend_sql, con=connection)
     hr_attend_df = hr_attend_df[["student_id", "attend_pct"]]
 
     #get names
-    hr_name_sql = "SELECT  first_name, last_name, student_roster.student_id \
-    from student_roster, student_student \
-    WHERE hr_id='%s' AND student_student.student_id = student_roster.student_id "%(hr)
+    if admin==True:
+        hr_name_sql = "SELECT  first_name, last_name, student_roster.student_id, hr_id \
+        from student_roster, student_student \
+        WHERE student_student.student_id = student_roster.student_id "
+
+    else:
+        hr_name_sql = "SELECT  first_name, last_name, student_roster.student_id \
+        from student_roster, student_student \
+        WHERE hr_id='%s' AND student_student.student_id = student_roster.student_id "%(hr)
 
     hr_name_df= pandas.read_sql(hr_name_sql, con=connection)
 

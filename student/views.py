@@ -61,16 +61,20 @@ def show_home(request):
 
 def show_dashboard(request):
     lookup_user_id=get_user_id(request)
-
-
     return render(request, "student/dashboard.html", {'user_email': lookup_user_id})
 
-def show_hr(request):
+def show_hr(request, selected_hr="B314"):
 
-    social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
+    if request.user.is_authenticated:
+        social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
+
+    else:
+        social_email= "none"
+        return render(request, "student/home.html", {'social_email': social_email})
+
+
     if social_email in admin_email_list:
-        hr = "B314"
-        hr_dict=hr_data(hr)
+        hr_dict=hr_data(selected_hr, True)
     else:
         hr_dict={}
 
