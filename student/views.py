@@ -75,10 +75,12 @@ def show_hr(request, selected_hr="B314"):
 
     if social_email in admin_email_list:
         hr_dict=hr_data(selected_hr, True)
+        title="All"
     else:
         hr_dict={}
+        title="Not Authorized"
 
-    template_vars={'hr_dict': hr_dict}
+    template_vars={'hr_dict': hr_dict, 'title': title}
     return render(request, "student/homeroom.html", template_vars)
 
 def show_student(request, student_id=1):
