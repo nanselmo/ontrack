@@ -121,6 +121,8 @@ def loadEmail(file):
     for i in range(0,len(df)):
         user= Email.objects.get_or_create(student_id=df.iloc[i]['Student ID'].astype(int))
         user[0].email=df.iloc[i]['mail']
+        user[0].user_type=df.iloc[i]['User Category']
+        user[0].save()
 
 
 

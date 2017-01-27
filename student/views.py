@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from student.models import Grade, Student, Attendance, Email, Subject, Roster
 from allauth.socialaccount.models import SocialAccount
 from django.db import connection
-from ontrack import get_user_id, getOnTrack, getPoints, gpa_subjects_list, get_gpa, get_attend_pct, get_test_score, take_out_subjects_list
+from ontrack import *
 from grade_audit import summarize_data
 from classdata import hr_data
 import pandas
@@ -56,10 +56,11 @@ def show_home(request):
     try:
         if request.user.is_authenticated:
             social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
-            if social_email in admin_email_list:
+            user_type=get_user_type(request)
+            if user_type == "School Admin":
                 hr_list=all_hr_list
-            elif social_email in teacher_email_list:
-                hr_list=seventh_hr_list
+            elif user_type == "Teacher":
+                hr_list=all_hr_list
             else:
                 hr_list="none"
 
@@ -103,7 +104,8 @@ def show_hr(request, selected_hr="B314"):
 
 def show_student(request, student_id=1):
         social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
-        if social_email in admin_email_list:
+        user_type=get_user_type(request)
+        if user_type in ["School Admin", "Teacher"]:
             this_student_id=student_id
         else:
             this_student_id = get_user_id(request)
@@ -142,7 +144,8 @@ def show_student(request, student_id=1):
 
 def show_hs_options(request, student_id=1 ):
     social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
-    if social_email in admin_email_list:
+    user_type=get_user_type(request)
+    if user_type in ["School Admin", "Teacher"]:
         student_id=student_id
     else:
         student_id = get_user_id(request)
@@ -244,8 +247,8 @@ def show_hs_options(request, student_id=1 ):
 
 
 def show_student_ontrack(request, student_id=1):
-        social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
-        if social_email in admin_email_list:
+        user_type=get_user_type(request)
+        if user_type in ["School Admin", "Teacher"]:
             student_id=student_id
         else:
             student_id = get_user_id(request)
@@ -259,7 +262,8 @@ def show_student_ontrack(request, student_id=1):
 
 def show_student_calc(request, student_id=1):
         social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
-        if social_email in admin_email_list:
+        user_type=get_user_type(request)
+        if user_type in ["School Admin", "Teacher"]:
             student_id=student_id
         else:
             student_id = get_user_id(request)
@@ -275,7 +279,8 @@ def show_student_calc(request, student_id=1):
 def show_student_grades(request, student_id=1):
 
         social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
-        if social_email in admin_email_list:
+        user_type=get_user_type(request)
+        if user_type in ["School Admin", "Teacher"]:
             student_id=student_id
         else:
             student_id = get_user_id(request)
@@ -366,7 +371,8 @@ def show_student_grades(request, student_id=1):
 def show_student_attendance(request, student_id=1):
 
         social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
-        if social_email in admin_email_list:
+        user_type=get_user_type(request)
+        if user_type in ["School Admin", "Teacher"]:
             student_id=student_id
         else:
             student_id = get_user_id(request)

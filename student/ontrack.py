@@ -22,6 +22,14 @@ def get_user_id(the_request):
             lookup_user_id = 1
     return lookup_user_id
 
+def get_user_type(the_request):
+    social_email = SocialAccount.objects.get(user=the_request.user).extra_data['email']
+    try:
+        user_type=Email.objects.get(email=social_email).user_type
+    except:
+            user_type = "Student"
+    return user_type
+
 def getOnTrack(att, gpa):
     if gpa>=3:
         if att>=95:

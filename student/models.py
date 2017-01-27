@@ -27,6 +27,7 @@ class Student(models.Model):
 class Email(models.Model):
     student_id = models.CharField(max_length=20, primary_key=True)
     email = models.CharField(max_length=100)
+    user_type = models.CharField(max_length=100, null=True)
 
 
     def __str__(self):
@@ -48,14 +49,14 @@ class Homeroom(models.Model):
     def __str__(self):
         return self.hr_id + " hr_name: " + self.hr_name + " teacher_id: " + self.teacher_id
 
-class Teacher(models.Model):
-    teacher_id = models.CharField(max_length=20, primary_key=True)
-    teacher_email= models.CharField(max_length=100)
-    teacher_first_name = models.CharField(max_length=80)
-    teacher_last_name = models.CharField(max_length=80)
-
-    def __str__(self):
-        return self.hr_id + " hr_name: " + self.hr_name + " teacher_id: " + self.teacher_id
+# class Teacher(models.Model):
+#     teacher_id = models.CharField(max_length=20, primary_key=True)
+#     teacher_email= models.CharField(max_length=100)
+#     teacher_first_name = models.CharField(max_length=80)
+#     teacher_last_name = models.CharField(max_length=80)
+#
+#     def __str__(self):
+#         return self.hr_id + " hr_name: " + self.hr_name + " teacher_id: " + self.teacher_id
 
 class Subject(models.Model):
     subject_id=models.IntegerField(primary_key=True)
