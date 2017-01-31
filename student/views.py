@@ -8,7 +8,7 @@ from classdata import hr_data
 import pandas
 import math
 from django.http import HttpResponseRedirect
-#from forms import DataFileForm
+from forms import DataFileForm
 
 #for plotting
 import gviz_api
@@ -19,10 +19,6 @@ from django.db import connection
 #import pdb;
 #
 
-admin_email_list=['nanselmo1@cps.edu', 'badassinger@cps.edu',
-'jarosen2@cps.edu', 'mmwilkinson@cps.edu ', 'ejdavis@cps.edu']
-
-teacher_email_list=['nickianselmo@gmail.com']
 
 hr_list = [hr.encode("utf8") for hr in Roster.objects.values_list('hr_id', flat=True).distinct()]
 all_hr_list = ["All"] + hr_list
@@ -31,18 +27,15 @@ all_hr_list = ["All"] + hr_list
 seventh_hr_list=['B313', 'B318', 'B316']
 
 def upload_grade_files(request):
-    #     if request.method == 'POST':
-    #         #DataFileForm is a class defined in forms.py
-    #         upload_form = DataFileForm(request.POST, request.FILES)
-    #         if upload_form.is_valid():
-    #             upload_form.save()
-    #             #return redirect('home')
-    #     else:
-    #         upload_form = DataFileForm()
-     upload_form="test"
-     return render(request, 'student/uploadGradeFiles.html', {
-         'upload_form': upload_form
-     })
+         if request.method == 'POST':
+             #DataFileForm is a class defined in forms.py
+             upload_form = DataFileForm(request.POST, request.FILES)
+             if upload_form.is_valid():
+                 upload_form.save()
+                 #return redirect('home')
+         else:
+             upload_form="test"
+         return render(request, 'student/uploadGradeFiles.html', {'upload_form': upload_form})
 
 
 
@@ -83,16 +76,18 @@ def show_hr(request, selected_hr="B314"):
 
     if request.user.is_authenticated:
         social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
+        user_type=get_user_type(request)
+
 
     else:
         social_email= "none"
         return render(request, "student/home.html", {'social_email': social_email})
 
 
-    if social_email in admin_email_list and selected_hr=="All":
+    if user_type in ["School Admin", "Teacher"] and selected_hr=="All":
         hr_dict=hr_data(selected_hr, True)
         title="All Students"
-    elif social_email in teacher_email_list or social_email in admin_email_list:
+    elif user_type in ["School Admin", "Teacher"] :
         hr_dict=hr_data(selected_hr, False)
         title=selected_hr + ' Students'
     else:
