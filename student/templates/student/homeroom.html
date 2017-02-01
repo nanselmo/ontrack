@@ -6,14 +6,23 @@
 
   <h1>{{title}} </h1>
     {% for student, data in hr_dict.items %}
-  <a href={% url 'show_student' student_id=data.student_id %}>
+
         <div class="row">
+          {% if title == "All Students" %}
+          <a href={% url 'show_hr' selected_hr=data.hr_id %}>
+            <div class="col-sm-2">
+              HR:  {{data.hr_id}}
+            </div>
+          </a>
+          {% endif %}
           <div class="col-sm-2">
             OnTrack:  {{data.onTrack}}
           </div>
-          <div class="col-sm-3">
-            Name:  {{ data.first_name }} {{ data.last_name }}
-          </div>
+          <a href={% url 'show_student' student_id=data.student_id %}>
+            <div class="col-sm-3">
+              Name:  {{ data.first_name }} {{ data.last_name }}
+            </div>
+          </a>
           <div class="col-sm-2">
              GPA:   {{ data.gpa }}
 

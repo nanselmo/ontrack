@@ -9,7 +9,7 @@ def hr_data(hr, admin=False):
         WHERE student_subject.subject_name=student_grade.subject \
         GROUP BY  student_grade.subject, student_id"
     else:
-        hr_grades_sql = "SELECT grade, MAX(grade_date) as recent_grade_date, display_name, \
+        hr_grades_sql = "SELECT grade, MAX(grade_date) as recent_grade_date, display_name,  \
         student_roster.student_id FROM student_roster, student_grade, student_subject \
         WHERE hr_id='%s' AND  \
         student_grade.student_id=student_roster.student_id AND  \
@@ -57,14 +57,14 @@ def hr_data(hr, admin=False):
     hr_attend_df = pandas.read_sql(hr_attend_sql, con=connection)
     hr_attend_df = hr_attend_df[["student_id", "attend_pct"]]
 
-    #get names
+    #get names and homeroom
     if admin==True:
         hr_name_sql = "SELECT  first_name, last_name, student_roster.student_id, hr_id \
         from student_roster, student_student \
         WHERE student_student.student_id = student_roster.student_id "
 
     else:
-        hr_name_sql = "SELECT  first_name, last_name, student_roster.student_id \
+        hr_name_sql = "SELECT  first_name, last_name, student_roster.student_id, hr_id \
         from student_roster, student_student \
         WHERE hr_id='%s' AND student_student.student_id = student_roster.student_id "%(hr)
 
