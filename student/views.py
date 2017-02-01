@@ -85,10 +85,10 @@ def show_hr(request, selected_hr="B314"):
 
 
     if user_type in ["School Admin", "Teacher"] and selected_hr=="All":
-        hr_dict=hr_data(selected_hr, True)
+        hr_dict=hr_data(selected_hr, admin=True)
         title="All Students"
     elif user_type in ["School Admin", "Teacher"] :
-        hr_dict=hr_data(selected_hr, False)
+        hr_dict=hr_data(selected_hr, admin=False)
         title=selected_hr + ' Students'
     else:
         hr_dict={}
