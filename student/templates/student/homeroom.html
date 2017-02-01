@@ -1,11 +1,50 @@
 {% extends 'student/base.html' %}
 {% load static %}
 
+{% block extra_head_content  %}
+    {{ block.super }}
+    <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.0.min.js"></script>
+    <link
+    href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.0.min.css"
+    rel="stylesheet" type="text/css">
+    <script type='text/javascript' src='http://www.google.com/jsapi'></script>
+    <script type='text/javascript'>
+      google.load('visualization', '1.1', {'packages':['table']});
+
+
+      google.setOnLoadCallback(drawHRTable)
+
+      function drawHRTable() {
+
+
+
+
+        var data = new google.visualization.DataTable({{hr_json|safe}});
+
+
+        var formatter = new google.visualization.PatternFormat(
+        '<a href="../student/{1}">{0}</a>');
+        // Apply formatter to set the 2nd column to have the ID (6th column from json)
+        formatter.format(data, [2, 6]);
+
+        var table = new google.visualization.Table(document.getElementById('hr_table_div'));
+        var view = new google.visualization.DataView(data);
+        view.setColumns([1,2,3,4,5]); // Create a view with the first column only.
+        table.draw(view, {allowHtml: true, width: '100%', height: '100%'});
+      }
+
+
+
+    </script>
+
+{% endblock %}
+
+
 {% block content %}
   <div id="page-container">
 
   <h1>{{title}} </h1>
-    {% for student, data in hr_dict.items %}
+    <!-- {% for student, data in hr_dict.items %}
 
         <div class="row">
           {% if title == "All Students" %}
@@ -18,6 +57,7 @@
           <div class="col-sm-2">
             OnTrack:  {{data.onTrack}}
           </div>
+
           <a href={% url 'show_student' student_id=data.student_id %}>
             <div class="col-sm-3">
               Name:  {{ data.first_name }} {{ data.last_name }}
@@ -33,7 +73,9 @@
 
         </div>
      </a>
-    {% endfor %}
+    {% endfor %} -->
+    <div id="hr_table_div">
 
+    </div>
   </div>
 {% endblock %}

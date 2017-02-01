@@ -85,16 +85,17 @@ def show_hr(request, selected_hr="B314"):
 
 
     if user_type in ["School Admin", "Teacher"] and selected_hr=="All":
-        hr_dict=hr_data(selected_hr, admin=True)
+        hr_json, hr_dict=hr_data(selected_hr, admin=True)
         title="All Students"
     elif user_type in ["School Admin", "Teacher"] :
-        hr_dict=hr_data(selected_hr, admin=False)
+        hr_json, hr_dict=hr_data(selected_hr, admin=False)
         title=selected_hr + ' Students'
     else:
         hr_dict={}
+        hr_json=""
         title="Not Authorized"
 
-    template_vars={'hr_dict': hr_dict, 'title': title}
+    template_vars={'hr_dict': hr_dict, 'hr_json':hr_json,  'title': title}
     return render(request, "student/homeroom.html", template_vars)
 
 def show_student(request, student_id=1):

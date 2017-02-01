@@ -1,6 +1,7 @@
 import pandas
 from django.db import connection
 from student.ontrack import gpa_subjects_list, getPoints, getOnTrack
+import gviz_api
 
 def hr_data(hr, admin=False):
     if admin==True:
@@ -88,4 +89,21 @@ def hr_data(hr, admin=False):
 
     #get dictionary
     hr_dict=hr_data.to_dict('index')
-    return(hr_dict)
+
+    #values for google table
+    hr_values=hr_data[['hr_id', 'onTrack', 'first_name', 'last_name','attend_pct', 'gpa', 'student_id']].values
+
+    #set up Google Table to pass to View
+    hr_desc=[("hr_id", "string", "HR" ),
+              ("onTrack", "string", "On Track"),
+             ("first_name", "string", "First Name"),
+             ("last_name", "string", "Last Name"),
+             ("attend_pct", "number", "Attend"),
+             ("gpa", "number", "GPA"),
+             ("student_id", "string", "ID")]
+    hr_data_table=gviz_api.DataTable(hr_desc)
+    hr_data_table.LoadData(hr_values)
+    hr_json=hr_data_table.ToJSon()
+    hr_json
+
+    return(hr_json, hr_dict)
