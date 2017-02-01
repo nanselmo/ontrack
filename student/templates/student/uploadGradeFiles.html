@@ -2,20 +2,22 @@
 {% load static %}
 
 {% block content %}
+<h4>{{upload_message}}</h4>
+{% if display_form != "" %}
 <div class="file-upload-container">
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <p style="text-align: left">
-      Missing Assignments
+      Grades Extract File
     </p>
-    {{ upload_form}}
+    {{display_form.as_p}}
     <br />
-    <p style="text-align: left">
-      Teacher Categories
-    </p>
-    {{ upload_form }}
     <button type="submit">Upload</button>
   </form>
 </div>
+{% endif %}
+
+
+
 
 {% endblock %}
