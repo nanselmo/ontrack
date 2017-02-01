@@ -8,7 +8,7 @@ from classdata import hr_data
 import pandas
 import math
 from django.http import HttpResponseRedirect
-from forms import DataFileForm
+#from forms import DataFileForm
 
 #for plotting
 import gviz_api
