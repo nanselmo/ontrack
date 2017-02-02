@@ -37,11 +37,22 @@ def upload_grade_files(request):
                 #DataFileForm is a class defined in forms.py
                 upload_form = DataFileForm(request.POST, request.FILES)
                 if upload_form.is_valid():
-                    newfile = DataFile(document = request.FILES['document'])
-                    num_grades_updated=loadGrades(newfile, inMemory=True)
-                    #no longer need to show the upload form
+                    message=""
+                    for each_file in request.FILES.getlist('document'):
+                        newfile = DataFile(document = each_file)
+                        print each_file
+                        if "Grades" in str(each_file):
+                            num_data_points=loadGrades(newfile, inMemory=True)
+                            message= message + str(num_data_points) + " grades have been updated. "
+                        elif "Attend" in str(each_file):
+                            num_data_points=loadAttendance(newfile, inMemory=True)
+                            message= message + str(num_data_points) + " attendance records have been updated. "
+                        else:
+                            num_data_points=0
+                            message=message+ str(each_file) + " not named correctly. Please rename it with the convention Grades-XX-XX-XX.csv or Attendance-XX-XX-XX.csv"
+                        #no longer need to show the upload form
                     upload_form=""
-                    message= str(num_grades_updated) + " grades have been updated"
+
             else:
                     #an empty form
                     upload_form = DataFileForm()

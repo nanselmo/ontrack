@@ -4,6 +4,4 @@ from student.models import DataFile
 
 
 class DataFileForm(forms.Form):
-    document = forms.FileField(
-        label='Select a file to upload',
-        help_text='File type should be .csv')
+    document = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))

@@ -4,6 +4,27 @@ import math
 import pandas
 from datetime import datetime
 
+#converts file to df and gets the date from the file name
+def get_df(the_file, inMemory):
+    if inMemory==False: #load it like a normally stored file
+        df = pandas.read_csv(open(the_file,'rb'))
+        file_name=the_file
+
+    else:
+        #if the file is inMemory, it was recently uploaded through the form
+        #this means it has the fields .document which is the actual file
+        #and .name which is the file name ("Grades-01-30-17.csv")
+        df = pandas.read_csv(the_file.document)
+        #get file date
+        file_name= the_file.filename()
+
+    file_date_start=file_name.find('-') + 1
+    file_date_end= file_date_start + 8
+    file_date = file_name[file_date_start:file_date_end]
+    return(df, file_date)
+
+
+
 #loads all student files that are in the student-directory
 def loadStudents(simXLS):
     df = pandas.read_excel(open(simXLS,'rb'), header=5, skip_footer=2)
@@ -20,60 +41,43 @@ def loadStudents(simXLS):
         user[0].save()
 
 def loadGrades(grades_file, inMemory=False):
-    if inMemory==False:
-        grades_df = pandas.read_csv(open(grades_file,'rb'))
-        #get file date
-        file_date_start=grades_file.find('Grades-') + 7
-        file_date_end= file_date_start+8
-        file_date = grades_file[file_date_start:file_date_end]
-    else:
-        #if the file is inMemory, it was recently uploaded through the form
-        #this means it has the fields .document which is the actual file
-        #and .name which is the file name ("Grades-01-30-17.csv")
-        grades_df = pandas.read_csv(grades_file.document)
-        #get file date
-        file_name= grades_file.filename()
-        file_date_start=file_name.find('Grades-') + 7
-        file_date_end= file_name.find('.csv', file_date_start)
-        file_date = file_name[file_date_start:file_date_end]
+    grades_df, file_date=get_df(grades_file, inMemory)
 
 
     grades_df=grades_df[grades_df['SubjectName']!='GEOMETRY']
-
-
 
     grades_df=grades_df.dropna(subset=["QuarterAvg"])
     #take out students who haveletter grades for their Quarter Avg
     clean_grades=grades_df[~grades_df['QuarterAvg'].isin(["A", "B", "C","D", "F"])]
     df = clean_grades
-
+    print df
     for i in range(0,len(df)):
-        print "Now loading " + df.iloc[i]['StudentID'].astype(str) + " " + df.iloc[i]['SubjectName'] + " " + df.iloc[i]['QuarterAvg']
-        Grade.objects.get_or_create(student_id=df.iloc[i]['StudentID'].astype(str),
-                                subject=df.iloc[i]['SubjectName'],
-                                grade=df.iloc[i]['QuarterAvg'],
-                                grade_date=datetime.strptime(file_date, '%m-%d-%y'))
+         print "Now loading " + df.iloc[i]['StudentID'].astype(str) + " " + df.iloc[i]['SubjectName']
+         Grade.objects.get_or_create(student_id=df.iloc[i]['StudentID'].astype(str),
+                                 subject=df.iloc[i]['SubjectName'],
+                                 grade=df.iloc[i]['QuarterAvg'],
+                                 grade_date=datetime.strptime(file_date, '%m-%d-%y'))
     print str(len(df)) + ' grades loaded from ' + file_date
     return(len(df))
 
 
 
-def loadAttendance(attend_file):
-    attend_df = pandas.read_csv(open(attend_file,'rb'))
-    attend_df = attend_df.loc[attend_df['Attendance School'] == "CHAVEZ"]
 
-    #get date of file
-    file_date_start=attend_file.find('Attendance-') + 11
-    file_date_end= attend_file.find('.csv', file_date_start)
-    file_date = attend_file[file_date_start:file_date_end]
 
-    df=attend_df
+
+def loadAttendance(attend_file, inMemory=False):
+
+    attend_df, file_date=get_df(attend_file, inMemory)
+    attend_df=attend_df.loc[attend_df['Attendance School'] == "CHAVEZ"]
+    df = attend_df
     for i in range(0,len(df)):
+         print "Now loading Attendance for StudentID: " + df.iloc[i]['StudentID'].astype(str) 
          Attendance.objects.get_or_create(student_id=df.iloc[i]['Student ID'].astype(str),
                                 total_days=df.iloc[i]['Membership Days'].astype(float),
                                 absent_days=df.iloc[i]['Absences'].astype(float),
                                 attend_date=datetime.strptime(file_date, '%m-%d-%y'))
-
+    print str(len(df)) + ' attendance records loaded from ' + file_date
+    return(len(df))
 
 def loadNWEA(file):
     grades_df_raw = pandas.read_csv(open(file,'rb'))
