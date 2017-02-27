@@ -1,14 +1,20 @@
 from django.shortcuts import render, redirect
-from student.models import Grade, Student, Attendance, Email, Subject, Roster
+from student.models import Grade, Student, Attendance, Email, Subject, Roster, DataFile
 from allauth.socialaccount.models import SocialAccount
 from django.db import connection
 from ontrack import *
 from grade_audit import summarize_data
 from classdata import hr_data
+from summerschool import get_ss_report
+from loadOnTrackData import *
 import pandas
 import math
-from django.http import HttpResponseRedirect
-#from forms import DataFileForm
+#streaming is for large datasets
+from django.http import HttpResponseRedirect, HttpResponse, StreamingHttpResponse
+from forms import DataFileForm
+import csv
+from StringIO import StringIO
+
 
 #for plotting
 import gviz_api
@@ -24,19 +30,77 @@ hr_list = [hr.encode("utf8") for hr in Roster.objects.values_list('hr_id', flat=
 all_hr_list = ["All"] + hr_list
 
 
-seventh_hr_list=['B313', 'B318', 'B316']
+def summer_school(request):
+    if request.method == 'POST':
+        #DataFileForm is a class defined in forms.py
+        upload_form = DataFileForm(request.POST, request.FILES)
+        if upload_form.is_valid():
+                file_list=request.FILES.getlist('document')
+                full_roster, ss_list=get_ss_report(file_list, in_mem=True)
+                filename="summer-school-roster.csv"
+                sio = StringIO()
+                PandasWriter = pandas.ExcelWriter(sio, engine='xlsxwriter')
+                full_roster.to_excel(PandasWriter, sheet_name="Full-Roster", index=False)
+                ss_list.to_excel(PandasWriter, sheet_name="SS-Roster", index=False)
+                PandasWriter.save()
+                sio.seek(0)
+                workbook = sio.getvalue()
+                response = HttpResponse(workbook, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+                response['Content-Disposition'] = 'attachment; filename=%s' % filename
+                return response
+
+
+    else:
+            #an empty form
+            upload_form = DataFileForm()
+            message="Upload a File"
+
+    return render(request, 'student/summerschool.html', {'display_form': upload_form})
+
+
 
 def upload_grade_files(request):
-         if request.method == 'POST':
-             #DataFileForm is a class defined in forms.py
-             upload_form = DataFileForm(request.POST, request.FILES)
-             if upload_form.is_valid():
-                 upload_form.save()
-                 #return redirect('home')
-         else:
-             upload_form="test"
-         return render(request, 'student/uploadGradeFiles.html', {'upload_form': upload_form})
 
+    if request.user.is_authenticated:
+        user_type=get_user_type(request)
+        if user_type == "School Admin":
+            #handle file upload
+            if request.method == 'POST':
+                #DataFileForm is a class defined in forms.py
+                upload_form = DataFileForm(request.POST, request.FILES)
+                if upload_form.is_valid():
+                    message=""
+                    for each_file in request.FILES.getlist('document'):
+                        newfile = DataFile(document = each_file)
+                        print each_file
+                        if "Grades" in str(each_file):
+                            num_data_points=loadGrades(newfile, inMemory=True)
+                            message= message + str(num_data_points) + " grades have been updated. "
+                        elif "Attend" in str(each_file):
+                            num_data_points=loadAttendance(newfile, inMemory=True)
+                            message= message + str(num_data_points) + " attendance records have been updated. "
+                        else:
+                            num_data_points=0
+                            message=message+ str(each_file) + " not named correctly. Please rename it with the convention Grades-XX-XX-XX.csv or Attendance-XX-XX-XX.csv"
+                        #no longer need to show the upload form
+                    upload_form=""
+
+            else:
+                    #an empty form
+                    upload_form = DataFileForm()
+                    message="Upload the Cumulative Grades Extract File"
+        else:
+            upload_form=""
+            message= "You must be an administrator to upload new Grades"
+
+
+        return render(request, 'student/uploadGradeFiles.html', {'display_form': upload_form, 'upload_message': message})
+
+
+    #if user is not logged in
+    else:
+        social_email= "none"
+        return render(request, "student/home.html", {'social_email': social_email})
 
 
 
@@ -77,13 +141,6 @@ def show_hr(request, selected_hr="B314"):
     if request.user.is_authenticated:
         social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
         user_type=get_user_type(request)
-
-
-    else:
-        social_email= "none"
-        return render(request, "student/home.html", {'social_email': social_email})
-
-
     if user_type in ["School Admin", "Teacher"] and selected_hr=="All":
         hr_json, hr_dict=hr_data(selected_hr, admin=True)
         title="All Students"
