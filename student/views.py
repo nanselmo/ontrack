@@ -47,7 +47,8 @@ def summer_school(request):
                 workbook = sio.getvalue()
                 response = HttpResponse(workbook, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
                 response['Content-Disposition'] = 'attachment; filename=%s' % filename
-                return response
+                return (response)
+                #return render(request, 'student/summerschool.html', {'display_form': upload_form, 'ss_list_html': ss_list.to_html(index=False), 'ss_list': ss_list, 'full_roster':full_roster})
 
 
     else:
@@ -55,8 +56,7 @@ def summer_school(request):
             upload_form = DataFileForm()
             message="Upload a File"
 
-    return render(request, 'student/summerschool.html', {'display_form': upload_form})
-
+    return render(request, 'student/summerschool.html', {'display_form': upload_form, 'ss_list_html':"None"})
 
 
 def upload_grade_files(request):
@@ -279,15 +279,10 @@ def show_hs_options(request, student_id=1 ):
             student_pts="Eligible"
         return(student_pts)
 
-
     hs_df['RemainingPts'] = hs_df.apply(lambda row: getAppPts(row), axis=1)
     hs_df=hs_df.sort_values('RemainingPts')
     hs_df.index = range(1,len(hs_df) + 1)
     student_hs_dict=hs_df.to_dict(orient='index')
-
-
-
-
 
     template_vars={'current_student': student,
         'hs_dict':student_hs_dict,
