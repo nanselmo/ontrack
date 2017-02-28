@@ -6,7 +6,10 @@ from student.models import DataFile
 def get_ss_report(the_files, in_mem):
     jupyter = False
     nwea_file_count=0
+
     for each_file in the_files:
+
+
         if jupyter:
             df = pandas.read_csv(each_file)
             the_file=each_file
@@ -20,12 +23,10 @@ def get_ss_report(the_files, in_mem):
 
         if "Grades" in file_name:
             grades_raw=df
-        elif "DL" in file_name:
+        elif ("DL" in file_name) or ('Special' in file_name):
             dl_raw=df
         elif "NWEA" in file_name:
-            #add 1 to the total number of NWEA files that have been processes
             nwea_file_count=nwea_file_count + 1
-            #get the test date from the first row
             nwea_date=df['TestStartDate'].iloc[0]
             if nwea_file_count == 1:
                 nwea_1=df
@@ -39,6 +40,7 @@ def get_ss_report(the_files, in_mem):
                 else:
                   nwea_this_year_raw=nwea_2
                   nwea_last_year_raw=nwea_1
+
 
     #just get the data we want from the files
 
@@ -128,35 +130,38 @@ def get_ss_report(the_files, in_mem):
     def get_sss(row):
         #if their sped identification is SPL, 504 or none
         if row['PDIS'] in ['504', 'SPL', '--'] :
-            if row['ELL'] == "Yes":
-                # if both greater than C they don't go (A)
-                if (row['R_Grade']>70) & (row['M_Grade']>70):
-                    sss = "0A"
-                #if both grades greater than D AND the high test scores are both at or above 24
-                elif ((row['R_Grade']>60) & (row['M_Grade']>60)) & ((row['NWEA_R_High']>=24) & (row['NWEA_M_High']>=24)):
-                    sss = "0A-D"
-                #otherwise they have to go (B)
-                else:
-                    sss = "0B"
-            #not ELL
+            if pandas.isnull(row['NWEA_R_High'])  or pandas.isnull(row['NWEA_M_High']) :
+                sss= "Missing Test"
             else:
-                if (row['NWEA_R_High']>=24) & (row['NWEA_M_High']>=24):
-                    #above a D
-                    if (row['R_Grade']>60) & (row['M_Grade']>60):
-                        sss= "1A"
-                    else:
-                        sss= "1B"
-                elif (row['NWEA_R_High']>=11) & (row['NWEA_M_High']>=11):
-                    #above a C
+                if row['ELL'] == "Yes":
+                    # if both greater than C they don't go (A)
                     if (row['R_Grade']>70) & (row['M_Grade']>70):
-                        sss= "2A"
+                        sss = "0A"
+                    #if both grades greater than D AND the high test scores are both at or above 24
+                    elif ((row['R_Grade']>60) & (row['M_Grade']>60)) & ((row['NWEA_R_High']>=24) & (row['NWEA_M_High']>=24)):
+                        sss = "0A"
+                    #otherwise they have to go (B)
                     else:
-                        sss= "2A"
+                        sss = "0B"
+                #not ELL
                 else:
-                    if (row['R_Grade']>70) & (row['M_Grade']>70):
-                        sss= "3A"
+                    if (row['NWEA_R_High']>=24) & (row['NWEA_M_High']>=24):
+                        #above a D
+                        if (row['R_Grade']>60) & (row['M_Grade']>60):
+                            sss= "1A"
+                        else:
+                            sss= "1B"
+                    elif (row['NWEA_R_High']>=11) & (row['NWEA_M_High']>=11):
+                        #above a C
+                        if (row['R_Grade']>70) & (row['M_Grade']>70):
+                            sss= "2A"
+                        else:
+                            sss= "2A"
                     else:
-                        sss= "3A"
+                        if (row['R_Grade']>70) & (row['M_Grade']>70):
+                            sss= "3A"
+                        else:
+                            sss= "3A"
         else:
             sss="Sped-Exempt"
 
@@ -166,7 +171,7 @@ def get_ss_report(the_files, in_mem):
 
     ss_data['SSS'] = ss_data.apply(get_sss, axis=1)
 
-    #sort by grade level, status and then homeroom
+
     ss_data=ss_data.sort_values(by=['StudentGradeLevel', 'SSS', 'StudentHomeroom'])
 
     #another dataframe with just summer school kids (0B, 1B, 2B, 3A, 3B)
