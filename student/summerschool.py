@@ -126,56 +126,66 @@ def get_ss_report(the_files, in_mem):
     ss_data=pandas.merge(ss_data, nwea_full[["StudentID", "NWEA_R_High", "NWEA_M_High"]], on="StudentID")
     ss_data.head()
 
-    #function to decide Summer School Status
     def get_sss(row):
-        #if their sped identification is SPL, 504 or none
+    #if their sped identification is SPL, 504 or none
         if row['PDIS'] in ['504', 'SPL', '--'] :
             if pandas.isnull(row['NWEA_R_High'])  or pandas.isnull(row['NWEA_M_High']) :
                 sss= "Missing Test"
+                ssdesc= "Summer School"
             else:
                 if row['ELL'] == "Yes":
                     # if both greater than C they don't go (A)
                     if (row['R_Grade']>70) & (row['M_Grade']>70):
                         sss = "0A"
+                        ssdesc= "No Summer School"
                     #if both grades greater than D AND the high test scores are both at or above 24
                     elif ((row['R_Grade']>60) & (row['M_Grade']>60)) & ((row['NWEA_R_High']>=24) & (row['NWEA_M_High']>=24)):
                         sss = "0A"
+                        ssdesc= "No Summer School"
                     #otherwise they have to go (B)
                     else:
                         sss = "0B"
+                        ssdesc= "ELL - Summer School"
                 #not ELL
                 else:
                     if (row['NWEA_R_High']>=24) & (row['NWEA_M_High']>=24):
                         #above a D
                         if (row['R_Grade']>60) & (row['M_Grade']>60):
                             sss= "1A"
+                            ssdesc= "No Summer School"
                         else:
                             sss= "1B"
+                            ssdesc= "Summer School, No Exam"
                     elif (row['NWEA_R_High']>=11) & (row['NWEA_M_High']>=11):
                         #above a C
                         if (row['R_Grade']>70) & (row['M_Grade']>70):
                             sss= "2A"
+                            ssdesc= "No Summer School"
                         else:
-                            sss= "2A"
+                            sss= "2B"
+                            ssdesc= "Summer School and Exam"
                     else:
                         if (row['R_Grade']>70) & (row['M_Grade']>70):
                             sss= "3A"
+                            ssdesc= "Summer School and Exam"
                         else:
-                            sss= "3A"
+                            sss= "3B"
+                            ssdesc= "Summer School and Exam"
         else:
             sss="Sped-Exempt"
+            ssdesc= "No Summer School"
 
-        return(sss)
-
-
-
-    ss_data['SSS'] = ss_data.apply(get_sss, axis=1)
+        return pandas.Series({'SSS': sss, 'SS_Description': ssdesc})
 
 
-    ss_data=ss_data.sort_values(by=['StudentGradeLevel', 'SSS', 'StudentHomeroom'])
-
-    #another dataframe with just summer school kids (0B, 1B, 2B, 3A, 3B)
-    summer_school_kids=ss_data[ss_data['SSS'].isin(['0B', '1B', '2B', '3A', '3B'])]
 
 
-    return(ss_data, summer_school_kids)
+
+
+    ss_data_full=pandas.concat([ss_data, ss_data.apply(get_sss, axis=1)],  axis=1)
+    ss_data_full=ss_data_full.reset_index(drop=True)
+    summer_school_kids=ss_data_full[ss_data_full['SSS'].isin(['0B', '1B', '2B', '3A', '3B', 'Missing Test'])]
+    summer_school_kids=summer_school_kids.reset_index(drop=True)
+
+
+    return(ss_data_full, summer_school_kids)
