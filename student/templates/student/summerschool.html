@@ -6,9 +6,12 @@
 
   <a href="http://healy.cps.edu/uploads/2/7/2/7/27271991/13-14_3_6_8_gd._guide_to_the_promotion_policy_english_10.24.13.pdf"> this document</a>
   </h4>
+  <br />
+  <br />
   <h4>To use this tool. You'll need 4 files.</h4>
   <h5>The files can either retain their original names, or you can rename them according to the instructions</h5>
-
+<br />
+<br />
 <p>
 
   <ol>
@@ -56,7 +59,7 @@
 </p>
 <br />
 <br />
-{% if ss_list_html == "None" %}
+
 <div class="file-upload-container">
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
@@ -68,9 +71,5 @@
     <button type="submit">Get Summer School Roster</button>
   </form>
 </div>
-{% else %}
-  <h1>Summer School Students</h1>
-  {{ss_list_html | safe}}
-{% endif %}
 
 {% endblock %}

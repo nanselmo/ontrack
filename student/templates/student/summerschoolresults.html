@@ -1,0 +1,13 @@
+{% extends 'student/base.html' %}
+{% load static %}
+
+{% block content %}
+  <h1>Summer School Students</h1>
+  <form action="" method="post">
+    <!-- need the csrf token in django -->
+    {% csrf_token %}
+    <button name="download" >Download Roster</button>
+  </form>
+  {{ss_list | safe}}
+
+{% endblock %}

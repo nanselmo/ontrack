@@ -14,6 +14,8 @@ from django.http import HttpResponseRedirect, HttpResponse, StreamingHttpRespons
 from forms import DataFileForm
 import csv
 from StringIO import StringIO
+import json
+from pandas.io.json import json_normalize
 
 
 #for plotting
@@ -36,19 +38,14 @@ def summer_school(request):
         upload_form = DataFileForm(request.POST, request.FILES)
         if upload_form.is_valid():
                 file_list=request.FILES.getlist('document')
+                #returns to dataframes with summer school status (using the uploaded files)
                 full_roster, ss_list=get_ss_report(file_list, in_mem=True)
-                filename="summer-school-roster.csv"
-                sio = StringIO()
-                PandasWriter = pandas.ExcelWriter(sio, engine='xlsxwriter')
-                full_roster.to_excel(PandasWriter, sheet_name="Full-Roster", index=False)
-                ss_list.to_excel(PandasWriter, sheet_name="SS-Roster", index=False)
-                PandasWriter.save()
-                sio.seek(0)
-                workbook = sio.getvalue()
-                response = HttpResponse(workbook, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-                response['Content-Disposition'] = 'attachment; filename=%s' % filename
-                return (response)
-                #return render(request, 'student/summerschool.html', {'display_form': upload_form, 'ss_list_html': ss_list.to_html(index=False), 'ss_list': ss_list, 'full_roster':full_roster})
+                #save the dataframes in the session - but must be saved as JSON
+                request.session['ss_kids'] = ss_list.to_json()
+                request.session['full_roster'] = full_roster.to_json()
+                #go to the success page
+                return redirect( 'download_ss')
+
 
 
     else:
@@ -56,7 +53,60 @@ def summer_school(request):
             upload_form = DataFileForm()
             message="Upload a File"
 
-    return render(request, 'student/summerschool.html', {'display_form': upload_form, 'ss_list_html':"None"})
+
+    return render(request, 'student/summerschool.html', {'display_form': upload_form})
+
+def download_summer_school(request):
+    ss_kids = request.session.get('ss_kids', None)
+    full_roster = request.session.get('full_roster', None)
+
+    #in converting to JSON, the column order of the DF is messed up. here we reorder it
+    ideal_order=['StudentID',
+                 'StudentFirstName',
+                 'StudentLastName',
+                 'StudentHomeroom',
+                 'StudentGradeLevel',
+                 'ELL',
+                 'LRE',
+                 'ARS',
+                 'PDIS',
+                 'R_Grade',
+                 'M_Grade',
+                 'NWEA_R_High',
+                 'NWEA_M_High',
+                 'SSS',
+                 'SS_Description']
+    full_roster=pandas.read_json(full_roster)[ideal_order].sort_values(by=['StudentGradeLevel', 'SSS', 'StudentHomeroom'])
+    ss_list=pandas.read_json(ss_kids)[ideal_order].sort_values(by=['StudentGradeLevel', 'SSS', 'StudentHomeroom'])
+    if request.method == 'POST':
+        filename="summer-school-roster.csv"
+        sio = StringIO()
+        writer = pandas.ExcelWriter(sio, engine='xlsxwriter')
+        ss_codes_df = pandas.DataFrame({'Codes': ['0A', '0B', '1A', '1B', '2A', '2B', '3A', '3B'],
+                                    'Description': ['ELL - No Summer School',
+                                    'ELL-Summer School',
+                                    '24% - No Summer School',
+                                    '24% - Summer School, No Exam',
+                                     '11-23% -  No Summer School',
+                                     '11-23% -Summer School and Exam',
+                                     '<10% - Summer School and Exam',
+                                      '<10% - Summer School and Exam']})
+        ss_codes_df.to_excel(writer, sheet_name='Summer School Codes')
+        full_roster.to_excel(writer, sheet_name="Full-Roster", index=False)
+        ss_list.to_excel(writer, sheet_name="SS-Roster", index=False)
+
+        writer.save()
+        sio.seek(0)
+        workbook = sio.getvalue()
+        response = HttpResponse(workbook, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename=%s' % filename
+        return (response)
+    else:
+        #display the data on the page
+        ss_kids_df=ss_list
+        ss_kids_df=ss_kids_df[['StudentFirstName', 'StudentLastName', 'StudentGradeLevel', 'StudentHomeroom', 'SSS', 'SS_Description']]
+        ss_kids_html=ss_kids_df.to_html()
+        return render(request, 'student/summerschoolresults.html', {'ss_list' : ss_kids_html})
 
 
 def upload_grade_files(request):
