@@ -21,7 +21,7 @@ def get_ss_report(the_files, in_mem):
             df = pandas.read_csv(open(the_file,'rb'))
             file_name=the_file
 
-        if "Grades" in file_name:
+        if "Grade" in file_name:
             grades_raw=df
         elif ("DL" in file_name) or ('Special' in file_name):
             dl_raw=df
