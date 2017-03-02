@@ -9,7 +9,6 @@ def get_ss_report(the_files, in_mem):
 
     for each_file in the_files:
 
-
         if jupyter:
             df = pandas.read_csv(each_file)
             the_file=each_file
@@ -94,7 +93,7 @@ def get_ss_report(the_files, in_mem):
 
     #filter by grade level and (&) by subject by using isin() and then a list ["A", "B", "C"]
     grades=grades[grades["StudentGradeLevel"].isin(['03', '06', '08', '3', '6', '8']) &
-                  grades["SubjectName"].isin(['CHGO READING FRMWK', 'MATHEMATICS STD'])]
+                  grades["SubjectName"].isin(['CHGO READING FRMWK', 'MATHEMATICS STD', 'ALGEBRA'])]
 
 
     #manipulate the data to get new columns
@@ -113,7 +112,24 @@ def get_ss_report(the_files, in_mem):
     grades_wide.reset_index(inplace=True)
 
     #rename the columns
-    grades_wide.columns=["StudentID", "R_Grade", "M_Grade"]
+    #grades_wide.columns=["StudentID", "R_Grade", "M_Grade", "Alg_Grade"]
+    grades_wide = grades_wide.rename(columns={'ALGEBRA': 'Alg_Grade',
+                                              'CHGO READING FRMWK': 'R_Grade',
+                                              'MATHEMATICS STD': 'M_Grade'})
+
+
+    #if there's no math grade, change it to the value of the algebra grade
+    def get_math_grade(row):
+        if pandas.isnull(row["M_Grade"]) & pandas.notnull(row["Alg_Grade"]):
+            grade=row["Alg_Grade"]
+        else:
+            grade=row["M_Grade"]
+        return(grade)
+
+
+    grades_wide['M/Alg_Grade']= grades_wide.apply(get_math_grade, axis=1)
+
+
 
     # to just rename one column, you can pass the old column name first then the new columns name
     #as a key:value pair, separated by commas
@@ -126,8 +142,9 @@ def get_ss_report(the_files, in_mem):
     ss_data=pandas.merge(ss_data, nwea_full[["StudentID", "NWEA_R_High", "NWEA_M_High"]], on="StudentID")
     ss_data.head()
 
+    #function to decide Summer School Status
     def get_sss(row):
-    #if their sped identification is SPL, 504 or none
+        #if their sped identification is SPL, 504 or none
         if row['PDIS'] in ['504', 'SPL', '--'] :
             if pandas.isnull(row['NWEA_R_High'])  or pandas.isnull(row['NWEA_M_High']) :
                 sss= "Missing Test"
@@ -135,11 +152,11 @@ def get_ss_report(the_files, in_mem):
             else:
                 if row['ELL'] == "Yes":
                     # if both greater than C they don't go (A)
-                    if (row['R_Grade']>70) & (row['M_Grade']>70):
+                    if (row['R_Grade']>70) & (row['M/Alg_Grade']>70):
                         sss = "0A"
                         ssdesc= "No Summer School"
                     #if both grades greater than D AND the high test scores are both at or above 24
-                    elif ((row['R_Grade']>60) & (row['M_Grade']>60)) & ((row['NWEA_R_High']>=24) & (row['NWEA_M_High']>=24)):
+                    elif ((row['R_Grade']>60) & (row['M/Alg_Grade']>60)) & ((row['NWEA_R_High']>=24) & (row['NWEA_M_High']>=24)):
                         sss = "0A"
                         ssdesc= "No Summer School"
                     #otherwise they have to go (B)
@@ -150,7 +167,7 @@ def get_ss_report(the_files, in_mem):
                 else:
                     if (row['NWEA_R_High']>=24) & (row['NWEA_M_High']>=24):
                         #above a D
-                        if (row['R_Grade']>60) & (row['M_Grade']>60):
+                        if (row['R_Grade']>60) & (row['M/Alg_Grade']>60):
                             sss= "1A"
                             ssdesc= "No Summer School"
                         else:
@@ -158,14 +175,14 @@ def get_ss_report(the_files, in_mem):
                             ssdesc= "Summer School, No Exam"
                     elif (row['NWEA_R_High']>=11) & (row['NWEA_M_High']>=11):
                         #above a C
-                        if (row['R_Grade']>70) & (row['M_Grade']>70):
+                        if (row['R_Grade']>70) & (row['M/Alg_Grade']>70):
                             sss= "2A"
                             ssdesc= "No Summer School"
                         else:
                             sss= "2B"
                             ssdesc= "Summer School and Exam"
                     else:
-                        if (row['R_Grade']>70) & (row['M_Grade']>70):
+                        if (row['R_Grade']>70) & (row['M/Alg_Grade']>70):
                             sss= "3A"
                             ssdesc= "Summer School and Exam"
                         else:
@@ -184,6 +201,7 @@ def get_ss_report(the_files, in_mem):
 
     ss_data_full=pandas.concat([ss_data, ss_data.apply(get_sss, axis=1)],  axis=1)
     ss_data_full=ss_data_full.reset_index(drop=True)
+    
     summer_school_kids=ss_data_full[ss_data_full['SSS'].isin(['0B', '1B', '2B', '3A', '3B', 'Missing Test'])]
     summer_school_kids=summer_school_kids.reset_index(drop=True)
 

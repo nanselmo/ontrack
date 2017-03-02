@@ -79,7 +79,7 @@ def download_summer_school(request):
     full_roster=pandas.read_json(full_roster)[ideal_order].sort_values(by=['StudentGradeLevel', 'SSS', 'StudentHomeroom'])
     ss_list=pandas.read_json(ss_kids)[ideal_order].sort_values(by=['StudentGradeLevel', 'SSS', 'StudentHomeroom'])
     if request.method == 'POST':
-        filename="summer-school-roster.csv"
+        filename="summer-school-roster.xlsx"
         sio = StringIO()
         writer = pandas.ExcelWriter(sio, engine='xlsxwriter')
         ss_codes_df = pandas.DataFrame({'Codes': ['0A', '0B', '1A', '1B', '2A', '2B', '3A', '3B'],
