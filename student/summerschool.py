@@ -93,7 +93,7 @@ def get_ss_report(the_files, in_mem):
 
 
     #filter by grade level and (&) by subject by using isin() and then a list ["A", "B", "C"]
-    grades=grades[grades["StudentGradeLevel"].isin(['03', '06', '08']) &
+    grades=grades[grades["StudentGradeLevel"].isin(['03', '06', '08', '3', '6', '8']) &
                   grades["SubjectName"].isin(['CHGO READING FRMWK', 'MATHEMATICS STD'])]
 
 
