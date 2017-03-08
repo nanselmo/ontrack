@@ -3,6 +3,7 @@ from django.db import connection
 import math
 import pandas
 from datetime import datetime
+from hardcoded import Q3_Start_Date
 
 #converts file to df and gets the date from the file name
 def get_df(the_file, inMemory):
@@ -143,8 +144,6 @@ def loadEmail(file):
         user[0].save()
 
 def loadAssignments(file, inMemory=False):
-    #this should not be hardcoded....
-    Q3_Start_Date="2017-02-04"
 
     df, file_date=get_df(file, inMemory)
 
