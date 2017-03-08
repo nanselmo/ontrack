@@ -91,8 +91,8 @@ class Assignment(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     subject = models.CharField(max_length=60)
     assign_name = models.CharField(max_length=300)
-    assign_score = models.IntegerField()
-    assign_score_possible = models.IntegerField()
+    assign_score = models.CharField(max_length=4)
+    assign_score_possible = models.CharField(max_length=4)
     category_name = models.CharField(max_length=300)
     assignment_due = models.DateField()
     grade_entered = models.DateField()
@@ -154,7 +154,7 @@ class DataFile(models.Model):
         return (self.document.name)
 
     def fileurl(self):
-        return (self.document.url)    
+        return (self.document.url)
 
     def __str__(self):
         return "{0}".format(self.document)

@@ -71,7 +71,7 @@ def loadAttendance(attend_file, inMemory=False):
     attend_df=attend_df.loc[attend_df['Attendance School'] == "CHAVEZ"]
     df = attend_df
     for i in range(0,len(df)):
-         print "Now loading Attendance for StudentID: " + df.iloc[i]['StudentID'].astype(str) 
+         print "Now loading Attendance for StudentID: " + df.iloc[i]['StudentID'].astype(str)
          Attendance.objects.get_or_create(student_id=df.iloc[i]['Student ID'].astype(str),
                                 total_days=df.iloc[i]['Membership Days'].astype(float),
                                 absent_days=df.iloc[i]['Absences'].astype(float),
@@ -142,6 +142,30 @@ def loadEmail(file):
         user[0].user_type=df.iloc[i]['User Category']
         user[0].save()
 
+def loadAssignments(file, inMemory=False):
+    #this should not be hardcoded....
+    Q3_Start_Date="2017-02-04"
+
+    df, file_date=get_df(file, inMemory)
+
+    #delete current quarter assignments
+    #names of assignments could have changed, as could their score - or even points possible, so need to delete all previous
+    Assignment.objects.filter(grade_entered__gte=Q3_Start_Date).delete()
+
+
+    #load assignments
+    for i in range(0,len(df)):
+        class_name=df.iloc[i]['ClassName']
+        Assignment.objects.get_or_create(student_id=df.iloc[i]['StuStudentId'].astype(str),
+                                        subject=re.search(re.compile(r"^[^\d]*"), class_name).group(0),
+                                        assign_name=df.iloc[i]['ASGName'],
+                                        assign_score=df.iloc[i]['Score'],
+                                        assign_score_possible=df.iloc[i]['ScorePossible'],
+                                        category_name=df.iloc[i]['CategoryName'],
+                                        assignment_due=datetime.strptime(df.iloc[0]['AssignmentDue'], '%m/%d/%Y'),
+                                        grade_entered=datetime.strptime(df.iloc[0]['GradeEnteredOn'], '%m/%d/%Y'))
+
+
 
 
 
@@ -160,3 +184,5 @@ def loadFile(file):
     loadHSInfo(file)
  elif "Email" in file:
     loadEmail(file)
+ elif "Assign" in file:
+    loadAssignments(file)
