@@ -9,7 +9,7 @@ urlpatterns = [
     url(r'^accounts/', include('allauth.urls')),
     url(r'^homeroom/(?P<selected_hr>[a-zA-Z0-9]+)$', views.show_hr, name='show_hr'),
     url(r'^student/dashboard/', views.show_dashboard, name='show_dashboard'),
-    url(r'^upload_grade_files/$', views.upload_grade_files),
+    url(r'^upload_files/$', views.upload_files),
     url(r'^summerschool/$', views.summer_school),
     url(r'^summerschoolresults/$', views.download_summer_school, name="download_ss"),
     url(r'^grade_report/$', views.grade_report),
@@ -19,6 +19,10 @@ urlpatterns = [
 
     url(r'^student/grades/$', views.show_student_grades, name='show_student_grades'),
     url(r'^student/grades/(?P<student_id>[0-9]+)$', views.show_student_grades, name='show_student_grades'),
+
+    url(r'^student/assignments/(?P<student_id>[0-9]+)/(?P<display_subject>[^/]+)$',
+    views.show_student_assignments, name='show_student_assignments'),
+
 
     url(r'^student/highschool/$', views.show_hs_options, name='show_hs_options'),
     url(r'^student/highschool/(?P<student_id>[0-9]+)$', views.show_hs_options, name='show_hs_options'),

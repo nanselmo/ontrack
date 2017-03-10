@@ -79,7 +79,9 @@
                 <img class="subject-icon" src="{{MEDIA_URL}}{{value.image}}" alt="subject-icon"/>
               </div>
               <div class="col-sm-6">
-              <p class="student-grade cumulative">{{value.grade}} </p>
+                <a href={% url 'show_student_assignments' student_id=student_id display_subject=key %}>
+                  <p class="student-grade cumulative">{{value.grade}} </p>
+                </a>
               </div>
           </div>
       </div>

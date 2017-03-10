@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
-from student.models import Grade, Student, Attendance, Email, Subject, Roster, DataFile
+from student.models import Grade, Student, Attendance, Email, Subject, Roster, DataFile, Assignment
 from allauth.socialaccount.models import SocialAccount
 from django.db import connection
-from ontrack import *
+from ontrack import get_user_info, getOnTrack, getPoints, get_attend_pct, get_gpa, get_test_score, gpa_subjects_list, take_out_subjects_list
 from grade_audit import summarize_data
 from classdata import hr_data
 from summerschool import get_ss_report
@@ -30,6 +30,7 @@ from django.db import connection
 
 hr_list = [hr.encode("utf8") for hr in Roster.objects.values_list('hr_id', flat=True).distinct()]
 all_hr_list = ["All"] + hr_list
+
 
 
 def summer_school(request):
@@ -109,10 +110,10 @@ def download_summer_school(request):
         return render(request, 'student/summerschoolresults.html', {'ss_list' : ss_kids_html})
 
 
-def upload_grade_files(request):
+def upload_files(request):
 
     if request.user.is_authenticated:
-        user_type=get_user_type(request)
+        user_id, user_type=get_user_info(request)
         if user_type == "School Admin":
             #handle file upload
             if request.method == 'POST':
@@ -123,7 +124,7 @@ def upload_grade_files(request):
                     for each_file in request.FILES.getlist('document'):
                         newfile = DataFile(document = each_file)
                         print each_file
-                        if "Grades" in str(each_file):
+                        if "Grade" in str(each_file):
                             num_data_points=loadGrades(newfile, inMemory=True)
                             message= message + str(num_data_points) + " grades have been updated. "
                         elif "Attend" in str(each_file):
@@ -138,13 +139,13 @@ def upload_grade_files(request):
             else:
                     #an empty form
                     upload_form = DataFileForm()
-                    message="Upload the Cumulative Grades Extract File"
+                    message="Upload Your School's Files"
         else:
             upload_form=""
             message= "You must be an administrator to upload new Grades"
 
 
-        return render(request, 'student/uploadGradeFiles.html', {'display_form': upload_form, 'upload_message': message})
+        return render(request, 'student/uploadFiles.html', {'display_form': upload_form, 'upload_message': message})
 
 
     #if user is not logged in
@@ -163,7 +164,7 @@ def show_home(request):
     try:
         if request.user.is_authenticated:
             social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
-            user_type=get_user_type(request)
+            user_id, user_type=get_user_info(request)
             if user_type == "School Admin":
                 hr_list=all_hr_list
             elif user_type == "Teacher":
@@ -182,15 +183,14 @@ def show_home(request):
 
 
 
-def show_dashboard(request):
-    lookup_user_id=get_user_id(request)
+def show_dashboard(request, student_id=1):
+    lookup_user_id, user_type=get_user_info(request, student_id)
     return render(request, "student/dashboard.html", {'user_email': lookup_user_id})
 
 def show_hr(request, selected_hr="B314"):
 
     if request.user.is_authenticated:
-        social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
-        user_type=get_user_type(request)
+        user_id, user_type=get_user_info(request)
     if user_type in ["School Admin", "Teacher"] and selected_hr=="All":
         hr_json, hr_dict=hr_data(selected_hr, admin=True)
         title="All Students"
@@ -206,15 +206,7 @@ def show_hr(request, selected_hr="B314"):
     return render(request, "student/homeroom.html", template_vars)
 
 def show_student(request, student_id=1):
-        social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
-        user_type=get_user_type(request)
-        if user_type in ["School Admin", "Teacher"]:
-            this_student_id=student_id
-        else:
-            this_student_id = get_user_id(request)
-
-
-
+        this_student_id, user_type=get_user_info(request, student_id)
         student=Student.objects.get(student_id= "%s"%(this_student_id))
 
 
@@ -246,12 +238,7 @@ def show_student(request, student_id=1):
 
 
 def show_hs_options(request, student_id=1 ):
-    social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
-    user_type=get_user_type(request)
-    if user_type in ["School Admin", "Teacher"]:
-        student_id=student_id
-    else:
-        student_id = get_user_id(request)
+    student_id, user_type=get_user_info(request, student_id)
 
     student=Student.objects.get(student_id= "%s"%(student_id))
 
@@ -345,11 +332,7 @@ def show_hs_options(request, student_id=1 ):
 
 
 def show_student_ontrack(request, student_id=1):
-        user_type=get_user_type(request)
-        if user_type in ["School Admin", "Teacher"]:
-            student_id=student_id
-        else:
-            student_id = get_user_id(request)
+        student_id, user_type=get_user_info(request, student_id)
 
         student=Student.objects.get(student_id= "%s"%(student_id))
         template_vars={'current_student': student}
@@ -359,12 +342,7 @@ def show_student_ontrack(request, student_id=1):
 
 
 def show_student_calc(request, student_id=1):
-        social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
-        user_type=get_user_type(request)
-        if user_type in ["School Admin", "Teacher"]:
-            student_id=student_id
-        else:
-            student_id = get_user_id(request)
+        student_id, user_type=get_user_info(request, student_id)
 
 
         student=Student.objects.get(student_id= "%s"%(student_id))
@@ -376,16 +354,7 @@ def show_student_calc(request, student_id=1):
 
 def show_student_grades(request, student_id=1):
 
-        social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
-        user_type=get_user_type(request)
-        if user_type in ["School Admin", "Teacher"]:
-            student_id=student_id
-        else:
-            student_id = get_user_id(request)
-
-
-
-
+        student_id, user_type=get_user_info(request, student_id)
         student=Student.objects.get(student_id= "%s"%(student_id))
         #image
         current_grades_sql= "SELECT grade, MAX(grade_date) as most_recent_grade_date, subject, display_name, image \
@@ -464,16 +433,17 @@ def show_student_grades(request, student_id=1):
         return render(request, 'student/student_grades.html',template_vars )
 
 
+def show_student_assignments(request, student_id=1, display_subject="MATHEMATICS STD"):
+    student_id, user_type=get_user_info(request, student_id)
+    student=Student.objects.get(student_id= "%s"%(student_id))
+    long_subject=Subject.objects.get(display_name=display_subject).subject_name
+    assigns=Assignment.objects.filter(student_id=student_id, subject=long_subject)
+    return render(request, 'student/student_assignments.html', {'student':student, 'assign_list':assigns} )
 
 
 def show_student_attendance(request, student_id=1):
 
-        social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
-        user_type=get_user_type(request)
-        if user_type in ["School Admin", "Teacher"]:
-            student_id=student_id
-        else:
-            student_id = get_user_id(request)
+        student_id, user_type=get_user_info(request, student_id)
 
 
         student=Student.objects.get(student_id= "%s"%(student_id))

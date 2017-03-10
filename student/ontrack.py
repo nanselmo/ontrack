@@ -14,21 +14,28 @@ take_out_subjects_list=['Speaking', 'Listening']
 #gpa_subjects_list=['CHGO READING FRMWK','MATHEMATICS STD','SCIENCE  STANDARDS','SOCIAL SCIENCE STD']
 
 #functions
-def get_user_id(the_request):
-    social_email = SocialAccount.objects.get(user=the_request.user).extra_data['email']
-    try:
-        lookup_user_id=Email.objects.get(email=social_email).student_id
-    except:
-            lookup_user_id = 1
-    return lookup_user_id
 
-def get_user_type(the_request):
+def get_user_info(the_request, student_id=1):
     social_email = SocialAccount.objects.get(user=the_request.user).extra_data['email']
     try:
         user_type=Email.objects.get(email=social_email).user_type
     except:
-            user_type = "Student"
-    return user_type
+        user_type = "Student"
+    #admin and teacher can look at any user's info
+    if user_type in ["School Admin", "Teacher"]:
+        student_id=student_id
+    #if they're a student, try matching their email to a user
+    else:
+        try:
+            student_id=Email.objects.get(email=social_email).student_id
+        #if they don't match a know student email, default them to student 1
+        except:
+            student_id = 1
+    return(student_id, user_type)
+
+
+
+
 
 def getOnTrack(att, gpa):
     if gpa>=3:

@@ -8,7 +8,9 @@
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <p style="text-align: left">
-      Grades Extract File
+      Currently taking Attendance and Grades files.
+      <br/>
+      Make sure "Grade" and "Attend" are part of the file names
     </p>
     {{display_form.as_p}}
     <br />
