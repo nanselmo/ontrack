@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from student.models import Grade, Student, Attendance, Email, Subject, Roster, DataFile
+from student.models import Grade, Student, Attendance, Email, Subject, Roster, DataFile, Assignment
 from allauth.socialaccount.models import SocialAccount
 from django.db import connection
 from ontrack import get_user_info, getOnTrack, getPoints, get_attend_pct, get_gpa, get_test_score, gpa_subjects_list, take_out_subjects_list
@@ -110,7 +110,7 @@ def download_summer_school(request):
         return render(request, 'student/summerschoolresults.html', {'ss_list' : ss_kids_html})
 
 
-def upload_grade_files(request):
+def upload_files(request):
 
     if request.user.is_authenticated:
         user_id, user_type=get_user_info(request)
@@ -124,7 +124,7 @@ def upload_grade_files(request):
                     for each_file in request.FILES.getlist('document'):
                         newfile = DataFile(document = each_file)
                         print each_file
-                        if "Grades" in str(each_file):
+                        if "Grade" in str(each_file):
                             num_data_points=loadGrades(newfile, inMemory=True)
                             message= message + str(num_data_points) + " grades have been updated. "
                         elif "Attend" in str(each_file):
@@ -139,13 +139,13 @@ def upload_grade_files(request):
             else:
                     #an empty form
                     upload_form = DataFileForm()
-                    message="Upload the Cumulative Grades Extract File"
+                    message="Upload Your School's Files"
         else:
             upload_form=""
             message= "You must be an administrator to upload new Grades"
 
 
-        return render(request, 'student/uploadGradeFiles.html', {'display_form': upload_form, 'upload_message': message})
+        return render(request, 'student/uploadFiles.html', {'display_form': upload_form, 'upload_message': message})
 
 
     #if user is not logged in
@@ -433,8 +433,12 @@ def show_student_grades(request, student_id=1):
         return render(request, 'student/student_grades.html',template_vars )
 
 
-def show_assign(request):
-    user_id, user_type=get_user_info(request, student_id)
+def show_student_assignments(request, student_id=1, display_subject="MATHEMATICS STD"):
+    student_id, user_type=get_user_info(request, student_id)
+    student=Student.objects.get(student_id= "%s"%(student_id))
+    long_subject=Subject.objects.get(display_name=display_subject).subject_name
+    assigns=Assignment.objects.filter(student_id=student_id, subject=long_subject)
+    return render(request, 'student/student_assignments.html', {'student':student, 'assign_list':assigns} )
 
 
 def show_student_attendance(request, student_id=1):
