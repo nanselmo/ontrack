@@ -67,6 +67,13 @@ h2, h3, h4, h1, h5 {
   margin: auto;
 }
 
+.hs-pts-status{
+  max-height: 50px;
+  margin: auto;
+}
+
+
+
 .high-school-list{
   line-height:100px;
   font-family: 'Oswald', sans-serif;

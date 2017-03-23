@@ -26,7 +26,13 @@
           </a>
         </div>
         <div class="col-md-4">
-          {{value.RemainingPts}}
+        {% if value.RemainingPts == "Eligible" %}
+          <img class="hs-pts-status" src="{{STATIC_URL}}student/images/checkmark.png " alt="checkmark" />
+        {% elif value.RemainingPts < 100 %}
+          <img class="hs-pts-status" src="{{STATIC_URL}}student/images/orange-close.png " alt="orange-close" />
+        {% else %}
+          <img class="hs-pts-status" src="{{STATIC_URL}}student/images/red-x.png " alt="red x" />
+        {% endif %}
         </div>
       </div>
       {% endif %}
@@ -40,11 +46,17 @@
   <div class="row high-school-list" height=400px>
     <div class="col-md-8">
       <a href={{value.website}}>
-      <img class="hs-logo" src="{{STATIC_URL}}student/images/hs-logos/{{value.short_name}}-default-logo.png " alt="hs-logo"/ />
+      <img class="hs-logo" src="{{STATIC_URL}}student/images/hs-logos/{{value.short_name}}-default-logo.png " alt="hs-logo" />
     </a>
     </div>
     <div class="col-md-4">
-      {{value.RemainingPts}}
+    {% if value.RemainingPts == "Eligible" %}
+      <img class="hs-pts-status" src="{{STATIC_URL}}student/images/checkmark.png " alt="checkmark" />
+    {% elif value.RemainingPts < 100 %}
+      <img class="hs-pts-status" src="{{STATIC_URL}}student/images/orange-close.png " alt="orange-close" />
+    {% else %}
+      <img class="hs-pts-status" src="{{STATIC_URL}}student/images/red-x.png " alt="red x" />
+    {% endif %}
     </div>
   </div>
   {% endif %}
