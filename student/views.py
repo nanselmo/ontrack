@@ -3,7 +3,7 @@ from student.models import Grade, Student, Attendance, Email, Subject, Roster, D
 from allauth.socialaccount.models import SocialAccount
 from django.db import connection
 from ontrack import get_user_info, getOnTrack, getPoints, get_attend_pct, get_gpa, get_test_score, gpa_subjects_list, take_out_subjects_list
-from grade_audit import summarize_data
+from grade_audit import generate_grade_audit
 from classdata import hr_data
 from summerschool import get_ss_report
 from loadOnTrackData import *
@@ -39,15 +39,13 @@ def summer_school(request):
         upload_form = DataFileForm(request.POST, request.FILES)
         if upload_form.is_valid():
                 file_list=request.FILES.getlist('document')
-                #returns to dataframes with summer school status (using the uploaded files)
+                #returns two dataframes with summer school status (using the uploaded files)
                 full_roster, ss_list=get_ss_report(file_list, in_mem=True)
                 #save the dataframes in the session - but must be saved as JSON
                 request.session['ss_kids'] = ss_list.to_json()
                 request.session['full_roster'] = full_roster.to_json()
                 #go to the success page
                 return redirect( 'download_ss')
-
-
 
     else:
             #an empty form
@@ -130,6 +128,10 @@ def upload_files(request):
                         elif "Attend" in str(each_file):
                             num_data_points=loadAttendance(newfile, inMemory=True)
                             message= message + str(num_data_points) + " attendance records have been updated. "
+                        elif "Email" in str(each_file):
+                            num_data_points=loadEmail(newfile, inMemory=True)
+                            message= message + str(num_data_points) + " emails records have been updated. "
+
                         else:
                             num_data_points=0
                             message=message+ str(each_file) + " not named correctly. Please rename it with the convention Grades-XX-XX-XX.csv or Attendance-XX-XX-XX.csv"
@@ -142,7 +144,7 @@ def upload_files(request):
                     message="Upload Your School's Files"
         else:
             upload_form=""
-            message= "You must be an administrator to upload new Grades"
+            message= "You must be an administrator to upload a file"
 
 
         return render(request, 'student/uploadFiles.html', {'display_form': upload_form, 'upload_message': message})
@@ -156,8 +158,30 @@ def upload_files(request):
 
 
 def grade_report(request):
-    template_vars=summarize_data("admin")
-    return render(request, "student/ind-teacher-report.html", template_vars)
+    template_vars=generate_grade_audit(num="admin")
+    if request.method == 'POST':
+        #DataFileForm is a class defined in forms.py
+        upload_form = DataFileForm(request.POST, request.FILES)
+        if upload_form.is_valid():
+                file_list=request.FILES.getlist('document')
+
+                #save the dataframes in the session - but must be saved as JSON
+                #request.session['ss_kids'] = ss_list.to_json()
+                #request.session['full_roster'] = full_roster.to_json()
+                #go to the success page
+                #return redirect('download_ss')
+
+    else:
+            #an empty form
+            upload_form = DataFileForm()
+            #message="Upload The Grades Files"
+
+
+    return render(request, "student/grade_report.html", template_vars)
+
+
+
+
 
 
 def show_home(request):
