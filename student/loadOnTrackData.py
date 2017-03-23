@@ -91,12 +91,26 @@ def loadNWEA(file):
     for i in range(0,len(df)):
             try:
                 student = Student.objects.get(student_id=df.iloc[i]['StudentID'])
-                TestScore.objects.get_or_create(student_id=df.iloc[i]['StudentID'].astype(str),
+                #change this so that it only upload one test score per session.
+                # TestScore.objects.get_or_create(student_id=df.iloc[i]['StudentID'].astype(str),
+                #                         test_name='NWEA',
+                #                         score=df.iloc[i]['TestRITScore'],
+                #                         percentile=df.iloc[i]['TestPercentile'],
+                #                            test_session=df.iloc[i]['TermName'],
+                #                            subject=df.iloc[i]['Discipline'])
+                test_instance=TestScore.objects.get_or_create(student_id=df.iloc[i]['StudentID'].astype(str),
                                         test_name='NWEA',
-                                        score=df.iloc[i]['TestRITScore'],
-                                        percentile=df.iloc[i]['TestPercentile'],
-                                           test_session=df.iloc[i]['TermName'],
-                                           subject=df.iloc[i]['Discipline'])
+                                        test_session=df.iloc[i]['TermName'],
+                                        subject=df.iloc[i]['Discipline'])
+                test_instance[0].score=df.iloc[i]['TestRITScore']
+                test_instance[0].percentile=df.iloc[i]['TestPercentile']
+                test_instance.save()
+
+                user= Email.objects.get_or_create(student_id=df.iloc[i]['Logon ID'].lower())
+                user[0].email=df.iloc[i]['mail'].lower()
+                user[0].user_type=user_type
+                user[0].save()
+
             except Student.DoesNotExist:
                 #student is no longer at Chavez
                 pass

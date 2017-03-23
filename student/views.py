@@ -272,8 +272,7 @@ def show_hs_options(request, student_id=1 ):
     student=Student.objects.get(student_id= "%s"%(student_id))
     current_grades=get_gpa(student_id)['current_dict']
     nwea_scores=get_test_score(student_id , "NWEA")
-    nwea_math=nwea_scores['math_pct']
-    nwea_reading=nwea_scores['read_pct']
+
 
 
     #still need to change this to default to an A for 8th grade SS
@@ -306,8 +305,12 @@ def show_hs_options(request, student_id=1 ):
                 tot_ses=tot_ses+get_points(grade_dict[subject])['ses']
 
         #total points are the points awarded by letter grade plus a factor times the NWEA percentiles
-        tot_ib=tot_ib+2.2727*(int(nwea_scores['math_pct']) + int(nwea_scores['read_pct']))
-        tot_ses=tot_ses+1.515*(int(nwea_scores['math_pct']) + int(nwea_scores['read_pct']))
+        if nwea_score_dict['math_pct'] != "not available":
+            tot_ib=tot_ib+2.2727*int(nwea_score_dict['math_pct'])
+            tot_ses=tot_ses + 1.515*int(nwea_score_dict['math_pct'])
+        if nwea_score_dict['read_pct'] != "not available":
+            tot_ib=tot_ib + 2.2727*int(nwea_score_dict['read_pct'])
+            tot_ses=tot_ses + 1.515*int(nwea_score_dict['read_pct'])
         return({'ib_totl': tot_ib, 'ses_totl': tot_ses })
 
     points=total_hs_points(current_grades, nwea_scores)
