@@ -1,21 +1,17 @@
 {% extends 'student/base.html' %}
+{% load render_bundle from webpack_loader %}
 {% load static %}
 {% block extra_head_content  %}
-<script type='text/javascript'>
-
-  function calcGrade()  {
-      document.getElementById("ses-pts").innerHTML = "SES: 292";
-      document.getElementById("ib-pts").innerHTML = "IB: 301";
-      }
-
-</script>
+<script type="text/javascript" src="{{STATIC_URL}}student/js/calculate_hs.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}student/css/calculator.css" />
 {% endblock %}
 
 
 
 {% block content %}
-<div id="page-container">
 
+
+<div class="container">
   <div class="row student-name">
     <a href={% url 'show_student' student_id=student_id  %}>
         <h2>
@@ -24,61 +20,129 @@
     </a>
   </div>
 
-  <div class="row student-name">
-     <div class=col-sm-4>
-       <h2>
-         High School Calculator
-       </h2>
-     </div>
-    <div class=col-sm-4>
-        <img class="subject-icon" src="https://www.iconexperience.com/_img/i_collection_png/512x512/plain/calculator.png"/ >
-    </div>
-    <div class=col-sm-4>
 
-    </div>
-  </div>
+  Total HS points <span class="totPoints">200</span>
+  <div class='row'><!--start numbers row-->
 
+      {% for subject, grade in current_grades_dict.items %}
+        {% if subject != "grade_date" %}
+        <div class="col-xs-3">
+            <div class="row">
+              <h3>{{subject}}</h3>
+            </div>
+            <div class="row">
+              <img class="arrow plus"/>
+            </div>
+            <div class="row">
+              <input  name="{{subject}}_grade" id="{{subject}}_grade" value="{{grade}}"  class="input-text">
+            </div>
+            <div class="row">
+              <img class="arrow minus"/>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+
+  <!--testing data -->
   <div class="row">
+    <div class="col-xs-4">
+        <div class="row">
+          <h3>NWEA Read</h3>
+        </div>
+        <div class="row">
+          <img class="arrow plus"/>
+        </div>
+        <div class="row">
+          <input name="nwea_read" id="nwea_read" value="80"  class="input-text">
+        </div>
+        <div class="row">
+          <img class="arrow minus"/>
+        </div>
+    </div>
 
 
-    <div class=col-sm-4>
-      <div id="calc">
-        <form id ="calc" action="" onsubmit="calcGrade()">
-          <h4>Math<input type="number" name="math_grade" value=78></h4>
-          <h4>ELA<input type="number" name="ela_grade" value=86></h4>
-          <h4>Science<input type="number" name="science_grade" value=88></h4>
-          <h4>Social Studies<input type="number" name="science_grade" value=92></h4>
-          <h4>NWEA Math %<input type="number" name="nwea_math" value=72></h4>
-          <h4>NWEA Reading %<input type="number" name="nwea_reading" value=79></h4>
-          <h4>Entrance Exam %<input type="number" name="exam_score" value=89></h4>
-          <h4>Tier
-          <input list="tiers" name="tiers">
-          <datalist id="tiers">
-            <option value="1">
-            <option value="2" selected>
-            <option value="3">
-            <option value="4">
-            <option value="5">
-          </datalist>
-          </h4>
-          <input type="submit">
-        </form>
+    <div class="col-xs-4">
+      <div class="row">
+          <h3>NWEA Math</h3>
+        </div>
+        <div class="row">
+          <img class="arrow plus"/>
+        </div>
+        <div class="row">
+          <input name="nwea_math" id="nwea_math" value="80"  class="input-text">
+        </div>
+        <div class="row">
+          <img class="arrow minus"/>
+        </div>
+
+    </div>
+
+    <div class="col-xs-4">
+        <div class="row">
+          <h3>HS Exam</h3>
+        </div>
+        <div class="row">
+          <img class="arrow plus"/>
+        </div>
+        <div class="row">
+          <input name="hs_exam" id="hs_exam" value="80"  class="input-text">
+        </div>
+        <div class="row">
+          <img class="arrow minus"/>
+        </div>
+       </div>
+    </div>
+    <div class="col-md-4">
+      <h3>Selective Enrollment</h3>
+        {% for key, value in hs_dict.items %}
+          {% if value.school_type == "SES" %}
+          <div class="row high-school-list">
+            <div class="col-md-8">
+              <a href={{value.website}}>
+                <img class="hs-logo" src="{{STATIC_URL}}student/images/hs-logos/{{value.short_name}}-default-logo.png " alt="hs-logo"/ />
+              </a>
+            </div>
+            <div class="col-md-2">
+              <p class="hs-remain-pts">
+                {{value.RemainingPts}}
+              </p>
+            </div>
+
+
+            <div class="col-md-2 check-points">
+              <span class="hs-pts">{{value.tier1_points}}</span>
+              <img class="hs-pts-status red-x"/>
+            </div>
+          </div>
+          {% endif %}
+        {% endfor%}
+    </div>
+
+    <div class="col-md-4">
+    <h3>IB Schools</h3>
+    {% for key, value in hs_dict.items %}
+      {% if value.school_type == "IB" %}
+      <div class="row high-school-list" height=400px>
+        <div class="col-md-8">
+          <a href={{value.website}}>
+          <img class="hs-logo" src="{{STATIC_URL}}student/images/hs-logos/{{value.short_name}}-default-logo.png " alt="hs-logo" />
+        </a>
+        </div>
+        <div class="col-md-2">
+          <p class="hs-remain-pts">
+            {{value.RemainingPts}}
+          </p>
+
+        </div>
+        <div class="col-md-2 check-points">
+          <span class="hs-pts">{{value.tier1_points}}</span>
+          <img class="hs-pts-status red-x"/>
+        </div>
       </div>
-    </div>
-    <div class=col-sm-4>
-      <h1></h1>
-      <h1></h1>
-      <h3 id ="ses-pts">SES: 278</h3>
-      <h3 id ="ib-pts">IB: 286</h3>
-    </div>
-
-
-  </div><!--end second row-->
+      {% endif %}
+    {% endfor%}
 
 
 
-
-</div>
-
-
+</div> <!--end container class -->
 {% endblock %}

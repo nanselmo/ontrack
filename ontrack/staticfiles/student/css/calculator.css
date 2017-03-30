@@ -1,0 +1,37 @@
+input {
+  width: 20px;
+}
+
+.arrow {
+  height: 15px;
+}
+
+.plus {
+  content:url("http://image.flaticon.com/icons/png/512/10/10442.png");
+}
+.minus {
+  content:url("http://freevector.co/wp-content/uploads/2011/11/77788-down-arrow-inside-circle.png");
+}
+
+.hs-pts-status {
+  height: 50px;
+}
+
+.green-check {
+  content:url("http://port-moscow.ru/menu/Services/images/1.png");
+}
+
+.orange-okay{
+  content:url("https://openclipart.org/image/2400px/svg_to_png/22267/yoderj-mid-OK-icon.png")
+}
+
+.red-x {
+  content:url("http://openclipart.org/image/2400px/svg_to_png/10941/TzeenieWheenie-red-green-OK-not-OK-Icons-1.png");
+}
+.hs-info{
+  background-color: lightblue;
+}
+
+.hs-pts{
+  /*display:none;*/
+}

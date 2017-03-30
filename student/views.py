@@ -462,26 +462,25 @@ def show_student_calc(request, student_id=1):
             elif tier == 4:
                 admit_pts=row['tier4_points']
 
+            #test score is out of 300, assume students get at least a 60% on it
+            admit_pts=admit_pts-200
 
             #subtract the total they need from what they have
             if row['school_type']=="IB":
-                student_pts=admit_pts-points['ib_totl']
+                student_pts = admit_pts - points['ib_totl']
             elif row['school_type']=="SES":
-                student_pts=admit_pts-points['ses_totl']
-                #test score is out of 300, assume students get at least a 60% on it
-                student_pts=student_pts+180
-            student_pts = student_pts+200 #assume 66% of test
+                student_pts = admit_pts - points['ses_totl']
 
-            return(student_pts)
+
+            return(int(round(student_pts)))
 
         hs_df['RemainingPts'] = hs_df.apply(lambda row: getAppPts(row), axis=1)
-        hs_df=hs_df.sort_values('RemainingPts', ascending=False)
+        hs_df=hs_df.sort_values('RemainingPts', ascending=True)
         hs_df.index = range(1,len(hs_df) + 1)
         student_hs_dict=hs_df.to_dict(orient='index')
 
         template_vars={'current_student': student,
             'hs_dict':student_hs_dict,
-            'hs_json': json.loads(json.dumps(student_hs_dict)),
             'ses_points': points["ses_totl"],
             'ib_points': points["ib_totl"],
             'student_id':student_id,
