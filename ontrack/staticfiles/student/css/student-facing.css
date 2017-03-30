@@ -88,3 +88,9 @@ h2, h3, h4, h1, h5 {
         width: 100%;
         clear: both;
     }
+
+.grade-table{
+  background-color: lightskyblue;
+  font-size:14px;
+  color: black;
+}

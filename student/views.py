@@ -28,9 +28,10 @@ from django.db import connection
 #
 
 
-hr_list = [hr.encode("utf8") for hr in Roster.objects.values_list('hr_id', flat=True).distinct()]
-all_hr_list = ["All"] + hr_list
 
+
+grade_hr_dict = Roster.objects.values('hr_id',
+                                            'grade_level').distinct().order_by('grade_level')
 
 
 def summer_school(request):
@@ -193,18 +194,31 @@ def show_home(request):
         if request.user.is_authenticated:
             social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
             user_id, user_type=get_user_info(request)
-            if user_type == "School Admin":
-                hr_list=all_hr_list
-            elif user_type == "Teacher":
-                hr_list=all_hr_list
+            if user_type in[ "School Admin","Teacher"]:
+                hr_dict=grade_hr_dict
             else:
-                hr_list="none"
+                hr_dict="none"
 
         else:
             social_email= "none"
-            hr_list="none"
+            hr_dict="none"
+        exclude_hr_list=["1", "2"]
+        exclude_grade_list=["PK", "PE", "20"]
 
-        return render(request, "student/home.html", {'social_email': social_email, 'hr_list': hr_list})
+        prev_grade=0
+        display_hr_list=[]
+        for hr in grade_hr_dict:
+            if (hr['grade_level'] not in ["20","PE","PK"]) & (hr['hr_id'] not in ["1","2"]):
+                cur_grade="GR: "+hr['grade_level']
+                if (cur_grade!=prev_grade) :
+                    display_hr_list.append(cur_grade)
+
+                display_hr_list.append(hr['hr_id'])
+                prev_grade=cur_grade
+
+
+        return render(request, "student/home.html", {'social_email': social_email,
+         'display_hr_list': display_hr_list})
 
     except SocialAccount.DoesNotExist:
         return render(request, 'student/no-match-found.html')
