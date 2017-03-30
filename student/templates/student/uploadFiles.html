@@ -8,12 +8,29 @@
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <p style="text-align: left">
-      Currently taking Attendance and Grades files.
+      Currently taking Attendance, Grade and Email files.
       <br/>
-      Make sure "Grade" and "Attend" are part of the file names
+      Make sure "Grade", "Attend" or "Email" are part of the file names
     </p>
+    <br/>
+    <p>
+      You will need to save the Email .xls file from ADAM as a Excel file.
+    </p>
+    <ol>
+      <li>
+        Open the file in Excel
+      </li>
+      <li>
+        Click Save As
+      </li>
+      <li>
+        Change the format to .xls or .xslx
+      </li>
+    </ol>
+  </br/>
     {{display_form.as_p}}
     <br />
+    <p>Upload can take anywhere from 1-3 mins</p>
     <button type="submit">Upload</button>
   </form>
 </div>

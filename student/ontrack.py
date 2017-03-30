@@ -131,6 +131,15 @@ def get_gpa(student_id):
 def get_test_score(student_id, test_type):
     student_scores=TestScore.objects.filter(student_id="%s"%(student_id))
     nwea_scores=student_scores.filter(test_name="%s"%(test_type))
-    math = student_scores.filter(subject="Mathematics")[0]
-    reading=student_scores.filter(subject="Reading")[0]
-    return {'read_pct': reading.percentile, 'math_pct':math.percentile}
+    if len(student_scores.filter(subject="Mathematics"))>0:
+        math_score = student_scores.filter(subject="Mathematics")[0].percentile
+    else:
+        math_score = "not available"
+
+    if len(student_scores.filter(subject="Reading"))>0:
+        reading_score = student_scores.filter(subject="Reading")[0].percentile
+    else:
+        reading_score = "not available"
+
+
+    return {'read_pct': reading_score, 'math_pct':math_score}

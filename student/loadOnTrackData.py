@@ -6,18 +6,21 @@ from datetime import datetime
 from hardcoded import Q3_Start_Date
 
 #converts file to df and gets the date from the file name
-def get_df(the_file, inMemory):
-    if inMemory==False: #load it like a normally stored file
-        df = pandas.read_csv(open(the_file,'rb'))
+def get_df(the_file, inMemory, file_type="CSV"):
+    if inMemory == False:  #load it like a normally stored file
         file_name=the_file
-
+        prepped_file=open(the_file,'rb')
     else:
         #if the file is inMemory, it was recently uploaded through the form
         #this means it has the fields .document which is the actual file
         #and .name which is the file name ("Grades-01-30-17.csv")
-        df = pandas.read_csv(the_file.document)
+        prepped_file=the_file.document
         #get file date
         file_name= the_file.filename()
+    if file_type == "CSV":
+        df = pandas.read_csv(prepped_file)
+    elif file_type == "Excel":
+        df= pandas.read_excel(prepped_file)
 
     file_date_start=file_name.find('-') + 1
     file_date_end= file_date_start + 8
@@ -88,12 +91,26 @@ def loadNWEA(file):
     for i in range(0,len(df)):
             try:
                 student = Student.objects.get(student_id=df.iloc[i]['StudentID'])
-                TestScore.objects.get_or_create(student_id=df.iloc[i]['StudentID'].astype(str),
+                #change this so that it only upload one test score per session.
+                # TestScore.objects.get_or_create(student_id=df.iloc[i]['StudentID'].astype(str),
+                #                         test_name='NWEA',
+                #                         score=df.iloc[i]['TestRITScore'],
+                #                         percentile=df.iloc[i]['TestPercentile'],
+                #                            test_session=df.iloc[i]['TermName'],
+                #                            subject=df.iloc[i]['Discipline'])
+                test_instance=TestScore.objects.get_or_create(student_id=df.iloc[i]['StudentID'].astype(str),
                                         test_name='NWEA',
-                                        score=df.iloc[i]['TestRITScore'],
-                                        percentile=df.iloc[i]['TestPercentile'],
-                                           test_session=df.iloc[i]['TermName'],
-                                           subject=df.iloc[i]['Discipline'])
+                                        test_session=df.iloc[i]['TermName'],
+                                        subject=df.iloc[i]['Discipline'])
+                test_instance[0].score=df.iloc[i]['TestRITScore']
+                test_instance[0].percentile=df.iloc[i]['TestPercentile']
+                test_instance.save()
+
+                user= Email.objects.get_or_create(student_id=df.iloc[i]['Logon ID'].lower())
+                user[0].email=df.iloc[i]['mail'].lower()
+                user[0].user_type=user_type
+                user[0].save()
+
             except Student.DoesNotExist:
                 #student is no longer at Chavez
                 pass
@@ -132,16 +149,23 @@ def loadHSInfo(file):
                         tier4_points=tier4)
 
 
-def loadEmail(file):
-    email_df = pandas.read_excel(open(file,'rb'))
+def loadEmail(file, inMemory=False):
+    email_df, file_date=get_df(file, inMemory, file_type="Excel")
     email_df=email_df.loc[email_df['Note'] != 'Deleted']
     df=email_df
 
     for i in range(0,len(df)):
-        user= Email.objects.get_or_create(student_id=df.iloc[i]['Student ID'].astype(int))
-        user[0].email=df.iloc[i]['mail']
-        user[0].user_type=df.iloc[i]['User Category']
+        print "Now loading " + df.iloc[i]['Logon ID']
+        user_type=df.iloc[i]['User Category']
+        if user_type=="Student":
+            user= Email.objects.get_or_create(student_id=df.iloc[i]['Student ID'].astype(int))
+        #staff don't have ids, use their cps username instead
+        else:
+            user= Email.objects.get_or_create(student_id=df.iloc[i]['Logon ID'].lower())
+        user[0].email=df.iloc[i]['mail'].lower()
+        user[0].user_type=user_type
         user[0].save()
+    return(len(df))
 
 def loadAssignments(file, inMemory=False):
 

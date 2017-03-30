@@ -15,7 +15,7 @@ from django_google_maps import fields as map_fields
 # Create your models here.
 
 class Student(models.Model):
-    student_id = models.CharField(max_length=20, primary_key=True)
+    student_id = models.CharField(max_length=40, primary_key=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     gender = models.CharField(max_length=2)
@@ -24,8 +24,9 @@ class Student(models.Model):
     def __str__(self):
         return self.student_id + ": " + self.first_name + " " + self.last_name
 
+#teachers will have their username as ID, students have their 8 digit id
 class Email(models.Model):
-    student_id = models.CharField(max_length=20, primary_key=True)
+    student_id = models.CharField(max_length=40, primary_key=True)
     email = models.CharField(max_length=100)
     user_type = models.CharField(max_length=100, null=True)
 
@@ -34,7 +35,7 @@ class Email(models.Model):
         return self.student_id + " " + self.email
 
 class Roster(models.Model):
-    student_id = models.CharField(max_length=20, primary_key=True)
+    student_id = models.CharField(max_length=40, primary_key=True)
     hr_id = models.CharField(max_length=2)
     grade_level = models.CharField(max_length=2)
 
