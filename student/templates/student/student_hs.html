@@ -14,7 +14,39 @@
     </a>
   </div>
 
+  <div class="row">
+    <div class="col-sm-4">
+      <h4>NWEA SCORES</h4>
+    </div>
+    <div class="col-sm-8">
+      <h4>GRADES</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2">
+      <p>M: {{nwea_scores_dict.math_pct}}%</p>
+    </div>
+    <div class="col-sm-2">
+      <p>R: {{nwea_scores_dict.read_pct}}%</p>
+    </div>
+    {%for subject, grade in current_grades_dict.items %}
+      {% if subject != "grade_date" %}
+      <div class="col-sm-2">
+        <p>{{subject}}: {{grade}}</p>
+      </div>
+      {% endif %}
+    {% endfor %}
+  </div>
 
+
+
+</div>
+<div class="row">
+  <h4>HS EXAM</h4>
+  <p>
+    It was assumed that students would score in the 66% of the high school entrance exam
+  </p>
+</div>
 <div class="col-md-4">
   <h3>Selective Enrollment</h3>
     {% for key, value in hs_dict.items %}
@@ -25,8 +57,15 @@
             <img class="hs-logo" src="{{STATIC_URL}}student/images/hs-logos/{{value.short_name}}-default-logo.png " alt="hs-logo"/ />
           </a>
         </div>
-        <div class="col-md-4">
-        {% if value.RemainingPts == "Eligible" %}
+        <div class="col-md-1">
+          <p class="hs-pts">
+            {% if value.RemainingPts > 0 %}
+            {{value.RemainingPts}}
+            {% endif %}
+          </p>
+        </div>
+        <div class="col-md-2">
+        {% if value.RemainingPts <= 0 %}
           <img class="hs-pts-status" src="{{STATIC_URL}}student/images/checkmark.png " alt="checkmark" />
         {% elif value.RemainingPts < 100 %}
           <img class="hs-pts-status" src="{{STATIC_URL}}student/images/orange-close.png " alt="orange-close" />
@@ -49,8 +88,15 @@
       <img class="hs-logo" src="{{STATIC_URL}}student/images/hs-logos/{{value.short_name}}-default-logo.png " alt="hs-logo" />
     </a>
     </div>
-    <div class="col-md-4">
-    {% if value.RemainingPts == "Eligible" %}
+    <div class="col-md-1">
+      <p class="hs-pts">
+        {% if value.RemainingPts > 0 %}
+        {{value.RemainingPts}}
+        {% endif %}
+      </p>
+    </div>
+    <div class="col-md-2">
+    {% if value.RemainingPts <= 0 %}
       <img class="hs-pts-status" src="{{STATIC_URL}}student/images/checkmark.png " alt="checkmark" />
     {% elif value.RemainingPts < 100 %}
       <img class="hs-pts-status" src="{{STATIC_URL}}student/images/orange-close.png " alt="orange-close" />

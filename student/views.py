@@ -55,6 +55,10 @@ def summer_school(request):
 
     return render(request, 'student/summerschool.html', {'display_form': upload_form})
 
+def show_test_react(request):
+
+    return render(request, 'student/test-react.html')
+
 def download_summer_school(request):
     ss_kids = request.session.get('ss_kids', None)
     full_roster = request.session.get('full_roster', None)
@@ -333,18 +337,20 @@ def show_hs_options(request, student_id=1 ):
         elif tier == 4:
             admit_pts=row['tier4_points']
 
+        #test score is out of 300, assume students get at least a 60% on it
+        admit_pts=admit_pts-200
 
         #subtract the total they need from what they have
         if row['school_type']=="IB":
-            student_pts=admit_pts-points['ib_totl']
+            student_pts = admit_pts - points['ib_totl']
         elif row['school_type']=="SES":
-            student_pts=admit_pts-points['ses_totl']
-        if student_pts<0:
-            student_pts="Eligible"
-        return(student_pts)
+            student_pts = admit_pts - points['ses_totl']
+
+
+        return(int(round(student_pts)))
 
     hs_df['RemainingPts'] = hs_df.apply(lambda row: getAppPts(row), axis=1)
-    hs_df=hs_df.sort_values('RemainingPts')
+    hs_df=hs_df.sort_values('RemainingPts', ascending=True)
     hs_df.index = range(1,len(hs_df) + 1)
     student_hs_dict=hs_df.to_dict(orient='index')
 
@@ -352,7 +358,9 @@ def show_hs_options(request, student_id=1 ):
         'hs_dict':student_hs_dict,
         'ses_points': points["ses_totl"],
         'ib_points': points["ib_totl"],
-        'student_id':student_id}
+        'student_id':student_id,
+        'current_grades_dict': current_grades,
+        'nwea_scores_dict' : nwea_scores}
     return render(request, "student/student_hs.html", template_vars)
 
 
@@ -371,10 +379,100 @@ def show_student_ontrack(request, student_id=1):
 def show_student_calc(request, student_id=1):
         student_id, user_type=get_user_info(request, student_id)
 
+        student=Student.objects.get(student_id= "%s"%(student_id))
+
+        #hardcode tier for now
+        tier=2
 
         student=Student.objects.get(student_id= "%s"%(student_id))
+        current_grades=get_gpa(student_id)['current_dict']
+        nwea_scores=get_test_score(student_id , "NWEA")
+
+
+
+        #still need to change this to default to an A for 8th grade SS
+        def total_hs_points(grade_dict, nwea_score_dict):
+
+            def get_points(num):
+                ib_points=0
+                ses_points=0
+                if(num>=91):
+                    ses_points=75
+                    ib_points=112.5
+                elif(num>=81):
+                    ses_points=50
+                    ib_points=75
+                elif(num>=71):
+                    ses_points=25
+                    ib_points=38
+                else:
+                    ses_points=0
+                    ib_points=0
+                return({'ib': ib_points, 'ses':ses_points})
+
+
+            #get the points for each letter grade
+            tot_ib=0
+            tot_ses=0
+            for subject in grade_dict:
+                if subject !="grade_date":
+                    tot_ib=tot_ib+get_points(grade_dict[subject])['ib']
+                    tot_ses=tot_ses+get_points(grade_dict[subject])['ses']
+
+            #total points are the points awarded by letter grade plus a factor times the NWEA percentiles
+            if nwea_score_dict['math_pct'] != "not available":
+                tot_ib=tot_ib+2.2727*int(nwea_score_dict['math_pct'])
+                tot_ses=tot_ses + 1.515*int(nwea_score_dict['math_pct'])
+            if nwea_score_dict['read_pct'] != "not available":
+                tot_ib=tot_ib + 2.2727*int(nwea_score_dict['read_pct'])
+                tot_ses=tot_ses + 1.515*int(nwea_score_dict['read_pct'])
+            return({'ib_totl': tot_ib, 'ses_totl': tot_ses })
+
+        points=total_hs_points(current_grades, nwea_scores)
+
+        hs_sql = "SELECT * from student_highschool"
+
+        hs_df_raw = pandas.read_sql(hs_sql, con=connection)
+        hs_df = hs_df_raw[hs_df_raw['tier1_points']>0]
+
+        def getAppPts(row):
+            admit_pts=0
+            student_pts=0
+            #get how many points that school needs for admission
+            if tier == 1 or row['school_type']=="IB":
+                admit_pts=row['tier1_points']
+            elif tier == 2:
+                admit_pts=row['tier2_points']
+            elif tier == 3:
+                admit_pts=row['tier3_points']
+            elif tier == 4:
+                admit_pts=row['tier4_points']
+
+
+            #subtract the total they need from what they have
+            if row['school_type']=="IB":
+                student_pts=admit_pts-points['ib_totl']
+            elif row['school_type']=="SES":
+                student_pts=admit_pts-points['ses_totl']
+                #test score is out of 300, assume students get at least a 60% on it
+                student_pts=student_pts+180
+            student_pts = student_pts+200 #assume 66% of test
+
+            return(student_pts)
+
+        hs_df['RemainingPts'] = hs_df.apply(lambda row: getAppPts(row), axis=1)
+        hs_df=hs_df.sort_values('RemainingPts', ascending=False)
+        hs_df.index = range(1,len(hs_df) + 1)
+        student_hs_dict=hs_df.to_dict(orient='index')
+
         template_vars={'current_student': student,
-        'student_id':student_id}
+            'hs_dict':student_hs_dict,
+            'hs_json': json.loads(json.dumps(student_hs_dict)),
+            'ses_points': points["ses_totl"],
+            'ib_points': points["ib_totl"],
+            'student_id':student_id,
+            'current_grades_dict': current_grades,
+            'nwea_scores_dict' : nwea_scores}
         return render(request, "student/student_calc.html", template_vars)
 
 

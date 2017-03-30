@@ -137,7 +137,7 @@ def get_test_score(student_id, test_type):
         math_score = "not available"
 
     if len(student_scores.filter(subject="Reading"))>0:
-        reading_score = student_scores.filter(subject="Mathematics")[0].percentile
+        reading_score = student_scores.filter(subject="Reading")[0].percentile
     else:
         reading_score = "not available"
 

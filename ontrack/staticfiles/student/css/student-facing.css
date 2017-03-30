@@ -1,12 +1,9 @@
 p{
-  text-align: center;
   font-family: font-family: 'Raleway', sans-serif;
   color: grey;
 }
 
-div {
-  height : 100%;
-}
+
 h2, h3, h4, h1, h5 {
 
   font-family: 'Oswald', sans-serif;
@@ -63,9 +60,15 @@ h2, h3, h4, h1, h5 {
 }
 
 .hs-logo{
-  max-height: 100px;
+  max-height: 125px;
   margin: auto;
 }
+
+.hs-pts-status{
+  max-height: 60px;
+}
+
+
 
 .high-school-list{
   line-height:100px;
@@ -73,3 +76,15 @@ h2, h3, h4, h1, h5 {
   font-weight: bold;
   font-size: 100%;
 }
+
+/*form upload for grades files*/
+.file-upload-container{
+  color: blue;
+  width: 500px;
+  clear: both;
+}
+
+.file-upload-container input {
+        width: 100%;
+        clear: both;
+    }
