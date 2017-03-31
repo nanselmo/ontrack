@@ -1,0 +1,75 @@
+{% extends 'student/base.html' %}
+{% load static %}
+
+{% block content %}
+<h4>This tool will automatically generate a summer school status according to
+
+  <a href="http://healy.cps.edu/uploads/2/7/2/7/27271991/13-14_3_6_8_gd._guide_to_the_promotion_policy_english_10.24.13.pdf"> this document</a>
+  </h4>
+  <br />
+  <br />
+  <h4>To use this tool. You'll need 4 files.</h4>
+  <h5>The files can either retain their original names, or you can rename them according to the instructions</h5>
+<br />
+<br />
+<p>
+
+  <ol>
+    <li>Grades Extract from Gradebook</li>
+    <ul>
+      <a href="http://gradebook.cps.k12.il.us" target="_blank"><li>CPS Gradebook</li></a>
+      <li>Click Reports</li>
+      <li>
+        Click ES Cumulative Grades Extract
+      </li>
+      <li>Click Save As .csv</li>
+      <li>If you want to rename this, it should have the word "Grades" in the filename</li>
+    </ul>
+    <li>NWEA CDF from Last Year</li>
+    <ul>
+      <a href="http://dashboard.cps.edu" target="_blank"><li>CPS Dashboard</li></a>
+      <li>Click on School Reports</li>
+      <li>
+        Under "Student Level", click "NWEA CDF & Participation Report"
+      </li>
+      <li>Select your school, the term and students currently enrolled in your school</li>
+      <li>Click on your District Name</li>
+      <li>Click on View CDF Data</li>
+      <li>Download as CSV</li>
+        <li>If you want to rename this, it should have the word "NWEA" in the filename</li>
+    </ul>
+    <li>NWEA CDF from This Year</li>
+    <ul>
+      <a href="http://dashboard.cps.edu" target="_blank"><li>CPS Dashboard</li></a>
+      <li>Repeat Previous Steps but choose a term from this year</li>
+    </ul>
+    <li>Diverse Learners Report as CSV </li>
+      <ul>
+        <a href="http://dashboard.cps.edu" target="_blank"><li>CPS Dashboad</li></a>
+        <li>Click on the arrow the the right of the School Profile Menu option (top)</li>
+        <li>Select IEP</li>
+        <li>Click anywhere in the Grid</li>
+        <li>Filter for your school and all grades</li>
+        <li>Download as CSV</li>
+        <li>If you want to rename this, it should have the word "DL" or "Special" in the filename</li>
+      </ul>
+
+  </ol>
+
+</p>
+<br />
+<br />
+
+<div class="file-upload-container">
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <p style="text-align: left">
+      Hold Down CTRL (Windows) or Command (Mac) to select all 4 files
+    </p>
+    {{display_form.as_p}}
+    <br />
+    <button type="submit">Get Summer School Roster</button>
+  </form>
+</div>
+
+{% endblock %}

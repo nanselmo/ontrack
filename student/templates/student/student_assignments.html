@@ -1,0 +1,34 @@
+{% extends 'student/base.html' %}
+
+
+{% block content %}
+<div id="page-container">
+  <div class="row student-name">
+    <a href={% url 'show_student' student_id=student.student_id %}>
+        <h2>
+          {{student.first_name}} {{student.last_name}}
+        </h2>
+    </a>
+  </div>
+
+  <div class="row">
+    <h4>My Assignments</h4>
+      {% for assignment in assign_list %}
+      <div class="col-sm-6">
+         <p>{{assignment.assign_name}}</p>
+      </div>
+      <div class="col-sm-2">
+        <p>{{assignment.assign_score}}</p>
+      </div>
+      <div class="col-sm-2">
+        <p>{{assignment.assign_score_possible}}</p>
+      </div>
+
+      {% endfor %}<!--end grade divs-->
+    </div><!--end first row-->
+</div>
+
+
+
+
+{% endblock %}

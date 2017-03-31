@@ -1,0 +1,44 @@
+{% extends 'student/base.html' %}
+{% load static %}
+{% block extra_head_content  %}
+    {{ block.super }}
+    <script type='text/javascript' src='http://www.google.com/jsapi'></script>
+    <script type='text/javascript'>
+      google.load('visualization', '1.1', {'packages':['corechart']});
+      google.setOnLoadCallback(drawChart)
+
+      function drawChart() {
+        var data = new google.visualization.DataTable({{attend_json_data|safe}});
+        var chart = new google.visualization.LineChart(document.getElementById('attend_chart_div'));
+
+        var options = {
+          title : "Absences over Time",
+          lineWidth: 6,
+        };
+
+        chart.draw(data, options);
+      }
+    </script>
+{% endblock %}
+
+{% block content %}
+<div id="page-container">
+
+  <div class="row student-name">
+    <a href={% url 'show_student' student_id=student_id %}>
+        <h2>
+          {{current_student.first_name}} {{current_student.last_name}}
+        </h2>
+    </a>
+  </div>
+
+  <div class="row student-attendance-row">
+    <h3>Current Attendance: {{current_attend_pct|stringformat:".0f"}}%</h3>
+    <h3>Absences: {{attend_data.absent_days}}</h3>
+    <h3>Total Days: {{attend_data.total_days}}</h3>
+  </div>
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'student/base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+        {% if user.is_authenticated %}
+            <h1>WELCOME {{user.first_name}}</h1>
+            <h2>User Email: {{social_email}}</h2>
+            {% if hr_list == "none" %}
+            <a href={% url 'show_student'  %}>
+              <h2>My Dashboard</h2>
+            </a>
+            {% else %}
+            <h3>Select a Homeroom or All</h3>
+            <!--the All option -->
+              <div class="row">
+                <a href={% url 'show_hr' selected_hr="All"   %}>
+                  <h2>All</h2>
+                </a>
+              {% for hr in display_hr_list %}
+                {% if "GR:" in hr %}
+                  </div>
+                  <div class="row grade-table">
+                    <p>
+                      {{ hr|cut:"GR: " }}
+                    </p>
+                  </div>
+                  <div class="row hr-table">
+                {% else %}
+                  <div class="col-sm-2">
+                        <a href={% url 'show_hr' selected_hr=hr   %}>
+                          <h4>{{hr}}</h4>
+                        </a>
+                  </div>
+                  {% endif %}
+
+                {% endfor %}
+
+            {% endif %}
+        {% else %}
+              <h1>PLEASE SIGN IN</h1>
+        {% endif %}
+  </div>
+{% endblock %}
