@@ -494,7 +494,13 @@ def show_student_grades(request, student_id=1):
 
         student_id, user_type=get_user_info(request, student_id)
         student=Student.objects.get(student_id= "%s"%(student_id))
+<<<<<<< HEAD
         #image
+=======
+
+        #image
+        #refactor- this should come from the get_gpa method in ontrack.py
+>>>>>>> ffa3ea5d3523c729c2e6811e61b230ca3d013056
         current_grades_sql= "SELECT grade, MAX(grade_date) as most_recent_grade_date, subject, display_name, image \
                   FROM student_grade, student_subject \
                   WHERE student_id = '%s' AND student_subject.subject_name=student_grade.subject  \
@@ -510,8 +516,12 @@ def show_student_grades(request, student_id=1):
         #put into dictionary to use in student_grades.html template
         current_core_grades_dict=df_current_core_grades.set_index('display_name').to_dict('index')
 
+<<<<<<< HEAD
         # disconnect from server
         connection.close()
+=======
+
+>>>>>>> ffa3ea5d3523c729c2e6811e61b230ca3d013056
 
         #historical grades for Google Viz
         all_grades_sql = "SELECT grade, grade_date, subject, MAX(created), display_name  FROM student_grade, student_subject  \
@@ -519,6 +529,11 @@ def show_student_grades(request, student_id=1):
            GROUP BY student_grade.grade_date, subject" %(student_id )
         df_all_grades = pandas.read_sql(all_grades_sql, con=connection)
 
+<<<<<<< HEAD
+=======
+        # disconnect from server
+        connection.close()
+>>>>>>> ffa3ea5d3523c729c2e6811e61b230ca3d013056
 
         #only include core grades
         df_current_core_grades = df_all_grades[df_all_grades["display_name"].isin(gpa_subjects_list)]
@@ -547,9 +562,15 @@ def show_student_grades(request, student_id=1):
 
 
 
+<<<<<<< HEAD
         df_grades_indexed2=df_current_core_grades.pivot(index='grade_date', columns='display_name', values='grade')
 
         df_points=df_grades_indexed2.applymap(getPoints)
+=======
+        df_current_grades_indexed=df_current_core_grades.pivot(index='grade_date', columns='display_name', values='grade')
+
+        df_points=df_current_grades_indexed.applymap(getPoints)
+>>>>>>> ffa3ea5d3523c729c2e6811e61b230ca3d013056
         df_points['gpa']=df_points.mean(axis=1)
         df_points=df_points.reset_index()
         gpa_values=df_points[['grade_date', 'gpa']].values

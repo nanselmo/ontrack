@@ -11,10 +11,15 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PROJECT_DIR=os.path.dirname(__file__)
+
+#from heroku documentation
+#ontrack/ontrack
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -24,8 +29,7 @@ PROJECT_DIR=os.path.dirname(__file__)
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = os.environ['DEBUG1']
-DEBUG = False
+DEBUG = os.environ['DEBUG1']
 
 
 ALLOWED_HOSTS = ['ontrack.pythonanywhere.com', 'localhost']
@@ -41,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    #local apps
     'student',
 ]
 
@@ -125,8 +130,7 @@ USE_TZ = True
 
 
 
-#from heroku documentation
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
 
 
 # Static files (CSS, JavaScript, Images)
@@ -140,6 +144,7 @@ STATIC_URL = '/static/'
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
+    os.path.join(BASE_DIR, 'assets'),
 )
 
 
