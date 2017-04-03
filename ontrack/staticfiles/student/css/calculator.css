@@ -1,11 +1,4 @@
-<<<<<<< HEAD
-input {
-  width: 20px;
-}
 
-.arrow {
-  height: 15px;
-=======
 .input-text {
   width: 50px;
   height: 40px;
@@ -28,7 +21,7 @@ input {
   height: 20px;
   display: block;
   margin: auto;
->>>>>>> ffa3ea5d3523c729c2e6811e61b230ca3d013056
+
 }
 
 .plus {
@@ -53,14 +46,6 @@ input {
 .red-x {
   content:url("http://openclipart.org/image/2400px/svg_to_png/10941/TzeenieWheenie-red-green-OK-not-OK-Icons-1.png");
 }
-<<<<<<< HEAD
-.hs-info{
-  background-color: lightblue;
-}
-
-.hs-pts{
-  /*display:none;*/
-=======
 
 .white-text {
   color: white;
@@ -73,5 +58,5 @@ input {
 }
 .hs-type{
   display:none;
->>>>>>> ffa3ea5d3523c729c2e6811e61b230ca3d013056
+
 }
