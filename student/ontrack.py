@@ -94,7 +94,7 @@ def get_attend_pct(student_id):
     return(pct)
 
 def get_gpa(student_id):
-    current_grades_sql = "SELECT grade, grade_date, subject, MAX(created),  display_name \
+    all_grades_sql = "SELECT grade, grade_date, subject, MAX(created),  display_name \
                FROM student_grade, student_subject  \
                WHERE student_grade.student_id = '%s' AND \
                 student_grade.subject=student_subject.subject_name  \
@@ -102,21 +102,26 @@ def get_gpa(student_id):
                ORDER BY date(grade_date) DESC" %(student_id)
 
 
+    current_grades_sql="SELECT grade, MAX(grade_date) as most_recent_grade_date, subject, display_name, image \
+                      FROM student_grade, student_subject \
+                      WHERE student_id = '%s' AND student_subject.subject_name=student_grade.subject  \
+                      GROUP BY student_grade.subject"%(student_id)
+
+    #turn sql into data frame
     df_current_grades = pandas.read_sql(current_grades_sql, con=connection)
+    df_all_grades = pandas.read_sql(all_grades_sql, con=connection)
 
     # disconnect from server
     connection.close()
 
-
     #only get GPA of core subjects
+    df_core_grades = df_all_grades[df_all_grades["display_name"].isin(gpa_subjects_list)]
+    df_grades_indexed=df_core_grades.pivot(index='grade_date', columns='display_name', values='grade')
     df_current_core_grades = df_current_grades[df_current_grades["display_name"].isin(gpa_subjects_list)]
-    df_grades_indexed=df_current_core_grades.pivot(index='grade_date', columns='display_name', values='grade')
 
-    #get current grades
 
-    current_grades=df_grades_indexed.reset_index()
-    current_grades=current_grades.sort_values('grade_date',0,False).iloc[0]
-    grade_dict=current_grades.to_dict()
+    #put into dictionary to use in student_grades.html and student_hs.html template
+    current_core_grades_dict=df_current_core_grades.set_index('display_name').to_dict('index')
 
 
     #get gpa
@@ -126,7 +131,7 @@ def get_gpa(student_id):
     gpa_values=df_points[['grade_date', 'gpa']].values
     gpa=df_points.sort_values('grade_date',0,False)['gpa'].iloc[0]
 
-    return {'gpa':gpa, 'values':gpa_values, 'current_dict': grade_dict}
+    return {'gpa':gpa, 'values':gpa_values, 'current_dict': current_core_grades_dict}
 
 def get_test_score(student_id, test_type):
     student_scores=TestScore.objects.filter(student_id="%s"%(student_id))

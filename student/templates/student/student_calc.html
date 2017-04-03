@@ -20,31 +20,41 @@
   </div>
 
 
-  Total HS points <span class="totPoints">200</span>
-  <div class='row'><!--start numbers row-->
+  IB Points <span class="totIBpoints">200</span> SES Points <span class="totSEpoints">200</span>
 
-      {% for subject, grade in current_grades_dict.items %}
-        {% if subject != "grade_date" %}
+    <div class='row'><!--start grades row-->
+      {% for subject, info in current_grades_dict.items %}
         <div class="col-xs-3">
             <div class="row">
               <h3>{{subject}}</h3>
             </div>
-            <div class="row">
-              <img class="arrow plus"/>
-            </div>
-            <div class="row">
-              <input  name="{{subject}}_grade" id="{{subject}}_grade" value="{{grade}}"  class="input-text">
-            </div>
-            <div class="row">
-              <img class="arrow minus"/>
-            </div>
-          </div>
-        {% endif %}
-      {% endfor %}
 
+            <div class="col-xs-6">
+              <div class="row">
+                <img class="arrow plus"/>
+              </div>
+              <div class="row">
+                  <div class="col-xs-6">
+                    <input  name="{{subject}}_grade" id="{{subject}}_grade" value="{{info.grade}}"  class="input-text grade-text">
+                  </div>
+              </div>
+              <div class="row">
+                <img class="arrow minus"/>
+              </div>
+            </div>
+
+            <div class="col-xs-6">
+                <img class="subject-icon" src="{{MEDIA_URL}}{{info.image}}" alt="subject-icon"/>
+            </div>
+
+
+          </div>
+      {% endfor %}
+  </div> <!--end grades row-->
   <!--testing data -->
   <div class="row">
-    <div class="col-xs-4">
+
+    <div class="col-xs-3">
         <div class="row">
           <h3>NWEA Read</h3>
         </div>
@@ -60,7 +70,7 @@
     </div>
 
 
-    <div class="col-xs-4">
+    <div class="col-xs-3">
       <div class="row">
           <h3>NWEA Math</h3>
         </div>
@@ -73,10 +83,9 @@
         <div class="row">
           <img class="arrow minus"/>
         </div>
-
     </div>
 
-    <div class="col-xs-4">
+    <div class="col-xs-3">
         <div class="row">
           <h3>HS Exam</h3>
         </div>
@@ -91,27 +100,30 @@
         </div>
        </div>
     </div>
+
     <div class="col-md-4">
       <h3>Selective Enrollment</h3>
         {% for key, value in hs_dict.items %}
           {% if value.school_type == "SES" %}
           <div class="row high-school-list">
+
             <div class="col-md-8">
               <a href={{value.website}}>
                 <img class="hs-logo" src="{{STATIC_URL}}student/images/hs-logos/{{value.short_name}}-default-logo.png " alt="hs-logo"/ />
               </a>
             </div>
-            <div class="col-md-2">
-              <p class="hs-remain-pts">
-                {{value.RemainingPts}}
-              </p>
-            </div>
 
-
-            <div class="col-md-2 check-points">
-              <span class="hs-pts">{{value.tier2_points}}</span>
+            <div class = check-points>
+              <div class="col-md-2">
+                <p class="hs-remain-pts">
+                  {{value.RemainingPts}}
+                </p>
+              </div>
+              <span class="hs-pts">{{value.tier1_points}}</span>
+              <span class="hs-type">SE</span>
               <img class="hs-pts-status red-x"/>
             </div>
+
           </div>
           {% endif %}
         {% endfor%}
@@ -122,21 +134,24 @@
     {% for key, value in hs_dict.items %}
       {% if value.school_type == "IB" %}
       <div class="row high-school-list" height=400px>
+
         <div class="col-md-8">
           <a href={{value.website}}>
           <img class="hs-logo" src="{{STATIC_URL}}student/images/hs-logos/{{value.short_name}}-default-logo.png " alt="hs-logo" />
         </a>
         </div>
-        <div class="col-md-2">
-          <p class="hs-remain-pts">
-            {{value.RemainingPts}}
-          </p>
 
-        </div>
-        <div class="col-md-2 check-points">
+        <div class = check-points>
+          <div class="col-md-2">
+            <p class="hs-remain-pts">
+              {{value.RemainingPts}}
+            </p>
+          </div>
           <span class="hs-pts">{{value.tier1_points}}</span>
+          <span class="hs-type">IB</span>
           <img class="hs-pts-status red-x"/>
         </div>
+
       </div>
       {% endif %}
     {% endfor%}
