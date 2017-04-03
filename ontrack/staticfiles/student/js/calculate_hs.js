@@ -1,9 +1,8 @@
 //includes jQuery
 function get_points(numeric_grade) {
-  var pts = 0;
   if (numeric_grade > 90) {
-    se_pts = 75;
-    ib_pts = 112.5;
+		se_points = 75;
+    ib_points = 112.5;
   } else if (numeric_grade > 80) {
     se_points = 50;
     ib_points = 75;
@@ -34,8 +33,9 @@ function calculate() {
   //points for 4 core grades
   grades = [math_gr, science_gr, ss_gr, read_gr]
   for (i = 0; i < grades.length; ++i) {
-    tot_ib = tot_ib + get_points(grades[i])['ib'];
-    tot_se = tot_se + get_points(grades[i])['se'];
+		var points = get_points(grades[i])
+    tot_ib = tot_ib + points['ib'];
+    tot_se = tot_se + points['se'];
   }
 
   //nwea points
