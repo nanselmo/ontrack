@@ -79,7 +79,9 @@ def download_summer_school(request):
                  'NWEA_R_High',
                  'NWEA_M_High',
                  'SSS',
-                 'SS_Description']
+                 'SS_Description',
+                 'SSW',
+                 'Warning_Desc']
     full_roster=pandas.read_json(full_roster)[ideal_order].sort_values(by=['StudentGradeLevel', 'SSS', 'StudentHomeroom'])
     ss_list=pandas.read_json(ss_kids)[ideal_order].sort_values(by=['StudentGradeLevel', 'SSS', 'StudentHomeroom'])
     if request.method == 'POST':
@@ -108,7 +110,8 @@ def download_summer_school(request):
     else:
         #display the data on the page
         ss_kids_df=ss_list
-        ss_kids_df=ss_kids_df[['StudentFirstName', 'StudentLastName', 'StudentGradeLevel', 'StudentHomeroom', 'SSS', 'SS_Description']]
+        ss_kids_df=ss_kids_df[['StudentFirstName', 'StudentLastName', 'StudentGradeLevel',
+        'StudentHomeroom', 'SSS', 'SS_Description', 'SSW', 'Warning_Desc']]
         ss_kids_html=ss_kids_df.to_html()
         return render(request, 'student/summerschoolresults.html', {'ss_list' : ss_kids_html})
 

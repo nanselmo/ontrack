@@ -195,14 +195,83 @@ def get_ss_report(the_files, in_mem):
         return pandas.Series({'SSS': sss, 'SS_Description': ssdesc})
 
 
+    # function to add warning column for students who are close to summer school
+
+    def get_ss_warning(row):
+
+        #if their sped identification is SPL, 504 or none
+        if row['PDIS'] in ['504', 'SPL', '--'] :
+                if row['ELL'] == "Yes":
+                    # if either less than or equal to 66 give them a warning
+                    if (row['R_Grade']<=66)  | (row['M/Alg_Grade']<=66):
+                        ssw = "0W"
+                        ssw_desc= "ELL-Warning: Close to a D in one subject"
+                    #if either test scores are less than or equal to 29% and either grade is less than 76
+                    #give them a warning
+                    elif (
+
+                        ( (row['R_Grade']<=76) | (row['M/Alg_Grade']<=76) )
+
+                     &
+                        ((row['NWEA_R_High']<=29) & (row['NWEA_M_High']<=29) )
+                    ):
+
+                        ssw = "0W"
+                        ssw_desc= "ELL-Warning: Close to a C in one subject or close to 24% on NWEA"
+                    else:
+                        ssw = ""
+                        ssw_desc= ""
+                #not ELL
+                else:
+
+                    #below a 66 in either subject
+                    if (row['R_Grade']<=66) | (row['M/Alg_Grade']<=66):
+                        ssw= "1W"
+                        ssw_desc= "Warning: Close to a D in one subject"
+                    elif (
+                        ((row['NWEA_R_High']>=16) & (row['NWEA_R_High']<=28))
+                    &
+                        ((row['NWEA_M_High']>=16) & (row['NWEA_M_High']<=28))
+                        ):
+                        #below a 76 in either subject
+                        if (row['R_Grade']<=76) | (row['M/Alg_Grade']<=76):
+                            ssw= "2W"
+                            ssw_desc= "Warning: Close to C in one subject with low NWEA score"
+                    elif(
+                        (row['NWEA_R_High']<=15)
+                    &
+                        (row['NWEA_M_High']<=15)
+                        ):
+                        #below a 76 in either subject
+                        if (row['R_Grade']<=76) | (row['M/Alg_Grade']<=76):
+                            ssw= "3W"
+                            ssw_desc= "Warning: Close to C in one subject with very low NWEA score"
+                    else:
+                        ssw = ""
+                        ssw_desc= ""
 
 
+        else: #if they're a sped student
+            ssw = ""
+            ssw_desc= ""
+
+        if (row['SSS'] in ['0B', '1B', '2B', '3A', '3B', 'Missing Test']):
+            ssw = ""
+            ssw_desc= ""
+        return pandas.Series({'SSW': ssw, 'Warning_Desc': ssw_desc})
 
 
-    ss_data_full=pandas.concat([ss_data, ss_data.apply(get_sss, axis=1)],  axis=1)
+    #run the get_sss and get_ss_warning functions on the ss_data to add two columns
+    ss_data_summer_school=pandas.concat([ss_data, ss_data.apply(get_sss, axis=1)],  axis=1)
+    ss_data_full=pandas.concat([ss_data_summer_school, ss_data_summer_school.apply(get_ss_warning, axis=1)],  axis=1)
+
     ss_data_full=ss_data_full.reset_index(drop=True)
+
+    summer_school=ss_data_full[
+    (ss_data_full['SSS'].isin(['0B', '1B', '2B', '3A', '3B', 'Missing Test'])) |
+    (ss_data_full['SSW'].isin(['0W', '1W', '2W', '3W']))
+    ]
     
-    summer_school_kids=ss_data_full[ss_data_full['SSS'].isin(['0B', '1B', '2B', '3A', '3B', 'Missing Test'])]
     summer_school_kids=summer_school_kids.reset_index(drop=True)
 
 
