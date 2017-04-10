@@ -267,11 +267,11 @@ def get_ss_report(the_files, in_mem):
 
     ss_data_full=ss_data_full.reset_index(drop=True)
 
-    summer_school=ss_data_full[
+    summer_school_kids=ss_data_full[
     (ss_data_full['SSS'].isin(['0B', '1B', '2B', '3A', '3B', 'Missing Test'])) |
     (ss_data_full['SSW'].isin(['0W', '1W', '2W', '3W']))
     ]
-    
+
     summer_school_kids=summer_school_kids.reset_index(drop=True)
 
 
