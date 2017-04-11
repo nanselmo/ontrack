@@ -2,6 +2,7 @@ from student.models import  Email, Attendance, TestScore
 from allauth.socialaccount.models import SocialAccount
 from django.db import connection
 import math
+import gviz_api
 
 #sql to pandas
 import pandas
@@ -11,7 +12,7 @@ from django.db import connection
 #variables
 gpa_subjects_list = ['Math', 'Science', 'Social Studies', 'Reading' ]
 take_out_subjects_list=['Speaking', 'Listening']
-#gpa_subjects_list=['CHGO READING FRMWK','MATHEMATICS STD','SCIENCE  STANDARDS','SOCIAL SCIENCE STD']
+gpa_subjects_list_full_names=['CHGO READING FRMWK','MATHEMATICS STD','SCIENCE  STANDARDS','SOCIAL SCIENCE STD']
 
 #functions
 
@@ -154,3 +155,77 @@ def get_test_score(student_id, test_type):
 
 
     return {'read_pct': reading_score, 'math_pct':math_score}
+
+def get_grade_distribution(hr):
+
+    if hr=="All":
+        current_grades_sql="SELECT grade, MAX(grade_date) as most_recent_grade_date, subject, display_name, hr_id, grade_level \
+                  FROM student_grade, student_subject, student_roster \
+                  WHERE student_subject.subject_name=student_grade.subject AND\
+                  student_grade.student_id=student_roster.student_id\
+                  GROUP BY student_grade.subject, student_grade.student_id"
+
+    else:
+        current_grades_sql="SELECT grade, MAX(grade_date) as most_recent_grade_date, subject, display_name, hr_id, grade_level \
+                  FROM student_grade, student_subject, student_roster \
+                  WHERE student_subject.subject_name=student_grade.subject AND\
+                  student_grade.student_id=student_roster.student_id AND\
+                  student_roster.hr_id='%s'\
+                  GROUP BY student_grade.subject, student_grade.student_id"%(hr)
+
+    df_current_grades = pandas.read_sql(current_grades_sql, con=connection)
+
+
+    # disconnect from server
+    connection.close()
+
+    #get the mean grades
+    average_grades=df_current_grades.groupby(["subject", "grade_level"]).mean().reset_index()
+    grades_by_grade=average_grades[average_grades.subject.isin(gpa_subjects_list_full_names)].pivot(index="grade_level", columns="subject", values="grade")
+
+    #get header for GViz bar chart
+    grades_by_grade=grades_by_grade.reset_index()
+    headers=grades_by_grade.columns.values.tolist()
+
+    #get values
+    core_grades_avg_list=grades_by_grade.values.tolist()
+
+    #combine them, but put the headers in it's own array
+    gviz_grades_list=[headers]+core_grades_avg_list
+
+
+    def letter_grade(num_grade):
+        if num_grade>90:
+            letter="A"
+        elif num_grade>80:
+            letter="B"
+        elif num_grade>70:
+            letter="C"
+        elif num_grade>60:
+            letter="D"
+        else:
+            letter="F"
+        return letter
+
+
+    df_current_grades['QrtrLetter']=df_current_grades.apply(lambda each_grade: letter_grade(each_grade['grade']), axis=1)
+
+
+    #get breakdown for a single subject and output as json
+    if hr!="All":
+        df_current_grades=df_current_grades[df_current_grades["hr_id"]==hr]
+
+    hr_grades=df_current_grades.groupby(['display_name','QrtrLetter']).size().reset_index(name="NumofStudents")
+
+
+
+    all_subjects=hr_grades['display_name'].unique()
+
+    all_subjects_array=[]
+    for subject in all_subjects:
+        cur_df=hr_grades[hr_grades['display_name']==subject]
+        grade_values=cur_df[['QrtrLetter', 'NumofStudents']].values.tolist()
+        new_array=[subject , grade_values]
+        all_subjects_array.append(new_array)
+
+    return(all_subjects_array, gviz_grades_list)

@@ -1,0 +1,11 @@
+/*for homeroom.html*/
+
+
+.gradePie{
+  height : 250px;
+}
+
+#dist-charts  div  {
+   display: inline-block;
+
+}
