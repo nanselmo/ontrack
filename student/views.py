@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from student.models import Grade, Student, Attendance, Email, Subject, Roster, DataFile, Assignment
 from allauth.socialaccount.models import SocialAccount
 from django.db import connection
-from ontrack import get_user_info, getOnTrack, getPoints, get_attend_pct, get_gpa, get_test_score, gpa_subjects_list, take_out_subjects_list
+from ontrack import get_user_info, getOnTrack, getPoints, get_attend_pct, get_gpa, get_test_score, gpa_subjects_list, take_out_subjects_list, get_grade_distribution
 from grade_audit import generate_grade_audit
 from classdata import hr_data
 from summerschool import get_ss_report
@@ -239,15 +239,27 @@ def show_hr(request, selected_hr="B314"):
     if user_type in ["School Admin", "Teacher"] and selected_hr=="All":
         hr_json, hr_dict=hr_data(selected_hr, admin=True)
         title="All Students"
+        grade_distribution_array, avg_grades_list=get_grade_distribution(selected_hr)
+
+
     elif user_type in ["School Admin", "Teacher"] :
         hr_json, hr_dict=hr_data(selected_hr, admin=False)
         title=selected_hr + ' Students'
+        grade_distribution_array, avg_grades_list = get_grade_distribution(selected_hr)
+
     else:
         hr_dict={}
         hr_json=""
         title="Not Authorized"
+        grade_distribution_array=[]
 
-    template_vars={'hr_dict': hr_dict, 'hr_json':hr_json,  'title': title}
+    template_vars={
+                'hr_dict': hr_dict,
+                 'hr_json':hr_json,
+                 'title': title,
+                 'grade_distribution_array': json.dumps(grade_distribution_array),
+                 'avg_grades' : json.dumps(avg_grades_list)
+                 }
     return render(request, "student/homeroom.html", template_vars)
 
 def show_student(request, student_id=1):
