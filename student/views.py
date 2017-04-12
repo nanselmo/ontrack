@@ -253,20 +253,12 @@ def show_hr(request, selected_hr="B314"):
         title="Not Authorized"
         grade_distribution_array=[]
 
-    dummy_avg_grades = [['grade_level',
-   'CHGO READING FRMWK',
-   'MATHEMATICS STD',
-   'SCIENCE  STANDARDS',
-   'SOCIAL SCIENCE STD'],
-  ['1', 86.29702970297029, 87.20792079207921, 88.53, 87.10891089108911],
-  ['2', 81.27272727272727, 84.62809917355372, 84.725, 89.48333333333333]]
 
     template_vars={
                 'hr_dict': hr_dict,
                  'hr_json':hr_json,
                  'title': title,
                  'grade_distribution_array': json.dumps(grade_distribution_array),
-                 #'avg_grades' : dummy_avg_grades
                  'avg_grades' : json.dumps(avg_grades_list)
                  }
     return render(request, "student/homeroom.html", template_vars)
@@ -407,7 +399,8 @@ def show_hs_options(request, student_id=1 ):
         'ib_points': points["ib_totl"],
         'student_id':student_id,
         'current_grades_dict': current_grades,
-        'nwea_scores_dict' : nwea_scores}
+        'nwea_math' : nwea_scores["math_pct"],
+        'nwea_reading' : nwea_scores["read_pct"]}
     return render(request, "student/student_calc.html", template_vars)
 
 
