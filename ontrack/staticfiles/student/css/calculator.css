@@ -1,18 +1,18 @@
 
 .input-text {
-  width: 50px;
+  width: 100px;
   height: 40px;
   color: lightskyblue;
   font-size: 40px;
   display: block;
   margin: auto;
+  text-align: center;
 
 }
 
 .grade-text {
   margin-top: auto;
   margin-bottom: auto;
-  margin-left: 60%;
 }
 
 
