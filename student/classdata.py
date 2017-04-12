@@ -60,12 +60,12 @@ def hr_data(hr, admin=False):
 
     #get names and homeroom
     if admin==True:
-        hr_name_sql = "SELECT  first_name, last_name, student_roster.student_id, hr_id \
+        hr_name_sql = "SELECT  first_name, last_name, student_roster.student_id, hr_id, current_student \
         from student_roster, student_student \
         WHERE student_student.student_id = student_roster.student_id "
 
     else:
-        hr_name_sql = "SELECT  first_name, last_name, student_roster.student_id, hr_id \
+        hr_name_sql = "SELECT  first_name, last_name, student_roster.student_id, hr_id, current_student \
         from student_roster, student_student \
         WHERE hr_id='%s' AND student_student.student_id = student_roster.student_id "%(hr)
 
@@ -86,6 +86,10 @@ def hr_data(hr, admin=False):
 
     #sort by ontrack
     hr_data=hr_data.sort_values(by='onTrack').reset_index()
+
+    #only show for current students, then drop current_student column
+    hr_data=hr_data[hr_data.current_student==True]
+    hr_data.drop('current_student', axis=1, inplace=True)
 
     #get dictionary
     hr_dict=hr_data.to_dict('index')

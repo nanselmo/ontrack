@@ -159,14 +159,14 @@ def get_test_score(student_id, test_type):
 def get_grade_distribution(hr):
 
     if hr=="All":
-        current_grades_sql="SELECT grade, MAX(grade_date) as most_recent_grade_date, subject, display_name, hr_id, grade_level \
+        current_grades_sql="SELECT grade, MAX(grade_date) as most_recent_grade_date, subject, display_name, hr_id, grade_level, current_student \
                   FROM student_grade, student_subject, student_roster \
                   WHERE student_subject.subject_name=student_grade.subject AND\
                   student_grade.student_id=student_roster.student_id\
                   GROUP BY student_grade.subject, student_grade.student_id"
 
     else:
-        current_grades_sql="SELECT grade, MAX(grade_date) as most_recent_grade_date, subject, display_name, hr_id, grade_level \
+        current_grades_sql="SELECT grade, MAX(grade_date) as most_recent_grade_date, subject, display_name, hr_id, grade_level, current_student \
                   FROM student_grade, student_subject, student_roster \
                   WHERE student_subject.subject_name=student_grade.subject AND\
                   student_grade.student_id=student_roster.student_id AND\
@@ -175,8 +175,15 @@ def get_grade_distribution(hr):
 
     df_current_grades = pandas.read_sql(current_grades_sql, con=connection)
 
+    #only show for current students, then drop current_student column
+    df_current_grades=df_current_grades[df_current_grades.current_student==True]
+    df_current_grades.drop('current_student', axis=1, inplace=True)
+
     #just get the core subjects
     df_current_core_grades=df_current_grades[df_current_grades['display_name'].isin(gpa_subjects_list)]
+
+
+
 
     # disconnect from server
     connection.close()

@@ -139,6 +139,12 @@ def upload_files(request):
                         elif "Email" in str(each_file):
                             num_data_points=loadEmail(newfile, inMemory=True)
                             message= message + str(num_data_points) + " emails records have been updated. "
+                        elif "Assign" in str(each_file):
+                            num_data_points=loadAssignments(newfile, inMemory=True)
+                            message= message + str(num_data_points) + " assignments have been updated. "
+                        elif "SIM" in str(each_file):
+                            num_data_points=loadStudents(newfile, inMemory=True)
+                            message= message + str(num_data_points) + " students have been updated. "    
 
                         else:
                             num_data_points=0

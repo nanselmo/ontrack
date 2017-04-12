@@ -1,6 +1,6 @@
 from django.core.management import BaseCommand
 import sys,os
-from student.models import Student, Roster
+from student.models import Student
 import csv
 from django.db import connection
 import pandas
@@ -42,4 +42,4 @@ class Command(BaseCommand):
 
 
 
-        self.stdout.write("Done Loading Student SIM File into Student and Roster Model")
+        self.stdout.write("Done Loading Student SIM File into Student  Model")

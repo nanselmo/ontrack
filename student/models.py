@@ -21,6 +21,7 @@ class Student(models.Model):
     gender = models.CharField(max_length=2)
     birthdate = models.DateField(null=True)
 
+
     def __str__(self):
         return self.student_id + ": " + self.first_name + " " + self.last_name
 
@@ -38,6 +39,7 @@ class Roster(models.Model):
     student_id = models.CharField(max_length=40, primary_key=True)
     hr_id = models.CharField(max_length=2)
     grade_level = models.CharField(max_length=2)
+    current_student = models.BooleanField(default=True)
 
     def __str__(self):
         return self.student_id + " HR: " + self.hr_id + " GR: " + self.grade_level
@@ -95,6 +97,7 @@ class Assignment(models.Model):
     assign_score = models.CharField(max_length=4)
     assign_score_possible = models.CharField(max_length=4)
     category_name = models.CharField(max_length=300)
+    category_weight = models.CharField(max_length=3)
     assignment_due = models.DateField()
     grade_entered = models.DateField()
     created = models.DateField(auto_now_add=True)

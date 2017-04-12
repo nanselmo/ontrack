@@ -1,4 +1,4 @@
-from student.models import  Email, Attendance, TestScore, Student, Grade
+from student.models import  Email, Attendance, TestScore, Student, Grade, Roster
 from django.db import connection
 import math
 import pandas
@@ -30,19 +30,44 @@ def get_df(the_file, inMemory, file_type="CSV"):
 
 
 #loads all student files that are in the student-directory
-def loadStudents(simXLS):
-    df = pandas.read_excel(open(simXLS,'rb'), header=5, skip_footer=2)
+def loadStudents(the_file, inMemory=False):
+    if inMemory == False:
+        file_name=the_file
+        prepped_file=open(the_file,'rb')
+    else:
+        prepped_file=the_file.document
+        file_name= the_file.filename()
+
+    #SIM files are excel and have a bunch of null rows to start/end
+    df = pandas.read_excel(prepped_file, header=5, skip_footer=2)
     df = df.dropna(axis=['index', 'columns'], how='all')
+
+    #set all student's current_student status to false
+    all_students=Roster.objects.all()
+    all_students.update(current_student=False)
 
 
     for i in range(0,len(df)):
+
+        #update Student Model
         user=Student.objects.get_or_create(student_id=df.iloc[i]['ID'].astype(int))
         #in the SIM report, some student's first and last names are separated with " , " instead of ", "
         user[0].first_name=df.iloc[i]['Student Name (LFM)'].replace(" , ", ", ").split()[1]
         user[0].last_name=df.iloc[i]['Student Name (LFM)'].replace(" , ", ", ").split()[0].rstrip(',')
         user[0].gender=df.iloc[i]['Gender']
         user[0].birthdate=datetime.strptime(df.iloc[i]['Birth Date'], '%b %d, %Y')
+        user[0].current_student=True
         user[0].save()
+
+        #update Roster Model
+        user_roster=Roster.objects.get_or_create(student_id=user[0].student_id)
+        user_roster[0].hr_id=df.iloc[i]['HR(A)']
+        user_roster[0].grade_level=df.iloc[i]['Gr(A)']
+        #since they're in the SIM, set their current status to True
+        user_roster[0].current_student=True
+        user_roster[0].save()
+
+    return(len(df))
 
 def loadGrades(grades_file, inMemory=False):
     grades_df, file_date=get_df(grades_file, inMemory)
@@ -171,7 +196,7 @@ def loadAssignments(file, inMemory=False):
 
     df, file_date=get_df(file, inMemory)
 
-    #delete current quarter assignments
+    #delete current quarter's assignments
     #names of assignments could have changed, as could their score - or even points possible, so need to delete all previous
     Assignment.objects.filter(grade_entered__gte=Q3_Start_Date).delete()
 
@@ -185,9 +210,10 @@ def loadAssignments(file, inMemory=False):
                                         assign_score=df.iloc[i]['Score'],
                                         assign_score_possible=df.iloc[i]['ScorePossible'],
                                         category_name=df.iloc[i]['CategoryName'],
+                                        category_weight=df.iloc[i]['CategoryWeight'],
                                         assignment_due=datetime.strptime(df.iloc[0]['AssignmentDue'], '%m/%d/%Y'),
                                         grade_entered=datetime.strptime(df.iloc[0]['GradeEnteredOn'], '%m/%d/%Y'))
-
+    return(len(df))
 
 
 
