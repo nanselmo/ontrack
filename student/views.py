@@ -240,6 +240,8 @@ def show_hr(request, selected_hr="B314"):
         hr_json, hr_dict=hr_data(selected_hr, admin=True)
         title="All Students"
         grade_distribution_array, avg_grades_list=get_grade_distribution(selected_hr)
+        #don't draw pie graphs for All
+        grade_distribution_array=[]
 
 
     elif user_type in ["School Admin", "Teacher"] :

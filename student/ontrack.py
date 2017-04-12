@@ -175,13 +175,15 @@ def get_grade_distribution(hr):
 
     df_current_grades = pandas.read_sql(current_grades_sql, con=connection)
 
+    #just get the core subjects
+    df_current_core_grades=df_current_grades[df_current_grades['display_name'].isin(gpa_subjects_list)]
 
     # disconnect from server
     connection.close()
 
     #get the mean grades
-    average_grades=df_current_grades.groupby(["subject", "grade_level"]).mean().reset_index()
-    grades_by_grade=average_grades[average_grades.subject.isin(gpa_subjects_list_full_names)].pivot(index="grade_level", columns="subject", values="grade")
+    average_grades=df_current_core_grades.groupby(["display_name", "grade_level"]).mean().reset_index()
+    grades_by_grade=average_grades.pivot(index="grade_level", columns="display_name", values="grade")
 
     #get header for GViz bar chart
     grades_by_grade=grades_by_grade.reset_index()
@@ -208,14 +210,14 @@ def get_grade_distribution(hr):
         return letter
 
 
-    df_current_grades['QrtrLetter']=df_current_grades.apply(lambda each_grade: letter_grade(each_grade['grade']), axis=1)
+    df_current_core_grades['QrtrLetter']=df_current_core_grades.apply(lambda each_grade: letter_grade(each_grade['grade']), axis=1)
 
 
     #get breakdown for a single subject and output as json
     if hr!="All":
-        df_current_grades=df_current_grades[df_current_grades["hr_id"]==hr]
+        df_current_core_grades=df_current_core_grades[df_current_core_grades["hr_id"]==hr]
 
-    hr_grades=df_current_grades.groupby(['display_name','QrtrLetter']).size().reset_index(name="NumofStudents")
+    hr_grades=df_current_core_grades.groupby(['display_name','QrtrLetter']).size().reset_index(name="NumofStudents")
 
 
 

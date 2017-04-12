@@ -26,7 +26,13 @@
 
         var table = new google.visualization.Table(document.getElementById('hr_table_div'));
         var view = new google.visualization.DataView(data);
-        view.setColumns([1,2,3,4,5]); // Create a view with the first column only.
+        if("{{title}}"=="All Students"){
+            view.setColumns([1,0,2,3,4,5]);
+        }
+        else{
+            view.setColumns([1,2,3,4,5]); // Create a view without the first column (the homeroom)
+        }
+
         table.draw(view, {allowHtml: true, width: '100%', height: '100%'});
       }
 
@@ -43,8 +49,8 @@
           var options = {
             title : subject,
             pieHole : 0.3,
-            width : 250,
-            height : 250,
+            width : 220,
+            height : 220,
             legend : "none"
           };
 
