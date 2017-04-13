@@ -6,6 +6,7 @@ from ontrack import get_user_info, getOnTrack, getPoints, get_attend_pct, get_gp
 from grade_audit import generate_grade_audit
 from classdata import hr_data
 from summerschool import get_ss_report
+from assignmentimpact import get_assign_impact
 from loadOnTrackData import *
 import pandas
 import math
@@ -144,7 +145,7 @@ def upload_files(request):
                             message= message + str(num_data_points) + " assignments have been updated. "
                         elif "SIM" in str(each_file):
                             num_data_points=loadStudents(newfile, inMemory=True)
-                            message= message + str(num_data_points) + " students have been updated. "    
+                            message= message + str(num_data_points) + " students have been updated. "
 
                         else:
                             num_data_points=0
@@ -501,12 +502,43 @@ def show_student_grades(request, student_id=1):
         return render(request, 'student/student_grades.html',template_vars )
 
 
-def show_student_assignments(request, student_id=1, display_subject="MATHEMATICS STD"):
+def show_student_assignments(request, student_id=1, display_subject="Math"):
     student_id, user_type=get_user_info(request, student_id)
     student=Student.objects.get(student_id= "%s"%(student_id))
     long_subject=Subject.objects.get(display_name=display_subject).subject_name
-    assigns=Assignment.objects.filter(student_id=student_id, subject=long_subject)
-    return render(request, 'student/student_assignments.html', {'student':student, 'assign_list':assigns} )
+    assign_clean_df, assign_summary_df = get_assign_impact(student_id, long_subject)
+
+    #set up gviz
+    summary_values=assign_summary_df.values
+    summary_desc=[("Category", "string", "Category"),
+                  ("Weight", "string", "Weight"),
+                  ("NumGrades", "string", "Total Assignments"),
+                 ("Points", "number", "Points Earned"),
+                 ("PointsPossible", "number", "Points Possible"),
+                  ("Pct", "number", "Percent of Points"),
+                 ("TotImpact", "number", "Impact")]
+    summary_gviz_data_table=gviz_api.DataTable(summary_desc)
+    summary_gviz_data_table.LoadData(summary_values)
+    summary_gviz_json=summary_gviz_data_table.ToJSon()
+
+    assign_values=assign_clean_df.values
+    assign_desc=[("Assignment", "string", "Assignment"),
+                  ("Score", "number", "Score"),
+                  ("ScorePossible", "number", "Possible Score"),
+                  ("Pct", "number", "Percent"),
+                   ("Category", "string", "Category"),
+                  ("Impact", "number", "Impact")]
+    assign_gviz_data_table=gviz_api.DataTable(assign_desc)
+    assign_gviz_data_table.LoadData(assign_values)
+    assign_gviz_json=assign_gviz_data_table.ToJSon()
+
+
+    return render(request, 'student/student_assignments.html',
+                            {'student' : student,
+                            'assign_gviz_json' : assign_gviz_json,
+                            'summary_gviz_json' : summary_gviz_json,
+                            'assign_list_dict' :assign_clean_df.to_dict(orient="index"),
+                            'assign_summary_dict' : assign_summary_df.to_dict(orient="index")} )
 
 
 def show_student_attendance(request, student_id=1):

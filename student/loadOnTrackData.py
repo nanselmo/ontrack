@@ -1,9 +1,10 @@
-from student.models import  Email, Attendance, TestScore, Student, Grade, Roster
+from student.models import  Email, Attendance, TestScore, Student, Grade, Roster, Assignment
 from django.db import connection
 import math
 import pandas
 from datetime import datetime
 from hardcoded import Q3_Start_Date
+import re
 
 #converts file to df and gets the date from the file name
 def get_df(the_file, inMemory, file_type="CSV"):
@@ -205,7 +206,7 @@ def loadAssignments(file, inMemory=False):
     for i in range(0,len(df)):
         class_name=df.iloc[i]['ClassName']
         Assignment.objects.get_or_create(student_id=df.iloc[i]['StuStudentId'].astype(str),
-                                        subject=re.search(re.compile(r"^[^\d]*"), class_name).group(0),
+                                        subject=re.search(re.compile(r"^[^\d]*"), class_name).group(0)[:-1],
                                         assign_name=df.iloc[i]['ASGName'],
                                         assign_score=df.iloc[i]['Score'],
                                         assign_score_possible=df.iloc[i]['ScorePossible'],

@@ -1,4 +1,35 @@
 {% extends 'student/base.html' %}
+{% block extra_head_content  %}
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}student/css/hr_summary.css" />
+    {{ block.super }}
+
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['table']});
+
+      //summary table
+      google.charts.setOnLoadCallback(drawSummaryTable);
+
+      function drawSummaryTable() {
+        var data = new google.visualization.DataTable({{summary_gviz_json|safe}});
+        var table = new google.visualization.Table(document.getElementById('summary_table_div'));
+        var view = new google.visualization.DataView(data);
+        table.draw(view, {allowHtml: true, width: '100%', height: '100%'});
+      }
+
+      //individual assignments table
+      google.charts.setOnLoadCallback(drawAssignmentTable);
+
+      function drawAssignmentTable() {
+        var data = new google.visualization.DataTable({{assign_gviz_json|safe}});
+        var table = new google.visualization.Table(document.getElementById('assign_table_div'));
+        var view = new google.visualization.DataView(data);
+        table.draw(view, {allowHtml: true, width: '100%', height: '100%'});
+      }
+    </script>
+
+{% endblock %}
 
 
 {% block content %}
@@ -10,22 +41,14 @@
         </h2>
     </a>
   </div>
+<h3>Assignment Summary</h3>
+<div id='summary_table_div'>
 
-  <div class="row">
-    <h4>My Assignments</h4>
-      {% for assignment in assign_list %}
-      <div class="col-sm-6">
-         <p>{{assignment.assign_name}}</p>
-      </div>
-      <div class="col-sm-2">
-        <p>{{assignment.assign_score}}</p>
-      </div>
-      <div class="col-sm-2">
-        <p>{{assignment.assign_score_possible}}</p>
-      </div>
+</div>
+<h3>Assignment Details</h3>
+<div id='assign_table_div'>
 
-      {% endfor %}<!--end grade divs-->
-    </div><!--end first row-->
+</div>
 </div>
 
 
