@@ -4,6 +4,7 @@ from student.ontrack import gpa_subjects_list, getPoints, getOnTrack
 import gviz_api
 
 def hr_data(hr, admin=False):
+    #refactor, this should come from ontrack.get_gpa()
     if admin==True:
         hr_grades_sql= "SELECT grade,  MAX(grade_date) as recent_grade_date, display_name, \
         student_grade.student_id FROM  student_grade, student_subject \

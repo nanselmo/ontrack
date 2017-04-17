@@ -76,16 +76,15 @@ def loadGrades(grades_file, inMemory=False):
 
     grades_df=grades_df[grades_df['SubjectName']!='GEOMETRY']
 
-    grades_df=grades_df.dropna(subset=["QuarterAvg"])
-    #take out students who haveletter grades for their Quarter Avg
-    clean_grades=grades_df[~grades_df['QuarterAvg'].isin(["A", "B", "C","D", "F"])]
+    grades_df=grades_df.dropna(subset=["FinalAvg"])
+    #take out students who have letter grades for their Final Avg
+    clean_grades=grades_df[~grades_df['FinalAvg'].isin(["A", "B", "C","D", "F"])]
     df = clean_grades
     print df
     for i in range(0,len(df)):
-         print "Now loading " + df.iloc[i]['StudentID'].astype(str) + " " + df.iloc[i]['SubjectName']
          Grade.objects.get_or_create(student_id=df.iloc[i]['StudentID'].astype(str),
                                  subject=df.iloc[i]['SubjectName'],
-                                 grade=df.iloc[i]['QuarterAvg'],
+                                 grade=df.iloc[i]['FinalAvg'],
                                  grade_date=datetime.strptime(file_date, '%m-%d-%y'))
     print str(len(df)) + ' grades loaded from ' + file_date
     return(len(df))

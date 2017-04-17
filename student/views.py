@@ -278,8 +278,8 @@ def show_student(request, student_id=1):
 
 
         #get gpa for get_gpa method (in ontrack.py)
-        student_gpa=get_gpa(this_student_id)
-        gpa=student_gpa['gpa']
+        student_gpa=get_gpa(this_student_id, "current")['gpa']
+        gpa=student_gpa['current_gpa']
 
         #set up Google Table to pass to View
         gpa_desc=[("grade_date", "date", "Date" ),
@@ -418,47 +418,17 @@ def show_student_grades(request, student_id=1):
 
         student_id, user_type=get_user_info(request, student_id)
         student=Student.objects.get(student_id= "%s"%(student_id))
-        #image
-        #refactor- this should come from the get_gpa method in ontrack.py
 
-        current_grades_sql= "SELECT grade, MAX(grade_date) as most_recent_grade_date, subject, display_name, image \
-                  FROM student_grade, student_subject \
-                  WHERE student_id = '%s' AND student_subject.subject_name=student_grade.subject  \
-                  GROUP BY student_grade.subject"%(student_id)
-
-        #load into pandas dataframe,
-        #should be refactored to do without this step (can use .values on a query set not sure about SQL)
-        df_current_grades = pandas.read_sql(current_grades_sql, con=connection)
-
-        df_current_core_grades = df_current_grades[df_current_grades["display_name"].isin(gpa_subjects_list)]
-
-
+        current_core_grades_df=get_gpa(student_id, "current", "student")['grades_df']
         #put into dictionary to use in student_grades.html template
-        current_core_grades_dict=df_current_core_grades.set_index('display_name').to_dict('index')
+        current_core_grades_dict=current_core_grades_df.set_index('display_name').to_dict('index')
 
 
 
-
-        #historical grades for Google Viz
-        all_grades_sql = "SELECT grade, grade_date, subject, MAX(created), display_name  FROM student_grade, student_subject  \
-           WHERE student_grade.student_id = '%s' AND student_subject.subject_name=student_grade.subject \
-           GROUP BY student_grade.grade_date, subject" %(student_id )
-        df_all_grades = pandas.read_sql(all_grades_sql, con=connection)
-
-        # disconnect from server
-        connection.close()
-
-
-        #only include core grades
-        df_current_core_grades = df_all_grades[df_all_grades["display_name"].isin(gpa_subjects_list)]
-        df_all_grades=df_current_core_grades
-        df_grades_indexed=df_all_grades.pivot(index='grade_date', columns='display_name', values='grade')
-
-
-
-        subject_names=list(df_grades_indexed.columns.values)
-        df_grades_indexed.insert(0,'date', df_grades_indexed.index)
-        all_grades_data=df_grades_indexed.values
+        historical_core_grades_df=get_gpa(student_id, "historical")['grades_df']
+        subject_names=list(historical_core_grades_df.columns.values)
+        historical_core_grades_df.insert(0,'date', historical_core_grades_df.index)
+        all_grades_data=historical_core_grades_df.values
 
 
         ##pass grades data to Google Viz
@@ -475,15 +445,7 @@ def show_student_grades(request, student_id=1):
         historical_grades_json
 
 
-
-
-        df_current_grades_indexed=df_current_core_grades.pivot(index='grade_date', columns='display_name', values='grade')
-
-        df_points=df_current_grades_indexed.applymap(getPoints)
-
-        df_points['gpa']=df_points.mean(axis=1)
-        df_points=df_points.reset_index()
-        gpa_values=df_points[['grade_date', 'gpa']].values
+        gpa_values=get_gpa(student_id, "current")['gpa']['values']
 
         #set up Google Table to pass to View
         gpa_desc=[("grade_date", "date", "Date" ),
@@ -506,39 +468,44 @@ def show_student_assignments(request, student_id=1, display_subject="Math"):
     student_id, user_type=get_user_info(request, student_id)
     student=Student.objects.get(student_id= "%s"%(student_id))
     long_subject=Subject.objects.get(display_name=display_subject).subject_name
-    assign_clean_df, assign_summary_df = get_assign_impact(student_id, long_subject)
+    if get_assign_impact(student_id, long_subject) != "No assignments":
+        assign_clean_df, assign_summary_df = get_assign_impact(student_id, long_subject)
+        #set up gviz
+        summary_values=assign_summary_df.values
+        summary_desc=[("Category", "string", "Category"),
+                      ("Weight", "string", "Weight"),
+                      ("NumGrades", "string", "Total Assignments"),
+                     ("Points", "number", "Points Earned"),
+                     ("PointsPossible", "number", "Points Possible"),
+                      ("Pct", "number", "Percent of Points"),
+                     ("TotImpact", "number", "Impact")]
+        summary_gviz_data_table=gviz_api.DataTable(summary_desc)
+        summary_gviz_data_table.LoadData(summary_values)
+        summary_gviz_json=summary_gviz_data_table.ToJSon()
 
-    #set up gviz
-    summary_values=assign_summary_df.values
-    summary_desc=[("Category", "string", "Category"),
-                  ("Weight", "string", "Weight"),
-                  ("NumGrades", "string", "Total Assignments"),
-                 ("Points", "number", "Points Earned"),
-                 ("PointsPossible", "number", "Points Possible"),
-                  ("Pct", "number", "Percent of Points"),
-                 ("TotImpact", "number", "Impact")]
-    summary_gviz_data_table=gviz_api.DataTable(summary_desc)
-    summary_gviz_data_table.LoadData(summary_values)
-    summary_gviz_json=summary_gviz_data_table.ToJSon()
+        assign_values=assign_clean_df.values
+        assign_desc=[("Assignment", "string", "Assignment"),
+                      ("Score", "number", "Score"),
+                      ("ScorePossible", "number", "Possible Score"),
+                      ("Pct", "number", "Percent"),
+                       ("Category", "string", "Category"),
+                      ("Impact", "number", "Impact")]
+        assign_gviz_data_table=gviz_api.DataTable(assign_desc)
+        assign_gviz_data_table.LoadData(assign_values)
+        assign_gviz_json=assign_gviz_data_table.ToJSon()
 
-    assign_values=assign_clean_df.values
-    assign_desc=[("Assignment", "string", "Assignment"),
-                  ("Score", "number", "Score"),
-                  ("ScorePossible", "number", "Possible Score"),
-                  ("Pct", "number", "Percent"),
-                   ("Category", "string", "Category"),
-                  ("Impact", "number", "Impact")]
-    assign_gviz_data_table=gviz_api.DataTable(assign_desc)
-    assign_gviz_data_table.LoadData(assign_values)
-    assign_gviz_json=assign_gviz_data_table.ToJSon()
+        return render(request, 'student/student_assignments.html',
+                                {'student' : student,
+                                'assign_gviz_json' : assign_gviz_json,
+                                'summary_gviz_json' : summary_gviz_json,
+                                'assign_list_dict' :assign_clean_df.to_dict(orient="index"),
+                                'assign_summary_dict' : assign_summary_df.to_dict(orient="index")} )
+
+    else:
+        return render(request, 'student/student_assignments.html',
+                                {'student' : student} )
 
 
-    return render(request, 'student/student_assignments.html',
-                            {'student' : student,
-                            'assign_gviz_json' : assign_gviz_json,
-                            'summary_gviz_json' : summary_gviz_json,
-                            'assign_list_dict' :assign_clean_df.to_dict(orient="index"),
-                            'assign_summary_dict' : assign_summary_df.to_dict(orient="index")} )
 
 
 def show_student_attendance(request, student_id=1):

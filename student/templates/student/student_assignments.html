@@ -41,14 +41,20 @@
         </h2>
     </a>
   </div>
-<h3>Assignment Summary</h3>
-<div id='summary_table_div'>
+  {% if summary_gviz_json %}
+    <h3>Assignment Summary</h3>
+    <div id='summary_table_div'>
 
-</div>
-<h3>Assignment Details</h3>
-<div id='assign_table_div'>
+    </div>
+    <h3>Assignment Details</h3>
+    <div id='assign_table_div'>
 
-</div>
+    </div>
+  {% else %}
+  <p>
+    No student assignments for current quarter
+  </p>
+  {% endif %}
 </div>
 
 

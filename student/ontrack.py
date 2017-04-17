@@ -94,50 +94,68 @@ def get_attend_pct(student_id):
     pct=round(Attendance.objects.filter(student_id="%s"%(student_id)).order_by('-attend_date')[0].calc_pct())
     return(pct)
 
-def get_gpa(student_id):
-    all_grades_sql = "SELECT grade, grade_date, subject, MAX(created),  display_name \
-               FROM student_grade, student_subject  \
-               WHERE student_grade.student_id = '%s' AND \
-                student_grade.subject=student_subject.subject_name  \
-               GROUP BY student_grade.grade_date, subject \
-               ORDER BY date(grade_date) DESC" %(student_id)
+def get_gpa(group_id, range="current", group_type="student"):
+
+    if group_type=="student":
+        all_grades_sql = "SELECT grade, grade_date, subject, MAX(created),  display_name \
+                   FROM student_grade, student_subject  \
+                   WHERE student_grade.student_id = '%s' AND \
+                    student_grade.subject=student_subject.subject_name  \
+                   GROUP BY student_grade.grade_date, subject \
+                   ORDER BY date(grade_date) DESC" %(group_id)
 
 
+        current_grades_sql="SELECT grade, MAX(grade_date) as most_recent_grade_date, subject, display_name, image \
+                          FROM student_grade, student_subject \
+                          WHERE student_id = '%s' AND student_subject.subject_name=student_grade.subject  \
+                          GROUP BY student_grade.subject"%(group_id)
+    else:
+        if group_type == "hr":
+            current_grades_sql = "SELECT grade, MAX(grade_date) as recent_grade_date, display_name,  \
+            student_roster.student_id FROM student_roster, student_grade, student_subject \
+            WHERE hr_id='%s' AND  \
+            student_grade.student_id=student_roster.student_id AND  \
+            student_subject.subject_name=student_grade.subject \
+            GROUP BY student_roster.student_id, student_grade.subject"%(group_id)
 
-    current_grades_sql="SELECT grade, MAX(grade_date) as most_recent_grade_date, subject, display_name, image \
-                      FROM student_grade, student_subject \
-                      WHERE student_id = '%s' AND student_subject.subject_name=student_grade.subject  \
-                      GROUP BY student_grade.subject"%(student_id)
+            all_grades_sql = "SELECT grade, grade_date, subject, MAX(created),  display_name,  \
+            student_roster.student_id FROM student_roster, student_grade, student_subject \
+            WHERE hr_id='%s' AND  \
+            student_grade.student_id=student_roster.student_id AND  \
+            student_subject.subject_name=student_grade.subject \
+            GROUP BY student_roster.student_id, student_grade.subject\
+            ORDER BY date(grade_date) DESC"%(group_id)
+
+
 
     #turn sql into data frame
     df_current_grades = pandas.read_sql(current_grades_sql, con=connection)
     df_all_grades = pandas.read_sql(all_grades_sql, con=connection)
 
-
     # disconnect from server
     connection.close()
 
+    ##for historical grades
+    df_core_historical_grades = df_all_grades[df_all_grades["display_name"].isin(gpa_subjects_list)]
+    df_historical_grades_indexed=df_core_historical_grades.pivot(index='grade_date', columns='display_name', values='grade')
 
-    #only get GPA of core subjects
-    df_core_grades = df_all_grades[df_all_grades["display_name"].isin(gpa_subjects_list)]
-    df_grades_indexed=df_core_grades.pivot(index='grade_date', columns='display_name', values='grade')
+    ##for current grades
     df_current_core_grades = df_current_grades[df_current_grades["display_name"].isin(gpa_subjects_list)]
 
 
-    #put into dictionary to use in student_grades.html and student_hs.html template
-    current_core_grades_dict=df_current_core_grades.set_index('display_name').to_dict('index')
-
-
-
-    #get gpa
-    df_points=df_grades_indexed.applymap(getPoints)
+    #calculate gpa
+    df_points=df_historical_grades_indexed.applymap(getPoints)
     df_points['gpa']=df_points.mean(axis=1)
     df_points=df_points.reset_index()
     gpa_values=df_points[['grade_date', 'gpa']].values
-    gpa=df_points.sort_values('grade_date',0,False)['gpa'].iloc[0]
+    current_gpa=df_points.sort_values('grade_date',0,False)['gpa'].iloc[0]
 
-
-    return {'gpa':gpa, 'values':gpa_values, 'current_dict': current_core_grades_dict}
+    gpa={'current_gpa' : current_gpa, 'values' : gpa_values}
+    if range == "current":
+        grades_df = df_current_core_grades
+    else:
+        grades_df = df_historical_grades_indexed
+    return {'gpa': gpa, 'grades_df': grades_df}
 
 
 def get_test_score(student_id, test_type):
