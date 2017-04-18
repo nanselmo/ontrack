@@ -93,7 +93,6 @@ def loadGrades(grades_file, inMemory=False):
 
 
 
-
 def loadAttendance(attend_file, inMemory=False):
 
     attend_df, file_date=get_df(attend_file, inMemory)

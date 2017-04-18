@@ -278,7 +278,8 @@ def show_student(request, student_id=1):
 
 
         #get gpa for get_gpa method (in ontrack.py)
-        student_gpa=get_gpa(this_student_id, "current")['gpa']
+        student_gpa=get_gpa(this_student_id, "current", "student")['gpa']
+
         gpa=student_gpa['current_gpa']
 
         #set up Google Table to pass to View
@@ -322,7 +323,10 @@ def show_hs_options(request, student_id=1 ):
     tier=2
 
     student=Student.objects.get(student_id= "%s"%(student_id))
-    current_grades=get_gpa(student_id)['current_dict']
+    current_grades_df=get_gpa(student_id, "current", "student")['grades_df']
+    current_grades_dict=current_grades_df.set_index('display_name').to_dict('index')
+
+
     nwea_scores=get_test_score(student_id , "NWEA")
 
 
@@ -351,10 +355,9 @@ def show_hs_options(request, student_id=1 ):
         #get the points for each letter grade
         tot_ib=0
         tot_ses=0
-        for subject in grade_dict:
-            if subject !="grade_date":
-                tot_ib=tot_ib+get_points(grade_dict[subject])['ib']
-                tot_ses=tot_ses+get_points(grade_dict[subject])['ses']
+        for subject, info in grade_dict.items():
+                tot_ib=tot_ib+get_points(info['grade'])['ib']
+                tot_ses=tot_ses+get_points(info['grade'])['ses']
 
         #total points are the points awarded by letter grade plus a factor times the NWEA percentiles
         if nwea_score_dict['math_pct'] != "not available":
@@ -365,7 +368,7 @@ def show_hs_options(request, student_id=1 ):
             tot_ses=tot_ses + 1.515*int(nwea_score_dict['read_pct'])
         return({'ib_totl': tot_ib, 'ses_totl': tot_ses })
 
-    points=total_hs_points(current_grades, nwea_scores)
+    points=total_hs_points(current_grades_dict, nwea_scores)
 
     hs_sql = "SELECT * from student_highschool"
 
@@ -407,7 +410,7 @@ def show_hs_options(request, student_id=1 ):
         'ses_points': points["ses_totl"],
         'ib_points': points["ib_totl"],
         'student_id':student_id,
-        'current_grades_dict': current_grades,
+        'current_grades_dict': current_grades_dict,
         'nwea_math' : nwea_scores["math_pct"],
         'nwea_reading' : nwea_scores["read_pct"]}
     return render(request, "student/student_calc.html", template_vars)
