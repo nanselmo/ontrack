@@ -1,6 +1,8 @@
 import pandas
 from student.models import Assignment
 from django.db import connection
+from dateutil import parser
+from student.hardcoded import Q4_Start_Date
 
 def get_numerical_score(score):
     score=pandas.to_numeric(score,errors="ignore")
@@ -44,20 +46,28 @@ def get_clean_assignments(assign_df):
 
 def get_assign_impact(student_id, course):
         assign_sql = "SELECT assign_name AS ASGName, assign_score AS Score,\
-        category_name AS CategoryName, \
+        category_name AS CategoryName, grade_entered, \
         assign_score_possible AS ScorePossible, category_weight AS CategoryWeight \
         FROM student_assignment \
         WHERE student_id = '%s'   \
         AND student_assignment.subject='%s'"%(student_id, course)
 
-        assign_details=pandas.read_sql(assign_sql, connection)
+        assign_details_df=pandas.read_sql(assign_sql, connection)
 
-        if len(assign_details) == 0:
+        #get current quarter assignments only
+        #Q4_Start_Date hardcoded in hardcoded.py
+        Q4_date=parser.parse(Q4_Start_Date, dayfirst=False)
+        #convert grade_entered to date time in order to compare
+        assign_details_df['grade_entered'] =  pandas.to_datetime(assign_details_df['grade_entered'])
+        current_assignments_df=assign_details_df[assign_details_df['grade_entered']>=Q4_date]
+
+
+        if len(current_assignments_df) == 0:
             return("No assignments")
 
         else:
             #make Score Columns numerical and drop Excused and Null values
-            assign_clean = get_clean_assignments(assign_details)
+            assign_clean = get_clean_assignments(current_assignments_df)
 
 
             categories=assign_clean.groupby(["CategoryName", 'CategoryWeight']).size().rename('counts').reset_index()
