@@ -3,7 +3,7 @@ from student.models import Grade, Student, Attendance, Email, Subject, Roster, D
 from allauth.socialaccount.models import SocialAccount
 from django.db import connection
 from ontrack import get_user_info, getOnTrack, getPoints, get_attend_pct, get_gpa, get_test_score, gpa_subjects_list, take_out_subjects_list, get_grade_distribution
-from grade_audit import generate_grade_audit
+#from grade_audit import generate_grade_audit
 from classdata import hr_data
 from summerschool import get_ss_report
 from assignmentimpact import get_assign_impact
@@ -176,7 +176,11 @@ def upload_files(request):
 
 
 def grade_report(request):
-    template_vars=generate_grade_audit(num="admin")
+    #commented out on 04/26/17 because python anywhere is having trouble finding
+    #the teacher_div file, need to set student_data in a static directory or
+    #move teacher_div to a database
+    #template_vars=generate_grade_audit(num="admin")
+
     if request.method == 'POST':
         #DataFileForm is a class defined in forms.py
         upload_form = DataFileForm(request.POST, request.FILES)
@@ -194,6 +198,7 @@ def grade_report(request):
             upload_form = DataFileForm()
             #message="Upload The Grades Files"
 
+    template_vars = {}        
 
     return render(request, "student/grade_report.html", template_vars)
 
