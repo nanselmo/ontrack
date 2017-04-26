@@ -130,6 +130,9 @@ class TestScore(models.Model):
     percentile = models.CharField(max_length=3, null=True)
     test_session = models.CharField(max_length=60, null=True)
     subject = models.CharField(max_length=60, null=True)
+    #test_date needs to be null for get_or_create method
+    #in loadOnTrackData's loadNWEA method
+    test_date = models.DateField(null=True)
 
     def __str__(self):
         return "{0}: {1} - {2} - {3}".format(self.student, self.test_name, self.test_session, self.subject)

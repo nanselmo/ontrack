@@ -3,7 +3,8 @@ from django.db import connection
 import math
 import pandas
 from datetime import datetime
-from hardcoded import Q3_Start_Date
+from hardcoded import Q3_Start_Date, Q4_Start_Date
+from dateutil import parser
 import re
 
 #converts file to df and gets the date from the file name
@@ -107,37 +108,27 @@ def loadAttendance(attend_file, inMemory=False):
     print str(len(df)) + ' attendance records loaded from ' + file_date
     return(len(df))
 
-def loadNWEA(file):
-    grades_df_raw = pandas.read_csv(open(file,'rb'))
-    grades_df=grades_df_raw[['StudentID', 'TermName', 'Discipline', 'TestRITScore', 'TestPercentile']]
-    df=grades_df
+def loadNWEA(file, inMemory = False):
+    test_score_df_raw, file_date=get_df(file, inMemory)
+    test_score_df = test_score_df_raw[['StudentID', 'TermName', 'Discipline', 'TestRITScore', 'TestPercentile', 'TestStartDate']]
+    df = test_score_df
 
     for i in range(0,len(df)):
             try:
                 student = Student.objects.get(student_id=df.iloc[i]['StudentID'])
-                #change this so that it only upload one test score per session.
-                # TestScore.objects.get_or_create(student_id=df.iloc[i]['StudentID'].astype(str),
-                #                         test_name='NWEA',
-                #                         score=df.iloc[i]['TestRITScore'],
-                #                         percentile=df.iloc[i]['TestPercentile'],
-                #                            test_session=df.iloc[i]['TermName'],
-                #                            subject=df.iloc[i]['Discipline'])
                 test_instance=TestScore.objects.get_or_create(student_id=df.iloc[i]['StudentID'].astype(str),
                                         test_name='NWEA',
                                         test_session=df.iloc[i]['TermName'],
                                         subject=df.iloc[i]['Discipline'])
                 test_instance[0].score=df.iloc[i]['TestRITScore']
                 test_instance[0].percentile=df.iloc[i]['TestPercentile']
-                test_instance.save()
-
-                user= Email.objects.get_or_create(student_id=df.iloc[i]['Logon ID'].lower())
-                user[0].email=df.iloc[i]['mail'].lower()
-                user[0].user_type=user_type
-                user[0].save()
+                test_instance[0].test_date = parser.parse(df.iloc[i]['TestStartDate'], dayfirst=False)
+                test_instance[0].save()
 
             except Student.DoesNotExist:
                 #student is no longer at Chavez
                 pass
+    return(len(df))
 
 def loadHSInfo(file):
     hs_df= pandas.read_csv(open(file,'rb'))
@@ -197,7 +188,8 @@ def loadAssignments(file, inMemory=False):
 
     #delete current quarter's assignments
     #names of assignments could have changed, as could their score - or even points possible, so need to delete all previous
-    Assignment.objects.filter(grade_entered__gte=Q3_Start_Date).delete()
+    #Q4_Start_Date from hardcoded.py
+    Assignment.objects.filter(grade_entered__gte=Q4_Start_Date).delete()
 
 
     #load assignments
@@ -210,8 +202,8 @@ def loadAssignments(file, inMemory=False):
                                         assign_score_possible=df.iloc[i]['ScorePossible'],
                                         category_name=df.iloc[i]['CategoryName'],
                                         category_weight=df.iloc[i]['CategoryWeight'],
-                                        assignment_due=datetime.strptime(df.iloc[0]['AssignmentDue'], '%m/%d/%Y'),
-                                        grade_entered=datetime.strptime(df.iloc[0]['GradeEnteredOn'], '%m/%d/%Y'))
+                                        assignment_due=datetime.strptime(df.iloc[i]['AssignmentDue'], '%m/%d/%Y'),
+                                        grade_entered=datetime.strptime(df.iloc[i]['GradeEnteredOn'], '%m/%d/%Y'))
     return(len(df))
 
 

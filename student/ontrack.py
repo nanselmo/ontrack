@@ -162,12 +162,12 @@ def get_test_score(student_id, test_type):
     student_scores=TestScore.objects.filter(student_id="%s"%(student_id))
     nwea_scores=student_scores.filter(test_name="%s"%(test_type))
     if len(student_scores.filter(subject="Mathematics"))>0:
-        math_score = student_scores.filter(subject="Mathematics")[0].percentile
+        math_score = student_scores.filter(subject="Mathematics").order_by('-test_date')[0].percentile
     else:
         math_score = "not available"
 
     if len(student_scores.filter(subject="Reading"))>0:
-        reading_score = student_scores.filter(subject="Reading")[0].percentile
+        reading_score = student_scores.filter(subject="Reading").order_by('-test_date')[0].percentile
     else:
         reading_score = "not available"
 
