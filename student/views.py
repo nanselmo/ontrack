@@ -264,17 +264,68 @@ def show_hr(request, selected_hr="B314"):
         #don't draw pie graphs for All
         grade_distribution_array=[]
 
+        #JiJi summary, move this to a method
+        current_stmath_sql="SELECT first_name, last_name, hr_id, gcd, k_5_progress, curr_hurdle, total_time, curr_objective, MAX(metric_date) as recent_date \
+                  FROM student_roster, student_stmathrecord, student_student \
+                  WHERE student_stmathrecord.student_id=student_roster.student_id AND\
+                  student_roster.student_id=student_student.student_id\
+                  GROUP BY  student_roster.student_id\
+                  ORDER BY k_5_progress"
+        df_stmath_all = pandas.read_sql(current_stmath_sql, con=connection)
+        if len(df_stmath_all) > 0:
+            all_stmath_values=df_stmath_all.values
+            all_stmath_desc=[("first_name", "string", "First Name"),
+                          ("last_name", "string", "Last Name"),
+                           ("hr_id", "string", "HR"),
+                          ("gcd", "string", "Level"),
+                         ("k_5_progress", "number", "Syllabus Progress"),
+                         ("curr_hurdle", "number", "Current Hurdle Tries"),
+                          ("total_time", "number", "Total Time"),
+                         ("cur_objective", "string", "Current Objective"),
+                            ("recent_date", "string", "Data As Of")]
+            all_stmath_gviz_data_table=gviz_api.DataTable(all_stmath_desc)
+            all_stmath_gviz_data_table.LoadData(all_stmath_values)
+            all_stmath_gviz_json=all_stmath_gviz_data_table.ToJSon()
+        else:
+            all_stmath_gviz_json={}
+
 
     elif user_type in ["School Admin", "Teacher"] :
         hr_json, hr_dict=hr_data(selected_hr, admin=False)
         title=selected_hr + ' Students'
         grade_distribution_array, avg_grades_list = get_grade_distribution(selected_hr)
 
+        #JiJi summary, move this to a method
+        current_stmath_sql="SELECT first_name, last_name, gcd, k_5_progress, curr_hurdle, total_time, curr_objective, MAX(metric_date) as recent_date \
+                  FROM student_roster, student_stmathrecord, student_student \
+                  WHERE student_stmathrecord.student_id=student_roster.student_id AND\
+                  student_roster.student_id=student_student.student_id AND\
+                  student_roster.hr_id='%s'\
+                  GROUP BY  student_roster.student_id\
+                  ORDER BY k_5_progress"%(selected_hr)
+        df_stmath_all = pandas.read_sql(current_stmath_sql, con=connection)
+        if len(df_stmath_all) > 0:
+            all_stmath_values=df_stmath_all.values
+            all_stmath_desc=[("first_name", "string", "First Name"),
+                          ("last_name", "string", "Last Name"),
+                          ("gcd", "string", "Level"),
+                         ("k_5_progress", "number", "Syllabus Progress"),
+                         ("curr_hurdle", "number", "Current Hurdle Tries"),
+                          ("total_time", "number", "Total Time"),
+                         ("cur_objective", "string", "Current Objective"),
+                            ("recent_date", "string", "Data As Of")]
+            all_stmath_gviz_data_table=gviz_api.DataTable(all_stmath_desc)
+            all_stmath_gviz_data_table.LoadData(all_stmath_values)
+            all_stmath_gviz_json=all_stmath_gviz_data_table.ToJSon()
+        else:
+            all_stmath_gviz_json={}
+
     else:
         hr_dict={}
         hr_json=""
         title="Not Authorized"
         grade_distribution_array=[]
+        all_stmath_gviz_json={}
 
 
     template_vars={
@@ -282,7 +333,8 @@ def show_hr(request, selected_hr="B314"):
                  'hr_json':hr_json,
                  'title': title,
                  'grade_distribution_array': json.dumps(grade_distribution_array),
-                 'avg_grades' : json.dumps(avg_grades_list)
+                 'avg_grades' : json.dumps(avg_grades_list),
+                 'all_stmath_gviz_json' : all_stmath_gviz_json
                  }
     return render(request, "student/homeroom.html", template_vars)
 
