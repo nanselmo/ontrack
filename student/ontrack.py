@@ -19,7 +19,7 @@ gpa_subjects_list_full_names=['CHGO READING FRMWK','MATHEMATICS STD','SCIENCE  S
 def get_user_info(the_request, student_id=1):
     social_email = SocialAccount.objects.get(user=the_request.user).extra_data['email']
     try:
-        user_type=Email.objects.get(email=social_email).user_type
+        user_type = Email.objects.get(email=social_email).user_type
     except:
         user_type = "Student"
     #admin and teacher can look at any user's info

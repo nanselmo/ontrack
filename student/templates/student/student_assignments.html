@@ -6,7 +6,9 @@
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-      google.charts.load('current', {'packages':['table']});
+       google.charts.load('current', {'packages':['corechart', 'table']});
+      //google.charts.load('current', {'packages':['table']});
+      //google.load('visualization', '1.1', {'packages':['corechart']});
 
       //summary table
       google.charts.setOnLoadCallback(drawSummaryTable);
@@ -27,6 +29,23 @@
         var view = new google.visualization.DataView(data);
         table.draw(view, {allowHtml: true, width: '100%', height: '100%'});
       }
+
+      //jiji Progress
+
+      google.charts.setOnLoadCallback(drawJiJiChart);
+
+      function drawJiJiChart() {
+        var data = new google.visualization.DataTable({{stmath_gviz_json|safe}});
+        var chart = new google.visualization.LineChart(document.getElementById('jiji_chart_div'));
+
+        var options = {
+          title : "STMath Progress over Time",
+          lineWidth: 6,
+        };
+
+        chart.draw(data, options);
+      }
+
     </script>
 
 {% endblock %}
@@ -44,16 +63,28 @@
   {% if summary_gviz_json %}
     <h3>Assignment Summary</h3>
     <div id='summary_table_div'>
-
     </div>
+
     <h3>Assignment Details</h3>
     <div id='assign_table_div'>
-
     </div>
+
   {% else %}
   <p>
     No student assignments for current quarter
   </p>
+  {% endif %}
+  {% if stmath_gviz_json %}
+    <h3>JiJi Progress Over Time</h3>
+    <div class="row">
+      <div class="col-sm-4">
+        <img src="http://www.k5friends.com/wp-content/uploads/et_temp/jiji-39994_307x195.jpg"/>
+      </div>
+      <div class="col-sm-8">
+        <div  id='jiji_chart_div'>
+        </div>
+      </div>
+    </div>
   {% endif %}
 </div>
 

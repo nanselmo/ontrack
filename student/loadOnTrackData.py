@@ -1,4 +1,4 @@
-from student.models import  Email, Attendance, TestScore, Student, Grade, Roster, Assignment
+from student.models import  Email, Attendance, TestScore, Student, Grade, Roster, Assignment, STMathRecord
 from django.db import connection
 import math
 import pandas
@@ -81,13 +81,11 @@ def loadGrades(grades_file, inMemory=False):
     #take out students who have letter grades for their Final Avg
     clean_grades=grades_df[~grades_df['FinalAvg'].isin(["A", "B", "C","D", "F"])]
     df = clean_grades
-    print df
     for i in range(0,len(df)):
          Grade.objects.get_or_create(student_id=df.iloc[i]['StudentID'].astype(str),
                                  subject=df.iloc[i]['SubjectName'],
                                  grade=df.iloc[i]['FinalAvg'],
                                  grade_date=datetime.strptime(file_date, '%m-%d-%y'))
-    print str(len(df)) + ' grades loaded from ' + file_date
     return(len(df))
 
 
@@ -207,8 +205,20 @@ def loadAssignments(file, inMemory=False):
     return(len(df))
 
 
+def loadJiJi(file, inMemory=False):
+    df, file_date=get_df(file, inMemory)
+    for i in range(0,len(df)):
+             STMathRecord.objects.get_or_create(student_id = df.iloc[i]['school_student_id'].astype(str),
+                                     gcd = df.iloc[i]['GCD'],
+                                     num_lab_logins = df.iloc[i]['num_lab_logins'],
+                                     k_5_progress = df.iloc[i]['K_5_Progress'],
+                                     k_5_mastery = df.iloc[i]['K_5_Mastery'],
+                                     curr_hurdle = df.iloc[i]['curr_hurdle_num_tries'],
+                                     curr_objective = df.iloc[i]['objective_name'],
+                                     total_time = df.iloc[i]['alt_src_time'],
+                                     metric_date=datetime.strptime(file_date, '%m-%d-%y'))
 
-
+    return(len(df))
 
 def loadFile(file):
 

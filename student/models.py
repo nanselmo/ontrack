@@ -137,6 +137,22 @@ class TestScore(models.Model):
     def __str__(self):
         return "{0}: {1} - {2} - {3}".format(self.student, self.test_name, self.test_session, self.subject)
 
+class STMathRecord(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE,  db_constraint=False)
+    #gcd is what grade level of JiJi they're working on
+    gcd = models.CharField(max_length=150)
+    num_lab_logins = models.IntegerField()
+    k_5_progress = models.DecimalField(max_digits=4, decimal_places=1)
+    k_5_mastery = models.DecimalField(max_digits=4, decimal_places=1)
+    curr_hurdle = models.IntegerField()
+    curr_objective = models.CharField(max_length=150)
+    total_time = models.IntegerField()
+    metric_date = models.DateField(null=True)
+
+    def __str__(self):
+        return "{0}: {1} progress at {2} ".format(self.student, self.k_5_progress, self.gcd)
+
+
 
 class HighSchool(models.Model):
     short_name = models.CharField(max_length=100)

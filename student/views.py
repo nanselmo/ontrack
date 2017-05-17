@@ -149,6 +149,9 @@ def upload_files(request):
                         elif "NWEA" in str(each_file):
                             num_data_points=loadNWEA(newfile, inMemory=True)
                             message= message + str(num_data_points) + " test scores have been updated. "
+                        elif "ST" in str(each_file):
+                            num_data_points=loadJiJi(newfile, inMemory=True)
+                            message= message + str(num_data_points) + " students in JiJi have been updated. "
 
                         else:
                             num_data_points=0
@@ -198,7 +201,7 @@ def grade_report(request):
             upload_form = DataFileForm()
             #message="Upload The Grades Files"
 
-    template_vars = {}        
+    template_vars = {}
 
     return render(request, "student/grade_report.html", template_vars)
 
@@ -212,7 +215,7 @@ def show_home(request):
         if request.user.is_authenticated:
             social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
             user_id, user_type=get_user_info(request)
-            if user_type in[ "School Admin","Teacher"]:
+            if user_type in ["School Admin","Teacher"]:
                 hr_dict=grade_hr_dict
             else:
                 hr_dict="none"
@@ -220,11 +223,14 @@ def show_home(request):
         else:
             social_email= "none"
             hr_dict="none"
+
+
         exclude_hr_list=["1", "2"]
         exclude_grade_list=["PK", "PE", "20"]
 
         prev_grade=0
         display_hr_list=[]
+
         for hr in grade_hr_dict:
             if (hr['grade_level'] not in ["20","PE","PK"]) & (hr['hr_id'] not in ["1","2"]):
                 cur_grade="GR: "+hr['grade_level']
@@ -479,6 +485,33 @@ def show_student_assignments(request, student_id=1, display_subject="Math"):
     student_id, user_type=get_user_info(request, student_id)
     student=Student.objects.get(student_id= "%s"%(student_id))
     long_subject=Subject.objects.get(display_name=display_subject).subject_name
+
+    if display_subject == "Math":
+        #get stmath data
+        stmath_sql = "Select metric_date, k_5_progress \
+        FROM student_stmathrecord WHERE student_id = '%s'" %(student_id)
+        df_stmath = pandas.read_sql(stmath_sql, con=connection)
+
+        if len(df_stmath)> 0:
+
+            #get the values from the df and define the columns of the datatable
+            stmath_values=df_stmath.values
+            description = [("metric_date", "date", "Date"),
+            ("k_5_progress", "number", "Syllabus Progress")]
+
+            # Loading it into gviz_api.DataTable and covert to JSON
+            st_math_data_table = gviz_api.DataTable(description)
+            st_math_data_table.LoadData(stmath_values)
+
+            #stmath_values
+            st_math_gviz_json = st_math_data_table.ToJSon()
+        else:
+            st_math_gviz_json = {}
+    else:
+        st_math_gviz_json = {}
+
+
+
     if get_assign_impact(student_id, long_subject) != "No assignments":
         assign_clean_df, assign_summary_df = get_assign_impact(student_id, long_subject)
         #set up gviz
@@ -510,11 +543,13 @@ def show_student_assignments(request, student_id=1, display_subject="Math"):
                                 'assign_gviz_json' : assign_gviz_json,
                                 'summary_gviz_json' : summary_gviz_json,
                                 'assign_list_dict' :assign_clean_df.to_dict(orient="index"),
-                                'assign_summary_dict' : assign_summary_df.to_dict(orient="index")} )
+                                'assign_summary_dict' : assign_summary_df.to_dict(orient="index"),
+                                'stmath_gviz_json' : st_math_gviz_json} )
 
     else:
         return render(request, 'student/student_assignments.html',
-                                {'student' : student} )
+                                {'student' : student,
+                                'stmath_gviz_json' : st_math_gviz_json} )
 
 
 
