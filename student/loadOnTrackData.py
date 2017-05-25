@@ -188,6 +188,7 @@ def loadAssignments(file, inMemory=False):
     #names of assignments could have changed, as could their score - or even points possible, so need to delete all previous
     #Q4_Start_Date from hardcoded.py
     Assignment.objects.filter(grade_entered__gte=Q4_Start_Date).delete()
+    print "Old Q4 Assignments Deleted"
 
 
     #load assignments
@@ -202,6 +203,7 @@ def loadAssignments(file, inMemory=False):
                                         category_weight=df.iloc[i]['CategoryWeight'],
                                         assignment_due=datetime.strptime(df.iloc[i]['AssignmentDue'], '%m/%d/%Y'),
                                         grade_entered=datetime.strptime(df.iloc[i]['GradeEnteredOn'], '%m/%d/%Y'))
+        print df.iloc[i]['ASGName'] + " for " + df.iloc[i]['StuStudentId'] + " loaded"
     return(len(df))
 
 
