@@ -256,10 +256,10 @@ def show_dashboard(request, student_id=1):
 def show_hr(request, selected_hr="B314"):
 
     if request.user.is_authenticated:
-        user_id, user_type=get_user_info(request)
+        user_id, user_type = get_user_info(request)
     if user_type in ["School Admin", "Teacher"] and selected_hr=="All":
-        hr_json, hr_dict=hr_data(selected_hr, admin=True)
-        title="All Students"
+        hr_json, hr_dict = hr_data(selected_hr, admin=True)
+        title = "All Students"
         grade_distribution_array, avg_grades_list=get_grade_distribution(selected_hr)
         #don't draw pie graphs for All
         grade_distribution_array=[]
@@ -290,12 +290,14 @@ def show_hr(request, selected_hr="B314"):
             all_stmath_gviz_json={}
 
 
+
     elif user_type in ["School Admin", "Teacher"] :
         hr_json, hr_dict=hr_data(selected_hr, admin=False)
         title=selected_hr + ' Students'
         grade_distribution_array, avg_grades_list = get_grade_distribution(selected_hr)
 
-        #JiJi summary, move this to a method
+
+
         current_stmath_sql="SELECT first_name, last_name, gcd, k_5_progress, curr_hurdle, total_time, curr_objective, MAX(metric_date) as recent_date \
                   FROM student_roster, student_stmathrecord, student_student \
                   WHERE student_stmathrecord.student_id=student_roster.student_id AND\
@@ -303,6 +305,8 @@ def show_hr(request, selected_hr="B314"):
                   student_roster.hr_id='%s'\
                   GROUP BY  student_roster.student_id\
                   ORDER BY k_5_progress"%(selected_hr)
+
+
         df_stmath_all = pandas.read_sql(current_stmath_sql, con=connection)
         if len(df_stmath_all) > 0:
             all_stmath_values=df_stmath_all.values
@@ -326,6 +330,7 @@ def show_hr(request, selected_hr="B314"):
         title="Not Authorized"
         grade_distribution_array=[]
         all_stmath_gviz_json={}
+
 
 
     template_vars={
@@ -540,6 +545,8 @@ def show_student_assignments(request, student_id=1, display_subject="Math"):
 
     if display_subject == "Math":
         #get stmath data
+        curJiJi = STMathRecord.objects.filter(student=student_id).order_by('-metric_date')[0].k_5_progress
+
         stmath_sql = "Select metric_date, k_5_progress \
         FROM student_stmathrecord WHERE student_id = '%s'" %(student_id)
         df_stmath = pandas.read_sql(stmath_sql, con=connection)
@@ -559,8 +566,11 @@ def show_student_assignments(request, student_id=1, display_subject="Math"):
             st_math_gviz_json = st_math_data_table.ToJSon()
         else:
             st_math_gviz_json = {}
+            #JiJi summary, move this to a method
+            curJiJi = []
     else:
         st_math_gviz_json = {}
+        curJiJi = []
 
 
 
@@ -596,7 +606,8 @@ def show_student_assignments(request, student_id=1, display_subject="Math"):
                                 'summary_gviz_json' : summary_gviz_json,
                                 'assign_list_dict' :assign_clean_df.to_dict(orient="index"),
                                 'assign_summary_dict' : assign_summary_df.to_dict(orient="index"),
-                                'stmath_gviz_json' : st_math_gviz_json} )
+                                'stmath_gviz_json' : st_math_gviz_json,
+                                'curJiJi': curJiJi} )
 
     else:
         return render(request, 'student/student_assignments.html',

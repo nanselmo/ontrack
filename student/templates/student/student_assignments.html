@@ -6,9 +6,8 @@
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-       google.charts.load('current', {'packages':['corechart', 'table']});
-      //google.charts.load('current', {'packages':['table']});
-      //google.load('visualization', '1.1', {'packages':['corechart']});
+       google.charts.load('current', {'packages':['corechart', 'table', 'gauge']});
+
 
       //summary table
       google.charts.setOnLoadCallback(drawSummaryTable);
@@ -30,6 +29,52 @@
         table.draw(view, {allowHtml: true, width: '100%', height: '100%'});
       }
 
+
+
+
+      ///gauge
+
+      google.charts.setOnLoadCallback(drawGagueCharts);
+
+      function drawGagueCharts() {
+
+
+        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Syllabus %', 0]
+        ]);
+
+        var options = {
+          width: 400, height: 220,
+          redFrom: 0, redTo: 50,
+          yellowFrom: 50, yellowTo: 80,
+          greenFrom: 80, greenTo: 100,
+          minorTicks: 5
+        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+
+
+        setTimeout(function() {
+          data.setValue(0, 1, {{curJiJi}}/4);
+          chart.draw(data, options);
+          setTimeout(function() {
+            data.setValue(0, 1, {{curJiJi}}/2);
+            chart.draw(data, options);
+            setTimeout(function() {
+              data.setValue(0, 1, {{curJiJi}});
+              chart.draw(data, options);
+            }, 500);
+          }, 500);
+        }, 2000);
+
+
+
+
+      }
+
       //jiji Progress
 
       google.charts.setOnLoadCallback(drawJiJiChart);
@@ -44,6 +89,7 @@
         };
 
         chart.draw(data, options);
+
       }
 
     </script>
@@ -86,6 +132,10 @@
       </div>
     </div>
   {% endif %}
+
+  <h3>JiJi Progress</h3>
+  <div id='chart_div'>
+  </div>
 </div>
 
 
