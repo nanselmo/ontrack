@@ -203,7 +203,8 @@ def loadAssignments(file, inMemory=False):
                                         category_weight=df.iloc[i]['CategoryWeight'],
                                         assignment_due=datetime.strptime(df.iloc[i]['AssignmentDue'], '%m/%d/%Y'),
                                         grade_entered=datetime.strptime(df.iloc[i]['GradeEnteredOn'], '%m/%d/%Y'))
-        print df.iloc[i]['ASGName'] + " for " + df.iloc[i]['StuStudentId'] + " loaded"
+        #debug load balancer issue in PythonAnywhere
+        print df.iloc[i]['ASGName'] + " for " + str(df.iloc[i]['StuStudentId']) + " loaded"
     return(len(df))
 
 
