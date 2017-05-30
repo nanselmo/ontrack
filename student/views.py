@@ -10,6 +10,7 @@ from assignmentimpact import get_assign_impact
 from loadOnTrackData import *
 import pandas
 import math
+import numpy as np
 #streaming is for large datasets
 from django.http import HttpResponseRedirect, HttpResponse, StreamingHttpResponse
 from forms import DataFileForm
@@ -182,7 +183,7 @@ def grade_report(request):
     #commented out on 04/26/17 because python anywhere is having trouble finding
     #the teacher_div file, need to set student_data in a static directory or
     #move teacher_div to a database
-    #template_vars=generate_grade_audit(num="admin")
+    #template_vars= generate_grade_audit(num="admin")
 
     if request.method == 'POST':
         #DataFileForm is a class defined in forms.py
@@ -257,6 +258,7 @@ def show_hr(request, selected_hr="B314"):
 
     if request.user.is_authenticated:
         user_id, user_type = get_user_info(request)
+
     if user_type in ["School Admin", "Teacher"] and selected_hr=="All":
         hr_json, hr_dict = hr_data(selected_hr, admin=True)
         title = "All Students"
@@ -288,9 +290,10 @@ def show_hr(request, selected_hr="B314"):
             all_stmath_gviz_json=all_stmath_gviz_data_table.ToJSon()
         else:
             all_stmath_gviz_json={}
+        full_stdates_data = []
 
 
-
+    #just select data from one homeroom
     elif user_type in ["School Admin", "Teacher"] :
         hr_json, hr_dict=hr_data(selected_hr, admin=False)
         title=selected_hr + ' Students'
@@ -324,12 +327,82 @@ def show_hr(request, selected_hr="B314"):
         else:
             all_stmath_gviz_json={}
 
+        #get the stmath progress over time for all students in a hr for stacked bar
+        # historical_stmath_sql="SELECT  first_name || ' ' || last_name AS full_name, gcd, k_5_progress, metric_date\
+        #           FROM student_roster, student_stmathrecord, student_student \
+        #           WHERE student_stmathrecord.student_id=student_roster.student_id AND\
+        #           student_roster.student_id=student_student.student_id AND\
+        #           student_roster.hr_id='%s'\
+        #           ORDER BY -metric_date"%(selected_hr)
+        # df_stmath_hist = pandas.read_sql(historical_stmath_sql, con=connection)
+        # df_stmath_hist.groupby('full_name').head(3).reset_index(drop=True)
+        # df_stmath_dates=df_stmath_hist.pivot(index="full_name", columns="metric_date", values="k_5_progress").reset_index()
+        #
+        # #break into the names of each column (the dates) and the values in order to feed into Gviz' DataTable
+        #
+        # #first get the names of each column, convert them to strings and add them to a new array
+        # col_names=list(df_stmath_dates)
+        # names_strings = []
+        # for name in col_names:
+        #     try:
+        #         names_strings.append(name.strftime("%m-%d"))
+        #     except:
+        #         names_strings.append(name)
+        # col_names_array=np.asarray(names_strings)
+        #
+        # #get the values of the data frame (the progress each student had made)
+        # stmath_dates_values=df_stmath_dates.values
+        #
+        # #join these two arrays together
+        # full_stdates_data = np.vstack((col_names_array,stmath_dates_values))
+        # full_stdates_data = full_stdates_data.tolist()
+
+        #only want the last two dates of ST progress
+        last_two_stmath_sql="SELECT  first_name || ' ' || last_name AS full_name, gcd, k_5_progress, metric_date\
+                  FROM student_roster, student_stmathrecord, student_student \
+                  WHERE student_stmathrecord.student_id=student_roster.student_id AND\
+                  student_roster.student_id=student_student.student_id AND\
+                  student_roster.hr_id='%s' AND\
+                  metric_date IN (SELECT  metric_date\
+                 FROM student_stmathrecord\
+                 GROUP BY metric_date\
+                 ORDER BY metric_date DESC\
+                 LIMIT 2)\
+                  ORDER BY -metric_date"%(selected_hr)
+        df_stmath_two_dates = pandas.read_sql(last_two_stmath_sql, con=connection)
+        df_stmath_two_dates = df_stmath_two_dates.pivot(index="full_name", columns="metric_date", values="k_5_progress").reset_index()
+        df_stmath_two_dates['total_progress'] =  df_stmath_two_dates.ix[:,2]
+        df_stmath_two_dates = df_stmath_two_dates.sort_values(['total_progress'] , ascending=[False])
+
+        df_stmath_two_dates['prev_progress'] =  df_stmath_two_dates.ix[:,1]
+        df_stmath_two_dates['recent_progress'] =  df_stmath_two_dates['total_progress'] - df_stmath_two_dates['prev_progress']
+        df_stmath_two_dates = df_stmath_two_dates[['full_name', 'prev_progress', 'recent_progress']]
+        #break into the names of each column (the dates) and the values in order to feed into Gviz' DataTable
+
+        #first get the names of each column, convert them to strings and add them to a new array
+        col_names=list(df_stmath_two_dates)
+
+
+        #get the values of the data frame (the progress each student had made)
+        stmath_two_dates_values=df_stmath_two_dates.values
+
+        #join these two arrays together
+        last_two_stdates_data=np.vstack((col_names,stmath_two_dates_values))
+
+        last_two_stdates_data_list=last_two_stdates_data.tolist()
+
+
+
+        last_two_stdates_data_json = json.dumps(last_two_stdates_data_list)
+
+    #if not authenticated
     else:
-        hr_dict={}
-        hr_json=""
-        title="Not Authorized"
-        grade_distribution_array=[]
-        all_stmath_gviz_json={}
+        hr_dict = {}
+        hr_json = ""
+        title = "Not Authorized"
+        grade_distribution_array = []
+        all_stmath_gviz_json = {}
+        full_stdates_data = []
 
 
 
@@ -339,7 +412,8 @@ def show_hr(request, selected_hr="B314"):
                  'title': title,
                  'grade_distribution_array': json.dumps(grade_distribution_array),
                  'avg_grades' : json.dumps(avg_grades_list),
-                 'all_stmath_gviz_json' : all_stmath_gviz_json
+                 'all_stmath_gviz_json' : all_stmath_gviz_json,
+                 'stmath_dates_json' : last_two_stdates_data_json
                  }
     return render(request, "student/homeroom.html", template_vars)
 
