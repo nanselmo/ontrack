@@ -660,14 +660,14 @@ def show_student_assignments(request, student_id=1, display_subject="Math"):
     long_subject=Subject.objects.get(display_name=display_subject).subject_name
 
     if display_subject == "Math":
-        #get stmath data
-        curJiJi = STMathRecord.objects.filter(student=student_id).order_by('-metric_date')[0].k_5_progress
+
 
         stmath_sql = "Select metric_date, k_5_progress \
         FROM student_stmathrecord WHERE student_id = '%s'" %(student_id)
         df_stmath = pandas.read_sql(stmath_sql, con=connection)
 
         if len(df_stmath)> 0:
+            curJiJi = STMathRecord.objects.filter(student=student_id).order_by('-metric_date')[0].k_5_progress
 
             #get the values from the df and define the columns of the datatable
             stmath_values=df_stmath.values
