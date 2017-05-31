@@ -370,31 +370,33 @@ def show_hr(request, selected_hr="B314"):
                  LIMIT 2)\
                   ORDER BY -metric_date"%(selected_hr)
         df_stmath_two_dates = pandas.read_sql(last_two_stmath_sql, con=connection)
-        df_stmath_two_dates = df_stmath_two_dates.pivot(index="full_name", columns="metric_date", values="k_5_progress").reset_index()
-        df_stmath_two_dates['total_progress'] =  df_stmath_two_dates.ix[:,2]
-        df_stmath_two_dates = df_stmath_two_dates.sort_values(['total_progress'] , ascending=[False])
+        if len(df_stmath_two_dates) > 0:
+            df_stmath_two_dates = df_stmath_two_dates.pivot(index="full_name", columns="metric_date", values="k_5_progress").reset_index()
+            df_stmath_two_dates['total_progress'] =  df_stmath_two_dates.ix[:,2]
+            df_stmath_two_dates = df_stmath_two_dates.sort_values(['total_progress'] , ascending=[False])
 
-        df_stmath_two_dates['prev_progress'] =  df_stmath_two_dates.ix[:,1]
-        df_stmath_two_dates['recent_progress'] =  df_stmath_two_dates['total_progress'] - df_stmath_two_dates['prev_progress']
-        df_stmath_two_dates = df_stmath_two_dates[['full_name', 'prev_progress', 'recent_progress']]
-        #break into the names of each column (the dates) and the values in order to feed into Gviz' DataTable
+            df_stmath_two_dates['prev_progress'] =  df_stmath_two_dates.ix[:,1]
+            df_stmath_two_dates['recent_progress'] =  df_stmath_two_dates['total_progress'] - df_stmath_two_dates['prev_progress']
+            df_stmath_two_dates = df_stmath_two_dates[['full_name', 'prev_progress', 'recent_progress']]
+            #break into the names of each column (the dates) and the values in order to feed into Gviz' DataTable
 
-        #first get the names of each column, convert them to strings and add them to a new array
-        col_names=list(df_stmath_two_dates)
-
-
-        #get the values of the data frame (the progress each student had made)
-        stmath_two_dates_values=df_stmath_two_dates.values
-
-        #join these two arrays together
-        last_two_stdates_data=np.vstack((col_names,stmath_two_dates_values))
-
-        last_two_stdates_data_list=last_two_stdates_data.tolist()
+            #first get the names of each column, convert them to strings and add them to a new array
+            col_names=list(df_stmath_two_dates)
 
 
+            #get the values of the data frame (the progress each student had made)
+            stmath_two_dates_values=df_stmath_two_dates.values
 
-        last_two_stdates_data_json = json.dumps(last_two_stdates_data_list)
+            #join these two arrays together
+            last_two_stdates_data=np.vstack((col_names,stmath_two_dates_values))
 
+            last_two_stdates_data_list=last_two_stdates_data.tolist()
+
+
+
+            last_two_stdates_data_json = json.dumps(last_two_stdates_data_list)
+        else:
+            last_two_stdates_data_json = ""
     #if not authenticated
     else:
         hr_dict = {}
@@ -403,6 +405,7 @@ def show_hr(request, selected_hr="B314"):
         grade_distribution_array = []
         all_stmath_gviz_json = {}
         full_stdates_data = []
+        last_two_stdates_data_json = ""
 
 
 
