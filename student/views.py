@@ -32,8 +32,7 @@ from django.db import connection
 
 
 
-grade_hr_dict = Roster.objects.values('hr_id',
-                                            'grade_level').distinct().order_by('grade_level')
+
 
 
 def summer_school(request):
@@ -216,34 +215,34 @@ def show_home(request):
         if request.user.is_authenticated:
             social_email = SocialAccount.objects.get(user=request.user).extra_data['email']
             user_id, user_type=get_user_info(request)
-            if user_type in ["School Admin","Teacher"]:
-                hr_dict=grade_hr_dict
+            if user_type in ["School Admin", "Teacher"]:
+                hr_dict = Roster.objects.values('hr_id',
+                                                            'grade_level').distinct().order_by('grade_level')
+                prev_grade=0
+                display_hr_list=[]
+
+                for hr in hr_dict:
+                    if (hr['grade_level'] not in ["20","PE","PK"]) & (hr['hr_id'] not in ["1","2"]):
+                        cur_grade="GR: "+hr['grade_level']
+                        if (cur_grade!=prev_grade) :
+                            display_hr_list.append(cur_grade)
+
+                        display_hr_list.append(hr['hr_id'])
+                        prev_grade=cur_grade
             else:
-                hr_dict="none"
+                display_hr_list=""
 
         else:
             social_email= "none"
-            hr_dict="none"
+            display_hr_list=""
 
 
-        exclude_hr_list=["1", "2"]
-        exclude_grade_list=["PK", "PE", "20"]
 
-        prev_grade=0
-        display_hr_list=[]
 
-        for hr in grade_hr_dict:
-            if (hr['grade_level'] not in ["20","PE","PK"]) & (hr['hr_id'] not in ["1","2"]):
-                cur_grade="GR: "+hr['grade_level']
-                if (cur_grade!=prev_grade) :
-                    display_hr_list.append(cur_grade)
-
-                display_hr_list.append(hr['hr_id'])
-                prev_grade=cur_grade
 
 
         return render(request, "student/home.html", {'social_email': social_email,
-         'display_hr_list': display_hr_list})
+         'display_hr_list': display_hr_list })
 
     except SocialAccount.DoesNotExist:
         return render(request, 'student/no-match-found.html')
@@ -288,9 +287,49 @@ def show_hr(request, selected_hr="B314"):
             all_stmath_gviz_data_table=gviz_api.DataTable(all_stmath_desc)
             all_stmath_gviz_data_table.LoadData(all_stmath_values)
             all_stmath_gviz_json=all_stmath_gviz_data_table.ToJSon()
+        #if there is no data in df_stmath_all
         else:
             all_stmath_gviz_json={}
-        full_stdates_data = []
+
+        #last two ST math dates for stacked bar graph
+        last_two_stmath_sql="SELECT  first_name || ' ' || last_name || ' '||student_student.student_id  AS full_name, gcd, k_5_progress, metric_date\
+                  FROM student_roster, student_stmathrecord, student_student \
+                  WHERE student_stmathrecord.student_id=student_roster.student_id AND\
+                  student_roster.student_id=student_student.student_id AND\
+                  metric_date IN (SELECT  metric_date\
+                 FROM student_stmathrecord\
+                 GROUP BY metric_date\
+                 ORDER BY metric_date DESC\
+                 LIMIT 2)\
+                  ORDER BY -metric_date"
+        df_stmath_two_dates = pandas.read_sql(last_two_stmath_sql, con=connection)
+        if len(df_stmath_two_dates) > 0:
+            df_stmath_two_dates = df_stmath_two_dates.pivot(index="full_name", columns="metric_date", values="k_5_progress").reset_index()
+            df_stmath_two_dates['total_progress'] =  df_stmath_two_dates.ix[:,2]
+            df_stmath_two_dates = df_stmath_two_dates.sort_values(['total_progress'] , ascending=[False])
+
+            df_stmath_two_dates['prev_progress'] =  df_stmath_two_dates.ix[:,1]
+            df_stmath_two_dates['recent_progress'] =  df_stmath_two_dates['total_progress'] - df_stmath_two_dates['prev_progress']
+            df_stmath_two_dates = df_stmath_two_dates[['full_name', 'prev_progress', 'recent_progress']]
+            #break into the names of each column (the dates) and the values in order to feed into Gviz' DataTable
+
+            #first get the names of each column, convert them to strings and add them to a new array
+            col_names=list(df_stmath_two_dates)
+
+
+            #get the values of the data frame (the progress each student had made)
+            stmath_two_dates_values=df_stmath_two_dates.values
+
+            #join these two arrays together
+            last_two_stdates_data=np.vstack((col_names,stmath_two_dates_values))
+
+            last_two_stdates_data_list=last_two_stdates_data.tolist()
+
+
+
+            last_two_stdates_data_json = json.dumps(last_two_stdates_data_list)
+        else:
+            last_two_stdates_data_json = ""
 
 
     #just select data from one homeroom

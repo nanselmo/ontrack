@@ -7,7 +7,7 @@
         {% if user.is_authenticated %}
             <h1>WELCOME {{user.first_name}}</h1>
             <h2>User Email: {{social_email}}</h2>
-            {% if hr_list == "none" %}
+            {% if not display_hr_list %}
             <a href={% url 'show_student'  %}>
               <h2>My Dashboard</h2>
             </a>
