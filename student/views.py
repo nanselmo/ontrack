@@ -7,18 +7,17 @@ from ontrack import get_user_info, getOnTrack, getPoints, get_attend_pct, get_gp
 from classdata import hr_data
 from summerschool import get_ss_report
 from assignmentimpact import get_assign_impact
+from blended_learning import get_all_jiji_json, get_last_two_jiji
 from loadOnTrackData import *
 import pandas
 import math
-import numpy as np
 #streaming is for large datasets
 from django.http import HttpResponseRedirect, HttpResponse, StreamingHttpResponse
 from forms import DataFileForm
 import csv
 from StringIO import StringIO
 import json
-from pandas.io.json import json_normalize
-
+import numpy as np
 
 #for plotting
 import gviz_api
@@ -55,7 +54,7 @@ def summer_school(request):
             message="Upload a File"
 
 
-    return render(request, 'student/summerschool.html', {'display_form': upload_form})
+    return render(request, 'student/summerschool_upload.html', {'display_form': upload_form})
 
 def show_test_react(request):
 
@@ -263,179 +262,18 @@ def show_hr(request, selected_hr="B314"):
         title = "All Students"
         grade_distribution_array, avg_grades_list=get_grade_distribution(selected_hr)
         #don't draw pie graphs for All
-        grade_distribution_array=[]
-
-        #JiJi summary, move this to a method
-        current_stmath_sql="SELECT first_name, last_name, hr_id, gcd, k_5_progress, curr_hurdle, total_time, curr_objective, MAX(metric_date) as recent_date \
-                  FROM student_roster, student_stmathrecord, student_student \
-                  WHERE student_stmathrecord.student_id=student_roster.student_id AND\
-                  student_roster.student_id=student_student.student_id\
-                  GROUP BY  student_roster.student_id\
-                  ORDER BY k_5_progress"
-        df_stmath_all = pandas.read_sql(current_stmath_sql, con=connection)
-        if len(df_stmath_all) > 0:
-            all_stmath_values=df_stmath_all.values
-            all_stmath_desc=[("first_name", "string", "First Name"),
-                          ("last_name", "string", "Last Name"),
-                           ("hr_id", "string", "HR"),
-                          ("gcd", "string", "Level"),
-                         ("k_5_progress", "number", "Syllabus Progress"),
-                         ("curr_hurdle", "number", "Current Hurdle Tries"),
-                          ("total_time", "number", "Total Time"),
-                         ("cur_objective", "string", "Current Objective"),
-                            ("recent_date", "string", "Data As Of")]
-            all_stmath_gviz_data_table=gviz_api.DataTable(all_stmath_desc)
-            all_stmath_gviz_data_table.LoadData(all_stmath_values)
-            all_stmath_gviz_json=all_stmath_gviz_data_table.ToJSon()
-        #if there is no data in df_stmath_all
-        else:
-            all_stmath_gviz_json={}
-
-        #last two ST math dates for stacked bar graph
-        last_two_stmath_sql="SELECT  first_name || ' ' || last_name || ' '||student_student.student_id  AS full_name, gcd, k_5_progress, metric_date\
-                  FROM student_roster, student_stmathrecord, student_student \
-                  WHERE student_stmathrecord.student_id=student_roster.student_id AND\
-                  student_roster.student_id=student_student.student_id AND\
-                  metric_date IN (SELECT  metric_date\
-                 FROM student_stmathrecord\
-                 GROUP BY metric_date\
-                 ORDER BY metric_date DESC\
-                 LIMIT 2)\
-                  ORDER BY -metric_date"
-        df_stmath_two_dates = pandas.read_sql(last_two_stmath_sql, con=connection)
-        if len(df_stmath_two_dates) > 0:
-            df_stmath_two_dates = df_stmath_two_dates.pivot(index="full_name", columns="metric_date", values="k_5_progress").reset_index()
-            df_stmath_two_dates['total_progress'] =  df_stmath_two_dates.ix[:,2]
-            df_stmath_two_dates = df_stmath_two_dates.sort_values(['total_progress'] , ascending=[False])
-
-            df_stmath_two_dates['prev_progress'] =  df_stmath_two_dates.ix[:,1]
-            df_stmath_two_dates['recent_progress'] =  df_stmath_two_dates['total_progress'] - df_stmath_two_dates['prev_progress']
-            df_stmath_two_dates = df_stmath_two_dates[['full_name', 'prev_progress', 'recent_progress']]
-            #break into the names of each column (the dates) and the values in order to feed into Gviz' DataTable
-
-            #first get the names of each column, convert them to strings and add them to a new array
-            col_names=list(df_stmath_two_dates)
-
-
-            #get the values of the data frame (the progress each student had made)
-            stmath_two_dates_values=df_stmath_two_dates.values
-
-            #join these two arrays together
-            last_two_stdates_data=np.vstack((col_names,stmath_two_dates_values))
-
-            last_two_stdates_data_list=last_two_stdates_data.tolist()
-
-
-
-            last_two_stdates_data_json = json.dumps(last_two_stdates_data_list)
-        else:
-            last_two_stdates_data_json = ""
-
+        grade_distribution_array = []
+        all_stmath_gviz_json = get_all_jiji_json("all")
+        last_two_stdates_data_json = get_last_two_jiji("all")
 
     #just select data from one homeroom
     elif user_type in ["School Admin", "Teacher"] :
         hr_json, hr_dict=hr_data(selected_hr, admin=False)
         title=selected_hr + ' Students'
         grade_distribution_array, avg_grades_list = get_grade_distribution(selected_hr)
+        all_stmath_gviz_json = get_all_jiji_json(selected_hr)
+        last_two_stdates_data_json = get_last_two_jiji(selected_hr)
 
-
-
-        current_stmath_sql="SELECT first_name, last_name, gcd, k_5_progress, curr_hurdle, total_time, curr_objective, MAX(metric_date) as recent_date \
-                  FROM student_roster, student_stmathrecord, student_student \
-                  WHERE student_stmathrecord.student_id=student_roster.student_id AND\
-                  student_roster.student_id=student_student.student_id AND\
-                  student_roster.hr_id='%s'\
-                  GROUP BY  student_roster.student_id\
-                  ORDER BY k_5_progress"%(selected_hr)
-
-
-        df_stmath_all = pandas.read_sql(current_stmath_sql, con=connection)
-        if len(df_stmath_all) > 0:
-            all_stmath_values=df_stmath_all.values
-            all_stmath_desc=[("first_name", "string", "First Name"),
-                          ("last_name", "string", "Last Name"),
-                          ("gcd", "string", "Level"),
-                         ("k_5_progress", "number", "Syllabus Progress"),
-                         ("curr_hurdle", "number", "Current Hurdle Tries"),
-                          ("total_time", "number", "Total Time"),
-                         ("cur_objective", "string", "Current Objective"),
-                            ("recent_date", "string", "Data As Of")]
-            all_stmath_gviz_data_table=gviz_api.DataTable(all_stmath_desc)
-            all_stmath_gviz_data_table.LoadData(all_stmath_values)
-            all_stmath_gviz_json=all_stmath_gviz_data_table.ToJSon()
-        else:
-            all_stmath_gviz_json={}
-
-        #get the stmath progress over time for all students in a hr for stacked bar
-        # historical_stmath_sql="SELECT  first_name || ' ' || last_name AS full_name, gcd, k_5_progress, metric_date\
-        #           FROM student_roster, student_stmathrecord, student_student \
-        #           WHERE student_stmathrecord.student_id=student_roster.student_id AND\
-        #           student_roster.student_id=student_student.student_id AND\
-        #           student_roster.hr_id='%s'\
-        #           ORDER BY -metric_date"%(selected_hr)
-        # df_stmath_hist = pandas.read_sql(historical_stmath_sql, con=connection)
-        # df_stmath_hist.groupby('full_name').head(3).reset_index(drop=True)
-        # df_stmath_dates=df_stmath_hist.pivot(index="full_name", columns="metric_date", values="k_5_progress").reset_index()
-        #
-        # #break into the names of each column (the dates) and the values in order to feed into Gviz' DataTable
-        #
-        # #first get the names of each column, convert them to strings and add them to a new array
-        # col_names=list(df_stmath_dates)
-        # names_strings = []
-        # for name in col_names:
-        #     try:
-        #         names_strings.append(name.strftime("%m-%d"))
-        #     except:
-        #         names_strings.append(name)
-        # col_names_array=np.asarray(names_strings)
-        #
-        # #get the values of the data frame (the progress each student had made)
-        # stmath_dates_values=df_stmath_dates.values
-        #
-        # #join these two arrays together
-        # full_stdates_data = np.vstack((col_names_array,stmath_dates_values))
-        # full_stdates_data = full_stdates_data.tolist()
-
-        #only want the last two dates of ST progress
-        last_two_stmath_sql="SELECT  first_name || ' ' || last_name AS full_name, gcd, k_5_progress, metric_date\
-                  FROM student_roster, student_stmathrecord, student_student \
-                  WHERE student_stmathrecord.student_id=student_roster.student_id AND\
-                  student_roster.student_id=student_student.student_id AND\
-                  student_roster.hr_id='%s' AND\
-                  metric_date IN (SELECT  metric_date\
-                 FROM student_stmathrecord\
-                 GROUP BY metric_date\
-                 ORDER BY metric_date DESC\
-                 LIMIT 2)\
-                  ORDER BY -metric_date"%(selected_hr)
-        df_stmath_two_dates = pandas.read_sql(last_two_stmath_sql, con=connection)
-        if len(df_stmath_two_dates) > 0:
-            df_stmath_two_dates = df_stmath_two_dates.pivot(index="full_name", columns="metric_date", values="k_5_progress").reset_index()
-            df_stmath_two_dates['total_progress'] =  df_stmath_two_dates.ix[:,2]
-            df_stmath_two_dates = df_stmath_two_dates.sort_values(['total_progress'] , ascending=[False])
-
-            df_stmath_two_dates['prev_progress'] =  df_stmath_two_dates.ix[:,1]
-            df_stmath_two_dates['recent_progress'] =  df_stmath_two_dates['total_progress'] - df_stmath_two_dates['prev_progress']
-            df_stmath_two_dates = df_stmath_two_dates[['full_name', 'prev_progress', 'recent_progress']]
-            #break into the names of each column (the dates) and the values in order to feed into Gviz' DataTable
-
-            #first get the names of each column, convert them to strings and add them to a new array
-            col_names=list(df_stmath_two_dates)
-
-
-            #get the values of the data frame (the progress each student had made)
-            stmath_two_dates_values=df_stmath_two_dates.values
-
-            #join these two arrays together
-            last_two_stdates_data=np.vstack((col_names,stmath_two_dates_values))
-
-            last_two_stdates_data_list=last_two_stdates_data.tolist()
-
-
-
-            last_two_stdates_data_json = json.dumps(last_two_stdates_data_list)
-        else:
-            last_two_stdates_data_json = ""
     #if not authenticated
     else:
         hr_dict = {}
