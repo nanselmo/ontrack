@@ -1,5 +1,5 @@
 //includes jQuery
-function get_points(numeric_grade) {
+function gradesToPoints(numeric_grade) {
   if (numeric_grade > 90) {
 		se_points = 75;
     ib_points = 112.5;
@@ -19,13 +19,13 @@ function get_points(numeric_grade) {
   };
 }
 
-function calculate() {
+function calculatePoints() {
   var math_gr = parseInt($(":input[name='Math_grade']").val());
   var science_gr = parseInt($(":input[name='Science_grade']").val());
   var read_gr = parseInt($(":input[name='Reading_grade']").val());
   var ss_gr = parseInt($(":input[name='Social Studies_grade']").val());
-  var nwea_math = parseInt($(":input[name='nwea_math']").val());
-  var nwea_read = parseInt($(":input[name='nwea_read']").val());
+  var nwea_math_rit = parseInt($(":input[name='nwea_math']").val());
+  var nwea_read_rit = parseInt($(":input[name='nwea_read']").val());
   var entrance_exam = parseInt($(":input[name='hs_exam']").val());
   var tot_ib = 0;
   var tot_se = 0;
@@ -33,13 +33,27 @@ function calculate() {
   //points for 4 core grades
   grades = [math_gr, science_gr, ss_gr, read_gr]
   for (i = 0; i < grades.length; ++i) {
-		var points = get_points(grades[i])
+		var points = gradesToPoints(grades[i])
     tot_ib = tot_ib + points['ib'];
     tot_se = tot_se + points['se'];
   }
 
   //nwea points
-  nwea_points = nwea_math + nwea_read;
+  //convert from RIT to points
+
+  function getPctbyRIT(lookup_rit, conversion_json) {
+    return conversion_json.filter(
+        function(conversion_json){return conversion_json.rit == lookup_rit}
+    );
+  }
+
+  var nwea_read_pct = getPctbyRIT(nwea_read_rit, readRITJSON)[0].percentile;
+  var nwea_math_pct = getPctbyRIT(nwea_math_rit, mathRITJSON)[0].percentile;
+  //set the percentile div to these new values
+  $("#nwea-read-pct").text(nwea_read_pct + "%");
+  $("#nwea-math-pct").text(nwea_math_pct + "%");
+
+  nwea_points = nwea_read_pct + nwea_math_pct;
   tot_se = tot_se + 1.515 * (nwea_points);
   tot_ib = tot_ib + 2.2727 * (nwea_points);
 
@@ -54,6 +68,8 @@ function calculate() {
   var new_se_points = parseInt($(".totSEpoints").text());
   var new_ib_points = parseInt($(".totIBpoints").text());
 
+  //change the image next to each hs depending on how
+  //many points to get into that high school
   $(".check-points").each(
     function(index)
 		{
@@ -86,8 +102,9 @@ function calculate() {
   );
 }
 
+//on page load
 $().ready(function() {
-  calculate();
+  calculatePoints();
   $(".minus").click(function() {
     var $input = $(this).parent().prev().find('.input-text');
     var newValue = 0;
@@ -97,7 +114,7 @@ $().ready(function() {
       newValue = parseInt($input.val());
     }
     $input.val(newValue);
-    calculate();
+    calculatePoints();
   });
   $(".plus").click(function() {
     var $input = $(this).parent().next().find('.input-text');
@@ -108,7 +125,7 @@ $().ready(function() {
       newValue = parseInt($input.val());
     }
     $input.val(newValue);
-    calculate();
+    calculatePoints();
 
   });
 });
