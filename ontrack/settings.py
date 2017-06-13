@@ -28,7 +28,10 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+if os.environ['MY_ENV'] == "development":
+    DEBUG = True
+else:
+    DEBUG = False
 
 
 ALLOWED_HOSTS = ['ontrack.pythonanywhere.com', 'localhost']
@@ -203,11 +206,11 @@ SOCIALACCOUNT_AUTO_SIGNUP= True
 SITE_ID=2
 
 
-#deployment
-#SECURE_CONTENT_TYPE_NOSNIFF = True
-#SECURE_BROWSER_XSS_FILTER = True
-#SECURE_SSL_REDIRECT = True
-#SESSION_COOKIE_SECURE = True
-#CSRF_COOKIE_SECURE = True
-#CSRF_COOKIE_HTTPONLY = True
-#X_FRAME_OPTIONS = "DENY"
+if os.environ['MY_ENV'] != "development":
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    CSRF_COOKIE_HTTPONLY = True
+    X_FRAME_OPTIONS = "DENY"
