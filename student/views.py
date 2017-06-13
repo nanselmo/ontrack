@@ -148,6 +148,9 @@ def upload_files(request):
                         elif "SIM" in str(each_file):
                             num_data_points=loadStudents(newfile, inMemory=True)
                             message= message + str(num_data_points) + " students have been updated. "
+                        elif "RIT" in str(each_file):
+                            num_data_points = loadRITConversions(newfile, inMemory=True)
+                            message = message + str(num_data_points) + " RIT conversions have been updated"
                         elif "NWEA" in str(each_file):
                             num_data_points=loadNWEA(newfile, inMemory=True)
                             message= message + str(num_data_points) + " test scores have been updated. "

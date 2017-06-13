@@ -1,4 +1,5 @@
-from student.models import  Email, Attendance, TestScore, Student, Grade, Roster, Assignment, STMathRecord
+from student.models import  (Email, Attendance, TestScore, Student,
+Grade, Roster, Assignment, STMathRecord, NWEAPercentileConversion)
 from django.db import connection
 import math
 import pandas
@@ -8,7 +9,7 @@ from dateutil import parser
 import re
 
 #converts file to df and gets the date from the file name
-def get_df(the_file, inMemory, file_type="CSV"):
+def get_df(the_file, inMemory, file_type="CSV", file_kind=""):
     if inMemory == False:  #load it like a normally stored file
         file_name=the_file
         prepped_file=open(the_file,'rb')
@@ -24,10 +25,19 @@ def get_df(the_file, inMemory, file_type="CSV"):
     elif file_type == "Excel":
         df= pandas.read_excel(prepped_file)
 
-    file_date_start=file_name.find('-') + 1
-    file_date_end= file_date_start + 8
-    file_date = file_name[file_date_start:file_date_end]
-    return(df, file_date)
+    #this is a lazy way of being able to upload the RIT
+    #conversions file without having to change the date structure
+    #of all the other files
+    #the RIT file won't have a date in the -XX-XX-XX format
+    if file_kind == "RIT":
+        return(df)
+    else:
+        file_name.find('-')
+        file_date_start=file_name.find('-') + 1
+        file_date_end= file_date_start + 8
+        file_date = file_name[file_date_start:file_date_end]
+        return(df, file_date)
+
 
 
 
@@ -89,7 +99,29 @@ def loadGrades(grades_file, inMemory=False):
     return(len(df))
 
 
+def loadRITConversions(RIT_file, inMemory=False):
+    rit_df = get_df(RIT_file, inMemory, "CSV", "RIT")
 
+    #make from wide to long in order to write to database
+    nwea_conversion_df_long = pandas.melt(rit_df,
+                                          id_vars=['Percentile', 'Season', 'Subject'],
+                                          value_vars=['2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                                          var_name='Grade',
+                                          value_name="RIT")
+
+    df = nwea_conversion_df_long
+
+    for i in range(0,len(df)):
+        conversion_instance = NWEAPercentileConversion.objects.get_or_create(
+            subject = df.iloc[i]['Subject'],
+            season = df.iloc[i]['Season'],
+            grade_level = df.iloc[i]['Grade'],
+            percentile = df.iloc[i]['Percentile'])
+        #the RIT will score for every new norms table added
+        #so this should be rewritten each time
+        conversion_instance[0].rit = df.iloc[i]['RIT']
+        conversion_instance[0].save()
+    return(len(df))
 
 
 def loadAttendance(attend_file, inMemory=False):
