@@ -1,14 +1,17 @@
 from django.shortcuts import render, redirect
-from student.models import Grade, Student, Attendance, Email, Subject, Roster, DataFile, Assignment
+from student.models import (Grade, Student, Attendance,
+Email, Subject, Roster, DataFile, Assignment, NWEAPercentileConversion)
 from allauth.socialaccount.models import SocialAccount
 from django.db import connection
-from ontrack import get_user_info, getOnTrack, getPoints, get_attend_pct, get_gpa, get_test_score, gpa_subjects_list, take_out_subjects_list, get_grade_distribution
+from ontrack import (get_user_info, getOnTrack, getPoints, get_attend_pct, get_gpa,
+get_test_score, gpa_subjects_list, take_out_subjects_list, get_grade_distribution)
 #from grade_audit import generate_grade_audit
 from classdata import hr_data
 from summerschool import get_ss_report
 from assignmentimpact import get_assign_impact
 from blended_learning import get_all_jiji_json, get_last_two_jiji
 from loadOnTrackData import *
+from hardcoded import default_nwea_season
 import pandas
 import math
 #streaming is for large datasets
@@ -341,13 +344,12 @@ def show_student_ontrack(request, student_id=1):
 
 def show_hs_options(request, student_id=1 ):
     student_id, user_type=get_user_info(request, student_id)
+    student = Student.objects.get(student_id= "%s"%(student_id))
 
-    student=Student.objects.get(student_id= "%s"%(student_id))
 
     #hardcode tier for now
     tier=2
 
-    student=Student.objects.get(student_id= "%s"%(student_id))
     current_grades_df=get_gpa(student_id, "current", "student")['grades_df']
     current_grades_dict=current_grades_df.set_index('display_name').to_dict('index')
 
@@ -430,14 +432,32 @@ def show_hs_options(request, student_id=1 ):
     hs_df.index = range(1,len(hs_df) + 1)
     student_hs_dict=hs_df.to_dict(orient='index')
 
+    #need to pass the RIT to Percentile Conversion for this student's grade Level
+    stu_grade_level = Roster.objects.get(student_id= "%s"%(student_id)).grade_level
+    def get_RIT_conversion(subject):
+
+        conversion_QuerySet=NWEAPercentileConversion.objects.filter(
+                                           subject = subject,
+                                           grade_level = stu_grade_level,
+                                           season = default_nwea_season).values('percentile', 'rit')
+        conversion_json = json.dumps([dict(item) for item in conversion_QuerySet])
+        return conversion_json
+
+    m_conversion_json = get_RIT_conversion("Mathematics")
+    r_conversion_json = get_RIT_conversion("Reading")
+
+
+
     template_vars={'current_student': student,
         'hs_dict':student_hs_dict,
         'ses_points': points["ses_totl"],
         'ib_points': points["ib_totl"],
         'student_id':student_id,
         'current_grades_dict': current_grades_dict,
-        'nwea_math' : nwea_scores["math_pct"],
-        'nwea_reading' : nwea_scores["read_pct"]}
+        'nwea_math' : nwea_scores["math_score"],
+        'nwea_reading' : nwea_scores["read_score"],
+        'math_RIT_json' : m_conversion_json,
+        'reading_RIT_json' : r_conversion_json}
     return render(request, "student/student_calc.html", template_vars)
 
 

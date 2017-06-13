@@ -162,17 +162,23 @@ def get_test_score(student_id, test_type):
     student_scores=TestScore.objects.filter(student_id="%s"%(student_id))
     nwea_scores=student_scores.filter(test_name="%s"%(test_type))
     if len(student_scores.filter(subject="Mathematics"))>0:
-        math_score = student_scores.filter(subject="Mathematics").order_by('-test_date')[0].percentile
+        math_info = student_scores.filter(subject="Mathematics").order_by('-test_date')[0]
+        math_score = math_info.score
+        math_percentile = math_info.percentile
     else:
         math_score = "not available"
+        math_percentile = "not available"
 
     if len(student_scores.filter(subject="Reading"))>0:
-        reading_score = student_scores.filter(subject="Reading").order_by('-test_date')[0].percentile
+        reading_info = student_scores.filter(subject="Reading").order_by('-test_date')[0]
+        reading_score = reading_info.score
+        reading_percentile = reading_info.percentile
     else:
         reading_score = "not available"
+        reading_percentile = "not available"
 
-
-    return {'read_pct': reading_score, 'math_pct':math_score}
+    return {'read_pct': reading_percentile, 'read_score' : reading_score,
+            'math_pct':math_percentile, 'math_score' : math_score}
 
 def get_grade_distribution(hr):
 

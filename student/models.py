@@ -167,6 +167,13 @@ class HighSchool(models.Model):
     address = map_fields.AddressField(max_length=200, null=True, blank=True)
     geolocation = map_fields.GeoLocationField(max_length=100, null=True, blank=True)
 
+class NWEAPercentileConversion(models.Model):
+    subject = models.CharField(max_length=100)
+    season = models.CharField(max_length=100)
+    grade_level = models.CharField(max_length=4)
+    percentile = models.IntegerField(null=False)
+    rit = models.IntegerField(null=True, blank=True)
+
 
 class DataFile(models.Model):
     document = models.FileField(upload_to='documents/')
