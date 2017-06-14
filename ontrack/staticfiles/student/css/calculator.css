@@ -15,6 +15,28 @@
   margin-bottom: auto;
 }
 
+#hs-counter-title{
+  font-size: 30px;
+  color: black;
+  text-align: center;
+}
+
+#hs-summary-dashboard{
+  border: solid black 3px;
+  overflow:hidden;
+}
+
+#hs-counter {
+  border: solid black 3px;
+}
+
+.hs-counter-box {
+  border-left:solid black 3px;
+  border-top:solid black 3px;
+
+}
+
+
 
 
 .arrow {
