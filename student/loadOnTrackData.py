@@ -20,10 +20,17 @@ def get_df(the_file, inMemory, file_type="CSV", file_kind=""):
         prepped_file=the_file.document
         #get file date
         file_name= the_file.filename()
-    if file_type == "CSV":
-        df = pandas.read_csv(prepped_file)
-    elif file_type == "Excel":
-        df= pandas.read_excel(prepped_file)
+
+        chunksize = 500
+        chunks = []
+        if file_type == "CSV":
+            for chunk in pandas.read_csv(prepped_file, chunksize=chunksize, iterator=True):
+                chunks.append(chunk)
+        elif file_type == "Excel":
+            for chunk in pandas.read_excel(prepped_file, chunksize=chunksize, iterator=True):
+                chunks.append(chunk)
+        df = pandas.concat(chunks, axis=0)
+
 
     #this is a lazy way of being able to upload the RIT
     #conversions file without having to change the date structure
