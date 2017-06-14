@@ -24,98 +24,152 @@
     </a>
   </div>
 
-  IB Points <span class="totIBpoints">200</span> SES Points <span class="totSEpoints">200</span>
 
-    <div class='row'><!--start grades row-->
-      {% for subject, info in current_grades_dict.items %}
+   <div id="hs-summary-dashboard">
+    <div id="hs-counter">
+      <div class="row">
+        <p id = "hs-counter-title">High School Eligibility </p>
+      </div>
+      <div class="row">
+        <p>
+          IB Points <span class="totIBpoints">200</span> SES Points <span class="totSEpoints">200</span>
+        </p>
+      </div>
+      <div class="row">
 
-        <div class="col-xs-3">
-            <div class="row">
-              <h3>{{subject}}</h3>
+        <!-- red OUT -->
+        <div class="col-sm-4 hs-counter-box">
+          <div class="row">
+            <div class="col-sm-4">
+              <img class="hs-pts-status red-x"/>
             </div>
-            <div class="col-xs-6">
-              <div class="row">
-                <img class="arrow plus"/>
-              </div>
-              <div class="row">
-                  <div class="col-xs-6">
-                    <input  name="{{subject}}_grade" id="{{subject}}_grade" value="{{info.grade}}"  class="input-text grade-text">
-                  </div>
-              </div>
-              <div class="row">
-                <img class="arrow minus"/>
-              </div>
+            <div class="col-sm-8">
+              <p class="school-count" id="hs-not-in-count">10</p>
             </div>
+          </div>
+        </div>
 
-            <div class="col-xs-6">
-                <img class="subject-icon" src="{{MEDIA_URL}}{{info.image}}" alt="subject-icon"/>
+        <!--orange CLOSE-->
+        <div class="col-sm-4 hs-counter-box">
+          <div class="row">
+            <div class="col-sm-4">
+              <img class="hs-pts-status orange-okay"/>
             </div>
-
-
-          </div>
-      {% endfor %}
-  </div> <!--end grades row-->
-  <!--testing data -->
-  <div class="row">
-
-    <div class="col-xs-3">
-        <div class="row">
-          <div class="col-xs-8">
-              <h3>Read RIT</h3>
-          </div>
-          <div class="col-xs-4">
-            <h3 id="nwea-read-pct">0%</h3>
+            <div class="col-sm-8">
+              <p class="school-count" id="hs-close-count">10</p>
+            </div>
           </div>
         </div>
-        <div class="row">
-          <img class="arrow plus"/>
-        </div>
-        <div class="row">
-          <input name="nwea_read" id="nwea_read" value="{{nwea_reading}}"  class="input-text">
-        </div>
-        <div class="row">
-          <img class="arrow minus"/>
-        </div>
-    </div>
 
-
-
-    <div class="col-xs-3">
-        <div class="row">
-          <div class="col-xs-8">
-              <h3>Math RIT</h3>
-          </div>
-          <div class="col-xs-4">
-            <h3 id="nwea-math-pct">0%</h3>
+        <!--green IN -->
+        <div class="col-sm-4 hs-counter-box">
+          <div class="row">
+            <div class="col-sm-4">
+              <img class="hs-pts-status green-check"/>
+            </div>
+            <div class="col-sm-8">
+              <p class="school-count" id="hs-in-count">10</p>
+            </div>
           </div>
         </div>
-        <div class="row">
-          <img class="arrow plus"/>
-        </div>
-        <div class="row">
-          <input name="nwea_math" id="nwea_math" value="{{nwea_math}}"  class="input-text">
-        </div>
-        <div class="row">
-          <img class="arrow minus"/>
-        </div>
-    </div>
-    <div class="col-xs-3">
+      </div>
 
-        <div class="row">
-          <h3>HS Exam</h3>
-        </div>
-        <div class="row">
-          <img class="arrow plus"/>
-        </div>
-        <div class="row">
-          <input name="hs_exam" id="hs_exam" value="50"  class="input-text">
-        </div>
-        <div class="row">
-          <img class="arrow minus"/>
-        </div>
-       </div>
-    </div>
+    </div><!--end hs counter -->
 
+      <div class='row'><!--start grades row-->
+        {% for subject, info in current_grades_dict.items %}
+
+          <div class="col-xs-3">
+              <div class="row">
+                <div class="col-xs-12">
+                    <h3>{{subject}}</h3>
+                </div>
+
+              </div>
+              <div class="col-xs-6">
+                <div class="row">
+                  <img class="arrow plus"/>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                      <input  name="{{subject}}_grade" id="{{subject}}_grade" value="{{info.grade}}"  class="input-text grade-text">
+                    </div>
+                </div>
+                <div class="row">
+                  <img class="arrow minus"/>
+                </div>
+              </div>
+
+              <div class="col-xs-6">
+                  <img class="subject-icon" src="{{MEDIA_URL}}{{info.image}}" alt="subject-icon"/>
+              </div>
+
+
+            </div>
+        {% endfor %}
+    </div> <!--end grades row-->
+    <!--testing data -->
+    <div class="row">
+
+      <div class="col-xs-3">
+          <div class="row">
+            <div class="col-xs-8">
+                <h3>Read RIT</h3>
+            </div>
+            <div class="col-xs-4">
+              <h3 id="nwea-read-pct">0%</h3>
+            </div>
+          </div>
+          <div class="row">
+            <img class="arrow plus"/>
+          </div>
+          <div class="row">
+            <input name="nwea_read" id="nwea_read" value="{{nwea_reading}}"  class="input-text">
+          </div>
+          <div class="row">
+            <img class="arrow minus"/>
+          </div>
+      </div>
+
+
+
+      <div class="col-xs-3">
+          <div class="row">
+            <div class="col-xs-8">
+                <h3>Math RIT</h3>
+            </div>
+            <div class="col-xs-4">
+              <h3 id="nwea-math-pct">0%</h3>
+            </div>
+          </div>
+          <div class="row">
+            <img class="arrow plus"/>
+          </div>
+          <div class="row">
+            <input name="nwea_math" id="nwea_math" value="{{nwea_math}}"  class="input-text">
+          </div>
+          <div class="row">
+            <img class="arrow minus"/>
+          </div>
+      </div>
+      <div class="col-xs-3">
+
+          <div class="row">
+            <h3>HS Exam</h3>
+          </div>
+          <div class="row">
+            <img class="arrow plus"/>
+          </div>
+          <div class="row">
+            <input name="hs_exam" id="hs_exam" value="50"  class="input-text">
+          </div>
+          <div class="row">
+            <img class="arrow minus"/>
+          </div>
+         </div>
+      </div>
+    </div> <!--end hs summary dashboard-->
+    <!-- start hs columns -->
     <div class="col-md-4">
       <h3>Selective Enrollment</h3>
         {% for key, value in hs_dict.items %}

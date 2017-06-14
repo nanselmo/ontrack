@@ -70,11 +70,18 @@ function calculatePoints() {
 
   //change the image next to each hs depending on how
   //many points to get into that high school
+
+  //count how many hs the student is in to add to tracker
+  var hsCountOut = 0;
+  var hsCountIn = 0;
+  var hsCountClose = 0;
+
   $(".check-points").each(
     function(index)
 		{
 	      var this_hs_points = parseInt($(this).find(".hs-pts").text());
 	      var this_hs_type = $(this).find(".hs-type").text();
+
 
 	   		if (this_hs_type == "IB"){
 	      	var new_points = new_ib_points;
@@ -83,10 +90,13 @@ function calculatePoints() {
 	      }
 	      if (new_points > this_hs_points) {
 	        $(this).children(".hs-pts-status").attr('class', 'hs-pts-status green-check');
+          hsCountIn++;
 	      } else if (new_points + 50 > this_hs_points) {
 	        $(this).children(".hs-pts-status").attr('class', 'hs-pts-status orange-okay');
+          hsCountClose++;
 	      } else {
 	        $(this).children(".hs-pts-status").attr('class', 'hs-pts-status red-x');
+          hsCountOut++;
 	      }
 				$(this).find(".hs-remain-pts").text(this_hs_points - new_points);
 
@@ -98,6 +108,11 @@ function calculatePoints() {
 				else{
 					$(this).find(".hs-remain-pts").attr('class','grey-text hs-remain-pts');
 				}
+
+        //update the hs counter on the top
+        $("#hs-not-in-count").text(hsCountOut);
+        $("#hs-close-count").text(hsCountClose);
+        $("#hs-in-count").text(hsCountIn);
     }
   );
 }
