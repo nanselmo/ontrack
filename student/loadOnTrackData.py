@@ -103,7 +103,7 @@ def loadGrades(grades_file, inMemory=False):
                                  subject=df.iloc[i]['SubjectName'],
                                  grade=df.iloc[i]['FinalAvg'],
                                  grade_date=datetime.strptime(file_date, '%m-%d-%y'))
-        print str(len(df)) + ' grades records loaded from ' + file_date
+    print str(len(df)) + ' grades records loaded from ' + file_date
     return(len(df))
 
 
