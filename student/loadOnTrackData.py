@@ -103,6 +103,7 @@ def loadGrades(grades_file, inMemory=False):
                                  subject=df.iloc[i]['SubjectName'],
                                  grade=df.iloc[i]['FinalAvg'],
                                  grade_date=datetime.strptime(file_date, '%m-%d-%y'))
+        print str(len(df)) + ' grades records loaded from ' + file_date
     return(len(df))
 
 
@@ -137,7 +138,6 @@ def loadAttendance(attend_file, inMemory=False):
     attend_df=attend_df.loc[attend_df['Attendance School'] == "CHAVEZ"]
     df = attend_df
     for i in range(0,len(df)):
-         print "Now loading Attendance for StudentID: " + df.iloc[i]['Student ID'].astype(str)
          Attendance.objects.get_or_create(student_id=df.iloc[i]['Student ID'].astype(str),
                                 total_days=df.iloc[i]['Membership Days'].astype(float),
                                 absent_days=df.iloc[i]['Absences'].astype(float),
@@ -244,6 +244,7 @@ def loadAssignments(file, inMemory=False):
                                         grade_entered=datetime.strptime(df.iloc[i]['GradeEnteredOn'], '%m/%d/%Y'))
         #debug load balancer issue in PythonAnywhere
         print df.iloc[i]['ASGName'] + " for " + str(df.iloc[i]['StuStudentId']) + " loaded"
+    print str(len(df)) + ' assignment records loaded from ' + file_date
     return(len(df))
 
 
