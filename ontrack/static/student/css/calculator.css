@@ -10,6 +10,8 @@
 
 }
 
+
+
 .grade-text {
   margin-top: auto;
   margin-bottom: auto;
@@ -23,17 +25,37 @@
 
 #hs-summary-dashboard{
   border: solid black 3px;
-  overflow:hidden;
 }
 
 #hs-counter {
   border: solid black 3px;
 }
 
-.hs-counter-box {
-  border-left:solid black 3px;
-  border-top:solid black 3px;
+#check-count{
+  height:100%;
+  display:relative;
+}
 
+.hs-counter-box {
+  margin-top: 1em;
+}
+
+.school-count{
+  margin-top: 0.5em;
+  margin-left: 1em;
+  font-size: 1.5em;
+}
+
+#point-summary {
+  font-size: 1em;
+  color: black;
+  font-weight: 800;
+}
+
+#point-summary span{
+  font-size: 1.2em;
+  color: grey;
+  font-weight:normal;
 }
 
 
@@ -47,10 +69,10 @@
 }
 
 .plus {
-  content:url("http://image.flaticon.com/icons/png/512/10/10442.png");
+  content:url("https://image.flaticon.com/icons/png/512/10/10442.png");
 }
 .minus {
-  content:url("http://freevector.co/wp-content/uploads/2011/11/77788-down-arrow-inside-circle.png");
+  content:url("https://freevector.co/wp-content/uploads/2011/11/77788-down-arrow-inside-circle.png");
 }
 
 .hs-pts-status {
@@ -58,7 +80,7 @@
 }
 
 .green-check {
-  content:url("http://port-moscow.ru/menu/Services/images/1.png");
+  content:url("https://cdn.pixabay.com/photo/2013/07/12/12/17/check-145512_960_720.png");
 }
 
 .orange-okay{
@@ -66,7 +88,7 @@
 }
 
 .red-x {
-  content:url("http://openclipart.org/image/2400px/svg_to_png/10941/TzeenieWheenie-red-green-OK-not-OK-Icons-1.png");
+  content:url("https://openclipart.org/image/2400px/svg_to_png/10941/TzeenieWheenie-red-green-OK-not-OK-Icons-1.png");
 }
 
 .white-text {

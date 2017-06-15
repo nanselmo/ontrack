@@ -28,53 +28,58 @@
    <div id="hs-summary-dashboard">
     <div id="hs-counter">
       <div class="row">
-        <p id = "hs-counter-title">High School Eligibility Calculator</p>
-      </div>
-      <div class="row">
-        <p>
-          IB Points <span class="totIBpoints">200</span> SES Points <span class="totSEpoints">200</span>
-        </p>
-      </div>
-      <div class="row">
 
-        <!-- red OUT -->
-        <div class="col-sm-4 hs-counter-box">
+        <div class="col-sm-6">
           <div class="row">
-            <div class="col-sm-4">
-              <img class="hs-pts-status red-x"/>
-            </div>
-            <div class="col-sm-8">
-              <p class="school-count" id="hs-not-in-count">10</p>
-            </div>
+            <p id = "hs-counter-title">High School Eligibility Calculator</p>
+          </div>
+          <div class="row">
+            <p id="point-summary">
+              IB Points <span class="totIBpoints">200 </span>&nbsp&nbsp&nbsp&nbspSES Points <span class="totSEpoints">200</span>
+            </p>
           </div>
         </div>
+        <div class="col-sm-6" id="check-count">
 
-        <!--orange CLOSE-->
-        <div class="col-sm-4 hs-counter-box">
-          <div class="row">
-            <div class="col-sm-4">
-              <img class="hs-pts-status orange-okay"/>
-            </div>
-            <div class="col-sm-8">
-              <p class="school-count" id="hs-close-count">10</p>
-            </div>
-          </div>
-        </div>
 
-        <!--green IN -->
-        <div class="col-sm-4 hs-counter-box">
-          <div class="row">
-            <div class="col-sm-4">
-              <img class="hs-pts-status green-check"/>
+
+            <!-- red OUT -->
+            <div class="col-sm-4 hs-counter-box ">
+                <div class="col-sm-4">
+                  <img class="hs-pts-status red-x"/>
+                </div>
+                <div class="col-sm-8">
+                  <p class="school-count" id="hs-not-in-count">10</p>
+                </div>
             </div>
-            <div class="col-sm-8">
-              <p class="school-count" id="hs-in-count">10</p>
+
+            <!--orange CLOSE-->
+            <div class="col-sm-4 hs-counter-box">
+                <div class="col-sm-4">
+                  <img class="hs-pts-status orange-okay"/>
+                </div>
+                <div class="col-sm-8">
+                  <p class="school-count" id="hs-close-count">10</p>
+                </div>
             </div>
-          </div>
-        </div>
+
+            <!--green IN -->
+            <div class="col-sm-4 hs-counter-box">
+                <div class="col-sm-4">
+                  <img class="hs-pts-status green-check"/>
+                </div>
+                <div class="col-sm-8">
+                  <p class="school-count" id="hs-in-count">10</p>
+                </div>
+            </div>
+        </div><!--end the check-count column-->
+
+
       </div>
 
-    </div><!--end hs counter -->
+      </div> <!--end hs-counter-->
+
+
 
       <div class='row'><!--start grades row-->
         {% for subject, info in current_grades_dict.items %}
