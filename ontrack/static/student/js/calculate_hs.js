@@ -103,7 +103,7 @@ function calculatePoints() {
 				// get new remaining points
 				var this_hs_remain_pts = parseInt($(this).find(".hs-remain-pts").text());
 				if (this_hs_remain_pts<=0){
-						$(this).find(".hs-remain-pts").attr('class','white-text hs-remain-pts');
+						$(this).find(".hs-remain-pts").attr('class','invisible hs-remain-pts');
 				}
 				else{
 					$(this).find(".hs-remain-pts").attr('class','grey-text hs-remain-pts');

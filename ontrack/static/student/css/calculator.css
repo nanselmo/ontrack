@@ -18,8 +18,14 @@
 }
 
 #hs-counter-title{
-  font-size: 30px;
+  font-size: 26px;
   color: black;
+  text-align: center;
+  font-family: 'Oswald', sans-serif;
+  position:relative;
+}
+
+.calc-header{
   text-align: center;
 }
 
@@ -28,12 +34,13 @@
 }
 
 #hs-counter {
-  border: solid black 3px;
+  border-bottom: solid black 3px;
 }
 
+
+
 #check-count{
-  height:100%;
-  display:relative;
+  border-left: solid black 3px;
 }
 
 .hs-counter-box {
@@ -44,12 +51,14 @@
   margin-top: 0.5em;
   margin-left: 1em;
   font-size: 1.5em;
+
 }
 
 #point-summary {
   font-size: 1em;
   color: black;
   font-weight: 800;
+  text-align: center;
 }
 
 #point-summary span{
@@ -80,7 +89,8 @@
 }
 
 .green-check {
-  content:url("https://cdn.pixabay.com/photo/2013/07/12/12/17/check-145512_960_720.png");
+  content:url("https://sites.psu.edu/twd122ldt550/wp-content/uploads/sites/54510/2016/06/Checkmark-Icon-Copy-1-300x300.gif");
+    height: 45px;
 }
 
 .orange-okay{
@@ -91,8 +101,8 @@
   content:url("https://openclipart.org/image/2400px/svg_to_png/10941/TzeenieWheenie-red-green-OK-not-OK-Icons-1.png");
 }
 
-.white-text {
-  color: white;
+.invisible {
+  opacity:0;
 }
 .grey-text {
   color: grey;
