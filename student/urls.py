@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^student/dashboard/', views.show_dashboard, name='show_dashboard'),
     url(r'^upload_files/$', views.upload_files),
     url(r'^summerschool/$', views.summer_school),
+    url(r'^staffattend/$', views.show_teacher_attendance, name="show_teacher_attendance"),
     url(r'^summerschoolresults/$', views.download_summer_school, name="download_ss"),
     url(r'^grade_report/$', views.grade_report),
     url(r'^react/$', views.show_test_react, name='show_test_react'),

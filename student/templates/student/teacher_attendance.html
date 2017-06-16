@@ -1,0 +1,34 @@
+{% extends 'student/base.html' %}
+{% block extra_head_content  %}
+    {{ block.super }}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["calendar"]});
+      google.charts.setOnLoadCallback(drawChart);
+
+   function drawChart() {
+       var dataTable = new google.visualization.DataTable({{attend_gviz_json|safe}});
+       var chart = new google.visualization.Calendar(document.getElementById('calendar_basic'));
+
+       var options = {
+         title: "Staff Attendance",
+         height: 350,
+       };
+
+       chart.draw(dataTable, options);
+   }
+    </script>
+{% endblock %}
+
+{% block content %}
+<div id="page-container">
+  <h1>{{msg}}</h1>
+  {% if attend_gviz_json %}
+    <div id="calendar_basic" style="width: 1000px; height: 350px;"></div>
+  {% endif %}  
+</div>
+
+
+
+
+{% endblock %}
