@@ -21,15 +21,15 @@ def get_df(the_file, inMemory, file_type="CSV", file_kind=""):
         #get file date
         file_name= the_file.filename()
 
-        chunksize = 500
-        chunks = []
-        if file_type == "CSV":
-            for chunk in pandas.read_csv(prepped_file, chunksize=chunksize, iterator=True):
-                chunks.append(chunk)
-        elif file_type == "Excel":
-            for chunk in pandas.read_excel(prepped_file, chunksize=chunksize, iterator=True):
-                chunks.append(chunk)
-        df = pandas.concat(chunks, axis=0)
+    chunksize = 500
+    chunks = []
+    if file_type == "CSV":
+        for chunk in pandas.read_csv(prepped_file, chunksize=chunksize, iterator=True):
+            chunks.append(chunk)
+    elif file_type == "Excel":
+        for chunk in pandas.read_excel(prepped_file, chunksize=chunksize, iterator=True):
+            chunks.append(chunk)
+    df = pandas.concat(chunks, axis=0)
 
 
     #this is a lazy way of being able to upload the RIT
@@ -231,20 +231,28 @@ def loadAssignments(file, inMemory=False):
 
 
     #load assignments
-    for i in range(0,len(df)):
-        class_name=df.iloc[i]['ClassName']
-        Assignment.objects.get_or_create(student_id=df.iloc[i]['StuStudentId'].astype(str),
-                                        subject=re.search(re.compile(r"^[^\d]*"), class_name).group(0)[:-1],
-                                        assign_name=df.iloc[i]['ASGName'],
-                                        assign_score=df.iloc[i]['Score'],
-                                        assign_score_possible=df.iloc[i]['ScorePossible'],
-                                        category_name=df.iloc[i]['CategoryName'],
-                                        category_weight=df.iloc[i]['CategoryWeight'],
-                                        assignment_due=datetime.strptime(df.iloc[i]['AssignmentDue'], '%m/%d/%Y'),
-                                        grade_entered=datetime.strptime(df.iloc[i]['GradeEnteredOn'], '%m/%d/%Y'))
-        #debug load balancer issue in PythonAnywhere
-        print df.iloc[i]['ASGName'] + " for " + str(df.iloc[i]['StuStudentId']) + " loaded"
-    print str(len(df)) + ' assignment records loaded from ' + file_date
+
+    #split df into chunks
+    def chunker(seq, size):
+        return (seq[pos:pos + size] for pos in xrange(0, len(seq), size))
+
+    #load into df in chunks
+    chunk_counter = 0
+    for sub_df in chunker(df,500):
+        for i in range(0,len(sub_df)):
+            class_name=sub_df.iloc[i]['ClassName']
+            Assignment.objects.get_or_create(student_id=sub_df.iloc[i]['StuStudentId'].astype(str),
+                                            subject=re.search(re.compile(r"^[^\d]*"), class_name).group(0)[:-1],
+                                            assign_name=sub_df.iloc[i]['ASGName'],
+                                            assign_score=sub_df.iloc[i]['Score'],
+                                            assign_score_possible=sub_df.iloc[i]['ScorePossible'],
+                                            category_name=sub_df.iloc[i]['CategoryName'],
+                                            category_weight=sub_df.iloc[i]['CategoryWeight'],
+                                            assignment_due=datetime.strptime(sub_df.iloc[i]['AssignmentDue'], '%m/%d/%Y'),
+                                            grade_entered=datetime.strptime(sub_df.iloc[i]['GradeEnteredOn'], '%m/%d/%Y'))
+        chunk_counter = chunk_counter + 1
+        print  'chunk' + str(chunk_counter)+ 'loaded'
+    print str(len(df)) + ' total assignment records loaded for '   + file_date
     return(len(df))
 
 
