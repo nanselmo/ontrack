@@ -203,7 +203,8 @@ SOCIALACCOUNT_AUTO_SIGNUP= True
 
 
 #this ID comes from the Sites database
-SITE_ID=2
+SITE_ID = os.environ['MY_SITE_ID']
+
 
 
 if os.environ['MY_ENV'] != "development":
