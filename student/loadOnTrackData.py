@@ -138,10 +138,13 @@ def loadAttendance(attend_file, inMemory=False):
     attend_df=attend_df.loc[attend_df['Attendance School'] == "CHAVEZ"]
     df = attend_df
     for i in range(0,len(df)):
+        try:
          Attendance.objects.get_or_create(student_id=df.iloc[i]['Student ID'].astype(str),
                                 total_days=df.iloc[i]['Membership Days'].astype(float),
                                 absent_days=df.iloc[i]['Absences'].astype(float),
                                 attend_date=datetime.strptime(file_date, '%m-%d-%y'))
+        except:
+            print  df.iloc[i]['Student ID'].astype(str)+  " in "  +attend_file + " failed to load"                       
     print str(len(df)) + ' attendance records loaded from ' + file_date
     return(len(df))
 
