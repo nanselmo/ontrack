@@ -1,5 +1,5 @@
 from student.models import  (Email, Attendance, TestScore, Student,
-Grade, Roster, Assignment, STMathRecord, NWEAPercentileConversion)
+Grade, Roster, Assignment, STMathRecord, HighSchool, NWEAPercentileConversion)
 from django.db import connection
 import math
 import pandas
@@ -7,6 +7,8 @@ from datetime import datetime
 from hardcoded import Q3_Start_Date, Q4_Start_Date
 from dateutil import parser
 import re
+import os
+
 
 #converts file to df and gets the date from the file name
 def get_df(the_file, inMemory, file_type="CSV", file_kind=""):
@@ -26,24 +28,19 @@ def get_df(the_file, inMemory, file_type="CSV", file_kind=""):
     if file_type == "CSV":
         for chunk in pandas.read_csv(prepped_file, chunksize=chunksize, iterator=True):
             chunks.append(chunk)
+        df = pandas.concat(chunks, axis=0)    
     elif file_type == "Excel":
-        for chunk in pandas.read_excel(prepped_file, chunksize=chunksize, iterator=True):
-            chunks.append(chunk)
-    df = pandas.concat(chunks, axis=0)
-
-
-    #this is a lazy way of being able to upload the RIT
-    #conversions file without having to change the date structure
-    #of all the other files
-    #the RIT file won't have a date in the -XX-XX-XX format
-    if file_kind == "RIT":
-        return(df)
+        df = pandas.read_excel(prepped_file)
+   
+    # get date from filename, if exists 
+    date_re = re.compile(r"([0-9]?[0-9]-[0-9]?[0-9]-[0-9][0-9])\..*?$")
+    date_match = date_re.search(file_name)
+    if date_match == None:
+        return (df, None)
     else:
-        file_name.find('-')
-        file_date_start=file_name.find('-') + 1
-        file_date_end= file_date_start + 8
-        file_date = file_name[file_date_start:file_date_end]
+        file_date = date_match.group(1)
         return(df, file_date)
+
 
 
 
@@ -134,17 +131,14 @@ def loadRITConversions(RIT_file, inMemory=False):
 
 def loadAttendance(attend_file, inMemory=False):
 
-    attend_df, file_date=get_df(attend_file, inMemory)
+    attend_df, file_date = get_df(attend_file, inMemory)
     attend_df=attend_df.loc[attend_df['Attendance School'] == "CHAVEZ"]
     df = attend_df
     for i in range(0,len(df)):
-        try:
          Attendance.objects.get_or_create(student_id=df.iloc[i]['Student ID'].astype(str),
                                 total_days=df.iloc[i]['Membership Days'].astype(float),
                                 absent_days=df.iloc[i]['Absences'].astype(float),
-                                attend_date=datetime.strptime(file_date, '%m-%d-%y'))
-        except:
-            print  df.iloc[i]['Student ID'].astype(str)+  " in "  +attend_file + " failed to load"                       
+                                attend_date=datetime.strptime(file_date, '%m-%d-%y'))                      
     print str(len(df)) + ' attendance records loaded from ' + file_date
     return(len(df))
 
@@ -210,7 +204,7 @@ def loadEmail(file, inMemory=False):
     df=email_df
 
     for i in range(0,len(df)):
-        print "Now loading " + df.iloc[i]['Logon ID']
+        print "Now loading email for " + df.iloc[i]['Logon ID']
         user_type=df.iloc[i]['User Category']
         if user_type=="Student":
             user= Email.objects.get_or_create(student_id=df.iloc[i]['Student ID'].astype(int))

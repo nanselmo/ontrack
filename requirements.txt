@@ -22,7 +22,7 @@ entrypoints==0.2.2
 functools32==3.2.3.post2
 futures==3.0.5
 gunicorn==19.6.0
-gviz-api.py==1.8.2
+gviz_api==1.9.0
 gviz-data-table==1.0.2
 html5lib==0.999999999
 ipykernel==4.4.1
@@ -67,7 +67,6 @@ pyzmq==15.4.0
 qtconsole==4.2.1
 requests==2.11.1
 requests-oauthlib==0.6.2
-rpy2==2.3.0
 simplegeneric==0.8.1
 simplejson==3.8.2
 singledispatch==3.4.0.3
