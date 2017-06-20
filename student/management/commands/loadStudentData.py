@@ -5,7 +5,7 @@ import math
 import pandas
 from os import listdir
 from os.path import isfile, join
-from loadOnTrackData import *
+from student.loadOnTrackData import *
 
 
 
