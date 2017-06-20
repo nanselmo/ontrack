@@ -31,21 +31,14 @@ def get_df(the_file, inMemory, file_type="CSV", file_kind=""):
         df = pandas.concat(chunks, axis=0)    
     elif file_type == "Excel":
         df = pandas.read_excel(prepped_file)
-    
-
-
-    # #this is a lazy way of being able to upload the RIT
-    # #conversions file without having to change the date structure
-    # #of all the other files
-    # #the RIT file won't have a date in the -XX-XX-XX format
-    # if file_kind == "RIT":
-    #     return(df)
-    date_match = re.search("([0-9]?[0-9]-[0-9]?[0-9]-[0-9][0-9])\..*?$", file_name)
+   
+    # get date from filename, if exists 
+    date_re = re.compile(r"([0-9]?[0-9]-[0-9]?[0-9]-[0-9][0-9])\..*?$")
+    date_match = date_re.search(file_name)
     if date_match == None:
-        print "No date matched: {0}".format(file_name)
         return (df, None)
     else:
-        file_date = date_match.group(0)
+        file_date = date_match.group(1)
         return(df, file_date)
 
 
@@ -142,13 +135,10 @@ def loadAttendance(attend_file, inMemory=False):
     attend_df=attend_df.loc[attend_df['Attendance School'] == "CHAVEZ"]
     df = attend_df
     for i in range(0,len(df)):
-        try:
          Attendance.objects.get_or_create(student_id=df.iloc[i]['Student ID'].astype(str),
                                 total_days=df.iloc[i]['Membership Days'].astype(float),
                                 absent_days=df.iloc[i]['Absences'].astype(float),
-                                attend_date=datetime.strptime(file_date, '%m-%d-%y'))
-        except:
-            print  df.iloc[i]['Student ID'].astype(str)+  " in "  +attend_file + " failed to load"                       
+                                attend_date=datetime.strptime(file_date, '%m-%d-%y'))                      
     print str(len(df)) + ' attendance records loaded from ' + file_date
     return(len(df))
 
