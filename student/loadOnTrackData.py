@@ -1,5 +1,5 @@
 from student.models import  (Email, Attendance, TestScore, Student,
-Grade, Roster, Assignment, STMathRecord, NWEAPercentileConversion)
+Grade, Roster, Assignment, STMathRecord, HighSchool, NWEAPercentileConversion)
 from django.db import connection
 import math
 import pandas
