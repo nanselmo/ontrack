@@ -5,7 +5,7 @@ import math
 import pandas
 from os import listdir
 from os.path import isfile, join
-from student.loadOnTrackData import *
+from student.loadOnTrackData import loadFile
 
 
 
@@ -37,5 +37,6 @@ class Command(BaseCommand):
 
         #load other files
         for each_file in non_sim_files:
+            print (each_file +" is being loaded")
             loadFile(each_file)
             print (each_file +" has been loaded")
