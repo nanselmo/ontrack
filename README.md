@@ -92,3 +92,12 @@ Link the Social Application to the localhost Site instance
 
 ###Add Yourself as a User
 Go to localhost:8000/admin  and add a new Email object with your gmail address and User Type
+
+###Populate Subject Model
+For now, manually populate the Subjects Table with the following subjects and display names
+* CHGO READING FRMWK - Reading
+* MATHEMATICS STD - Math
+* SCIENCE  STANDARDS - Science (NOTE the TWO spaces in between)
+* SOCIAL SCIENCE STD - Social Studies
+
+Also choose subject icons to use. These will get saved to the media directory of the app
