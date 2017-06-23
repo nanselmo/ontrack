@@ -62,21 +62,18 @@ class Homeroom(models.Model):
 #         return self.hr_id + " hr_name: " + self.hr_name + " teacher_id: " + self.teacher_id
 
 class Subject(models.Model):
-    subject_id=models.IntegerField(primary_key=True)
-    subject_name = models.CharField(max_length=60)
-    display_name = models.CharField(max_length=60, null=True)
-    image = models.ImageField('Subject Icon', upload_to='images/subj_icons')
+    subject_name = models.CharField(primary_key=True, max_length=60)
 
     def __str__(self):
-        return "{0}: {1}".format(self.subject_id, self.subject_name)
+        return "{0}".format(self.subject_name)
 
 class SubjectInfo(models.Model):
-    subject_name = models.CharField(max_length=60)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     display_name = models.CharField(max_length=60, null=True)
     image = models.ImageField('Subject Icon', upload_to='images/subj_icons')
 
     def __str__(self):
-        return "{0}: {1}".format(self.subject_id, self.subject_name)
+        return "{0}: {1}".format(self.subject, self.display_name)
 
 class Grade(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)

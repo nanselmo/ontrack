@@ -1,5 +1,6 @@
 from student.models import  (Email, Attendance, TestScore, Student,
-Grade, Roster, Assignment, STMathRecord, HighSchool, NWEAPercentileConversion)
+Grade, Roster, Assignment, STMathRecord, HighSchool,
+NWEAPercentileConversion, Subject, SubjectInfo)
 from django.db import connection
 import math
 import pandas
@@ -28,11 +29,11 @@ def get_df(the_file, inMemory, file_type="CSV", file_kind=""):
     if file_type == "CSV":
         for chunk in pandas.read_csv(prepped_file, chunksize=chunksize, iterator=True):
             chunks.append(chunk)
-        df = pandas.concat(chunks, axis=0)    
+        df = pandas.concat(chunks, axis=0)
     elif file_type == "Excel":
         df = pandas.read_excel(prepped_file)
-   
-    # get date from filename, if exists 
+
+    # get date from filename, if exists
     date_re = re.compile(r"([0-9]?[0-9]-[0-9]?[0-9]-[0-9][0-9])\..*?$")
     date_match = date_re.search(file_name)
     if date_match == None:
@@ -95,12 +96,23 @@ def loadGrades(grades_file, inMemory=False):
     #take out students who have letter grades for their Final Avg
     clean_grades=grades_df[~grades_df['FinalAvg'].isin(["A", "B", "C","D", "F"])]
     df = clean_grades
+
+
+
     for i in range(0,len(df)):
+         current_subject = df.iloc[i]['SubjectName']
+         Subject.objects.get_or_create(subject_name=current_subject)
          Grade.objects.get_or_create(student_id=df.iloc[i]['StudentID'].astype(str),
-                                 subject=df.iloc[i]['SubjectName'],
+                                 subject=current_subject,
                                  grade=df.iloc[i]['FinalAvg'],
                                  grade_date=datetime.strptime(file_date, '%m-%d-%y'))
     print str(len(df)) + ' grades records loaded from ' + file_date
+
+    ###Check if Subject has associated SubjectInfo
+    subject_list = Subject.objects.distinct()
+    for cur_subject in subject_list:
+        SubjectInfo.objects.get_or_create(subject=cur_subject)
+
     return(len(df))
 
 
@@ -138,7 +150,7 @@ def loadAttendance(attend_file, inMemory=False):
          Attendance.objects.get_or_create(student_id=df.iloc[i]['Student ID'].astype(str),
                                 total_days=df.iloc[i]['Membership Days'].astype(float),
                                 absent_days=df.iloc[i]['Absences'].astype(float),
-                                attend_date=datetime.strptime(file_date, '%m-%d-%y'))                      
+                                attend_date=datetime.strptime(file_date, '%m-%d-%y'))
     print str(len(df)) + ' attendance records loaded from ' + file_date
     return(len(df))
 

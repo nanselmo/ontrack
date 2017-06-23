@@ -7,15 +7,17 @@ def hr_data(hr, admin=False):
     #refactor, this should come from ontrack.get_gpa()
     if admin==True:
         hr_grades_sql= "SELECT grade,  MAX(grade_date) as recent_grade_date, display_name, \
-        student_grade.student_id FROM  student_grade, student_subject \
+        student_grade.student_id FROM  student_grade, student_subject, student_subjectinfo \
         WHERE student_subject.subject_name=student_grade.subject \
+        AND student_subject.subject_name = student_subjectinfo.subject \
         GROUP BY  student_grade.subject, student_id"
     else:
         hr_grades_sql = "SELECT grade, MAX(grade_date) as recent_grade_date, display_name,  \
-        student_roster.student_id FROM student_roster, student_grade, student_subject \
+        student_roster.student_id FROM student_roster, student_grade, student_subject, student_subjectinfo \
         WHERE hr_id='%s' AND  \
         student_grade.student_id=student_roster.student_id AND  \
         student_subject.subject_name=student_grade.subject \
+        AND student_subject.subject_name = student_subjectinfo.subject \
         GROUP BY student_roster.student_id, student_grade.subject"%(hr)
 
     hr_grades_df = pandas.read_sql(hr_grades_sql, con=connection)
