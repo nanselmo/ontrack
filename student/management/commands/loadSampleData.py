@@ -67,7 +67,7 @@ def loadNWEA(file):
 def loadFile(file):
 
 
- elif "Attendance" in file:
+ if "Attendance" in file:
     loadAttendance(file)
  elif "Grades" in file:
     loadGrades(file)
