@@ -464,6 +464,23 @@ def show_hs_options(request, student_id=1 ):
     return render(request, "student/student_calc.html", template_vars)
 
 
+def show_nwea_summary(request, student_id=1, selected_hr="A308"):
+        nwea_sql = "SELECT student_roster.student_id, first_name, last_name, percentile,\
+        subject, test_session   \
+        FROM student_roster, student_testscore, student_student\
+        WHERE hr_id='%s' \
+        AND student_roster.student_id = student_testscore.student_id\
+        AND student_roster.student_id = student_student.student_id\
+        AND student_testscore.test_session = %s"%(selected_hr, "'Winter 2016-2017'")
+
+        nwea_df = pandas.read_sql(nwea_sql, con=connection)
+
+
+        student_id, user_type=get_user_info(request, student_id)
+        template_vars={'student_data': nwea_df,
+                        'hr': selected_hr}
+        return render(request, "student/nwea_summary.html", template_vars)
+
 
 def show_student_grades(request, student_id=1):
 

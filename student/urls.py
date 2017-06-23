@@ -15,7 +15,7 @@ urlpatterns = [
     url(r'^summerschoolresults/$', views.download_summer_school, name="download_ss"),
     url(r'^grade_report/$', views.grade_report),
     url(r'^react/$', views.show_test_react, name='show_test_react'),
-
+    url(r'^nwea_summary/(?P<selected_hr>[a-zA-Z0-9]+)$', views.show_nwea_summary, name='show_nwea_summary'),
     url(r'^student/$', views.show_student, name='show_student'),
     url(r'^student/(?P<student_id>[0-9]+)$', views.show_student, name='show_student'),
 
