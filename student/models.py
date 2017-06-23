@@ -77,7 +77,7 @@ class SubjectInfo(models.Model):
 
 class Grade(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    subject = models.CharField(max_length=60)
+    subject = models.ForeignKey(Subject)
     grade = models.IntegerField()
     quarter_grade = models.IntegerField(null=True)
     grade_date = models.DateField(default=timezone.now)
@@ -89,7 +89,7 @@ class Grade(models.Model):
 
 class Assignment(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    subject = models.CharField(max_length=60)
+    subject = models.ForeignKey(Subject)
     assign_name = models.CharField(max_length=300)
     assign_score = models.CharField(max_length=4)
     assign_score_possible = models.CharField(max_length=4)

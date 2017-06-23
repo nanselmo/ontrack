@@ -98,33 +98,39 @@ def get_attend_pct(student_id):
 def get_gpa(group_id, range="current", group_type="student"):
 
     if group_type=="student":
-        all_grades_sql = "SELECT grade, grade_date, subject, MAX(created),  display_name \
-                   FROM student_grade, student_subject  \
+        all_grades_sql = "SELECT grade, grade_date, subject_name, MAX(created),  display_name \
+                   FROM student_grade, student_subject, student_subjectinfo  \
                    WHERE student_grade.student_id = '%s' AND \
-                    student_grade.subject=student_subject.subject_name  \
-                   GROUP BY student_grade.grade_date, subject \
+                    student_grade.subject_id=student_subject.subject_name  \
+                    AND student_subject.subject_name = student_subjectinfo.subject_id\
+                   GROUP BY student_grade.grade_date, subject_name \
                    ORDER BY date(grade_date) DESC" %(group_id)
 
 
-        current_grades_sql="SELECT grade, MAX(grade_date) as most_recent_grade_date, subject, display_name, image \
-                          FROM student_grade, student_subject \
-                          WHERE student_id = '%s' AND student_subject.subject_name=student_grade.subject  \
-                          GROUP BY student_grade.subject"%(group_id)
+        current_grades_sql="SELECT grade, MAX(grade_date) as most_recent_grade_date, subject_name, display_name, image \
+                          FROM student_grade, student_subject, student_subjectinfo \
+                          WHERE student_id = '%s' AND student_subject.subject_name=student_grade.subject_id  \
+                          AND student_subject.subject_name = student_subjectinfo.subject_id\
+                          GROUP BY student_grade.subject_id"%(group_id)
     else:
         if group_type == "hr":
             current_grades_sql = "SELECT grade, MAX(grade_date) as recent_grade_date, display_name,  \
-            student_roster.student_id FROM student_roster, student_grade, student_subject \
+            student_roster.student_id \
+            FROM student_roster, student_grade, student_subject, student_subjectinfo \
             WHERE hr_id='%s' AND  \
-            student_grade.student_id=student_roster.student_id AND  \
-            student_subject.subject_name=student_grade.subject \
-            GROUP BY student_roster.student_id, student_grade.subject"%(group_id)
+            student_grade.student_id = student_roster.student_id AND  \
+            student_subject.subject_name = student_grade.subject_id AND\
+            student_subject.subject_name = student_subjectinfo.subject_id \
+            GROUP BY student_roster.student_id, student_grade.subject_id"%(group_id)
 
-            all_grades_sql = "SELECT grade, grade_date, subject, MAX(created),  display_name,  \
-            student_roster.student_id FROM student_roster, student_grade, student_subject \
+            all_grades_sql = "SELECT grade, grade_date, subject_name, MAX(created),  display_name,  \
+            student_roster.student_id \
+            FROM student_roster, student_grade, student_subject, student_subjectinfo \
             WHERE hr_id='%s' AND  \
             student_grade.student_id=student_roster.student_id AND  \
-            student_subject.subject_name=student_grade.subject \
-            GROUP BY student_roster.student_id, student_grade.subject\
+            student_subject.subject_name=student_grade.subject_id AND \
+            student_subject.subject_name = student_subjectinfo.subject_id \
+            GROUP BY student_roster.student_id, student_grade.subject_id\
             ORDER BY date(grade_date) DESC"%(group_id)
 
 
@@ -184,19 +190,21 @@ def get_test_score(student_id, test_type):
 def get_grade_distribution(hr):
 
     if hr=="All":
-        current_grades_sql="SELECT grade, MAX(grade_date) as most_recent_grade_date, subject, display_name, hr_id, grade_level, current_student \
-                  FROM student_grade, student_subject, student_roster \
-                  WHERE student_subject.subject_name=student_grade.subject AND\
+        current_grades_sql="SELECT grade, MAX(grade_date) as most_recent_grade_date, subject_name, display_name, hr_id, grade_level, current_student \
+                  FROM student_grade, student_subject, student_roster, student_subjectinfo \
+                  WHERE student_subject.subject_name=student_grade.subject_id AND\
                   student_grade.student_id=student_roster.student_id\
-                  GROUP BY student_grade.subject, student_grade.student_id"
+                  AND student_subject.subject_name = student_subjectinfo.subject_id\
+                  GROUP BY student_grade.subject_id, student_grade.student_id"
 
     else:
-        current_grades_sql="SELECT grade, MAX(grade_date) as most_recent_grade_date, subject, display_name, hr_id, grade_level, current_student \
-                  FROM student_grade, student_subject, student_roster \
-                  WHERE student_subject.subject_name=student_grade.subject AND\
+        current_grades_sql="SELECT grade, MAX(grade_date) as most_recent_grade_date, subject_name, display_name, hr_id, grade_level, current_student \
+                  FROM student_grade, student_subject, student_roster, student_subjectinfo \
+                  WHERE student_subject.subject_name=student_grade.subject_id AND\
                   student_grade.student_id=student_roster.student_id AND\
                   student_roster.hr_id='%s'\
-                  GROUP BY student_grade.subject, student_grade.student_id"%(hr)
+                  AND student_subject.subject_name = student_subjectinfo.subject_id\
+                  GROUP BY student_grade.subject_id, student_grade.student_id"%(hr)
 
     df_current_grades = pandas.read_sql(current_grades_sql, con=connection)
 

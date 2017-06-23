@@ -50,7 +50,7 @@ def get_assign_impact(student_id, course):
         assign_score_possible AS ScorePossible, category_weight AS CategoryWeight \
         FROM student_assignment \
         WHERE student_id = '%s'   \
-        AND student_assignment.subject='%s'"%(student_id, course)
+        AND student_assignment.subject_id='%s'"%(student_id, course)
 
         assign_details_df=pandas.read_sql(assign_sql, connection)
 

@@ -535,7 +535,7 @@ def show_student_grades(request, student_id=1):
 def show_student_assignments(request, student_id=1, display_subject="Math"):
     student_id, user_type=get_user_info(request, student_id)
     student=Student.objects.get(student_id= "%s"%(student_id))
-    long_subject=Subject.objects.get(display_name=display_subject).subject_name
+    long_subject=SubjectInfo.objects.get(display_name=display_subject).subject
 
     if display_subject == "Math":
 
