@@ -1,8 +1,10 @@
+import sys
 import pandas
 from student.models import Assignment
 from django.db import connection
 from dateutil import parser
 from student.hardcoded import Q4_Start_Date
+from student.helper_functions import df_from_query
 
 def get_numerical_score(score):
     score=pandas.to_numeric(score,errors="ignore")
@@ -46,13 +48,17 @@ def get_clean_assignments(assign_df):
 
 def get_assign_impact(student_id, course):
         assign_sql = "SELECT assign_name AS ASGName, assign_score AS Score,\
-        category_name AS CategoryName, grade_entered, \
-        assign_score_possible AS ScorePossible, category_weight AS CategoryWeight \
-        FROM student_assignment \
-        WHERE student_id = '%s'   \
-        AND student_assignment.subject_id='%s'"%(student_id, course)
-
-        assign_details_df=pandas.read_sql(assign_sql, connection)
+                category_name AS CategoryName, grade_entered, \
+                assign_score_possible AS ScorePossible, category_weight AS CategoryWeight \
+            FROM student_assignment \
+            WHERE student_id=%s   \
+            AND subject_id=%s"
+        #convert to string to prevent the db getting confused about unicode
+        student_id = str(student_id)
+        course = str(course)
+        #FIXME: figure out why student_id was passed here as unicode
+        params = [student_id, course]
+        assign_details_df = df_from_query(assign_sql, params, connection=connection)
 
         #get current quarter assignments only
         #Q4_Start_Date hardcoded in hardcoded.py

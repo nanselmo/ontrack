@@ -1,6 +1,7 @@
 import pandas
 from django.db import connection
 from student.ontrack import gpa_subjects_list, getPoints, getOnTrack
+from student.helper_functions import df_from_query
 import gviz_api
 
 def hr_data(hr, admin=False):
@@ -11,16 +12,18 @@ def hr_data(hr, admin=False):
         WHERE student_subject.subject_name = student_grade.subject_id \
         AND student_subject.subject_name = student_subjectinfo.subject_id \
         GROUP BY  student_grade.subject_id, student_id"
+        params = None
     else:
         hr_grades_sql = "SELECT grade, MAX(grade_date) as recent_grade_date, display_name,  \
         student_roster.student_id FROM student_roster, student_grade, student_subject, student_subjectinfo \
-        WHERE hr_id='%s' AND  \
+        WHERE hr_id=%s AND  \
         student_grade.student_id = student_roster.student_id AND  \
         student_subject.subject_name = student_grade.subject_id \
         AND student_subject.subject_name = student_subjectinfo.subject_id \
-        GROUP BY student_roster.student_id, student_grade.subject_id"%(hr)
+        GROUP BY student_roster.student_id, student_grade.subject_id"
+        params = [hr]
 
-    hr_grades_df = pandas.read_sql(hr_grades_sql, con=connection)
+    hr_grades_df = df_from_query(hr_grades_sql, params, connection=connection)
 
     #remove duplicates
     #i need to add code to catch this earlier during grade updating, but for now, remove here
@@ -40,7 +43,7 @@ def hr_data(hr, admin=False):
 
     #get attendance
     #multiply days by 1.0 to coerce into float
-
+    
     if admin==True:
         hr_attend_sql = "SELECT  total_days, absent_days, \
         ((total_days-absent_days)/ (total_days*1.0))*100  as attend_pct, \
@@ -48,17 +51,18 @@ def hr_data(hr, admin=False):
         from student_roster, student_attendance \
         WHERE  student_attendance.student_id = student_roster.student_id \
         GROUP BY student_roster.student_id"
+        params = None
 
     else:
         hr_attend_sql = "SELECT  total_days, absent_days, \
         ((total_days-absent_days)/ (total_days*1.0))*100  as attend_pct, \
         MAX(attend_date) as recent_attend_date, student_roster.student_id \
         from student_roster, student_attendance \
-        WHERE hr_id='%s' AND student_attendance.student_id = student_roster.student_id \
-        GROUP BY student_roster.student_id"%(hr)
+        WHERE hr_id=%s AND student_attendance.student_id = student_roster.student_id \
+        GROUP BY student_roster.student_id"
+        params = [hr]
 
-
-    hr_attend_df = pandas.read_sql(hr_attend_sql, con=connection)
+    hr_attend_df = df_from_query(hr_attend_sql, params, connection=connection)
     hr_attend_df = hr_attend_df[["student_id", "attend_pct"]]
 
     #get names and homeroom
@@ -66,14 +70,15 @@ def hr_data(hr, admin=False):
         hr_name_sql = "SELECT  first_name, last_name, student_roster.student_id, hr_id, current_student \
         from student_roster, student_student \
         WHERE student_student.student_id = student_roster.student_id "
+        params = None
 
     else:
         hr_name_sql = "SELECT  first_name, last_name, student_roster.student_id, hr_id, current_student \
         from student_roster, student_student \
-        WHERE hr_id='%s' AND student_student.student_id = student_roster.student_id "%(hr)
+        WHERE hr_id=%s AND student_student.student_id = student_roster.student_id "
+        params = [hr]
 
-    hr_name_df= pandas.read_sql(hr_name_sql, con=connection)
-
+    hr_name_df = df_from_query(hr_name_sql, params, connection=connection)
 
     #merge them all together (but maybe refactor to just send as separate dictionaries?)
     hr_data=hr_attend_df.merge(hr_grades_indexed, on="student_id")

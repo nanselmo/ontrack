@@ -1,0 +1,22 @@
+{% extends 'student/base.html' %}
+{% load static %}
+
+{% block extra_head_content %}
+  <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}student/css/error.css" />
+{% endblock %}
+  
+{% block content %}
+  <div id="page-container">
+    <div class="error-container">
+      <div class="error-header">
+        Error:
+      </div>
+      <div class="error-name">
+        {{error_name}}  
+      </div>
+      <div class="error-message">
+        {{error_message}} 
+      </div>
+    </div>
+  </div>
+{% endblock %}

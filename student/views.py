@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from student.models import (Grade, Student, Attendance,
 Email, Subject, Roster, DataFile, Assignment, NWEAPercentileConversion)
+from student.helper_functions import df_from_query
 from allauth.socialaccount.models import SocialAccount
 from django.db import connection
 from ontrack import (get_user_info, getOnTrack, getPoints, get_attend_pct, get_gpa,
@@ -87,39 +88,41 @@ def download_summer_school(request):
                  'SS_Description',
                  'SSW',
                  'Warning_Desc']
-    full_roster=pandas.read_json(full_roster)[ideal_order].sort_values(by=['StudentGradeLevel', 'SSS', 'StudentHomeroom'])
-    ss_list=pandas.read_json(ss_kids)[ideal_order].sort_values(by=['StudentGradeLevel', 'SSS', 'StudentHomeroom'])
-    if request.method == 'POST':
-        filename="summer-school-roster.xlsx"
-        sio = StringIO()
-        writer = pandas.ExcelWriter(sio, engine='xlsxwriter')
-        ss_codes_df = pandas.DataFrame({'Codes': ['0A', '0B', '1A', '1B', '2A', '2B', '3A', '3B'],
-                                    'Description': ['ELL - No Summer School',
-                                    'ELL-Summer School',
-                                    '24% - No Summer School',
-                                    '24% - Summer School, No Exam',
-                                     '11-23% -  No Summer School',
-                                     '11-23% -Summer School and Exam',
-                                     '<10% - Summer School and Exam',
-                                      '<10% - Summer School and Exam']})
-        ss_codes_df.to_excel(writer, sheet_name='Summer School Codes')
-        full_roster.to_excel(writer, sheet_name="Full-Roster", index=False)
-        ss_list.to_excel(writer, sheet_name="SS-Roster", index=False)
+    if full_roster != None:
+        full_roster=pandas.read_json(full_roster)[ideal_order].sort_values(by=['StudentGradeLevel', 'SSS', 'StudentHomeroom'])
+        ss_list=pandas.read_json(ss_kids)[ideal_order].sort_values(by=['StudentGradeLevel', 'SSS', 'StudentHomeroom'])
+        if request.method == 'POST':
+            filename="summer-school-roster.xlsx"
+            sio = StringIO()
+            writer = pandas.ExcelWriter(sio, engine='xlsxwriter')
+            ss_codes_df = pandas.DataFrame({'Codes': ['0A', '0B', '1A', '1B', '2A', '2B', '3A', '3B'],
+                                        'Description': ['ELL - No Summer School',
+                                        'ELL-Summer School',
+                                        '24% - No Summer School',
+                                        '24% - Summer School, No Exam',
+                                         '11-23% -  No Summer School',
+                                         '11-23% -Summer School and Exam',
+                                         '<10% - Summer School and Exam',
+                                          '<10% - Summer School and Exam']})
+            ss_codes_df.to_excel(writer, sheet_name='Summer School Codes')
+            full_roster.to_excel(writer, sheet_name="Full-Roster", index=False)
+            ss_list.to_excel(writer, sheet_name="SS-Roster", index=False)
 
-        writer.save()
-        sio.seek(0)
-        workbook = sio.getvalue()
-        response = HttpResponse(workbook, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-        response['Content-Disposition'] = 'attachment; filename=%s' % filename
-        return (response)
+            writer.save()
+            sio.seek(0)
+            workbook = sio.getvalue()
+            response = HttpResponse(workbook, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            response['Content-Disposition'] = 'attachment; filename=%s' % filename
+            return (response)
+        else:
+            #display the data on the page
+            ss_kids_df=ss_list
+            ss_kids_df=ss_kids_df[['StudentFirstName', 'StudentLastName', 'StudentGradeLevel',
+            'StudentHomeroom', 'SSS', 'SS_Description', 'SSW', 'Warning_Desc']]
+            ss_kids_html=ss_kids_df.to_html()
+            return render(request, 'student/summerschoolresults.html', {'ss_list' : ss_kids_html})
     else:
-        #display the data on the page
-        ss_kids_df=ss_list
-        ss_kids_df=ss_kids_df[['StudentFirstName', 'StudentLastName', 'StudentGradeLevel',
-        'StudentHomeroom', 'SSS', 'SS_Description', 'SSW', 'Warning_Desc']]
-        ss_kids_html=ss_kids_df.to_html()
-        return render(request, 'student/summerschoolresults.html', {'ss_list' : ss_kids_html})
-
+        return render(request, 'student/error.html', {'error_name':'No summer school roster available', 'error_message':'There is no summer school roster in the database.'})
 
 def upload_files(request):
 
@@ -467,15 +470,14 @@ def show_hs_options(request, student_id=1 ):
 
 def show_nwea_summary(request, student_id=1, selected_hr="A308"):
         nwea_sql = "SELECT student_roster.student_id, first_name, last_name, percentile,\
-        subject, test_session   \
-        FROM student_roster, student_testscore, student_student\
-        WHERE hr_id='%s' \
-        AND student_roster.student_id = student_testscore.student_id\
-        AND student_roster.student_id = student_student.student_id\
-        AND student_testscore.test_session = %s"%(selected_hr, "'Winter 2016-2017'")
-
-        nwea_df = pandas.read_sql(nwea_sql, con=connection)
-
+            subject, test_session   \
+            FROM student_roster, student_testscore, student_student\
+            WHERE hr_id=%s \
+                AND student_roster.student_id = student_testscore.student_id\
+                AND student_roster.student_id = student_student.student_id\
+                AND student_testscore.test_session = %s"
+        params = [selected_hr, "Winter 2016-2017"]
+        nwea_df = df_from_query(nwea_sql, params, connection=connection) 
 
         student_id, user_type=get_user_info(request, student_id)
         template_vars={'student_data': nwea_df,
@@ -537,18 +539,22 @@ def show_student_assignments(request, student_id=1, display_subject="Math"):
     student_id, user_type=get_user_info(request, student_id)
     student=Student.objects.get(student_id= "%s"%(student_id))
     long_subject=SubjectInfo.objects.get(display_name=display_subject).subject
+    subject_name = long_subject.subject_name
 
     if display_subject == "Math":
 
 
         stmath_sql = "Select metric_date, k_5_progress \
-        FROM student_stmathrecord WHERE student_id = '%s'" %(student_id)
-        df_stmath = pandas.read_sql(stmath_sql, con=connection)
+           FROM student_stmathrecord WHERE student_id = %s"
+        params = [student_id]
+        df_stmath = df_from_query(stmath_sql, params, connection=connection) 
 
         if len(df_stmath)> 0:
             curJiJi = STMathRecord.objects.filter(student=student_id).order_by('-metric_date')[0].k_5_progress
 
             #get the values from the df and define the columns of the datatable
+            # TODO: consider changing the DB schema or JSON encoder to avoid this
+            df_stmath["k_5_progress"] = df_stmath["k_5_progress"].astype('float')
             stmath_values=df_stmath.values
             description = [("metric_date", "date", "Date"),
             ("k_5_progress", "number", "Syllabus Progress")]
@@ -569,7 +575,7 @@ def show_student_assignments(request, student_id=1, display_subject="Math"):
 
 
 
-    if get_assign_impact(student_id, long_subject) != "No assignments":
+    if get_assign_impact(student_id, subject_name) != "No assignments":
         assign_clean_df, assign_summary_df = get_assign_impact(student_id, long_subject)
         #set up gviz
         summary_values=assign_summary_df.values
@@ -621,8 +627,13 @@ def show_student_attendance(request, student_id=1):
         attend_data=Attendance.objects.filter(student_id="%s"%(student_id)).order_by('-attend_date')[0]
         attend_pct=round(attend_data.calc_pct())
         attend_sql="Select attend_date, absent_days \
-        FROM student_attendance WHERE student_id=%s"%(student_id)
-        df_attend = pandas.read_sql(attend_sql, con=connection)
+            FROM student_attendance WHERE student_id=%s"
+        params = [student_id]
+        df_attend = df_from_query(attend_sql, params, connection=connection) 
+        # type convert decimal to float
+        # FIXME: consider changing either DB schema or JSON encoder rather than this
+        df_attend['absent_days'] = df_attend['absent_days'].astype('float')
+
         attend_data_matrix=df_attend.as_matrix() #<--maybe just use values.tolist() here?
 
         #make Google Viz' DataTable schema to describe the columns
