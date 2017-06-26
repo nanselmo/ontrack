@@ -22,12 +22,14 @@ from StringIO import StringIO
 import json
 import numpy as np
 
+
 #for plotting
 import gviz_api
 from django.shortcuts import render
 from django.db import connection
 
 #debug
+import sys
 #import pdb;
 #
 
@@ -259,26 +261,25 @@ def show_dashboard(request, student_id=1):
     return render(request, "student/dashboard.html", {'user_email': lookup_user_id})
 
 def show_hr(request, selected_hr="B314"):
-
     if request.user.is_authenticated:
         user_id, user_type = get_user_info(request)
 
-    if user_type in ["School Admin", "Teacher"] and selected_hr=="All":
-        hr_json, hr_dict = hr_data(selected_hr, admin=True)
-        title = "All Students"
-        grade_distribution_array, avg_grades_list=get_grade_distribution(selected_hr)
-        #don't draw pie graphs for All
-        grade_distribution_array = []
-        all_stmath_gviz_json = get_all_jiji_json("all")
-        last_two_stdates_data_json = get_last_two_jiji("all")
+        if user_type in ["School Admin", "Teacher"] and selected_hr=="All":
+            hr_json, hr_dict = hr_data(selected_hr, admin=True)
+            title = "All Students"
+            grade_distribution_array, avg_grades_list=get_grade_distribution(selected_hr)
+            #don't draw pie graphs for All
+            grade_distribution_array = []
+            all_stmath_gviz_json = get_all_jiji_json("all")
+            last_two_stdates_data_json = get_last_two_jiji("all")
 
-    #just select data from one homeroom
-    elif user_type in ["School Admin", "Teacher"] :
-        hr_json, hr_dict=hr_data(selected_hr, admin=False)
-        title=selected_hr + ' Students'
-        grade_distribution_array, avg_grades_list = get_grade_distribution(selected_hr)
-        all_stmath_gviz_json = get_all_jiji_json(selected_hr)
-        last_two_stdates_data_json = get_last_two_jiji(selected_hr)
+        #just select data from one homeroom
+        elif user_type in ["School Admin", "Teacher"] :
+            hr_json, hr_dict=hr_data(selected_hr, admin=False)
+            title=selected_hr + ' Students'
+            grade_distribution_array, avg_grades_list = get_grade_distribution(selected_hr)
+            all_stmath_gviz_json = get_all_jiji_json(selected_hr)
+            last_two_stdates_data_json = get_last_two_jiji(selected_hr)
 
     #if not authenticated
     else:
