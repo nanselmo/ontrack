@@ -441,13 +441,55 @@ def show_hs_options(request, student_id=1 ):
 
     #need to pass the RIT to Percentile Conversion for this student's grade Level
     stu_grade_level = Roster.objects.get(student_id= "%s"%(student_id)).grade_level
-    def get_RIT_conversion(subject):
 
-        conversion_QuerySet=NWEAPercentileConversion.objects.filter(
+    def get_RIT_conversion(subject):
+        conversion_QuerySet = NWEAPercentileConversion.objects.filter(
                                            subject = subject,
                                            grade_level = stu_grade_level,
-                                           season = default_nwea_season).values('percentile', 'rit')
-        conversion_json = json.dumps([dict(item) for item in conversion_QuerySet])
+                                           season = default_nwea_season).values('percentile', 'rit').order_by('percentile')
+
+        # this is the number of rit scores to include in the
+        # lookup that below the 1st percentile rit score cutoff
+        # and above the 99th percentile rit score cutoff
+        rit_score_buffer = 25 
+
+        rit_percentage_table = []
+        for i, _ in enumerate(conversion_QuerySet):
+            is_last_percentile = i >= len(conversion_QuerySet) - 1
+            is_first_percentile = i == 0
+            if is_first_percentile:
+                rit_cutoff_first_percentile = conversion_QuerySet[i]['rit']
+                rit_cutoff_second_percentile = conversion_QuerySet[i + 1]['rit']
+                start_rit = rit_cutoff_first_percentile - rit_score_buffer
+                for j in range(start_rit, rit_cutoff_second_percentile):
+                    rit_percentage_lookup = {
+                        'rit': j,
+                        'percentile': conversion_QuerySet[i]['percentile']
+                    }
+                    rit_percentage_table.append(rit_percentage_lookup)
+
+            elif is_last_percentile:
+                rit_at_last_percentile = conversion_QuerySet[i]['rit']
+                end_rit = rit_at_last_percentile + rit_score_buffer 
+                for j in range(rit_at_last_percentile, end_rit + 1):
+                    rit_percentage_lookup = {
+                        'rit': j,
+                        'percentile': conversion_QuerySet[i]['percentile']
+                    }
+                    rit_percentage_table.append(rit_percentage_lookup)      
+
+            else: 
+                this_percentile_rit = conversion_QuerySet[i]['rit']
+                next_percentile_rit = conversion_QuerySet[i + 1]['rit']
+                for j in range(this_percentile_rit, next_percentile_rit):
+                    rit_percentage_lookup = {
+                        'rit': j,
+                        'percentile': conversion_QuerySet[i]['percentile']
+                    }
+                    rit_percentage_table.append(rit_percentage_lookup)
+
+        conversion_json = json.dumps(rit_percentage_table)
+        print >>sys.stdout, conversion_json
         return conversion_json
 
     m_conversion_json = get_RIT_conversion("Mathematics")
@@ -469,20 +511,27 @@ def show_hs_options(request, student_id=1 ):
 
 
 def show_nwea_summary(request, student_id=1, selected_hr="A308"):
-        nwea_sql = "SELECT student_roster.student_id, first_name, last_name, percentile,\
-            subject, test_session   \
-            FROM student_roster, student_testscore, student_student\
-            WHERE hr_id=%s \
-                AND student_roster.student_id = student_testscore.student_id\
-                AND student_roster.student_id = student_student.student_id\
-                AND student_testscore.test_session = %s"
-        params = [selected_hr, "Winter 2016-2017"]
-        nwea_df = df_from_query(nwea_sql, params, connection=connection) 
+    if request.user.is_authenticated:
+        user_id, user_type = get_user_info(request, student_id)
+        if user_type == "School Admin" or user_type == "Teacher":
+            nwea_sql = "SELECT student_roster.student_id, first_name, last_name, percentile,\
+                subject, test_session   \
+                FROM student_roster, student_testscore, student_student\
+                WHERE hr_id=%s \
+                    AND student_roster.student_id = student_testscore.student_id\
+                    AND student_roster.student_id = student_student.student_id\
+                    AND student_testscore.test_session = %s"
+            params = [selected_hr, "Winter 2016-2017"]
+            nwea_df = df_from_query(nwea_sql, params, connection=connection) 
 
-        student_id, user_type=get_user_info(request, student_id)
-        template_vars={'student_data': nwea_df,
-                        'hr': selected_hr}
-        return render(request, "student/nwea_summary.html", template_vars)
+            student_id, user_type=get_user_info(request, student_id)
+            template_vars={'student_data': nwea_df,
+                            'hr': selected_hr}
+            return render(request, "student/nwea_summary.html", template_vars)
+
+    # if either condition fails, return 404
+    return render(request, "student/404.html")
+
 
 
 def show_student_grades(request, student_id=1):
