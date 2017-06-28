@@ -1,0 +1,22 @@
+{% extends 'student/base.html' %}
+{% load static %}
+
+{% block extra_head_content %}
+  <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}student/css/error.css" />
+{% endblock %}
+  
+{% block content %}
+  <div id="page-container">
+    <div class="error-container">
+      <div class="error-header">
+       404 
+      </div>
+      <div class="error-name">
+        File Not Found  
+      </div>
+      <div class="error-message">
+        We can't find what you're looking for! 
+      </div>
+    </div>
+  </div>
+{% endblock %}
