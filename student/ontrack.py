@@ -1,4 +1,4 @@
-from student.models import  Email, Attendance, TestScore
+from student.models import  Roster, Email, Attendance, TestScore
 from student.helper_functions import df_from_query
 from allauth.socialaccount.models import SocialAccount
 from django.db import connection
@@ -9,6 +9,9 @@ import gviz_api
 import pandas
 from django.db import connection
 
+#debug
+import sys
+
 
 #variables
 gpa_subjects_list = ['Math', 'Science', 'Social Studies', 'Reading' ]
@@ -17,24 +20,33 @@ gpa_subjects_list_full_names=['CHGO READING FRMWK','MATHEMATICS STD','SCIENCE  S
 
 #functions
 
-def get_user_info(the_request, student_id=1):
-    try:
-        social_email = SocialAccount.objects.get(user=the_request.user).extra_data['email']
-        user_type = Email.objects.get(email=social_email).user_type
-    except:
-        user_type = "Student"
-    #admin and teacher can look at any user's info
+def get_user_homeroom(user_id):
 
-    if user_type in ["School Admin", "Teacher"]:
-        student_id=student_id
-    #if they're a student, try matching their email to a user
-    else:
-        try:
-            student_id=Email.objects.get(email=social_email).student_id
-        #if they don't match a know student email, default them to student 1
-        except:
-            student_id = 1
-    return(student_id, user_type)
+    hr_sql = """SELECT student_homeroom.hr_name  
+        FROM student_roster 
+        INNER JOIN student_homeroom 
+            ON student_roster.hr_id=student_homeroom.hr_id 
+        WHERE student_roster.student_id=%s"""
+    with connection.cursor() as cursor:
+        cursor.execute(hr_sql, [user_id])
+        homeroom = cursor.fetchone()
+    print >>sys.stdout, homeroom 
+    return homeroom
+
+
+def get_user_info(request):
+    try:
+        user_email = SocialAccount.objects.get(user=request.user).extra_data['email']
+        print >>sys.stdout, user_email
+        email_record = Email.objects.get(email=user_email)
+        print >>sys.stdout, email_record.user_type
+        user_type = email_record.user_type
+        user_id = email_record.student_id
+
+    except:
+        raise ValueError("User not found!") 
+
+    return(user_id, user_type)
 
 
 
@@ -139,8 +151,8 @@ def get_gpa(group_id, range="current", group_type="student"):
             current_grades_params = [group_id]
 
     #turn sql into data frame
-    df_all_grades = df_from_query(all_grades_sql, all_grades_params, connection=connection)
-    df_current_grades = df_from_query(current_grades_sql, current_grades_params, connection=connection)
+    df_all_grades = df_from_query(all_grades_sql, all_grades_params)
+    df_current_grades = df_from_query(current_grades_sql, current_grades_params)
 
     ##for historical grades
     df_core_historical_grades = df_all_grades[df_all_grades["display_name"].isin(gpa_subjects_list)]
@@ -151,8 +163,8 @@ def get_gpa(group_id, range="current", group_type="student"):
 
 
     #calculate gpa
-    df_points=df_historical_grades_indexed.applymap(getPoints)
-    df_points['gpa']=df_points.mean(axis=1)
+    df_points = df_historical_grades_indexed.applymap(getPoints)
+    df_points['gpa'] = df_points.mean(axis=1)
     df_points=df_points.reset_index()
     gpa_values=df_points[['grade_date', 'gpa']].values
     current_gpa=df_points.sort_values('grade_date',0,False)['gpa'].iloc[0]

@@ -1,0 +1,56 @@
+from django.http import (HttpResponseRedirect, Http404)
+from django.utils.deprecation import MiddlewareMixin
+from student.ontrack import get_user_info
+# from student.models import User, etc
+
+# debug
+import sys
+
+class CheckUserPermissions(MiddlewareMixin):
+    def process_view(self, request, view_func, view_args, view_kwargs):
+
+        # prevent middleware from blocking admin view
+        if request.path.startswith('/admin/'):
+            view_kwargs.pop("allow", None)
+            view_kwargs.pop("logon_required", None)
+            return None
+
+        # if requestor is not logged in, send them to the login page
+        logon_required = view_kwargs.get("logon_required")
+        if logon_required == True and not request.user.is_authenticated():
+            view_kwargs.pop("allow", None)
+            view_kwargs.pop("logon_required", None)
+            return HttpResponseRedirect("/logon")
+
+        elif logon_required == False:
+            view_kwargs.pop("allow", None)
+            view_kwargs.pop("logon_required", None)
+            return None
+        
+        user_id, user_type = get_user_info(request)
+        print >>sys.stdout, "{0}: User type: {1} User id {2}".format(request.path, user_type, user_id)
+
+        user_group_permissions_table = view_kwargs.get("allow")
+        if user_group_permissions_table is None:
+            print >>sys.stdout, "CheckUserPermissions: No permissions set"
+            raise Http404
+        
+        user_permissions_function = user_group_permissions_table.get(user_type)
+        if user_permissions_function is None:
+            print >>sys.stdout, "CheckUserPermissions: No permissions function"
+            raise Http404
+
+        can_access = user_permissions_function(user_id, user_type, request, view_func, view_args, view_kwargs)
+
+        if can_access:
+            # strip the 'allow' and 'logon_required' field from view_kwargs
+            view_kwargs.pop("allow", None)
+            view_kwargs.pop("logon_required", None)
+            # allow the request to go through
+            return None
+
+        # if something got past, send a 404
+        raise Http404
+
+        
+            
