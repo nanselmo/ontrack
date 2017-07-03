@@ -48,7 +48,7 @@ urlpatterns = [
             }
         }, name='show_hr'),
 
-    #url(r'^student/dashboard/', views.student_dashboard, name='show_dashboard'),
+        #url(r'^student/dashboard/', views.student_dashboard, name='show_dashboard'),
         url(r'^upload_files/$', views.upload_all_files, {
             "allow": {
                 "School Admin": always,
@@ -89,7 +89,6 @@ urlpatterns = [
                 "Guest": never
             } 
         }),
-        #url(r'^react/$', views.show_test_react, name='show_test_react'),
         url(r'^nwea_summary/(?P<selected_hr>[a-zA-Z0-9]+)$', views.nwea_summary, {
             "allow": {
                 "School Admin": always,
@@ -138,9 +137,5 @@ urlpatterns = [
                 "Guest": never
             } 
         }, name='show_student_attendance'),
-
-        #url(r'^student/ontrack/$', views.student_ontrack, name='show_student_ontrack'),
-        #url(r'^student/ontrack/(?P<student_id>[0-9]+)$', views.student_ontrack, name='show_student_ontrack'),
-
 
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

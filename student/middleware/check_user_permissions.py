@@ -17,7 +17,8 @@ class CheckUserPermissions(MiddlewareMixin):
 
         # if requestor is not logged in, send them to the login page
         logon_required = view_kwargs.get("logon_required")
-        if logon_required == True and not request.user.is_authenticated():
+        if logon_required and not request.user.is_authenticated():
+            print >>sys.stdout, "Not logged in"
             view_kwargs.pop("allow", None)
             view_kwargs.pop("logon_required", None)
             return HttpResponseRedirect("/logon")
@@ -27,7 +28,13 @@ class CheckUserPermissions(MiddlewareMixin):
             view_kwargs.pop("logon_required", None)
             return None
         
-        user_id, user_type = get_user_info(request)
+        try:
+            user_id, user_type = get_user_info(request)
+        except ValueError:
+            print >>sys.stdout, "User not found"
+            # user not found
+            return HttpResponseRedirect("/logon")
+
         print >>sys.stdout, "{0}: User type: {1} User id {2}".format(request.path, user_type, user_id)
 
         user_group_permissions_table = view_kwargs.get("allow")
