@@ -3,7 +3,7 @@ from django.db import connection
 
 # function takes a SQL query, a list of parameters, and a connection, and returns a pandas dataframe
 
-def df_from_query(query, params, **kwargs):
+def df_from_query(query, params=None, **kwargs):
     conn = kwargs.get('connection')
     if conn == None:
         conn = connection
