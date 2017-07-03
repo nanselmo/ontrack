@@ -2,6 +2,7 @@ from django.shortcuts import render
 from student.ontrack import (get_user_info, get_gpa, get_attend_pct, getOnTrack)
 from student.models import Student
 import gviz_api
+import sys
 
 # TODO: create example student rather than pull
 #   student 1 if not student passed
@@ -9,7 +10,11 @@ def student_page(request, student_id=1):
     student = Student.objects.get(student_id=student_id)
 
     #get gpa for get_gpa method (in ontrack.py)
-    student_gpa = get_gpa(student_id, "current", "student")['gpa']
+    try:
+        student_gpa = get_gpa(student_id, "current", "student")['gpa']
+    except ValueError:
+        print >>sys.stderr, "student_page: No GPA found"
+        student_gpa = {'current_gpa':0.0, 'values': []}
 
     gpa = student_gpa['current_gpa']
 
