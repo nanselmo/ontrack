@@ -1,3 +1,4 @@
+import sys
 import json
 from django.shortcuts import render
 from student.models import (Student, Roster, NWEAPercentileConversion)
@@ -11,6 +12,7 @@ def hs_options(request, student_id=1):
 
     _, user_type = get_user_info(request)
     student = Student.objects.get(student_id=str(student_id))
+    print >>sys.stdout, student_id
 
     #hardcode tier for now
     tier=2
@@ -96,13 +98,52 @@ def hs_options(request, student_id=1):
     #need to pass the RIT to Percentile Conversion for this student's grade Level
     stu_grade_level = Roster.objects.get(student_id=str(student_id)).grade_level
     def get_RIT_conversion(subject):
-
         conversion_QuerySet=NWEAPercentileConversion.objects.filter(
-                                           subject = subject,
-                                           grade_level = stu_grade_level,
-                                           season = default_nwea_season).values('percentile', 'rit')
-        conversion_json = json.dumps([dict(item) for item in conversion_QuerySet])
+           subject = subject,
+           grade_level = stu_grade_level,
+           season = default_nwea_season).values('percentile', 'rit').order_by('percentile') 
+        # this is the number of rit scores to include in the
+        # lookup that below the 1st percentile rit score cutoff
+        # and above the 99th percentile rit score cutoff
+        rit_score_buffer = 25 
+        rit_percentage_table = []
+        for i, _ in enumerate(conversion_QuerySet):
+            is_last_percentile = i >= len(conversion_QuerySet) - 1
+            is_first_percentile = i == 0
+            if is_first_percentile:
+                rit_cutoff_first_percentile = conversion_QuerySet[i]['rit']
+                rit_cutoff_second_percentile = conversion_QuerySet[i + 1]['rit']
+                start_rit = rit_cutoff_first_percentile - rit_score_buffer
+                for j in range(start_rit, rit_cutoff_second_percentile):
+                    rit_percentage_lookup = {
+                        'rit': j,
+                        'percentile': conversion_QuerySet[i]['percentile']
+                    }
+                    rit_percentage_table.append(rit_percentage_lookup)
+            elif is_last_percentile:
+                rit_at_last_percentile = conversion_QuerySet[i]['rit']
+                end_rit = rit_at_last_percentile + rit_score_buffer 
+                for j in range(rit_at_last_percentile, end_rit + 1):
+                    rit_percentage_lookup = {
+                        'rit': j,
+                        'percentile': conversion_QuerySet[i]['percentile']
+                    }
+                    rit_percentage_table.append(rit_percentage_lookup)      
+            else: 
+                this_percentile_rit = conversion_QuerySet[i]['rit']
+                next_percentile_rit = conversion_QuerySet[i + 1]['rit']
+                for j in range(this_percentile_rit, next_percentile_rit):
+                    rit_percentage_lookup = {
+                        'rit': j,
+                        'percentile': conversion_QuerySet[i]['percentile']
+                    }
+                    rit_percentage_table.append(rit_percentage_lookup)
+
+        conversion_json = json.dumps(rit_percentage_table)
+        print >>sys.stdout, "Here's a the stuff \n" + conversion_json
         return conversion_json
+
+
 
     m_conversion_json = get_RIT_conversion("Mathematics")
     r_conversion_json = get_RIT_conversion("Reading")
