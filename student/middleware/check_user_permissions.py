@@ -10,6 +10,7 @@ class CheckUserPermissions(MiddlewareMixin):
     def process_view(self, request, view_func, view_args, view_kwargs):
 
         # prevent middleware from blocking admin view
+        # FIXME: hacky
         if request.path.startswith('/admin/'):
             view_kwargs.pop("allow", None)
             view_kwargs.pop("logon_required", None)

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from student.models import Student
-from student.ontrack import (get_gpa, get_user_info)
+from student.ontrack import (get_gpa)
 import gviz_api
 
 def student_grades(request, student_id=1):

@@ -35,9 +35,8 @@ def get_user_homeroom(user_id):
 
 
 def get_user_info(request):
-    user_email = request.user.email
-    print >>sys.stdout, "get user info: {0}".format(user_email)
     try:
+        user_email = request.user.email
         email_record = Email.objects.get(email=user_email)
         print >>sys.stdout, email_record.user_type
         user_type = email_record.user_type

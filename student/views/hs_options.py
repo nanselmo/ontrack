@@ -9,7 +9,7 @@ from student.hardcoded import default_nwea_season
 
 def hs_options(request, student_id=1):
 
-    _, user_type = get_user_info(request, student_id)
+    _, user_type = get_user_info(request)
     student = Student.objects.get(student_id=str(student_id))
 
     #hardcode tier for now

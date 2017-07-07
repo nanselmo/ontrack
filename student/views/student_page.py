@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from student.ontrack import (get_user_info, get_gpa, get_attend_pct, getOnTrack)
+from student.ontrack import (get_gpa, get_attend_pct, getOnTrack)
 from student.models import Student
 import gviz_api
 import sys
