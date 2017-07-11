@@ -1,0 +1,11 @@
+//@import "../shared/variables"
+
+$border-radius-med:  12px;
+$col-app-1:  #0245AE;
+
+.box{
+  margin: 1em;
+  padding: 1em;
+  border-radius: $border-radius-med; 
+  background-color: $col-app-1;
+}
