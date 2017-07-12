@@ -22401,7 +22401,45 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(49);
 __webpack_require__(185);
 var PathToHS = function (props) {
-    return (React.createElement("div", { className: "box student-info-box" }));
+    return (React.createElement("div", { className: "box border-success student-info-box" },
+        React.createElement("div", { className: "partition partition-lg" },
+            React.createElement("div", { className: "partition-header" }, "Your MAP Test Results"),
+            React.createElement("div", { className: "partition-body" },
+                React.createElement("div", { className: "MAP-test-box" },
+                    React.createElement("div", { className: "MAP-test-type" }, "Math"),
+                    React.createElement("div", { className: "MAP-test-score" },
+                        React.createElement("input", { className: "MAP-test-score-input", type: "number", min: "150", max: "315", defaultValue: "200" })),
+                    React.createElement("div", { className: "MAP-test-score-conversion-symbol" }, "="),
+                    React.createElement("div", { className: "MAP-test-percentile" },
+                        React.createElement("span", { className: "MAP-test-percentile-value" }, "65"),
+                        "th percentile")),
+                React.createElement("div", { className: "MAP-test-box" },
+                    React.createElement("div", { className: "MAP-test-type" }, "Math"),
+                    React.createElement("div", { className: "MAP-test-score" },
+                        React.createElement("input", { className: "MAP-test-score-input", type: "number", min: "150", max: "315", defaultValue: "200" })),
+                    React.createElement("div", { className: "MAP-test-score-conversion-symbol" }, "="),
+                    React.createElement("div", { className: "MAP-test-percentile" },
+                        React.createElement("span", { className: "MAP-test-percentile-value" }, "65"),
+                        "th percentile")))),
+        React.createElement("div", { className: "partition partition-lg" },
+            React.createElement("div", { className: "partition-header" }, "Your Grades"),
+            React.createElement("div", { className: "partition-body" },
+                React.createElement("div", { className: "sub-partition" },
+                    React.createElement("div", { className: "sub-partition-header" }, "Science"),
+                    React.createElement("div", { className: "sub-partition-body" },
+                        React.createElement("input", { className: "grade", type: "text", value: "A" }))),
+                React.createElement("div", { className: "sub-partition" },
+                    React.createElement("div", { className: "sub-partition-header" }, "Social Studies"),
+                    React.createElement("div", { className: "sub-partition-body" },
+                        React.createElement("input", { className: "grade", type: "text", value: "A" }))),
+                React.createElement("div", { className: "sub-partition" },
+                    React.createElement("div", { className: "sub-partition-header" }, "Math"),
+                    React.createElement("div", { className: "sub-partition-body" },
+                        React.createElement("input", { className: "grade", type: "text", value: "A" }))),
+                React.createElement("div", { className: "sub-partition" },
+                    React.createElement("div", { className: "sub-partition-header" }, "Reading"),
+                    React.createElement("div", { className: "sub-partition-body" },
+                        React.createElement("input", { className: "grade", type: "text", value: "A" })))))));
 };
 exports.default = PathToHS;
 
@@ -22446,7 +22484,7 @@ exports = module.exports = __webpack_require__(187)(undefined);
 
 
 // module
-exports.push([module.i, ".box {\n  margin: 1em;\n  padding: 1em;\n  border-radius: 12px;\n  background-color: #0245AE; }\n", ""]);
+exports.push([module.i, "body {\n  font-family: Helvetica, sans-serif;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box; }\n\n* {\n  -webkit-box-sizing: inherit;\n          box-sizing: inherit; }\n\n.box {\n  min-width: 350px;\n  width: 35vw;\n  height: 175px;\n  margin: 1em;\n  padding: 1em;\n  border-radius: 20px;\n  border: 2px solid #cacaca;\n  background-color: #fafafd;\n  -webkit-box-shadow: 0px 10px 20px 0px #9e9e9e;\n          box-shadow: 0px 10px 20px 0px #9e9e9e;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: stretch;\n      -ms-flex-align: stretch;\n          align-items: stretch; }\n\n.border-success {\n  border: 4px solid #95e57a; }\n\n.partition {\n  height: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -ms-flex-wrap: nowrap;\n      flex-wrap: nowrap;\n  -webkit-box-align: stretch;\n      -ms-flex-align: stretch;\n          align-items: stretch;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start; }\n\n.partition-header {\n  text-align: center; }\n\n.partition-body {\n  width: 100%;\n  -webkit-box-flex: 1;\n      -ms-flex: 1 1 auto;\n          flex: 1 1 auto;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap; }\n\n.partition-sm {\n  -ms-flex-preferred-size: 40px;\n      flex-basis: 40px;\n  -webkit-box-flex: 0.5;\n      -ms-flex-positive: 0.5;\n          flex-grow: 0.5;\n  -ms-flex-negative: 0;\n      flex-shrink: 0; }\n\n.partition-lg {\n  -ms-flex-preferred-size: 80px;\n      flex-basis: 80px;\n  -webkit-box-flex: 0.6;\n      -ms-flex-positive: 0.6;\n          flex-grow: 0.6;\n  -ms-flex-negative: 0;\n      flex-shrink: 0; }\n\n.sub-partition {\n  font-size: 90%;\n  -webkit-box-flex: 1;\n      -ms-flex: 1 0 50px;\n          flex: 1 0 50px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center; }\n\n.sub-partition-header {\n  text-align: center; }\n\n.grade {\n  width: 1.5em;\n  text-align: center; }\n\n.MAP-test-box {\n  width: 100%;\n  height: 20px;\n  font-size: 90%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row; }\n", ""]);
 
 // exports
 
