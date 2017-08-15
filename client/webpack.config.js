@@ -1,7 +1,9 @@
 const path = require('path');
 
+const { TsConfigPathsPlugin } = require('awesome-typescript-loader');
+
 const config = {
-  entry: "./src/index.tsx",
+  entry: path.resolve(__dirname, "src", "index.tsx"),
   output: {
     filename: "bundle.js",
     path: path.resolve(__dirname, "dist"),
@@ -12,7 +14,10 @@ const config = {
     poll: true
   },
   resolve: {
-    extensions: [".webpack.js", ".ts", ".tsx", ".js"]
+    extensions: [".webpack.js", ".ts", ".tsx", ".js"],
+    plugins: [
+      new TsConfigPathsPlugin(path.resolve(__dirname, "tsconfig.js"))
+    ],
   },
   module: {
     rules: [
