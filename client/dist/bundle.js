@@ -1285,7 +1285,7 @@ var _prodInvariant = __webpack_require__(3),
     _assign = __webpack_require__(4);
 
 var CallbackQueue = __webpack_require__(61);
-var PooledClass = __webpack_require__(15);
+var PooledClass = __webpack_require__(16);
 var ReactFeatureFlags = __webpack_require__(62);
 var ReactReconciler = __webpack_require__(19);
 var Transaction = __webpack_require__(28);
@@ -1540,7 +1540,7 @@ module.exports = ReactUpdates;
 
 var _assign = __webpack_require__(4);
 
-var PooledClass = __webpack_require__(15);
+var PooledClass = __webpack_require__(16);
 
 var emptyFunction = __webpack_require__(9);
 var warning = __webpack_require__(2);
@@ -2013,6 +2013,16 @@ module.exports = DOMProperty;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+module.exports = __webpack_require__(17);
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright 2014-present, Facebook, Inc.
  * All rights reserved.
@@ -2356,7 +2366,7 @@ module.exports = ReactElement;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2474,16 +2484,6 @@ module.exports = PooledClass;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = __webpack_require__(17);
-
-
-/***/ }),
 /* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2505,7 +2505,7 @@ var _assign = __webpack_require__(4);
 var ReactBaseClasses = __webpack_require__(50);
 var ReactChildren = __webpack_require__(83);
 var ReactDOMFactories = __webpack_require__(87);
-var ReactElement = __webpack_require__(14);
+var ReactElement = __webpack_require__(15);
 var ReactPropTypes = __webpack_require__(91);
 var ReactVersion = __webpack_require__(94);
 
@@ -6911,7 +6911,7 @@ module.exports = getIteratorFn;
 
 var ReactCurrentOwner = __webpack_require__(10);
 var ReactComponentTreeHook = __webpack_require__(7);
-var ReactElement = __webpack_require__(14);
+var ReactElement = __webpack_require__(15);
 
 var checkReactTypeSpec = __webpack_require__(88);
 
@@ -7378,7 +7378,7 @@ var _prodInvariant = __webpack_require__(3);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var PooledClass = __webpack_require__(15);
+var PooledClass = __webpack_require__(16);
 
 var invariant = __webpack_require__(1);
 
@@ -9759,7 +9759,7 @@ module.exports = getHostComponentFromComposite;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(16);
+var React = __webpack_require__(14);
 var react_dom_1 = __webpack_require__(98);
 var path_to_hs_1 = __webpack_require__(184);
 react_dom_1.render((React.createElement(path_to_hs_1.default, null)), document.getElementById("root"));
@@ -9783,7 +9783,7 @@ react_dom_1.render((React.createElement(path_to_hs_1.default, null)), document.g
 
 
 var PooledClass = __webpack_require__(84);
-var ReactElement = __webpack_require__(14);
+var ReactElement = __webpack_require__(15);
 
 var emptyFunction = __webpack_require__(9);
 var traverseAllChildren = __webpack_require__(85);
@@ -10342,7 +10342,7 @@ module.exports = KeyEscapeUtils;
 
 
 
-var ReactElement = __webpack_require__(14);
+var ReactElement = __webpack_require__(15);
 
 /**
  * Create a factory that creates HTML tag elements.
@@ -10663,7 +10663,7 @@ module.exports = ReactPropTypesSecret;
 
 
 
-var _require = __webpack_require__(14),
+var _require = __webpack_require__(15),
     isValidElement = _require.isValidElement;
 
 var factory = __webpack_require__(55);
@@ -11298,7 +11298,7 @@ module.exports = '15.6.1';
 var _require = __webpack_require__(50),
     Component = _require.Component;
 
-var _require2 = __webpack_require__(14),
+var _require2 = __webpack_require__(15),
     isValidElement = _require2.isValidElement;
 
 var ReactNoopUpdateQueue = __webpack_require__(51);
@@ -12204,7 +12204,7 @@ module.exports = factory;
 
 var _prodInvariant = __webpack_require__(18);
 
-var ReactElement = __webpack_require__(14);
+var ReactElement = __webpack_require__(15);
 
 var invariant = __webpack_require__(1);
 
@@ -12935,7 +12935,7 @@ module.exports = BeforeInputEventPlugin;
 
 var _assign = __webpack_require__(4);
 
-var PooledClass = __webpack_require__(15);
+var PooledClass = __webpack_require__(16);
 
 var getTextContentAccessor = __webpack_require__(60);
 
@@ -19097,7 +19097,7 @@ module.exports = flattenChildren;
 
 var _assign = __webpack_require__(4);
 
-var PooledClass = __webpack_require__(15);
+var PooledClass = __webpack_require__(16);
 var Transaction = __webpack_require__(28);
 var ReactInstrumentation = __webpack_require__(8);
 var ReactServerUpdateQueue = __webpack_require__(148);
@@ -19788,7 +19788,7 @@ var _assign = __webpack_require__(4);
 
 var EventListener = __webpack_require__(77);
 var ExecutionEnvironment = __webpack_require__(6);
-var PooledClass = __webpack_require__(15);
+var PooledClass = __webpack_require__(16);
 var ReactDOMComponentTree = __webpack_require__(5);
 var ReactUpdates = __webpack_require__(11);
 
@@ -20030,7 +20030,7 @@ module.exports = ReactInjection;
 var _assign = __webpack_require__(4);
 
 var CallbackQueue = __webpack_require__(61);
-var PooledClass = __webpack_require__(15);
+var PooledClass = __webpack_require__(16);
 var ReactBrowserEventEmitter = __webpack_require__(32);
 var ReactInputSelection = __webpack_require__(78);
 var ReactInstrumentation = __webpack_require__(8);
@@ -22398,7 +22398,7 @@ module.exports = ReactDOMInvalidARIAHook;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(16);
+var React = __webpack_require__(14);
 var hs_calc_1 = __webpack_require__(185);
 var PathToHS = function (props) {
     return (React.createElement(hs_calc_1.default, { data: {} }));
@@ -22413,33 +22413,11 @@ exports.default = PathToHS;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(16);
-var toggle_1 = __webpack_require__(186);
-var dropdown_1 = __webpack_require__(187);
-var address_tier_calculator_1 = __webpack_require__(188);
-__webpack_require__(189);
-var locale = {
-    gradeLevelDropdown: {
-        "label": "Your grade level",
-        "values": {
-            "4": "4th grade",
-            "5": "5th grade",
-            "6": "6th grade",
-            "7": "7th grade",
-            "8": "8th grade",
-        }
-    }
-};
+var React = __webpack_require__(14);
+var student_info_header_1 = __webpack_require__(186);
 var HSCalculator = function (props) {
     return (React.createElement("div", { id: "hs-calc-box", className: "box" },
-        React.createElement("div", { className: "partition-row" },
-            React.createElement("div", { className: "partition-row" },
-                React.createElement(dropdown_1.default, { label: locale.gradeLevelDropdown.label, values: locale.gradeLevelDropdown.values }),
-                "// need to manage state here",
-                React.createElement(toggle_1.default, { id: "toggle-ell" }),
-                React.createElement(toggle_1.default, { id: "toggle-iep" })),
-            React.createElement("div", { className: "partition-row" },
-                React.createElement(address_tier_calculator_1.default, { address: null })))));
+        React.createElement(student_info_header_1.default, { studentInfo: null, onChange: function (info) { return info; } })));
 };
 exports.default = HSCalculator;
 
@@ -22451,11 +22429,62 @@ exports.default = HSCalculator;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(16);
-var Toggle = function (props) {
-    return (React.createElement("div", null, "Toggle - implement me!"));
+var React = __webpack_require__(14);
+var toggle_1 = __webpack_require__(187);
+var dropdown_1 = __webpack_require__(188);
+var address_tier_calculator_1 = __webpack_require__(189);
+__webpack_require__(190);
+var strings = {
+    gradeLevelDropdown: {
+        "label": "Your grade level",
+        "placeholder": "",
+        "values": {
+            "4": "4th grade",
+            "5": "5th grade",
+            "6": "6th grade",
+            "7": "7th grade",
+            "8": "8th grade",
+        }
+    },
+    ellDropdown: {
+        label: "ELL student?",
+        placeholder: "",
+        values: {
+            "default": "",
+            "yes": "yes",
+            "no": "no"
+        },
+        helper: {
+            text: "Are you an ELL (English Language Learner) student? Answer yes if you scored below [xxx] on the [xxx].",
+            link: "[xxx]"
+        }
+    },
+    iepDropdown: {
+        label: "Do you have an IEP?",
+        placeholder: "",
+        helper: {
+            text: "Do you have an Individual Education Plan (IEP), such as [xxx]? IEPs are assigned to students with [xxx][xxx][xxx]. Answer yes if [xxx].",
+            link: "[xxx]"
+        }
+    },
+    addressCalc: {
+        label: "Your address",
+    }
 };
-exports.default = Toggle;
+var StudentInfoHeader = function (props) {
+    if (props.studentInfo !== null) {
+    }
+    var handleGradeLevelChange = function (dropwdownState) {
+    };
+    return (React.createElement("div", { className: "partition student-info-header" },
+        React.createElement("div", { className: "partition" },
+            React.createElement(dropdown_1.Dropdown, { onChange: handleGradeLevelChange, label: strings.gradeLevelDropdown.label, values: strings.gradeLevelDropdown.values }),
+            React.createElement(toggle_1.default, { id: "toggle-ell" }),
+            React.createElement(toggle_1.default, { id: "toggle-iep" })),
+        React.createElement("div", { className: "partition" },
+            React.createElement(address_tier_calculator_1.default, { label: strings.addressCalc.label, address: null }))));
+};
+exports.default = StudentInfoHeader;
 
 
 /***/ }),
@@ -22465,20 +22494,11 @@ exports.default = Toggle;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(16);
-var Dropdown = function (props) {
-    var options = [];
-    for (var key in props.values) {
-        options.push([key, props.values[key]]);
-    }
-    return (React.createElement("div", null,
-        React.createElement("span", null, props.label),
-        React.createElement("select", null, options.map(function (_a) {
-            var key = _a[0], value = _a[1];
-            return React.createElement("option", { key: key }, value);
-        }))));
+var React = __webpack_require__(14);
+var Toggle = function (props) {
+    return (React.createElement("div", null, "Toggle - implement me!"));
 };
-exports.default = Dropdown;
+exports.default = Toggle;
 
 
 /***/ }),
@@ -22487,8 +22507,74 @@ exports.default = Dropdown;
 
 "use strict";
 
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(16);
+var React = __webpack_require__(14);
+var Dropdown = (function (_super) {
+    __extends(Dropdown, _super);
+    function Dropdown(props) {
+        var _this = _super.call(this, props) || this;
+        var options = [];
+        var createOption = function (value, display) {
+            return React.createElement("option", { key: value }, display);
+        };
+        for (var value in props.values) {
+            var display = props.values[value];
+            options.push(createOption(value, display));
+        }
+        var hasPlaceholder = false;
+        if (props.placeholder) {
+            hasPlaceholder = true;
+            var placeholder = createOption("placeholder", props.placeholder);
+            options.unshift(placeholder);
+        }
+        _this.state = {
+            options: options,
+            selected: "placeholder",
+            hasPlaceholder: hasPlaceholder,
+            isClean: true
+        };
+        return _this;
+    }
+    Dropdown.prototype.handleSelectUpdate = function (changeEvent) {
+        var newState = {
+            isClean: false,
+            selected: changeEvent.currentTarget.value
+        };
+        if (this.state.hasPlaceholder) {
+            newState.options = this.state.options.slice(1);
+            newState.hasPlaceholder = false;
+        }
+        this.setState(newState);
+        this.props.onChange(this.state);
+    };
+    Dropdown.prototype.render = function () {
+        return (React.createElement("div", { className: "mui-select" },
+            React.createElement("select", { onChange: this.handleSelectUpdate }, this.state.options),
+            React.createElement("label", null, this.props.label)));
+    };
+    return Dropdown;
+}(React.Component));
+exports.Dropdown = Dropdown;
+
+
+/***/ }),
+/* 189 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(14);
 var AddressTierCalculator = function (props) {
     return (React.createElement("div", null, "Address Tier Calc -- implement me!"));
 };
@@ -22496,13 +22582,13 @@ exports.default = AddressTierCalculator;
 
 
 /***/ }),
-/* 189 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(190);
+var content = __webpack_require__(191);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -22510,14 +22596,14 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(192)(content, options);
+var update = __webpack_require__(193)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../node_modules/sass-loader/lib/loader.js!./hs-calc.scss", function() {
-			var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../node_modules/sass-loader/lib/loader.js!./hs-calc.scss");
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-calc.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-calc.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -22527,21 +22613,21 @@ if(false) {
 }
 
 /***/ }),
-/* 190 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(191)(undefined);
+exports = module.exports = __webpack_require__(192)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "body {\n  font-family: Helvetica, sans-serif;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box; }\n\n* {\n  -webkit-box-sizing: inherit;\n          box-sizing: inherit; }\n\n.box {\n  min-width: 350px;\n  width: 35vw;\n  height: 175px;\n  margin: 1em;\n  padding: 1em;\n  border-radius: 20px;\n  border: 2px solid #cacaca;\n  background-color: #fafafd;\n  -webkit-box-shadow: 0px 10px 20px 0px #9e9e9e;\n          box-shadow: 0px 10px 20px 0px #9e9e9e;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: stretch;\n      -ms-flex-align: stretch;\n          align-items: stretch; }\n\n.partition {\n  height: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -ms-flex-wrap: nowrap;\n      flex-wrap: nowrap;\n  -webkit-box-align: stretch;\n      -ms-flex-align: stretch;\n          align-items: stretch;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start; }\n\n.partition-header {\n  text-align: center; }\n\n.partition-body {\n  width: 100%;\n  -webkit-box-flex: 1;\n      -ms-flex: 1 1 auto;\n          flex: 1 1 auto;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap; }\n\n.partition-sm {\n  -ms-flex-preferred-size: 40px;\n      flex-basis: 40px;\n  -webkit-box-flex: 0.5;\n      -ms-flex-positive: 0.5;\n          flex-grow: 0.5;\n  -ms-flex-negative: 0;\n      flex-shrink: 0; }\n\n.partition-lg {\n  -ms-flex-preferred-size: 80px;\n      flex-basis: 80px;\n  -webkit-box-flex: 0.6;\n      -ms-flex-positive: 0.6;\n          flex-grow: 0.6;\n  -ms-flex-negative: 0;\n      flex-shrink: 0; }\n\n.sub-partition {\n  font-size: 90%;\n  -webkit-box-flex: 1;\n      -ms-flex: 1 0 50px;\n          flex: 1 0 50px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center; }\n\n.sub-partition-header {\n  text-align: center; }\n\n.grade {\n  width: 1.5em;\n  text-align: center; }\n\n.MAP-test-box {\n  width: 100%;\n  height: 20px;\n  font-size: 90%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row; }\n", ""]);
+exports.push([module.i, "body {\n  margin: 0;\n  padding: 0;\n  font-family: Helvetica, sans-serif;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box; }\n\n* {\n  -webkit-box-sizing: inherit;\n          box-sizing: inherit; }\n\n.box {\n  min-width: 320px;\n  width: 35vw;\n  height: 175px;\n  margin: 1em;\n  padding: 1em;\n  border-radius: 0 0 12px 12px;\n  border: 2px solid #cacaca;\n  background-color: #fafafd;\n  -webkit-box-shadow: 0px 10px 20px 0px #9e9e9e;\n          box-shadow: 0px 10px 20px 0px #9e9e9e;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: stretch;\n      -ms-flex-align: stretch;\n          align-items: stretch; }\n\n@media (max-width: 500px) {\n  .box {\n    margin: 0; } }\n\n.partition {\n  -webkit-box-flex: 1;\n      -ms-flex: 1 0 auto;\n          flex: 1 0 auto;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -ms-flex-wrap: nowrap;\n      flex-wrap: nowrap;\n  -webkit-box-align: stretch;\n      -ms-flex-align: stretch;\n          align-items: stretch;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start; }\n\n.partition-sm {\n  -ms-flex-preferred-size: 40px;\n      flex-basis: 40px;\n  -webkit-box-flex: 0.5;\n      -ms-flex-positive: 0.5;\n          flex-grow: 0.5;\n  -ms-flex-negative: 0;\n      flex-shrink: 0; }\n\n.partition-lg {\n  -ms-flex-preferred-size: 80px;\n      flex-basis: 80px;\n  -webkit-box-flex: 0.6;\n      -ms-flex-positive: 0.6;\n          flex-grow: 0.6;\n  -ms-flex-negative: 0;\n      flex-shrink: 0; }\n\n.student-info-header {\n  font-size: 50%;\n  width: 100%; }\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 191 */
+/* 192 */
 /***/ (function(module, exports) {
 
 /*
@@ -22623,7 +22709,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 192 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -22669,7 +22755,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(193);
+var	fixUrls = __webpack_require__(194);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -22982,7 +23068,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 193 */
+/* 194 */
 /***/ (function(module, exports) {
 
 

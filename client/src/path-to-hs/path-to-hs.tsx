@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import HSCalculator from "./components/hs-calc";
+import HSCalculator from "./components/hs-calc/hs-calc";
 
 const PathToHS = (props: any) => {
   return (
