@@ -1,10 +1,13 @@
 import * as React from "react";
 
-import HSCalculator from "./components/hs-calc/hs-calc";
+import Box from "shared/components/layout/box";
+import HSCalculator from "./components/hs-calc";
 
 const PathToHS = (props: any) => {
   return (
-    <HSCalculator data={{}} />
+    <Box>
+      <HSCalculator studentInfo={null} studentGrades={null}/>
+    </Box>
   )
 }
 

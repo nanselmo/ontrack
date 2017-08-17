@@ -9,17 +9,17 @@ interface DropdownProps {
   values: {
     [key: string]: string
   }
-  onChange: (state: DropdownState) => any
+  onChange: (newValue: string) => any
 }
 
-export interface DropdownState {
+interface DropdownState {
   options?: React.ReactElement<any>[]
   selected?: string
   hasPlaceholder?: boolean
   isClean?: boolean 
 }
 
-export class Dropdown extends React.Component<DropdownProps, DropdownState> {
+export default class Dropdown extends React.Component<DropdownProps, DropdownState> {
 
   private sizeClassName: string = "";
 
@@ -34,7 +34,7 @@ export class Dropdown extends React.Component<DropdownProps, DropdownState> {
       newState.hasPlaceholder = false;
     }
     this.setState(newState);
-    this.props.onChange(this.state);
+    this.props.onChange(this.state.selected);
   }
 
   public state = undefined;

@@ -13,6 +13,7 @@ interface AddrTierCalcProps {
   tierLabel: string
   address: string | null
   tier: string | null
+  onChange: (newAddress: string, newTier: string) => any
 }
 
 interface AddrTierCalcState {
@@ -22,7 +23,7 @@ interface AddrTierCalcState {
   timeoutInstance?: Timeout | null,
 }
 
-export class AddressTierCalculator extends React.Component<AddrTierCalcProps, AddrTierCalcState> {
+export default class AddressTierCalculator extends React.Component<AddrTierCalcProps, AddrTierCalcState> {
 
   constructor(props){
     super(props);

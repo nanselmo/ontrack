@@ -1,0 +1,18 @@
+@import "../../styles/breakpoints";
+@import "../../styles/variables";
+
+.box{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  margin: $margin-med;
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .box{
+    margin: none;
+  }
+}
