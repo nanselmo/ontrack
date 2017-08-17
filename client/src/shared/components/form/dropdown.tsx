@@ -1,8 +1,11 @@
 import * as React from "react";
 
+import "./dropdown.scss";
+
 interface DropdownProps {
   label: string
   placeholder?: string
+  size: string 
   values: {
     [key: string]: string
   }
@@ -18,21 +21,31 @@ export interface DropdownState {
 
 export class Dropdown extends React.Component<DropdownProps, DropdownState> {
 
-  handleSelectUpdate(changeEvent: React.ChangeEvent<HTMLSelectElement>): void {
+  private sizeClassName: string = "";
+
+  private handleSelectUpdate(changeEvent: React.ChangeEvent<HTMLSelectElement>): void {
     let newState: any = {
       isClean: false,
       selected: changeEvent.currentTarget.value
     }
     if (this.state.hasPlaceholder) {
-      newState.options = this.state.options.slice(1);
+      newState.options = this.state.options.slice(1)
+      console.log(newState.options);
       newState.hasPlaceholder = false;
     }
     this.setState(newState);
     this.props.onChange(this.state);
   }
 
+  public state = undefined;
+
   constructor(props) {
     super(props);
+
+    if (props.size) {
+      this.sizeClassName = "dropdown-" + props.size;
+    }
+
     let options: React.ReactElement<any>[] = [];
 
     const createOption = (value, display): React.ReactElement<any> => {
@@ -56,13 +69,12 @@ export class Dropdown extends React.Component<DropdownProps, DropdownState> {
       hasPlaceholder: hasPlaceholder,
       isClean: true
     }
-
   }
 
   render() {
     return (
-      <div className="mui-select">
-        <select onChange={this.handleSelectUpdate}>
+      <div className={"mui-select dropdown " + this.sizeClassName}>
+        <select onChange={this.handleSelectUpdate.bind(this)}>
           {this.state.options}
         </select>
         <label>

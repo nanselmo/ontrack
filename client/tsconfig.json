@@ -4,11 +4,11 @@
     "removeComments": true,
     "sourceMap": true,
     "module": "commonjs",
-    "target": "es5",
+    "target": "es2015",
     "jsx": "react",
     "baseUrl": ".",
     "paths": {
-      "@shared/*": ["./src/shared/*"]
+      "shared/*": ["./src/shared/*"]
     }
   },
   "include": [

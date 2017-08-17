@@ -1,21 +1,20 @@
 import * as React from "react";
 
-import StudentInfo from "@shared/types/student-info";
+import StudentInfo from "shared/types/student-info";
 
-import Toggle from "@shared/components/input/toggle";
-import {Dropdown, DropdownState} from "@shared/components/input/dropdown";
-import AddressTierCalculator from "./address-tier-calculator"
+import {Dropdown, DropdownState} from "shared/components/form/dropdown";
+import {AddressTierCalculator} from "./address-tier-calculator"
 
-import "./hs-calc.scss";
+import "./student-info-header.scss";
 
 //import localeStrings from "./hs-calc/locale"
 // NOTE: this is a good use case for Redux.
 // DEBUG
 const strings = {
   gradeLevelDropdown: {
-    "label": "Your grade level",
-    "placeholder": "",
-    "values": {
+    label: "Your grade level",
+    placeholder: " ",
+    values: {
       "4": "4th grade",
       "5": "5th grade",
       "6": "6th grade",
@@ -25,9 +24,8 @@ const strings = {
   },
   ellDropdown: {
     label: "ELL student?",
-    placeholder: "",
+    placeholder: " ",
     values: {
-      "default": "",
       "yes": "yes",
       "no": "no"
     },
@@ -37,15 +35,21 @@ const strings = {
     }
   },
   iepDropdown: {
-    label: "Do you have an IEP?",
-    placeholder: "",
+    label: "IEP?",
+    placeholder: " ",
+    values: {
+      "yes": "yes",
+      "no": "no"
+    },
     helper: {
       text: "Do you have an Individual Education Plan (IEP), such as [xxx]? IEPs are assigned to students with [xxx][xxx][xxx]. Answer yes if [xxx].",
       link: "[xxx]"
     }
   },
   addressCalc: {
-    label: "Your address",
+    addressLabel: "Your address",
+    tierLabel: "Your tier",
+    error: "Address not found!"
   }
 }
 
@@ -55,28 +59,37 @@ interface StudentInfoHeaderProps {
 }
 
 const StudentInfoHeader = (props: StudentInfoHeaderProps) => {
-
   if (props.studentInfo !== null) {
     // pre-fill in values
   }
-
-  const handleGradeLevelChange = (dropwdownState: DropdownState) => {
-
+  const handleGradeLevelChange = (dropdownState: DropdownState) => {
+  }
+  const handleELLChange = (dropdownState: DropdownState) => {
+  }
+  const handleIEPChange = (dropdownState: DropdownState) => {
   }
 
   return (
-    <div className="partition student-info-header">
-      <div className="partition">
-        <Dropdown onChange={handleGradeLevelChange} label={strings.gradeLevelDropdown.label}
-            values={strings.gradeLevelDropdown.values}/>
-        <Toggle id="toggle-ell" />
-        <Toggle id="toggle-iep" />
-      </div>
-      <div className="partition">
-        <AddressTierCalculator label={strings.addressCalc.label} address={null} />
-      </div>
+    <div className="student-info-header">
+      <Dropdown size="md" onChange={handleGradeLevelChange} 
+        label={strings.gradeLevelDropdown.label}
+        placeholder={strings.gradeLevelDropdown.placeholder}
+        values={strings.gradeLevelDropdown.values}/>
+      <Dropdown size="sm" onChange={handleELLChange}
+        label={strings.ellDropdown.label}
+        placeholder={strings.ellDropdown.placeholder}
+        values={strings.ellDropdown.values} />
+      <Dropdown size="sm" onChange={handleIEPChange}
+        label={strings.iepDropdown.label}
+        placeholder={strings.iepDropdown.placeholder}
+        values={strings.iepDropdown.values} />
+      <AddressTierCalculator 
+        tier={null}
+        address={null}
+        addressLabel={strings.addressCalc.addressLabel} 
+        tierLabel={strings.addressCalc.tierLabel} />
     </div>
   )
 }
 
-export default StudentInfoHeader
+export default StudentInfoHeader;
