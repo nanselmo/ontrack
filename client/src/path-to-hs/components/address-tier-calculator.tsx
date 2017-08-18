@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import Timeout from "shared/util/timeout";
-import Field from "shared/components/form/field";
+import TextField from "shared/components/form/text-field";
 
 interface AddressInfo {
   address: string
@@ -25,6 +25,10 @@ interface AddrTierCalcState {
 
 export default class AddressTierCalculator extends React.Component<AddrTierCalcProps, AddrTierCalcState> {
 
+  componentDidUpdate() {
+    this.props.onChange(this.state.address, this.state.tier);
+  }
+
   constructor(props){
     super(props);
     this.state = {
@@ -38,12 +42,15 @@ export default class AddressTierCalculator extends React.Component<AddrTierCalcP
     return new Date().valueOf();
   }
 
-  handleAddressInput(event: React.ChangeEvent<HTMLInputElement>): void {
-    // only send request for Address tier when TIMEOUT_DELAY number
-    // of ms have passed since last change event.
-    const TIMEOUT_DELAY = 1500; // ms
+  private handleAddressChange(event: React.ChangeEvent<any>): void {
     const address: string = event.target.value;
+    const TIMEOUT_DELAY = 1500; // ms
+
+    // if address passes very basic address validation
+    // TODO: implement
     const newTimeout: Timeout = new Timeout( () => {
+      // send it to the API for requestin'. Return the promise.
+      // TODO: implement
       console.log(address);
     }, TIMEOUT_DELAY);
 
@@ -53,27 +60,36 @@ export default class AddressTierCalculator extends React.Component<AddrTierCalcP
 
     newTimeout.start();
     this.setState({
+      address: address,
       timeoutInstance: newTimeout 
+    });
+  }
+
+  private handleTierChange(event: React.ChangeEvent<any>) {
+    const tier: string = event.target.value;
+    this.setState({
+      tier: tier
     });
   }
 
   render() {
     return (
-      <div 
-        style={{
-          display: "flex", 
-          flexDirection: "row", 
-          flexWrap: "nowrap",
-          justifyContent: "space-between",
-          alignItems: "center"
-        }} >
-        <div className="mui-textfield" style={{flex: "4 1 auto"}}>
-          <input onChange={this.handleAddressInput.bind(this)} type="text"/>
-          <label>{this.props.addressLabel}</label>
-        </div>
-        <Field label={this.props.tierLabel} value={this.state.tier}/>
+      <div>
+        <TextField 
+          size="lg" 
+          editable={true} 
+          label={this.props.addressLabel}
+          onChange={this.handleAddressChange.bind(this)}
+          value={this.state.address}/>
+
+          
+        <TextField 
+          size="sm"
+          editable={false} 
+          label={this.props.tierLabel} 
+          onChange={this.handleTierChange.bind(this)}
+          value={this.state.tier}/>
       </div>
     )
-
   }
 }

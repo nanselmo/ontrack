@@ -1,19 +1,19 @@
 import * as React from "react"
 
-
 import Dropdown from "shared/components/form/dropdown";
 import AddressTierCalculator from "./address-tier-calculator"
 
 import StudentInfo from "shared/types/student-info";
-
 import {StudentInfoStrings as strings} from "shared/l10n/strings";
 
-interface StudentInfoHeaderProps {
+import "./student-info-form.scss";
+
+interface StudentInfoFormProps {
   studentInfo: StudentInfo | null
   onChange: (info: StudentInfo) => any
 }
 
-const StudentInfoHeader = (props: StudentInfoHeaderProps) => {
+const StudentInfoForm = (props: StudentInfoFormProps) => {
   if (props.studentInfo !== null) {
     // pre-fill in values
   }
@@ -27,7 +27,7 @@ const StudentInfoHeader = (props: StudentInfoHeaderProps) => {
   };
 
   return (
-    <div className="student-info-header">
+    <div className="student-info-form">
       <Dropdown size="md" onChange={handleGradeLevelChange} 
         label={strings.gradeLevelDropdown.label}
         placeholder={strings.gradeLevelDropdown.placeholder}
@@ -50,4 +50,4 @@ const StudentInfoHeader = (props: StudentInfoHeaderProps) => {
   )
 }
 
-export default StudentInfoHeader;
+export default StudentInfoForm;

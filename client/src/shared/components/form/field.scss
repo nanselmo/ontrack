@@ -1,29 +1,18 @@
 @import "../../styles/variables";
 
-.field {
-  padding-top: 15px;
-  margin-bottom: 20px;
-
-  position: relative;
-  width: 100%;
+.field-container{
   height: 100%;
 
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  justify-content: space-between;
+  align-items: baseline;
+  justify-content: flex-start;
+
 }
 
-.field-label {
-  position: absolute;
-  top: 0;
-}
-
-// TODO: don't do this janky override stuff,
-// just steal the css from MUI
-.field-value {
-  line-height: inherit;
-}
-.field-value:focus{
-  border-color: rgba(0,0,0,.26) !important;
+.label-text{
+  flex: 0 0 10px;
+  font-size: 80%;
+  color: $text-gray;
+  text-align: center;
 }

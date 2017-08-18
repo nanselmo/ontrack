@@ -2,17 +2,21 @@
 @import "../../styles/variables";
 
 .box{
+  border: 2px solid $col-app-gray;
+  padding: 1em 0.5em;
+  box-shadow: $box-shadow-z2;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  align-items: stretch;
 
   margin: $margin-med;
 }
 
 @media (max-width: $breakpoint-mobile) {
   .box{
-    margin: none;
+    margin: 0;
+    padding: 10px 5px;
   }
 }

@@ -3,22 +3,26 @@ import * as React from "react";
 import "./field.scss";
 
 interface FieldProps {
-  label?: string | null
-  value: string | null
+  label: string | null
+  field: React.ReactElement<HTMLSelectElement> | React.ReactElement<HTMLInputElement>
 }
 
 const Field = (props: FieldProps) => {
-
-  return (
-    <div className="mui-textfield">
-      {props.label && 
-      <label>
-          {props.label}
+  if (props.label) {
+    return (
+      <label className="field-container">
+        <span className="label-text">{props.label}</span>
+        {props.field}
       </label>
-      }
-      <input readOnly={true} className="field-value" value={props.value ? props.value : ""} />
-    </div>
-  )
+    )
+  } else {
+    return (
+      <div className="field-container">
+        {props.field}
+      </div>
+    )
+
+  }
 };
 
 export default Field;

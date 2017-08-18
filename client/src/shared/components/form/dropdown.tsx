@@ -1,11 +1,14 @@
 import * as React from "react";
 
+import Field from "shared/components/form/field";
+
 import "./dropdown.scss";
+
 
 interface DropdownProps {
   label: string
   placeholder?: string
-  size: string 
+  size: "sm" | "md" | "lg" 
   values: {
     [key: string]: string
   }
@@ -36,8 +39,6 @@ export default class Dropdown extends React.Component<DropdownProps, DropdownSta
     this.setState(newState);
     this.props.onChange(this.state.selected);
   }
-
-  public state = undefined;
 
   constructor(props) {
     super(props);
@@ -72,15 +73,14 @@ export default class Dropdown extends React.Component<DropdownProps, DropdownSta
   }
 
   render() {
+    const dropdown = (
+      <select className={"dropdown" + this.sizeClassName} onChange={this.handleSelectUpdate.bind(this)}>
+        {this.state.options}
+      </select>
+    );
+
     return (
-      <div className={"mui-select dropdown " + this.sizeClassName}>
-        <select onChange={this.handleSelectUpdate.bind(this)}>
-          {this.state.options}
-        </select>
-        <label>
-          {this.props.label}
-        </label>
-      </div>
+      <Field label={this.props.label} field={dropdown}/>
     )
   }
 }
