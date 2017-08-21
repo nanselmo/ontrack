@@ -10,6 +10,12 @@ interface BoxProps {
   responsiveBehavior?: {
     mobile?: "disappear" | "fullscreen"
   }
+  flex?: {
+    flexDirection?: "row" | "column", 
+    alignItems?: "center" | "baseline" | "flex-start" | "flex-end" | "stretch",
+    justifyContent?: "flex-start" | "flex-end" | "center" | "space-around" | "space-between"
+    flexWrap?: "wrap" | "nowrap"
+  }
 }
 
 const Box = (props: BoxProps) => {
@@ -28,7 +34,7 @@ const Box = (props: BoxProps) => {
   const className = `box ${widthClass} ${heightClass} ${zLevelClass} ${responsiveMobileClass}`;
 
   return (
-    <div className={className}>
+    <div className={className} style={props.flex}>
       {props.children}
     </div>
   )

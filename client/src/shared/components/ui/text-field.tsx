@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import Field from "shared/components/form/field";
+import Field from "shared/components/ui/field";
 
 import "./text-field.scss";
 

@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import Timeout from "shared/util/timeout";
-import TextField from "shared/components/form/text-field";
+import TextField from "shared/components/ui/text-field";
 
 import "./address-tier-calculator.scss";
 

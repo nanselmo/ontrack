@@ -332,7 +332,7 @@ module.exports = invariant;
 
 
 
-var emptyFunction = __webpack_require__(9);
+var emptyFunction = __webpack_require__(10);
 
 /**
  * Similar to invariant but only logs a warning if the condition is not met.
@@ -776,6 +776,16 @@ module.exports = ExecutionEnvironment;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+module.exports = __webpack_require__(17);
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -1157,7 +1167,7 @@ module.exports = ReactComponentTreeHook;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1187,7 +1197,7 @@ module.exports = { debugTool: debugTool };
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1229,16 +1239,6 @@ emptyFunction.thatReturnsArgument = function (arg) {
 };
 
 module.exports = emptyFunction;
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = __webpack_require__(17);
-
 
 /***/ }),
 /* 11 */
@@ -1552,7 +1552,7 @@ var _assign = __webpack_require__(4);
 
 var PooledClass = __webpack_require__(16);
 
-var emptyFunction = __webpack_require__(9);
+var emptyFunction = __webpack_require__(10);
 var warning = __webpack_require__(2);
 
 var didWarnForAddedNewProperty = false;
@@ -2683,7 +2683,7 @@ module.exports = reactProdInvariant;
 
 
 var ReactRef = __webpack_require__(110);
-var ReactInstrumentation = __webpack_require__(8);
+var ReactInstrumentation = __webpack_require__(9);
 
 var warning = __webpack_require__(2);
 
@@ -5681,7 +5681,7 @@ module.exports = getEventModifierState;
 var DOMLazyTree = __webpack_require__(20);
 var Danger = __webpack_require__(121);
 var ReactDOMComponentTree = __webpack_require__(5);
-var ReactInstrumentation = __webpack_require__(8);
+var ReactInstrumentation = __webpack_require__(9);
 
 var createMicrosoftUnsafeLocalFunction = __webpack_require__(43);
 var setInnerHTML = __webpack_require__(32);
@@ -6354,7 +6354,7 @@ var _prodInvariant = __webpack_require__(3);
 
 var ReactCurrentOwner = __webpack_require__(11);
 var ReactInstanceMap = __webpack_require__(26);
-var ReactInstrumentation = __webpack_require__(8);
+var ReactInstrumentation = __webpack_require__(9);
 var ReactUpdates = __webpack_require__(12);
 
 var invariant = __webpack_require__(1);
@@ -6592,7 +6592,7 @@ module.exports = ReactUpdateQueue;
 
 var _assign = __webpack_require__(4);
 
-var emptyFunction = __webpack_require__(9);
+var emptyFunction = __webpack_require__(10);
 var warning = __webpack_require__(2);
 
 var validateDOMNesting = emptyFunction;
@@ -7351,7 +7351,7 @@ module.exports = getIteratorFn;
 
 
 var ReactCurrentOwner = __webpack_require__(11);
-var ReactComponentTreeHook = __webpack_require__(7);
+var ReactComponentTreeHook = __webpack_require__(8);
 var ReactElement = __webpack_require__(15);
 
 var checkReactTypeSpec = __webpack_require__(91);
@@ -8430,7 +8430,7 @@ module.exports = CSSProperty;
 
 var DOMProperty = __webpack_require__(14);
 var ReactDOMComponentTree = __webpack_require__(5);
-var ReactInstrumentation = __webpack_require__(8);
+var ReactInstrumentation = __webpack_require__(9);
 
 var quoteAttributeValueForBrowser = __webpack_require__(135);
 var warning = __webpack_require__(2);
@@ -9377,7 +9377,7 @@ module.exports = traverseAllChildren;
  * @typechecks
  */
 
-var emptyFunction = __webpack_require__(9);
+var emptyFunction = __webpack_require__(10);
 
 /**
  * Upstream version of event listener. Does not take into account specific
@@ -9643,7 +9643,7 @@ var ReactDOMContainerInfo = __webpack_require__(177);
 var ReactDOMFeatureFlags = __webpack_require__(178);
 var ReactFeatureFlags = __webpack_require__(64);
 var ReactInstanceMap = __webpack_require__(26);
-var ReactInstrumentation = __webpack_require__(8);
+var ReactInstrumentation = __webpack_require__(9);
 var ReactMarkupChecksum = __webpack_require__(179);
 var ReactReconciler = __webpack_require__(19);
 var ReactUpdateQueue = __webpack_require__(49);
@@ -10200,8 +10200,8 @@ module.exports = getHostComponentFromComposite;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(10);
-__webpack_require__(196);
+const React = __webpack_require__(7);
+__webpack_require__(200);
 const Field = (props) => {
     const className = "field-container field-" + props.size;
     if (props.label) {
@@ -10223,7 +10223,7 @@ exports.default = Field;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(10);
+const React = __webpack_require__(7);
 const react_dom_1 = __webpack_require__(101);
 const path_to_hs_1 = __webpack_require__(187);
 react_dom_1.render((React.createElement(path_to_hs_1.default, null)), document.getElementById("root"));
@@ -10249,7 +10249,7 @@ react_dom_1.render((React.createElement(path_to_hs_1.default, null)), document.g
 var PooledClass = __webpack_require__(87);
 var ReactElement = __webpack_require__(15);
 
-var emptyFunction = __webpack_require__(9);
+var emptyFunction = __webpack_require__(10);
 var traverseAllChildren = __webpack_require__(88);
 
 var twoArgumentPooler = PooledClass.twoArgumentPooler;
@@ -10997,7 +10997,7 @@ if (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 't
   // https://github.com/facebook/react/issues/7240
   // Remove the inline requires when we don't need them anymore:
   // https://github.com/facebook/react/pull/7178
-  ReactComponentTreeHook = __webpack_require__(7);
+  ReactComponentTreeHook = __webpack_require__(8);
 }
 
 var loggedTypeFailures = {};
@@ -11039,7 +11039,7 @@ function checkReactTypeSpec(typeSpecs, values, location, componentName, element,
 
         if (process.env.NODE_ENV !== 'production') {
           if (!ReactComponentTreeHook) {
-            ReactComponentTreeHook = __webpack_require__(7);
+            ReactComponentTreeHook = __webpack_require__(8);
           }
           if (debugID !== null) {
             componentStackInfo = ReactComponentTreeHook.getStackAddendumByID(debugID);
@@ -11150,7 +11150,7 @@ module.exports = factory(isValidElement);
 
 
 
-var emptyFunction = __webpack_require__(9);
+var emptyFunction = __webpack_require__(10);
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
 
@@ -12808,7 +12808,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 if (process.env.NODE_ENV !== 'production') {
-  var ReactInstrumentation = __webpack_require__(8);
+  var ReactInstrumentation = __webpack_require__(9);
   var ReactDOMUnknownPropertyHook = __webpack_require__(184);
   var ReactDOMNullInputValuePropHook = __webpack_require__(185);
   var ReactDOMInvalidARIAHook = __webpack_require__(186);
@@ -14093,7 +14093,7 @@ module.exports = ReactOwner;
 
 var ReactInvalidSetStateWarningHook = __webpack_require__(113);
 var ReactHostOperationHistoryHook = __webpack_require__(114);
-var ReactComponentTreeHook = __webpack_require__(7);
+var ReactComponentTreeHook = __webpack_require__(8);
 var ExecutionEnvironment = __webpack_require__(6);
 
 var performanceNow = __webpack_require__(115);
@@ -15020,7 +15020,7 @@ var DOMLazyTree = __webpack_require__(20);
 var ExecutionEnvironment = __webpack_require__(6);
 
 var createNodesFromMarkup = __webpack_require__(122);
-var emptyFunction = __webpack_require__(9);
+var emptyFunction = __webpack_require__(10);
 var invariant = __webpack_require__(1);
 
 var Danger = {
@@ -15448,11 +15448,11 @@ var ReactDOMInput = __webpack_require__(138);
 var ReactDOMOption = __webpack_require__(139);
 var ReactDOMSelect = __webpack_require__(73);
 var ReactDOMTextarea = __webpack_require__(140);
-var ReactInstrumentation = __webpack_require__(8);
+var ReactInstrumentation = __webpack_require__(9);
 var ReactMultiChild = __webpack_require__(141);
 var ReactServerRenderingTransaction = __webpack_require__(150);
 
-var emptyFunction = __webpack_require__(9);
+var emptyFunction = __webpack_require__(10);
 var escapeTextContentForBrowser = __webpack_require__(33);
 var invariant = __webpack_require__(1);
 var isEventSupported = __webpack_require__(39);
@@ -16475,7 +16475,7 @@ module.exports = AutoFocusUtils;
 
 var CSSProperty = __webpack_require__(70);
 var ExecutionEnvironment = __webpack_require__(6);
-var ReactInstrumentation = __webpack_require__(8);
+var ReactInstrumentation = __webpack_require__(9);
 
 var camelizeStyleName = __webpack_require__(129);
 var dangerousStyleValue = __webpack_require__(131);
@@ -17743,13 +17743,13 @@ var _prodInvariant = __webpack_require__(3);
 
 var ReactComponentEnvironment = __webpack_require__(45);
 var ReactInstanceMap = __webpack_require__(26);
-var ReactInstrumentation = __webpack_require__(8);
+var ReactInstrumentation = __webpack_require__(9);
 
 var ReactCurrentOwner = __webpack_require__(11);
 var ReactReconciler = __webpack_require__(19);
 var ReactChildReconciler = __webpack_require__(142);
 
-var emptyFunction = __webpack_require__(9);
+var emptyFunction = __webpack_require__(10);
 var flattenChildren = __webpack_require__(149);
 var invariant = __webpack_require__(1);
 
@@ -18207,7 +18207,7 @@ if (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 't
   // https://github.com/facebook/react/issues/7240
   // Remove the inline requires when we don't need them anymore:
   // https://github.com/facebook/react/pull/7178
-  ReactComponentTreeHook = __webpack_require__(7);
+  ReactComponentTreeHook = __webpack_require__(8);
 }
 
 function instantiateChild(childInstances, child, name, selfDebugID) {
@@ -18215,7 +18215,7 @@ function instantiateChild(childInstances, child, name, selfDebugID) {
   var keyUnique = childInstances[name] === undefined;
   if (process.env.NODE_ENV !== 'production') {
     if (!ReactComponentTreeHook) {
-      ReactComponentTreeHook = __webpack_require__(7);
+      ReactComponentTreeHook = __webpack_require__(8);
     }
     if (!keyUnique) {
       process.env.NODE_ENV !== 'production' ? warning(false, 'flattenChildren(...): Encountered two children with the same key, ' + '`%s`. Child keys must be unique; when two children share a key, only ' + 'the first child will be used.%s', KeyEscapeUtils.unescape(name), ReactComponentTreeHook.getStackAddendumByID(selfDebugID)) : void 0;
@@ -18358,7 +18358,7 @@ var ReactComponentEnvironment = __webpack_require__(45);
 var ReactCurrentOwner = __webpack_require__(11);
 var ReactErrorUtils = __webpack_require__(37);
 var ReactInstanceMap = __webpack_require__(26);
-var ReactInstrumentation = __webpack_require__(8);
+var ReactInstrumentation = __webpack_require__(9);
 var ReactNodeTypes = __webpack_require__(75);
 var ReactReconciler = __webpack_require__(19);
 
@@ -19272,7 +19272,7 @@ if (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 't
   // https://github.com/facebook/react/issues/7240
   // Remove the inline requires when we don't need them anymore:
   // https://github.com/facebook/react/pull/7178
-  ReactComponentTreeHook = __webpack_require__(7);
+  ReactComponentTreeHook = __webpack_require__(8);
 }
 
 var loggedTypeFailures = {};
@@ -19314,7 +19314,7 @@ function checkReactTypeSpec(typeSpecs, values, location, componentName, element,
 
         if (process.env.NODE_ENV !== 'production') {
           if (!ReactComponentTreeHook) {
-            ReactComponentTreeHook = __webpack_require__(7);
+            ReactComponentTreeHook = __webpack_require__(8);
           }
           if (debugID !== null) {
             componentStackInfo = ReactComponentTreeHook.getStackAddendumByID(debugID);
@@ -19490,7 +19490,7 @@ if (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 't
   // https://github.com/facebook/react/issues/7240
   // Remove the inline requires when we don't need them anymore:
   // https://github.com/facebook/react/pull/7178
-  ReactComponentTreeHook = __webpack_require__(7);
+  ReactComponentTreeHook = __webpack_require__(8);
 }
 
 /**
@@ -19506,7 +19506,7 @@ function flattenSingleChildIntoContext(traverseContext, child, name, selfDebugID
     var keyUnique = result[name] === undefined;
     if (process.env.NODE_ENV !== 'production') {
       if (!ReactComponentTreeHook) {
-        ReactComponentTreeHook = __webpack_require__(7);
+        ReactComponentTreeHook = __webpack_require__(8);
       }
       if (!keyUnique) {
         process.env.NODE_ENV !== 'production' ? warning(false, 'flattenChildren(...): Encountered two children with the same key, ' + '`%s`. Child keys must be unique; when two children share a key, only ' + 'the first child will be used.%s', KeyEscapeUtils.unescape(name), ReactComponentTreeHook.getStackAddendumByID(selfDebugID)) : void 0;
@@ -19563,7 +19563,7 @@ var _assign = __webpack_require__(4);
 
 var PooledClass = __webpack_require__(16);
 var Transaction = __webpack_require__(30);
-var ReactInstrumentation = __webpack_require__(8);
+var ReactInstrumentation = __webpack_require__(9);
 var ReactServerUpdateQueue = __webpack_require__(151);
 
 /**
@@ -20180,7 +20180,7 @@ var _assign = __webpack_require__(4);
 var ReactUpdates = __webpack_require__(12);
 var Transaction = __webpack_require__(30);
 
-var emptyFunction = __webpack_require__(9);
+var emptyFunction = __webpack_require__(10);
 
 var RESET_BATCHED_UPDATES = {
   initialize: emptyFunction,
@@ -20497,7 +20497,7 @@ var CallbackQueue = __webpack_require__(63);
 var PooledClass = __webpack_require__(16);
 var ReactBrowserEventEmitter = __webpack_require__(34);
 var ReactInputSelection = __webpack_require__(80);
-var ReactInstrumentation = __webpack_require__(8);
+var ReactInstrumentation = __webpack_require__(9);
 var Transaction = __webpack_require__(30);
 var ReactUpdateQueue = __webpack_require__(49);
 
@@ -21594,7 +21594,7 @@ var SyntheticTransitionEvent = __webpack_require__(175);
 var SyntheticUIEvent = __webpack_require__(25);
 var SyntheticWheelEvent = __webpack_require__(176);
 
-var emptyFunction = __webpack_require__(9);
+var emptyFunction = __webpack_require__(10);
 var getEventCharCode = __webpack_require__(51);
 var invariant = __webpack_require__(1);
 
@@ -22608,7 +22608,7 @@ module.exports = ReactMount.renderSubtreeIntoContainer;
 
 var DOMProperty = __webpack_require__(14);
 var EventPluginRegistry = __webpack_require__(29);
-var ReactComponentTreeHook = __webpack_require__(7);
+var ReactComponentTreeHook = __webpack_require__(8);
 
 var warning = __webpack_require__(2);
 
@@ -22724,7 +22724,7 @@ module.exports = ReactDOMUnknownPropertyHook;
 
 
 
-var ReactComponentTreeHook = __webpack_require__(7);
+var ReactComponentTreeHook = __webpack_require__(8);
 
 var warning = __webpack_require__(2);
 
@@ -22774,7 +22774,7 @@ module.exports = ReactDOMNullInputValuePropHook;
 
 
 var DOMProperty = __webpack_require__(14);
-var ReactComponentTreeHook = __webpack_require__(7);
+var ReactComponentTreeHook = __webpack_require__(8);
 
 var warning = __webpack_require__(2);
 
@@ -22862,7 +22862,7 @@ module.exports = ReactDOMInvalidARIAHook;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(10);
+const React = __webpack_require__(7);
 const page_1 = __webpack_require__(188);
 const hs_calc_1 = __webpack_require__(189);
 const PathToHS = (props) => {
@@ -22879,7 +22879,7 @@ exports.default = PathToHS;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(10);
+const React = __webpack_require__(7);
 const Page = (props) => {
     return (React.createElement("div", { style: { width: "100%", height: "100%" } }, props.children));
 };
@@ -22893,15 +22893,15 @@ exports.default = Page;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(10);
+const React = __webpack_require__(7);
 const box_1 = __webpack_require__(190);
 const student_info_form_1 = __webpack_require__(194);
-const student_grades_container_1 = __webpack_require__(210);
+const student_grades_container_1 = __webpack_require__(214);
 class HSCalculator extends React.Component {
     constructor(props) {
         super(props);
     }
-    handleInfoChange(newInfo) {
+    handleInfoChange(info) {
     }
     handleGradeChange(newGrades) {
     }
@@ -22922,7 +22922,7 @@ exports.default = HSCalculator;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(10);
+const React = __webpack_require__(7);
 __webpack_require__(191);
 const Box = (props) => {
     const widthClass = "width-" + props.width;
@@ -22936,7 +22936,7 @@ const Box = (props) => {
         responsiveMobileClass = "mobile-" + props.responsiveBehavior.mobile;
     }
     const className = `box ${widthClass} ${heightClass} ${zLevelClass} ${responsiveMobileClass}`;
-    return (React.createElement("div", { className: className }, props.children));
+    return (React.createElement("div", { className: className, style: props.flex }, props.children));
 };
 exports.default = Box;
 
@@ -23088,28 +23088,39 @@ module.exports = function (css) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(10);
-const dropdown_1 = __webpack_require__(195);
-const address_tier_calculator_1 = __webpack_require__(200);
-const strings_1 = __webpack_require__(207);
-__webpack_require__(208);
-const StudentInfoForm = (props) => {
-    if (props.studentInfo !== null) {
+const React = __webpack_require__(7);
+const collapsible_partition_1 = __webpack_require__(195);
+const dropdown_field_1 = __webpack_require__(199);
+const address_tier_calculator_1 = __webpack_require__(204);
+const strings_1 = __webpack_require__(211);
+__webpack_require__(212);
+class StudentInfoForm extends React.PureComponent {
+    constructor(props) {
+        super(props);
+        this.handleGradeLevelChange = (value) => {
+        };
+        this.handleELLChange = (value) => {
+        };
+        this.handleIEPChange = (value) => {
+        };
+        this.handleAddressTierChange = (address, tier) => {
+        };
+        this.handleCollapse = (isAlreadyCollapsed) => {
+        };
+        this.state = {
+            collapsed: props.collapsed
+        };
+        if (props.studentInfo !== null) {
+        }
     }
-    const handleGradeLevelChange = (value) => {
-    };
-    const handleELLChange = (value) => {
-    };
-    const handleIEPChange = (value) => {
-    };
-    const handleAddressTierChange = (address, tier) => {
-    };
-    return (React.createElement("div", { className: "student-info-form" },
-        React.createElement(dropdown_1.default, { size: "md", onChange: handleGradeLevelChange, label: strings_1.StudentInfoStrings.gradeLevelDropdown.label, placeholder: strings_1.StudentInfoStrings.gradeLevelDropdown.placeholder, values: strings_1.StudentInfoStrings.gradeLevelDropdown.values }),
-        React.createElement(dropdown_1.default, { size: "sm", onChange: handleELLChange, label: strings_1.StudentInfoStrings.ellDropdown.label, placeholder: strings_1.StudentInfoStrings.ellDropdown.placeholder, values: strings_1.StudentInfoStrings.ellDropdown.values }),
-        React.createElement(dropdown_1.default, { size: "sm", onChange: handleIEPChange, label: strings_1.StudentInfoStrings.iepDropdown.label, placeholder: strings_1.StudentInfoStrings.iepDropdown.placeholder, values: strings_1.StudentInfoStrings.iepDropdown.values }),
-        React.createElement(address_tier_calculator_1.default, { tier: null, address: null, onChange: handleAddressTierChange, addressLabel: strings_1.StudentInfoStrings.addressCalc.addressLabel, tierLabel: strings_1.StudentInfoStrings.addressCalc.tierLabel })));
-};
+    render() {
+        return (React.createElement(collapsible_partition_1.default, { onCollapseChange: this.handleCollapse, flex: { flexDirection: "row", flexWrap: "wrap" }, collapsed: this.state.collapsed },
+            React.createElement(dropdown_field_1.default, { size: "md", onChange: this.handleGradeLevelChange, label: strings_1.StudentInfoStrings.gradeLevelDropdown.label, placeholder: strings_1.StudentInfoStrings.gradeLevelDropdown.placeholder, values: strings_1.StudentInfoStrings.gradeLevelDropdown.values }),
+            React.createElement(dropdown_field_1.default, { size: "sm", onChange: this.handleELLChange, label: strings_1.StudentInfoStrings.ellDropdown.label, placeholder: strings_1.StudentInfoStrings.ellDropdown.placeholder, values: strings_1.StudentInfoStrings.ellDropdown.values }),
+            React.createElement(dropdown_field_1.default, { size: "sm", onChange: this.handleIEPChange, label: strings_1.StudentInfoStrings.iepDropdown.label, placeholder: strings_1.StudentInfoStrings.iepDropdown.placeholder, values: strings_1.StudentInfoStrings.iepDropdown.values }),
+            React.createElement(address_tier_calculator_1.default, { tier: null, address: null, onChange: this.handleAddressTierChange, addressLabel: strings_1.StudentInfoStrings.addressCalc.addressLabel, tierLabel: strings_1.StudentInfoStrings.addressCalc.tierLabel })));
+    }
+}
 exports.default = StudentInfoForm;
 
 
@@ -23120,10 +23131,76 @@ exports.default = StudentInfoForm;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(10);
+const React = __webpack_require__(7);
+const icon_button_1 = __webpack_require__(196);
+const arrow_up_1 = __webpack_require__(197);
+const partition_1 = __webpack_require__(198);
+const CollapsiblePartition = (props) => {
+    const collapseIcon = (React.createElement(arrow_up_1.default, { width: "20px", height: "20px" }));
+    return (React.createElement("div", { className: `collapsible ${props.collapsed ? "collapsed" : ""}` },
+        React.createElement(partition_1.default, { flex: props.flex, children: props.children }),
+        React.createElement(icon_button_1.default, { icon: collapseIcon, onClick: () => {
+                props.onCollapseChange(props.collapsed);
+            } })));
+};
+exports.default = CollapsiblePartition;
+
+
+/***/ }),
+/* 196 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(7);
+const IconButton = (props) => {
+    return (React.createElement("button", { className: "button", onClick: props.onClick }, props.icon));
+};
+exports.default = IconButton;
+
+
+/***/ }),
+/* 197 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(7);
+const ArrowUpIcon = (props) => {
+    return (React.createElement("svg", { style: props.style, width: props.width, height: props.height, x: "0px", y: "0px", viewBox: "0 0 1000 1000", enableBackground: "new 0 0 1000 1000" },
+        React.createElement("g", null,
+            React.createElement("path", { d: "M500,353L500,353l424.7,424.6l65.3-65.3L532.7,255L500,222.4L467.3,255L10,712.3l65.3,65.3L500,353z" }))));
+};
+exports.default = ArrowUpIcon;
+
+
+/***/ }),
+/* 198 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(7);
+const Partition = (props) => {
+    return (React.createElement("div", { className: "partition", style: props.flex }, props.children));
+};
+exports.default = Partition;
+
+
+/***/ }),
+/* 199 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(7);
 const field_1 = __webpack_require__(84);
-__webpack_require__(198);
-class Dropdown extends React.Component {
+__webpack_require__(202);
+class DropdownField extends React.Component {
     constructor(props) {
         super(props);
         this.sizeClassName = "";
@@ -23166,17 +23243,17 @@ class Dropdown extends React.Component {
         return (React.createElement(field_1.default, { size: this.props.size, label: this.props.label, field: dropdown }));
     }
 }
-exports.default = Dropdown;
+exports.default = DropdownField;
 
 
 /***/ }),
-/* 196 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(197);
+var content = __webpack_require__(201);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -23201,7 +23278,7 @@ if(false) {
 }
 
 /***/ }),
-/* 197 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(21)(undefined);
@@ -23215,13 +23292,13 @@ exports.push([module.i, ".field-container {\n  height: auto;\n  float: left;\n  
 
 
 /***/ }),
-/* 198 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(199);
+var content = __webpack_require__(203);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -23235,8 +23312,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./dropdown.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./dropdown.scss");
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./dropdown-field.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./dropdown-field.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -23246,7 +23323,7 @@ if(false) {
 }
 
 /***/ }),
-/* 199 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(21)(undefined);
@@ -23260,16 +23337,16 @@ exports.push([module.i, ".dropdown {\n  width: 100%;\n  height: 100%;\n  border:
 
 
 /***/ }),
-/* 200 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(10);
-const timeout_1 = __webpack_require__(201);
-const text_field_1 = __webpack_require__(202);
-__webpack_require__(205);
+const React = __webpack_require__(7);
+const timeout_1 = __webpack_require__(205);
+const text_field_1 = __webpack_require__(206);
+__webpack_require__(209);
 class AddressTierCalculator extends React.Component {
     componentDidUpdate() {
         this.props.onChange(this.state.address, this.state.tier);
@@ -23316,7 +23393,7 @@ exports.default = AddressTierCalculator;
 
 
 /***/ }),
-/* 201 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23351,15 +23428,15 @@ exports.default = Timeout;
 
 
 /***/ }),
-/* 202 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(10);
+const React = __webpack_require__(7);
 const field_1 = __webpack_require__(84);
-__webpack_require__(203);
+__webpack_require__(207);
 const TextField = (props) => {
     let textField = (React.createElement("input", { className: "textfield", readOnly: !props.editable, onChange: props.onChange, value: props.value ? props.value : "" }));
     return React.createElement(field_1.default, { size: props.size, label: props.label, field: textField });
@@ -23368,13 +23445,13 @@ exports.default = TextField;
 
 
 /***/ }),
-/* 203 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(204);
+var content = __webpack_require__(208);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -23399,7 +23476,7 @@ if(false) {
 }
 
 /***/ }),
-/* 204 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(21)(undefined);
@@ -23413,13 +23490,13 @@ exports.push([module.i, ".textfield {\n  display: block;\n  width: 100%; }\n", "
 
 
 /***/ }),
-/* 205 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(206);
+var content = __webpack_require__(210);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -23444,7 +23521,7 @@ if(false) {
 }
 
 /***/ }),
-/* 206 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(21)(undefined);
@@ -23458,7 +23535,7 @@ exports.push([module.i, ".address-tier-calculator {\n  width: 100%;\n  margin-to
 
 
 /***/ }),
-/* 207 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23509,13 +23586,13 @@ exports.StudentInfoStrings = {
 
 
 /***/ }),
-/* 208 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(209);
+var content = __webpack_require__(213);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -23540,7 +23617,7 @@ if(false) {
 }
 
 /***/ }),
-/* 209 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(21)(undefined);
@@ -23554,7 +23631,7 @@ exports.push([module.i, ".student-info-form {\n  display: -webkit-box;\n  displa
 
 
 /***/ }),
-/* 210 */
+/* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

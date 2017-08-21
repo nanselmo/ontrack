@@ -1,11 +1,11 @@
 import * as React from "react";
 
-import Field from "shared/components/form/field";
+import Field from "shared/components/ui/field";
 
-import "./dropdown.scss";
+import "./dropdown-field.scss";
 
 
-interface DropdownProps {
+interface DropdownFieldProps {
   label: string
   placeholder?: string
   size: "sm" | "md" | "lg" 
@@ -15,14 +15,14 @@ interface DropdownProps {
   onChange: (newValue: string) => any
 }
 
-interface DropdownState {
+interface DropdownFieldState {
   options?: React.ReactElement<any>[]
   selected?: string
   hasPlaceholder?: boolean
   isClean?: boolean 
 }
 
-export default class Dropdown extends React.Component<DropdownProps, DropdownState> {
+export default class DropdownField extends React.Component<DropdownFieldProps, DropdownFieldState> {
 
   private sizeClassName: string = "";
 
