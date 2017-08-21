@@ -16,13 +16,13 @@ const TextField = (props: TextFieldProps) => {
 
   let textField: React.ReactElement<HTMLInputElement> = (
     <input 
-      className="textfield" 
+      className="textfield"
       readOnly={!props.editable} 
       onChange={props.onChange}
       value={props.value ? props.value : ""} />
   );
 
-  return <Field label={props.label} field={textField} />
+  return <Field size={props.size} label={props.label} field={textField} />
 
 };
 

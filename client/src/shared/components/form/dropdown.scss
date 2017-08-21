@@ -1,20 +1,8 @@
 .dropdown {
+  width: 100%;
+  height: 100%;
+
   border: 1px solid red;
-  margin-right: 10px;
-  flex: 1 1 auto;
 }
-
-.dropdown-sm{
-  flex-basis: 2em;
-}
-
-.dropdown-md{
-  flex-basis: 4em;
-}
-
-.dropdown-lg{
-  flex-basis: 8em;
-}
-
 
 

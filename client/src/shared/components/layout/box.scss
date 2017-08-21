@@ -1,7 +1,7 @@
 @import "../../styles/breakpoints";
 @import "../../styles/variables";
 
-.box{
+.box {
   border: 2px solid $col-app-gray;
   padding: 1em 0.5em;
   box-shadow: $box-shadow-z2;
@@ -14,9 +14,60 @@
   margin: $margin-med;
 }
 
+.box.width-quarter {
+  width: 25%;  
+  flex-basis: 25%;
+}
+
+.box.width-half {
+  width: 50%;  
+  flex-basis: 50%;
+}
+
+.box.width-full {
+  width: 100%;  
+  flex-basis: 100%;
+}
+
+.box.height-quarter {
+  height: 25%;  
+}
+
+.box.height-half {
+  height: 50%;  
+}
+
+.box.height-full {
+  height: 100%;  
+}
+
+.box.zlevel-1 {
+  box-shadow: $box-shadow-z1;
+}
+.box.zlevel-2 {
+  box-shadow: $box-shadow-z2;
+}
+.box.zlevel-3 {
+  box-shadow: $box-shadow-z3;
+}
+.box.zlevel-4 {
+  box-shadow: $box-shadow-z4;
+}
+.box.zlevel-5 {
+  box-shadow: $box-shadow-z5;
+}
+
+
 @media (max-width: $breakpoint-mobile) {
   .box{
     margin: 0;
     padding: 10px 5px;
+  }
+  .box.mobile-disappear{
+    display: none;
+  }
+  .box.mobile-fullscreen{
+    width: 100%; 
+    flex-basis: 100%;
   }
 }

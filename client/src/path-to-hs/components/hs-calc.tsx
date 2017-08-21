@@ -28,7 +28,7 @@ class HSCalculator extends React.Component<HSCalcProps> {
 
   render() {
     return (
-      <Box>
+      <Box width="half" height="half" responsiveBehavior={{mobile: "fullscreen"}}>
         <StudentInfoForm 
           onChange={this.handleInfoChange}
           studentInfo={this.props.studentInfo}/>

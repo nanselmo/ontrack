@@ -3,6 +3,8 @@ import * as React from "react";
 import Timeout from "shared/util/timeout";
 import TextField from "shared/components/form/text-field";
 
+import "./address-tier-calculator.scss";
+
 interface AddressInfo {
   address: string
   tier: string
@@ -74,8 +76,8 @@ export default class AddressTierCalculator extends React.Component<AddrTierCalcP
 
   render() {
     return (
-      <div>
-        <TextField 
+      <div className="address-tier-calculator">
+        <TextField
           size="lg" 
           editable={true} 
           label={this.props.addressLabel}

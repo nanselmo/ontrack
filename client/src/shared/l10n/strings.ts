@@ -11,7 +11,7 @@ export const StudentInfoStrings = {
     }
   },
   ellDropdown: {
-    label: "ELL student?",
+    label: "English Learner?",
     placeholder: " ",
     values: {
       "yes": "yes",
@@ -23,7 +23,7 @@ export const StudentInfoStrings = {
     }
   },
   iepDropdown: {
-    label: "IEP?",
+    label: "Diverse Learner?",
     placeholder: " ",
     values: {
       "yes": "yes",

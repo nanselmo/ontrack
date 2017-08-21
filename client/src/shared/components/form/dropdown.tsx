@@ -43,10 +43,6 @@ export default class Dropdown extends React.Component<DropdownProps, DropdownSta
   constructor(props) {
     super(props);
 
-    if (props.size) {
-      this.sizeClassName = "dropdown-" + props.size;
-    }
-
     let options: React.ReactElement<any>[] = [];
 
     const createOption = (value, display): React.ReactElement<any> => {
@@ -74,13 +70,15 @@ export default class Dropdown extends React.Component<DropdownProps, DropdownSta
 
   render() {
     const dropdown = (
-      <select className={"dropdown" + this.sizeClassName} onChange={this.handleSelectUpdate.bind(this)}>
+      <select 
+        className="dropdown" 
+        onChange={this.handleSelectUpdate.bind(this)}>
         {this.state.options}
       </select>
     );
 
     return (
-      <Field label={this.props.label} field={dropdown}/>
+      <Field size={this.props.size} label={this.props.label} field={dropdown}/>
     )
   }
 }

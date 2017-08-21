@@ -1,18 +1,36 @@
 @import "../../styles/variables";
 
 .field-container{
-  height: 100%;
+  height: auto;
+  float: left;
+
+  margin-bottom: $margin-sm;
+  margin-right: $margin-med;
 
   display: flex;
   flex-direction: column;
   align-items: baseline;
   justify-content: flex-start;
-
 }
 
 .label-text{
-  flex: 0 0 10px;
-  font-size: 80%;
+  flex: 1 0 10px;
+  font-size: $font-size-xs; 
   color: $text-gray;
-  text-align: center;
+  text-align: left;
+  margin-bottom: 5px;
+}
+
+
+.field-sm{
+  width: 40px;
+  flex: 1 0 40px;
+}
+.field-md{
+  width: 80px;
+  flex: 2 0 80px;
+}
+.field-lg{
+  width: 160px;
+  flex: 4 0 160px;
 }
