@@ -10,6 +10,8 @@ interface PartitionProps {
   children?: any,
 }
 
+import "./partition.scss";
+
 const Partition = (props: PartitionProps) => {
 
   return (

@@ -50,7 +50,7 @@ class StudentInfoForm extends React.PureComponent<StudentInfoFormProps, StudentI
     return (
       <CollapsiblePartition 
         onCollapseChange={this.handleCollapse} 
-        flex={{flexDirection: "row", flexWrap: "wrap"}}
+        flex={{flexDirection: "row", flexWrap: "nowrap", alignItems: "flex-end"}}
         collapsed={this.state.collapsed}
       >  
         <DropdownField size="md" onChange={this.handleGradeLevelChange} 

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import Icon from "shared/types/icon";
+import {IconElement} from "shared/types/icon";
 import IconButton from "shared/components/ui/icon-button";
 import ArrowUpIcon from "shared/components/icons/arrow-up";
 
@@ -20,17 +20,24 @@ import Partition from "./partition";
 
 const CollapsiblePartition = (props: CollapsiblePartitionProps) => {
 
-  const collapseIcon: Icon = (
+  const collapseIcon: IconElement = (
     <ArrowUpIcon width="20px" height="20px"/>
   );
 
   return (
     <div className={`collapsible ${props.collapsed ? "collapsed" : ""}`}>
       <Partition flex={props.flex} children={props.children}/>
+      <div style={{
+        position: "absolute",
+        bottom: -15,
+        left: "50%",
+        transform: "translateX(-50%)",
+      }}>
       <IconButton icon={collapseIcon} onClick={
           () => {
             props.onCollapseChange(props.collapsed)
           } }/>
+      </div>
     </div>
   )
 

@@ -1,0 +1,10 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+.button{
+  border-radius: 100%;
+  background-color: $col-app-gray-light;
+  border: 2px $col-app-gray solid;
+
+  @include hover-button;
+}

@@ -1,11 +1,13 @@
 import * as React from "react";
 
-import Icon from "../../types/icon";
+import {IconElement} from "../../types/icon";
 
 interface IconButtonProps {
-  icon: Icon
+  icon: IconElement
   onClick: React.MouseEventHandler<any>
 }
+
+import "./button.scss";
 
 const IconButton = (props: IconButtonProps) => {
 
