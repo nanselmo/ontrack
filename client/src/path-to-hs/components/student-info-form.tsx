@@ -43,7 +43,15 @@ class StudentInfoForm extends React.PureComponent<StudentInfoFormProps, StudentI
   };
 
   private handleCollapse = (isAlreadyCollapsed: boolean) => {
-
+    if (isAlreadyCollapsed) {
+      this.setState({
+        collapsed: false
+      });
+    } else {
+      this.setState({
+        collapsed: true
+      });
+    }
   };
   
   render() {

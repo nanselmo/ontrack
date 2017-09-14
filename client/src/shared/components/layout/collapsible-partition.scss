@@ -1,0 +1,19 @@
+@import "../../styles/variables";
+
+.collapsible{
+  height: 80px;
+  transition: height 150ms ease;
+  position: relative;
+}
+
+.collapsible > .partition{
+  overflow: hidden;
+  height: 100%;
+
+  border-radius: $border-radius-sm;
+  border-bottom: $border-light;
+}
+
+.collapsible.collapsed{
+  height: 10px;
+}

@@ -18,11 +18,11 @@ class HSCalculator extends React.Component<HSCalcProps> {
     super(props);
   }
 
-  private handleInfoChange(info: StudentInfo): void {
+  private handleInfoChange(info: StudentInfo): any {
 
   }
 
-  private handleGradeChange(newGrades: StudentGrades): void {
+  private handleGradeChange(newGrades: StudentGrades): any {
 
   }
 

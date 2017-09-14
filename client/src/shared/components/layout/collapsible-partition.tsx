@@ -18,11 +18,17 @@ interface CollapsiblePartitionProps {
   
 import Partition from "./partition";
 
+import "./collapsible-partition.scss";
+
 const CollapsiblePartition = (props: CollapsiblePartitionProps) => {
 
   const collapseIcon: IconElement = (
     <ArrowUpIcon width="20px" height="20px"/>
   );
+
+  let iconStyle = {
+    transition: "transform 150ms ease", 
+    transform: props.collapsed ? "rotate(180deg)" : ""};
 
   return (
     <div className={`collapsible ${props.collapsed ? "collapsed" : ""}`}>
@@ -32,11 +38,16 @@ const CollapsiblePartition = (props: CollapsiblePartitionProps) => {
         bottom: -15,
         left: "50%",
         transform: "translateX(-50%)",
+        zIndex: 11
       }}>
-      <IconButton icon={collapseIcon} onClick={
+      <IconButton 
+        icon={collapseIcon} 
+        style={iconStyle}
+        onClick={
           () => {
             props.onCollapseChange(props.collapsed)
-          } }/>
+          } }
+        />
       </div>
     </div>
   )

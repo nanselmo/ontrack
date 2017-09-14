@@ -23106,6 +23106,16 @@ class StudentInfoForm extends React.PureComponent {
         this.handleAddressTierChange = (address, tier) => {
         };
         this.handleCollapse = (isAlreadyCollapsed) => {
+            if (isAlreadyCollapsed) {
+                this.setState({
+                    collapsed: false
+                });
+            }
+            else {
+                this.setState({
+                    collapsed: true
+                });
+            }
         };
         this.state = {
             collapsed: props.collapsed
@@ -23135,8 +23145,13 @@ const React = __webpack_require__(7);
 const icon_button_1 = __webpack_require__(196);
 const arrow_up_1 = __webpack_require__(199);
 const partition_1 = __webpack_require__(200);
+__webpack_require__(219);
 const CollapsiblePartition = (props) => {
     const collapseIcon = (React.createElement(arrow_up_1.default, { width: "20px", height: "20px" }));
+    let iconStyle = {
+        transition: "transform 150ms ease",
+        transform: props.collapsed ? "rotate(180deg)" : ""
+    };
     return (React.createElement("div", { className: `collapsible ${props.collapsed ? "collapsed" : ""}` },
         React.createElement(partition_1.default, { flex: props.flex, children: props.children }),
         React.createElement("div", { style: {
@@ -23144,8 +23159,9 @@ const CollapsiblePartition = (props) => {
                 bottom: -15,
                 left: "50%",
                 transform: "translateX(-50%)",
+                zIndex: 11
             } },
-            React.createElement(icon_button_1.default, { icon: collapseIcon, onClick: () => {
+            React.createElement(icon_button_1.default, { icon: collapseIcon, style: iconStyle, onClick: () => {
                     props.onCollapseChange(props.collapsed);
                 } }))));
 };
@@ -23162,7 +23178,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(7);
 __webpack_require__(197);
 const IconButton = (props) => {
-    return (React.createElement("button", { className: "button", onClick: props.onClick }, props.icon));
+    return (React.createElement("button", { style: props.style, className: "button", onClick: props.onClick }, props.icon));
 };
 exports.default = IconButton;
 
@@ -23283,7 +23299,7 @@ exports = module.exports = __webpack_require__(15)(undefined);
 
 
 // module
-exports.push([module.i, ".partition {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  margin: 0;\n  padding: 10px 5px; }\n", ""]);
+exports.push([module.i, ".partition {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  height: 100%;\n  margin: 0;\n  padding: 10px 5px; }\n", ""]);
 
 // exports
 
@@ -23735,10 +23751,58 @@ exports.push([module.i, ".student-info-form {\n  display: -webkit-box;\n  displa
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(7);
+const partition_1 = __webpack_require__(200);
 const StudentGradesContainer = (props) => {
-    return null;
+    return (React.createElement(partition_1.default, null,
+        React.createElement("div", { style: { height: "100px", backgroundColor: "red" } })));
 };
 exports.default = StudentGradesContainer;
+
+
+/***/ }),
+/* 219 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(220);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(16)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./collapsible-partition.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./collapsible-partition.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 220 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(15)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".collapsible {\n  height: 80px;\n  -webkit-transition: height 150ms ease;\n  transition: height 150ms ease;\n  position: relative; }\n\n.collapsible > .partition {\n  overflow: hidden;\n  height: 100%;\n  border-radius: 6px;\n  border-bottom: 1px solid #cacaca; }\n\n.collapsible.collapsed {\n  height: 10px; }\n", ""]);
+
+// exports
 
 
 /***/ })
