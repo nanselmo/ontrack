@@ -4,7 +4,7 @@ import "./field.scss";
 
 interface FieldProps {
   label: string | null
-  size: "sm" | "md" | "lg"
+  size: "match-content" | "sm" | "md" | "lg"
   field: React.ReactElement<HTMLSelectElement> | React.ReactElement<HTMLInputElement>
 }
 

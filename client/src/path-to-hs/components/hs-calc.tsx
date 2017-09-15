@@ -1,40 +1,53 @@
 import * as React from "react";
 
 import StudentInfo from "shared/types/student-info";
-import StudentGrades from "shared/types/student-grades";
+import StudentScores from "shared/types/student-scores";
 
 import Box from "shared/components/layout/box";
 import StudentInfoForm from "./student-info-form";
-import StudentGradesContainer from "./student-grades-container";
+import StudentScoresContainer from "./student-scores-container";
 
 interface HSCalcProps {
-  studentInfo: StudentInfo | null
-  studentGrades: StudentGrades | null
+  studentInfo: StudentInfo
+  studentScores: StudentScores
 }
 
-class HSCalculator extends React.Component<HSCalcProps> {
+interface HSCalcState {
+  studentInfo: StudentInfo
+  studentScores: StudentScores
+}
+
+class HSCalculator extends React.Component<HSCalcProps, HSCalcState> {
 
   constructor(props) {
     super(props);
+    this.state = {
+      studentInfo: props.studentInfo,
+      studentScores: props.studentScores
+    }
   }
 
   private handleInfoChange(info: StudentInfo): any {
 
   }
 
-  private handleGradeChange(newGrades: StudentGrades): any {
+  private handleScoreChange(newScores: StudentScores): any {
 
   }
 
+
+  // FIXME: hardcoded shouldDisplayFutureScores and editable
   render() {
     return (
       <Box width="half" height="half" responsiveBehavior={{mobile: "fullscreen"}}>
         <StudentInfoForm 
           onChange={this.handleInfoChange}
-          studentInfo={this.props.studentInfo}/>
-        <StudentGradesContainer 
-          onChange={this.handleGradeChange}
-          grades={this.props.studentGrades}/>
+          studentInfo={this.state.studentInfo}/>
+        <StudentScoresContainer 
+          shouldDisplayFutureScores={true}
+          editable={true}
+          onChange={this.handleScoreChange}
+          scores={this.state.studentScores}/>
       </Box>
     )
   }
