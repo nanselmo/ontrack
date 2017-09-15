@@ -4,9 +4,11 @@ interface PageProps {
   children?: any
 }
 
+import "./page.scss";
+
 const Page = (props: PageProps) => {
   return (
-    <div style={{width: "100%", height: "100%"}}>
+    <div className="page">
       {props.children}
     </div>
   )
