@@ -49,7 +49,7 @@ class StudentScoresContainer extends React.PureComponent<Props, State> {
   render() {
     if (this.state.shouldDisplayFutureScores) {
       return (
-        <div>
+        <Partition flex={{justifyContent: "space-around", alignItems: "stretch"}}>
           <ScoreDisplay 
             scores={this.state.currentScores}
             editable={this.state.editable}
@@ -59,7 +59,7 @@ class StudentScoresContainer extends React.PureComponent<Props, State> {
             scores={this.state.scoreProjector(this.state.currentScores)}
             editable={false}
             onChange={() => null}/>
-        </div>
+        </Partition>
       )
     } else {
       return (

@@ -1,0 +1,43 @@
+@import "../../shared/styles/variables";
+
+.score-field{
+  height: 30px;
+  margin-top: 5px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.score-field.sm{
+
+}
+
+.score-field.lg{
+}
+
+.score-field-label{
+  width: 50px;
+  float: left;
+  text-align: right;
+  font-size: 75%;
+}
+
+.score-field-input{
+  float: left;
+  height: 100%;
+  overflow: visible;
+
+  -webkit-appearance: none;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid $col-app-gray;
+
+  font-size: 115%;
+  text-align: center;
+  //color: $col-app-1;
+  width: 55px;
+
+}
+

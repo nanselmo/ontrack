@@ -1,0 +1,33 @@
+@import "../../shared/styles/variables";
+
+.score-display {
+  width: 150px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: end; 
+  justify-content: flex-start;
+
+  overflow-y: hidden;
+}
+
+.score-display > .score-group {
+  box-shadow: $box-shadow-z2;
+  border: $border-light;
+  width: 125px;
+  margin-top: 0.5em;
+  padding: 0.5em;
+}
+
+.score-display > .score-group.nwea {
+}
+
+.score-display > .score-group.subject-grades{
+}
+
+.score-group-label{
+  font-size: 70%;
+  color: $col-app-gray-dark;
+  border-bottom: $border-light; 
+
+}

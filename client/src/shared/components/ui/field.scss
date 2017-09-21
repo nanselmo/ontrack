@@ -2,7 +2,6 @@
 
 .field-container{
   height: auto;
-  float: left;
 
   margin-bottom: $margin-sm;
   margin-right: $margin-med;
@@ -36,6 +35,9 @@
 }
 
 .field-match-content{
-  width: auto;
-  flex: 0 0 auto;
+  flex: 1 1 1em;
+}
+.field-match-content > input {
+  min-width: 10px;
+  width: 100%;
 }
