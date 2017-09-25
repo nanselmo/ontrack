@@ -3,7 +3,7 @@ import * as React from "react";
 import Partition from "shared/components/layout/partition";
 
 import ScoreDisplay from "./score-display";
-import ScoreProjector from "./score-projector";
+import ScoreTransformer from "./score-transformer";
 
 import StudentScores from "shared/types/student-scores";
 
@@ -53,8 +53,8 @@ class StudentScoresContainer extends React.PureComponent<Props, State> {
           <ScoreDisplay 
             scores={this.state.currentScores}
             editable={this.state.editable}
-            onChange={this.handleCurrentScoresChange} />
-          <ScoreProjector onChange={this.handleScoreProjectorChange}/>
+            onChange={this.handleCurrentScoresChange.bind(this)} />
+          <ScoreTransformer onChange={this.handleScoreProjectorChange.bind(this)}/>
           <ScoreDisplay 
             scores={this.state.scoreProjector(this.state.currentScores)}
             editable={false}
