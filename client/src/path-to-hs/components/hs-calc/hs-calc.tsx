@@ -4,8 +4,8 @@ import StudentInfo from "shared/types/student-info";
 import StudentScores from "shared/types/student-scores";
 
 import Box from "shared/components/layout/box";
-import StudentInfoForm from "./student-info-form";
-import StudentScoresContainer from "./student-scores-container";
+import StudentInfoContainer from "./student-info-container/student-info-container";
+import StudentScoresContainer from "./student-scores-container/student-scores-container";
 
 interface HSCalcProps {
   studentInfo: StudentInfo
@@ -40,7 +40,7 @@ class HSCalculator extends React.Component<HSCalcProps, HSCalcState> {
   render() {
     return (
       <Box width="half" height="half" responsiveBehavior={{mobile: "fullscreen"}}>
-        <StudentInfoForm 
+        <StudentInfoContainer 
           onChange={this.handleInfoChange}
           studentInfo={this.state.studentInfo}/>
         <StudentScoresContainer 

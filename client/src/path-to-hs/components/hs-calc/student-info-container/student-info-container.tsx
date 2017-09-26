@@ -1,13 +1,13 @@
 import * as React from "react"
 
+import StudentInfo from "shared/types/student-info";
+import {StudentInfoStrings as strings} from "shared/l10n/strings";
+
 import CollapsiblePartition from "shared/components/layout/collapsible-partition";
 import DropdownField from "shared/components/ui/dropdown-field";
 import AddressTierCalculator from "./address-tier-calculator";
 
-import StudentInfo from "shared/types/student-info";
-import {StudentInfoStrings as strings} from "shared/l10n/strings";
-
-import "./student-info-form.scss";
+import "./student-info-container.scss";
 
 interface StudentInfoFormProps {
   studentInfo: StudentInfo | null

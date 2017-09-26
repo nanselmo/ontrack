@@ -534,6 +534,16 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+module.exports = __webpack_require__(19);
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -729,16 +739,6 @@ var ReactDOMComponentTree = {
 
 module.exports = ReactDOMComponentTree;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = __webpack_require__(19);
-
 
 /***/ }),
 /* 7 */
@@ -5680,7 +5680,7 @@ module.exports = getEventModifierState;
 
 var DOMLazyTree = __webpack_require__(22);
 var Danger = __webpack_require__(123);
-var ReactDOMComponentTree = __webpack_require__(5);
+var ReactDOMComponentTree = __webpack_require__(6);
 var ReactInstrumentation = __webpack_require__(9);
 
 var createMicrosoftUnsafeLocalFunction = __webpack_require__(43);
@@ -7966,7 +7966,7 @@ module.exports = ReactFeatureFlags;
 
 
 
-var ReactDOMComponentTree = __webpack_require__(5);
+var ReactDOMComponentTree = __webpack_require__(6);
 
 function isCheckable(elem) {
   var type = elem.type;
@@ -8429,7 +8429,7 @@ module.exports = CSSProperty;
 
 
 var DOMProperty = __webpack_require__(16);
-var ReactDOMComponentTree = __webpack_require__(5);
+var ReactDOMComponentTree = __webpack_require__(6);
 var ReactInstrumentation = __webpack_require__(9);
 
 var quoteAttributeValueForBrowser = __webpack_require__(137);
@@ -8694,7 +8694,7 @@ module.exports = ReactPropTypesSecret;
 var _assign = __webpack_require__(4);
 
 var LinkedValueUtils = __webpack_require__(44);
-var ReactDOMComponentTree = __webpack_require__(5);
+var ReactDOMComponentTree = __webpack_require__(6);
 var ReactUpdates = __webpack_require__(14);
 
 var warning = __webpack_require__(2);
@@ -9638,7 +9638,7 @@ var DOMProperty = __webpack_require__(16);
 var React = __webpack_require__(19);
 var ReactBrowserEventEmitter = __webpack_require__(34);
 var ReactCurrentOwner = __webpack_require__(13);
-var ReactDOMComponentTree = __webpack_require__(5);
+var ReactDOMComponentTree = __webpack_require__(6);
 var ReactDOMContainerInfo = __webpack_require__(179);
 var ReactDOMFeatureFlags = __webpack_require__(180);
 var ReactFeatureFlags = __webpack_require__(64);
@@ -10200,8 +10200,8 @@ module.exports = getHostComponentFromComposite;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(6);
-__webpack_require__(204);
+const React = __webpack_require__(5);
+__webpack_require__(205);
 const Partition = (props) => {
     return (React.createElement("div", { className: "partition", style: props.flex }, props.children));
 };
@@ -10215,8 +10215,8 @@ exports.default = Partition;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(6);
-__webpack_require__(209);
+const React = __webpack_require__(5);
+__webpack_require__(210);
 const Field = (props) => {
     const className = "field-container field-" + props.size;
     if (props.label) {
@@ -10256,7 +10256,7 @@ exports.default = clone;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(6);
+const React = __webpack_require__(5);
 const react_dom_1 = __webpack_require__(103);
 const path_to_hs_1 = __webpack_require__(189);
 react_dom_1.render((React.createElement(path_to_hs_1.default, null)), document.getElementById("root"));
@@ -12756,7 +12756,7 @@ module.exports = __webpack_require__(104);
 
 
 
-var ReactDOMComponentTree = __webpack_require__(5);
+var ReactDOMComponentTree = __webpack_require__(6);
 var ReactDefaultInjection = __webpack_require__(105);
 var ReactMount = __webpack_require__(82);
 var ReactReconciler = __webpack_require__(21);
@@ -12879,7 +12879,7 @@ var EnterLeaveEventPlugin = __webpack_require__(120);
 var HTMLDOMPropertyConfig = __webpack_require__(121);
 var ReactComponentBrowserEnvironment = __webpack_require__(122);
 var ReactDOMComponent = __webpack_require__(128);
-var ReactDOMComponentTree = __webpack_require__(5);
+var ReactDOMComponentTree = __webpack_require__(6);
 var ReactDOMEmptyComponent = __webpack_require__(154);
 var ReactDOMTreeTraversal = __webpack_require__(155);
 var ReactDOMTextComponent = __webpack_require__(156);
@@ -13616,7 +13616,7 @@ module.exports = SyntheticInputEvent;
 var EventPluginHub = __webpack_require__(24);
 var EventPropagators = __webpack_require__(23);
 var ExecutionEnvironment = __webpack_require__(7);
-var ReactDOMComponentTree = __webpack_require__(5);
+var ReactDOMComponentTree = __webpack_require__(6);
 var ReactUpdates = __webpack_require__(14);
 var SyntheticEvent = __webpack_require__(15);
 
@@ -14671,7 +14671,7 @@ module.exports = DefaultEventPluginOrder;
 
 
 var EventPropagators = __webpack_require__(23);
-var ReactDOMComponentTree = __webpack_require__(5);
+var ReactDOMComponentTree = __webpack_require__(6);
 var SyntheticMouseEvent = __webpack_require__(31);
 
 var eventTypes = {
@@ -15424,7 +15424,7 @@ module.exports = getMarkupWrap;
 
 
 var DOMChildrenOperations = __webpack_require__(41);
-var ReactDOMComponentTree = __webpack_require__(5);
+var ReactDOMComponentTree = __webpack_require__(6);
 
 /**
  * Operations used to process updates to DOM nodes.
@@ -15476,7 +15476,7 @@ var EventPluginHub = __webpack_require__(24);
 var EventPluginRegistry = __webpack_require__(29);
 var ReactBrowserEventEmitter = __webpack_require__(34);
 var ReactDOMComponentFlags = __webpack_require__(59);
-var ReactDOMComponentTree = __webpack_require__(5);
+var ReactDOMComponentTree = __webpack_require__(6);
 var ReactDOMInput = __webpack_require__(140);
 var ReactDOMOption = __webpack_require__(141);
 var ReactDOMSelect = __webpack_require__(73);
@@ -16477,7 +16477,7 @@ module.exports = ReactDOMComponent;
 
 
 
-var ReactDOMComponentTree = __webpack_require__(5);
+var ReactDOMComponentTree = __webpack_require__(6);
 
 var focusNode = __webpack_require__(69);
 
@@ -17190,7 +17190,7 @@ var _prodInvariant = __webpack_require__(3),
 
 var DOMPropertyOperations = __webpack_require__(71);
 var LinkedValueUtils = __webpack_require__(44);
-var ReactDOMComponentTree = __webpack_require__(5);
+var ReactDOMComponentTree = __webpack_require__(6);
 var ReactUpdates = __webpack_require__(14);
 
 var invariant = __webpack_require__(1);
@@ -17481,7 +17481,7 @@ module.exports = ReactDOMInput;
 var _assign = __webpack_require__(4);
 
 var React = __webpack_require__(19);
-var ReactDOMComponentTree = __webpack_require__(5);
+var ReactDOMComponentTree = __webpack_require__(6);
 var ReactDOMSelect = __webpack_require__(73);
 
 var warning = __webpack_require__(2);
@@ -17610,7 +17610,7 @@ var _prodInvariant = __webpack_require__(3),
     _assign = __webpack_require__(4);
 
 var LinkedValueUtils = __webpack_require__(44);
-var ReactDOMComponentTree = __webpack_require__(5);
+var ReactDOMComponentTree = __webpack_require__(6);
 var ReactUpdates = __webpack_require__(14);
 
 var invariant = __webpack_require__(1);
@@ -19836,7 +19836,7 @@ module.exports = ReactServerUpdateQueue;
 var _assign = __webpack_require__(4);
 
 var DOMLazyTree = __webpack_require__(22);
-var ReactDOMComponentTree = __webpack_require__(5);
+var ReactDOMComponentTree = __webpack_require__(6);
 
 var ReactDOMEmptyComponent = function (instantiate) {
   // ReactCompositeComponent uses this:
@@ -20045,7 +20045,7 @@ var _prodInvariant = __webpack_require__(3),
 
 var DOMChildrenOperations = __webpack_require__(41);
 var DOMLazyTree = __webpack_require__(22);
-var ReactDOMComponentTree = __webpack_require__(5);
+var ReactDOMComponentTree = __webpack_require__(6);
 
 var escapeTextContentForBrowser = __webpack_require__(33);
 var invariant = __webpack_require__(1);
@@ -20286,7 +20286,7 @@ var _assign = __webpack_require__(4);
 var EventListener = __webpack_require__(79);
 var ExecutionEnvironment = __webpack_require__(7);
 var PooledClass = __webpack_require__(18);
-var ReactDOMComponentTree = __webpack_require__(5);
+var ReactDOMComponentTree = __webpack_require__(6);
 var ReactUpdates = __webpack_require__(14);
 
 var getEventTarget = __webpack_require__(38);
@@ -21418,7 +21418,7 @@ module.exports = SVGDOMPropertyConfig;
 
 var EventPropagators = __webpack_require__(23);
 var ExecutionEnvironment = __webpack_require__(7);
-var ReactDOMComponentTree = __webpack_require__(5);
+var ReactDOMComponentTree = __webpack_require__(6);
 var ReactInputSelection = __webpack_require__(80);
 var SyntheticEvent = __webpack_require__(15);
 
@@ -21614,7 +21614,7 @@ var _prodInvariant = __webpack_require__(3);
 
 var EventListener = __webpack_require__(79);
 var EventPropagators = __webpack_require__(23);
-var ReactDOMComponentTree = __webpack_require__(5);
+var ReactDOMComponentTree = __webpack_require__(6);
 var SyntheticAnimationEvent = __webpack_require__(170);
 var SyntheticClipboardEvent = __webpack_require__(171);
 var SyntheticEvent = __webpack_require__(15);
@@ -22555,7 +22555,7 @@ module.exports = '15.6.1';
 var _prodInvariant = __webpack_require__(3);
 
 var ReactCurrentOwner = __webpack_require__(13);
-var ReactDOMComponentTree = __webpack_require__(5);
+var ReactDOMComponentTree = __webpack_require__(6);
 var ReactInstanceMap = __webpack_require__(26);
 
 var getHostComponentFromComposite = __webpack_require__(83);
@@ -22895,7 +22895,7 @@ module.exports = ReactDOMInvalidARIAHook;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(6);
+const React = __webpack_require__(5);
 const page_1 = __webpack_require__(190);
 const hs_calc_1 = __webpack_require__(194);
 const STUDENT_SCORES = {
@@ -22916,7 +22916,7 @@ exports.default = PathToHS;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(6);
+const React = __webpack_require__(5);
 __webpack_require__(191);
 const Page = (props) => {
     return (React.createElement("div", { className: "page" }, props.children));
@@ -23071,9 +23071,9 @@ module.exports = function (css) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(6);
+const React = __webpack_require__(5);
 const box_1 = __webpack_require__(195);
-const student_info_form_1 = __webpack_require__(198);
+const student_info_container_1 = __webpack_require__(198);
 const student_scores_container_1 = __webpack_require__(223);
 class HSCalculator extends React.Component {
     constructor(props) {
@@ -23089,7 +23089,7 @@ class HSCalculator extends React.Component {
     }
     render() {
         return (React.createElement(box_1.default, { width: "half", height: "half", responsiveBehavior: { mobile: "fullscreen" } },
-            React.createElement(student_info_form_1.default, { onChange: this.handleInfoChange, studentInfo: this.state.studentInfo }),
+            React.createElement(student_info_container_1.default, { onChange: this.handleInfoChange, studentInfo: this.state.studentInfo }),
             React.createElement(student_scores_container_1.default, { shouldDisplayFutureScores: true, editable: true, onChange: this.handleScoreChange, scores: this.state.studentScores })));
     }
 }
@@ -23104,7 +23104,7 @@ exports.default = HSCalculator;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(6);
+const React = __webpack_require__(5);
 __webpack_require__(196);
 const Box = (props) => {
     const widthClass = "width-" + props.width;
@@ -23175,11 +23175,11 @@ exports.push([module.i, ".box {\n  border: 2px solid #9e9e9e;\n  padding: 0.25em
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(6);
-const collapsible_partition_1 = __webpack_require__(199);
-const dropdown_field_1 = __webpack_require__(208);
-const address_tier_calculator_1 = __webpack_require__(213);
-const strings_1 = __webpack_require__(220);
+const React = __webpack_require__(5);
+const strings_1 = __webpack_require__(199);
+const collapsible_partition_1 = __webpack_require__(200);
+const dropdown_field_1 = __webpack_require__(209);
+const address_tier_calculator_1 = __webpack_require__(214);
 __webpack_require__(221);
 class StudentInfoForm extends React.PureComponent {
     constructor(props) {
@@ -23223,550 +23223,6 @@ exports.default = StudentInfoForm;
 
 /***/ }),
 /* 199 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(6);
-const icon_button_1 = __webpack_require__(200);
-const arrow_up_1 = __webpack_require__(203);
-const partition_1 = __webpack_require__(84);
-__webpack_require__(206);
-const CollapsiblePartition = (props) => {
-    const collapseIcon = (React.createElement(arrow_up_1.default, { width: "20px", height: "20px" }));
-    let iconStyle = {
-        transition: "transform 150ms ease",
-        transform: props.collapsed ? "rotate(180deg)" : ""
-    };
-    return (React.createElement("div", { className: `collapsible ${props.collapsed ? "collapsed" : ""}` },
-        React.createElement(partition_1.default, { flex: props.flex, children: props.children }),
-        React.createElement("div", { style: {
-                position: "absolute",
-                bottom: -15,
-                left: "50%",
-                transform: "translateX(-50%)",
-                zIndex: 11
-            } },
-            React.createElement(icon_button_1.default, { icon: collapseIcon, style: iconStyle, onClick: () => {
-                    props.onCollapseChange(props.collapsed);
-                } }))));
-};
-exports.default = CollapsiblePartition;
-
-
-/***/ }),
-/* 200 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(6);
-__webpack_require__(201);
-const IconButton = (props) => {
-    return (React.createElement("button", { style: props.style, className: "button", onClick: props.onClick }, props.icon));
-};
-exports.default = IconButton;
-
-
-/***/ }),
-/* 201 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(202);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(11)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./button.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./button.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 202 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(10)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".button {\n  border-radius: 100%;\n  background-color: #cacaca;\n  border: 2px #9e9e9e solid; }\n  .button {\n    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n    -webkit-transition: -webkit-transform 100ms ease, -webkit-box-shadow 200ms ease;\n    transition: -webkit-transform 100ms ease, -webkit-box-shadow 200ms ease;\n    transition: transform 100ms ease, box-shadow 200ms ease;\n    transition: transform 100ms ease, box-shadow 200ms ease, -webkit-transform 100ms ease, -webkit-box-shadow 200ms ease; }\n  .button:hover {\n    -webkit-transform: scale(1.05);\n            transform: scale(1.05);\n    -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); }\n  .button:active {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    -webkit-box-shadow: none;\n            box-shadow: none; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 203 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(6);
-const ArrowUpIcon = (props) => {
-    return (React.createElement("svg", { style: props.style, width: props.width, height: props.height, x: "0px", y: "0px", viewBox: "0 0 1000 1000", enableBackground: "new 0 0 1000 1000" },
-        React.createElement("g", null,
-            React.createElement("path", { d: "M500,353L500,353l424.7,424.6l65.3-65.3L532.7,255L500,222.4L467.3,255L10,712.3l65.3,65.3L500,353z" }))));
-};
-exports.default = ArrowUpIcon;
-
-
-/***/ }),
-/* 204 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(205);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(11)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./partition.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./partition.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 205 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(10)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".partition {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  height: 100%;\n  margin: 0;\n  padding: 10px 5px; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 206 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(207);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(11)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./collapsible-partition.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./collapsible-partition.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 207 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(10)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".collapsible {\n  height: 80px;\n  -webkit-transition: height 150ms ease;\n  transition: height 150ms ease;\n  position: relative; }\n\n.collapsible > .partition {\n  overflow: hidden;\n  height: 100%;\n  border-radius: 6px;\n  border-bottom: 1px solid #cacaca; }\n\n.collapsible.collapsed {\n  height: 10px; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 208 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(6);
-const field_1 = __webpack_require__(85);
-__webpack_require__(211);
-class DropdownField extends React.Component {
-    constructor(props) {
-        super(props);
-        this.sizeClassName = "";
-        let options = [];
-        const createOption = (value, display) => {
-            return React.createElement("option", { key: value }, display);
-        };
-        for (let value in props.values) {
-            const display = props.values[value];
-            options.push(createOption(value, display));
-        }
-        let hasPlaceholder = false;
-        if (props.placeholder) {
-            hasPlaceholder = true;
-            const placeholder = createOption("placeholder", props.placeholder);
-            options.unshift(placeholder);
-        }
-        this.state = {
-            options: options,
-            selected: "placeholder",
-            hasPlaceholder: hasPlaceholder,
-            isClean: true
-        };
-    }
-    handleSelectUpdate(changeEvent) {
-        let newState = {
-            isClean: false,
-            selected: changeEvent.currentTarget.value
-        };
-        if (this.state.hasPlaceholder) {
-            newState.options = this.state.options.slice(1);
-            console.log(newState.options);
-            newState.hasPlaceholder = false;
-        }
-        this.setState(newState);
-        this.props.onChange(this.state.selected);
-    }
-    render() {
-        const dropdown = (React.createElement("select", { className: "dropdown", onChange: this.handleSelectUpdate.bind(this) }, this.state.options));
-        return (React.createElement(field_1.default, { size: this.props.size, label: this.props.label, field: dropdown }));
-    }
-}
-exports.default = DropdownField;
-
-
-/***/ }),
-/* 209 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(210);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(11)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./field.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./field.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 210 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(10)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".field-container {\n  height: auto;\n  margin-bottom: 10px;\n  margin-right: 15px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: baseline;\n      -ms-flex-align: baseline;\n          align-items: baseline;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start; }\n\n.label-text {\n  -webkit-box-flex: 1;\n      -ms-flex: 1 0 10px;\n          flex: 1 0 10px;\n  font-size: 70%;\n  color: #777;\n  text-align: left;\n  margin-bottom: 5px; }\n\n.field-sm {\n  width: 40px;\n  -webkit-box-flex: 1;\n      -ms-flex: 1 0 40px;\n          flex: 1 0 40px; }\n\n.field-md {\n  width: 80px;\n  -webkit-box-flex: 2;\n      -ms-flex: 2 0 80px;\n          flex: 2 0 80px; }\n\n.field-lg {\n  width: 160px;\n  -webkit-box-flex: 4;\n      -ms-flex: 4 0 160px;\n          flex: 4 0 160px; }\n\n.field-match-content {\n  -webkit-box-flex: 1;\n      -ms-flex: 1 1 1em;\n          flex: 1 1 1em; }\n\n.field-match-content > input {\n  min-width: 10px;\n  width: 100%; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 211 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(212);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(11)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./dropdown-field.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./dropdown-field.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 212 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(10)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".dropdown {\n  width: 100%;\n  height: 100%;\n  border: 1px solid red; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 213 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(6);
-const timeout_1 = __webpack_require__(214);
-const text_field_1 = __webpack_require__(215);
-__webpack_require__(218);
-class AddressTierCalculator extends React.Component {
-    componentDidUpdate() {
-        this.props.onChange(this.state.address, this.state.tier);
-    }
-    constructor(props) {
-        super(props);
-        this.state = {
-            address: props.address,
-            tier: props.tier,
-            timeoutInstance: null,
-        };
-    }
-    now() {
-        return new Date().valueOf();
-    }
-    handleAddressChange(event) {
-        const address = event.target.value;
-        const TIMEOUT_DELAY = 1500;
-        const newTimeout = new timeout_1.default(() => {
-            console.log(address);
-        }, TIMEOUT_DELAY);
-        if (this.state.timeoutInstance !== null) {
-            this.state.timeoutInstance.cancel();
-        }
-        newTimeout.start();
-        this.setState({
-            address: address,
-            timeoutInstance: newTimeout
-        });
-    }
-    handleTierChange(event) {
-        const tier = event.target.value;
-        this.setState({
-            tier: tier
-        });
-    }
-    render() {
-        return (React.createElement("div", { className: "address-tier-calculator" },
-            React.createElement(text_field_1.default, { size: "lg", editable: true, label: this.props.addressLabel, onChange: this.handleAddressChange.bind(this), value: this.state.address }),
-            React.createElement(text_field_1.default, { size: "sm", editable: false, label: this.props.tierLabel, onChange: this.handleTierChange.bind(this), value: this.state.tier })));
-    }
-}
-exports.default = AddressTierCalculator;
-
-
-/***/ }),
-/* 214 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-class Timeout {
-    constructor(callback, delay) {
-        this.timerInstance = null;
-        this.callbackExecuted = false;
-        this.callback = () => {
-            this.callbackExecuted = true;
-            callback();
-        };
-        this.delay = delay;
-    }
-    start() {
-        this.timerInstance = setTimeout(this.callback, this.delay);
-    }
-    cancel() {
-        if (this.hasStarted()) {
-            clearTimeout(this.timerInstance);
-        }
-    }
-    hasStarted() {
-        return this.timerInstance !== null;
-    }
-    hasFinished() {
-        return this.callbackExecuted;
-    }
-}
-exports.default = Timeout;
-
-
-/***/ }),
-/* 215 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(6);
-const field_1 = __webpack_require__(85);
-__webpack_require__(216);
-const TextField = (props) => {
-    let textField = (React.createElement("input", { className: "textfield", readOnly: !props.editable, onChange: props.onChange, value: props.value ? props.value : "" }));
-    return React.createElement(field_1.default, { size: props.size, label: props.label, field: textField });
-};
-exports.default = TextField;
-
-
-/***/ }),
-/* 216 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(217);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(11)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./text-field.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./text-field.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 217 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(10)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".textfield {\n  display: block;\n  width: 100%; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 218 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(219);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(11)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../node_modules/sass-loader/lib/loader.js!./address-tier-calculator.scss", function() {
-			var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../node_modules/sass-loader/lib/loader.js!./address-tier-calculator.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 219 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(10)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".address-tier-calculator {\n  width: 100%;\n  margin-top: 10px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  -webkit-box-align: baseline;\n      -ms-flex-align: baseline;\n          align-items: baseline; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 220 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23817,6 +23273,550 @@ exports.StudentInfoStrings = {
 
 
 /***/ }),
+/* 200 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(5);
+const icon_button_1 = __webpack_require__(201);
+const arrow_up_1 = __webpack_require__(204);
+const partition_1 = __webpack_require__(84);
+__webpack_require__(207);
+const CollapsiblePartition = (props) => {
+    const collapseIcon = (React.createElement(arrow_up_1.default, { width: "20px", height: "20px" }));
+    let iconStyle = {
+        transition: "transform 150ms ease",
+        transform: props.collapsed ? "rotate(180deg)" : ""
+    };
+    return (React.createElement("div", { className: `collapsible ${props.collapsed ? "collapsed" : ""}` },
+        React.createElement(partition_1.default, { flex: props.flex, children: props.children }),
+        React.createElement("div", { style: {
+                position: "absolute",
+                bottom: -15,
+                left: "50%",
+                transform: "translateX(-50%)",
+                zIndex: 11
+            } },
+            React.createElement(icon_button_1.default, { icon: collapseIcon, style: iconStyle, onClick: () => {
+                    props.onCollapseChange(props.collapsed);
+                } }))));
+};
+exports.default = CollapsiblePartition;
+
+
+/***/ }),
+/* 201 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(5);
+__webpack_require__(202);
+const IconButton = (props) => {
+    return (React.createElement("button", { style: props.style, className: "button", onClick: props.onClick }, props.icon));
+};
+exports.default = IconButton;
+
+
+/***/ }),
+/* 202 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(203);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(11)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./button.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./button.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 203 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(10)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".button {\n  border-radius: 100%;\n  background-color: #cacaca;\n  border: 2px #9e9e9e solid; }\n  .button {\n    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n    -webkit-transition: -webkit-transform 100ms ease, -webkit-box-shadow 200ms ease;\n    transition: -webkit-transform 100ms ease, -webkit-box-shadow 200ms ease;\n    transition: transform 100ms ease, box-shadow 200ms ease;\n    transition: transform 100ms ease, box-shadow 200ms ease, -webkit-transform 100ms ease, -webkit-box-shadow 200ms ease; }\n  .button:hover {\n    -webkit-transform: scale(1.05);\n            transform: scale(1.05);\n    -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); }\n  .button:active {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    -webkit-box-shadow: none;\n            box-shadow: none; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 204 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(5);
+const ArrowUpIcon = (props) => {
+    return (React.createElement("svg", { style: props.style, width: props.width, height: props.height, x: "0px", y: "0px", viewBox: "0 0 1000 1000", enableBackground: "new 0 0 1000 1000" },
+        React.createElement("g", null,
+            React.createElement("path", { d: "M500,353L500,353l424.7,424.6l65.3-65.3L532.7,255L500,222.4L467.3,255L10,712.3l65.3,65.3L500,353z" }))));
+};
+exports.default = ArrowUpIcon;
+
+
+/***/ }),
+/* 205 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(206);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(11)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./partition.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./partition.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 206 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(10)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".partition {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  height: 100%;\n  margin: 0;\n  padding: 10px 5px; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 207 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(208);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(11)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./collapsible-partition.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./collapsible-partition.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 208 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(10)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".collapsible {\n  height: 80px;\n  -webkit-transition: height 150ms ease;\n  transition: height 150ms ease;\n  position: relative; }\n\n.collapsible > .partition {\n  overflow: hidden;\n  height: 100%;\n  border-radius: 6px;\n  border-bottom: 1px solid #cacaca; }\n\n.collapsible.collapsed {\n  height: 10px; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 209 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(5);
+const field_1 = __webpack_require__(85);
+__webpack_require__(212);
+class DropdownField extends React.Component {
+    constructor(props) {
+        super(props);
+        this.sizeClassName = "";
+        let options = [];
+        const createOption = (value, display) => {
+            return React.createElement("option", { key: value }, display);
+        };
+        for (let value in props.values) {
+            const display = props.values[value];
+            options.push(createOption(value, display));
+        }
+        let hasPlaceholder = false;
+        if (props.placeholder) {
+            hasPlaceholder = true;
+            const placeholder = createOption("placeholder", props.placeholder);
+            options.unshift(placeholder);
+        }
+        this.state = {
+            options: options,
+            selected: "placeholder",
+            hasPlaceholder: hasPlaceholder,
+            isClean: true
+        };
+    }
+    handleSelectUpdate(changeEvent) {
+        let newState = {
+            isClean: false,
+            selected: changeEvent.currentTarget.value
+        };
+        if (this.state.hasPlaceholder) {
+            newState.options = this.state.options.slice(1);
+            console.log(newState.options);
+            newState.hasPlaceholder = false;
+        }
+        this.setState(newState);
+        this.props.onChange(this.state.selected);
+    }
+    render() {
+        const dropdown = (React.createElement("select", { className: "dropdown", onChange: this.handleSelectUpdate.bind(this) }, this.state.options));
+        return (React.createElement(field_1.default, { size: this.props.size, label: this.props.label, field: dropdown }));
+    }
+}
+exports.default = DropdownField;
+
+
+/***/ }),
+/* 210 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(211);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(11)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./field.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./field.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 211 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(10)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".field-container {\n  height: auto;\n  margin-bottom: 10px;\n  margin-right: 15px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: baseline;\n      -ms-flex-align: baseline;\n          align-items: baseline;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start; }\n\n.label-text {\n  -webkit-box-flex: 1;\n      -ms-flex: 1 0 10px;\n          flex: 1 0 10px;\n  font-size: 70%;\n  color: #777;\n  text-align: left;\n  margin-bottom: 5px; }\n\n.field-sm {\n  width: 40px;\n  -webkit-box-flex: 1;\n      -ms-flex: 1 0 40px;\n          flex: 1 0 40px; }\n\n.field-md {\n  width: 80px;\n  -webkit-box-flex: 2;\n      -ms-flex: 2 0 80px;\n          flex: 2 0 80px; }\n\n.field-lg {\n  width: 160px;\n  -webkit-box-flex: 4;\n      -ms-flex: 4 0 160px;\n          flex: 4 0 160px; }\n\n.field-match-content {\n  -webkit-box-flex: 1;\n      -ms-flex: 1 1 1em;\n          flex: 1 1 1em; }\n\n.field-match-content > input {\n  min-width: 10px;\n  width: 100%; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 212 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(213);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(11)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./dropdown-field.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./dropdown-field.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 213 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(10)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".dropdown {\n  width: 100%;\n  height: 100%;\n  border: 1px solid red; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 214 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(5);
+const timeout_1 = __webpack_require__(215);
+const text_field_1 = __webpack_require__(216);
+__webpack_require__(219);
+class AddressTierCalculator extends React.Component {
+    componentDidUpdate() {
+        this.props.onChange(this.state.address, this.state.tier);
+    }
+    constructor(props) {
+        super(props);
+        this.state = {
+            address: props.address,
+            tier: props.tier,
+            timeoutInstance: null,
+        };
+    }
+    now() {
+        return new Date().valueOf();
+    }
+    handleAddressChange(event) {
+        const address = event.target.value;
+        const TIMEOUT_DELAY = 1500;
+        const newTimeout = new timeout_1.default(() => {
+            console.log(address);
+        }, TIMEOUT_DELAY);
+        if (this.state.timeoutInstance !== null) {
+            this.state.timeoutInstance.cancel();
+        }
+        newTimeout.start();
+        this.setState({
+            address: address,
+            timeoutInstance: newTimeout
+        });
+    }
+    handleTierChange(event) {
+        const tier = event.target.value;
+        this.setState({
+            tier: tier
+        });
+    }
+    render() {
+        return (React.createElement("div", { className: "address-tier-calculator" },
+            React.createElement(text_field_1.default, { size: "lg", editable: true, label: this.props.addressLabel, onChange: this.handleAddressChange.bind(this), value: this.state.address }),
+            React.createElement(text_field_1.default, { size: "sm", editable: false, label: this.props.tierLabel, onChange: this.handleTierChange.bind(this), value: this.state.tier })));
+    }
+}
+exports.default = AddressTierCalculator;
+
+
+/***/ }),
+/* 215 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class Timeout {
+    constructor(callback, delay) {
+        this.timerInstance = null;
+        this.callbackExecuted = false;
+        this.callback = () => {
+            this.callbackExecuted = true;
+            callback();
+        };
+        this.delay = delay;
+    }
+    start() {
+        this.timerInstance = setTimeout(this.callback, this.delay);
+    }
+    cancel() {
+        if (this.hasStarted()) {
+            clearTimeout(this.timerInstance);
+        }
+    }
+    hasStarted() {
+        return this.timerInstance !== null;
+    }
+    hasFinished() {
+        return this.callbackExecuted;
+    }
+}
+exports.default = Timeout;
+
+
+/***/ }),
+/* 216 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(5);
+const field_1 = __webpack_require__(85);
+__webpack_require__(217);
+const TextField = (props) => {
+    let textField = (React.createElement("input", { className: "textfield", readOnly: !props.editable, onChange: props.onChange, value: props.value ? props.value : "" }));
+    return React.createElement(field_1.default, { size: props.size, label: props.label, field: textField });
+};
+exports.default = TextField;
+
+
+/***/ }),
+/* 217 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(218);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(11)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./text-field.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./text-field.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 218 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(10)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".textfield {\n  display: block;\n  width: 100%; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 219 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(220);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(11)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../../node_modules/sass-loader/lib/loader.js!./address-tier-calculator.scss", function() {
+			var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../../node_modules/sass-loader/lib/loader.js!./address-tier-calculator.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 220 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(10)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".address-tier-calculator {\n  width: 100%;\n  margin-top: 10px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  -webkit-box-align: baseline;\n      -ms-flex-align: baseline;\n          align-items: baseline; }\n", ""]);
+
+// exports
+
+
+/***/ }),
 /* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23837,8 +23837,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../node_modules/sass-loader/lib/loader.js!./student-info-form.scss", function() {
-			var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../node_modules/sass-loader/lib/loader.js!./student-info-form.scss");
+		module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../../node_modules/sass-loader/lib/loader.js!./student-info-container.scss", function() {
+			var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../../node_modules/sass-loader/lib/loader.js!./student-info-container.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -23868,7 +23868,7 @@ exports.push([module.i, ".student-info-form {\n  display: -webkit-box;\n  displa
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(6);
+const React = __webpack_require__(5);
 const partition_1 = __webpack_require__(84);
 const score_display_1 = __webpack_require__(224);
 const score_transformer_1 = __webpack_require__(230);
@@ -23912,7 +23912,7 @@ exports.default = StudentScoresContainer;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(6);
+const React = __webpack_require__(5);
 const score_field_1 = __webpack_require__(225);
 const clone_1 = __webpack_require__(86);
 __webpack_require__(228);
@@ -23953,7 +23953,7 @@ exports.default = ScoreDisplay;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(6);
+const React = __webpack_require__(5);
 __webpack_require__(226);
 ;
 class ScoreField extends React.PureComponent {
@@ -24004,8 +24004,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../node_modules/sass-loader/lib/loader.js!./score-field.scss", function() {
-			var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../node_modules/sass-loader/lib/loader.js!./score-field.scss");
+		module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../../node_modules/sass-loader/lib/loader.js!./score-field.scss", function() {
+			var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../../node_modules/sass-loader/lib/loader.js!./score-field.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -24049,8 +24049,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../node_modules/sass-loader/lib/loader.js!./score-display.scss", function() {
-			var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../node_modules/sass-loader/lib/loader.js!./score-display.scss");
+		module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../../node_modules/sass-loader/lib/loader.js!./score-display.scss", function() {
+			var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../../node_modules/sass-loader/lib/loader.js!./score-display.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -24080,9 +24080,9 @@ exports.push([module.i, ".score-display {\n  width: 150px;\n  display: -webkit-b
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(6);
+const React = __webpack_require__(5);
 const score_transformer_input_container_1 = __webpack_require__(231);
-const create_score_transformer_function_1 = __webpack_require__(234);
+const create_score_transformer_function_1 = __webpack_require__(236);
 class ScoreTransformer extends React.PureComponent {
     constructor(props) {
         super(props);
@@ -24127,7 +24127,7 @@ exports.default = ScoreTransformer;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(6);
+const React = __webpack_require__(5);
 const clone_1 = __webpack_require__(86);
 const score_type_1 = __webpack_require__(232);
 const transformer_setting_input_1 = __webpack_require__(233);
@@ -24177,8 +24177,8 @@ exports.default = ScoreType;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(6);
-const effort_level_1 = __webpack_require__(236);
+const React = __webpack_require__(5);
+const effort_level_1 = __webpack_require__(234);
 const effort_icon_1 = __webpack_require__(235);
 const TransformerSettingInput = (props) => {
     const toEffortLevel = (value) => {
@@ -24229,21 +24229,15 @@ exports.default = TransformerSettingInput;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const createScoreTransformerFunction = (transformerSettings) => {
-    return function (oldScores) {
-        let newScores = {};
-        for (let scoreType in oldScores) {
-            const oldScore = oldScores[scoreType];
-            const transformerSetting = transformerSettings[scoreType];
-            newScores[scoreType] = transformScore(oldScore, transformerSetting, scoreType);
-        }
-        return newScores;
-    };
-};
-const transformScore = (oldScore, setting, scoreType) => {
-    return oldScore + setting;
-};
-exports.default = createScoreTransformerFunction;
+var EffortLevel;
+(function (EffortLevel) {
+    EffortLevel[EffortLevel["NONE"] = 1] = "NONE";
+    EffortLevel[EffortLevel["LOW"] = 2] = "LOW";
+    EffortLevel[EffortLevel["NORMAL"] = 3] = "NORMAL";
+    EffortLevel[EffortLevel["HIGH"] = 4] = "HIGH";
+    EffortLevel[EffortLevel["EXTREME"] = 5] = "EXTREME";
+})(EffortLevel || (EffortLevel = {}));
+exports.default = EffortLevel;
 
 
 /***/ }),
@@ -24253,7 +24247,7 @@ exports.default = createScoreTransformerFunction;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(6);
+const React = __webpack_require__(5);
 const EffortIcon = (props) => {
     if (props.active) {
         return React.createElement("div", { style: { tabIndex: 0 }, onClick: props.onClick }, "x");
@@ -24272,15 +24266,21 @@ exports.default = EffortIcon;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var EffortLevel;
-(function (EffortLevel) {
-    EffortLevel[EffortLevel["NONE"] = 1] = "NONE";
-    EffortLevel[EffortLevel["LOW"] = 2] = "LOW";
-    EffortLevel[EffortLevel["NORMAL"] = 3] = "NORMAL";
-    EffortLevel[EffortLevel["HIGH"] = 4] = "HIGH";
-    EffortLevel[EffortLevel["EXTREME"] = 5] = "EXTREME";
-})(EffortLevel || (EffortLevel = {}));
-exports.default = EffortLevel;
+const createScoreTransformerFunction = (transformerSettings) => {
+    return function (oldScores) {
+        let newScores = {};
+        for (let scoreType in oldScores) {
+            const oldScore = oldScores[scoreType];
+            const transformerSetting = transformerSettings[scoreType];
+            newScores[scoreType] = transformScore(oldScore, transformerSetting, scoreType);
+        }
+        return newScores;
+    };
+};
+const transformScore = (oldScore, setting, scoreType) => {
+    return oldScore + setting;
+};
+exports.default = createScoreTransformerFunction;
 
 
 /***/ })

@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import Page from "shared/components/layout/page";
-import HSCalculator from "./components/hs-calc";
+import HSCalculator from "./components/hs-calc/hs-calc";
 
 // FIXME: hardcoded studentScores
 import StudentScores from "shared/types/student-scores";

@@ -3,7 +3,7 @@ import * as React from "react";
 import Partition from "shared/components/layout/partition";
 
 import ScoreDisplay from "./score-display";
-import ScoreTransformer from "./score-transformer";
+import ScoreTransformer from "./score-transformer/score-transformer";
 
 import StudentScores from "shared/types/student-scores";
 
