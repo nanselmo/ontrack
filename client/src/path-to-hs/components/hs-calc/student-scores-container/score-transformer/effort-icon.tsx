@@ -9,8 +9,8 @@ import HighEffortIcon from "shared/components/icons/high-effort-icon";
 import ExtremeEffortIcon from "shared/components/icons/extreme-effort-icon";
 
 interface EffortIconProps {
-  active: boolean
-  onClick: React.MouseEventHandler<HTMLDivElement>
+  active?: boolean
+  onClick?: React.MouseEventHandler<HTMLDivElement>
   level: EffortLevel
 }
 
@@ -35,19 +35,11 @@ const EffortIcon = (props: EffortIconProps) => {
     }
   };
 
-  if (props.active){
-    return (
-      <div style={{tabIndex: 0}} onClick={props.onClick}>
-        {showIcon(props.level)} 
-      </div>
+  return (
+    <div style={{tabIndex: 0}} onClick={props.onClick}>
+      {showIcon(props.level)} 
+    </div>
     )
-  } else {
-    return (
-      <div style={{tabIndex: 0}} onClick={props.onClick}>
-        .
-      </div>
-    )
-  }
 
 };
 

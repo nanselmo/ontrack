@@ -2,6 +2,9 @@ import * as React from "react";
 
 import EffortLevel from "shared/types/effort-level";
 
+import IconButton from "shared/components/ui/icon-button";
+import CircledArrowUpIcon from "shared/components/icons/circled-arrow-up-icon";
+import CircledArrowDownIcon from "shared/components/icons/circled-arrow-down-icon";
 import EffortIcon from "./effort-icon";
 
 interface TransformerSettingInputProps {
@@ -42,26 +45,19 @@ const TransformerSettingInput = (props: TransformerSettingInputProps) => {
 
   return (
     <div style={{display: "flex", flexDirection: "row"}}>
+      <div 
+        className="score-change-button" 
+        onClick={() => props.onChange(props.value - 10)}>
+          <CircledArrowDownIcon width="24px" height="24px"/>
+      </div>
       <EffortIcon 
-        level={EffortLevel.NONE}  
-        active={toEffortLevel(props.value) === EffortLevel.NONE}
-        onClick={() => props.onChange(toValue(EffortLevel.NONE))}/>
-      <EffortIcon 
-        level={EffortLevel.LOW}  
-        active={toEffortLevel(props.value) === EffortLevel.LOW}
-        onClick={() => props.onChange(toValue(EffortLevel.LOW))}/>
-      <EffortIcon 
-        level={EffortLevel.NORMAL}  
-        active={toEffortLevel(props.value) === EffortLevel.NORMAL}
-        onClick={() => props.onChange(toValue(EffortLevel.NORMAL))}/>
-      <EffortIcon 
-        level={EffortLevel.HIGH}  
-        active={toEffortLevel(props.value) === EffortLevel.HIGH}
-        onClick={() => props.onChange(toValue(EffortLevel.HIGH))}/>
-      <EffortIcon 
-        level={EffortLevel.EXTREME}  
-        active={toEffortLevel(props.value) === EffortLevel.EXTREME}
-        onClick={() => props.onChange(toValue(EffortLevel.EXTREME))}/>
+        level={toEffortLevel(props.value)}  
+      />
+      <div 
+        className="score-change-button" 
+        onClick={() => props.onChange(props.value + 10)}>
+          <CircledArrowUpIcon width="24px" height="24px"/>
+      </div>
     </div>
   )
 

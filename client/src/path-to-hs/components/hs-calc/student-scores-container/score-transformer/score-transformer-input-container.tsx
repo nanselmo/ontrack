@@ -18,7 +18,6 @@ const ScoreTransformerInputContainer = (props: ScTrInputProps) => {
 
   const createOnChange = (scoreType: ScoreType): (value: number) => any => {
     const handler = (value: number) => {
-      console.log(props.settings[scoreType] === value);
       if (props.settings[scoreType] !== value) {
         const settings = clone(props.settings);
         settings[scoreType] = value;
@@ -30,16 +29,6 @@ const ScoreTransformerInputContainer = (props: ScTrInputProps) => {
 
   return (
     <div>
-      <div id="projector-select-container projector-nwea-math">
-        {console.log(props.settings)}
-        <TransformerSettingInput 
-          value={props.settings[ScoreType.nweaMath]}
-          onChange={createOnChange(ScoreType.nweaMath)}/>
-      </div>
-    </div>
-  )
-}; 
-/*
       <div id="projector-select-container projector-nwea-math">
         <TransformerSettingInput 
           value={props.settings[ScoreType.nweaMath]} 
@@ -70,6 +59,8 @@ const ScoreTransformerInputContainer = (props: ScTrInputProps) => {
           value={props.settings[ScoreType.subjGradeSocStudies]} 
           onChange={createOnChange(ScoreType.subjGradeSocStudies)}/>
       </div>
+    </div>
+  )
+}; 
 
- */
 export default ScoreTransformerInputContainer;

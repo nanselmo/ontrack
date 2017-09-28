@@ -1,4 +1,4 @@
-Create icons for Score Transformer Input
+Add (rough) styles to TransformerSettingInput
 
--- create shared/images, store new svgs there
--- create effort icon components in shared/icons/
+-- add top/bottom buttons
+-- add labels
