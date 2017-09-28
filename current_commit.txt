@@ -1,0 +1,4 @@
+Create icons for Score Transformer Input
+
+-- create shared/images, store new svgs there
+-- create effort icon components in shared/icons/

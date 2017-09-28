@@ -1,7 +1,6 @@
 import * as React from "react";
 
-import {IconElement} from "../../types/icon";
-
+import IconElement from "shared/types/icon-element";
 interface IconButtonProps {
   icon: IconElement
   iconStyle?:{

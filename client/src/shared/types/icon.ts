@@ -1,13 +1,8 @@
-export interface IconProps {
-  width?: string 
-  height?: string
-  style?: {
-    [rule: string]: string
-  }
-}
+import IconElement from "shared/types/icon-element";
+import IconComponentProps from "shared/types/icon-component-props";
 
-export type IconComponent = (props: IconProps) => IconElement;
+type IconComponent = (props: IconComponentProps) => IconElement;
 
-export type IconElement = React.ReactElement<SVGElement>
+export default IconComponent;
 
 

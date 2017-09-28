@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import {IconComponent, IconElement, IconProps} from "shared/types/icon";
+import IconComponent from "shared/types/icon";
 
-const ArrowUpIcon: IconComponent = (props: IconProps) => {
+const ArrowUpIcon: IconComponent = (props) => {
   return (
     <svg 
       style={props.style} 
