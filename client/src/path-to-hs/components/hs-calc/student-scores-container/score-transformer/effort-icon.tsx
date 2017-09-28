@@ -2,11 +2,9 @@ import * as React from "react";
 
 import EffortLevel from "shared/types/effort-level";
 
-import NoEffortIcon from "shared/components/icons/no-effort-icon";
-import LowEffortIcon from "shared/components/icons/low-effort-icon";
-import NormalEffortIcon from "shared/components/icons/normal-effort-icon";
-import HighEffortIcon from "shared/components/icons/high-effort-icon";
-import ExtremeEffortIcon from "shared/components/icons/extreme-effort-icon";
+import TrendDownIcon from "shared/components/icons/trend-down-icon";
+import TrendNeutralIcon from "shared/components/icons/trend-neutral-icon";
+import TrendUpIcon from "shared/components/icons/trend-up-icon";
 
 interface EffortIconProps {
   active?: boolean
@@ -23,15 +21,15 @@ const EffortIcon = (props: EffortIconProps) => {
     };
     switch(level) {
       case EffortLevel.NONE:
-        return <NoEffortIcon {...iconProps}/>
+        return <TrendDownIcon {...iconProps}/>
       case EffortLevel.LOW:
-        return <LowEffortIcon {...iconProps}/>
+        return <TrendNeutralIcon {...iconProps}/>
       case EffortLevel.NORMAL:
-        return <NormalEffortIcon {...iconProps}/>
+        return <TrendNeutralIcon  {...iconProps}/>
       case EffortLevel.HIGH:
-        return <HighEffortIcon {...iconProps}/>
+        return <TrendUpIcon {...iconProps}/>
       case EffortLevel.EXTREME:
-        return <HighEffortIcon {...iconProps}/>
+        return <TrendUpIcon {...iconProps}/>
     }
   };
 

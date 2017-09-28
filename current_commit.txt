@@ -1,4 +1,6 @@
-Add (rough) styles to TransformerSettingInput
+Change EffortIcon to use arrows instead of pictograms
 
--- add top/bottom buttons
--- add labels
+-- add trend icons to shared/components/icons
+-- pictograms remain in shared/components/icons
+-- remove original .svg images of pictograms from
+  shared/images
