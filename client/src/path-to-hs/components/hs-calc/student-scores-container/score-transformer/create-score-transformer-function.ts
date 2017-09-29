@@ -18,8 +18,8 @@ const createScoreTransformerFunction = (transformerSettings: ScoreTransformerSet
   };
 };
 
+// TODO: this is a mock
 const transformScore = (oldScore: number, setting: number, scoreType: ScoreType) => {
-  // FIXME: mock
   return oldScore + setting;
 }
 

@@ -15,13 +15,14 @@ interface Props {
   editable: boolean
 }
 
-type ScoreProjectorFunction = (StudentScores) => StudentScores;
+type ScoreTransformerFunction = (StudentScores) => StudentScores;
 
 interface State {
   currentScores: StudentScores
   shouldDisplayFutureScores: boolean
-  scoreProjector: ScoreProjectorFunction
+  scoreTransformerFunction: ScoreTransformerFunction
   editable: boolean
+  onChange: (newGrades: StudentScores) => any
 }
 
 class StudentScoresContainer extends React.PureComponent<Props, State> {
@@ -32,18 +33,24 @@ class StudentScoresContainer extends React.PureComponent<Props, State> {
       shouldDisplayFutureScores: props.shouldDisplayFutureScores,
       editable: props.editable,
       // FIXME: is this a sensical default?
-      scoreProjector: (scores: StudentScores) => scores,
+      scoreTransformerFunction: (scores: StudentScores) => {
+        console.log("old one!");
+        return scores;
+      },
+      onChange: props.onChange
     }
   }
 
-  private handleScoreProjectorChange(projector: ScoreProjectorFunction): void {
+  private handleScoreProjectorChange(transformer: ScoreTransformerFunction): void {
     this.setState({
-      scoreProjector: projector
+      scoreTransformerFunction: transformer 
     });
   }
 
   private handleCurrentScoresChange(newScores: StudentScores): void {
-
+    this.setState({
+      currentScores: newScores
+    });
   }
 
   render() {
@@ -54,9 +61,10 @@ class StudentScoresContainer extends React.PureComponent<Props, State> {
             scores={this.state.currentScores}
             editable={this.state.editable}
             onChange={this.handleCurrentScoresChange.bind(this)} />
-          <ScoreTransformer onChange={this.handleScoreProjectorChange.bind(this)}/>
+          <ScoreTransformer 
+            onChange={this.handleScoreProjectorChange.bind(this)}/>
           <ScoreDisplay 
-            scores={this.state.scoreProjector(this.state.currentScores)}
+            scores={this.state.scoreTransformerFunction(this.state.currentScores)}
             editable={false}
             onChange={() => null}/>
         </Partition>
@@ -67,7 +75,7 @@ class StudentScoresContainer extends React.PureComponent<Props, State> {
           <ScoreDisplay 
             scores={this.state.currentScores}
             editable={this.state.editable}
-            onChange={this.handleCurrentScoresChange} />
+            onChange={this.handleCurrentScoresChange.bind(this)} />
         </div>
       )
     }

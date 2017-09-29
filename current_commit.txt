@@ -1,6 +1,27 @@
-Change EffortIcon to use arrows instead of pictograms
+Wire together ScoreTransformer to StudentScoresContainer
 
--- add trend icons to shared/components/icons
--- pictograms remain in shared/components/icons
--- remove original .svg images of pictograms from
-  shared/images
+-- (very roughly) style ScoreTransformer
+-- rename ScoreProjector prop --> ScoreTransformerFunction in
+  StudentScoresContainer
+-- change StudentScores interface (again) so that all scores are numbers.
+  Handle letter grade conversion the only place it matters,
+  in the display.
+-- write simple createScoreTransformer
+-- (shared/util) combine toLetterGrade and toGPA into grade-conversion
+-- write simple onChange handler for student scores in StudentScoresContainer
+-- add missing onChange function to ScoreField
+-- make ScoreField stateless functional component (should implement debouncing
+  farther up component chain if interested?)
+-- update ScoreField onChange handler in ScoreDisplay
+    -- typeconvert string scores to number in onChange handler
+    -- use ScoreType enum as argument to HOF that creates onChange handler
+-- Fix glitch involving ScoreField switching child <input> element to uncontrolled
+  due to passing in empty string as a value, which is falsy.
+-- Merge ScoreTransformer and ScoreTransformerInputContainer into ScoreTransformer
+  -- Fixes another, similar state-lagging glitch. Clearly there's something
+  I'm failing to understand about stateful components that expose an onChange prop.
+-- Fix glitch causing ScoreTransformerInputs to change more than one ScoreField
+  if different ScoreTransformer inputs clicked on after another. (I think
+  it has to do with ScoreField switching in and out of having a controlled
+  input component, which is also apparently happening. Not sure.)
+

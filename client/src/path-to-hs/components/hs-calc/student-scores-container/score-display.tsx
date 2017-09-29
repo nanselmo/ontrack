@@ -3,8 +3,10 @@ import * as React from "react";
 import ScoreField from "./score-field";
 
 import StudentScores from "shared/types/student-scores";
+import ScoreType from "shared/types/score-type";
 
 import clone from "shared/util/clone";
+import {toLetterGrade, toNumberGrade} from "shared/util/grade-conversion";
 
 import "./score-display.scss";
 
@@ -16,8 +18,6 @@ interface ScoreDisplayProps {
 
 const ScoreDisplay = (props: ScoreDisplayProps) => {
 
-  const nweaToString = (score: number): string => score.toString(10);
-
   const isNWEAScore = (score: string): boolean => {
     // TODO: implement
     return true;
@@ -28,12 +28,38 @@ const ScoreDisplay = (props: ScoreDisplayProps) => {
     return true;
   };
 
-  const createScoreChangeHandler = (scoreType: string, props: ScoreDisplayProps)
+  const createScoreChangeHandler = (scoreType: ScoreType, props: ScoreDisplayProps)
                                         : ((string) => void)  => {
-    return function(score: string): void {
-      let scores: StudentScores = clone(props.scores);
-      scores[scoreType] = score;
-      props.onChange(scores); 
+    switch(scoreType) {
+      case ScoreType.nweaMath:
+      case ScoreType.nweaRead:
+        return function(scoreAsString: string): void {
+          let scores: StudentScores = clone(props.scores);
+          scores[scoreType] = Number.parseInt(scoreAsString, 10);
+          props.onChange(scores); 
+        }
+      case ScoreType.subjGradeMath:
+      case ScoreType.subjGradeRead:
+      case ScoreType.subjGradeSci:
+      case ScoreType.subjGradeSocStudies:
+        return function(scoreAsString: string): void {
+          let scores: StudentScores = clone(props.scores);
+          scores[scoreType] = toNumberGrade(scoreAsString);
+          props.onChange(scores); 
+        }
+    }
+  };
+  
+  const stringify = (score: number, scoreType: ScoreType): string => {
+    switch(scoreType) {
+      case ScoreType.nweaMath:
+      case ScoreType.nweaRead:
+        return score.toString(10);
+      case ScoreType.subjGradeMath:
+      case ScoreType.subjGradeRead:
+      case ScoreType.subjGradeSci:
+      case ScoreType.subjGradeSocStudies:
+        return toLetterGrade(score);
     }
   };
 
@@ -47,54 +73,64 @@ const ScoreDisplay = (props: ScoreDisplayProps) => {
         <ScoreField
           size="lg"
           label="Math"
-          defaultValue={props.scores ? nweaToString(props.scores.nweaMath) : ""}
+          value={props.scores ? 
+            stringify(props.scores.nweaMath, ScoreType.nweaMath) 
+            : ""}
           editable={props.editable}
           validationFunction={isNWEAScore}
-          onChange={createScoreChangeHandler("nweaMath", props)}/>
+          onChange={createScoreChangeHandler(ScoreType.nweaMath, props)}/>
         <ScoreField
           size="lg"
           label="Reading"
-          defaultValue={props.scores ? nweaToString(props.scores.nweaRead) : ""}          editable={props.editable}
+          value={props.scores ? 
+            stringify(props.scores.nweaRead, ScoreType.nweaRead) 
+            : ""}
+          editable={props.editable}   
           validationFunction={isNWEAScore}
-          onChange={createScoreChangeHandler("nweaRead", props)}/>
-      </div>
-
-      <div className="score-group subject-grades">
+          onChange={createScoreChangeHandler(ScoreType.nweaRead, props)}/>
         <div className="score-group-label">
           Your School Grades 
         </div>
         <ScoreField
           size="sm"
           label="Math"
-          defaultValue={props.scores ? props.scores.subjGradeMath : ""}
+          value={props.scores ? 
+            stringify(props.scores.subjGradeMath, ScoreType.subjGradeMath) 
+            : ""}
           editable={props.editable}
           validationFunction={isSubjectGrade}
-          onChange={createScoreChangeHandler("subjGradeMath", props)}/>
+          onChange={createScoreChangeHandler(ScoreType.subjGradeMath, props)}/>
         <ScoreField
           size="sm"
           label="Reading"
-          defaultValue={props.scores ? props.scores.subjGradeRead : ""}
+          value={props.scores ? 
+            stringify(props.scores.subjGradeRead, ScoreType.subjGradeRead) 
+            : ""}
           editable={props.editable}
           validationFunction={isSubjectGrade}
-          onChange={createScoreChangeHandler("subjGradeRead", props)}/>
+          onChange={createScoreChangeHandler(ScoreType.subjGradeRead, props)}/>
         <ScoreField
           size="sm"
           label="Science"
-          defaultValue={props.scores ? props.scores.subjGradeSci : ""}
+          value={props.scores ? 
+            stringify(props.scores.subjGradeSci, ScoreType.subjGradeSci) 
+            : ""}
           editable={props.editable}
           validationFunction={isSubjectGrade}
-          onChange={createScoreChangeHandler("subjGradeSci", props)}/>
+          onChange={createScoreChangeHandler(ScoreType.subjGradeSci, props)}/>
         <ScoreField
           size="sm"
           label="Social Studies"
-          defaultValue={props.scores ? props.scores.subjGradeSocStudies : ""}
+          value={props.scores ? 
+            stringify(props.scores.subjGradeSocStudies, ScoreType.subjGradeSocStudies)
+            : ""}
           editable={props.editable}
           validationFunction={isSubjectGrade}
-          onChange={createScoreChangeHandler("subjGradeSocStudies", props)}/>
+          onChange={createScoreChangeHandler(ScoreType.subjGradeSocStudies, props)}/>
       </div>
     </div>
   )
 
 };
 
-export default ScoreDisplay
+export default ScoreDisplay;

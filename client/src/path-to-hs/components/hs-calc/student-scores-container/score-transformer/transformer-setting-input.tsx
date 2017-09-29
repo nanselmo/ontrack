@@ -45,19 +45,19 @@ const TransformerSettingInput = (props: TransformerSettingInputProps) => {
 
   return (
     <div style={{display: "flex", flexDirection: "row"}}>
-      <div 
+      <button 
         className="score-change-button" 
         onClick={() => props.onChange(props.value - 10)}>
           <CircledArrowDownIcon width="24px" height="24px"/>
-      </div>
+      </button>
       <EffortIcon 
         level={toEffortLevel(props.value)}  
       />
-      <div 
+      <button 
         className="score-change-button" 
         onClick={() => props.onChange(props.value + 10)}>
           <CircledArrowUpIcon width="24px" height="24px"/>
-      </div>
+      </button>
     </div>
   )
 

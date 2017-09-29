@@ -7,7 +7,11 @@ import HSCalculator from "./components/hs-calc/hs-calc";
 import StudentScores from "shared/types/student-scores";
 const STUDENT_SCORES: StudentScores = {
   nweaMath: 150,
-  nweaRead: 140
+  nweaRead: 140,
+  subjGradeMath: 90,
+  subjGradeRead: 80,
+  subjGradeSci: 79,
+  subjGradeSocStudies: 66 
 }
 const PathToHS = (props: any) => {
   return (

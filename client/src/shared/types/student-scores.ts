@@ -3,8 +3,8 @@ export default interface StudentScores {
   nweaRead?: number
   nweaPercentileMath?: number
   nweaPercentileRead?: number
-  subjGradeMath?: string 
-  subjGradeRead?: string
-  subjGradeSci?: string
-  subjGradeSocStudies?: string
+  subjGradeMath?: number 
+  subjGradeRead?: number
+  subjGradeSci?: number
+  subjGradeSocStudies?: number
 }

@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 88);
+/******/ 	return __webpack_require__(__webpack_require__.s = 89);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1168,36 +1168,6 @@ module.exports = ReactComponentTreeHook;
 
 /***/ }),
 /* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright 2016-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * 
- */
-
-
-
-// Trust the developer to only use ReactInstrumentation with a __DEV__ check
-
-var debugTool = null;
-
-if (process.env.NODE_ENV !== 'production') {
-  var ReactDebugTool = __webpack_require__(115);
-  debugTool = ReactDebugTool;
-}
-
-module.exports = { debugTool: debugTool };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 10 */
 /***/ (function(module, exports) {
 
 /*
@@ -1279,7 +1249,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -1325,7 +1295,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(194);
+var	fixUrls = __webpack_require__(195);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -1636,6 +1606,36 @@ function updateLink (link, options, obj) {
 	if(oldSrc) URL.revokeObjectURL(oldSrc);
 }
 
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright 2016-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * 
+ */
+
+
+
+// Trust the developer to only use ReactInstrumentation with a __DEV__ check
+
+var debugTool = null;
+
+if (process.env.NODE_ENV !== 'production') {
+  var ReactDebugTool = __webpack_require__(116);
+  debugTool = ReactDebugTool;
+}
+
+module.exports = { debugTool: debugTool };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
 /* 12 */
@@ -2944,14 +2944,14 @@ module.exports = PooledClass;
 var _assign = __webpack_require__(5);
 
 var ReactBaseClasses = __webpack_require__(52);
-var ReactChildren = __webpack_require__(89);
-var ReactDOMFactories = __webpack_require__(93);
+var ReactChildren = __webpack_require__(90);
+var ReactDOMFactories = __webpack_require__(94);
 var ReactElement = __webpack_require__(17);
-var ReactPropTypes = __webpack_require__(97);
-var ReactVersion = __webpack_require__(100);
+var ReactPropTypes = __webpack_require__(98);
+var ReactVersion = __webpack_require__(101);
 
-var createReactClass = __webpack_require__(101);
-var onlyChild = __webpack_require__(103);
+var createReactClass = __webpack_require__(102);
+var onlyChild = __webpack_require__(104);
 
 var createElement = ReactElement.createElement;
 var createFactory = ReactElement.createFactory;
@@ -3123,8 +3123,8 @@ module.exports = reactProdInvariant;
 
 
 
-var ReactRef = __webpack_require__(113);
-var ReactInstrumentation = __webpack_require__(9);
+var ReactRef = __webpack_require__(114);
+var ReactInstrumentation = __webpack_require__(11);
 
 var warning = __webpack_require__(2);
 
@@ -4814,10 +4814,10 @@ module.exports = escapeTextContentForBrowser;
 var _assign = __webpack_require__(5);
 
 var EventPluginRegistry = __webpack_require__(29);
-var ReactEventEmitterMixin = __webpack_require__(139);
+var ReactEventEmitterMixin = __webpack_require__(140);
 var ViewportMetrics = __webpack_require__(67);
 
-var getVendorPrefixedEventName = __webpack_require__(140);
+var getVendorPrefixedEventName = __webpack_require__(141);
 var isEventSupported = __webpack_require__(39);
 
 /**
@@ -5679,9 +5679,9 @@ module.exports = getEventModifierState;
 
 
 var DOMLazyTree = __webpack_require__(22);
-var Danger = __webpack_require__(124);
+var Danger = __webpack_require__(125);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactInstrumentation = __webpack_require__(9);
+var ReactInstrumentation = __webpack_require__(11);
 
 var createMicrosoftUnsafeLocalFunction = __webpack_require__(43);
 var setInnerHTML = __webpack_require__(32);
@@ -6354,7 +6354,7 @@ var _prodInvariant = __webpack_require__(3);
 
 var ReactCurrentOwner = __webpack_require__(13);
 var ReactInstanceMap = __webpack_require__(26);
-var ReactInstrumentation = __webpack_require__(9);
+var ReactInstrumentation = __webpack_require__(11);
 var ReactUpdates = __webpack_require__(14);
 
 var invariant = __webpack_require__(1);
@@ -7354,7 +7354,7 @@ var ReactCurrentOwner = __webpack_require__(13);
 var ReactComponentTreeHook = __webpack_require__(8);
 var ReactElement = __webpack_require__(17);
 
-var checkReactTypeSpec = __webpack_require__(94);
+var checkReactTypeSpec = __webpack_require__(95);
 
 var canDefineProperty = __webpack_require__(27);
 var getIteratorFn = __webpack_require__(55);
@@ -7607,7 +7607,7 @@ module.exports = ReactElementValidator;
 // Therefore we re-export development-only version with all the PropTypes checks here.
 // However if one is migrating to the `prop-types` npm library, they will go through the
 // `index.js` entry point, and it will branch depending on the environment.
-var factory = __webpack_require__(98);
+var factory = __webpack_require__(99);
 module.exports = function(isValidElement) {
   // It is still allowed in 15.5.
   var throwOnDirectAccess = false;
@@ -8430,9 +8430,9 @@ module.exports = CSSProperty;
 
 var DOMProperty = __webpack_require__(16);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactInstrumentation = __webpack_require__(9);
+var ReactInstrumentation = __webpack_require__(11);
 
-var quoteAttributeValueForBrowser = __webpack_require__(138);
+var quoteAttributeValueForBrowser = __webpack_require__(139);
 var warning = __webpack_require__(2);
 
 var VALID_ATTRIBUTE_NAME_REGEX = new RegExp('^[' + DOMProperty.ATTRIBUTE_NAME_START_CHAR + '][' + DOMProperty.ATTRIBUTE_NAME_CHAR + ']*$');
@@ -8900,11 +8900,11 @@ module.exports = ReactDOMSelect;
 var _prodInvariant = __webpack_require__(3),
     _assign = __webpack_require__(5);
 
-var ReactCompositeComponent = __webpack_require__(146);
+var ReactCompositeComponent = __webpack_require__(147);
 var ReactEmptyComponent = __webpack_require__(76);
 var ReactHostComponent = __webpack_require__(77);
 
-var getNextDebugID = __webpack_require__(149);
+var getNextDebugID = __webpack_require__(150);
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
 
@@ -9190,9 +9190,9 @@ module.exports = ReactHostComponent;
 var _prodInvariant = __webpack_require__(3);
 
 var ReactCurrentOwner = __webpack_require__(13);
-var REACT_ELEMENT_TYPE = __webpack_require__(150);
+var REACT_ELEMENT_TYPE = __webpack_require__(151);
 
-var getIteratorFn = __webpack_require__(151);
+var getIteratorFn = __webpack_require__(152);
 var invariant = __webpack_require__(1);
 var KeyEscapeUtils = __webpack_require__(48);
 var warning = __webpack_require__(2);
@@ -9459,9 +9459,9 @@ module.exports = EventListener;
 
 
 
-var ReactDOMSelection = __webpack_require__(163);
+var ReactDOMSelection = __webpack_require__(164);
 
-var containsNode = __webpack_require__(165);
+var containsNode = __webpack_require__(166);
 var focusNode = __webpack_require__(69);
 var getActiveElement = __webpack_require__(81);
 
@@ -9639,12 +9639,12 @@ var React = __webpack_require__(19);
 var ReactBrowserEventEmitter = __webpack_require__(34);
 var ReactCurrentOwner = __webpack_require__(13);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactDOMContainerInfo = __webpack_require__(180);
-var ReactDOMFeatureFlags = __webpack_require__(181);
+var ReactDOMContainerInfo = __webpack_require__(181);
+var ReactDOMFeatureFlags = __webpack_require__(182);
 var ReactFeatureFlags = __webpack_require__(64);
 var ReactInstanceMap = __webpack_require__(26);
-var ReactInstrumentation = __webpack_require__(9);
-var ReactMarkupChecksum = __webpack_require__(182);
+var ReactInstrumentation = __webpack_require__(11);
+var ReactMarkupChecksum = __webpack_require__(183);
 var ReactReconciler = __webpack_require__(21);
 var ReactUpdateQueue = __webpack_require__(49);
 var ReactUpdates = __webpack_require__(14);
@@ -10201,7 +10201,7 @@ module.exports = getHostComponentFromComposite;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(4);
-__webpack_require__(206);
+__webpack_require__(207);
 const Partition = (props) => {
     return (React.createElement("div", { className: "partition", style: props.flex }, props.children));
 };
@@ -10216,7 +10216,7 @@ exports.default = Partition;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(4);
-__webpack_require__(211);
+__webpack_require__(212);
 const Field = (props) => {
     const className = "field-container field-" + props.size;
     if (props.label) {
@@ -10238,6 +10238,25 @@ exports.default = Field;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var ScoreType;
+(function (ScoreType) {
+    ScoreType["nweaMath"] = "nweaMath";
+    ScoreType["nweaRead"] = "nweaRead";
+    ScoreType["subjGradeMath"] = "subjGradeMath";
+    ScoreType["subjGradeRead"] = "subjGradeRead";
+    ScoreType["subjGradeSci"] = "subjGradeSci";
+    ScoreType["subjGradeSocStudies"] = "subjGradeSocStudies";
+})(ScoreType || (ScoreType = {}));
+exports.default = ScoreType;
+
+
+/***/ }),
+/* 87 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
 const clone = function (src) {
     if (src === undefined) {
         return undefined;
@@ -10250,7 +10269,7 @@ exports.default = clone;
 
 
 /***/ }),
-/* 87 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10268,20 +10287,20 @@ exports.default = EffortLevel;
 
 
 /***/ }),
-/* 88 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(4);
-const react_dom_1 = __webpack_require__(104);
-const path_to_hs_1 = __webpack_require__(190);
+const react_dom_1 = __webpack_require__(105);
+const path_to_hs_1 = __webpack_require__(191);
 react_dom_1.render((React.createElement(path_to_hs_1.default, null)), document.getElementById("root"));
 
 
 /***/ }),
-/* 89 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10297,11 +10316,11 @@ react_dom_1.render((React.createElement(path_to_hs_1.default, null)), document.g
 
 
 
-var PooledClass = __webpack_require__(90);
+var PooledClass = __webpack_require__(91);
 var ReactElement = __webpack_require__(17);
 
 var emptyFunction = __webpack_require__(12);
-var traverseAllChildren = __webpack_require__(91);
+var traverseAllChildren = __webpack_require__(92);
 
 var twoArgumentPooler = PooledClass.twoArgumentPooler;
 var fourArgumentPooler = PooledClass.fourArgumentPooler;
@@ -10477,7 +10496,7 @@ var ReactChildren = {
 module.exports = ReactChildren;
 
 /***/ }),
-/* 90 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10595,7 +10614,7 @@ module.exports = PooledClass;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 91 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10618,7 +10637,7 @@ var REACT_ELEMENT_TYPE = __webpack_require__(54);
 
 var getIteratorFn = __webpack_require__(55);
 var invariant = __webpack_require__(1);
-var KeyEscapeUtils = __webpack_require__(92);
+var KeyEscapeUtils = __webpack_require__(93);
 var warning = __webpack_require__(2);
 
 var SEPARATOR = '.';
@@ -10777,7 +10796,7 @@ module.exports = traverseAllChildren;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 92 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10841,7 +10860,7 @@ var KeyEscapeUtils = {
 module.exports = KeyEscapeUtils;
 
 /***/ }),
-/* 93 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11016,7 +11035,7 @@ module.exports = ReactDOMFactories;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 94 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11034,8 +11053,8 @@ module.exports = ReactDOMFactories;
 
 var _prodInvariant = __webpack_require__(20);
 
-var ReactPropTypeLocationNames = __webpack_require__(95);
-var ReactPropTypesSecret = __webpack_require__(96);
+var ReactPropTypeLocationNames = __webpack_require__(96);
+var ReactPropTypesSecret = __webpack_require__(97);
 
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
@@ -11109,7 +11128,7 @@ module.exports = checkReactTypeSpec;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 95 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11140,7 +11159,7 @@ module.exports = ReactPropTypeLocationNames;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 96 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11162,7 +11181,7 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 module.exports = ReactPropTypesSecret;
 
 /***/ }),
-/* 97 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11186,7 +11205,7 @@ var factory = __webpack_require__(57);
 module.exports = factory(isValidElement);
 
 /***/ }),
-/* 98 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11206,7 +11225,7 @@ var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
 
 var ReactPropTypesSecret = __webpack_require__(58);
-var checkPropTypes = __webpack_require__(99);
+var checkPropTypes = __webpack_require__(100);
 
 module.exports = function(isValidElement, throwOnDirectAccess) {
   /* global Symbol */
@@ -11706,7 +11725,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 99 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11775,7 +11794,7 @@ module.exports = checkPropTypes;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 100 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11794,7 +11813,7 @@ module.exports = checkPropTypes;
 module.exports = '15.6.1';
 
 /***/ }),
-/* 101 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11817,12 +11836,12 @@ var _require2 = __webpack_require__(17),
     isValidElement = _require2.isValidElement;
 
 var ReactNoopUpdateQueue = __webpack_require__(53);
-var factory = __webpack_require__(102);
+var factory = __webpack_require__(103);
 
 module.exports = factory(Component, isValidElement, ReactNoopUpdateQueue);
 
 /***/ }),
-/* 102 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12702,7 +12721,7 @@ module.exports = factory;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 103 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12746,17 +12765,17 @@ module.exports = onlyChild;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 104 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(105);
+module.exports = __webpack_require__(106);
 
 
 /***/ }),
-/* 105 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12775,15 +12794,15 @@ module.exports = __webpack_require__(105);
 
 
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactDefaultInjection = __webpack_require__(106);
+var ReactDefaultInjection = __webpack_require__(107);
 var ReactMount = __webpack_require__(82);
 var ReactReconciler = __webpack_require__(21);
 var ReactUpdates = __webpack_require__(14);
-var ReactVersion = __webpack_require__(184);
+var ReactVersion = __webpack_require__(185);
 
-var findDOMNode = __webpack_require__(185);
+var findDOMNode = __webpack_require__(186);
 var getHostComponentFromComposite = __webpack_require__(83);
-var renderSubtreeIntoContainer = __webpack_require__(186);
+var renderSubtreeIntoContainer = __webpack_require__(187);
 var warning = __webpack_require__(2);
 
 ReactDefaultInjection.inject();
@@ -12859,10 +12878,10 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 if (process.env.NODE_ENV !== 'production') {
-  var ReactInstrumentation = __webpack_require__(9);
-  var ReactDOMUnknownPropertyHook = __webpack_require__(187);
-  var ReactDOMNullInputValuePropHook = __webpack_require__(188);
-  var ReactDOMInvalidARIAHook = __webpack_require__(189);
+  var ReactInstrumentation = __webpack_require__(11);
+  var ReactDOMUnknownPropertyHook = __webpack_require__(188);
+  var ReactDOMNullInputValuePropHook = __webpack_require__(189);
+  var ReactDOMInvalidARIAHook = __webpack_require__(190);
 
   ReactInstrumentation.debugTool.addHook(ReactDOMUnknownPropertyHook);
   ReactInstrumentation.debugTool.addHook(ReactDOMNullInputValuePropHook);
@@ -12873,7 +12892,7 @@ module.exports = ReactDOM;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 106 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12889,25 +12908,25 @@ module.exports = ReactDOM;
 
 
 
-var ARIADOMPropertyConfig = __webpack_require__(107);
-var BeforeInputEventPlugin = __webpack_require__(108);
-var ChangeEventPlugin = __webpack_require__(112);
-var DefaultEventPluginOrder = __webpack_require__(120);
-var EnterLeaveEventPlugin = __webpack_require__(121);
-var HTMLDOMPropertyConfig = __webpack_require__(122);
-var ReactComponentBrowserEnvironment = __webpack_require__(123);
-var ReactDOMComponent = __webpack_require__(129);
+var ARIADOMPropertyConfig = __webpack_require__(108);
+var BeforeInputEventPlugin = __webpack_require__(109);
+var ChangeEventPlugin = __webpack_require__(113);
+var DefaultEventPluginOrder = __webpack_require__(121);
+var EnterLeaveEventPlugin = __webpack_require__(122);
+var HTMLDOMPropertyConfig = __webpack_require__(123);
+var ReactComponentBrowserEnvironment = __webpack_require__(124);
+var ReactDOMComponent = __webpack_require__(130);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactDOMEmptyComponent = __webpack_require__(155);
-var ReactDOMTreeTraversal = __webpack_require__(156);
-var ReactDOMTextComponent = __webpack_require__(157);
-var ReactDefaultBatchingStrategy = __webpack_require__(158);
-var ReactEventListener = __webpack_require__(159);
-var ReactInjection = __webpack_require__(161);
-var ReactReconcileTransaction = __webpack_require__(162);
-var SVGDOMPropertyConfig = __webpack_require__(168);
-var SelectEventPlugin = __webpack_require__(169);
-var SimpleEventPlugin = __webpack_require__(170);
+var ReactDOMEmptyComponent = __webpack_require__(156);
+var ReactDOMTreeTraversal = __webpack_require__(157);
+var ReactDOMTextComponent = __webpack_require__(158);
+var ReactDefaultBatchingStrategy = __webpack_require__(159);
+var ReactEventListener = __webpack_require__(160);
+var ReactInjection = __webpack_require__(162);
+var ReactReconcileTransaction = __webpack_require__(163);
+var SVGDOMPropertyConfig = __webpack_require__(169);
+var SelectEventPlugin = __webpack_require__(170);
+var SimpleEventPlugin = __webpack_require__(171);
 
 var alreadyInjected = false;
 
@@ -12964,7 +12983,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 107 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13043,7 +13062,7 @@ var ARIADOMPropertyConfig = {
 module.exports = ARIADOMPropertyConfig;
 
 /***/ }),
-/* 108 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13061,9 +13080,9 @@ module.exports = ARIADOMPropertyConfig;
 
 var EventPropagators = __webpack_require__(23);
 var ExecutionEnvironment = __webpack_require__(7);
-var FallbackCompositionState = __webpack_require__(109);
-var SyntheticCompositionEvent = __webpack_require__(110);
-var SyntheticInputEvent = __webpack_require__(111);
+var FallbackCompositionState = __webpack_require__(110);
+var SyntheticCompositionEvent = __webpack_require__(111);
+var SyntheticInputEvent = __webpack_require__(112);
 
 var END_KEYCODES = [9, 13, 27, 32]; // Tab, Return, Esc, Space
 var START_KEYCODE = 229;
@@ -13432,7 +13451,7 @@ var BeforeInputEventPlugin = {
 module.exports = BeforeInputEventPlugin;
 
 /***/ }),
-/* 109 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13532,7 +13551,7 @@ PooledClass.addPoolingTo(FallbackCompositionState);
 module.exports = FallbackCompositionState;
 
 /***/ }),
-/* 110 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13573,7 +13592,7 @@ SyntheticEvent.augmentClass(SyntheticCompositionEvent, CompositionEventInterface
 module.exports = SyntheticCompositionEvent;
 
 /***/ }),
-/* 111 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13615,7 +13634,7 @@ SyntheticEvent.augmentClass(SyntheticInputEvent, InputEventInterface);
 module.exports = SyntheticInputEvent;
 
 /***/ }),
-/* 112 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13932,7 +13951,7 @@ var ChangeEventPlugin = {
 module.exports = ChangeEventPlugin;
 
 /***/ }),
-/* 113 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13949,7 +13968,7 @@ module.exports = ChangeEventPlugin;
 
 
 
-var ReactOwner = __webpack_require__(114);
+var ReactOwner = __webpack_require__(115);
 
 var ReactRef = {};
 
@@ -14026,7 +14045,7 @@ ReactRef.detachRefs = function (instance, element) {
 module.exports = ReactRef;
 
 /***/ }),
-/* 114 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14125,7 +14144,7 @@ module.exports = ReactOwner;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 115 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14142,12 +14161,12 @@ module.exports = ReactOwner;
 
 
 
-var ReactInvalidSetStateWarningHook = __webpack_require__(116);
-var ReactHostOperationHistoryHook = __webpack_require__(117);
+var ReactInvalidSetStateWarningHook = __webpack_require__(117);
+var ReactHostOperationHistoryHook = __webpack_require__(118);
 var ReactComponentTreeHook = __webpack_require__(8);
 var ExecutionEnvironment = __webpack_require__(7);
 
-var performanceNow = __webpack_require__(118);
+var performanceNow = __webpack_require__(119);
 var warning = __webpack_require__(2);
 
 var hooks = [];
@@ -14492,7 +14511,7 @@ module.exports = ReactDebugTool;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 116 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14535,7 +14554,7 @@ module.exports = ReactInvalidSetStateWarningHook;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 117 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14574,7 +14593,7 @@ var ReactHostOperationHistoryHook = {
 module.exports = ReactHostOperationHistoryHook;
 
 /***/ }),
-/* 118 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14591,7 +14610,7 @@ module.exports = ReactHostOperationHistoryHook;
  * @typechecks
  */
 
-var performance = __webpack_require__(119);
+var performance = __webpack_require__(120);
 
 var performanceNow;
 
@@ -14613,7 +14632,7 @@ if (performance.now) {
 module.exports = performanceNow;
 
 /***/ }),
-/* 119 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14641,7 +14660,7 @@ if (ExecutionEnvironment.canUseDOM) {
 module.exports = performance || {};
 
 /***/ }),
-/* 120 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14672,7 +14691,7 @@ var DefaultEventPluginOrder = ['ResponderEventPlugin', 'SimpleEventPlugin', 'Tap
 module.exports = DefaultEventPluginOrder;
 
 /***/ }),
-/* 121 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14775,7 +14794,7 @@ var EnterLeaveEventPlugin = {
 module.exports = EnterLeaveEventPlugin;
 
 /***/ }),
-/* 122 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15016,7 +15035,7 @@ var HTMLDOMPropertyConfig = {
 module.exports = HTMLDOMPropertyConfig;
 
 /***/ }),
-/* 123 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15033,7 +15052,7 @@ module.exports = HTMLDOMPropertyConfig;
 
 
 var DOMChildrenOperations = __webpack_require__(41);
-var ReactDOMIDOperations = __webpack_require__(128);
+var ReactDOMIDOperations = __webpack_require__(129);
 
 /**
  * Abstracts away all functionality of the reconciler that requires knowledge of
@@ -15049,7 +15068,7 @@ var ReactComponentBrowserEnvironment = {
 module.exports = ReactComponentBrowserEnvironment;
 
 /***/ }),
-/* 124 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15070,7 +15089,7 @@ var _prodInvariant = __webpack_require__(3);
 var DOMLazyTree = __webpack_require__(22);
 var ExecutionEnvironment = __webpack_require__(7);
 
-var createNodesFromMarkup = __webpack_require__(125);
+var createNodesFromMarkup = __webpack_require__(126);
 var emptyFunction = __webpack_require__(12);
 var invariant = __webpack_require__(1);
 
@@ -15101,7 +15120,7 @@ module.exports = Danger;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 125 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15122,8 +15141,8 @@ module.exports = Danger;
 
 var ExecutionEnvironment = __webpack_require__(7);
 
-var createArrayFromMixed = __webpack_require__(126);
-var getMarkupWrap = __webpack_require__(127);
+var createArrayFromMixed = __webpack_require__(127);
+var getMarkupWrap = __webpack_require__(128);
 var invariant = __webpack_require__(1);
 
 /**
@@ -15191,7 +15210,7 @@ module.exports = createNodesFromMarkup;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 126 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15324,7 +15343,7 @@ module.exports = createArrayFromMixed;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 127 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15425,7 +15444,7 @@ module.exports = getMarkupWrap;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 128 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15463,7 +15482,7 @@ var ReactDOMIDOperations = {
 module.exports = ReactDOMIDOperations;
 
 /***/ }),
-/* 129 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15484,8 +15503,8 @@ module.exports = ReactDOMIDOperations;
 var _prodInvariant = __webpack_require__(3),
     _assign = __webpack_require__(5);
 
-var AutoFocusUtils = __webpack_require__(130);
-var CSSPropertyOperations = __webpack_require__(131);
+var AutoFocusUtils = __webpack_require__(131);
+var CSSPropertyOperations = __webpack_require__(132);
 var DOMLazyTree = __webpack_require__(22);
 var DOMNamespaces = __webpack_require__(42);
 var DOMProperty = __webpack_require__(16);
@@ -15495,13 +15514,13 @@ var EventPluginRegistry = __webpack_require__(29);
 var ReactBrowserEventEmitter = __webpack_require__(34);
 var ReactDOMComponentFlags = __webpack_require__(59);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactDOMInput = __webpack_require__(141);
-var ReactDOMOption = __webpack_require__(142);
+var ReactDOMInput = __webpack_require__(142);
+var ReactDOMOption = __webpack_require__(143);
 var ReactDOMSelect = __webpack_require__(73);
-var ReactDOMTextarea = __webpack_require__(143);
-var ReactInstrumentation = __webpack_require__(9);
-var ReactMultiChild = __webpack_require__(144);
-var ReactServerRenderingTransaction = __webpack_require__(153);
+var ReactDOMTextarea = __webpack_require__(144);
+var ReactInstrumentation = __webpack_require__(11);
+var ReactMultiChild = __webpack_require__(145);
+var ReactServerRenderingTransaction = __webpack_require__(154);
 
 var emptyFunction = __webpack_require__(12);
 var escapeTextContentForBrowser = __webpack_require__(33);
@@ -16479,7 +16498,7 @@ module.exports = ReactDOMComponent;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 130 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16508,7 +16527,7 @@ var AutoFocusUtils = {
 module.exports = AutoFocusUtils;
 
 /***/ }),
-/* 131 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16526,12 +16545,12 @@ module.exports = AutoFocusUtils;
 
 var CSSProperty = __webpack_require__(70);
 var ExecutionEnvironment = __webpack_require__(7);
-var ReactInstrumentation = __webpack_require__(9);
+var ReactInstrumentation = __webpack_require__(11);
 
-var camelizeStyleName = __webpack_require__(132);
-var dangerousStyleValue = __webpack_require__(134);
-var hyphenateStyleName = __webpack_require__(135);
-var memoizeStringOnly = __webpack_require__(137);
+var camelizeStyleName = __webpack_require__(133);
+var dangerousStyleValue = __webpack_require__(135);
+var hyphenateStyleName = __webpack_require__(136);
+var memoizeStringOnly = __webpack_require__(138);
 var warning = __webpack_require__(2);
 
 var processStyleName = memoizeStringOnly(function (styleName) {
@@ -16729,7 +16748,7 @@ module.exports = CSSPropertyOperations;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 132 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16746,7 +16765,7 @@ module.exports = CSSPropertyOperations;
 
 
 
-var camelize = __webpack_require__(133);
+var camelize = __webpack_require__(134);
 
 var msPattern = /^-ms-/;
 
@@ -16774,7 +16793,7 @@ function camelizeStyleName(string) {
 module.exports = camelizeStyleName;
 
 /***/ }),
-/* 133 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16811,7 +16830,7 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 134 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16896,7 +16915,7 @@ module.exports = dangerousStyleValue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 135 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16913,7 +16932,7 @@ module.exports = dangerousStyleValue;
 
 
 
-var hyphenate = __webpack_require__(136);
+var hyphenate = __webpack_require__(137);
 
 var msPattern = /^ms-/;
 
@@ -16940,7 +16959,7 @@ function hyphenateStyleName(string) {
 module.exports = hyphenateStyleName;
 
 /***/ }),
-/* 136 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16978,7 +16997,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 137 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17013,7 +17032,7 @@ function memoizeStringOnly(callback) {
 module.exports = memoizeStringOnly;
 
 /***/ }),
-/* 138 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17044,7 +17063,7 @@ function quoteAttributeValueForBrowser(value) {
 module.exports = quoteAttributeValueForBrowser;
 
 /***/ }),
-/* 139 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17081,7 +17100,7 @@ var ReactEventEmitterMixin = {
 module.exports = ReactEventEmitterMixin;
 
 /***/ }),
-/* 140 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17187,7 +17206,7 @@ function getVendorPrefixedEventName(eventName) {
 module.exports = getVendorPrefixedEventName;
 
 /***/ }),
-/* 141 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17480,7 +17499,7 @@ module.exports = ReactDOMInput;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 142 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17608,7 +17627,7 @@ module.exports = ReactDOMOption;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 143 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17774,7 +17793,7 @@ module.exports = ReactDOMTextarea;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 144 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17794,14 +17813,14 @@ var _prodInvariant = __webpack_require__(3);
 
 var ReactComponentEnvironment = __webpack_require__(45);
 var ReactInstanceMap = __webpack_require__(26);
-var ReactInstrumentation = __webpack_require__(9);
+var ReactInstrumentation = __webpack_require__(11);
 
 var ReactCurrentOwner = __webpack_require__(13);
 var ReactReconciler = __webpack_require__(21);
-var ReactChildReconciler = __webpack_require__(145);
+var ReactChildReconciler = __webpack_require__(146);
 
 var emptyFunction = __webpack_require__(12);
-var flattenChildren = __webpack_require__(152);
+var flattenChildren = __webpack_require__(153);
 var invariant = __webpack_require__(1);
 
 /**
@@ -18226,7 +18245,7 @@ module.exports = ReactMultiChild;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 145 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18385,7 +18404,7 @@ module.exports = ReactChildReconciler;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 146 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18409,12 +18428,12 @@ var ReactComponentEnvironment = __webpack_require__(45);
 var ReactCurrentOwner = __webpack_require__(13);
 var ReactErrorUtils = __webpack_require__(37);
 var ReactInstanceMap = __webpack_require__(26);
-var ReactInstrumentation = __webpack_require__(9);
+var ReactInstrumentation = __webpack_require__(11);
 var ReactNodeTypes = __webpack_require__(75);
 var ReactReconciler = __webpack_require__(21);
 
 if (process.env.NODE_ENV !== 'production') {
-  var checkReactTypeSpec = __webpack_require__(147);
+  var checkReactTypeSpec = __webpack_require__(148);
 }
 
 var emptyObject = __webpack_require__(28);
@@ -19291,7 +19310,7 @@ module.exports = ReactCompositeComponent;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 147 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19309,7 +19328,7 @@ module.exports = ReactCompositeComponent;
 
 var _prodInvariant = __webpack_require__(3);
 
-var ReactPropTypeLocationNames = __webpack_require__(148);
+var ReactPropTypeLocationNames = __webpack_require__(149);
 var ReactPropTypesSecret = __webpack_require__(72);
 
 var invariant = __webpack_require__(1);
@@ -19384,7 +19403,7 @@ module.exports = checkReactTypeSpec;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 148 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19415,7 +19434,7 @@ module.exports = ReactPropTypeLocationNames;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 149 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19441,7 +19460,7 @@ function getNextDebugID() {
 module.exports = getNextDebugID;
 
 /***/ }),
-/* 150 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19466,7 +19485,7 @@ var REACT_ELEMENT_TYPE = typeof Symbol === 'function' && Symbol['for'] && Symbol
 module.exports = REACT_ELEMENT_TYPE;
 
 /***/ }),
-/* 151 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19512,7 +19531,7 @@ function getIteratorFn(maybeIterable) {
 module.exports = getIteratorFn;
 
 /***/ }),
-/* 152 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19594,7 +19613,7 @@ module.exports = flattenChildren;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 153 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19614,8 +19633,8 @@ var _assign = __webpack_require__(5);
 
 var PooledClass = __webpack_require__(18);
 var Transaction = __webpack_require__(30);
-var ReactInstrumentation = __webpack_require__(9);
-var ReactServerUpdateQueue = __webpack_require__(154);
+var ReactInstrumentation = __webpack_require__(11);
+var ReactServerUpdateQueue = __webpack_require__(155);
 
 /**
  * Executed within the scope of the `Transaction` instance. Consider these as
@@ -19690,7 +19709,7 @@ module.exports = ReactServerRenderingTransaction;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 154 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19835,7 +19854,7 @@ module.exports = ReactServerUpdateQueue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 155 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19900,7 +19919,7 @@ _assign(ReactDOMEmptyComponent.prototype, {
 module.exports = ReactDOMEmptyComponent;
 
 /***/ }),
-/* 156 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20042,7 +20061,7 @@ module.exports = {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 157 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20210,7 +20229,7 @@ module.exports = ReactDOMTextComponent;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 158 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20283,7 +20302,7 @@ var ReactDefaultBatchingStrategy = {
 module.exports = ReactDefaultBatchingStrategy;
 
 /***/ }),
-/* 159 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20308,7 +20327,7 @@ var ReactDOMComponentTree = __webpack_require__(6);
 var ReactUpdates = __webpack_require__(14);
 
 var getEventTarget = __webpack_require__(38);
-var getUnboundedScrollPosition = __webpack_require__(160);
+var getUnboundedScrollPosition = __webpack_require__(161);
 
 /**
  * Find the deepest React component completely containing the root of the
@@ -20443,7 +20462,7 @@ var ReactEventListener = {
 module.exports = ReactEventListener;
 
 /***/ }),
-/* 160 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20487,7 +20506,7 @@ function getUnboundedScrollPosition(scrollable) {
 module.exports = getUnboundedScrollPosition;
 
 /***/ }),
-/* 161 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20526,7 +20545,7 @@ var ReactInjection = {
 module.exports = ReactInjection;
 
 /***/ }),
-/* 162 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20548,7 +20567,7 @@ var CallbackQueue = __webpack_require__(63);
 var PooledClass = __webpack_require__(18);
 var ReactBrowserEventEmitter = __webpack_require__(34);
 var ReactInputSelection = __webpack_require__(80);
-var ReactInstrumentation = __webpack_require__(9);
+var ReactInstrumentation = __webpack_require__(11);
 var Transaction = __webpack_require__(30);
 var ReactUpdateQueue = __webpack_require__(49);
 
@@ -20710,7 +20729,7 @@ module.exports = ReactReconcileTransaction;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 163 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20728,7 +20747,7 @@ module.exports = ReactReconcileTransaction;
 
 var ExecutionEnvironment = __webpack_require__(7);
 
-var getNodeForCharacterOffset = __webpack_require__(164);
+var getNodeForCharacterOffset = __webpack_require__(165);
 var getTextContentAccessor = __webpack_require__(62);
 
 /**
@@ -20927,7 +20946,7 @@ var ReactDOMSelection = {
 module.exports = ReactDOMSelection;
 
 /***/ }),
-/* 164 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21006,7 +21025,7 @@ function getNodeForCharacterOffset(root, offset) {
 module.exports = getNodeForCharacterOffset;
 
 /***/ }),
-/* 165 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21023,7 +21042,7 @@ module.exports = getNodeForCharacterOffset;
  * 
  */
 
-var isTextNode = __webpack_require__(166);
+var isTextNode = __webpack_require__(167);
 
 /*eslint-disable no-bitwise */
 
@@ -21051,7 +21070,7 @@ function containsNode(outerNode, innerNode) {
 module.exports = containsNode;
 
 /***/ }),
-/* 166 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21068,7 +21087,7 @@ module.exports = containsNode;
  * @typechecks
  */
 
-var isNode = __webpack_require__(167);
+var isNode = __webpack_require__(168);
 
 /**
  * @param {*} object The object to check.
@@ -21081,7 +21100,7 @@ function isTextNode(object) {
 module.exports = isTextNode;
 
 /***/ }),
-/* 167 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21111,7 +21130,7 @@ function isNode(object) {
 module.exports = isNode;
 
 /***/ }),
-/* 168 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21418,7 +21437,7 @@ Object.keys(ATTRS).forEach(function (key) {
 module.exports = SVGDOMPropertyConfig;
 
 /***/ }),
-/* 169 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21611,7 +21630,7 @@ var SelectEventPlugin = {
 module.exports = SelectEventPlugin;
 
 /***/ }),
-/* 170 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21633,17 +21652,17 @@ var _prodInvariant = __webpack_require__(3);
 var EventListener = __webpack_require__(79);
 var EventPropagators = __webpack_require__(23);
 var ReactDOMComponentTree = __webpack_require__(6);
-var SyntheticAnimationEvent = __webpack_require__(171);
-var SyntheticClipboardEvent = __webpack_require__(172);
+var SyntheticAnimationEvent = __webpack_require__(172);
+var SyntheticClipboardEvent = __webpack_require__(173);
 var SyntheticEvent = __webpack_require__(15);
-var SyntheticFocusEvent = __webpack_require__(173);
-var SyntheticKeyboardEvent = __webpack_require__(174);
+var SyntheticFocusEvent = __webpack_require__(174);
+var SyntheticKeyboardEvent = __webpack_require__(175);
 var SyntheticMouseEvent = __webpack_require__(31);
-var SyntheticDragEvent = __webpack_require__(176);
-var SyntheticTouchEvent = __webpack_require__(177);
-var SyntheticTransitionEvent = __webpack_require__(178);
+var SyntheticDragEvent = __webpack_require__(177);
+var SyntheticTouchEvent = __webpack_require__(178);
+var SyntheticTransitionEvent = __webpack_require__(179);
 var SyntheticUIEvent = __webpack_require__(25);
-var SyntheticWheelEvent = __webpack_require__(179);
+var SyntheticWheelEvent = __webpack_require__(180);
 
 var emptyFunction = __webpack_require__(12);
 var getEventCharCode = __webpack_require__(51);
@@ -21843,7 +21862,7 @@ module.exports = SimpleEventPlugin;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 171 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21887,7 +21906,7 @@ SyntheticEvent.augmentClass(SyntheticAnimationEvent, AnimationEventInterface);
 module.exports = SyntheticAnimationEvent;
 
 /***/ }),
-/* 172 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21930,7 +21949,7 @@ SyntheticEvent.augmentClass(SyntheticClipboardEvent, ClipboardEventInterface);
 module.exports = SyntheticClipboardEvent;
 
 /***/ }),
-/* 173 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21971,7 +21990,7 @@ SyntheticUIEvent.augmentClass(SyntheticFocusEvent, FocusEventInterface);
 module.exports = SyntheticFocusEvent;
 
 /***/ }),
-/* 174 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21990,7 +22009,7 @@ module.exports = SyntheticFocusEvent;
 var SyntheticUIEvent = __webpack_require__(25);
 
 var getEventCharCode = __webpack_require__(51);
-var getEventKey = __webpack_require__(175);
+var getEventKey = __webpack_require__(176);
 var getEventModifierState = __webpack_require__(40);
 
 /**
@@ -22060,7 +22079,7 @@ SyntheticUIEvent.augmentClass(SyntheticKeyboardEvent, KeyboardEventInterface);
 module.exports = SyntheticKeyboardEvent;
 
 /***/ }),
-/* 175 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22177,7 +22196,7 @@ function getEventKey(nativeEvent) {
 module.exports = getEventKey;
 
 /***/ }),
-/* 176 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22218,7 +22237,7 @@ SyntheticMouseEvent.augmentClass(SyntheticDragEvent, DragEventInterface);
 module.exports = SyntheticDragEvent;
 
 /***/ }),
-/* 177 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22268,7 +22287,7 @@ SyntheticUIEvent.augmentClass(SyntheticTouchEvent, TouchEventInterface);
 module.exports = SyntheticTouchEvent;
 
 /***/ }),
-/* 178 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22312,7 +22331,7 @@ SyntheticEvent.augmentClass(SyntheticTransitionEvent, TransitionEventInterface);
 module.exports = SyntheticTransitionEvent;
 
 /***/ }),
-/* 179 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22368,7 +22387,7 @@ SyntheticMouseEvent.augmentClass(SyntheticWheelEvent, WheelEventInterface);
 module.exports = SyntheticWheelEvent;
 
 /***/ }),
-/* 180 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22407,7 +22426,7 @@ module.exports = ReactDOMContainerInfo;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 181 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22431,7 +22450,7 @@ var ReactDOMFeatureFlags = {
 module.exports = ReactDOMFeatureFlags;
 
 /***/ }),
-/* 182 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22447,7 +22466,7 @@ module.exports = ReactDOMFeatureFlags;
 
 
 
-var adler32 = __webpack_require__(183);
+var adler32 = __webpack_require__(184);
 
 var TAG_END = /\/?>/;
 var COMMENT_START = /^<\!\-\-/;
@@ -22486,7 +22505,7 @@ var ReactMarkupChecksum = {
 module.exports = ReactMarkupChecksum;
 
 /***/ }),
-/* 183 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22535,7 +22554,7 @@ function adler32(data) {
 module.exports = adler32;
 
 /***/ }),
-/* 184 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22554,7 +22573,7 @@ module.exports = adler32;
 module.exports = '15.6.1';
 
 /***/ }),
-/* 185 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22620,7 +22639,7 @@ module.exports = findDOMNode;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 186 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22641,7 +22660,7 @@ var ReactMount = __webpack_require__(82);
 module.exports = ReactMount.renderSubtreeIntoContainer;
 
 /***/ }),
-/* 187 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22759,7 +22778,7 @@ module.exports = ReactDOMUnknownPropertyHook;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 188 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22808,7 +22827,7 @@ module.exports = ReactDOMNullInputValuePropHook;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 189 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22907,18 +22926,22 @@ module.exports = ReactDOMInvalidARIAHook;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 190 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(4);
-const page_1 = __webpack_require__(191);
-const hs_calc_1 = __webpack_require__(195);
+const page_1 = __webpack_require__(192);
+const hs_calc_1 = __webpack_require__(196);
 const STUDENT_SCORES = {
     nweaMath: 150,
-    nweaRead: 140
+    nweaRead: 140,
+    subjGradeMath: 90,
+    subjGradeRead: 80,
+    subjGradeSci: 79,
+    subjGradeSocStudies: 66
 };
 const PathToHS = (props) => {
     return (React.createElement(page_1.default, null,
@@ -22928,14 +22951,14 @@ exports.default = PathToHS;
 
 
 /***/ }),
-/* 191 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(4);
-__webpack_require__(192);
+__webpack_require__(193);
 const Page = (props) => {
     return (React.createElement("div", { className: "page" }, props.children));
 };
@@ -22943,13 +22966,13 @@ exports.default = Page;
 
 
 /***/ }),
-/* 192 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(193);
+var content = __webpack_require__(194);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -22957,7 +22980,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(11)(content, options);
+var update = __webpack_require__(10)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -22974,10 +22997,10 @@ if(false) {
 }
 
 /***/ }),
-/* 193 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(10)(undefined);
+exports = module.exports = __webpack_require__(9)(undefined);
 // imports
 
 
@@ -22988,7 +23011,7 @@ exports.push([module.i, ".page {\n  height: 100vh;\n  width: 100vw; }\n", ""]);
 
 
 /***/ }),
-/* 194 */
+/* 195 */
 /***/ (function(module, exports) {
 
 
@@ -23083,16 +23106,16 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 195 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(4);
-const box_1 = __webpack_require__(196);
-const student_info_container_1 = __webpack_require__(199);
-const student_scores_container_1 = __webpack_require__(224);
+const box_1 = __webpack_require__(197);
+const student_info_container_1 = __webpack_require__(200);
+const student_scores_container_1 = __webpack_require__(225);
 class HSCalculator extends React.Component {
     constructor(props) {
         super(props);
@@ -23116,14 +23139,14 @@ exports.default = HSCalculator;
 
 
 /***/ }),
-/* 196 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(4);
-__webpack_require__(197);
+__webpack_require__(198);
 const Box = (props) => {
     const widthClass = "width-" + props.width;
     const heightClass = "height-" + props.height;
@@ -23142,13 +23165,13 @@ exports.default = Box;
 
 
 /***/ }),
-/* 197 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(198);
+var content = __webpack_require__(199);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -23156,7 +23179,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(11)(content, options);
+var update = __webpack_require__(10)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -23173,10 +23196,10 @@ if(false) {
 }
 
 /***/ }),
-/* 198 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(10)(undefined);
+exports = module.exports = __webpack_require__(9)(undefined);
 // imports
 
 
@@ -23187,18 +23210,18 @@ exports.push([module.i, ".box {\n  border: 2px solid #9e9e9e;\n  padding: 0.25em
 
 
 /***/ }),
-/* 199 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(4);
-const strings_1 = __webpack_require__(200);
-const collapsible_partition_1 = __webpack_require__(201);
-const dropdown_field_1 = __webpack_require__(210);
-const address_tier_calculator_1 = __webpack_require__(215);
-__webpack_require__(222);
+const strings_1 = __webpack_require__(201);
+const collapsible_partition_1 = __webpack_require__(202);
+const dropdown_field_1 = __webpack_require__(211);
+const address_tier_calculator_1 = __webpack_require__(216);
+__webpack_require__(223);
 class StudentInfoForm extends React.PureComponent {
     constructor(props) {
         super(props);
@@ -23240,7 +23263,7 @@ exports.default = StudentInfoForm;
 
 
 /***/ }),
-/* 200 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23291,17 +23314,17 @@ exports.StudentInfoStrings = {
 
 
 /***/ }),
-/* 201 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(4);
-const icon_button_1 = __webpack_require__(202);
-const arrow_up_1 = __webpack_require__(205);
+const icon_button_1 = __webpack_require__(203);
+const arrow_up_1 = __webpack_require__(206);
 const partition_1 = __webpack_require__(84);
-__webpack_require__(208);
+__webpack_require__(209);
 const CollapsiblePartition = (props) => {
     const collapseIcon = (React.createElement(arrow_up_1.default, { width: "20px", height: "20px" }));
     let iconStyle = {
@@ -23325,14 +23348,14 @@ exports.default = CollapsiblePartition;
 
 
 /***/ }),
-/* 202 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(4);
-__webpack_require__(203);
+__webpack_require__(204);
 const IconButton = (props) => {
     return (React.createElement("button", { style: props.style, className: "button", onClick: props.onClick }, props.icon));
 };
@@ -23340,13 +23363,13 @@ exports.default = IconButton;
 
 
 /***/ }),
-/* 203 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(204);
+var content = __webpack_require__(205);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -23354,7 +23377,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(11)(content, options);
+var update = __webpack_require__(10)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -23371,10 +23394,10 @@ if(false) {
 }
 
 /***/ }),
-/* 204 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(10)(undefined);
+exports = module.exports = __webpack_require__(9)(undefined);
 // imports
 
 
@@ -23385,7 +23408,7 @@ exports.push([module.i, ".button {\n  border-radius: 100%;\n  background-color: 
 
 
 /***/ }),
-/* 205 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23401,13 +23424,13 @@ exports.default = ArrowUpIcon;
 
 
 /***/ }),
-/* 206 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(207);
+var content = __webpack_require__(208);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -23415,7 +23438,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(11)(content, options);
+var update = __webpack_require__(10)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -23432,10 +23455,10 @@ if(false) {
 }
 
 /***/ }),
-/* 207 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(10)(undefined);
+exports = module.exports = __webpack_require__(9)(undefined);
 // imports
 
 
@@ -23446,13 +23469,13 @@ exports.push([module.i, ".partition {\n  display: -webkit-box;\n  display: -ms-f
 
 
 /***/ }),
-/* 208 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(209);
+var content = __webpack_require__(210);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -23460,7 +23483,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(11)(content, options);
+var update = __webpack_require__(10)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -23477,10 +23500,10 @@ if(false) {
 }
 
 /***/ }),
-/* 209 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(10)(undefined);
+exports = module.exports = __webpack_require__(9)(undefined);
 // imports
 
 
@@ -23491,7 +23514,7 @@ exports.push([module.i, ".collapsible {\n  height: 80px;\n  -webkit-transition: 
 
 
 /***/ }),
-/* 210 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23499,7 +23522,7 @@ exports.push([module.i, ".collapsible {\n  height: 80px;\n  -webkit-transition: 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(4);
 const field_1 = __webpack_require__(85);
-__webpack_require__(213);
+__webpack_require__(214);
 class DropdownField extends React.Component {
     constructor(props) {
         super(props);
@@ -23547,13 +23570,13 @@ exports.default = DropdownField;
 
 
 /***/ }),
-/* 211 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(212);
+var content = __webpack_require__(213);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -23561,7 +23584,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(11)(content, options);
+var update = __webpack_require__(10)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -23578,10 +23601,10 @@ if(false) {
 }
 
 /***/ }),
-/* 212 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(10)(undefined);
+exports = module.exports = __webpack_require__(9)(undefined);
 // imports
 
 
@@ -23592,13 +23615,13 @@ exports.push([module.i, ".field-container {\n  height: auto;\n  margin-bottom: 1
 
 
 /***/ }),
-/* 213 */
+/* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(214);
+var content = __webpack_require__(215);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -23606,7 +23629,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(11)(content, options);
+var update = __webpack_require__(10)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -23623,10 +23646,10 @@ if(false) {
 }
 
 /***/ }),
-/* 214 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(10)(undefined);
+exports = module.exports = __webpack_require__(9)(undefined);
 // imports
 
 
@@ -23637,16 +23660,16 @@ exports.push([module.i, ".dropdown {\n  width: 100%;\n  height: 100%;\n  border:
 
 
 /***/ }),
-/* 215 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(4);
-const timeout_1 = __webpack_require__(216);
-const text_field_1 = __webpack_require__(217);
-__webpack_require__(220);
+const timeout_1 = __webpack_require__(217);
+const text_field_1 = __webpack_require__(218);
+__webpack_require__(221);
 class AddressTierCalculator extends React.Component {
     componentDidUpdate() {
         this.props.onChange(this.state.address, this.state.tier);
@@ -23693,7 +23716,7 @@ exports.default = AddressTierCalculator;
 
 
 /***/ }),
-/* 216 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23728,7 +23751,7 @@ exports.default = Timeout;
 
 
 /***/ }),
-/* 217 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23736,7 +23759,7 @@ exports.default = Timeout;
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(4);
 const field_1 = __webpack_require__(85);
-__webpack_require__(218);
+__webpack_require__(219);
 const TextField = (props) => {
     let textField = (React.createElement("input", { className: "textfield", readOnly: !props.editable, onChange: props.onChange, value: props.value ? props.value : "" }));
     return React.createElement(field_1.default, { size: props.size, label: props.label, field: textField });
@@ -23745,13 +23768,13 @@ exports.default = TextField;
 
 
 /***/ }),
-/* 218 */
+/* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(219);
+var content = __webpack_require__(220);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -23759,7 +23782,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(11)(content, options);
+var update = __webpack_require__(10)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -23776,10 +23799,10 @@ if(false) {
 }
 
 /***/ }),
-/* 219 */
+/* 220 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(10)(undefined);
+exports = module.exports = __webpack_require__(9)(undefined);
 // imports
 
 
@@ -23790,13 +23813,13 @@ exports.push([module.i, ".textfield {\n  display: block;\n  width: 100%; }\n", "
 
 
 /***/ }),
-/* 220 */
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(221);
+var content = __webpack_require__(222);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -23804,7 +23827,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(11)(content, options);
+var update = __webpack_require__(10)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -23821,10 +23844,10 @@ if(false) {
 }
 
 /***/ }),
-/* 221 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(10)(undefined);
+exports = module.exports = __webpack_require__(9)(undefined);
 // imports
 
 
@@ -23835,13 +23858,13 @@ exports.push([module.i, ".address-tier-calculator {\n  width: 100%;\n  margin-to
 
 
 /***/ }),
-/* 222 */
+/* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(223);
+var content = __webpack_require__(224);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -23849,7 +23872,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(11)(content, options);
+var update = __webpack_require__(10)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -23866,10 +23889,10 @@ if(false) {
 }
 
 /***/ }),
-/* 223 */
+/* 224 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(10)(undefined);
+exports = module.exports = __webpack_require__(9)(undefined);
 // imports
 
 
@@ -23880,50 +23903,6 @@ exports.push([module.i, ".student-info-form {\n  display: -webkit-box;\n  displa
 
 
 /***/ }),
-/* 224 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(4);
-const partition_1 = __webpack_require__(84);
-const score_display_1 = __webpack_require__(225);
-const score_transformer_1 = __webpack_require__(231);
-class StudentScoresContainer extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        this.state = {
-            currentScores: props.scores,
-            shouldDisplayFutureScores: props.shouldDisplayFutureScores,
-            editable: props.editable,
-            scoreProjector: (scores) => scores,
-        };
-    }
-    handleScoreProjectorChange(projector) {
-        this.setState({
-            scoreProjector: projector
-        });
-    }
-    handleCurrentScoresChange(newScores) {
-    }
-    render() {
-        if (this.state.shouldDisplayFutureScores) {
-            return (React.createElement(partition_1.default, { flex: { justifyContent: "space-around", alignItems: "stretch" } },
-                React.createElement(score_display_1.default, { scores: this.state.currentScores, editable: this.state.editable, onChange: this.handleCurrentScoresChange.bind(this) }),
-                React.createElement(score_transformer_1.default, { onChange: this.handleScoreProjectorChange.bind(this) }),
-                React.createElement(score_display_1.default, { scores: this.state.scoreProjector(this.state.currentScores), editable: false, onChange: () => null })));
-        }
-        else {
-            return (React.createElement("div", null,
-                React.createElement(score_display_1.default, { scores: this.state.currentScores, editable: this.state.editable, onChange: this.handleCurrentScoresChange })));
-        }
-    }
-}
-exports.default = StudentScoresContainer;
-
-
-/***/ }),
 /* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23931,37 +23910,47 @@ exports.default = StudentScoresContainer;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(4);
-const score_field_1 = __webpack_require__(226);
-const clone_1 = __webpack_require__(86);
-__webpack_require__(229);
-const ScoreDisplay = (props) => {
-    const nweaToString = (score) => score.toString(10);
-    const isNWEAScore = (score) => {
-        return true;
-    };
-    const isSubjectGrade = (grade) => {
-        return true;
-    };
-    const createScoreChangeHandler = (scoreType, props) => {
-        return function (score) {
-            let scores = clone_1.default(props.scores);
-            scores[scoreType] = score;
-            props.onChange(scores);
+const partition_1 = __webpack_require__(84);
+const score_display_1 = __webpack_require__(226);
+const score_transformer_1 = __webpack_require__(233);
+class StudentScoresContainer extends React.PureComponent {
+    constructor(props) {
+        super(props);
+        this.state = {
+            currentScores: props.scores,
+            shouldDisplayFutureScores: props.shouldDisplayFutureScores,
+            editable: props.editable,
+            scoreTransformerFunction: (scores) => {
+                console.log("old one!");
+                return scores;
+            },
+            onChange: props.onChange
         };
-    };
-    return (React.createElement("div", { className: "score-display" },
-        React.createElement("div", { className: "score-group nwea" },
-            React.createElement("div", { className: "score-group-label" }, "Your NWEA Scores"),
-            React.createElement(score_field_1.default, { size: "lg", label: "Math", defaultValue: props.scores ? nweaToString(props.scores.nweaMath) : "", editable: props.editable, validationFunction: isNWEAScore, onChange: createScoreChangeHandler("nweaMath", props) }),
-            React.createElement(score_field_1.default, { size: "lg", label: "Reading", defaultValue: props.scores ? nweaToString(props.scores.nweaRead) : "", editable: props.editable, validationFunction: isNWEAScore, onChange: createScoreChangeHandler("nweaRead", props) })),
-        React.createElement("div", { className: "score-group subject-grades" },
-            React.createElement("div", { className: "score-group-label" }, "Your School Grades"),
-            React.createElement(score_field_1.default, { size: "sm", label: "Math", defaultValue: props.scores ? props.scores.subjGradeMath : "", editable: props.editable, validationFunction: isSubjectGrade, onChange: createScoreChangeHandler("subjGradeMath", props) }),
-            React.createElement(score_field_1.default, { size: "sm", label: "Reading", defaultValue: props.scores ? props.scores.subjGradeRead : "", editable: props.editable, validationFunction: isSubjectGrade, onChange: createScoreChangeHandler("subjGradeRead", props) }),
-            React.createElement(score_field_1.default, { size: "sm", label: "Science", defaultValue: props.scores ? props.scores.subjGradeSci : "", editable: props.editable, validationFunction: isSubjectGrade, onChange: createScoreChangeHandler("subjGradeSci", props) }),
-            React.createElement(score_field_1.default, { size: "sm", label: "Social Studies", defaultValue: props.scores ? props.scores.subjGradeSocStudies : "", editable: props.editable, validationFunction: isSubjectGrade, onChange: createScoreChangeHandler("subjGradeSocStudies", props) }))));
-};
-exports.default = ScoreDisplay;
+    }
+    handleScoreProjectorChange(transformer) {
+        this.setState({
+            scoreTransformerFunction: transformer
+        });
+    }
+    handleCurrentScoresChange(newScores) {
+        this.setState({
+            currentScores: newScores
+        });
+    }
+    render() {
+        if (this.state.shouldDisplayFutureScores) {
+            return (React.createElement(partition_1.default, { flex: { justifyContent: "space-around", alignItems: "stretch" } },
+                React.createElement(score_display_1.default, { scores: this.state.currentScores, editable: this.state.editable, onChange: this.handleCurrentScoresChange.bind(this) }),
+                React.createElement(score_transformer_1.default, { onChange: this.handleScoreProjectorChange.bind(this) }),
+                React.createElement(score_display_1.default, { scores: this.state.scoreTransformerFunction(this.state.currentScores), editable: false, onChange: () => null })));
+        }
+        else {
+            return (React.createElement("div", null,
+                React.createElement(score_display_1.default, { scores: this.state.currentScores, editable: this.state.editable, onChange: this.handleCurrentScoresChange.bind(this) })));
+        }
+    }
+}
+exports.default = StudentScoresContainer;
 
 
 /***/ }),
@@ -23972,43 +23961,105 @@ exports.default = ScoreDisplay;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(4);
-__webpack_require__(227);
-;
-class ScoreField extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        this.state = {
-            size: props.size,
-            editable: props.editable,
-            value: props.defaultValue ? props.defaultValue : "",
-            label: props.label,
-            validationFunction: props.validationFunction
-        };
-    }
-    handleScoreChange(event) {
-        const value = event.currentTarget.value;
-        this.setState({
-            value: value
-        });
-    }
-    render() {
-        return (React.createElement("div", { className: `score-field ${this.state.size}` },
-            React.createElement("div", { className: 'score-field-label' }, this.state.label),
-            React.createElement("input", { className: `score-field-input ${this.state.size} ${this.state.editable ? "enabled" : ""}`, value: this.state.value, onChange: this.handleScoreChange.bind(this) })));
-    }
-}
-;
-exports.default = ScoreField;
+const score_field_1 = __webpack_require__(227);
+const score_type_1 = __webpack_require__(86);
+const clone_1 = __webpack_require__(87);
+const grade_conversion_1 = __webpack_require__(230);
+__webpack_require__(231);
+const ScoreDisplay = (props) => {
+    const isNWEAScore = (score) => {
+        return true;
+    };
+    const isSubjectGrade = (grade) => {
+        return true;
+    };
+    const createScoreChangeHandler = (scoreType, props) => {
+        switch (scoreType) {
+            case score_type_1.default.nweaMath:
+            case score_type_1.default.nweaRead:
+                return function (scoreAsString) {
+                    let scores = clone_1.default(props.scores);
+                    scores[scoreType] = Number.parseInt(scoreAsString, 10);
+                    props.onChange(scores);
+                };
+            case score_type_1.default.subjGradeMath:
+            case score_type_1.default.subjGradeRead:
+            case score_type_1.default.subjGradeSci:
+            case score_type_1.default.subjGradeSocStudies:
+                return function (scoreAsString) {
+                    let scores = clone_1.default(props.scores);
+                    scores[scoreType] = grade_conversion_1.toNumberGrade(scoreAsString);
+                    props.onChange(scores);
+                };
+        }
+    };
+    const stringify = (score, scoreType) => {
+        switch (scoreType) {
+            case score_type_1.default.nweaMath:
+            case score_type_1.default.nweaRead:
+                return score.toString(10);
+            case score_type_1.default.subjGradeMath:
+            case score_type_1.default.subjGradeRead:
+            case score_type_1.default.subjGradeSci:
+            case score_type_1.default.subjGradeSocStudies:
+                return grade_conversion_1.toLetterGrade(score);
+        }
+    };
+    return (React.createElement("div", { className: "score-display" },
+        React.createElement("div", { className: "score-group nwea" },
+            React.createElement("div", { className: "score-group-label" }, "Your NWEA Scores"),
+            React.createElement(score_field_1.default, { size: "lg", label: "Math", value: props.scores ?
+                    stringify(props.scores.nweaMath, score_type_1.default.nweaMath)
+                    : "", editable: props.editable, validationFunction: isNWEAScore, onChange: createScoreChangeHandler(score_type_1.default.nweaMath, props) }),
+            React.createElement(score_field_1.default, { size: "lg", label: "Reading", value: props.scores ?
+                    stringify(props.scores.nweaRead, score_type_1.default.nweaRead)
+                    : "", editable: props.editable, validationFunction: isNWEAScore, onChange: createScoreChangeHandler(score_type_1.default.nweaRead, props) }),
+            React.createElement("div", { className: "score-group-label" }, "Your School Grades"),
+            React.createElement(score_field_1.default, { size: "sm", label: "Math", value: props.scores ?
+                    stringify(props.scores.subjGradeMath, score_type_1.default.subjGradeMath)
+                    : "", editable: props.editable, validationFunction: isSubjectGrade, onChange: createScoreChangeHandler(score_type_1.default.subjGradeMath, props) }),
+            React.createElement(score_field_1.default, { size: "sm", label: "Reading", value: props.scores ?
+                    stringify(props.scores.subjGradeRead, score_type_1.default.subjGradeRead)
+                    : "", editable: props.editable, validationFunction: isSubjectGrade, onChange: createScoreChangeHandler(score_type_1.default.subjGradeRead, props) }),
+            React.createElement(score_field_1.default, { size: "sm", label: "Science", value: props.scores ?
+                    stringify(props.scores.subjGradeSci, score_type_1.default.subjGradeSci)
+                    : "", editable: props.editable, validationFunction: isSubjectGrade, onChange: createScoreChangeHandler(score_type_1.default.subjGradeSci, props) }),
+            React.createElement(score_field_1.default, { size: "sm", label: "Social Studies", value: props.scores ?
+                    stringify(props.scores.subjGradeSocStudies, score_type_1.default.subjGradeSocStudies)
+                    : "", editable: props.editable, validationFunction: isSubjectGrade, onChange: createScoreChangeHandler(score_type_1.default.subjGradeSocStudies, props) }))));
+};
+exports.default = ScoreDisplay;
 
 
 /***/ }),
 /* 227 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(4);
+__webpack_require__(228);
+;
+const ScoreField = (props) => {
+    const handleScoreChange = (event) => {
+        props.onChange(event.currentTarget.value);
+    };
+    return (React.createElement("div", { className: `score-field ${props.size}` },
+        React.createElement("div", { className: 'score-field-label' }, props.label),
+        React.createElement("input", { className: `score-field-input ${props.size} ${props.editable ? "enabled" : ""}`, value: props.value ? props.value : " ", onChange: handleScoreChange })));
+};
+exports.default = ScoreField;
+
+
+/***/ }),
+/* 228 */
+/***/ (function(module, exports, __webpack_require__) {
+
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(228);
+var content = __webpack_require__(229);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -24016,7 +24067,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(11)(content, options);
+var update = __webpack_require__(10)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -24033,10 +24084,10 @@ if(false) {
 }
 
 /***/ }),
-/* 228 */
+/* 229 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(10)(undefined);
+exports = module.exports = __webpack_require__(9)(undefined);
 // imports
 
 
@@ -24047,13 +24098,81 @@ exports.push([module.i, ".score-field {\n  height: 30px;\n  margin-top: 5px;\n  
 
 
 /***/ }),
-/* 229 */
+/* 230 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const letterGradeLowScores = {
+    A: 90,
+    B: 80,
+    C: 70,
+    D: 60,
+    F: 50
+};
+exports.isLetterGrade = (strScore) => {
+    const letterGrades = ["A", "B", "C", "D", "F"];
+    if (letterGrades.indexOf(strScore.toUpperCase()) !== -1) {
+        return true;
+    }
+    else {
+        return false;
+    }
+};
+exports.isNumberGrade = (strScore) => {
+    const intScore = Number.parseInt(strScore, 10);
+    const parseSuccessful = !Number.isNaN(intScore);
+    if (parseSuccessful) {
+        if (intScore >= 0 && intScore <= 100) {
+            return true;
+        }
+    }
+    else {
+        return false;
+    }
+};
+exports.toNumberGrade = (strScore) => {
+    if (exports.isLetterGrade(strScore)) {
+        return Number.parseInt(strScore);
+    }
+    else if (exports.isNumberGrade(strScore)) {
+        return letterGradeLowScores[strScore];
+    }
+    else {
+        throw new Error(`toNumberGrade parse failed with ${strScore}`);
+    }
+};
+exports.toLetterGrade = (grade) => {
+    if (grade >= letterGradeLowScores["A"]) {
+        return "A";
+    }
+    else if (grade >= letterGradeLowScores["B"]) {
+        return "B";
+    }
+    else if (grade >= letterGradeLowScores["C"]) {
+        return "C";
+    }
+    else if (grade >= letterGradeLowScores["D"]) {
+        return "D";
+    }
+    else if (grade >= letterGradeLowScores["F"]) {
+        return "F";
+    }
+};
+exports.toGPA = (scores) => {
+    return "3.0";
+};
+
+
+/***/ }),
+/* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(230);
+var content = __webpack_require__(232);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -24061,7 +24180,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(11)(content, options);
+var update = __webpack_require__(10)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -24078,10 +24197,10 @@ if(false) {
 }
 
 /***/ }),
-/* 230 */
+/* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(10)(undefined);
+exports = module.exports = __webpack_require__(9)(undefined);
 // imports
 
 
@@ -24092,108 +24211,65 @@ exports.push([module.i, ".score-display {\n  width: 150px;\n  display: -webkit-b
 
 
 /***/ }),
-/* 231 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(4);
-const score_transformer_input_container_1 = __webpack_require__(232);
-const create_score_transformer_function_1 = __webpack_require__(241);
-class ScoreTransformer extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        const defaultSettings = {
-            nweaMath: 50,
-            nweaRead: 50,
-            subjGradeMath: 50,
-            subjGradeRead: 50,
-            subjGradeSci: 50,
-            subjGradeSocStudies: 50,
-        };
-        this.state = {
-            settings: defaultSettings,
-            onChange: props.onChange
-        };
-    }
-    componentDidMount() {
-        const transformerFunction = this.createTransformerFunction(this.state.settings);
-        this.state.onChange(transformerFunction);
-        console.log("ScoreTransformer updated");
-        console.log(this.state);
-    }
-    createTransformerFunction(settings) {
-        return create_score_transformer_function_1.default(settings);
-    }
-    handleSettingsChange(newSettings) {
-        this.setState({ settings: newSettings });
-        const transformerFunction = this.createTransformerFunction(this.state.settings);
-        this.state.onChange(transformerFunction);
-    }
-    render() {
-        return (React.createElement(score_transformer_input_container_1.default, { settings: this.state.settings, onChange: this.handleSettingsChange.bind(this) }));
-    }
-}
-exports.default = ScoreTransformer;
-
-
-/***/ }),
-/* 232 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(4);
-const clone_1 = __webpack_require__(86);
-const score_type_1 = __webpack_require__(233);
-const transformer_setting_input_1 = __webpack_require__(234);
-const ScoreTransformerInputContainer = (props) => {
-    const createOnChange = (scoreType) => {
-        const handler = (value) => {
-            if (props.settings[scoreType] !== value) {
-                const settings = clone_1.default(props.settings);
-                settings[scoreType] = value;
-                props.onChange(settings);
-            }
-        };
-        return handler;
-    };
-    return (React.createElement("div", null,
-        React.createElement("div", { id: "projector-select-container projector-nwea-math" },
-            React.createElement(transformer_setting_input_1.default, { value: props.settings[score_type_1.default.nweaMath], onChange: createOnChange(score_type_1.default.nweaMath) })),
-        React.createElement("div", { id: "projector-select-container projector-nwea-read" },
-            React.createElement(transformer_setting_input_1.default, { value: props.settings[score_type_1.default.nweaRead], onChange: createOnChange(score_type_1.default.nweaRead) })),
-        React.createElement("div", { id: "projector-select-container projector-subj-math" },
-            React.createElement(transformer_setting_input_1.default, { value: props.settings[score_type_1.default.subjGradeMath], onChange: createOnChange(score_type_1.default.subjGradeMath) })),
-        React.createElement("div", { id: "projector-select-container projector-subj-read" },
-            React.createElement(transformer_setting_input_1.default, { value: props.settings[score_type_1.default.subjGradeRead], onChange: createOnChange(score_type_1.default.subjGradeRead) })),
-        React.createElement("div", { id: "projector-select-container projector-subj-science" },
-            React.createElement(transformer_setting_input_1.default, { value: props.settings[score_type_1.default.subjGradeSci], onChange: createOnChange(score_type_1.default.subjGradeSci) })),
-        React.createElement("div", { id: "projector-select-container projector-subj-socstudies" },
-            React.createElement(transformer_setting_input_1.default, { value: props.settings[score_type_1.default.subjGradeSocStudies], onChange: createOnChange(score_type_1.default.subjGradeSocStudies) }))));
-};
-exports.default = ScoreTransformerInputContainer;
-
-
-/***/ }),
 /* 233 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var ScoreType;
-(function (ScoreType) {
-    ScoreType["nweaMath"] = "nweaMath";
-    ScoreType["nweaRead"] = "nweaRead";
-    ScoreType["subjGradeMath"] = "subjGradeMath";
-    ScoreType["subjGradeRead"] = "subjGradeRead";
-    ScoreType["subjGradeSci"] = "subjGradeSci";
-    ScoreType["subjGradeSocStudies"] = "subjGradeSocStudies";
-})(ScoreType || (ScoreType = {}));
-exports.default = ScoreType;
+const React = __webpack_require__(4);
+const score_type_1 = __webpack_require__(86);
+const clone_1 = __webpack_require__(87);
+const create_score_transformer_function_1 = __webpack_require__(234);
+const transformer_setting_input_1 = __webpack_require__(235);
+__webpack_require__(242);
+class ScoreTransformer extends React.Component {
+    constructor(props) {
+        super(props);
+        this.createOnChange = (scoreType) => {
+            const handler = (value) => {
+                if (this.state.settings[scoreType] !== value) {
+                    const settings = clone_1.default(this.state.settings);
+                    settings[scoreType] = value;
+                    const transformerFunction = create_score_transformer_function_1.default(settings);
+                    this.setState({
+                        settings: settings
+                    });
+                    this.state.onChange(transformerFunction);
+                }
+            };
+            return handler;
+        };
+        this.state = {
+            onChange: props.onChange,
+            settings: {
+                nweaMath: 50,
+                nweaRead: 50,
+                subjGradeMath: 50,
+                subjGradeRead: 50,
+                subjGradeSci: 50,
+                subjGradeSocStudies: 50
+            }
+        };
+    }
+    render() {
+        return (React.createElement("div", { className: "score-transformer-input-container" },
+            React.createElement("div", { id: "projector-select-container projector-nwea-math" },
+                React.createElement(transformer_setting_input_1.default, { value: this.state.settings[score_type_1.default.nweaMath], onChange: this.createOnChange(score_type_1.default.nweaMath) })),
+            React.createElement("div", { id: "projector-select-container projector-nwea-read" },
+                React.createElement(transformer_setting_input_1.default, { value: this.state.settings[score_type_1.default.nweaRead], onChange: this.createOnChange(score_type_1.default.nweaRead) })),
+            React.createElement("div", { id: "projector-select-container projector-subj-math" },
+                React.createElement(transformer_setting_input_1.default, { value: this.state.settings[score_type_1.default.subjGradeMath], onChange: this.createOnChange(score_type_1.default.subjGradeMath) })),
+            React.createElement("div", { id: "projector-select-container projector-subj-read" },
+                React.createElement(transformer_setting_input_1.default, { value: this.state.settings[score_type_1.default.subjGradeRead], onChange: this.createOnChange(score_type_1.default.subjGradeRead) })),
+            React.createElement("div", { id: "projector-select-container projector-subj-science" },
+                React.createElement(transformer_setting_input_1.default, { value: this.state.settings[score_type_1.default.subjGradeSci], onChange: this.createOnChange(score_type_1.default.subjGradeSci) })),
+            React.createElement("div", { id: "projector-select-container projector-subj-socstudies" },
+                React.createElement(transformer_setting_input_1.default, { value: this.state.settings[score_type_1.default.subjGradeSocStudies], onChange: this.createOnChange(score_type_1.default.subjGradeSocStudies) }))));
+    }
+}
+;
+exports.default = ScoreTransformer;
 
 
 /***/ }),
@@ -24203,11 +24279,35 @@ exports.default = ScoreType;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+const createScoreTransformerFunction = (transformerSettings) => {
+    return function (oldScores) {
+        let newScores = {};
+        for (let scoreType in oldScores) {
+            const oldScore = oldScores[scoreType];
+            const transformerSetting = transformerSettings[scoreType];
+            newScores[scoreType] = transformScore(oldScore, transformerSetting, scoreType);
+        }
+        return newScores;
+    };
+};
+const transformScore = (oldScore, setting, scoreType) => {
+    return oldScore + setting;
+};
+exports.default = createScoreTransformerFunction;
+
+
+/***/ }),
+/* 235 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(4);
-const effort_level_1 = __webpack_require__(87);
-const circled_arrow_up_icon_1 = __webpack_require__(235);
-const circled_arrow_down_icon_1 = __webpack_require__(236);
-const effort_icon_1 = __webpack_require__(237);
+const effort_level_1 = __webpack_require__(88);
+const circled_arrow_up_icon_1 = __webpack_require__(236);
+const circled_arrow_down_icon_1 = __webpack_require__(237);
+const effort_icon_1 = __webpack_require__(238);
 const TransformerSettingInput = (props) => {
     const toEffortLevel = (value) => {
         if (value < 21) {
@@ -24241,17 +24341,17 @@ const TransformerSettingInput = (props) => {
         }
     };
     return (React.createElement("div", { style: { display: "flex", flexDirection: "row" } },
-        React.createElement("div", { className: "score-change-button", onClick: () => props.onChange(props.value - 10) },
+        React.createElement("button", { className: "score-change-button", onClick: () => props.onChange(props.value - 10) },
             React.createElement(circled_arrow_down_icon_1.default, { width: "24px", height: "24px" })),
         React.createElement(effort_icon_1.default, { level: toEffortLevel(props.value) }),
-        React.createElement("div", { className: "score-change-button", onClick: () => props.onChange(props.value + 10) },
+        React.createElement("button", { className: "score-change-button", onClick: () => props.onChange(props.value + 10) },
             React.createElement(circled_arrow_up_icon_1.default, { width: "24px", height: "24px" }))));
 };
 exports.default = TransformerSettingInput;
 
 
 /***/ }),
-/* 235 */
+/* 236 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24266,7 +24366,7 @@ exports.default = CircledArrowUpIcon;
 
 
 /***/ }),
-/* 236 */
+/* 237 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24281,17 +24381,17 @@ exports.default = CircledArrowDownIcon;
 
 
 /***/ }),
-/* 237 */
+/* 238 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(4);
-const effort_level_1 = __webpack_require__(87);
-const trend_down_icon_1 = __webpack_require__(238);
-const trend_neutral_icon_1 = __webpack_require__(239);
-const trend_up_icon_1 = __webpack_require__(240);
+const effort_level_1 = __webpack_require__(88);
+const trend_down_icon_1 = __webpack_require__(239);
+const trend_neutral_icon_1 = __webpack_require__(240);
+const trend_up_icon_1 = __webpack_require__(241);
 const EffortIcon = (props) => {
     const showIcon = (level) => {
         const iconProps = {
@@ -24317,7 +24417,7 @@ exports.default = EffortIcon;
 
 
 /***/ }),
-/* 238 */
+/* 239 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24332,7 +24432,7 @@ exports.default = TrendDownIcon;
 
 
 /***/ }),
-/* 239 */
+/* 240 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24347,7 +24447,7 @@ exports.default = TrendNeutralIcon;
 
 
 /***/ }),
-/* 240 */
+/* 241 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24362,27 +24462,48 @@ exports.default = TrendUpIcon;
 
 
 /***/ }),
-/* 241 */
+/* 242 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+// style-loader: Adds some css to the DOM by adding a <style> tag
 
-Object.defineProperty(exports, "__esModule", { value: true });
-const createScoreTransformerFunction = (transformerSettings) => {
-    return function (oldScores) {
-        let newScores = {};
-        for (let scoreType in oldScores) {
-            const oldScore = oldScores[scoreType];
-            const transformerSetting = transformerSettings[scoreType];
-            newScores[scoreType] = transformScore(oldScore, transformerSetting, scoreType);
-        }
-        return newScores;
-    };
-};
-const transformScore = (oldScore, setting, scoreType) => {
-    return oldScore + setting;
-};
-exports.default = createScoreTransformerFunction;
+// load the styles
+var content = __webpack_require__(243);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(10)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../../../node_modules/sass-loader/lib/loader.js!./score-transformer.scss", function() {
+			var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/postcss-loader/lib/index.js??ref--1-2!../../../../../../node_modules/sass-loader/lib/loader.js!./score-transformer.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 243 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(9)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".score-transformer-input-container {\n  margin-top: 5%;\n  height: 90%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -ms-flex-pack: distribute;\n      justify-content: space-around; }\n", ""]);
+
+// exports
 
 
 /***/ })
