@@ -3,10 +3,11 @@ import LatLongCoordinates from "shared/types/lat-long-coordinates";
 
 interface Highschool {
   shortName: string
-  fullName: string
+  longName: string
+  initials: string
   selectionRequirementsFunction: RequirementsFunction
   coordinates: LatLongCoordinates
-  iconUrl: string
+  iconUrl?: string
   // probably more
 }
 

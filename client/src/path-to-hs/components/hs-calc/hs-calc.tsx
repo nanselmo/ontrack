@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import StudentInfo from "shared/types/student-info";
+import StudentData from "shared/types/student-data";
 import StudentScores from "shared/types/student-scores";
 
 import Box from "shared/components/layout/box";
@@ -8,13 +8,11 @@ import StudentInfoContainer from "./student-info-container/student-info-containe
 import StudentScoresContainer from "./student-scores-container/student-scores-container";
 
 interface HSCalcProps {
-  studentInfo: StudentInfo
-  studentScores: StudentScores
+  studentData: StudentData
 }
 
 interface HSCalcState {
-  studentInfo: StudentInfo
-  studentScores: StudentScores
+  studentData: StudentData
 }
 
 class HSCalculator extends React.Component<HSCalcProps, HSCalcState> {
@@ -22,12 +20,11 @@ class HSCalculator extends React.Component<HSCalcProps, HSCalcState> {
   constructor(props) {
     super(props);
     this.state = {
-      studentInfo: props.studentInfo,
-      studentScores: props.studentScores
+      studentData: props.studentData
     }
   }
 
-  private handleInfoChange(info: StudentInfo): any {
+  private handleInfoChange(info: StudentData): any {
 
   }
 
@@ -42,12 +39,12 @@ class HSCalculator extends React.Component<HSCalcProps, HSCalcState> {
       <Box width="half" height="half" responsiveBehavior={{mobile: "fullscreen"}}>
         <StudentInfoContainer 
           onChange={this.handleInfoChange}
-          studentInfo={this.state.studentInfo}/>
+          studentInfo={this.state.studentData}/>
         <StudentScoresContainer 
           shouldDisplayFutureScores={true}
           editable={true}
           onChange={this.handleScoreChange}
-          scores={this.state.studentScores}/>
+          scores={this.state.studentData.scores}/>
       </Box>
     )
   }

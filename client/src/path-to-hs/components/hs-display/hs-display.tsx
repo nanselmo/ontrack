@@ -1,19 +1,29 @@
 import * as React from "react";
 
-import StudentScores from "shared/types/student-scores";
-import HighschoolDataService from "shared/types/highschool-data-service";
+import StudentData from "shared/types/student-data";
+import HSCategoryData from "shared/types/hs-category-data";
+import HSData from "shared/types/hs-data";
 
-import HSCategory from 
+import Box from "shared/components/layout/box";
+import HSCategory from "./hs-category";
+
 interface HSDisplayProps {
-  scores: StudentScores
-  hsDataService: HighschoolDataService
+  studentData: StudentData
+  hsData: HSData
 };
 
 const HSDisplay: React.SFC<HSDisplayProps> = (props) => {
 
   return (
-    <HSCategory>
-    </HSCategory>
+    <Box width="half" height="full" responsiveBehavior={{mobile: "fullscreen"}}>
+      <div style={{width: "100%", height: "100%", overflowY: "auto"}}>
+        { props.hsData.map( (category: HSCategoryData) => {
+          return <HSCategory categoryData={category}  key={category.shortName}/>
+        }) }
+      </div>
+    </Box>
   )
 
 };
+
+export default HSDisplay;

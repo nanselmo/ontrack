@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import StudentInfo from "shared/types/student-info";
+import StudentData from "shared/types/student-data";
 import {StudentInfoStrings as strings} from "shared/l10n/strings";
 
 import CollapsiblePartition from "shared/components/layout/collapsible-partition";
@@ -10,8 +10,8 @@ import AddressTierCalculator from "./address-tier-calculator";
 import "./student-info-container.scss";
 
 interface StudentInfoFormProps {
-  studentInfo: StudentInfo | null
-  onChange: (info: StudentInfo) => any
+  studentInfo: StudentData | null
+  onChange: (info: StudentData) => any
 }
 
 interface StudentInfoFormState {
