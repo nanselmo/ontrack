@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import HSCategoryData from "shared/types/hs-category-data";
+import StudentData from "shared/types/student-data";
 
 import Partition from "shared/components/layout/partition";
 import HSAdditionalRequirements from "./hs-additional-requirements";
@@ -10,6 +11,7 @@ import "./hs-category.scss";
 
 interface HSCategoryProps {
   categoryData: HSCategoryData
+  studentData: StudentData
 }
 
 const HSCategory: React.SFC<HSCategoryProps> = (props) => {
@@ -25,7 +27,11 @@ const HSCategory: React.SFC<HSCategoryProps> = (props) => {
       { hasAdditionalReqs &&
         <HSAdditionalRequirements 
           requirements={props.categoryData.additionalRequirements}/> } 
-      <HSList highschools={props.categoryData.highschools}/>
+        <HSList 
+          highschools={props.categoryData.highschools}
+          addlRequirements={props.categoryData.additionalRequirements}
+          studentData={props.studentData}
+          />
     </div>
   )
 

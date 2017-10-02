@@ -18,7 +18,10 @@ const HSDisplay: React.SFC<HSDisplayProps> = (props) => {
     <Box width="half" height="full" responsiveBehavior={{mobile: "fullscreen"}}>
       <div style={{width: "100%", height: "100%", overflowY: "auto"}}>
         { props.hsData.map( (category: HSCategoryData) => {
-          return <HSCategory categoryData={category}  key={category.shortName}/>
+        return <HSCategory 
+          categoryData={category}  
+          studentData={props.studentData}
+          key={category.shortName}/>
         }) }
       </div>
     </Box>
