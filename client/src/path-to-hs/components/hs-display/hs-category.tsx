@@ -6,20 +6,27 @@ import Partition from "shared/components/layout/partition";
 import HSAdditionalRequirements from "./hs-additional-requirements";
 import HSList from "./hs-list";
 
+import "./hs-category.scss";
+
 interface HSCategoryProps {
   categoryData: HSCategoryData
 }
 
 const HSCategory: React.SFC<HSCategoryProps> = (props) => {
 
+  const additionalReqs = props.categoryData.additionalRequirements;
+  const hasAdditionalReqs: boolean = additionalReqs && additionalReqs.length > 0;
+
   return (
-    <Partition>
+    <div className="hs-category-container">
       <div className="hs-category-title">
         {props.categoryData.longName}
       </div>
-      <HSAdditionalRequirements requirements={props.categoryData.additionalRequirements}/>
+      { hasAdditionalReqs &&
+        <HSAdditionalRequirements 
+          requirements={props.categoryData.additionalRequirements}/> } 
       <HSList highschools={props.categoryData.highschools}/>
-    </Partition>
+    </div>
   )
 
 };
