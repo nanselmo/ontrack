@@ -1,1 +1,7 @@
-Write basic HSCategory component
+Write basic HSList and HSListElement component
+
+-- pass unnecessary props down through component hierarchy from
+  hs-display to hs-list-element in order to pass StudentData
+  and AdditionalRequirements to individual high schools' selection
+  functions. Should consider replacing that data passing stuff
+  with redux.

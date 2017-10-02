@@ -52,6 +52,102 @@ export const MOCK_HS_DATA: HSData = [
         // statistically this is accurate
         selectionRequirementsFunction: (studentData: StudentData) => false 
       },
+      {
+        longName: "Walter Peyton College Prep 2",
+        shortName: "Peyton2",
+        initials: "WP",
+        coordinates: {lat: "58.19981208", long: "66.823948"},
+        // statistically this is accurate
+        selectionRequirementsFunction: (studentData: StudentData) => false 
+      },
+      {
+        longName: "Hancock College Prep 2",
+        shortName: "Hancock2",
+        initials: "H",
+        coordinates: {lat: "58.19981208", long: "66.823948"},
+        // Hancock 2 is different
+        selectionRequirementsFunction: (studentData: StudentData) => true 
+      },
+      {
+        longName: "Lane Tech 2",
+        shortName: "Lane2",
+        initials: "L",
+        coordinates: {lat: "58.19981208", long: "66.823948"},
+        // statistically this is accurate
+        selectionRequirementsFunction: (studentData: StudentData) => false 
+      },
+      {
+        longName: "Walter Peyton College Prep 3",
+        shortName: "Peyton3",
+        initials: "WP",
+        coordinates: {lat: "58.19981208", long: "66.823948"},
+        // statistically this is accurate
+        selectionRequirementsFunction: (studentData: StudentData) => false 
+      },
+      {
+        longName: "Hancock College Prep 3",
+        shortName: "Hancock3",
+        initials: "H",
+        coordinates: {lat: "58.19981208", long: "66.823948"},
+        // statistically this is accurate
+        selectionRequirementsFunction: (studentData: StudentData) => false 
+      },
+      {
+        longName: "Lane Tech 3",
+        shortName: "Lane3",
+        initials: "L",
+        coordinates: {lat: "58.19981208", long: "66.823948"},
+        // statistically this is accurate
+        selectionRequirementsFunction: (studentData: StudentData) => false 
+      },
+      {
+        longName: "Walter Peyton College Prep 4",
+        shortName: "Peyton4",
+        initials: "WP",
+        coordinates: {lat: "58.19981208", long: "66.823948"},
+        // statistically this is accurate
+        selectionRequirementsFunction: (studentData: StudentData) => false 
+      },
+      {
+        longName: "Hancock College Prep 4",
+        shortName: "Hancock4",
+        initials: "H",
+        coordinates: {lat: "58.19981208", long: "66.823948"},
+        // statistically this is accurate
+        selectionRequirementsFunction: (studentData: StudentData) => false 
+      },
+      {
+        longName: "Lane Tech 4",
+        shortName: "Lane5",
+        initials: "L",
+        coordinates: {lat: "58.19981208", long: "66.823948"},
+        // statistically this is accurate
+        selectionRequirementsFunction: (studentData: StudentData) => false 
+      },
+      {
+        longName: "Walter Peyton College Prep 5",
+        shortName: "Peyton6",
+        initials: "WP",
+        coordinates: {lat: "58.19981208", long: "66.823948"},
+        // statistically this is accurate
+        selectionRequirementsFunction: (studentData: StudentData) => false 
+      },
+      {
+        longName: "Hancock College Prep 5",
+        shortName: "Hancock6",
+        initials: "H",
+        coordinates: {lat: "58.19981208", long: "66.823948"},
+        // statistically this is accurate
+        selectionRequirementsFunction: (studentData: StudentData) => false 
+      },
+      {
+        longName: "Lane Tech 5",
+        shortName: "Lane6",
+        initials: "L",
+        coordinates: {lat: "58.19981208", long: "66.823948"},
+        // statistically this is accurate
+        selectionRequirementsFunction: (studentData: StudentData) => false 
+      },
     ],
   },
   {

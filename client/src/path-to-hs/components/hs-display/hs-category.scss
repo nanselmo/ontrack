@@ -3,6 +3,9 @@
 .hs-category-container {
   width: 100%;
   height: auto;
+  
+  box-shadow: $box-shadow-z2;
+  margin-bottom: 2em;
 }
 
 .hs-category-title {
@@ -10,11 +13,8 @@
   height: 40px;
   line-height: 40px;
   font-size: 130%;
-
   flex: 1 0 100%;
-
   border-bottom: $border-light;
-  margin-bottom: $margin-med;
 }
 
 

@@ -1,0 +1,37 @@
+@import "../../../shared/styles/variables";
+
+.hs-list-element {
+  margin: 0.5em;
+  width: 45px;
+  height: 45px;
+  padding-top: 2px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  border: 2px solid $col-app-gray; 
+  border-radius: 100%;
+
+  background-color: lighten($col-app-gray-light, 15%);
+
+  box-shadow: $box-shadow-z5;
+
+}
+
+
+.hs-list-element.disabled {
+}
+
+.hs-list-element.active-outline {
+
+}
+
+.hs-list-element-icon {
+
+}
+
+.hs-list-element-initials {
+  line-height: 1em;
+}
