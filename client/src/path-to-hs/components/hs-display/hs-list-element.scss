@@ -16,16 +16,26 @@
 
   background-color: lighten($col-app-gray-light, 15%);
 
-  box-shadow: $box-shadow-z5;
-
+  box-shadow: $box-shadow-z4;
 }
 
 
 .hs-list-element.disabled {
+  box-shadow: $box-shadow-z2;
+  color: $col-app-gray;
+}
+.hs-list-element.disabled::after {
+  width: 45px;
+  height: 45px;
+  content: "";
+  position: absolute;
+  border-radius: 100%;
+  background-color: rgba(0,0,0,0.05);
 }
 
 .hs-list-element.active-outline {
-
+  transform: scale(1.1);
+  border: 5px solid $col-app-1;
 }
 
 .hs-list-element-icon {

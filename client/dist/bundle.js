@@ -24585,16 +24585,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(3);
 __webpack_require__(249);
 const HSListElement = (props) => {
-    const likelySelected = props.highschool.selectionRequirementsFunction(props.studentData, props.addlRequirements);
+    const hs = props.highschool;
+    const cannotApply = hs.applicationRequirementsFunction(props.studentData, props.addlRequirements);
+    const likelySelected = hs.selectionRequirementsFunction(props.studentData, props.addlRequirements);
     let className = "hs-list-element";
-    if (likelySelected) {
+    if (cannotApply) {
+        className += "disabled";
+    }
+    else if (likelySelected) {
         className += " active-outline";
     }
     if (props.highschool.iconUrl) {
-        return (React.createElement("div", { className: "hs-list-element" }, props.highschool.initials));
+        return (React.createElement("div", { className: className }, props.highschool.initials));
     }
     else {
-        return (React.createElement("div", { className: "hs-list-element" },
+        return (React.createElement("div", { className: className },
             React.createElement("span", { className: "hs-list-element-initials" }, props.highschool.initials)));
     }
 };
@@ -24641,7 +24646,7 @@ exports = module.exports = __webpack_require__(8)(undefined);
 
 
 // module
-exports.push([module.i, ".hs-list-element {\n  margin: 0.5em;\n  width: 45px;\n  height: 45px;\n  padding-top: 2px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  border: 2px solid #9e9e9e;\n  border-radius: 100%;\n  background-color: #f0f0f0;\n  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);\n          box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22); }\n\n.hs-list-element-initials {\n  line-height: 1em; }\n", ""]);
+exports.push([module.i, ".hs-list-element {\n  margin: 0.5em;\n  width: 45px;\n  height: 45px;\n  padding-top: 2px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  border: 2px solid #9e9e9e;\n  border-radius: 100%;\n  background-color: #f0f0f0;\n  -webkit-box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);\n          box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); }\n\n.hs-list-element.disabled {\n  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n  color: #9e9e9e; }\n\n.hs-list-element.disabled::after {\n  width: 45px;\n  height: 45px;\n  content: \"\";\n  position: absolute;\n  border-radius: 100%;\n  background-color: rgba(0, 0, 0, 0.05); }\n\n.hs-list-element.active-outline {\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 5px solid #95e57a; }\n\n.hs-list-element-initials {\n  line-height: 1em; }\n", ""]);
 
 // exports
 
@@ -24759,6 +24764,24 @@ exports.MOCK_STUDENT_DATA = {
     tier: 4,
     scores: exports.MOCK_STUDENT_SCORES,
 };
+const standardAppReqFn = (studentData) => {
+    const percentileMath = studentData.scores.nweaPercentileMath;
+    const percentileRead = studentData.scores.nweaPercentileRead;
+    if (!studentData.ell && !studentData.iep) {
+        if (percentileMath > 24 && percentileRead > 24) {
+            return true;
+        }
+    }
+    else {
+        if (percentileMath + percentileRead > 48) {
+            return true;
+        }
+    }
+    return false;
+};
+const randomSelectionFn = (studentData) => {
+    return Math.random() > 0.5;
+};
 exports.MOCK_HS_DATA = [
     {
         longName: "Selective Enrollment",
@@ -24771,105 +24794,120 @@ exports.MOCK_HS_DATA = [
                 shortName: "Peyton",
                 initials: "WP",
                 coordinates: { lat: "58.19981208", long: "66.823948" },
-                selectionRequirementsFunction: (studentData) => false
+                selectionRequirementsFunction: randomSelectionFn,
+                applicationRequirementsFunction: standardAppReqFn
             },
             {
                 longName: "Hancock College Prep",
                 shortName: "Hancock",
                 initials: "H",
                 coordinates: { lat: "58.19981208", long: "66.823948" },
-                selectionRequirementsFunction: (studentData) => false
+                selectionRequirementsFunction: randomSelectionFn,
+                applicationRequirementsFunction: standardAppReqFn
             },
             {
                 longName: "Lane Tech",
                 shortName: "Lane",
                 initials: "L",
                 coordinates: { lat: "58.19981208", long: "66.823948" },
-                selectionRequirementsFunction: (studentData) => false
+                selectionRequirementsFunction: randomSelectionFn,
+                applicationRequirementsFunction: standardAppReqFn
             },
             {
                 longName: "Walter Peyton College Prep 2",
                 shortName: "Peyton2",
                 initials: "WP",
                 coordinates: { lat: "58.19981208", long: "66.823948" },
-                selectionRequirementsFunction: (studentData) => false
+                selectionRequirementsFunction: randomSelectionFn,
+                applicationRequirementsFunction: standardAppReqFn
             },
             {
                 longName: "Hancock College Prep 2",
                 shortName: "Hancock2",
                 initials: "H",
                 coordinates: { lat: "58.19981208", long: "66.823948" },
-                selectionRequirementsFunction: (studentData) => true
+                selectionRequirementsFunction: (studentData) => true,
+                applicationRequirementsFunction: standardAppReqFn
             },
             {
                 longName: "Lane Tech 2",
                 shortName: "Lane2",
                 initials: "L",
                 coordinates: { lat: "58.19981208", long: "66.823948" },
-                selectionRequirementsFunction: (studentData) => false
+                selectionRequirementsFunction: randomSelectionFn,
+                applicationRequirementsFunction: standardAppReqFn
             },
             {
                 longName: "Walter Peyton College Prep 3",
                 shortName: "Peyton3",
                 initials: "WP",
                 coordinates: { lat: "58.19981208", long: "66.823948" },
-                selectionRequirementsFunction: (studentData) => false
+                selectionRequirementsFunction: randomSelectionFn,
+                applicationRequirementsFunction: standardAppReqFn
             },
             {
                 longName: "Hancock College Prep 3",
                 shortName: "Hancock3",
                 initials: "H",
                 coordinates: { lat: "58.19981208", long: "66.823948" },
-                selectionRequirementsFunction: (studentData) => false
+                selectionRequirementsFunction: randomSelectionFn,
+                applicationRequirementsFunction: standardAppReqFn
             },
             {
                 longName: "Lane Tech 3",
                 shortName: "Lane3",
                 initials: "L",
                 coordinates: { lat: "58.19981208", long: "66.823948" },
-                selectionRequirementsFunction: (studentData) => false
+                selectionRequirementsFunction: randomSelectionFn,
+                applicationRequirementsFunction: standardAppReqFn
             },
             {
                 longName: "Walter Peyton College Prep 4",
                 shortName: "Peyton4",
                 initials: "WP",
                 coordinates: { lat: "58.19981208", long: "66.823948" },
-                selectionRequirementsFunction: (studentData) => false
+                selectionRequirementsFunction: randomSelectionFn,
+                applicationRequirementsFunction: standardAppReqFn
             },
             {
                 longName: "Hancock College Prep 4",
                 shortName: "Hancock4",
                 initials: "H",
                 coordinates: { lat: "58.19981208", long: "66.823948" },
-                selectionRequirementsFunction: (studentData) => false
+                selectionRequirementsFunction: randomSelectionFn,
+                applicationRequirementsFunction: standardAppReqFn
             },
             {
                 longName: "Lane Tech 4",
                 shortName: "Lane5",
                 initials: "L",
                 coordinates: { lat: "58.19981208", long: "66.823948" },
-                selectionRequirementsFunction: (studentData) => false
+                selectionRequirementsFunction: randomSelectionFn,
+                applicationRequirementsFunction: standardAppReqFn
             },
             {
                 longName: "Walter Peyton College Prep 5",
                 shortName: "Peyton6",
                 initials: "WP",
                 coordinates: { lat: "58.19981208", long: "66.823948" },
-                selectionRequirementsFunction: (studentData) => false
+                selectionRequirementsFunction: randomSelectionFn,
+                applicationRequirementsFunction: standardAppReqFn
             },
             {
                 longName: "Hancock College Prep 5",
                 shortName: "Hancock6",
                 initials: "H",
                 coordinates: { lat: "58.19981208", long: "66.823948" },
-                selectionRequirementsFunction: (studentData) => false
+                selectionRequirementsFunction: randomSelectionFn,
+                applicationRequirementsFunction: standardAppReqFn
             },
             {
                 longName: "Lane Tech 5",
                 shortName: "Lane6",
                 initials: "L",
                 coordinates: { lat: "58.19981208", long: "66.823948" },
-                selectionRequirementsFunction: (studentData) => false
+                selectionRequirementsFunction: randomSelectionFn,
+                applicationRequirementsFunction: standardAppReqFn
             },
         ],
     },
@@ -24884,21 +24922,24 @@ exports.MOCK_HS_DATA = [
                 shortName: "Taft IB",
                 initials: "T",
                 coordinates: { lat: "58.19981208", long: "66.823948" },
-                selectionRequirementsFunction: (studentData) => false
+                selectionRequirementsFunction: randomSelectionFn,
+                applicationRequirementsFunction: standardAppReqFn
             },
             {
                 longName: "Whitney M. Young IB Program",
                 shortName: "Whitney Young",
                 initials: "WY",
                 coordinates: { lat: "58.19981208", long: "66.823948" },
-                selectionRequirementsFunction: (studentData) => false
+                selectionRequirementsFunction: randomSelectionFn,
+                applicationRequirementsFunction: standardAppReqFn
             },
             {
                 longName: "Lindblom Math and Science Acaemy IB Program",
                 shortName: "Lindblom",
                 initials: "L",
                 coordinates: { lat: "58.19981208", long: "66.823948" },
-                selectionRequirementsFunction: (studentData) => false
+                selectionRequirementsFunction: randomSelectionFn,
+                applicationRequirementsFunction: standardAppReqFn
             },
         ],
     },
@@ -24913,21 +24954,24 @@ exports.MOCK_HS_DATA = [
                 shortName: "Peyton",
                 initials: "WP",
                 coordinates: { lat: "58.19981208", long: "66.823948" },
-                selectionRequirementsFunction: (studentData) => false
+                selectionRequirementsFunction: randomSelectionFn,
+                applicationRequirementsFunction: standardAppReqFn
             },
             {
                 longName: "Hancock College Prep",
                 shortName: "Hancock",
                 initials: "H",
                 coordinates: { lat: "58.19981208", long: "66.823948" },
-                selectionRequirementsFunction: (studentData) => false
+                selectionRequirementsFunction: randomSelectionFn,
+                applicationRequirementsFunction: standardAppReqFn
             },
             {
                 longName: "Lane Tech",
                 shortName: "Lane",
                 initials: "L",
                 coordinates: { lat: "58.19981208", long: "66.823948" },
-                selectionRequirementsFunction: (studentData) => false
+                selectionRequirementsFunction: randomSelectionFn,
+                applicationRequirementsFunction: standardAppReqFn
             },
         ],
     },
@@ -24942,21 +24986,24 @@ exports.MOCK_HS_DATA = [
                 shortName: "Taft IB",
                 initials: "T",
                 coordinates: { lat: "58.19981208", long: "66.823948" },
-                selectionRequirementsFunction: (studentData) => false
+                selectionRequirementsFunction: randomSelectionFn,
+                applicationRequirementsFunction: standardAppReqFn
             },
             {
                 longName: "Whitney M. Young IB Program",
                 shortName: "Whitney Young",
                 initials: "WY",
                 coordinates: { lat: "58.19981208", long: "66.823948" },
-                selectionRequirementsFunction: (studentData) => false
+                selectionRequirementsFunction: randomSelectionFn,
+                applicationRequirementsFunction: standardAppReqFn
             },
             {
                 longName: "Lindblom Math and Science Acaemy IB Program",
                 shortName: "Lindblom",
                 initials: "L",
                 coordinates: { lat: "58.19981208", long: "66.823948" },
-                selectionRequirementsFunction: (studentData) => false
+                selectionRequirementsFunction: randomSelectionFn,
+                applicationRequirementsFunction: standardAppReqFn
             },
         ],
     },

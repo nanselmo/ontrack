@@ -6,6 +6,7 @@ interface Highschool {
   longName: string
   initials: string
   selectionRequirementsFunction: RequirementsFunction
+  applicationRequirementsFunction: RequirementsFunction
   coordinates: LatLongCoordinates
   iconUrl?: string
   // probably more

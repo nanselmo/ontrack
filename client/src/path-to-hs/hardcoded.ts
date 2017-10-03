@@ -1,6 +1,7 @@
 import StudentScores from "shared/types/student-scores";
 import StudentData from "shared/types/student-data";
 import HSData from "shared/types/hs-data";
+import RequirementsFunction from "shared/types/requirements-function";
 
 export const MOCK_STUDENT_SCORES: StudentScores = {
   nweaMath: 150,
@@ -20,6 +21,30 @@ export const MOCK_STUDENT_DATA: StudentData = {
   scores: MOCK_STUDENT_SCORES,
 }
 
+const standardAppReqFn: RequirementsFunction = (studentData) => {
+  const percentileMath: number = studentData.scores.nweaPercentileMath;
+  const percentileRead: number = studentData.scores.nweaPercentileRead;
+  // if students are not English Learners and do not have an IEP
+  // then their Math and Reading RIT percentiles must both be above 24th.
+  if (!studentData.ell && !studentData.iep) {
+    if (percentileMath > 24 && percentileRead > 24) {
+      return true;
+    }
+  // if students are ELs or have IEP, then their Math and Reading RIT
+  // percentiles combined must be above 48th.
+  } else {
+    if (percentileMath + percentileRead > 48) {
+      return true;
+    }
+  }
+  //
+  return false;
+};
+
+const randomSelectionFn: RequirementsFunction = (studentData) => {
+  return Math.random() > 0.5;
+};
+
 export const MOCK_HS_DATA: HSData = [
   {
     longName: "Selective Enrollment",
@@ -33,8 +58,9 @@ export const MOCK_HS_DATA: HSData = [
         shortName: "Peyton",
         initials: "WP",
         coordinates: {lat: "58.19981208", long: "66.823948"},
-        // statistically this is accurate
-        selectionRequirementsFunction: (studentData: StudentData) => false 
+        // statistically this.state this accurate
+        selectionRequirementsFunction: randomSelectionFn,
+        applicationRequirementsFunction: standardAppReqFn
       },
       {
         longName: "Hancock College Prep",
@@ -42,7 +68,8 @@ export const MOCK_HS_DATA: HSData = [
         initials: "H",
         coordinates: {lat: "58.19981208", long: "66.823948"},
         // statistically this is accurate
-        selectionRequirementsFunction: (studentData: StudentData) => false 
+        selectionRequirementsFunction: randomSelectionFn, 
+        applicationRequirementsFunction: standardAppReqFn
       },
       {
         longName: "Lane Tech",
@@ -50,7 +77,8 @@ export const MOCK_HS_DATA: HSData = [
         initials: "L",
         coordinates: {lat: "58.19981208", long: "66.823948"},
         // statistically this is accurate
-        selectionRequirementsFunction: (studentData: StudentData) => false 
+        selectionRequirementsFunction: randomSelectionFn, 
+        applicationRequirementsFunction: standardAppReqFn
       },
       {
         longName: "Walter Peyton College Prep 2",
@@ -58,7 +86,8 @@ export const MOCK_HS_DATA: HSData = [
         initials: "WP",
         coordinates: {lat: "58.19981208", long: "66.823948"},
         // statistically this is accurate
-        selectionRequirementsFunction: (studentData: StudentData) => false 
+        selectionRequirementsFunction: randomSelectionFn, 
+        applicationRequirementsFunction: standardAppReqFn
       },
       {
         longName: "Hancock College Prep 2",
@@ -66,7 +95,8 @@ export const MOCK_HS_DATA: HSData = [
         initials: "H",
         coordinates: {lat: "58.19981208", long: "66.823948"},
         // Hancock 2 is different
-        selectionRequirementsFunction: (studentData: StudentData) => true 
+        selectionRequirementsFunction: (studentData: StudentData) => true, 
+        applicationRequirementsFunction: standardAppReqFn
       },
       {
         longName: "Lane Tech 2",
@@ -74,7 +104,8 @@ export const MOCK_HS_DATA: HSData = [
         initials: "L",
         coordinates: {lat: "58.19981208", long: "66.823948"},
         // statistically this is accurate
-        selectionRequirementsFunction: (studentData: StudentData) => false 
+        selectionRequirementsFunction: randomSelectionFn, 
+        applicationRequirementsFunction: standardAppReqFn
       },
       {
         longName: "Walter Peyton College Prep 3",
@@ -82,7 +113,8 @@ export const MOCK_HS_DATA: HSData = [
         initials: "WP",
         coordinates: {lat: "58.19981208", long: "66.823948"},
         // statistically this is accurate
-        selectionRequirementsFunction: (studentData: StudentData) => false 
+        selectionRequirementsFunction: randomSelectionFn, 
+        applicationRequirementsFunction: standardAppReqFn
       },
       {
         longName: "Hancock College Prep 3",
@@ -90,7 +122,8 @@ export const MOCK_HS_DATA: HSData = [
         initials: "H",
         coordinates: {lat: "58.19981208", long: "66.823948"},
         // statistically this is accurate
-        selectionRequirementsFunction: (studentData: StudentData) => false 
+        selectionRequirementsFunction: randomSelectionFn, 
+        applicationRequirementsFunction: standardAppReqFn
       },
       {
         longName: "Lane Tech 3",
@@ -98,7 +131,8 @@ export const MOCK_HS_DATA: HSData = [
         initials: "L",
         coordinates: {lat: "58.19981208", long: "66.823948"},
         // statistically this is accurate
-        selectionRequirementsFunction: (studentData: StudentData) => false 
+        selectionRequirementsFunction: randomSelectionFn, 
+        applicationRequirementsFunction: standardAppReqFn
       },
       {
         longName: "Walter Peyton College Prep 4",
@@ -106,7 +140,8 @@ export const MOCK_HS_DATA: HSData = [
         initials: "WP",
         coordinates: {lat: "58.19981208", long: "66.823948"},
         // statistically this is accurate
-        selectionRequirementsFunction: (studentData: StudentData) => false 
+        selectionRequirementsFunction: randomSelectionFn, 
+        applicationRequirementsFunction: standardAppReqFn
       },
       {
         longName: "Hancock College Prep 4",
@@ -114,7 +149,8 @@ export const MOCK_HS_DATA: HSData = [
         initials: "H",
         coordinates: {lat: "58.19981208", long: "66.823948"},
         // statistically this is accurate
-        selectionRequirementsFunction: (studentData: StudentData) => false 
+        selectionRequirementsFunction: randomSelectionFn, 
+        applicationRequirementsFunction: standardAppReqFn
       },
       {
         longName: "Lane Tech 4",
@@ -122,7 +158,8 @@ export const MOCK_HS_DATA: HSData = [
         initials: "L",
         coordinates: {lat: "58.19981208", long: "66.823948"},
         // statistically this is accurate
-        selectionRequirementsFunction: (studentData: StudentData) => false 
+        selectionRequirementsFunction: randomSelectionFn, 
+        applicationRequirementsFunction: standardAppReqFn
       },
       {
         longName: "Walter Peyton College Prep 5",
@@ -130,7 +167,8 @@ export const MOCK_HS_DATA: HSData = [
         initials: "WP",
         coordinates: {lat: "58.19981208", long: "66.823948"},
         // statistically this is accurate
-        selectionRequirementsFunction: (studentData: StudentData) => false 
+        selectionRequirementsFunction: randomSelectionFn, 
+        applicationRequirementsFunction: standardAppReqFn
       },
       {
         longName: "Hancock College Prep 5",
@@ -138,7 +176,8 @@ export const MOCK_HS_DATA: HSData = [
         initials: "H",
         coordinates: {lat: "58.19981208", long: "66.823948"},
         // statistically this is accurate
-        selectionRequirementsFunction: (studentData: StudentData) => false 
+        selectionRequirementsFunction: randomSelectionFn, 
+        applicationRequirementsFunction: standardAppReqFn
       },
       {
         longName: "Lane Tech 5",
@@ -146,7 +185,8 @@ export const MOCK_HS_DATA: HSData = [
         initials: "L",
         coordinates: {lat: "58.19981208", long: "66.823948"},
         // statistically this is accurate
-        selectionRequirementsFunction: (studentData: StudentData) => false 
+        selectionRequirementsFunction: randomSelectionFn, 
+        applicationRequirementsFunction: standardAppReqFn
       },
     ],
   },
@@ -163,7 +203,8 @@ export const MOCK_HS_DATA: HSData = [
         initials: "T",
         coordinates: {lat: "58.19981208", long: "66.823948"},
         // statistically this is accurate
-        selectionRequirementsFunction: (studentData: StudentData) => false 
+        selectionRequirementsFunction: randomSelectionFn, 
+        applicationRequirementsFunction: standardAppReqFn
       },
       {
         longName: "Whitney M. Young IB Program",
@@ -171,7 +212,8 @@ export const MOCK_HS_DATA: HSData = [
         initials: "WY",
         coordinates: {lat: "58.19981208", long: "66.823948"},
         // statistically this is accurate
-        selectionRequirementsFunction: (studentData: StudentData) => false 
+        selectionRequirementsFunction: randomSelectionFn, 
+        applicationRequirementsFunction: standardAppReqFn
       },
       {
         longName: "Lindblom Math and Science Acaemy IB Program",
@@ -179,7 +221,8 @@ export const MOCK_HS_DATA: HSData = [
         initials: "L",
         coordinates: {lat: "58.19981208", long: "66.823948"},
         // statistically this is accurate
-        selectionRequirementsFunction: (studentData: StudentData) => false 
+        selectionRequirementsFunction: randomSelectionFn, 
+        applicationRequirementsFunction: standardAppReqFn
       },
     ],
   },
@@ -196,7 +239,8 @@ export const MOCK_HS_DATA: HSData = [
         initials: "WP",
         coordinates: {lat: "58.19981208", long: "66.823948"},
         // statistically this is accurate
-        selectionRequirementsFunction: (studentData: StudentData) => false 
+        selectionRequirementsFunction: randomSelectionFn, 
+        applicationRequirementsFunction: standardAppReqFn
       },
       {
         longName: "Hancock College Prep",
@@ -204,7 +248,8 @@ export const MOCK_HS_DATA: HSData = [
         initials: "H",
         coordinates: {lat: "58.19981208", long: "66.823948"},
         // statistically this is accurate
-        selectionRequirementsFunction: (studentData: StudentData) => false 
+        selectionRequirementsFunction: randomSelectionFn, 
+        applicationRequirementsFunction: standardAppReqFn
       },
       {
         longName: "Lane Tech",
@@ -212,7 +257,8 @@ export const MOCK_HS_DATA: HSData = [
         initials: "L",
         coordinates: {lat: "58.19981208", long: "66.823948"},
         // statistically this is accurate
-        selectionRequirementsFunction: (studentData: StudentData) => false 
+        selectionRequirementsFunction: randomSelectionFn, 
+        applicationRequirementsFunction: standardAppReqFn
       },
     ],
   },
@@ -229,7 +275,8 @@ export const MOCK_HS_DATA: HSData = [
         initials: "T",
         coordinates: {lat: "58.19981208", long: "66.823948"},
         // statistically this is accurate
-        selectionRequirementsFunction: (studentData: StudentData) => false 
+        selectionRequirementsFunction: randomSelectionFn, 
+        applicationRequirementsFunction: standardAppReqFn
       },
       {
         longName: "Whitney M. Young IB Program",
@@ -237,7 +284,8 @@ export const MOCK_HS_DATA: HSData = [
         initials: "WY",
         coordinates: {lat: "58.19981208", long: "66.823948"},
         // statistically this is accurate
-        selectionRequirementsFunction: (studentData: StudentData) => false 
+        selectionRequirementsFunction: randomSelectionFn, 
+        applicationRequirementsFunction: standardAppReqFn
       },
       {
         longName: "Lindblom Math and Science Acaemy IB Program",
@@ -245,7 +293,8 @@ export const MOCK_HS_DATA: HSData = [
         initials: "L",
         coordinates: {lat: "58.19981208", long: "66.823948"},
         // statistically this is accurate
-        selectionRequirementsFunction: (studentData: StudentData) => false 
+        selectionRequirementsFunction: randomSelectionFn, 
+        applicationRequirementsFunction: standardAppReqFn
       },
     ],
   },
