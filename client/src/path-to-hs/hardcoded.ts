@@ -49,7 +49,30 @@ export const MOCK_HS_DATA: HSData = [
   {
     longName: "Selective Enrollment",
     shortName: "SE",
-    additionalRequirements: [],
+    additionalRequirements: [
+      {
+        name: "Kill him",
+        value: null,
+        validationFunction: (value) => true,
+        decrementValueFunction: (value: string | null) => value ? value.slice(-1) : "",
+        incrementValueFunction: (value: string | null) => value ? value += "_" : ""
+      },
+      {
+        name: "Kill him now",
+        value: null,
+        validationFunction: (value) => true,
+        decrementValueFunction: (value: string | null) => value ? value.slice(-1) : "",
+        incrementValueFunction: (value: string | null) => value ? value += "_" : ""
+      },
+      {
+        name: "Do it",
+        value: null,
+        validationFunction: (value) => true,
+        decrementValueFunction: (value: string | null) => value ? value.slice(-1) : "",
+        incrementValueFunction: (value: string | null) => value ? value += "_" : ""
+      },
+
+    ],
     // coin flip
     requirementsFunction: (studentData: StudentData) => Math.random() > 0.5,
     highschools: [

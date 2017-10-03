@@ -2,10 +2,11 @@ import * as React from "react";
 
 import EffortLevel from "shared/types/effort-level";
 
-import IconButton from "shared/components/ui/icon-button";
 import CircledArrowUpIcon from "shared/components/icons/circled-arrow-up-icon";
 import CircledArrowDownIcon from "shared/components/icons/circled-arrow-down-icon";
 import EffortIcon from "./effort-icon";
+
+import "./transformer-setting-input.scss";
 
 interface TransformerSettingInputProps {
   value: number // range (0, 100)

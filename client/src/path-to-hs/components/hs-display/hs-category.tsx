@@ -24,14 +24,18 @@ const HSCategory: React.SFC<HSCategoryProps> = (props) => {
       <div className="hs-category-title">
         {props.categoryData.longName}
       </div>
-      { hasAdditionalReqs &&
+      { 
+        hasAdditionalReqs &&
         <HSAdditionalRequirements 
-          requirements={props.categoryData.additionalRequirements}/> } 
-        <HSList 
-          highschools={props.categoryData.highschools}
-          addlRequirements={props.categoryData.additionalRequirements}
-          studentData={props.studentData}
-          />
+          requirements={props.categoryData.additionalRequirements}
+          onChange={(newReqs) => console.log(newReqs)}
+        /> 
+      } 
+      <HSList 
+        highschools={props.categoryData.highschools}
+        addlRequirements={props.categoryData.additionalRequirements}
+        studentData={props.studentData}
+        />
     </div>
   )
 

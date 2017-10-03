@@ -5,7 +5,7 @@ import Field from "shared/components/ui/field";
 import "./score-field.scss";;
 
 interface ScoreFieldProps {
-  label: string
+  label?: string
   value: string
   editable: boolean
   size: "sm" | "lg"
@@ -21,9 +21,11 @@ const ScoreField = (props: ScoreFieldProps) => {
 
   return (
     <div className={`score-field ${props.size}`}>
-      <div className={'score-field-label'}>
-        {props.label}
-      </div>
+      { props.label &&
+        <div className={'score-field-label'}>
+          {props.label}
+        </div>
+      }
       <input
         className={`score-field-input ${props.size} ${props.editable ? "enabled" : ""}`}
         value={props.value ? props.value : " "}

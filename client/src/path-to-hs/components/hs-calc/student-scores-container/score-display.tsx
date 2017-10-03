@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import ScoreField from "./score-field";
+import ScoreField from "shared/components/ui/score-field";
 
 import StudentScores from "shared/types/student-scores";
 import ScoreType from "shared/types/score-type";
