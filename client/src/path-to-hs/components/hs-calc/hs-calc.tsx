@@ -32,7 +32,6 @@ class HSCalculator extends React.Component<HSCalcProps, HSCalcState> {
 
   }
 
-
   // FIXME: hardcoded shouldDisplayFutureScores and editable
   render() {
     return (

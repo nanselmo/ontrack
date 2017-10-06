@@ -14,14 +14,14 @@ const config = {
     poll: true
   },
   resolve: {
-    extensions: [".webpack.js", ".ts", ".tsx", ".js"],
+    extensions: [".webpack.js", ".ts", ".tsx", ".spec.ts", ".js"],
     plugins: [
       new TsConfigPathsPlugin(path.resolve(__dirname, "tsconfig.js"))
     ],
   },
   module: {
     rules: [
-      { test: /\.tsx?$/, use: "awesome-typescript-loader" },
+      { test: /\.tsx?$|\.spec\.ts$/, use: "awesome-typescript-loader" },
       { test: /\.scss?$/,
         use: [
           { loader: "style-loader" },

@@ -12,14 +12,13 @@ import StudentScores from "shared/types/student-scores";
 const PathToHS = (props: any) => {
   return (
     <Page>
-      <HSCalculator 
+      <HSCalculator
         studentData={MOCK_STUDENT_DATA} />
-      <HSDisplay 
+      <HSDisplay
         hsData={MOCK_HS_DATA}
-        studentData={MOCK_STUDENT_DATA}
-      />
+        studentData={MOCK_STUDENT_DATA} />
     </Page>
   )
-}
+};
 
 export default PathToHS;
