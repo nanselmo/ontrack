@@ -1,10 +1,12 @@
+import StudentScore from "shared/types/student-score";
+
 export default interface StudentScores {
-  nweaMath?: number
-  nweaRead?: number
-  nweaPercentileMath?: number
-  nweaPercentileRead?: number
-  subjGradeMath?: number 
-  subjGradeRead?: number
-  subjGradeSci?: number
-  subjGradeSocStudies?: number
+  nweaMath?: StudentScore
+  nweaRead?: StudentScore
+  nweaPercentileMath?: StudentScore
+  nweaPercentileRead?: StudentScore
+  subjGradeMath?: StudentScore 
+  subjGradeRead?: StudentScore
+  subjGradeSci?: StudentScore
+  subjGradeSocStudies?: StudentScore
 }
