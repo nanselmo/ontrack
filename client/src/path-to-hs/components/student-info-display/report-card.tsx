@@ -32,7 +32,7 @@ const ReportCard = (props: ReportCardProps) => {
 
   // TODO: add l10n strings
   return (
-    <div className="score-display">
+    <div className="report-card">
       <div className="score-group nwea">
 
         <div className="score-group-label">

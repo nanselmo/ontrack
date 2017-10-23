@@ -4,7 +4,6 @@ import AdditionalRequirementData from "shared/types/additional-requirement-data"
 
 import CircledArrowUpIcon from "shared/components/icons/circled-arrow-up-icon";
 import CircledArrowDownIcon from "shared/components/icons/circled-arrow-down-icon";
-import ScoreField from "shared/components/ui/score-field";
 import clone from "shared/util/clone";
 
 import "./hs-additional-requirements.scss";
@@ -52,14 +51,7 @@ const HSAdditionalRequirements: React.SFC<HSAdditionalRequirementsProps> = (prop
               {requirement.name}
             </div>
             <div className="hs-additional-requirement-input">
-              <ScoreField 
-                label={null}
-                value={requirement.value ? requirement.value : " "}
-                onChange={createValueEditedHandler(i)}
-                editable={true}
-                validationFunction={requirement.validationFunction}
-                size="sm"
-              />
+              [Implement me?]
               <div className="requirement-change-button-container">
                 <button 
                   className="requirement-change-button" 

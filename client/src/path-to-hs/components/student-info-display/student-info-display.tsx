@@ -107,4 +107,4 @@ class StudentInfoDisplay extends React.Component<StudentInfoDisplayProps, Studen
 
 };
 
-export default HSCalculator;
+export default StudentInfoDisplay;

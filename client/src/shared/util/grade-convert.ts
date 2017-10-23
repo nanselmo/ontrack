@@ -2,7 +2,7 @@ import StudentScores from "shared/types/student-scores";
 import StudentScore from "shared/types/student-score";
 import ScoreType from "shared/enums/score-type";
 
-import * as NWEAConvert from "shared/util/nwea-convert";
+import {ritToPercentile, percentileToRit, NWEATestType} from "shared/util/nwea-convert";
 
 const letterGradeHighScores = {
   A: 100,
@@ -39,8 +39,9 @@ const numberGradeToPercentile = createNumberRangeMapFunction([50,100], [1,99]);
 export const scoreToPercentile = (score: StudentScore, scoreType: ScoreType, gradeLevel: number): number => {
   switch(scoreType) {
     case ScoreType.nweaMath:
+      return ritToPercentile(score, NWEATestType.Math, gradeLevel);
     case ScoreType.nweaRead:
-      return NWEAConvert.ritToPercentile(score, scoreType, gradeLevel);
+      return ritToPercentile(score, NWEATestType.Reading, gradeLevel);
     case ScoreType.subjGradeMath:
     case ScoreType.subjGradeRead:
     case ScoreType.subjGradeSci:
@@ -53,8 +54,9 @@ export const scoreToPercentile = (score: StudentScore, scoreType: ScoreType, gra
 export const percentileToScore = (percentile: number, scoreType: ScoreType, gradeLevel: number): StudentScore => {
   switch(scoreType) {
     case ScoreType.nweaMath:
+      return percentileToRit(percentile, NWEATestType.Math, gradeLevel);
     case ScoreType.nweaRead:
-      return NWEAConvert.percentileToRit(percentile, scoreType, gradeLevel);
+      return percentileToRit(percentile, NWEATestType.Reading, gradeLevel);
     case ScoreType.subjGradeMath:
     case ScoreType.subjGradeRead:
     case ScoreType.subjGradeSci:

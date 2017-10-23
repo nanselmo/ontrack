@@ -1,6 +1,6 @@
-@import "../../../../shared/styles/variables";
+@import "../../../shared/styles/variables";
 
-.score-display {
+.report-card {
   width: 150px;
 
   display: flex;
@@ -11,7 +11,7 @@
   overflow-y: hidden;
 }
 
-.score-display > .score-group {
+.report-card > .score-group {
   box-shadow: $box-shadow-z2;
   border: $border-light;
   width: 125px;
@@ -19,10 +19,10 @@
   padding: 0.5em;
 }
 
-.score-display > .score-group.nwea {
+.report-card > .score-group.nwea {
 }
 
-.score-display > .score-group.subject-grades{
+.report-card > .score-group.subject-grades{
 }
 
 .score-group-label{
