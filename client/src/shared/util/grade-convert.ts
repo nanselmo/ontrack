@@ -64,6 +64,32 @@ export const scoreToString = (score: StudentScore, scoreType: ScoreType): string
   }
 };
 
+export const tryParseScore = (str: string, scoreType: ScoreType): [boolean, StudentScore] => {
+  switch(scoreType) {
+    case ScoreType.nweaMath:
+    case ScoreType.nweaRead:
+      const score = Number.parseInt(str, 10);
+      if (Number.isNaN(score)) {
+        return [false, null];
+      } else {
+        return [true, score];
+      }
+    case ScoreType.subjGradeMath:
+    case ScoreType.subjGradeRead:
+    case ScoreType.subjGradeSci:
+    case ScoreType.subjGradeSocStudies:
+      try {
+        return [true, toNumberGrade(str)];
+      } catch(e) {
+        return [false, null];
+      }
+    default:
+      throw GradeConvertErrors.BadScoreType;
+  }
+
+
+};
+
 const letterGradeHighScores = {
   A: 100,
   B: 89,
