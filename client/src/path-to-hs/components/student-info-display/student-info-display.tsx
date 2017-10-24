@@ -4,6 +4,7 @@ import StudentData from "shared/types/student-data";
 import StudentScores from "shared/types/student-scores";
 import EffortLevel from "shared/enums/effort-level";
 import {scoreToPercentile, percentileToScore} from "shared/util/grade-convert";
+import ScoreProjector from "./score-projector";
 
 import Box from "shared/components/layout/box";
 

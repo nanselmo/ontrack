@@ -1,6 +1,6 @@
 import StudentScores from "shared/types/student-scores";
 
-type ScoreProjectionFunction = (StudentScores) => StudentScores;
+type ScoreProjectionFunction = (scores: StudentScores, percentileChange: number, gradeLevel: number) => StudentScores;
 
 export default ScoreProjectionFunction;
 
