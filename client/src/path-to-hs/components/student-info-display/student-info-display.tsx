@@ -79,7 +79,8 @@ class StudentInfoDisplay extends React.Component<StudentInfoDisplayProps, Studen
 
   render() {
     return (
-      <Box width="half" height="half" responsiveBehavior={{mobile: "fullscreen"}}>
+      <Box width="half" height="full" responsiveBehavior={{mobile: "fullscreen"}}>
+        {/*
         <ReportCard 
           gradeLevel={this.state.studentData.gradeLevel}
           editable={this.state.studentData ? true : false}
@@ -88,6 +89,7 @@ class StudentInfoDisplay extends React.Component<StudentInfoDisplayProps, Studen
           scores={this.state.studentData.scores}
           onScoresChange={this.handleScoreChange.bind(this)}
         />
+        */}
         <ReportCard 
           gradeLevel={7}
           editable={true}

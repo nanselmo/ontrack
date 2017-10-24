@@ -24,6 +24,7 @@ const HSCategory: React.SFC<HSCategoryProps> = (props) => {
       <div className="hs-category-title">
         {props.categoryData.longName}
       </div>
+      {/*
       { 
         hasAdditionalReqs &&
         <HSAdditionalRequirements 
@@ -31,6 +32,7 @@ const HSCategory: React.SFC<HSCategoryProps> = (props) => {
           onChange={(newReqs) => console.log(newReqs)}
         /> 
       } 
+      */}
       <HSList 
         highschools={props.categoryData.highschools}
         addlRequirements={props.categoryData.additionalRequirements}
