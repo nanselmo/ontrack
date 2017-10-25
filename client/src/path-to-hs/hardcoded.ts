@@ -13,6 +13,8 @@ export const MOCK_STUDENT_SCORES: StudentScores = {
 }
 
 export const MOCK_STUDENT_DATA: StudentData = {
+  studentFirstName: "Testfella",
+  studentLastName: "McGee",
   address: "761 W Altgeld",
   ell: true,
   iep: false,

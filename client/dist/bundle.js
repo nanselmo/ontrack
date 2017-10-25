@@ -23070,62 +23070,31 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(7);
-var effort_level_1 = __webpack_require__(194);
+var score_projector_1 = __webpack_require__(225);
 var box_1 = __webpack_require__(85);
-var report_card_1 = __webpack_require__(197);
+var clone_1 = __webpack_require__(206);
+var report_card_container_1 = __webpack_require__(221);
 var StudentInfoDisplay = (function (_super) {
     __extends(StudentInfoDisplay, _super);
     function StudentInfoDisplay(props) {
         var _this = _super.call(this, props) || this;
-        _this.toEffortLevel = function (percentileChange) {
-            if (percentileChange < -40) {
-                return effort_level_1.default.NONE;
-            }
-            else if (percentileChange < -20) {
-                return effort_level_1.default.LOW;
-            }
-            else if (percentileChange < 20) {
-                return effort_level_1.default.NORMAL;
-            }
-            else if (percentileChange < 40) {
-                return effort_level_1.default.HIGH;
-            }
-            else {
-                return effort_level_1.default.EXTREME;
-            }
-        };
-        _this.toPercentileChange = function (effortLevel) {
-            switch (effortLevel) {
-                case effort_level_1.default.NONE:
-                    return -30;
-                case effort_level_1.default.LOW:
-                    return -15;
-                case effort_level_1.default.NORMAL:
-                    return 0;
-                case effort_level_1.default.HIGH:
-                    return 15;
-                case effort_level_1.default.EXTREME:
-                    return 30;
-            }
-        };
         _this.state = {
             studentData: props.studentData,
-            projectedScores: _this.getProjectedScores(props.studentData.scores, 0)
+            projectedStudentData: _this.projectData(props.studentData, 0)
         };
         return _this;
     }
-    StudentInfoDisplay.prototype.getProjectedScores = function (scores, percentileChange) {
-        return scores;
+    StudentInfoDisplay.prototype.projectData = function (data, percentileChange) {
+        var newData = clone_1.default(data);
+        newData.scores = score_projector_1.default(newData.scores, percentileChange, 7);
+        return data;
     };
-    StudentInfoDisplay.prototype.handleInfoChange = function (info) {
-    };
-    StudentInfoDisplay.prototype.handleScoreChange = function (newScores) {
-    };
-    StudentInfoDisplay.prototype.handleEffortLevelChange = function (newEffortLevel) {
+    StudentInfoDisplay.prototype.handleProjectedStudentDataChange = function (newData) {
+        this.setState({ projectedStudentData: newData });
     };
     StudentInfoDisplay.prototype.render = function () {
         return (React.createElement(box_1.default, { width: "half", height: "full", flex: { flexDirection: "column", justifyContent: "center", alignItems: "center" }, responsiveBehavior: { mobile: "fullscreen" } },
-            React.createElement(report_card_1.default, { gradeLevel: 7, studentName: "Chavez C. Student", effortLevel: effort_level_1.default.NORMAL, onEffortLevelChange: this.handleEffortLevelChange.bind(this), scores: this.state.projectedScores, onScoresChange: this.handleScoreChange.bind(this) })));
+            React.createElement(report_card_container_1.default, { studentData: this.state.studentData, projectedStudentData: this.state.projectedStudentData, onProjectedStudentDataChange: this.handleProjectedStudentDataChange.bind(this) })));
     };
     return StudentInfoDisplay;
 }(React.Component));
@@ -23753,13 +23722,18 @@ exports = module.exports = __webpack_require__(17)(undefined);
 
 
 // module
-exports.push([module.i, ".report-card {\n  width: 350px;\n  border: 1px solid #cacaca;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  overflow-y: hidden;\n  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);\n          box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);\n  background: url(" + __webpack_require__(224) + "); }\n\n.report-card-header {\n  width: 100%;\n  font-size: 125%;\n  padding: 0.5em 1em;\n  border-bottom: 1px solid #cacaca;\n  text-align: center; }\n\n.report-card-student-field {\n  width: 100%;\n  font-size: 70%;\n  text-align: center;\n  margin: 0.5em 0; }\n\n.report-card-student-label {\n  color: #9e9e9e;\n  font-size: 90%; }\n\n.report-card-student-name {\n  border-bottom: 1px solid #cacaca; }\n\n.report-card > .score-group {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  width: 100%;\n  margin-bottom: 1em; }\n\n.score-group-label {\n  font-size: 70%;\n  color: #6a6a6a;\n  border-bottom: 1px solid #cacaca;\n  margin-bottom: 0.5em;\n  margin-top: 1.5em; }\n", ""]);
+exports.push([module.i, ".report-card {\n  width: 350px;\n  border: 1px solid #cacaca;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  overflow-y: hidden;\n  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);\n          box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);\n  background: url(" + __webpack_require__(209) + "); }\n\n.report-card-header {\n  width: 100%;\n  font-size: 125%;\n  padding: 0.5em 1em;\n  border-bottom: 1px solid #cacaca;\n  text-align: center; }\n\n.report-card-student-field {\n  width: 100%;\n  font-size: 70%;\n  text-align: center;\n  margin: 0.5em 0; }\n\n.report-card-student-label {\n  color: #9e9e9e;\n  font-size: 90%; }\n\n.report-card-student-name {\n  border-bottom: 1px solid #cacaca; }\n\n.report-card > .score-group {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  width: 100%;\n  margin-bottom: 1em; }\n\n.score-group-label {\n  font-size: 70%;\n  color: #6a6a6a;\n  border-bottom: 1px solid #cacaca;\n  margin-bottom: 0.5em;\n  margin-top: 1.5em; }\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 209 */,
+/* 209 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "8939bf293e12aa837a2b92645724f327.png";
+
+/***/ }),
 /* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23999,6 +23973,8 @@ exports.MOCK_STUDENT_SCORES = {
     subjGradeSocStudies: 66
 };
 exports.MOCK_STUDENT_DATA = {
+    studentFirstName: "Testfella",
+    studentLastName: "McGee",
     address: "761 W Altgeld",
     ell: true,
     iep: false,
@@ -24275,13 +24251,234 @@ exports.MOCK_HS_DATA = [
 
 
 /***/ }),
-/* 221 */,
-/* 222 */,
-/* 223 */,
+/* 221 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(7);
+var effort_level_1 = __webpack_require__(194);
+var clone_1 = __webpack_require__(206);
+var effort_level_selector_1 = __webpack_require__(222);
+var report_card_1 = __webpack_require__(197);
+var ReportCardContainer = (function (_super) {
+    __extends(ReportCardContainer, _super);
+    function ReportCardContainer() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.toEffortLevel = function (percentileChange) {
+            if (percentileChange < -40) {
+                return effort_level_1.default.NONE;
+            }
+            else if (percentileChange < -20) {
+                return effort_level_1.default.LOW;
+            }
+            else if (percentileChange < 20) {
+                return effort_level_1.default.NORMAL;
+            }
+            else if (percentileChange < 40) {
+                return effort_level_1.default.HIGH;
+            }
+            else {
+                return effort_level_1.default.EXTREME;
+            }
+        };
+        _this.toPercentileChange = function (effortLevel) {
+            switch (effortLevel) {
+                case effort_level_1.default.NONE:
+                    return -30;
+                case effort_level_1.default.LOW:
+                    return -15;
+                case effort_level_1.default.NORMAL:
+                    return 0;
+                case effort_level_1.default.HIGH:
+                    return 15;
+                case effort_level_1.default.EXTREME:
+                    return 30;
+            }
+        };
+        return _this;
+    }
+    ReportCardContainer.prototype.handleEffortLevelChange = function (newEffortLevel) {
+    };
+    ReportCardContainer.prototype.handleProjectedScoreChange = function (newScores) {
+        var newProjectedData = clone_1.default(this.props.projectedStudentData);
+        newProjectedData.scores = newScores;
+        this.props.onProjectedStudentDataChange(newProjectedData);
+    };
+    ReportCardContainer.prototype.inferEffortLevel = function (studentData) {
+        var percentileChange = -40;
+        return this.toEffortLevel(percentileChange);
+    };
+    ReportCardContainer.prototype.render = function () {
+        return (React.createElement("div", { style: { width: "350px" } },
+            React.createElement("div", { className: "effort-level-select-container", style: { width: "100%", textAlign: "center", margin: "1em 0", lineHeight: "150%", fontSize: "140%", color: "#777" } },
+                "Here's what your report card will look like if you ",
+                React.createElement(effort_level_selector_1.default, { effortLevel: this.inferEffortLevel(this.props.studentData), onEffortLevelChange: this.handleEffortLevelChange.bind(this) })),
+            React.createElement(report_card_1.default, { gradeLevel: 7, scores: this.props.projectedStudentData.scores, onScoresChange: this.handleProjectedScoreChange.bind(this), studentName: this.props.studentData.studentFirstName + " " + this.props.studentData.studentLastName })));
+    };
+    return ReportCardContainer;
+}(React.Component));
+;
+exports.default = ReportCardContainer;
+
+
+/***/ }),
+/* 222 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(7);
+var effort_level_1 = __webpack_require__(194);
+__webpack_require__(223);
+var strings = {
+    noEffort: "don't try at all",
+    lowEffort: "don't try very hard",
+    normalEffort: "try as hard as you're doing now",
+    highEffort: "try harder than you're doing now",
+    veryHighEffort: "try very, very hard"
+};
+var EffortLevelSelector = function (props) {
+    var effortLeveltoString = function (effortLevel) {
+        switch (effortLevel) {
+            case effort_level_1.default.NONE:
+                return "no-effort";
+            case effort_level_1.default.LOW:
+                return "low-effort";
+            case effort_level_1.default.NORMAL:
+                return "normal-effort";
+            case effort_level_1.default.HIGH:
+                return "high-effort";
+            case effort_level_1.default.EXTREME:
+                return "very-high-effort";
+        }
+    };
+    var handleSelectChange = function (event) {
+        var value = event.currentTarget.value;
+        var effortLevel;
+        switch (value) {
+            case "noEffort":
+                effortLevel = effort_level_1.default.NONE;
+                break;
+            case "lowEffort":
+                effortLevel = effort_level_1.default.LOW;
+                break;
+            case "normalEffort":
+                effortLevel = effort_level_1.default.NORMAL;
+                break;
+            case "highEffort":
+                effortLevel = effort_level_1.default.HIGH;
+                break;
+            case "veryHighEffort":
+                effortLevel = effort_level_1.default.EXTREME;
+                ;
+                break;
+            default:
+                throw new Error("effortLevel " + value + " not recognized!");
+        }
+        props.onEffortLevelChange(effortLevel);
+    };
+    var strEffortLevelAsString = effortLeveltoString(props.effortLevel);
+    return (React.createElement("select", { onChange: handleSelectChange, className: "effort-level-selector " + effortLeveltoString(props.effortLevel) },
+        React.createElement("option", { value: "noEffort", selected: props.effortLevel === effort_level_1.default.NONE }, strings.noEffort),
+        React.createElement("option", { value: "lowEffort", selected: props.effortLevel === effort_level_1.default.LOW }, strings.lowEffort),
+        React.createElement("option", { value: "normaEffort", selected: props.effortLevel === effort_level_1.default.NORMAL }, strings.normalEffort),
+        React.createElement("option", { value: "highEffort", selected: props.effortLevel === effort_level_1.default.HIGH }, strings.highEffort),
+        React.createElement("option", { value: "veryHighEffort", selected: props.effortLevel === effort_level_1.default.EXTREME }, strings.veryHighEffort)));
+};
+exports.default = EffortLevelSelector;
+
+
+/***/ }),
+/* 223 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(224);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(18)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--2-2!../../../../node_modules/sass-loader/lib/loader.js!./effort-level-selector.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--2-2!../../../../node_modules/sass-loader/lib/loader.js!./effort-level-selector.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
 /* 224 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "8939bf293e12aa837a2b92645724f327.png";
+exports = module.exports = __webpack_require__(17)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".effort-level-selector {\n  padding: 5px;\n  font-size: 100%;\n  text-align: center; }\n\n.effort-level-selector.no-effort {\n  color: #B0413E; }\n\n.effort-level-selector.low-effort {\n  color: #FC9744; }\n\n.effort-level-selector.normal-effort {\n  color: #000000; }\n\n.effort-level-selector.high-effort {\n  color: #A3C44A; }\n\n.effort-level-selector.very-highw-effort {\n  color: #57AD35; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 225 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var score_type_1 = __webpack_require__(52);
+var grade_convert_1 = __webpack_require__(199);
+var projectScores = function (scores, percentileChange, studentGrade) {
+    var projectedScores = {
+        nweaMath: adjustScore(scores.nweaMath, score_type_1.default.nweaMath, percentileChange, studentGrade),
+        nweaRead: adjustScore(scores.nweaRead, score_type_1.default.nweaRead, percentileChange, studentGrade),
+        subjGradeMath: adjustScore(scores.subjGradeMath, score_type_1.default.subjGradeMath, percentileChange, studentGrade),
+        subjGradeRead: adjustScore(scores.subjGradeRead, score_type_1.default.subjGradeRead, percentileChange, studentGrade),
+        subjGradeSci: adjustScore(scores.subjGradeSci, score_type_1.default.subjGradeSci, percentileChange, studentGrade),
+        subjGradeSocStudies: adjustScore(scores.subjGradeSocStudies, score_type_1.default.subjGradeSocStudies, percentileChange, studentGrade),
+    };
+    return projectedScores;
+};
+var adjustScore = function (score, scoreType, percentileChange, studentGrade) {
+    var originalPercentileScore = grade_convert_1.scoreToPercentile(score, scoreType, studentGrade);
+    var projectedPercentileScore = originalPercentileScore + percentileChange;
+    if (projectedPercentileScore < 1) {
+        projectedPercentileScore = 1;
+    }
+    else if (projectedPercentileScore > 99) {
+        projectedPercentileScore = 99;
+    }
+    return grade_convert_1.percentileToScore(projectedPercentileScore, scoreType, studentGrade);
+};
+exports.default = projectScores;
+
 
 /***/ })
 /******/ ]);

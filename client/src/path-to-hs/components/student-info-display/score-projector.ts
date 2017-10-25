@@ -4,7 +4,7 @@ import ScoreType from "shared/enums/score-type";
 
 import {scoreToPercentile, percentileToScore} from "shared/util/grade-convert";
 
-const ScoreProjector: ScoreProjectionFunction = (scores: StudentScores, percentileChange: number, studentGrade: number): StudentScores => {
+const projectScores: ScoreProjectionFunction = (scores: StudentScores, percentileChange: number, studentGrade: number): StudentScores => {
   const projectedScores: StudentScores = {
     nweaMath: adjustScore(scores.nweaMath, ScoreType.nweaMath, percentileChange, studentGrade),
     nweaRead: adjustScore(scores.nweaRead, ScoreType.nweaRead, percentileChange, studentGrade),
@@ -28,4 +28,4 @@ const adjustScore = (score: number, scoreType: ScoreType, percentileChange: numb
 };
 
 
-export default ScoreProjector;
+export default projectScores;

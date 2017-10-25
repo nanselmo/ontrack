@@ -1,11 +1,19 @@
-Minor refactor and style ReportCard
+[WIP] Add ReportCardContainer component
 
-* (rough) imitate actual report card as much as possible
-* add StudentName prop
-* remove 'editable' prop from ReportCard, will put it back
-  if needed. I think I'm learning a lot about when abstraction
-  is necessary and when it isn't. I'm trying to work from concrete
-  needs first and abstract them later if necessary, rather than
-  trying to nail the abstraction the first time. Which, when I
-  say it like that, sounds like how abstraction is probably
-  meant to work in the first place.
+* ReportCardContainer contains ReportCard and effort
+  amount adjuster. Purpose of ReportCardContainer is to abstract
+  effort amount adjuster away from StudentDataDisplay, so that
+  ReportCardContainer can be treated as a StudentData -> StudentData
+  transformer.
+* handle score adjustments and update parent with new StudentData
+  via onChange callback
+
+* update StudentData type
+  ** make all properties non-optional
+  ** add studentFirstName and studentLastName properties
+
+* new component EffortLevelSelector, acts as display for current
+  effort level and as selector for different effort level
+
+* move EffortLevel and ScoreChange handling functions out of StudentInfoDisplay
+  and into ReportCardContainer

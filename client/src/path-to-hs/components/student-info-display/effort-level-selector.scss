@@ -1,0 +1,28 @@
+$col-no-effort:#B0413E;
+$col-low-effort:#FC9744; 
+$col-normal-effort:#000000;
+$col-high-effort:#A3C44A;
+$col-very-high-effort:#57AD35;
+
+.effort-level-selector {
+  // reset <select> style
+  padding: 5px;
+  font-size: 100%;
+  text-align: center;
+}
+
+.effort-level-selector.no-effort {
+  color: $col-no-effort;
+}
+.effort-level-selector.low-effort {
+  color: $col-low-effort;
+}
+.effort-level-selector.normal-effort {
+  color: $col-normal-effort;
+}
+.effort-level-selector.high-effort {
+  color: $col-high-effort;
+}
+.effort-level-selector.very-highw-effort {
+  color: $col-very-high-effort;
+}
