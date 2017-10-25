@@ -8,6 +8,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+
+  background: none;
 }
 
 .score-field.sm{
@@ -33,8 +35,9 @@
   outline: none;
   border: none;
   border-bottom: 1px solid $col-app-gray;
+  background: inherit;
 
-  font-size: 115%;
+  font-size: 150%;
   text-align: center;
   //color: $col-app-1;
   width: 55px;

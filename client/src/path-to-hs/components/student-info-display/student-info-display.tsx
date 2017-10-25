@@ -79,31 +79,15 @@ class StudentInfoDisplay extends React.Component<StudentInfoDisplayProps, Studen
 
   render() {
     return (
-      <Box width="half" height="full" responsiveBehavior={{mobile: "fullscreen"}}>
-        {/*
-        <ReportCard 
-          gradeLevel={this.state.studentData.gradeLevel}
-          editable={this.state.studentData ? true : false}
-          effortLevel={EffortLevel.NORMAL}
-          onEffortLevelChange={this.handleEffortLevelChange.bind(this)}
-          scores={this.state.studentData.scores}
-          onScoresChange={this.handleScoreChange.bind(this)}
-        />
-        */}
+      <Box width="half" height="full" flex={{flexDirection: "column", justifyContent: "center", alignItems: "center"}} responsiveBehavior={{mobile: "fullscreen"}}>
         <ReportCard 
           gradeLevel={7}
-          editable={true}
+          studentName={"Chavez C. Student"}
           effortLevel={EffortLevel.NORMAL}
           onEffortLevelChange={this.handleEffortLevelChange.bind(this)}
           scores={this.state.projectedScores}
           onScoresChange={this.handleScoreChange.bind(this)}
         />
-        {/*
-        <DemographicInfo
-          editable={true}
-          onChange={this.handleInfoChange}
-          data={this.state.studentData}/>
-        */}
       </Box>
     )
   }

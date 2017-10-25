@@ -21,6 +21,7 @@ const config = {
   },
   module: {
     rules: [
+      { test: /\.png$|\.jpg$|\.gif$/, use: "file-loader" },
       { test: /\.tsx?$|\.spec\.ts$/, use: "awesome-typescript-loader" },
       { test: /\.scss?$/,
         use: [

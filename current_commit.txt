@@ -1,23 +1,11 @@
-[WIP] Redesign HsCalc component: redesign StudentScoreDisplay
+Minor refactor and style ReportCard
 
-* rename HSCalc -> StudentInfoDisplay
-* restructure StudentInfoDisplay (previously HSCalc)
-  ** new child component ReportCard 
-  ** refactor ScoreField
-* rewrite score transformation code
-  ** replace ScoreTransformerSettings component and 
-    CreateScoreTransformer higher-order-function with local functions
-    in StudentInfoDisplay
-* move ScoreType and EffortLevel enums from shared/types -> shared/enums      
-* add type StudentScore to shared/types
-* edit interface StudentScores so that all properties of type StudentScore
-* rename shared/util/grade-conversion -> shared/util/gradeconvert
-* add new methods to shared/util/grade-conveart
-  ** stringToScore: string, ScoreType
-  ** scoreToString: StudentScore, ScoreType
-  ** scoreToPercentile: StudentScore, number in [1,100]
-  ** percentileToScore: number, StudentScore
-
-* WIP scaffold new util NWEAConvert
-  ** RitToPercentile(rit: number, ScoreType, gradelevel: number)
-  ** PercentileToRit(percentile: number, ScoreType, gradelevel: number)
+* (rough) imitate actual report card as much as possible
+* add StudentName prop
+* remove 'editable' prop from ReportCard, will put it back
+  if needed. I think I'm learning a lot about when abstraction
+  is necessary and when it isn't. I'm trying to work from concrete
+  needs first and abstract them later if necessary, rather than
+  trying to nail the abstraction the first time. Which, when I
+  say it like that, sounds like how abstraction is probably
+  meant to work in the first place.

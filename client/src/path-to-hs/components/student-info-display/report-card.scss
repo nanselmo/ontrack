@@ -3,19 +3,49 @@
 .report-card {
   width: 350px;
 
+  border: $border-light;
   display: flex;
   flex-direction: column;
-  align-items: end; 
+  align-items: center; 
   justify-content: flex-start;
-
   overflow-y: hidden;
+
+  box-shadow: $box-shadow-z5;
+  
+  background: url("../../../shared/images/linedpaper.png");
+}
+
+.report-card-header {
+  width: 100%;
+  font-size: 125%;
+  padding: 0.5em 1em;
+  border-bottom: $border-light;
+  text-align: center;
+}
+
+.report-card-student-field {
+  width: 100%;
+  font-size: 70%;
+  text-align: center;
+  margin: 0.5em 0;
+}
+
+.report-card-student-label {
+  color: $col-app-gray; 
+  font-size: 90%;
+}
+
+.report-card-student-name {
+  border-bottom: $border-light;
 }
 
 .report-card > .score-group {
-  box-shadow: $box-shadow-z2;
-  border: $border-light;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   width: 100%;
-  padding: 1.5em;
+  margin-bottom: 1em;
 }
 
 .report-card > .score-group.nwea {

@@ -11,11 +11,9 @@ import "./report-card.scss";
 
 interface ReportCardProps {
   gradeLevel: number
-  editable: boolean
-  scores: StudentScores | null
+  scores: StudentScores
+  studentName: string
   onScoresChange: (StudentScores) => any
-  effortLevel: EffortLevel
-  onEffortLevelChange: (EffortLeve) => any
 }
 
 const ReportCard = (props: ReportCardProps) => {
@@ -33,20 +31,25 @@ const ReportCard = (props: ReportCardProps) => {
   // TODO: add l10n strings
   return (
     <div className="report-card">
+      <div className="report-card-header">
+        7th Grade Report Card
+        <div className="report-card-student-field">
+          <span className="report-card-student-label">Student:</span> <span className="report-card-student-name">{props.studentName}</span>
+        </div>
+      </div>
       <div className="score-group nwea">
-
         <div className="score-group-label">
           Your NWEA Scores 
         </div>
         <ScoreField
           scoreType={ScoreType.nweaMath}
           score={props.scores.nweaMath}
-          editable={props.editable}
+          editable={false}
           onChange={createScoreChangeHandler(ScoreType.nweaMath)}/>
         <ScoreField
           scoreType={ScoreType.nweaRead}
           score={props.scores.nweaRead}
-          editable={props.editable}
+          editable={false}
           onChange={createScoreChangeHandler(ScoreType.nweaRead)}/>
 
         <div className="score-group-label">
@@ -55,22 +58,22 @@ const ReportCard = (props: ReportCardProps) => {
         <ScoreField
           scoreType={ScoreType.subjGradeMath}
           score={props.scores.subjGradeMath}
-          editable={props.editable}
+          editable={false}
           onChange={createScoreChangeHandler(ScoreType.subjGradeMath)}/>
         <ScoreField
           scoreType={ScoreType.subjGradeRead}
           score={props.scores.subjGradeRead}
-          editable={props.editable}
+          editable={false}
           onChange={createScoreChangeHandler(ScoreType.subjGradeRead)}/>
         <ScoreField
           scoreType={ScoreType.subjGradeSci}
           score={props.scores.subjGradeSci}
-          editable={props.editable}
+          editable={false}
           onChange={createScoreChangeHandler(ScoreType.subjGradeSci)}/>
         <ScoreField
           scoreType={ScoreType.subjGradeSocStudies}
           score={props.scores.subjGradeSocStudies}
-          editable={props.editable}
+          editable={false}
           onChange={createScoreChangeHandler(ScoreType.subjGradeSocStudies)}/>
       </div>
     </div>
