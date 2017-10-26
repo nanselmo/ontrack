@@ -22883,17 +22883,50 @@ module.exports = ReactDOMInvalidARIAHook;
 
 "use strict";
 
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(7);
 var page_1 = __webpack_require__(189);
 var student_info_display_1 = __webpack_require__(193);
 var hs_display_1 = __webpack_require__(210);
 var hardcoded_1 = __webpack_require__(220);
-var PathToHS = function (props) {
-    return (React.createElement(page_1.default, null,
-        React.createElement(student_info_display_1.default, { studentData: hardcoded_1.MOCK_STUDENT_DATA }),
-        React.createElement(hs_display_1.default, { hsData: hardcoded_1.MOCK_HS_DATA, studentData: hardcoded_1.MOCK_STUDENT_DATA })));
-};
+var clone_1 = __webpack_require__(206);
+var score_projection_utils_1 = __webpack_require__(226);
+var PathToHS = (function (_super) {
+    __extends(PathToHS, _super);
+    function PathToHS(props) {
+        var _this = _super.call(this, props) || this;
+        var projectedData = clone_1.default(hardcoded_1.MOCK_STUDENT_DATA);
+        projectedData.scores = score_projection_utils_1.projectScores(hardcoded_1.MOCK_STUDENT_DATA.scores, 0, hardcoded_1.MOCK_STUDENT_DATA.gradeLevel, 7);
+        _this.state = {
+            studentData: hardcoded_1.MOCK_STUDENT_DATA,
+            projectedStudentData: projectedData
+        };
+        return _this;
+    }
+    PathToHS.prototype.handleProjectedScoreChange = function (newProjectedData) {
+        console.log(newProjectedData);
+        this.setState({
+            projectedStudentData: newProjectedData
+        });
+    };
+    PathToHS.prototype.render = function () {
+        return (React.createElement(page_1.default, null,
+            React.createElement(student_info_display_1.default, { studentData: this.state.studentData, projectedStudentData: this.state.projectedStudentData, onProjectedStudentDataChange: function (newProjectedData) { return console.log(newProjectedData); } }),
+            React.createElement(hs_display_1.default, { hsData: hardcoded_1.MOCK_HS_DATA, studentData: this.state.projectedStudentData })));
+    };
+    return PathToHS;
+}(React.Component));
+;
 exports.default = PathToHS;
 
 
@@ -23058,47 +23091,25 @@ module.exports = function (css) {
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(7);
-var score_projector_1 = __webpack_require__(225);
+var score_projection_utils_1 = __webpack_require__(226);
 var box_1 = __webpack_require__(85);
 var clone_1 = __webpack_require__(206);
 var report_card_container_1 = __webpack_require__(221);
-var StudentInfoDisplay = (function (_super) {
-    __extends(StudentInfoDisplay, _super);
-    function StudentInfoDisplay(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {
-            studentData: props.studentData,
-            projectedStudentData: _this.projectData(props.studentData, 0)
-        };
-        return _this;
-    }
-    StudentInfoDisplay.prototype.projectData = function (data, percentileChange) {
+var StudentInfoDisplay = function (props) {
+    var projectData = function (data, percentileChange) {
         var newData = clone_1.default(data);
-        newData.scores = score_projector_1.default(newData.scores, percentileChange, 7);
-        return data;
+        var targetGrade = 7;
+        newData.scores = score_projection_utils_1.projectScores(newData.scores, percentileChange, data.gradeLevel, 7);
+        return newData;
     };
-    StudentInfoDisplay.prototype.handleProjectedStudentDataChange = function (newData) {
-        this.setState({ projectedStudentData: newData });
+    var handleProjectedStudentDataChange = function (newData) {
+        props.onProjectedStudentDataChange(newData);
     };
-    StudentInfoDisplay.prototype.render = function () {
-        return (React.createElement(box_1.default, { width: "half", height: "full", flex: { flexDirection: "column", justifyContent: "center", alignItems: "center" }, responsiveBehavior: { mobile: "fullscreen" } },
-            React.createElement(report_card_container_1.default, { studentData: this.state.studentData, projectedStudentData: this.state.projectedStudentData, onProjectedStudentDataChange: this.handleProjectedStudentDataChange.bind(this) })));
-    };
-    return StudentInfoDisplay;
-}(React.Component));
-;
+    return (React.createElement(box_1.default, { width: "half", height: "full", flex: { flexDirection: "column", justifyContent: "center", alignItems: "center" }, responsiveBehavior: { mobile: "fullscreen" } },
+        React.createElement(report_card_container_1.default, { studentData: props.studentData, projectedStudentData: props.projectedStudentData, onProjectedStudentDataChange: handleProjectedStudentDataChange })));
+};
 exports.default = StudentInfoDisplay;
 
 
@@ -23181,8 +23192,10 @@ var ReportCard = function (props) {
     var createScoreChangeHandler = function (scoreType) {
         return function (newScore) {
             var newScores = clone_1.default(props.scores);
-            newScores[scoreType] = newScore;
-            props.onScoresChange(newScores);
+            if (props.scores[scoreType] !== newScore) {
+                newScores[scoreType] = newScore;
+                props.onScoresChange(newScores);
+            }
         };
     };
     return (React.createElement("div", { className: "report-card" },
@@ -24272,6 +24285,7 @@ var effort_level_1 = __webpack_require__(194);
 var clone_1 = __webpack_require__(206);
 var effort_level_selector_1 = __webpack_require__(222);
 var report_card_1 = __webpack_require__(197);
+var score_projection_utils_1 = __webpack_require__(226);
 var ReportCardContainer = (function (_super) {
     __extends(ReportCardContainer, _super);
     function ReportCardContainer() {
@@ -24310,21 +24324,26 @@ var ReportCardContainer = (function (_super) {
         return _this;
     }
     ReportCardContainer.prototype.handleEffortLevelChange = function (newEffortLevel) {
+        var percentileChange = this.toPercentileChange(newEffortLevel);
+        var newProjectedData = clone_1.default(this.props.projectedStudentData);
+        var targetGradeLevel = 7;
+        newProjectedData.scores = score_projection_utils_1.projectScores(this.props.studentData.scores, percentileChange, this.props.studentData.gradeLevel, targetGradeLevel);
+        this.props.onProjectedStudentDataChange(newProjectedData);
     };
     ReportCardContainer.prototype.handleProjectedScoreChange = function (newScores) {
         var newProjectedData = clone_1.default(this.props.projectedStudentData);
         newProjectedData.scores = newScores;
         this.props.onProjectedStudentDataChange(newProjectedData);
     };
-    ReportCardContainer.prototype.inferEffortLevel = function (studentData) {
-        var percentileChange = -40;
+    ReportCardContainer.prototype.inferEffortLevel = function (studentData, projectedData) {
+        var percentileChange = score_projection_utils_1.getAveragePercentileDifference(studentData.scores, studentData.gradeLevel, projectedData.scores, projectedData.gradeLevel);
         return this.toEffortLevel(percentileChange);
     };
     ReportCardContainer.prototype.render = function () {
         return (React.createElement("div", { style: { width: "350px" } },
             React.createElement("div", { className: "effort-level-select-container", style: { width: "100%", textAlign: "center", margin: "1em 0", lineHeight: "150%", fontSize: "140%", color: "#777" } },
                 "Here's what your report card will look like if you ",
-                React.createElement(effort_level_selector_1.default, { effortLevel: this.inferEffortLevel(this.props.studentData), onEffortLevelChange: this.handleEffortLevelChange.bind(this) })),
+                React.createElement(effort_level_selector_1.default, { effortLevel: this.inferEffortLevel(this.props.studentData, this.props.projectedStudentData), onEffortLevelChange: this.handleEffortLevelChange.bind(this) })),
             React.createElement(report_card_1.default, { gradeLevel: 7, scores: this.props.projectedStudentData.scores, onScoresChange: this.handleProjectedScoreChange.bind(this), studentName: this.props.studentData.studentFirstName + " " + this.props.studentData.studentLastName })));
     };
     return ReportCardContainer;
@@ -24369,19 +24388,19 @@ var EffortLevelSelector = function (props) {
         var value = event.currentTarget.value;
         var effortLevel;
         switch (value) {
-            case "noEffort":
+            case "no-effort":
                 effortLevel = effort_level_1.default.NONE;
                 break;
-            case "lowEffort":
+            case "low-effort":
                 effortLevel = effort_level_1.default.LOW;
                 break;
-            case "normalEffort":
+            case "normal-effort":
                 effortLevel = effort_level_1.default.NORMAL;
                 break;
-            case "highEffort":
+            case "high-effort":
                 effortLevel = effort_level_1.default.HIGH;
                 break;
-            case "veryHighEffort":
+            case "very-high-effort":
                 effortLevel = effort_level_1.default.EXTREME;
                 ;
                 break;
@@ -24390,13 +24409,13 @@ var EffortLevelSelector = function (props) {
         }
         props.onEffortLevelChange(effortLevel);
     };
-    var strEffortLevelAsString = effortLeveltoString(props.effortLevel);
-    return (React.createElement("select", { onChange: handleSelectChange, className: "effort-level-selector " + effortLeveltoString(props.effortLevel) },
-        React.createElement("option", { value: "noEffort", selected: props.effortLevel === effort_level_1.default.NONE }, strings.noEffort),
-        React.createElement("option", { value: "lowEffort", selected: props.effortLevel === effort_level_1.default.LOW }, strings.lowEffort),
-        React.createElement("option", { value: "normaEffort", selected: props.effortLevel === effort_level_1.default.NORMAL }, strings.normalEffort),
-        React.createElement("option", { value: "highEffort", selected: props.effortLevel === effort_level_1.default.HIGH }, strings.highEffort),
-        React.createElement("option", { value: "veryHighEffort", selected: props.effortLevel === effort_level_1.default.EXTREME }, strings.veryHighEffort)));
+    var strEffortLevel = effortLeveltoString(props.effortLevel);
+    return (React.createElement("select", { value: strEffortLevel, onChange: handleSelectChange, className: "effort-level-selector " + strEffortLevel },
+        React.createElement("option", { value: "no-effort" }, strings.noEffort),
+        React.createElement("option", { value: "low-effort" }, strings.lowEffort),
+        React.createElement("option", { value: "normal-effort" }, strings.normalEffort),
+        React.createElement("option", { value: "high-effort" }, strings.highEffort),
+        React.createElement("option", { value: "very-high-effort" }, strings.veryHighEffort)));
 };
 exports.default = EffortLevelSelector;
 
@@ -24447,7 +24466,8 @@ exports.push([module.i, ".effort-level-selector {\n  padding: 5px;\n  font-size:
 
 
 /***/ }),
-/* 225 */
+/* 225 */,
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24455,18 +24475,42 @@ exports.push([module.i, ".effort-level-selector {\n  padding: 5px;\n  font-size:
 Object.defineProperty(exports, "__esModule", { value: true });
 var score_type_1 = __webpack_require__(52);
 var grade_convert_1 = __webpack_require__(199);
-var projectScores = function (scores, percentileChange, studentGrade) {
+exports.getAveragePercentileDifference = function (fromScores, fromGradeLevel, toScores, toGradeLevel) {
+    var averagePercentileDifference;
+    var sumPercentileDifference = 0;
+    var percentileArrayA = toPercentileArray(fromScores, fromGradeLevel);
+    var percentileArrayB = toPercentileArray(toScores, toGradeLevel);
+    var numPercentiles = percentileArrayA.length;
+    for (var i = 0; i < numPercentiles; i++) {
+        var percentileA = percentileArrayA[i];
+        var percentileB = percentileArrayB[i];
+        sumPercentileDifference += percentileA - percentileB;
+    }
+    return sumPercentileDifference / numPercentiles;
+};
+exports.projectScores = function (scores, percentileChange, studentGrade, targetGrade) {
     var projectedScores = {
-        nweaMath: adjustScore(scores.nweaMath, score_type_1.default.nweaMath, percentileChange, studentGrade),
-        nweaRead: adjustScore(scores.nweaRead, score_type_1.default.nweaRead, percentileChange, studentGrade),
-        subjGradeMath: adjustScore(scores.subjGradeMath, score_type_1.default.subjGradeMath, percentileChange, studentGrade),
-        subjGradeRead: adjustScore(scores.subjGradeRead, score_type_1.default.subjGradeRead, percentileChange, studentGrade),
-        subjGradeSci: adjustScore(scores.subjGradeSci, score_type_1.default.subjGradeSci, percentileChange, studentGrade),
-        subjGradeSocStudies: adjustScore(scores.subjGradeSocStudies, score_type_1.default.subjGradeSocStudies, percentileChange, studentGrade),
+        nweaMath: adjustScore(scores.nweaMath, score_type_1.default.nweaMath, percentileChange, studentGrade, targetGrade),
+        nweaRead: adjustScore(scores.nweaRead, score_type_1.default.nweaRead, percentileChange, studentGrade, targetGrade),
+        subjGradeMath: adjustScore(scores.subjGradeMath, score_type_1.default.subjGradeMath, percentileChange, studentGrade, targetGrade),
+        subjGradeRead: adjustScore(scores.subjGradeRead, score_type_1.default.subjGradeRead, percentileChange, studentGrade, targetGrade),
+        subjGradeSci: adjustScore(scores.subjGradeSci, score_type_1.default.subjGradeSci, percentileChange, studentGrade, targetGrade),
+        subjGradeSocStudies: adjustScore(scores.subjGradeSocStudies, score_type_1.default.subjGradeSocStudies, percentileChange, studentGrade, targetGrade),
     };
     return projectedScores;
 };
-var adjustScore = function (score, scoreType, percentileChange, studentGrade) {
+var toPercentileArray = function (scores, gradeLevel) {
+    var percentileArray = [
+        grade_convert_1.scoreToPercentile(scores.nweaMath, score_type_1.default.nweaMath, gradeLevel),
+        grade_convert_1.scoreToPercentile(scores.nweaRead, score_type_1.default.nweaRead, gradeLevel),
+        grade_convert_1.scoreToPercentile(scores.subjGradeMath, score_type_1.default.subjGradeMath, gradeLevel),
+        grade_convert_1.scoreToPercentile(scores.subjGradeRead, score_type_1.default.subjGradeRead, gradeLevel),
+        grade_convert_1.scoreToPercentile(scores.subjGradeSci, score_type_1.default.subjGradeSci, gradeLevel),
+        grade_convert_1.scoreToPercentile(scores.subjGradeSocStudies, score_type_1.default.subjGradeSocStudies, gradeLevel),
+    ];
+    return percentileArray;
+};
+var adjustScore = function (score, scoreType, percentileChange, studentGrade, targetGrade) {
     var originalPercentileScore = grade_convert_1.scoreToPercentile(score, scoreType, studentGrade);
     var projectedPercentileScore = originalPercentileScore + percentileChange;
     if (projectedPercentileScore < 1) {
@@ -24475,9 +24519,8 @@ var adjustScore = function (score, scoreType, percentileChange, studentGrade) {
     else if (projectedPercentileScore > 99) {
         projectedPercentileScore = 99;
     }
-    return grade_convert_1.percentileToScore(projectedPercentileScore, scoreType, studentGrade);
+    return grade_convert_1.percentileToScore(projectedPercentileScore, scoreType, targetGrade);
 };
-exports.default = projectScores;
 
 
 /***/ })

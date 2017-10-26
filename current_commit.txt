@@ -1,4 +1,4 @@
-[WIP] Add ReportCardContainer component
+Add ReportCardContainer component
 
 * ReportCardContainer contains ReportCard and effort
   amount adjuster. Purpose of ReportCardContainer is to abstract

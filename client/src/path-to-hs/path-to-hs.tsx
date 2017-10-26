@@ -7,18 +7,54 @@ import HSDisplay from "./components/hs-display/hs-display";
 // TODO: remove hardcoded test data
 import {MOCK_STUDENT_DATA, MOCK_HS_DATA} from "./hardcoded";
 
+import StudentData from "shared/types/student-data";
 import StudentScores from "shared/types/student-scores";
+import clone from "shared/util/clone";
+import {projectScores} from "shared/util/score-projection-utils";
 
-const PathToHS = (props: any) => {
-  return (
-    <Page>
-      <StudentInfoDisplay
-        studentData={MOCK_STUDENT_DATA} />
-      <HSDisplay
-        hsData={MOCK_HS_DATA}
-        studentData={MOCK_STUDENT_DATA} />
-    </Page>
-  )
+interface PathToHSProps {
+}
+
+interface PathToHSState {
+  studentData: StudentData
+  projectedStudentData: StudentData
+}
+
+class PathToHS extends React.Component<PathToHSProps, PathToHSState> {
+  
+  constructor(props){
+    super(props);
+    let projectedData = clone(MOCK_STUDENT_DATA);
+    projectedData.scores = projectScores(MOCK_STUDENT_DATA.scores, 0, MOCK_STUDENT_DATA.gradeLevel, 7);
+    this.state = {
+      studentData: MOCK_STUDENT_DATA,
+      projectedStudentData: projectedData
+    };
+  }
+
+  private handleProjectedScoreChange(newProjectedData: StudentData){
+    console.log(newProjectedData);
+    this.setState({
+      projectedStudentData: newProjectedData
+    });
+  }
+
+  render() {
+    return (
+      <Page>
+        <StudentInfoDisplay
+          studentData={this.state.studentData}
+          projectedStudentData={this.state.projectedStudentData}
+          onProjectedStudentDataChange={(newProjectedData) => console.log(newProjectedData)}
+          />
+          
+        <HSDisplay
+          hsData={MOCK_HS_DATA}
+          studentData={this.state.projectedStudentData} 
+          />
+      </Page>
+    )
+  }
 };
 
 export default PathToHS;

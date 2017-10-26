@@ -39,19 +39,19 @@ const EffortLevelSelector = (props: EffortLevelSelectorProps) => {
     const value = event.currentTarget.value;
     let effortLevel: EffortLevel;
     switch(value){
-      case "noEffort":
+      case "no-effort":
         effortLevel = EffortLevel.NONE;
         break;
-      case "lowEffort":
+      case "low-effort":
         effortLevel = EffortLevel.LOW;
         break;
-      case "normalEffort":
+      case "normal-effort":
         effortLevel = EffortLevel.NORMAL;
         break;
-      case "highEffort":
+      case "high-effort":
         effortLevel = EffortLevel.HIGH;
         break;
-      case "veryHighEffort":
+      case "very-high-effort":
         effortLevel = EffortLevel.EXTREME;;
         break;
       default:
@@ -60,32 +60,27 @@ const EffortLevelSelector = (props: EffortLevelSelectorProps) => {
     props.onEffortLevelChange(effortLevel);
   };
 
-  const strEffortLevelAsString = effortLeveltoString(props.effortLevel);
+  const strEffortLevel = effortLeveltoString(props.effortLevel);
 
   return (
-    <select onChange={handleSelectChange} className={`effort-level-selector ${effortLeveltoString(props.effortLevel)}`}>
+    <select value={strEffortLevel} onChange={handleSelectChange} className={`effort-level-selector ${strEffortLevel}`}>
       <option 
-        value="noEffort"
-        selected={props.effortLevel === EffortLevel.NONE}>
+        value="no-effort">
         {strings.noEffort}</option>
       <option 
-        value="lowEffort"
-        selected={props.effortLevel === EffortLevel.LOW}>
+        value="low-effort">
         {strings.lowEffort}</option>
       <option 
-        value="normaEffort"
-        selected={props.effortLevel === EffortLevel.NORMAL}>
+        value="normal-effort">
         {strings.normalEffort}</option>
       <option 
-        value="highEffort"
-        selected={props.effortLevel === EffortLevel.HIGH}>
+        value="high-effort">
         {strings.highEffort}</option>
       <option 
-        value="veryHighEffort"
-        selected={props.effortLevel === EffortLevel.EXTREME}>
+        value="very-high-effort">
         {strings.veryHighEffort}</option>
     </select>
-  )
+  ) 
 };
 
 export default EffortLevelSelector;

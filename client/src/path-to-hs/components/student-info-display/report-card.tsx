@@ -22,9 +22,11 @@ const ReportCard = (props: ReportCardProps) => {
 
   const createScoreChangeHandler = (scoreType: ScoreType): ScoreChangeHandler => {
     return (newScore: number): void => {
-          let newScores: StudentScores = clone(props.scores);
-          newScores[scoreType] = newScore;
-          props.onScoresChange(newScores); 
+      let newScores: StudentScores = clone(props.scores);
+      if(props.scores[scoreType] !== newScore) {
+        newScores[scoreType] = newScore;
+        props.onScoresChange(newScores); 
+      }
     }
   };
 
