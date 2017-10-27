@@ -9,7 +9,7 @@ import {MOCK_STUDENT_DATA, MOCK_HS_DATA} from "./hardcoded";
 
 import StudentData from "shared/types/student-data";
 import StudentScores from "shared/types/student-scores";
-import clone from "shared/util/clone";
+import {clone} from "shared/util/clone";
 import {projectScores} from "shared/util/score-projection-utils";
 
 interface PathToHSProps {
@@ -32,8 +32,7 @@ class PathToHS extends React.Component<PathToHSProps, PathToHSState> {
     };
   }
 
-  private handleProjectedScoreChange(newProjectedData: StudentData){
-    console.log(newProjectedData);
+  private handleProjectedStudentDataChange = (newProjectedData: StudentData) => {
     this.setState({
       projectedStudentData: newProjectedData
     });
@@ -45,7 +44,7 @@ class PathToHS extends React.Component<PathToHSProps, PathToHSState> {
         <StudentInfoDisplay
           studentData={this.state.studentData}
           projectedStudentData={this.state.projectedStudentData}
-          onProjectedStudentDataChange={(newProjectedData) => console.log(newProjectedData)}
+          onProjectedStudentDataChange={(newData) => this.setState({projectedStudentData: newData})}
           />
           
         <HSDisplay

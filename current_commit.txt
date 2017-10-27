@@ -1,19 +1,12 @@
-Add ReportCardContainer component
+Debug infinite loop bug in student-info-display
 
-* ReportCardContainer contains ReportCard and effort
-  amount adjuster. Purpose of ReportCardContainer is to abstract
-  effort amount adjuster away from StudentDataDisplay, so that
-  ReportCardContainer can be treated as a StudentData -> StudentData
-  transformer.
-* handle score adjustments and update parent with new StudentData
-  via onChange callback
-
-* update StudentData type
-  ** make all properties non-optional
-  ** add studentFirstName and studentLastName properties
-
-* new component EffortLevelSelector, acts as display for current
-  effort level and as selector for different effort level
-
-* move EffortLevel and ScoreChange handling functions out of StudentInfoDisplay
-  and into ReportCardContainer
+* add cloneAndMerge to shared/util/clone ct to document intent 
+  more clearly when combining objects than Object.assign({}, A, B)
+  ** 'clone' no longer default export of shared/util/clone.
+    refactor components which use 'clone' to import it correctly
+* rewrite change handlers in student-info-display and child
+  components to check for changes before cloning input objects
+  and calling parent callback with cloned object. It seems that
+  the parent understandably thinks the cloned object has changed
+  even if the cloned object and the original object are equivalent.
+* convert ReportCardContainer to stateless functional component

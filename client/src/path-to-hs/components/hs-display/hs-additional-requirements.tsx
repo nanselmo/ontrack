@@ -4,7 +4,7 @@ import AdditionalRequirementData from "shared/types/additional-requirement-data"
 
 import CircledArrowUpIcon from "shared/components/icons/circled-arrow-up-icon";
 import CircledArrowDownIcon from "shared/components/icons/circled-arrow-down-icon";
-import clone from "shared/util/clone";
+import {clone} from "shared/util/clone";
 
 import "./hs-additional-requirements.scss";
 

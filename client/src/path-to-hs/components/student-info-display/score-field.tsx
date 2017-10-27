@@ -42,6 +42,12 @@ const getLabel = (scoreType: ScoreType): string => {
 
 class ScoreField extends React.PureComponent<ScoreFieldProps, ScoreFieldState> {
 
+  componentWillReceiveProps(newProps) {
+    this.setState({
+      value: scoreToString(newProps.score, newProps.scoreType),
+    });
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -68,18 +74,18 @@ class ScoreField extends React.PureComponent<ScoreFieldProps, ScoreFieldState> {
         </div>
         <input
           className={`score-field-input lg ${this.props.editable ? "enabled" : ""}`}
-          defaultValue={this.state.value}
+          value={this.state.value}
           onChange={this.handleTextInput}
         />
         <div className={"score-adjust-buttons"}>
           <button 
             className="score-adjust-button" 
-            onClick={this.props.onChange(this.props.score + 1)}>
+            onClick={() => this.props.onChange(this.props.score + 1)}>
               <CircledArrowUpIcon width="24px" height="24px"/>
           </button>
           <button 
             className="score-adjust-button" 
-            onClick={this.props.onChange(this.props.score - 1)}>
+            onClick={() => this.props.onChange(this.props.score - 1)}>
               <CircledArrowDownIcon width="24px" height="24px"/>
           </button>
         </div>

@@ -7,14 +7,16 @@ import {scoreToPercentile, percentileToScore} from "shared/util/grade-convert";
 export const getAveragePercentileDifference = (fromScores: StudentScores, fromGradeLevel: number, toScores: StudentScores, toGradeLevel: number): number => {
   let averagePercentileDifference: number;
   let sumPercentileDifference: number = 0;
-  const percentileArrayA = toPercentileArray(fromScores, fromGradeLevel);
-  const percentileArrayB = toPercentileArray(toScores, toGradeLevel);
-  const numPercentiles = percentileArrayA.length;
+  const percentileArrayTo = toPercentileArray(fromScores, fromGradeLevel);
+  const percentileArrayFrom = toPercentileArray(toScores, toGradeLevel);
+  const numPercentiles = percentileArrayTo.length;
   for (let i = 0; i < numPercentiles; i++) {
-    const percentileA = percentileArrayA[i];
-    const percentileB = percentileArrayB[i];
-    sumPercentileDifference += percentileA - percentileB;
+    const percentileStart = percentileArrayTo[i];
+    const percentileEnd = percentileArrayFrom[i];
+    const percentileChange = percentileEnd - percentileStart;
+    sumPercentileDifference += percentileChange;
   }
+  // average all percentile changes in each score category 
   return sumPercentileDifference / numPercentiles;
 };
 

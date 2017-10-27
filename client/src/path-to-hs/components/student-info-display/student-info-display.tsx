@@ -7,10 +7,9 @@ import {scoreToPercentile, percentileToScore} from "shared/util/grade-convert";
 import {getAveragePercentileDifference, projectScores} from "shared/util/score-projection-utils";
 
 import Box from "shared/components/layout/box";
-import clone from "shared/util/clone";
+import {clone} from "shared/util/clone";
 
 import ReportCardContainer from "./report-card-container";
-//import ReportCard from "./report-card";
 //import DemographicInfo from "./demographic-info";
 
 interface StudentInfoDisplayProps {
@@ -19,19 +18,7 @@ interface StudentInfoDisplayProps {
   onProjectedStudentDataChange(projectedData: StudentData)
 }
 
-interface StudentInfoDisplayState {
-  //projectedStudentData: StudentData
-}
-
 const StudentInfoDisplay = (props: StudentInfoDisplayProps) => {
-
-  const projectData = (data: StudentData, percentileChange: number): StudentData => {
-    const newData = clone(data);
-    const targetGrade = 7;
-    newData.scores = projectScores(newData.scores, percentileChange, data.gradeLevel, 7);
-    return newData;
-  };
-  
 
   const handleProjectedStudentDataChange = (newData: StudentData): any => {
     props.onProjectedStudentDataChange(newData);

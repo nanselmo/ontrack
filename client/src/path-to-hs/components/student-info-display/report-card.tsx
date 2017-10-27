@@ -3,9 +3,10 @@ import * as React from "react";
 import ScoreField from "./score-field";
 
 import StudentScores from "shared/types/student-scores";
+import StudentScore from "shared/types/student-score";
 import ScoreType from "shared/enums/score-type";
 import EffortLevel from "shared/enums/effort-level";
-import clone from "shared/util/clone";
+import {cloneAndExtend} from "shared/util/clone";
 
 import "./report-card.scss";
 
@@ -21,13 +22,14 @@ const ReportCard = (props: ReportCardProps) => {
   type ScoreChangeHandler = (number) => void
 
   const createScoreChangeHandler = (scoreType: ScoreType): ScoreChangeHandler => {
-    return (newScore: number): void => {
-      let newScores: StudentScores = clone(props.scores);
+    const scoreChangeHandler = (newScore: number): void => {
       if(props.scores[scoreType] !== newScore) {
-        newScores[scoreType] = newScore;
+        const newScores = cloneAndExtend(props.scores, {[scoreType]: newScore});
         props.onScoresChange(newScores); 
       }
-    }
+    };
+    return scoreChangeHandler
+
   };
 
   // TODO: add l10n strings
@@ -47,7 +49,7 @@ const ReportCard = (props: ReportCardProps) => {
           scoreType={ScoreType.nweaMath}
           score={props.scores.nweaMath}
           editable={false}
-          onChange={createScoreChangeHandler(ScoreType.nweaMath)}/>
+          onChange={(newScore: StudentScore) => props.onScoresChange(cloneAndExtend(props.scores, {[ScoreType.nweaMath]: newScore}))}/>
         <ScoreField
           scoreType={ScoreType.nweaRead}
           score={props.scores.nweaRead}

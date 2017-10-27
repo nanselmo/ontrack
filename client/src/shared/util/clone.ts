@@ -1,4 +1,4 @@
-const clone = function<T>(src:T): T {
+export const clone = function<T>(src:T): T {
   if (src === undefined) {
     return undefined;
   } else {
@@ -6,4 +6,6 @@ const clone = function<T>(src:T): T {
   }
 };
 
-export default clone;
+export const cloneAndExtend = function<T>(targetObject: T, ...sourceObjects:Array<any>): T {
+  return Object.assign({}, targetObject, ...sourceObjects);
+};
