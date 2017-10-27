@@ -43,6 +43,7 @@ class PathToHS extends React.Component<PathToHSProps, PathToHSState> {
       <Page>
         <StudentInfoDisplay
           studentData={this.state.studentData}
+          onStudentDataChange={(newData) => this.setState({studentData: newData})}
           projectedStudentData={this.state.projectedStudentData}
           onProjectedStudentDataChange={(newData) => this.setState({projectedStudentData: newData})}
           />

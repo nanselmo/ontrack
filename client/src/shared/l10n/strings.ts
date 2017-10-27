@@ -1,4 +1,4 @@
-export const StudentInfoStrings = {
+export const StudentDataFormStrings = {
   gradeLevelDropdown: {
     label: "Your grade level",
     placeholder: " ",

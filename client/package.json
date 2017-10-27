@@ -33,6 +33,7 @@
     "@types/chai": "^4.0.4",
     "@types/mocha": "^2.2.43",
     "@types/react": "^15.6.5",
+    "@types/react-bootstrap": "^0.31.6",
     "@types/react-dom": "^15.5.1",
     "@types/sinon": "^2.3.5",
     "autoprefixer": "^7.1.2",
@@ -69,6 +70,7 @@
     "browser-jsonp": "^1.1.5",
     "lodash.debounce": "^4.0.8",
     "react": "^15.6.1",
+    "react-bootstrap": "^0.31.5",
     "react-dom": "^15.6.1"
   }
 }
