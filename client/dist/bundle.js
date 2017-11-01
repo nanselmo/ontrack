@@ -31315,11 +31315,12 @@ var ReportCardContainer = function (props) {
         var percentileChange = score_projection_utils_1.getAveragePercentileDifference(studentData.scores, studentData.gradeLevel, projectedData.scores, projectedData.gradeLevel);
         return toEffortLevel(percentileChange);
     };
-    return (React.createElement("div", { style: { width: "350px" } },
-        React.createElement("div", { className: "effort-level-select-container", style: { width: "100%", textAlign: "center", margin: "1em 0", lineHeight: "150%", fontSize: "140%", color: "#777" } },
-            "Here's what your report card will look like if you ",
-            React.createElement(effort_level_selector_1.default, { effortLevel: inferEffortLevel(props.studentData, props.projectedStudentData), onEffortLevelChange: handleEffortLevelChange })),
-        React.createElement(report_card_1.default, { gradeLevel: 7, scores: props.projectedStudentData.scores, onScoresChange: handleProjectedScoresChange, studentName: props.studentData.studentFirstName + " " + props.studentData.studentLastName })));
+    return (React.createElement("div", { style: { display: "flex", justifyContent: "center", alignItems: "center" } },
+        React.createElement("div", { style: { width: "350px" } },
+            React.createElement("div", { className: "effort-level-select-container", style: { width: "100%", textAlign: "center", margin: "1em 0", lineHeight: "150%", fontSize: "140%", color: "#777" } },
+                "Here's what your report card will look like if you ",
+                React.createElement(effort_level_selector_1.default, { effortLevel: inferEffortLevel(props.studentData, props.projectedStudentData), onEffortLevelChange: handleEffortLevelChange })),
+            React.createElement(report_card_1.default, { gradeLevel: 7, scores: props.projectedStudentData.scores, onScoresChange: handleProjectedScoresChange, studentName: props.studentData.studentFirstName + " " + props.studentData.studentLastName }))));
 };
 exports.default = ReportCardContainer;
 

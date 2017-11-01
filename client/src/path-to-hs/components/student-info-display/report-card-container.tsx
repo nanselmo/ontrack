@@ -77,20 +77,22 @@ const ReportCardContainer = (props: ReportCardContainerProps) => {
   }
 
   return (
-    <div style={{width: "350px"}}>
-      <div className="effort-level-select-container" style={{width: "100%", textAlign: "center", margin: "1em 0", lineHeight: "150%", fontSize: "140%", color: "#777"}}>
-        {"Here's what your report card will look like if you "}
-        <EffortLevelSelector
-          effortLevel={inferEffortLevel(props.studentData, props.projectedStudentData)}
-          onEffortLevelChange={handleEffortLevelChange}
+    <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+      <div style={{width: "350px"}}>
+        <div className="effort-level-select-container" style={{width: "100%", textAlign: "center", margin: "1em 0", lineHeight: "150%", fontSize: "140%", color: "#777"}}>
+          {"Here's what your report card will look like if you "}
+          <EffortLevelSelector
+            effortLevel={inferEffortLevel(props.studentData, props.projectedStudentData)}
+            onEffortLevelChange={handleEffortLevelChange}
+          />
+        </div>
+        <ReportCard
+          gradeLevel={7}
+          scores={props.projectedStudentData.scores}
+          onScoresChange={handleProjectedScoresChange}
+          studentName={props.studentData.studentFirstName + " " + props.studentData.studentLastName}
         />
       </div>
-      <ReportCard
-        gradeLevel={7}
-        scores={props.projectedStudentData.scores}
-        onScoresChange={handleProjectedScoresChange}
-        studentName={props.studentData.studentFirstName + " " + props.studentData.studentLastName}
-      />
     </div>
   );
 };
