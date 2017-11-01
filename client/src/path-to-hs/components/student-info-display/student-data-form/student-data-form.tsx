@@ -3,7 +3,7 @@ import * as React from "react"
 import StudentData from "shared/types/student-data";
 import {StudentDataFormStrings as strings} from "shared/l10n/strings";
 
-import {FormGroup, FormControl, ControlLabel} from "react-bootstrap";
+import {Form, FormGroup, FormControl, ControlLabel} from "react-bootstrap";
 
 import AddressTierCalculator from "./address-tier-calculator";
 
@@ -39,109 +39,131 @@ const StudentDataForm = (props: StudentDataFormProps) => {
   };
 
   return (
-    <div style={{height: "100%", width: "100%"}} className="student-data-form">
-      <FormGroup controlId="studentFirstName"
-        validationState={isNotEmpty(props.studentData.studentFirstName)} >
-        <FormControl
-          type="text"
-          value={props.studentData.studentFirstName}
-          placeholder="Your first name..."
-        />
-        <FormControl.Feedback/>
-      </FormGroup>
+    <div className="student-data-form">
 
-      <FormGroup controlId="studentLastName"
-        validationState={isNotEmpty(props.studentData.studentLastName)} >
-        <FormControl
-          type="text"
-          value={props.studentData.studentFirstName}
-          placeholder="Your last name..."
-        />
-        <FormControl.Feedback/>
-      </FormGroup>
+      <div className="form-group">
+        <Form inline>
+          <FormGroup
+            controlId="studentFirstName"
+            validationState={isNotEmpty(props.studentData.studentFirstName)} >
+            <ControlLabel>First Name</ControlLabel>
+            {' '}
+            <FormControl
+              type="text"
+              defaultValue={props.studentData.studentFirstName}
+              placeholder="Your first name..."
+            />
+          </FormGroup>
+          {'  '}
+          <FormGroup controlId="studentLastName"
+            validationState={isNotEmpty(props.studentData.studentLastName)} >
+            <ControlLabel>Last Name</ControlLabel>
+            {' '}
+            <FormControl
+              type="text"
+              defaultValue={props.studentData.studentFirstName}
+              placeholder="Your last name..."
+            />
+          </FormGroup>
+        </Form>
 
-      <FormGroup controlId="iep">
-        <FormControl
-          type="radio"
-          value={props.studentData.iep ? "true" : "false"}
-        />
-      </FormGroup>
+        <Form inline>
+          <FormGroup controlId="iep">
+            <ControlLabel>Do you have an IEP?</ControlLabel>
+          {'  '}
+            <FormControl
+              componentClass="select"
+              placeholder="Choose one..."
+              defaultValue={props.studentData.iep ? "true" : "false"}
+            >
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </FormControl>
 
-      <FormGroup controlId="ell">
-        <FormControl
-          type="radio"
-          value={props.studentData.ell ? "true" : "false"}
-        />
-      </FormGroup>
+          </FormGroup>
+          {'  '}
+          <FormGroup controlId="ell">
+            <ControlLabel>Are you an English Language Learner?</ControlLabel>
+          {'  '}
+            <FormControl
+              componentClass="select"
+              placeholder="Choose one..."
+              defaultValue={props.studentData.ell ? "true" : "false"}
+            >
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </FormControl>
+          </FormGroup>
+        </Form>
 
-      {/* may need state to handle this validation properly. */}
-      <FormGroup controlId="address"
-        validationState={isNotEmpty(props.studentData.address)} >
-        <FormControl
-          type="text"
-          value={props.studentData.address}
-          placeholder="123 W Center St."
-        />
-        <FormControl.Feedback/>
-      </FormGroup>
-
-      <div style={{width: "100px"}}>
-        <FormGroup controlId="nweaMath"
-          validationState={isNotNull(props.studentData.scores.nweaMath)} >
+        {/* may need state to handle this validation properly. */}
+        <FormGroup controlId="address"
+          validationState={isNotEmpty(props.studentData.address)} >
+          <ControlLabel>Your address</ControlLabel>
           <FormControl
-            type="number"
-            value={props.studentData.scores.nweaMath}
-          />
-          <FormControl.Feedback/>
-        </FormGroup>
-
-        <FormGroup controlId="nweaRead"
-          validationState={isNotNull(props.studentData.scores.nweaRead)} >
-          <FormControl
-            type="number"
-            value={props.studentData.scores.nweaRead}
-          />
-          <FormControl.Feedback/>
-        </FormGroup>
-
-        <FormGroup controlId="subjGradeMath"
-          validationState={isNotNull(props.studentData.scores.subjGradeMath)} >
-          <FormControl
-            type="number"
-            value={props.studentData.scores.subjGradeMath}
-          />
-          <FormControl.Feedback/>
-        </FormGroup>
-
-        <FormGroup controlId="subjGradeRead"
-          validationState={isNotNull(props.studentData.scores.subjGradeRead)} >
-          <FormControl
-            type="number"
-            value={props.studentData.scores.subjGradeRead}
-          />
-          <FormControl.Feedback/>
-        </FormGroup>
-
-        <FormGroup controlId="subjGradeSci"
-          validationState={isNotNull(props.studentData.scores.subjGradeSci)} >
-          <FormControl
-            type="number"
-            value={props.studentData.scores.subjGradeSci}
-          />
-          <FormControl.Feedback/>
-        </FormGroup>
-
-        <FormGroup controlId="subjGradeSocStudies" 
-          validationState={isNotNull(props.studentData.scores.subjGradeSocStudies)} >
-          <FormControl
-            type="number"
-            value={props.studentData.scores.subjGradeSocStudies}
+            type="text"
+            defaultValue={props.studentData.address}
+            placeholder="123 W Center St."
           />
           <FormControl.Feedback/>
         </FormGroup>
       </div>
 
+      <div className="form-group">
+        <div style={{width: "100px"}}>
+        <Form horizontal>
+            <FormGroup controlId="nweaMath"
+              validationState={isNotNull(props.studentData.scores.nweaMath)} >
+              <FormControl
+                type="number"
+                value={props.studentData.scores.nweaMath}
+              />
+            </FormGroup>
+
+            <FormGroup controlId="nweaRead"
+              validationState={isNotNull(props.studentData.scores.nweaRead)} >
+              <FormControl
+                type="number"
+                value={props.studentData.scores.nweaRead}
+              />
+            </FormGroup>
+
+          <FormGroup controlId="subjGradeMath"
+            validationState={isNotNull(props.studentData.scores.subjGradeMath)} >
+            <FormControl
+              type="number"
+              value={props.studentData.scores.subjGradeMath}
+            />
+          </FormGroup>
+        </Form>
+        <Form horizontal>
+          <FormGroup controlId="subjGradeRead"
+            validationState={isNotNull(props.studentData.scores.subjGradeRead)} >
+            <FormControl
+              type="number"
+              value={props.studentData.scores.subjGradeRead}
+            />
+          </FormGroup>
+
+          <FormGroup controlId="subjGradeSci"
+            validationState={isNotNull(props.studentData.scores.subjGradeSci)} >
+            <FormControl
+              type="number"
+              value={props.studentData.scores.subjGradeSci}
+            />
+          </FormGroup>
+
+          <FormGroup controlId="subjGradeSocStudies"
+            validationState={isNotNull(props.studentData.scores.subjGradeSocStudies)} >
+            <FormControl
+              type="number"
+              value={props.studentData.scores.subjGradeSocStudies}
+            />
+          </FormGroup>
+        </Form>
+      </div>
     </div>
+  </div>
 
   );
 }

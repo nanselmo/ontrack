@@ -9,8 +9,9 @@ import {getAveragePercentileDifference, projectScores} from "shared/util/score-p
 import Box from "shared/components/layout/box";
 import {clone} from "shared/util/clone";
 
+import WindowSwitcher from "./window-switcher";
 import ReportCardContainer from "./report-card-container";
-import StudentDataForm from "./student-data-form/student-data-form";;
+import StudentDataForm from "./student-data-form/student-data-form";
 
 interface StudentInfoDisplayProps {
   studentData: StudentData
@@ -20,13 +21,6 @@ interface StudentInfoDisplayProps {
 }
 
 
-const Collapser = (props: any) => {
-  return(
-    <div className={`collapser ${props.collapsed}`}>
-      {props.children}
-    </div>
-  )
-};
 
 const StudentInfoDisplay = (props: StudentInfoDisplayProps) => {
 
@@ -36,17 +30,18 @@ const StudentInfoDisplay = (props: StudentInfoDisplayProps) => {
 
   return (
     <Box width="half" height="full" flex={{flexDirection: "column", justifyContent: "center", alignItems: "center"}} responsiveBehavior={{mobile: "fullscreen"}}>
-      <Collapser>
-        <StudentDataForm
+      <WindowSwitcher
+        windowA={<StudentDataForm
           studentData={props.studentData}
           onChange={props.onStudentDataChange}
-        />
-      </Collapser>
-      <ReportCardContainer
-        studentData={props.studentData}
-        projectedStudentData={props.projectedStudentData}
-        onProjectedStudentDataChange={handleProjectedStudentDataChange}
-    />
+        />}
+        windowB={<ReportCardContainer
+          studentData={props.studentData}
+          projectedStudentData={props.projectedStudentData}
+          onProjectedStudentDataChange={handleProjectedStudentDataChange}
+        />}
+      >
+      </WindowSwitcher>
     </Box>
   )
 };
