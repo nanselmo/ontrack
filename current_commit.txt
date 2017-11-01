@@ -1,12 +1,6 @@
-Debug infinite loop bug in student-info-display
+Implement AddressTierCalculator
 
-* add cloneAndMerge to shared/util/clone ct to document intent 
-  more clearly when combining objects than Object.assign({}, A, B)
-  ** 'clone' no longer default export of shared/util/clone.
-    refactor components which use 'clone' to import it correctly
-* rewrite change handlers in student-info-display and child
-  components to check for changes before cloning input objects
-  and calling parent callback with cloned object. It seems that
-  the parent understandably thinks the cloned object has changed
-  even if the cloned object and the original object are equivalent.
-* convert ReportCardContainer to stateless functional component
+* rewrite existing mocked component
+  ** add onChange callback for both address and tier independently
+* implement address validation states
+* implement getTier calls and error state handling 

@@ -19,7 +19,7 @@ export const MOCK_STUDENT_DATA: StudentData = {
   ell: true,
   iep: false,
   gradeLevel: 6,
-  tier: 4,
+  tier: "4",
   scores: MOCK_STUDENT_SCORES,
 }
 

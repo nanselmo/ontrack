@@ -4,7 +4,7 @@ export default interface StudentInfo {
   studentFirstName: string,
   studentLastName: string,
   address: string
-  tier: number
+  tier: string
   gradeLevel: number 
   ell: boolean
   iep: boolean

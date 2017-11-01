@@ -2,6 +2,10 @@ import * as React from "react"
 
 import StudentData from "shared/types/student-data";
 import {StudentDataFormStrings as strings} from "shared/l10n/strings";
+import {cloneAndExtend} from "shared/util/clone";
+import ScoreType from "shared/enums/score-type";
+
+import {scoreToString, tryParseScore} from "shared/util/grade-convert";
 
 import {Form, FormGroup, FormControl, ControlLabel} from "react-bootstrap";
 
@@ -11,7 +15,7 @@ import "./student-data-form.scss";
 
 interface StudentDataFormProps {
   studentData: StudentData | null
-  onChange: (info: StudentData) => any
+  onChange: (data: StudentData) => any
 }
 
 enum ValidationResponse {
@@ -21,6 +25,22 @@ enum ValidationResponse {
 }
 
 const StudentDataForm = (props: StudentDataFormProps) => {
+
+  const createChangeHandler = (property: string) =>  {
+    return (value: string) => {
+      const newStudentData = cloneAndExtend(props.studentData, {[property]:value});
+      props.onChange(newStudentData);
+    }
+  };
+
+  const validateScore = (score: string, scoreType: ScoreType): ValidationResponse => {
+    const [success, parsedScore] = tryParseScore(score, scoreType);
+    if (success) {
+      return ValidationResponse.Success;
+    } else {
+      return ValidationResponse.Err;
+    }
+  };
 
   const isNotEmpty = (value: string): ValidationResponse => {
     if (value.length > 0) {
@@ -40,7 +60,9 @@ const StudentDataForm = (props: StudentDataFormProps) => {
 
   return (
     <div className="student-data-form">
-
+      <div className="student-data-form-subheader"> 
+        Your student information 
+      </div>
       <div className="form-group">
         <Form inline>
           <FormGroup
@@ -96,75 +118,84 @@ const StudentDataForm = (props: StudentDataFormProps) => {
           </FormGroup>
         </Form>
 
-        {/* may need state to handle this validation properly. */}
-        <FormGroup controlId="address"
-          validationState={isNotEmpty(props.studentData.address)} >
-          <ControlLabel>Your address</ControlLabel>
-          <FormControl
-            type="text"
-            defaultValue={props.studentData.address}
-            placeholder="123 W Center St."
-          />
-          <FormControl.Feedback/>
-        </FormGroup>
+        <AddressTierCalculator
+          address={props.studentData.address}
+          tier={props.studentData.tier}
+          onAddressChange={createChangeHandler("address")}
+          onTierChange={createChangeHandler("tier")}
+        />
       </div>
 
+      <div className="student-data-form-subheader">
+        Your most recent grades
+      </div>
       <div className="form-group">
-        <div style={{width: "100px"}}>
-        <Form horizontal>
+        <div className="form-group-row">
+          <div className="form-wrapper">
             <FormGroup controlId="nweaMath"
               validationState={isNotNull(props.studentData.scores.nweaMath)} >
+              <ControlLabel>NWEA Math RIT Score</ControlLabel>
               <FormControl
                 type="number"
-                value={props.studentData.scores.nweaMath}
+                defaultValue={scoreToString(props.studentData.scores.nweaMath, ScoreType.nweaMath)}
               />
             </FormGroup>
-
+          </div>
+          <div className="form-wrapper">
             <FormGroup controlId="nweaRead"
               validationState={isNotNull(props.studentData.scores.nweaRead)} >
+              <ControlLabel>NWEA Reading RIT Score</ControlLabel>
               <FormControl
                 type="number"
-                value={props.studentData.scores.nweaRead}
+                defaultValue={scoreToString(props.studentData.scores.nweaRead, ScoreType.nweaRead)}
               />
             </FormGroup>
-
-          <FormGroup controlId="subjGradeMath"
-            validationState={isNotNull(props.studentData.scores.subjGradeMath)} >
-            <FormControl
-              type="number"
-              value={props.studentData.scores.subjGradeMath}
-            />
-          </FormGroup>
-        </Form>
-        <Form horizontal>
-          <FormGroup controlId="subjGradeRead"
-            validationState={isNotNull(props.studentData.scores.subjGradeRead)} >
-            <FormControl
-              type="number"
-              value={props.studentData.scores.subjGradeRead}
-            />
-          </FormGroup>
-
-          <FormGroup controlId="subjGradeSci"
-            validationState={isNotNull(props.studentData.scores.subjGradeSci)} >
-            <FormControl
-              type="number"
-              value={props.studentData.scores.subjGradeSci}
-            />
-          </FormGroup>
-
-          <FormGroup controlId="subjGradeSocStudies"
-            validationState={isNotNull(props.studentData.scores.subjGradeSocStudies)} >
-            <FormControl
-              type="number"
-              value={props.studentData.scores.subjGradeSocStudies}
-            />
-          </FormGroup>
-        </Form>
+          </div>
+        </div>
+        <div className="form-group-row">
+          <div className="form-wrapper">
+            <FormGroup controlId="subjGradeMath"
+              validationState={isNotNull(props.studentData.scores.subjGradeMath)} >
+              <ControlLabel>Your Math grade</ControlLabel>
+              <FormControl
+                type="number"
+                defaultValue={scoreToString(props.studentData.scores.subjGradeMath, ScoreType.subjGradeMath)}
+              />
+            </FormGroup>
+          </div>
+          <div className="form-wrapper">
+            <FormGroup controlId="subjGradeRead"
+              validationState={isNotNull(props.studentData.scores.subjGradeRead)} >
+              <ControlLabel>Your Reading grade</ControlLabel>
+              <FormControl
+                type="number"
+                defaultValue={scoreToString(props.studentData.scores.subjGradeRead, ScoreType.subjGradeRead)}
+              />
+            </FormGroup>
+          </div>
+          <div className="form-wrapper">
+            <FormGroup controlId="subjGradeSci"
+              validationState={isNotNull(props.studentData.scores.subjGradeSci)} >
+              <ControlLabel>Your Science grade</ControlLabel>
+              <FormControl
+                type="number"
+                defaultValue={scoreToString(props.studentData.scores.subjGradeSci, ScoreType.subjGradeSci)}
+              />
+            </FormGroup>
+          </div> 
+          <div className="form-wrapper">
+            <FormGroup controlId="subjGradeSocStudies"
+              validationState={isNotNull(props.studentData.scores.subjGradeSocStudies)} >
+              <ControlLabel>Your Social Studies grade</ControlLabel>
+              <FormControl
+                type="number"
+                defaultValue={scoreToString(props.studentData.scores.subjGradeSocStudies, ScoreType.subjGradeSocStudies)}
+              />
+            </FormGroup>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-
   );
 }
 
