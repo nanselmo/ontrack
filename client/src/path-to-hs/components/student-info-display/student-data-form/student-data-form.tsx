@@ -27,8 +27,20 @@ enum ValidationResponse {
 const StudentDataForm = (props: StudentDataFormProps) => {
 
   const createChangeHandler = (property: string) =>  {
-    return (value: string) => {
-      const newStudentData = cloneAndExtend(props.studentData, {[property]:value});
+    return (event: React.KeyboardEvent<any>) => {
+      const value: string = event.currentTarget.value;
+      const newScore = Number.parseInt(value, 10);
+      const newStudentData = cloneAndExtend(props.studentData, {[property]: newScore});
+      props.onChange(newStudentData);
+    }
+  };
+
+  const createScoreChangeHandler = (property: string) => {
+    return (event: React.KeyboardEvent<any>) => {
+      const value:string = event.currentTarget.value;
+      const newScore = Number.parseInt(value, 10);
+      const newScores = cloneAndExtend(props.studentData.scores, {[property]: newScore});
+      const newStudentData = cloneAndExtend(props.studentData, {scores: newScores});
       props.onChange(newStudentData);
     }
   };
@@ -74,6 +86,7 @@ const StudentDataForm = (props: StudentDataFormProps) => {
               type="text"
               defaultValue={props.studentData.studentFirstName}
               placeholder="Your first name..."
+              onChange={createChangeHandler("studentFirstName")}
             />
           </FormGroup>
           {'  '}
@@ -85,6 +98,7 @@ const StudentDataForm = (props: StudentDataFormProps) => {
               type="text"
               defaultValue={props.studentData.studentFirstName}
               placeholder="Your last name..."
+              onChange={createChangeHandler("studentLastName")}
             />
           </FormGroup>
         </Form>
@@ -97,6 +111,7 @@ const StudentDataForm = (props: StudentDataFormProps) => {
               componentClass="select"
               placeholder="Choose one..."
               defaultValue={props.studentData.iep ? "true" : "false"}
+              onChange={createChangeHandler("iep")}
             >
               <option value="true">Yes</option>
               <option value="false">No</option>
@@ -111,6 +126,7 @@ const StudentDataForm = (props: StudentDataFormProps) => {
               componentClass="select"
               placeholder="Choose one..."
               defaultValue={props.studentData.ell ? "true" : "false"}
+              onChange={createChangeHandler("ell")}
             >
               <option value="true">Yes</option>
               <option value="false">No</option>
@@ -121,8 +137,8 @@ const StudentDataForm = (props: StudentDataFormProps) => {
         <AddressTierCalculator
           address={props.studentData.address}
           tier={props.studentData.tier}
-          onAddressChange={createChangeHandler("address")}
-          onTierChange={createChangeHandler("tier")}
+          onAddressChange={(newAddress: string) => props.onChange(cloneAndExtend(props.studentData, {address: newAddress}))}
+          onTierChange={(newTier: string) => props.onChange(cloneAndExtend(props.studentData, {tier: newTier}))}
         />
       </div>
 
@@ -138,6 +154,7 @@ const StudentDataForm = (props: StudentDataFormProps) => {
               <FormControl
                 type="number"
                 defaultValue={scoreToString(props.studentData.scores.nweaMath, ScoreType.nweaMath)}
+                onChange={createScoreChangeHandler("nweaMath")}
               />
             </FormGroup>
           </div>
@@ -148,6 +165,7 @@ const StudentDataForm = (props: StudentDataFormProps) => {
               <FormControl
                 type="number"
                 defaultValue={scoreToString(props.studentData.scores.nweaRead, ScoreType.nweaRead)}
+                onChange={createScoreChangeHandler("nweaRead")}
               />
             </FormGroup>
           </div>
@@ -159,7 +177,8 @@ const StudentDataForm = (props: StudentDataFormProps) => {
               <ControlLabel>Your Math grade</ControlLabel>
               <FormControl
                 type="number"
-                defaultValue={scoreToString(props.studentData.scores.subjGradeMath, ScoreType.subjGradeMath)}
+                defaultValue={props.studentData.scores.subjGradeMath.toString(10)}
+                onChange={createScoreChangeHandler("subjGradeMath")}
               />
             </FormGroup>
           </div>
@@ -169,7 +188,8 @@ const StudentDataForm = (props: StudentDataFormProps) => {
               <ControlLabel>Your Reading grade</ControlLabel>
               <FormControl
                 type="number"
-                defaultValue={scoreToString(props.studentData.scores.subjGradeRead, ScoreType.subjGradeRead)}
+                defaultValue={props.studentData.scores.subjGradeRead.toString(10)}
+                onChange={createScoreChangeHandler("subjGradeRead")}
               />
             </FormGroup>
           </div>
@@ -179,7 +199,8 @@ const StudentDataForm = (props: StudentDataFormProps) => {
               <ControlLabel>Your Science grade</ControlLabel>
               <FormControl
                 type="number"
-                defaultValue={scoreToString(props.studentData.scores.subjGradeSci, ScoreType.subjGradeSci)}
+                defaultValue={props.studentData.scores.subjGradeSci.toString(10)}
+                onChange={createScoreChangeHandler("subjGradeSci")}
               />
             </FormGroup>
           </div> 
@@ -189,7 +210,8 @@ const StudentDataForm = (props: StudentDataFormProps) => {
               <ControlLabel>Your Social Studies grade</ControlLabel>
               <FormControl
                 type="number"
-                defaultValue={scoreToString(props.studentData.scores.subjGradeSocStudies, ScoreType.subjGradeSocStudies)}
+                defaultValue={props.studentData.scores.subjGradeSocStudies.toString(10)}
+                onChange={createScoreChangeHandler("subjGradeSocStudies")}
               />
             </FormGroup>
           </div>

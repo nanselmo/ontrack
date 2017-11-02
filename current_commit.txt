@@ -1,6 +1,11 @@
-Implement AddressTierCalculator
+Wire together StudentDataForm, StudentInfoContainer, HSDisplay
 
-* rewrite existing mocked component
-  ** add onChange callback for both address and tier independently
-* implement address validation states
-* implement getTier calls and error state handling 
+* DONE fix StudentDataForm subjectGrade fields not displaying grade
+  ** subjectGrade fields now display number grade and not letter grade
+* DONE add onChange handlers to form fields in StudentDataForm
+* DONE update state.projectedStudentData on reciept of changed studentData
+  in path-to-hs.tsx
+
+* TODO IN FUTURE leave this heirarchical component state stuff in the dust
+  and refactor to redux. Should do this after we can get a recognizable first
+  draft of the calculator running.

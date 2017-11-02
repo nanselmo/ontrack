@@ -4,8 +4,8 @@ import HSData from "shared/types/hs-data";
 import RequirementsFunction from "shared/types/requirements-function";
 
 export const MOCK_STUDENT_SCORES: StudentScores = {
-  nweaMath: 150,
-  nweaRead: 140,
+  nweaMath: 200,
+  nweaRead: 201,
   subjGradeMath: 90,
   subjGradeRead: 80,
   subjGradeSci: 79,
@@ -18,7 +18,7 @@ export const MOCK_STUDENT_DATA: StudentData = {
   address: "761 W Altgeld",
   ell: true,
   iep: false,
-  gradeLevel: 6,
+  gradeLevel: 5,
   tier: "4",
   scores: MOCK_STUDENT_SCORES,
 }

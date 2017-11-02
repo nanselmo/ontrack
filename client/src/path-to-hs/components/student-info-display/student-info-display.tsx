@@ -20,8 +20,6 @@ interface StudentInfoDisplayProps {
   onProjectedStudentDataChange: (newProjectedData: StudentData) => any
 }
 
-
-
 const StudentInfoDisplay = (props: StudentInfoDisplayProps) => {
 
   const handleProjectedStudentDataChange = (newData: StudentData): any => {

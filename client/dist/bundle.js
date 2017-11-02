@@ -30890,23 +30890,35 @@ var PathToHS = (function (_super) {
     __extends(PathToHS, _super);
     function PathToHS(props) {
         var _this = _super.call(this, props) || this;
+        _this.getProjectedStudentData = function (currentData) {
+            var PERCENTILE_CHANGE = 0;
+            var PROJECTED_GRADE_LEVEL = 7;
+            var projectedScores = score_projection_utils_1.projectScores(currentData.scores, PERCENTILE_CHANGE, currentData.gradeLevel, PROJECTED_GRADE_LEVEL);
+            console.log(currentData);
+            console.log(projectedScores);
+            var projectedData = clone_1.cloneAndExtend(currentData, { scores: projectedScores });
+            return projectedData;
+        };
         _this.handleProjectedStudentDataChange = function (newProjectedData) {
             _this.setState({
                 projectedStudentData: newProjectedData
             });
         };
-        var projectedData = clone_1.clone(hardcoded_1.MOCK_STUDENT_DATA);
-        projectedData.scores = score_projection_utils_1.projectScores(hardcoded_1.MOCK_STUDENT_DATA.scores, 0, hardcoded_1.MOCK_STUDENT_DATA.gradeLevel, 7);
+        _this.handleStudentDataChange = function (newStudentData) {
+            _this.setState({
+                studentData: newStudentData,
+                projectedStudentData: _this.getProjectedStudentData(newStudentData)
+            });
+        };
         _this.state = {
             studentData: hardcoded_1.MOCK_STUDENT_DATA,
-            projectedStudentData: projectedData
+            projectedStudentData: _this.getProjectedStudentData(hardcoded_1.MOCK_STUDENT_DATA)
         };
         return _this;
     }
     PathToHS.prototype.render = function () {
-        var _this = this;
         return (React.createElement(page_1.default, null,
-            React.createElement(student_info_display_1.default, { studentData: this.state.studentData, onStudentDataChange: function (newData) { return _this.setState({ studentData: newData }); }, projectedStudentData: this.state.projectedStudentData, onProjectedStudentDataChange: function (newData) { return _this.setState({ projectedStudentData: newData }); } }),
+            React.createElement(student_info_display_1.default, { studentData: this.state.studentData, projectedStudentData: this.state.projectedStudentData, onStudentDataChange: this.handleStudentDataChange, onProjectedStudentDataChange: this.handleProjectedStudentDataChange }),
             React.createElement(hs_display_1.default, { hsData: hardcoded_1.MOCK_HS_DATA, studentData: this.state.projectedStudentData })));
     };
     return PathToHS;
@@ -31858,8 +31870,20 @@ var ValidationResponse;
 })(ValidationResponse || (ValidationResponse = {}));
 var StudentDataForm = function (props) {
     var createChangeHandler = function (property) {
-        return function (value) {
-            var newStudentData = clone_1.cloneAndExtend(props.studentData, (_a = {}, _a[property] = value, _a));
+        return function (event) {
+            var value = event.currentTarget.value;
+            var newScore = Number.parseInt(value, 10);
+            var newStudentData = clone_1.cloneAndExtend(props.studentData, (_a = {}, _a[property] = newScore, _a));
+            props.onChange(newStudentData);
+            var _a;
+        };
+    };
+    var createScoreChangeHandler = function (property) {
+        return function (event) {
+            var value = event.currentTarget.value;
+            var newScore = Number.parseInt(value, 10);
+            var newScores = clone_1.cloneAndExtend(props.studentData.scores, (_a = {}, _a[property] = newScore, _a));
+            var newStudentData = clone_1.cloneAndExtend(props.studentData, { scores: newScores });
             props.onChange(newStudentData);
             var _a;
         };
@@ -31896,55 +31920,55 @@ var StudentDataForm = function (props) {
                 React.createElement(react_bootstrap_1.FormGroup, { controlId: "studentFirstName", validationState: isNotEmpty(props.studentData.studentFirstName) },
                     React.createElement(react_bootstrap_1.ControlLabel, null, "First Name"),
                     ' ',
-                    React.createElement(react_bootstrap_1.FormControl, { type: "text", defaultValue: props.studentData.studentFirstName, placeholder: "Your first name..." })),
+                    React.createElement(react_bootstrap_1.FormControl, { type: "text", defaultValue: props.studentData.studentFirstName, placeholder: "Your first name...", onChange: createChangeHandler("studentFirstName") })),
                 '  ',
                 React.createElement(react_bootstrap_1.FormGroup, { controlId: "studentLastName", validationState: isNotEmpty(props.studentData.studentLastName) },
                     React.createElement(react_bootstrap_1.ControlLabel, null, "Last Name"),
                     ' ',
-                    React.createElement(react_bootstrap_1.FormControl, { type: "text", defaultValue: props.studentData.studentFirstName, placeholder: "Your last name..." }))),
+                    React.createElement(react_bootstrap_1.FormControl, { type: "text", defaultValue: props.studentData.studentFirstName, placeholder: "Your last name...", onChange: createChangeHandler("studentLastName") }))),
             React.createElement(react_bootstrap_1.Form, { inline: true },
                 React.createElement(react_bootstrap_1.FormGroup, { controlId: "iep" },
                     React.createElement(react_bootstrap_1.ControlLabel, null, "Do you have an IEP?"),
                     '  ',
-                    React.createElement(react_bootstrap_1.FormControl, { componentClass: "select", placeholder: "Choose one...", defaultValue: props.studentData.iep ? "true" : "false" },
+                    React.createElement(react_bootstrap_1.FormControl, { componentClass: "select", placeholder: "Choose one...", defaultValue: props.studentData.iep ? "true" : "false", onChange: createChangeHandler("iep") },
                         React.createElement("option", { value: "true" }, "Yes"),
                         React.createElement("option", { value: "false" }, "No"))),
                 '  ',
                 React.createElement(react_bootstrap_1.FormGroup, { controlId: "ell" },
                     React.createElement(react_bootstrap_1.ControlLabel, null, "Are you an English Language Learner?"),
                     '  ',
-                    React.createElement(react_bootstrap_1.FormControl, { componentClass: "select", placeholder: "Choose one...", defaultValue: props.studentData.ell ? "true" : "false" },
+                    React.createElement(react_bootstrap_1.FormControl, { componentClass: "select", placeholder: "Choose one...", defaultValue: props.studentData.ell ? "true" : "false", onChange: createChangeHandler("ell") },
                         React.createElement("option", { value: "true" }, "Yes"),
                         React.createElement("option", { value: "false" }, "No")))),
-            React.createElement(address_tier_calculator_1.default, { address: props.studentData.address, tier: props.studentData.tier, onAddressChange: createChangeHandler("address"), onTierChange: createChangeHandler("tier") })),
+            React.createElement(address_tier_calculator_1.default, { address: props.studentData.address, tier: props.studentData.tier, onAddressChange: function (newAddress) { return props.onChange(clone_1.cloneAndExtend(props.studentData, { address: newAddress })); }, onTierChange: function (newTier) { return props.onChange(clone_1.cloneAndExtend(props.studentData, { tier: newTier })); } })),
         React.createElement("div", { className: "student-data-form-subheader" }, "Your most recent grades"),
         React.createElement("div", { className: "form-group" },
             React.createElement("div", { className: "form-group-row" },
                 React.createElement("div", { className: "form-wrapper" },
                     React.createElement(react_bootstrap_1.FormGroup, { controlId: "nweaMath", validationState: isNotNull(props.studentData.scores.nweaMath) },
                         React.createElement(react_bootstrap_1.ControlLabel, null, "NWEA Math RIT Score"),
-                        React.createElement(react_bootstrap_1.FormControl, { type: "number", defaultValue: grade_convert_1.scoreToString(props.studentData.scores.nweaMath, score_type_1.default.nweaMath) }))),
+                        React.createElement(react_bootstrap_1.FormControl, { type: "number", defaultValue: grade_convert_1.scoreToString(props.studentData.scores.nweaMath, score_type_1.default.nweaMath), onChange: createScoreChangeHandler("nweaMath") }))),
                 React.createElement("div", { className: "form-wrapper" },
                     React.createElement(react_bootstrap_1.FormGroup, { controlId: "nweaRead", validationState: isNotNull(props.studentData.scores.nweaRead) },
                         React.createElement(react_bootstrap_1.ControlLabel, null, "NWEA Reading RIT Score"),
-                        React.createElement(react_bootstrap_1.FormControl, { type: "number", defaultValue: grade_convert_1.scoreToString(props.studentData.scores.nweaRead, score_type_1.default.nweaRead) })))),
+                        React.createElement(react_bootstrap_1.FormControl, { type: "number", defaultValue: grade_convert_1.scoreToString(props.studentData.scores.nweaRead, score_type_1.default.nweaRead), onChange: createScoreChangeHandler("nweaRead") })))),
             React.createElement("div", { className: "form-group-row" },
                 React.createElement("div", { className: "form-wrapper" },
                     React.createElement(react_bootstrap_1.FormGroup, { controlId: "subjGradeMath", validationState: isNotNull(props.studentData.scores.subjGradeMath) },
                         React.createElement(react_bootstrap_1.ControlLabel, null, "Your Math grade"),
-                        React.createElement(react_bootstrap_1.FormControl, { type: "number", defaultValue: grade_convert_1.scoreToString(props.studentData.scores.subjGradeMath, score_type_1.default.subjGradeMath) }))),
+                        React.createElement(react_bootstrap_1.FormControl, { type: "number", defaultValue: props.studentData.scores.subjGradeMath.toString(10), onChange: createScoreChangeHandler("subjGradeMath") }))),
                 React.createElement("div", { className: "form-wrapper" },
                     React.createElement(react_bootstrap_1.FormGroup, { controlId: "subjGradeRead", validationState: isNotNull(props.studentData.scores.subjGradeRead) },
                         React.createElement(react_bootstrap_1.ControlLabel, null, "Your Reading grade"),
-                        React.createElement(react_bootstrap_1.FormControl, { type: "number", defaultValue: grade_convert_1.scoreToString(props.studentData.scores.subjGradeRead, score_type_1.default.subjGradeRead) }))),
+                        React.createElement(react_bootstrap_1.FormControl, { type: "number", defaultValue: props.studentData.scores.subjGradeRead.toString(10), onChange: createScoreChangeHandler("subjGradeRead") }))),
                 React.createElement("div", { className: "form-wrapper" },
                     React.createElement(react_bootstrap_1.FormGroup, { controlId: "subjGradeSci", validationState: isNotNull(props.studentData.scores.subjGradeSci) },
                         React.createElement(react_bootstrap_1.ControlLabel, null, "Your Science grade"),
-                        React.createElement(react_bootstrap_1.FormControl, { type: "number", defaultValue: grade_convert_1.scoreToString(props.studentData.scores.subjGradeSci, score_type_1.default.subjGradeSci) }))),
+                        React.createElement(react_bootstrap_1.FormControl, { type: "number", defaultValue: props.studentData.scores.subjGradeSci.toString(10), onChange: createScoreChangeHandler("subjGradeSci") }))),
                 React.createElement("div", { className: "form-wrapper" },
                     React.createElement(react_bootstrap_1.FormGroup, { controlId: "subjGradeSocStudies", validationState: isNotNull(props.studentData.scores.subjGradeSocStudies) },
                         React.createElement(react_bootstrap_1.ControlLabel, null, "Your Social Studies grade"),
-                        React.createElement(react_bootstrap_1.FormControl, { type: "number", defaultValue: grade_convert_1.scoreToString(props.studentData.scores.subjGradeSocStudies, score_type_1.default.subjGradeSocStudies) })))))));
+                        React.createElement(react_bootstrap_1.FormControl, { type: "number", defaultValue: props.studentData.scores.subjGradeSocStudies.toString(10), onChange: createScoreChangeHandler("subjGradeSocStudies") })))))));
 };
 exports.default = StudentDataForm;
 
@@ -44112,8 +44136,8 @@ exports.push([module.i, ".hs-category-container {\n  width: 100%;\n  height: aut
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MOCK_STUDENT_SCORES = {
-    nweaMath: 150,
-    nweaRead: 140,
+    nweaMath: 200,
+    nweaRead: 201,
     subjGradeMath: 90,
     subjGradeRead: 80,
     subjGradeSci: 79,
@@ -44125,7 +44149,7 @@ exports.MOCK_STUDENT_DATA = {
     address: "761 W Altgeld",
     ell: true,
     iep: false,
-    gradeLevel: 6,
+    gradeLevel: 5,
     tier: "4",
     scores: exports.MOCK_STUDENT_SCORES,
 };

@@ -9,7 +9,7 @@ import {MOCK_STUDENT_DATA, MOCK_HS_DATA} from "./hardcoded";
 
 import StudentData from "shared/types/student-data";
 import StudentScores from "shared/types/student-scores";
-import {clone} from "shared/util/clone";
+import {cloneAndExtend} from "shared/util/clone";
 import {projectScores} from "shared/util/score-projection-utils";
 
 interface PathToHSProps {
@@ -24,12 +24,20 @@ class PathToHS extends React.Component<PathToHSProps, PathToHSState> {
   
   constructor(props){
     super(props);
-    let projectedData = clone(MOCK_STUDENT_DATA);
-    projectedData.scores = projectScores(MOCK_STUDENT_DATA.scores, 0, MOCK_STUDENT_DATA.gradeLevel, 7);
     this.state = {
       studentData: MOCK_STUDENT_DATA,
-      projectedStudentData: projectedData
+      projectedStudentData: this.getProjectedStudentData(MOCK_STUDENT_DATA)
     };
+  }
+
+  private getProjectedStudentData = (currentData: StudentData) => {
+    const PERCENTILE_CHANGE = 0;
+    const PROJECTED_GRADE_LEVEL = 7;
+    const projectedScores = projectScores(currentData.scores, PERCENTILE_CHANGE, currentData.gradeLevel, PROJECTED_GRADE_LEVEL);
+    console.log(currentData);
+    console.log(projectedScores);
+    const projectedData = cloneAndExtend(currentData, {scores: projectedScores});
+    return projectedData;
   }
 
   private handleProjectedStudentDataChange = (newProjectedData: StudentData) => {
@@ -38,14 +46,21 @@ class PathToHS extends React.Component<PathToHSProps, PathToHSState> {
     });
   }
 
+  private handleStudentDataChange = (newStudentData: StudentData) => {
+    this.setState({
+      studentData: newStudentData,
+      projectedStudentData: this.getProjectedStudentData(newStudentData)
+    });
+  }
+
   render() {
     return (
       <Page>
         <StudentInfoDisplay
           studentData={this.state.studentData}
-          onStudentDataChange={(newData) => this.setState({studentData: newData})}
           projectedStudentData={this.state.projectedStudentData}
-          onProjectedStudentDataChange={(newData) => this.setState({projectedStudentData: newData})}
+          onStudentDataChange={this.handleStudentDataChange}
+          onProjectedStudentDataChange={this.handleProjectedStudentDataChange}
           />
           
         <HSDisplay
