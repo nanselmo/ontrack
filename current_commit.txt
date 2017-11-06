@@ -1,11 +1,30 @@
-Wire together StudentDataForm, StudentInfoContainer, HSDisplay
+Replace EffortLevelSelector with GradeChangeSelector
 
-* DONE fix StudentDataForm subjectGrade fields not displaying grade
-  ** subjectGrade fields now display number grade and not letter grade
-* DONE add onChange handlers to form fields in StudentDataForm
-* DONE update state.projectedStudentData on reciept of changed studentData
-  in path-to-hs.tsx
+* rename EffortLevelSelector -> GradeChangeSelector,
+ rewrite component to take in percentileChange: number
+  and return a new percentile change: number.
+* remove effort level-related code in ReportCardContainer
+* remove EffortLevel enum from shared/enum
 
-* TODO IN FUTURE leave this heirarchical component state stuff in the dust
-  and refactor to redux. Should do this after we can get a recognizable first
-  draft of the calculator running.
+* NOTE: effort level was a little opaque to the user, not 
+  to mention didn't solve the problem of converting back
+  and forth from percentile change -> effort level.
+
+* TODO IN FUTURE: convert positional arguments of functions
+  in shared/util/grade-convert and shared/util/score-projection-utils
+  into keyword arguments. (Just got bitten by inconsistent
+  ordering of gradeLevel and percentileChange arguments
+  between 'projectScores' and 'getAvgPercentileDifference'
+  functions
+
+* TODO IN FUTURE: a rounding error(?) in getAvgPercentileDifference
+  causes average percentile difference to be different
+  from the percentile difference of the individual scores
+  somehow. IE, when the individual scores of a StudentData
+  object are projected from 5th to 7th grade with 0 percentile
+  difference, the output of getAvgPercentileDifference on 
+  those two scores is 3.5.
+
+  ** for the moment, I've just set the 'no change' value 
+    in GradeChangeSelector to be active if percentileChange 
+    is > -5 and < 5, but that's a very coarse fix.

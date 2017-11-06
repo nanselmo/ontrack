@@ -14692,24 +14692,7 @@ exports.default = Box;
 
 
 /***/ }),
-/* 165 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var EffortLevel;
-(function (EffortLevel) {
-    EffortLevel[EffortLevel["NONE"] = 1] = "NONE";
-    EffortLevel[EffortLevel["LOW"] = 2] = "LOW";
-    EffortLevel[EffortLevel["NORMAL"] = 3] = "NORMAL";
-    EffortLevel[EffortLevel["HIGH"] = 4] = "HIGH";
-    EffortLevel[EffortLevel["EXTREME"] = 5] = "EXTREME";
-})(EffortLevel || (EffortLevel = {}));
-exports.default = EffortLevel;
-
-
-/***/ }),
+/* 165 */,
 /* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31274,183 +31257,36 @@ exports.default = ArrowUpIcon;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var effort_level_1 = __webpack_require__(165);
 var clone_1 = __webpack_require__(74);
-var effort_level_selector_1 = __webpack_require__(325);
+var grade_change_selector_1 = __webpack_require__(509);
 var report_card_1 = __webpack_require__(328);
 var score_projection_utils_1 = __webpack_require__(166);
 var ReportCardContainer = function (props) {
-    var toEffortLevel = function (percentileChange) {
-        if (percentileChange < -40) {
-            return effort_level_1.default.NONE;
-        }
-        else if (percentileChange < -20) {
-            return effort_level_1.default.LOW;
-        }
-        else if (percentileChange < 20) {
-            return effort_level_1.default.NORMAL;
-        }
-        else if (percentileChange < 40) {
-            return effort_level_1.default.HIGH;
-        }
-        else {
-            return effort_level_1.default.EXTREME;
-        }
-    };
-    var toPercentileChange = function (effortLevel) {
-        switch (effortLevel) {
-            case effort_level_1.default.NONE:
-                return -30;
-            case effort_level_1.default.LOW:
-                return -15;
-            case effort_level_1.default.NORMAL:
-                return 0;
-            case effort_level_1.default.HIGH:
-                return 15;
-            case effort_level_1.default.EXTREME:
-                return 30;
-        }
-    };
-    var handleEffortLevelChange = function (newEffortLevel) {
-        var percentileChange = toPercentileChange(newEffortLevel);
-        var originalGradeLevel = props.studentData.gradeLevel;
+    var handleGradeChangeSelectorChange = function (newPercentileChange) {
         var targetGradeLevel = 7;
-        var newScores = score_projection_utils_1.projectScores(props.studentData.scores, percentileChange, originalGradeLevel, targetGradeLevel);
-        var newStudentData = clone_1.cloneAndExtend(props.studentData, { scores: newScores });
-        props.onProjectedStudentDataChange(newStudentData);
+        var newProjectedScores = score_projection_utils_1.projectScores(props.studentData.scores, newPercentileChange, props.studentData.gradeLevel, targetGradeLevel);
+        var newProjectedStudentData = clone_1.cloneAndExtend(props.studentData, { scores: newProjectedScores });
+        props.onProjectedStudentDataChange(newProjectedStudentData);
     };
     var handleProjectedScoresChange = function (newScores) {
         var newStudentData = clone_1.cloneAndExtend(props.studentData, { scores: newScores });
         props.onProjectedStudentDataChange(newStudentData);
     };
-    var inferEffortLevel = function (studentData, projectedData) {
-        var percentileChange = score_projection_utils_1.getAveragePercentileDifference(studentData.scores, studentData.gradeLevel, projectedData.scores, projectedData.gradeLevel);
-        return toEffortLevel(percentileChange);
-    };
+    var percentileChange = score_projection_utils_1.getAveragePercentileDifference(props.studentData.scores, props.studentData.gradeLevel, props.projectedStudentData.scores, props.projectedStudentData.gradeLevel);
     return (React.createElement("div", { style: { display: "flex", justifyContent: "center", alignItems: "center" } },
         React.createElement("div", { style: { width: "350px" } },
             React.createElement("div", { className: "effort-level-select-container", style: { width: "100%", textAlign: "center", margin: "1em 0", lineHeight: "150%", fontSize: "140%", color: "#777" } },
-                "Here's what your report card will look like if you ",
-                React.createElement(effort_level_selector_1.default, { effortLevel: inferEffortLevel(props.studentData, props.projectedStudentData), onEffortLevelChange: handleEffortLevelChange })),
+                "Here's what your report card will look like if your grades",
+                React.createElement(grade_change_selector_1.default, { percentileChange: percentileChange, onChange: handleGradeChangeSelectorChange })),
             React.createElement(report_card_1.default, { gradeLevel: 7, scores: props.projectedStudentData.scores, onScoresChange: handleProjectedScoresChange, studentName: props.studentData.studentFirstName + " " + props.studentData.studentLastName }))));
 };
 exports.default = ReportCardContainer;
 
 
 /***/ }),
-/* 325 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var effort_level_1 = __webpack_require__(165);
-__webpack_require__(326);
-var strings = {
-    noEffort: "don't try at all",
-    lowEffort: "don't try very hard",
-    normalEffort: "try as hard as you're doing now",
-    highEffort: "try harder than you're doing now",
-    veryHighEffort: "try very, very hard"
-};
-var EffortLevelSelector = function (props) {
-    var effortLeveltoString = function (effortLevel) {
-        switch (effortLevel) {
-            case effort_level_1.default.NONE:
-                return "no-effort";
-            case effort_level_1.default.LOW:
-                return "low-effort";
-            case effort_level_1.default.NORMAL:
-                return "normal-effort";
-            case effort_level_1.default.HIGH:
-                return "high-effort";
-            case effort_level_1.default.EXTREME:
-                return "very-high-effort";
-        }
-    };
-    var handleSelectChange = function (event) {
-        var value = event.currentTarget.value;
-        var effortLevel;
-        switch (value) {
-            case "no-effort":
-                effortLevel = effort_level_1.default.NONE;
-                break;
-            case "low-effort":
-                effortLevel = effort_level_1.default.LOW;
-                break;
-            case "normal-effort":
-                effortLevel = effort_level_1.default.NORMAL;
-                break;
-            case "high-effort":
-                effortLevel = effort_level_1.default.HIGH;
-                break;
-            case "very-high-effort":
-                effortLevel = effort_level_1.default.EXTREME;
-                ;
-                break;
-            default:
-                throw new Error("effortLevel " + value + " not recognized!");
-        }
-        props.onEffortLevelChange(effortLevel);
-    };
-    var strEffortLevel = effortLeveltoString(props.effortLevel);
-    return (React.createElement("select", { value: strEffortLevel, onChange: handleSelectChange, className: "effort-level-selector " + strEffortLevel },
-        React.createElement("option", { value: "no-effort" }, strings.noEffort),
-        React.createElement("option", { value: "low-effort" }, strings.lowEffort),
-        React.createElement("option", { value: "normal-effort" }, strings.normalEffort),
-        React.createElement("option", { value: "high-effort" }, strings.highEffort),
-        React.createElement("option", { value: "very-high-effort" }, strings.veryHighEffort)));
-};
-exports.default = EffortLevelSelector;
-
-
-/***/ }),
-/* 326 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(327);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(23)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--2-2!../../../../node_modules/sass-loader/lib/loader.js!./effort-level-selector.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--2-2!../../../../node_modules/sass-loader/lib/loader.js!./effort-level-selector.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 327 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(22)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".effort-level-selector {\n  padding: 5px;\n  font-size: 100%;\n  text-align: center; }\n\n.effort-level-selector.no-effort {\n  color: #B0413E; }\n\n.effort-level-selector.low-effort {\n  color: #FC9744; }\n\n.effort-level-selector.normal-effort {\n  color: #000000; }\n\n.effort-level-selector.high-effort {\n  color: #A3C44A; }\n\n.effort-level-selector.very-highw-effort {\n  color: #57AD35; }\n", ""]);
-
-// exports
-
-
-/***/ }),
+/* 325 */,
+/* 326 */,
+/* 327 */,
 /* 328 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -44419,6 +44255,117 @@ exports.MOCK_HS_DATA = [
         ],
     },
 ];
+
+
+/***/ }),
+/* 509 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+__webpack_require__(510);
+var strings = {
+    downALot: "go down a lot",
+    down: "go down",
+    noChange: "stay the same",
+    up: "go up",
+    upALot: "go up a lot"
+};
+var GradeChangeSelector = function (props) {
+    var toGradeChangeLevel = function (percentileChange) {
+        if (percentileChange < -15) {
+            return "downALot";
+        }
+        else if (percentileChange <= -5) {
+            return "down";
+        }
+        else if (percentileChange < 5) {
+            return "noChange";
+        }
+        else if (percentileChange <= 15) {
+            return "up";
+        }
+        else {
+            return "upALot";
+        }
+    };
+    var toPercentileChange = function (gradeChangeLevel) {
+        switch (gradeChangeLevel) {
+            case "downALot":
+                return -20;
+            case "down":
+                return -10;
+            case "noChange":
+                return 0;
+            case "up":
+                return 10;
+            case "upALot":
+                return 20;
+            default:
+                throw new Error("Unrecognized grade change level: " + gradeChangeLevel);
+        }
+    };
+    var gradeChangeLevel = toGradeChangeLevel(props.percentileChange);
+    var handleSelectChange = function (event) {
+        var selectedGradeChange = event.currentTarget.value;
+        var newPercentileChange = toPercentileChange(selectedGradeChange);
+        props.onChange(newPercentileChange);
+    };
+    return (React.createElement("select", { value: gradeChangeLevel, onChange: handleSelectChange, className: "grade-change-selector " + gradeChangeLevel },
+        React.createElement("option", { value: "downALot" }, strings.downALot),
+        React.createElement("option", { value: "down" }, strings.down),
+        React.createElement("option", { value: "noChange" }, strings.noChange),
+        React.createElement("option", { value: "up" }, strings.up),
+        React.createElement("option", { value: "upALot" }, strings.upALot)));
+};
+exports.default = GradeChangeSelector;
+
+
+/***/ }),
+/* 510 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(511);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(23)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--2-2!../../../../node_modules/sass-loader/lib/loader.js!./grade-change-selector.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--2-2!../../../../node_modules/sass-loader/lib/loader.js!./grade-change-selector.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 511 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(22)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".grade-change-selector {\n  padding: 5px;\n  font-size: 100%;\n  text-align: center; }\n\n.grade-change-selector > option {\n  text-align: center; }\n\n.grade-change-selector.downALot {\n  color: #B0413E; }\n\n.grade-change-selector.down {\n  color: #FC9744; }\n\n.grade-change-selector.noChange {\n  color: #000000; }\n\n.grade-change-selector.up {\n  color: #A3C44A; }\n\n.grade-change-selector.upALot {\n  color: #57AD35; }\n", ""]);
+
+// exports
 
 
 /***/ })
