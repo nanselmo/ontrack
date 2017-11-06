@@ -26,12 +26,12 @@ const ReportCardContainer = (props: ReportCardContainerProps) => {
       newPercentileChange,
       props.studentData.gradeLevel,
       targetGradeLevel);
-    const newProjectedStudentData = cloneAndExtend(props.studentData, {scores: newProjectedScores});
+    const newProjectedStudentData = cloneAndExtend(props.studentData, {scores: newProjectedScores}, {gradeLevel: targetGradeLevel});
     props.onProjectedStudentDataChange(newProjectedStudentData);
   };
 
   const handleProjectedScoresChange = (newScores: StudentScores): void  => {
-    const newStudentData = cloneAndExtend(props.studentData, {scores: newScores});
+    const newStudentData = cloneAndExtend(props.projectedStudentData, {scores: newScores});
     props.onProjectedStudentDataChange(newStudentData);
   }
 

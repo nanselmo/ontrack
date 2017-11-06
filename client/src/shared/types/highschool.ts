@@ -1,13 +1,13 @@
-import RequirementsFunction from "shared/types/requirements-function";
+import HSRequirementsFunction from "shared/types/hs-requirements-function";
 import LatLongCoordinates from "shared/types/lat-long-coordinates";
 
 interface Highschool {
   shortName: string
   longName: string
   initials: string
-  selectionRequirementsFunction: RequirementsFunction
-  applicationRequirementsFunction: RequirementsFunction
-  coordinates: LatLongCoordinates
+  selectionRequirementsFunction: HSRequirementsFunction
+  applicationRequirementsFunction: HSRequirementsFunction
+  coordinates?: LatLongCoordinates
   iconUrl?: string
   // probably more
 }

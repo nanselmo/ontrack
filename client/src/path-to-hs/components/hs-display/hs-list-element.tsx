@@ -7,7 +7,7 @@ import AdditionalRequirementData from "shared/types/additional-requirement-data"
 interface HSListElementProps {
   highschool: Highschool
   studentData: StudentData
-  addlRequirements: AdditionalRequirementData[]
+  addlRequirements: {[name: string]: any}
 }
 
 import "./hs-list-element.scss";
@@ -23,12 +23,11 @@ const HSListElement: React.SFC<HSListElementProps> = (props) => {
     props.addlRequirements);
 
   let className="hs-list-element";
-  if (cannotApply) {
-    className += "disabled";
-  } else if (likelySelected) {
+  if (likelySelected === true) {
     className += " active-outline";
-  }
-  
+  } else if (cannotApply === false) {
+    className += " disabled";
+  }   
   if (props.highschool.iconUrl) {
     return (
       <div className={className}>

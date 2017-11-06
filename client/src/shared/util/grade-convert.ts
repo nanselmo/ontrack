@@ -90,6 +90,27 @@ export const tryParseScore = (str: string, scoreType: ScoreType): [boolean, Stud
 
 };
 
+export const toGPA = (scores: StudentScore[]) => {
+  const toPoints = (score: StudentScore): number => {
+    const letterGrade = toLetterGrade(score);
+    switch(letterGrade){
+      case "A":
+        return 4;
+      case "B":
+        return 3;
+      case "C":
+        return 2;
+      case "D":
+        return 1;
+      case "F":
+        return 0;
+    }
+  };
+  const numGrades = scores.length;
+  const gradePointSum = scores.map(toPoints).reduce((a, b) => a + b);
+  return gradePointSum / numGrades;
+};
+
 const letterGradeHighScores = {
   A: 100,
   B: 89,
@@ -130,7 +151,7 @@ const toNumberGrade = (strScore: string): number => {
 };
 
 
-const toLetterGrade = (grade: number): string => {
+export const toLetterGrade = (grade: number): string => {
   if (grade <= letterGradeHighScores["F"]) {
     return "F";
   } else if (grade <= letterGradeHighScores["D"]) {
@@ -161,6 +182,7 @@ const createNumberRangeMapFunction = (inputRange: [number,number], outputRange: 
     return Math.round(xMappedToOutput); 
   };
 };
+
 
 // map average grade range (50,100) onto percentile, and vice versa
 const numberGradeRange = [50,100];

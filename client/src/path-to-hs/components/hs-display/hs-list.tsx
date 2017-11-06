@@ -9,7 +9,7 @@ import HSListElement from "./hs-list-element";
 interface HSListProps {
   highschools: Highschool[]
   studentData: StudentData
-  addlRequirements: AdditionalRequirementData[]
+  addlRequirements: any
 }
 
 import "./hs-list.scss";

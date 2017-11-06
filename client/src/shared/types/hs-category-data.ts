@@ -1,12 +1,12 @@
 import Highschool from "shared/types/highschool";
-import RequirementsFunction from "shared/types/requirements-function";
+import HSRequirementsFunction from "shared/types/hs-requirements-function";
 import AdditionalRequirementData from "shared/types/additional-requirement-data";
 
 
 interface HSCategoryData {
   shortName: string
   longName: string
-  requirementsFunction: RequirementsFunction
+  requirementsFunction: HSRequirementsFunction
   highschools: Highschool[]
   additionalRequirements: AdditionalRequirementData[]
 }

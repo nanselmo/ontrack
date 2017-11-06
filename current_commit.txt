@@ -1,7 +1,24 @@
-Fix errors in StudentInfoForm
+Implement HS Data config
 
-* add missing field for student current grade level
-* debug issue with first/last name input validation
-* debug issue with first/last name changes not propagating
-  / converting to NaN. (Probably at some point they're
-  treated like numbers.)
+* create data/hs-config-data for containing HSData object
+  that app uses to display highschools and requirements
+  functions that decide if studetent can apply/be accepted.
+* create shared/util/hs-calc-util for containing functions
+  that calculate SE and IB scores, etc
+* input some HS data into data/hs-config-data, but there's a
+  lot more that needs to be done.
+* fix display issues in HSList
+
+* TODO IN FUTURE create method or alter existing method to
+  project StudentData instead of projecting StudentScores.
+  It's confusing to have to manually switch the student's
+  grade to 7 in order for the calculator to work properly.
+
+* TODO IN FUTURE to think about -- is hs-config-data ts file
+  the easiest way for future peeps to input high school data?
+  Probably definitely not, but I think it's premature optimizing
+  to worry about that now. I don't know what the easiest way
+  for others to input the hs data is, and it may turn out that
+  a UI that generates the .ts/.js file is the easiest way of
+  doing it. Won't worry about it until it's necessary.
+

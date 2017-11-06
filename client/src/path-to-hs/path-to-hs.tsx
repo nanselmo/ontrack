@@ -5,7 +5,8 @@ import StudentInfoDisplay from "./components/student-info-display/student-info-d
 import HSDisplay from "./components/hs-display/hs-display";
 
 // TODO: remove hardcoded test data
-import {MOCK_STUDENT_DATA, MOCK_HS_DATA} from "./hardcoded";
+import {MOCK_STUDENT_DATA} from "./hardcoded";
+import {HSConfigData} from "shared/data/hs-config-data";
 
 import StudentData from "shared/types/student-data";
 import StudentScores from "shared/types/student-scores";
@@ -36,7 +37,7 @@ class PathToHS extends React.Component<PathToHSProps, PathToHSState> {
     const projectedScores = projectScores(currentData.scores, PERCENTILE_CHANGE, currentData.gradeLevel, PROJECTED_GRADE_LEVEL);
     console.log(currentData);
     console.log(projectedScores);
-    const projectedData = cloneAndExtend(currentData, {scores: projectedScores});
+    const projectedData = cloneAndExtend(currentData, {scores: projectedScores}, {gradeLevel: PROJECTED_GRADE_LEVEL});
     return projectedData;
   }
 
@@ -64,7 +65,7 @@ class PathToHS extends React.Component<PathToHSProps, PathToHSState> {
           />
           
         <HSDisplay
-          hsData={MOCK_HS_DATA}
+          hsData={HSConfigData}
           studentData={this.state.projectedStudentData} 
           />
       </Page>
