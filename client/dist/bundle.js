@@ -31708,10 +31708,20 @@ var StudentDataForm = function (props) {
     var createChangeHandler = function (property) {
         return function (event) {
             var value = event.currentTarget.value;
-            var newScore = Number.parseInt(value, 10);
-            var newStudentData = clone_1.cloneAndExtend(props.studentData, (_a = {}, _a[property] = newScore, _a));
+            var newStudentData;
+            if (property === "gradeLevel") {
+                var newScore = Number.parseInt(value, 10);
+                newStudentData = clone_1.cloneAndExtend(props.studentData, (_a = {}, _a[property] = newScore, _a));
+            }
+            else if (property === "ell" || property === "iep") {
+                var newValue = value === "true" ? true : false;
+                newStudentData = clone_1.cloneAndExtend(props.studentData, (_b = {}, _b[property] = newValue, _b));
+            }
+            else {
+                newStudentData = clone_1.cloneAndExtend(props.studentData, (_c = {}, _c[property] = value, _c));
+            }
             props.onChange(newStudentData);
-            var _a;
+            var _a, _b, _c;
         };
     };
     var createScoreChangeHandler = function (property) {
@@ -31763,6 +31773,16 @@ var StudentDataForm = function (props) {
                     ' ',
                     React.createElement(react_bootstrap_1.FormControl, { type: "text", defaultValue: props.studentData.studentFirstName, placeholder: "Your last name...", onChange: createChangeHandler("studentLastName") }))),
             React.createElement(react_bootstrap_1.Form, { inline: true },
+                React.createElement(react_bootstrap_1.FormGroup, { controlId: "studentGradeLevel" },
+                    React.createElement(react_bootstrap_1.ControlLabel, null, "What grade are you in?"),
+                    '  ',
+                    React.createElement(react_bootstrap_1.FormControl, { componentClass: "select", placeholder: "Choose one...", defaultValue: props.studentData.gradeLevel.toString(), onChange: createChangeHandler("gradeLevel") },
+                        React.createElement("option", { value: "4" }, "4th grade"),
+                        React.createElement("option", { value: "5" }, "5th grade"),
+                        React.createElement("option", { value: "6" }, "6th grade"),
+                        React.createElement("option", { value: "7" }, "7th grade"),
+                        React.createElement("option", { value: "8" }, "8th grade"))),
+                '  ',
                 React.createElement(react_bootstrap_1.FormGroup, { controlId: "iep" },
                     React.createElement(react_bootstrap_1.ControlLabel, null, "Do you have an IEP?"),
                     '  ',

@@ -29,8 +29,16 @@ const StudentDataForm = (props: StudentDataFormProps) => {
   const createChangeHandler = (property: string) =>  {
     return (event: React.KeyboardEvent<any>) => {
       const value: string = event.currentTarget.value;
-      const newScore = Number.parseInt(value, 10);
-      const newStudentData = cloneAndExtend(props.studentData, {[property]: newScore});
+      let newStudentData: StudentData;
+      if (property === "gradeLevel"){
+        const newScore = Number.parseInt(value, 10);
+        newStudentData = cloneAndExtend(props.studentData, {[property]: newScore});
+      } else if (property === "ell" || property === "iep") {
+        const newValue = value === "true" ? true : false;
+        newStudentData = cloneAndExtend(props.studentData, {[property]: newValue});
+      } else {
+        newStudentData = cloneAndExtend(props.studentData, {[property]: value});
+      }
       props.onChange(newStudentData);
     }
   };
@@ -104,6 +112,24 @@ const StudentDataForm = (props: StudentDataFormProps) => {
         </Form>
 
         <Form inline>
+          <FormGroup controlId="studentGradeLevel">
+            <ControlLabel>What grade are you in?</ControlLabel>
+          {'  '}
+            <FormControl
+              componentClass="select"
+              placeholder="Choose one..."
+              defaultValue={props.studentData.gradeLevel.toString()}
+              onChange={createChangeHandler("gradeLevel")}
+            >
+              <option value="4">4th grade</option>
+              <option value="5">5th grade</option>
+              <option value="6">6th grade</option>
+              <option value="7">7th grade</option>
+              <option value="8">8th grade</option>
+            </FormControl>
+
+          </FormGroup>
+          {'  '}
           <FormGroup controlId="iep">
             <ControlLabel>Do you have an IEP?</ControlLabel>
           {'  '}

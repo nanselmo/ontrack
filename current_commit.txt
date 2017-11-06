@@ -1,30 +1,7 @@
-Replace EffortLevelSelector with GradeChangeSelector
+Fix errors in StudentInfoForm
 
-* rename EffortLevelSelector -> GradeChangeSelector,
- rewrite component to take in percentileChange: number
-  and return a new percentile change: number.
-* remove effort level-related code in ReportCardContainer
-* remove EffortLevel enum from shared/enum
-
-* NOTE: effort level was a little opaque to the user, not 
-  to mention didn't solve the problem of converting back
-  and forth from percentile change -> effort level.
-
-* TODO IN FUTURE: convert positional arguments of functions
-  in shared/util/grade-convert and shared/util/score-projection-utils
-  into keyword arguments. (Just got bitten by inconsistent
-  ordering of gradeLevel and percentileChange arguments
-  between 'projectScores' and 'getAvgPercentileDifference'
-  functions
-
-* TODO IN FUTURE: a rounding error(?) in getAvgPercentileDifference
-  causes average percentile difference to be different
-  from the percentile difference of the individual scores
-  somehow. IE, when the individual scores of a StudentData
-  object are projected from 5th to 7th grade with 0 percentile
-  difference, the output of getAvgPercentileDifference on 
-  those two scores is 3.5.
-
-  ** for the moment, I've just set the 'no change' value 
-    in GradeChangeSelector to be active if percentileChange 
-    is > -5 and < 5, but that's a very coarse fix.
+* add missing field for student current grade level
+* debug issue with first/last name input validation
+* debug issue with first/last name changes not propagating
+  / converting to NaN. (Probably at some point they're
+  treated like numbers.)
