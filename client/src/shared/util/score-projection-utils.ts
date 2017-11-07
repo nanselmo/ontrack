@@ -1,8 +1,25 @@
 import StudentScore from "shared/types/student-score";
 import StudentScores from "shared/types/student-scores";
+import StudentData from "shared/types/student-data";
 import ScoreType from "shared/enums/score-type";
 
 import {scoreToPercentile, percentileToScore} from "shared/util/grade-convert";
+import {cloneAndExtend} from "shared/util/clone";
+
+export const projectStudentData = (args: {
+  studentData: StudentData
+  targetGradeLevel: number
+  percentileChange: number
+}): StudentData => {
+
+  const projectedScores = projectScores(
+    args.studentData.scores,
+    args.percentileChange,
+    args.studentData.gradeLevel,
+    args.targetGradeLevel
+  );
+  return cloneAndExtend(args.studentData, {scores: projectedScores}, {gradeLevel: args.targetGradeLevel});
+};
 
 export const getAveragePercentileDifference = (fromScores: StudentScores, fromGradeLevel: number, toScores: StudentScores, toGradeLevel: number): number => {
   let averagePercentileDifference: number;
