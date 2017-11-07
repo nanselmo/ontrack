@@ -93,9 +93,13 @@ const findPercentile = (ritByPercentile: number[], targetRit: number): number =>
       }
     // on all other iterations (percentiles 1 - 98),
     // return current percentile if targetRit lies
-    // between it and the previous percentile.
+    // between it and the next percentile.
+    // Sometimes, two adjacent percentiles have the same
+    // rit score; in those cases, return the lowest percentile.
     } else {
-      if (targetRit >= currRit && targetRit < nextRit) {
+      if (targetRit === currRit && targetRit === nextRit) {
+        return percentile;
+      } else if (targetRit >= currRit && targetRit < nextRit) {
         return percentile;
       }
     }

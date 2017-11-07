@@ -136,4 +136,20 @@ describe("ritToPercentile", () => {
     expect(ritToPercentile(rit, testType, gradeLevel)).to.equal(expectedPercentile);
   });
 
+  it("should give correct percentile for inputs - 4", () => {
+    const rit = 256;
+    const testType = NWEATestType.Reading;
+    const gradeLevel = 7;
+    const expectedPercentile = 99;
+    expect(ritToPercentile(rit, testType, gradeLevel)).to.equal(expectedPercentile);
+  });
+
+  it("should give correct percentile for inputs - 4", () => {
+    const rit = 218;
+    const testType = NWEATestType.Math;
+    const gradeLevel = 7;
+    const expectedPercentile = 27;
+    expect(ritToPercentile(rit, testType, gradeLevel)).to.equal(expectedPercentile);
+  });
+
 });
