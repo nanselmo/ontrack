@@ -11,7 +11,7 @@ import {HSConfigData} from "shared/data/hs-config-data";
 import StudentData from "shared/types/student-data";
 import StudentScores from "shared/types/student-scores";
 import {cloneAndExtend} from "shared/util/clone";
-import {projectScores} from "shared/util/score-projection-utils";
+import {projectStudentData} from "shared/util/score-projection-utils";
 
 interface PathToHSProps {
 }
@@ -25,21 +25,18 @@ class PathToHS extends React.Component<PathToHSProps, PathToHSState> {
   
   constructor(props){
     super(props);
+    const HS_APPLICATION_GRADE_LEVEL = 7;
     this.state = {
       studentData: MOCK_STUDENT_DATA,
-      projectedStudentData: this.getProjectedStudentData(MOCK_STUDENT_DATA)
+      projectedStudentData: this.defaultProjectStudentData(MOCK_STUDENT_DATA)
     };
   }
 
-  private getProjectedStudentData = (currentData: StudentData) => {
-    const PERCENTILE_CHANGE = 0;
-    const PROJECTED_GRADE_LEVEL = 7;
-    const projectedScores = projectScores(currentData.scores, PERCENTILE_CHANGE, currentData.gradeLevel, PROJECTED_GRADE_LEVEL);
-    console.log(currentData);
-    console.log(projectedScores);
-    const projectedData = cloneAndExtend(currentData, {scores: projectedScores}, {gradeLevel: PROJECTED_GRADE_LEVEL});
-    return projectedData;
-  }
+  private defaultProjectStudentData = (data: StudentData) => projectStudentData({
+    studentData: data,
+    percentileChange: 0,
+    targetGradeLevel: 7 
+  })
 
   private handleProjectedStudentDataChange = (newProjectedData: StudentData) => {
     this.setState({
@@ -50,7 +47,7 @@ class PathToHS extends React.Component<PathToHSProps, PathToHSState> {
   private handleStudentDataChange = (newStudentData: StudentData) => {
     this.setState({
       studentData: newStudentData,
-      projectedStudentData: this.getProjectedStudentData(newStudentData)
+      projectedStudentData: this.defaultProjectStudentData(newStudentData)
     });
   }
 

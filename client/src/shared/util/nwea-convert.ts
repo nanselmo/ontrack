@@ -45,31 +45,31 @@ export const percentileToRit = (percentile: number,
   }
 };
 
-export const ritToPercentile = (rit: number, 
-      testType: NWEATestType, 
-      gradeLevel: number,
-      testSession: NWEATestingSession = NWEATestingSession.Spring): number => {
+// export const ritToPercentile = (rit: number, 
+//       testType: NWEATestType, 
+//       gradeLevel: number,
+//       testSession: NWEATestingSession = NWEATestingSession.Spring): number => {
 
-  if (!(gradeLevel >= 2 && gradeLevel <= 8)) {
-    throw NWEAConvertErrors.BadGradeLevel;
-  }
-  if (testType !== NWEATestType.Math && testType !== NWEATestType.Reading) {
-    throw NWEAConvertErrors.BadTestType;
-  }
-  if (testSession !== NWEATestingSession.Spring) {
-    throw NWEAConvertErrors.TestingSessionNotImplemented;
-  }
-  if (!(rit > 0)) {
-    throw NWEAConvertErrors.BadRitScore;
-  }
+//   if (!(gradeLevel >= 2 && gradeLevel <= 8)) {
+//     throw NWEAConvertErrors.BadGradeLevel;
+//   }
+//   if (testType !== NWEATestType.Math && testType !== NWEATestType.Reading) {
+//     throw NWEAConvertErrors.BadTestType;
+//   }
+//   if (testSession !== NWEATestingSession.Spring) {
+//     throw NWEAConvertErrors.TestingSessionNotImplemented;
+//   }
+//   if (!(rit > 0)) {
+//     throw NWEAConvertErrors.BadRitScore;
+//   }
 
-  switch(testType) {
-    case NWEATestType.Math: 
-      return findPercentile(MathPercentileRitLookup[gradeLevel], rit);
-    case NWEATestType.Reading: 
-      return findPercentile(ReadPercentileRitLookup[gradeLevel], rit);
-  }
-};
+//   switch(testType) {
+//     case NWEATestType.Math: 
+//       return findPercentile(MathPercentileRitLookup[gradeLevel], rit);
+//     case NWEATestType.Reading: 
+//       return findPercentile(ReadPercentileRitLookup[gradeLevel], rit);
+//   }
+// };
 
 const findPercentile = (ritByPercentile: number[], targetRit: number): number => {
   // percentileArray is sorted; search for percentile such that 

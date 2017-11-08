@@ -9,7 +9,7 @@ import {clone, cloneAndExtend} from "shared/util/clone";
 import GradeChangeSelector from "./grade-change-selector";
 import ReportCard from "./report-card";
 
-import {getAveragePercentileDifference, projectScores} from "shared/util/score-projection-utils";
+import {getAveragePercentileDifference, projectStudentData} from "shared/util/score-projection-utils";
 
 interface ReportCardContainerProps {
   studentData: StudentData,
@@ -20,13 +20,12 @@ interface ReportCardContainerProps {
 const ReportCardContainer = (props: ReportCardContainerProps) => {
 
   const handleGradeChangeSelectorChange = (newPercentileChange: number) => {
-    const targetGradeLevel = 7;
-    const newProjectedScores: StudentScores = projectScores(
-      props.studentData.scores, 
-      newPercentileChange,
-      props.studentData.gradeLevel,
-      targetGradeLevel);
-    const newProjectedStudentData = cloneAndExtend(props.studentData, {scores: newProjectedScores}, {gradeLevel: targetGradeLevel});
+    const HS_APPLICATION_GRADE_LEVEL = 7;
+    const newProjectedStudentData = projectStudentData({
+      studentData: props.studentData,
+      percentileChange: newPercentileChange,
+      targetGradeLevel: HS_APPLICATION_GRADE_LEVEL
+    });
     props.onProjectedStudentDataChange(newProjectedStudentData);
   };
 
@@ -35,12 +34,10 @@ const ReportCardContainer = (props: ReportCardContainerProps) => {
     props.onProjectedStudentDataChange(newStudentData);
   }
 
-  const percentileChange = getAveragePercentileDifference(
-              props.studentData.scores,
-              props.studentData.gradeLevel,
-              props.projectedStudentData.scores,
-              props.projectedStudentData.gradeLevel);
-
+  const percentileChange = getAveragePercentileDifference({
+    fromScores: props.studentData.scores, 
+    toScores: props.projectedStudentData.scores
+  });
  
   return (
     <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>

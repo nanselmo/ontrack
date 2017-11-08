@@ -24,8 +24,15 @@ enum ValidationResponse {
   Err = "error"
 }
 
+// TODO (a lot)
+// -- general refactor 
+//    -- use l10n strings
+//    -- get less html in this component if it makes sense
+//    -- remove react-bootstrap dependency - too heavy/poorly designed
+
 const StudentDataForm = (props: StudentDataFormProps) => {
 
+  // FIXME: messy
   const createChangeHandler = (property: string) =>  {
     return (event: React.KeyboardEvent<any>) => {
       const value: string = event.currentTarget.value;
@@ -175,23 +182,23 @@ const StudentDataForm = (props: StudentDataFormProps) => {
         <div className="form-group-row">
           <div className="form-wrapper">
             <FormGroup controlId="nweaMath"
-              validationState={isNotNull(props.studentData.scores.nweaMath)} >
-              <ControlLabel>NWEA Math RIT Score</ControlLabel>
+              validationState={isNotNull(props.studentData.scores.nweaPercentileMath)} >
+              <ControlLabel>NWEA Math Percentile</ControlLabel>
               <FormControl
                 type="number"
-                defaultValue={scoreToString(props.studentData.scores.nweaMath, ScoreType.nweaMath)}
-                onChange={createScoreChangeHandler("nweaMath")}
+                defaultValue={scoreToString(props.studentData.scores.nweaPercentileMath, ScoreType.nweaPercentileMath)}
+                onChange={createScoreChangeHandler("nweaPercentileMath")}
               />
             </FormGroup>
           </div>
           <div className="form-wrapper">
             <FormGroup controlId="nweaRead"
-              validationState={isNotNull(props.studentData.scores.nweaRead)} >
-              <ControlLabel>NWEA Reading RIT Score</ControlLabel>
+              validationState={isNotNull(props.studentData.scores.nweaPercentileRead)} >
+              <ControlLabel>NWEA Reading Percentile</ControlLabel>
               <FormControl
                 type="number"
-                defaultValue={scoreToString(props.studentData.scores.nweaRead, ScoreType.nweaRead)}
-                onChange={createScoreChangeHandler("nweaRead")}
+                defaultValue={scoreToString(props.studentData.scores.nweaPercentileRead, ScoreType.nweaPercentileRead)}
+                onChange={createScoreChangeHandler("nweaPercentileRead")}
               />
             </FormGroup>
           </div>

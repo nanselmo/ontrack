@@ -46,15 +46,15 @@ const ReportCard = (props: ReportCardProps) => {
           Your NWEA Scores 
         </div>
         <ScoreField
-          scoreType={ScoreType.nweaMath}
-          score={props.scores.nweaMath}
+          scoreType={ScoreType.nweaPercentileMath}
+          score={props.scores.nweaPercentileMath}
           editable={false}
-          onChange={(newScore: StudentScore) => props.onScoresChange(cloneAndExtend(props.scores, {[ScoreType.nweaMath]: newScore}))}/>
+          onChange={createScoreChangeHandler(ScoreType.nweaPercentileMath)}/>
         <ScoreField
-          scoreType={ScoreType.nweaRead}
-          score={props.scores.nweaRead}
+          scoreType={ScoreType.nweaPercentileRead}
+          score={props.scores.nweaPercentileRead}
           editable={false}
-          onChange={createScoreChangeHandler(ScoreType.nweaRead)}/>
+          onChange={createScoreChangeHandler(ScoreType.nweaPercentileRead)}/>
 
         <div className="score-group-label">
           Your School Grades 

@@ -1,6 +1,6 @@
 enum ScoreType {
-  nweaMath = "nweaMath", 
-  nweaRead = "nweaRead", 
+  nweaPercentileMath = "nweaPercentileMath", 
+  nweaPercentileRead = "nweaPercentileRead", 
   subjGradeMath = "subjGradeMath", 
   subjGradeRead = "subjGradeRead", 
   subjGradeSci = "subjGradeSci", 

@@ -3,71 +3,68 @@ import StudentScores from "shared/types/student-scores";
 import StudentData from "shared/types/student-data";
 import ScoreType from "shared/enums/score-type";
 
-import {scoreToPercentile, percentileToScore} from "shared/util/grade-convert";
 import {cloneAndExtend} from "shared/util/clone";
 
-export const projectStudentData = (args: {
-  studentData: StudentData
-  targetGradeLevel: number
-  percentileChange: number
-}): StudentData => {
+export const getAveragePercentileDifference = (args: {fromScores: StudentScores, toScores: StudentScores}): number => {
+  // get difference for each scoreType
+  let differences = [];
+  for (let scoreType in ScoreType) {
+    const difference = args.toScores[scoreType] - args.fromScores[scoreType];
+    if (Number.isNaN(difference)) {
+      throw new Error(`Bad calculation: fromScores.${scoreType} = ${args.fromScores[scoreType]}, toScores.${scoreType} = ${args.toScores[scoreType]}`);   
+    }
+    differences.push(difference);
+  }
+  return average(differences);
+};
 
+export const projectStudentData = (args: {studentData: StudentData, targetGradeLevel: number, percentileChange: number}): StudentData => {
   const projectedScores = projectScores(
     args.studentData.scores,
     args.percentileChange,
-    args.studentData.gradeLevel,
-    args.targetGradeLevel
   );
   return cloneAndExtend(args.studentData, {scores: projectedScores}, {gradeLevel: args.targetGradeLevel});
 };
 
-export const getAveragePercentileDifference = (fromScores: StudentScores, fromGradeLevel: number, toScores: StudentScores, toGradeLevel: number): number => {
-  let averagePercentileDifference: number;
-  let sumPercentileDifference: number = 0;
-  const percentileArrayTo = toPercentileArray(fromScores, fromGradeLevel);
-  const percentileArrayFrom = toPercentileArray(toScores, toGradeLevel);
-  const numPercentiles = percentileArrayTo.length;
-  for (let i = 0; i < numPercentiles; i++) {
-    const percentileStart = percentileArrayTo[i];
-    const percentileEnd = percentileArrayFrom[i];
-    const percentileChange = percentileEnd - percentileStart;
-    sumPercentileDifference += percentileChange;
-  }
-  // average all percentile changes in each score category 
-  return sumPercentileDifference / numPercentiles;
-};
-
-export const projectScores = (scores: StudentScores, percentileChange: number, studentGrade: number, targetGrade: number): StudentScores => {
+const projectScores = (scores: StudentScores, percentileChange: number): StudentScores => {
   const projectedScores: StudentScores = {
-    nweaMath: adjustScore(scores.nweaMath, ScoreType.nweaMath, percentileChange, studentGrade, targetGrade),
-    nweaRead: adjustScore(scores.nweaRead, ScoreType.nweaRead, percentileChange, studentGrade, targetGrade),
-    subjGradeMath: adjustScore(scores.subjGradeMath, ScoreType.subjGradeMath, percentileChange, studentGrade, targetGrade),
-    subjGradeRead: adjustScore(scores.subjGradeRead, ScoreType.subjGradeRead, percentileChange, studentGrade, targetGrade),
-    subjGradeSci: adjustScore(scores.subjGradeSci, ScoreType.subjGradeSci, percentileChange, studentGrade, targetGrade),
-    subjGradeSocStudies: adjustScore(scores.subjGradeSocStudies, ScoreType.subjGradeSocStudies, percentileChange, studentGrade, targetGrade),
+    nweaPercentileMath: adjustScore({score: scores.nweaPercentileMath, scoreType: ScoreType.nweaPercentileMath, percentileChange: percentileChange}),
+    nweaPercentileRead: adjustScore({score: scores.nweaPercentileRead, scoreType: ScoreType.nweaPercentileRead, percentileChange: percentileChange}),
+    subjGradeMath: adjustScore({score: scores.subjGradeMath, scoreType: ScoreType.subjGradeMath, percentileChange: percentileChange}),
+    subjGradeRead: adjustScore({score: scores.subjGradeRead, scoreType: ScoreType.subjGradeRead, percentileChange: percentileChange}),
+    subjGradeSci: adjustScore({score: scores.subjGradeSci, scoreType: ScoreType.subjGradeSci, percentileChange: percentileChange}),
+    subjGradeSocStudies: adjustScore({score: scores.subjGradeSocStudies, scoreType: ScoreType.subjGradeSocStudies, percentileChange: percentileChange}),
   };
   return projectedScores;
 };
 
-const toPercentileArray = (scores: StudentScores, gradeLevel: number): number[] => {
-  let percentileArray = [
-    scoreToPercentile(scores.nweaMath, ScoreType.nweaMath, gradeLevel),
-    scoreToPercentile(scores.nweaRead, ScoreType.nweaRead, gradeLevel),
-    scoreToPercentile(scores.subjGradeMath, ScoreType.subjGradeMath, gradeLevel),
-    scoreToPercentile(scores.subjGradeRead, ScoreType.subjGradeRead, gradeLevel),
-    scoreToPercentile(scores.subjGradeSci, ScoreType.subjGradeSci, gradeLevel),
-    scoreToPercentile(scores.subjGradeSocStudies, ScoreType.subjGradeSocStudies, gradeLevel),
-  ];
-  return percentileArray;
+const adjustScore = (args: {score: StudentScore, scoreType: ScoreType, percentileChange: number}): number => {
+  let MIN_VALUE: number;
+  let MAX_VALUE: number;
+  switch(args.scoreType){
+    case ScoreType.nweaPercentileMath:
+    case ScoreType.nweaPercentileRead:
+      MIN_VALUE = 1;
+      MAX_VALUE = 99;
+      break;
+    default:
+      MIN_VALUE = 0;
+      MAX_VALUE = 100;
+  }
+
+  const adjustedScore = args.score + args.percentileChange;
+  if (adjustedScore > MAX_VALUE) {
+    return MAX_VALUE;
+  } else if (adjustedScore < MIN_VALUE) {
+    return MIN_VALUE;
+  } else {
+    return adjustedScore;
+  }
 };
 
-const adjustScore = (score: number, scoreType: ScoreType, percentileChange: number, studentGrade: number, targetGrade: number) => {
-  const originalPercentileScore = scoreToPercentile(score, scoreType, studentGrade);
-  let projectedPercentileScore = originalPercentileScore + percentileChange;
-  if (projectedPercentileScore < 1) {
-    projectedPercentileScore = 1;
-  } else if (projectedPercentileScore > 99) {
-    projectedPercentileScore = 99;
-  }
-  return percentileToScore(projectedPercentileScore, scoreType, targetGrade);
+const average = (arr: number[]): number => {
+  const count = arr.length;
+  const sum = arr.reduce( (a,b) => a + b);
+  return sum / count;
 };
+

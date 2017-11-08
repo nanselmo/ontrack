@@ -1,13 +1,8 @@
 import * as React from "react";
 
 import StudentData from "shared/types/student-data";
-import StudentScores from "shared/types/student-scores";
-import EffortLevel from "shared/enums/effort-level";
-import {scoreToPercentile, percentileToScore} from "shared/util/grade-convert";
-import {getAveragePercentileDifference, projectScores} from "shared/util/score-projection-utils";
 
 import Box from "shared/components/layout/box";
-import {clone} from "shared/util/clone";
 
 import WindowSwitcher from "./window-switcher";
 import ReportCardContainer from "./report-card-container";
@@ -27,7 +22,15 @@ const StudentInfoDisplay = (props: StudentInfoDisplayProps) => {
   };
 
   return (
-    <Box width="half" height="full" flex={{flexDirection: "column", justifyContent: "center", alignItems: "center"}} responsiveBehavior={{mobile: "fullscreen"}}>
+    <Box 
+      width="half" 
+      height="full" 
+      flex={{
+        flexDirection: "column", 
+        justifyContent: "center",
+        alignItems: "center"}}
+      responsiveBehavior={{mobile: "fullscreen"}}>
+
       <WindowSwitcher
         windowA={<StudentDataForm
           studentData={props.studentData}

@@ -22,13 +22,13 @@ interface ScoreFieldState {
   invalidInput: boolean 
 }
 
-// FIXME: temp
+// FIXME: use l10n strings
 const getLabel = (scoreType: ScoreType): string => {
   switch(scoreType){
-    case ScoreType.nweaMath:
-      return "NWEA Math";
-    case ScoreType.nweaRead:
-      return "NWEA Reading";
+    case ScoreType.nweaPercentileMath:
+      return "NWEA Math Percentile";
+    case ScoreType.nweaPercentileRead:
+      return "NWEA Reading Percentile";
     case ScoreType.subjGradeMath:
       return "Math";
     case ScoreType.subjGradeRead:

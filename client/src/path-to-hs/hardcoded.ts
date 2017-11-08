@@ -3,8 +3,8 @@ import StudentData from "shared/types/student-data";
 import HSData from "shared/types/hs-data";
 
 export const MOCK_STUDENT_SCORES: StudentScores = {
-  nweaMath: 200,
-  nweaRead: 201,
+  nweaPercentileMath: 50,
+  nweaPercentileRead: 50,
   subjGradeMath: 90,
   subjGradeRead: 80,
   subjGradeSci: 79,

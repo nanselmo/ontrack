@@ -1,16 +1,13 @@
 import StudentData from "shared/types/student-data";
 import {toLetterGrade} from "shared/util/grade-convert";
-import {ritToPercentile, NWEATestType} from "shared/util/nwea-convert";
+import {NWEATestType} from "shared/util/nwea-convert";
 
 export const calculateSEPoints = (data: StudentData, additionalReqs: {SETestPercentile: number}): number => {
 
   // calculate points for NWEA scores
   const NWEA_SCORE_CONSTANT = 1.515;
-  const mathPercentile = ritToPercentile(data.scores.nweaMath, NWEATestType.Math, data.gradeLevel);
-  const readPercentile = ritToPercentile(data.scores.nweaRead, NWEATestType.Reading, data.gradeLevel);
-
-  const nweaMathPoints = Math.round(mathPercentile * NWEA_SCORE_CONSTANT);
-  const nweaReadPoints = Math.round(readPercentile * NWEA_SCORE_CONSTANT);
+  const nweaMathPoints = Math.round(data.scores.nweaPercentileMath * NWEA_SCORE_CONSTANT);
+  const nweaReadPoints = Math.round(data.scores.nweaPercentileRead * NWEA_SCORE_CONSTANT);
 
   // calculate points for subjGrades
   const gradePointsLookup = {
@@ -47,11 +44,8 @@ export const calculateSEPoints = (data: StudentData, additionalReqs: {SETestPerc
 export const calculateIBPoints = (data: StudentData): number => {
   // calculate points for NWEA scores
   const NWEA_SCORE_CONSTANT = 2.2727;
-  const mathPercentile = ritToPercentile(data.scores.nweaMath, NWEATestType.Math, data.gradeLevel);
-  const readPercentile = ritToPercentile(data.scores.nweaRead, NWEATestType.Reading, data.gradeLevel);
-
-  const nweaMathPoints = Math.round(mathPercentile * NWEA_SCORE_CONSTANT);
-  const nweaReadPoints = Math.round(readPercentile * NWEA_SCORE_CONSTANT);
+  const nweaMathPoints = Math.round(data.scores.nweaPercentileMath * NWEA_SCORE_CONSTANT);
+  const nweaReadPoints = Math.round(data.scores.nweaPercentileRead * NWEA_SCORE_CONSTANT);
 
   // calculate score component for subj grades
   const gradePointsLookup = {

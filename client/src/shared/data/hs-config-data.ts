@@ -2,11 +2,10 @@ import HSData from "shared/types/hs-data";
 import HSRequirementFunction from "shared/types/hs-requirements-function";
 import StudentData from "shared/types/student-data";
 import {calculateSEPoints, calculateIBPoints} from "shared/util/hs-calc-utils";
-import {ritToPercentile, NWEATestType} from "shared/util/nwea-convert";
 
 const standardApplicationRequirements: HSRequirementFunction = (data): boolean => {
-  const nweaMathPercentile = ritToPercentile(data.scores.nweaMath, NWEATestType.Math, data.gradeLevel);
-  const nweaReadPercentile = ritToPercentile(data.scores.nweaRead, NWEATestType.Reading, data.gradeLevel);
+  const nweaMathPercentile = data.scores.nweaPercentileMath;
+  const nweaReadPercentile = data.scores.nweaPercentileRead;
   if (!data.ell && !data.iep) {
     if (nweaMathPercentile > 24 && nweaReadPercentile > 24) {
       return true;
@@ -65,7 +64,7 @@ const createSESelectionReqFn = (cutoffScores: SECutoffScores): HSRequirementFunc
 
 const createIBSelectionReqFn = (cutoffScore: number): HSRequirementFunction => {
   return (data, additionalRequirements?) => {
-    const score = calculateIBPoints(data, additionalRequirements);
+    const score = calculateIBPoints(data);
     return score >= cutoffScore;
   }
 };
