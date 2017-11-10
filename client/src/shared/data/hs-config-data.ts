@@ -52,12 +52,17 @@ interface SECutoffScores {
 }
 
 const createSESelectionReqFn = (cutoffScores: SECutoffScores): HSRequirementFunction => {
-  return (data, additionalRequirements): boolean => {
+  return (data:StudentData): boolean => {
+    // if selective enrollment additional data is uninitialized, return always false
+    if (data.additionalRequirements.SETestPercentile === null) {
+      return false;
+    }
+
     // return true if student's scores are higher than midway between minimum score and average
     // NOTE: this is pretty arbitrary, but there's no good way of forecasting for sure whether or not
     // scores are good enough to get into a SE score in the future, as acceptances are based on
     // the top applicants each round.
-    const score: number = calculateSEPoints(data, additionalRequirements);
+    const score: number = calculateSEPoints(data);
     let studentTierCutoffs;
     switch(data.tier){
       case "1":

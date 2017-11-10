@@ -1,24 +1,23 @@
-Implement HS Data config
+Change how app handles Additional Requirements
 
-* create data/hs-config-data for containing HSData object
-  that app uses to display highschools and requirements
-  functions that decide if studetent can apply/be accepted.
-* create shared/util/hs-calc-util for containing functions
-  that calculate SE and IB scores, etc
-* input some HS data into data/hs-config-data, but there's a
-  lot more that needs to be done.
-* fix display issues in HSList
+* NOTE - additional requirements are the extra data
+  outside of past school grades needed to decide 
+  school admissions. Example additional requirements:
+  Selective Enrollment admission test, IB school 
+  information session, Fine arts school audition.
 
-* TODO IN FUTURE create method or alter existing method to
-  project StudentData instead of projecting StudentScores.
-  It's confusing to have to manually switch the student's
-  grade to 7 in order for the calculator to work properly.
-
-* TODO IN FUTURE to think about -- is hs-config-data ts file
-  the easiest way for future peeps to input high school data?
-  Probably definitely not, but I think it's premature optimizing
-  to worry about that now. I don't know what the easiest way
-  for others to input the hs data is, and it may turn out that
-  a UI that generates the .ts/.js file is the easiest way of
-  doing it. Won't worry about it until it's necessary.
-
+* DONE add AdditionalRequirements type to shared/types
+* DONE add additionalRequirements property to StudentData
+* DONE change type HSRequirementsFunction from 
+  (StudentData, AdditionalReqs) => boolean to
+  (StudentData) => boolean
+* DONE refactor all implementations of HSRequirementsFunction
+  in shared/data/hs-config-data, and handle case where
+  AdditionalRequirement in AdditionalRequirements is null
+* DONE refactor calculateSEPoints to remove additionalReqs
+  positional argument, replaced by additionalRequirements property
+  in StudentData
+* TODO rename HSAdditionalRequirements -> AdditionalRequirementsDisplay
+* TODO refactor AdditionalRequirementDisplay to take
+  AdditionalRequirement | null as props and output
+  AdditionalRequirement

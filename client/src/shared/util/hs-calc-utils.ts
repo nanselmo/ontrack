@@ -2,7 +2,7 @@ import StudentData from "shared/types/student-data";
 import {toLetterGrade} from "shared/util/grade-convert";
 import {NWEATestType} from "shared/util/nwea-convert";
 
-export const calculateSEPoints = (data: StudentData, additionalReqs: {SETestPercentile: number}): number => {
+export const calculateSEPoints = (data: StudentData): number => {
 
   // calculate points for NWEA scores
   const NWEA_SCORE_CONSTANT = 1.515;
@@ -25,10 +25,10 @@ export const calculateSEPoints = (data: StudentData, additionalReqs: {SETestPerc
   // calculate score component for SE Test percentile 
   const SE_TEST_PERCENTILE_CONSTANT = 3.03; 
   // throw if no additionalReqs passed
-  if (!additionalReqs.SETestPercentile) {
+  if (!data.additionalRequirements.SETestPercentile) {
     throw new Error("No SETestPercentile passed to calculateSEPoints!");
   }
-  const seTestPoints = Math.round(additionalReqs.SETestPercentile * SE_TEST_PERCENTILE_CONSTANT);
+  const seTestPoints = Math.round(data.additionalRequirements.SETestPercentile * SE_TEST_PERCENTILE_CONSTANT);
   
   const sePoints = nweaMathPoints +
     nweaReadPoints +

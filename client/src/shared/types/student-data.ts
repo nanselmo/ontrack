@@ -1,4 +1,5 @@
 import StudentScores from "shared/types/student-scores";
+import AdditionalRequirements from "shared/types/additional-requirements";
 
 export default interface StudentInfo {
   studentFirstName: string,
@@ -9,4 +10,5 @@ export default interface StudentInfo {
   ell: boolean
   iep: boolean
   scores: StudentScores
+  additionalRequirements: AdditionalRequirements
 }
