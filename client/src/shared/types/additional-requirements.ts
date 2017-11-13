@@ -1,10 +1,10 @@
 interface AdditionalRequirements {
 
-  attendedMilitarySchoolInfoSession: boolean | null,
-  attendedIBInfoSession: boolean | null,
-  submittedFineArtPortfolio: boolean | null,
-  completedFineArtAudition: boolean | null,
-  SETestPercentile: number | null,
+  attendedMilitarySchoolInfoSession?: boolean,
+  attendedIBInfoSession?: boolean,
+  submittedFineArtPortfolio?: boolean,
+  completedFineArtAudition?: boolean,
+  SETestPercentile?: number,
 
 }
 

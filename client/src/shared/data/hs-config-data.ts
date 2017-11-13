@@ -101,7 +101,6 @@ export const HSConfigData: HSData = [
   {
     longName: "Selective Enrollment",
     shortName: "SE",
-    additionalRequirements: [],
     requirementsFunction: standardApplicationRequirements,
     highschools: [
       {
@@ -253,7 +252,6 @@ export const HSConfigData: HSData = [
   {
     longName: "International Baccalaureate (IB)",
     shortName: "IB",
-    additionalRequirements: [],
     requirementsFunction: standardApplicationRequirements,
     highschools: [
       {
@@ -416,7 +414,6 @@ export const HSConfigData: HSData = [
   {
     longName: "Military Schools",
     shortName: "Military",
-    additionalRequirements: [],
     requirementsFunction: standardApplicationRequirements,
     highschools: [
       {
@@ -488,7 +485,6 @@ export const HSConfigData: HSData = [
   {
     longName: "Magnet Programs",
     shortName: "Magnet",
-    additionalRequirements: [],
     requirementsFunction: standardApplicationRequirements,
     highschools: [
       {
@@ -553,7 +549,6 @@ export const HSConfigData: HSData = [
   {
     longName: "Citywide Schools",
     shortName: "Citywide",
-    additionalRequirements: [],
     requirementsFunction: standardApplicationRequirements,
     highschools: [
       {
@@ -640,7 +635,6 @@ export const HSConfigData: HSData = [
   {
     longName: "Neighborhood Schools",
     shortName: "Neighborhood",
-    additionalRequirements: [],
     requirementsFunction: standardApplicationRequirements,
     highschools: [
       {
@@ -1021,7 +1015,6 @@ export const HSConfigData: HSData = [
   {
     longName: "Career & Technical Education Programs",
     shortName: "CTE",
-    additionalRequirements: [],
     requirementsFunction: standardApplicationRequirements,
     highschools: [
       {
@@ -1340,7 +1333,6 @@ export const HSConfigData: HSData = [
   {
     longName: "Fine and Performing Arts Programs",
     shortName: "Fine Arts",
-    additionalRequirements: [],
     requirementsFunction: standardApplicationRequirements,
     highschools: [
     ],

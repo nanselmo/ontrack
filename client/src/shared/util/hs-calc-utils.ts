@@ -26,7 +26,8 @@ export const calculateSEPoints = (data: StudentData): number => {
   const SE_TEST_PERCENTILE_CONSTANT = 3.03; 
   // throw if no additionalReqs passed
   if (!data.additionalRequirements.SETestPercentile) {
-    throw new Error("No SETestPercentile passed to calculateSEPoints!");
+    //throw new Error("No SETestPercentile passed to calculateSEPoints!");
+    return nweaMathPoints + nweaReadPoints + subjGradeMathPoints + subjGradeReadPoints + subjGradeSciPoints + subjGradeSocStudiesPoints + 50;
   }
   const seTestPoints = Math.round(data.additionalRequirements.SETestPercentile * SE_TEST_PERCENTILE_CONSTANT);
   
