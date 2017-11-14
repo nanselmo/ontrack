@@ -1,5 +1,6 @@
 import HSData from "shared/types/hs-data";
 import HSRequirementFunction from "shared/types/hs-requirements-function";
+import AdditionalRequirements from "shared/types/additional-requirements";
 import StudentData from "shared/types/student-data";
 import {calculateSEPoints, calculateIBPoints} from "shared/util/hs-calc-utils";
 
@@ -57,17 +58,24 @@ interface SECutoffScores {
 }
 
 const createSESelectionReqFn = (cutoffScores: SECutoffScores): HSRequirementFunction => {
-  return (data:StudentData): boolean => {
-    // if selective enrollment additional data is uninitialized, return always false
-    if (data.additionalRequirements.SETestPercentile === null) {
+
+  return (data:StudentData, addlReqs: AdditionalRequirements): boolean => {
+
+
+    // get SETestPercentile from additonal requirements
+    let seTestPercentile: number;
+    try{
+      seTestPercentile = addlReqs["seTestPercentile"].inputValue;
+    } catch(e) {
+      // if lookup fails, return false
+      //console.warn(e);
       return false;
     }
-
     // return true if student's scores are higher than midway between minimum score and average
     // NOTE: this is pretty arbitrary, but there's no good way of forecasting for sure whether or not
     // scores are good enough to get into a SE score in the future, as acceptances are based on
-    // the top applicants each round.
-    const score: number = calculateSEPoints(data);
+    // the top applicants each round, and so the score thresholds change each year.
+    const score: number = calculateSEPoints(data, seTestPercentile);
     let studentTierCutoffs;
     switch(data.tier){
       case "1":
@@ -102,6 +110,18 @@ export const HSConfigData: HSData = [
     longName: "Selective Enrollment",
     shortName: "SE",
     requirementsFunction: standardApplicationRequirements,
+    additionalRequirements: {
+      seTestPercentile: {
+        // TODO: localize
+        displayName: "Selective Enrollment Test",
+        desc: "In order to apply to a Selective Enrollment school, you need to take the Selective Enrollment test. You'll need to attend one of the testing sessions in winter of 8th grade. If you've already taken the Selective Enrollment test, put your percentile score in the box to the right. If you haven't taken the Selective Enrollment test yet, put different scores in the box to see how it changes the high schools you can get in to.",
+        hasNumericInput: true,
+        inputValue: 50,
+        links: [
+          new URL("http://go.cps.edu/about/faq/high-school")
+        ]
+      } 
+    },
     highschools: [
       {
         longName: "Gwendolyn Brooks College Preparatory Academy",
@@ -253,6 +273,7 @@ export const HSConfigData: HSData = [
     longName: "International Baccalaureate (IB)",
     shortName: "IB",
     requirementsFunction: standardApplicationRequirements,
+    additionalRequirements: {},
     highschools: [
       {
         longName: "Roald Amundsen High School - IB Program",
@@ -415,6 +436,7 @@ export const HSConfigData: HSData = [
     longName: "Military Schools",
     shortName: "Military",
     requirementsFunction: standardApplicationRequirements,
+    additionalRequirements: {},
     highschools: [
       {
         longName: "David G Farragut Career Academy High School - Military School Program",
@@ -486,6 +508,7 @@ export const HSConfigData: HSData = [
     longName: "Magnet Programs",
     shortName: "Magnet",
     requirementsFunction: standardApplicationRequirements,
+    additionalRequirements: {},
     highschools: [
       {
         longName: "Marie Sklodowska Curie Metropolitan High School - Magnet Program",
@@ -550,6 +573,7 @@ export const HSConfigData: HSData = [
     longName: "Citywide Schools",
     shortName: "Citywide",
     requirementsFunction: standardApplicationRequirements,
+    additionalRequirements: {},
     highschools: [
       {
         longName: "Collins Academy High School",
@@ -576,13 +600,6 @@ export const HSConfigData: HSData = [
         longName: "Back of the Yards High School",
         shortName: "Back of the Yards HS",
         initials: "BotY",
-        applicationRequirementsFunction: noRequirement,
-        selectionRequirementsFunction: lotterySelection,
-      },
-      {
-        longName: "Bronzeville Scholastic Academy High School",
-        shortName: "Bronzeville HS",
-        initials: "Br",
         applicationRequirementsFunction: noRequirement,
         selectionRequirementsFunction: lotterySelection,
       },
@@ -636,6 +653,7 @@ export const HSConfigData: HSData = [
     longName: "Neighborhood Schools",
     shortName: "Neighborhood",
     requirementsFunction: standardApplicationRequirements,
+    additionalRequirements: {},
     highschools: [
       {
         longName: "Louisa May Alcott College Preparatory HS",
@@ -1016,6 +1034,7 @@ export const HSConfigData: HSData = [
     longName: "Career & Technical Education Programs",
     shortName: "CTE",
     requirementsFunction: standardApplicationRequirements,
+    additionalRequirements: {},
     highschools: [
       {
         longName: "Louisa May Alcott College Preparatory HS - CTE Program",
@@ -1114,13 +1133,6 @@ export const HSConfigData: HSData = [
         longName: "Christian Fenger Academy High School - CTE Program",
         shortName: "Fenger HS - CTE",
         initials: "Fe",
-        applicationRequirementsFunction: noRequirement,
-        selectionRequirementsFunction: lotterySelection,
-      },
-      {
-        longName: "Edwin G. Foreman College and Career Academy - CTE Program",
-        shortName: "Foreman HS - CTE",
-        initials: "Fo",
         applicationRequirementsFunction: noRequirement,
         selectionRequirementsFunction: lotterySelection,
       },
@@ -1334,6 +1346,7 @@ export const HSConfigData: HSData = [
     longName: "Fine and Performing Arts Programs",
     shortName: "Fine Arts",
     requirementsFunction: standardApplicationRequirements,
+    additionalRequirements: {},
     highschools: [
     ],
   }

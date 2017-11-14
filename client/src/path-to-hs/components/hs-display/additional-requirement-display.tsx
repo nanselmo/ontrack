@@ -1,51 +1,47 @@
 import * as React from "react";
 
+import AdditionalRequirements from "shared/types/additional-requirements";
+import AdditionalRequirement from "shared/types/additional-requirement";
 import CircledArrowUpIcon from "shared/components/icons/circled-arrow-up-icon";
 import CircledArrowDownIcon from "shared/components/icons/circled-arrow-down-icon";
 
-interface AdditionalReqDisplayProps {
-  name: string,
-  description: string,
-  link?: URL,
-  shouldDisplayNumericInput: boolean,
-  numericInputValue?: number,
-  numericInputOnChange?: (newValue: number) => any,
-  //shouldDisplayCheckbox: boolean,
-  //checkboxValue?: boolean,
-  //checkboxOnChange?: (newValue: boolean) => any,
+interface AddlReqsDisplayProps extends AdditionalRequirement {
+  onInputValueChange: (newVal: number) => any
 }
 
-const AdditionalRequirementDisplay = (props: AdditionalReqDisplayProps) => {
+const AdditionalRequirementDisplay = (props: AddlReqsDisplayProps) => {
 
   return (
     <div className="hs-additional-requirement">
       <div className="hs-additional-requirement-label">
-        {props.name}
+        {props.displayName}
       </div>
       <div className="hs-additional-requirement-description">
-        {props.description}
-        { props.link && 
-          <div className="hs-additional-requirement-link">
-            <a href={props.link.toString()} target="_none">More info</a>
+        {props.desc}
+        { props.links.map( (link: URL) => {
+          <div key={link.hash} className="hs-additional-requirement-link">
+            {/* TODO: localize */}
+            <a href={link.toString()} target="_none">More info here...</a>
+            }
           </div>
-        }
+        }) }
       </div>
 
-      { props.shouldDisplayNumericInput && 
+      { props.hasNumericInput && 
         <div className="hs-additional-requirement-input">
 
-          <input type="number" value={props.numericInputValue}
+          <input type="number" value={props.inputValue}
             onChange={ event => event.currentTarget.valueAsNumber } />
 
           <div className="requirement-change-button-container">
             <button 
               className="requirement-change-button" 
-              onClick={props.numericInputOnChange(props.numericInputValue + 1)}>
+              onClick={() => props.onInputValueChange(props.inputValue + 1)}>
                 {<CircledArrowUpIcon width="24px" height="24px"/>}
             </button>
             <button 
               className="requirement-change-button" 
-              onClick={props.numericInputOnChange(props.numericInputValue - 1)}>
+              onClick={() => props.onInputValueChange(props.inputValue - 1)}>
                 {<CircledArrowDownIcon width="24px" height="24px"/>}
             </button>
           </div>
@@ -53,8 +49,7 @@ const AdditionalRequirementDisplay = (props: AdditionalReqDisplayProps) => {
       }
 
     </div>
-  )
-
+  );
 };
 
 export default AdditionalRequirementDisplay;

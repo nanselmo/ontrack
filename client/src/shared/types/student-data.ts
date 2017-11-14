@@ -10,5 +10,4 @@ export default interface StudentInfo {
   ell: boolean
   iep: boolean
   scores: StudentScores
-  additionalRequirements: AdditionalRequirements
 }

@@ -1,11 +1,7 @@
+import AdditionalRequirement from "shared/types/additional-requirement";
+
 interface AdditionalRequirements {
-
-  attendedMilitarySchoolInfoSession?: boolean,
-  attendedIBInfoSession?: boolean,
-  submittedFineArtPortfolio?: boolean,
-  completedFineArtAudition?: boolean,
-  SETestPercentile?: number,
-
+  [reqName: string]: AdditionalRequirement
 }
 
 export default AdditionalRequirements;

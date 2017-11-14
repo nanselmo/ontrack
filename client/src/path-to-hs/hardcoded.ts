@@ -19,7 +19,6 @@ export const MOCK_STUDENT_DATA: StudentData = {
   iep: false,
   gradeLevel: 5,
   tier: "4",
-  additionalRequirements: {},
   scores: MOCK_STUDENT_SCORES,
 }
 
