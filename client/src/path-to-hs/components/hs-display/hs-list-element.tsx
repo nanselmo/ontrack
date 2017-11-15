@@ -20,11 +20,11 @@ const HSListElement: React.SFC<HSListElementProps> = (props) => {
   const likelySelected: boolean = hs.selectionRequirementsFunction(props.studentData, props.additionalRequirements);
 
   let className="hs-list-element";
-  if (likelySelected === true) {
-    className += " active-outline";
-  } else if (canApply === false) {
+  if (canApply === false) {
     className += " disabled";
-  }   
+  } else if (likelySelected === true) {
+    className += " active-outline";
+  }  
   if (props.highschool.iconUrl) {
     return (
       <div className={className}>

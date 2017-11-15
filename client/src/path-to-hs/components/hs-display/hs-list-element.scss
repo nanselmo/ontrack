@@ -19,19 +19,11 @@
   box-shadow: $box-shadow-z4;
 }
 
-
 .hs-list-element.disabled {
   box-shadow: $box-shadow-z2;
   color: $col-app-gray;
 }
-.hs-list-element.disabled::after {
-  width: 45px;
-  height: 45px;
-  content: "";
-  position: absolute;
-  border-radius: 100%;
-  background-color: rgba(0,0,0,0.05);
-}
+
 
 .hs-list-element.active-outline {
   transform: scale(1.1);

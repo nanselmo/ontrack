@@ -15,6 +15,7 @@ interface ScoreFieldProps {
   score: StudentScore 
   editable: boolean
   onChange: (newScore: StudentScore) => any
+  validationFunction?: (score: StudentScore) => boolean
 }
 
 interface ScoreFieldState {
@@ -60,7 +61,11 @@ class ScoreField extends React.PureComponent<ScoreFieldProps, ScoreFieldState> {
     const text:string = event.currentTarget.value;
     const [success, score] = tryParseScore(text, this.props.scoreType);
     if (success) {
-      this.props.onChange(score);
+      if (this.props.validationFunction && this.props.validationFunction(score)) {
+        this.props.onChange(score);
+      } else {
+        this.setState({invalidInput: true});
+      }
     } else {
       this.setState({invalidInput: true});
     }

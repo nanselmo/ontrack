@@ -19,17 +19,34 @@ interface ReportCardProps {
 
 const ReportCard = (props: ReportCardProps) => {
 
-  type ScoreChangeHandler = (number) => void
+  type ScoreChangeHandler = (number) => void;
+
+  const validateScore = (score: StudentScore, scoreType: ScoreType) => {
+    const isValidNWEAPercentile = (score: number) => score >= 1 && score <= 99;
+    const isValidGrade = (score: number) => score >= 0 && score <= 100;
+
+    switch(scoreType) {
+      case ScoreType.nweaPercentileMath:
+      case ScoreType.nweaPercentileRead:
+        return isValidNWEAPercentile(score);
+      case ScoreType.subjGradeMath:
+      case ScoreType.subjGradeRead:
+      case ScoreType.subjGradeSci:
+      case ScoreType.subjGradeSocStudies:
+        return isValidGrade(score);
+      default:
+        throw new Error(`Unrecognized ScoreType ${scoreType}`);
+    }
+  };
 
   const createScoreChangeHandler = (scoreType: ScoreType): ScoreChangeHandler => {
     const scoreChangeHandler = (newScore: number): void => {
-      if(props.scores[scoreType] !== newScore) {
+      if(props.scores[scoreType] !== newScore && validateScore(newScore, scoreType)) {
         const newScores = cloneAndExtend(props.scores, {[scoreType]: newScore});
         props.onScoresChange(newScores); 
       }
     };
     return scoreChangeHandler
-
   };
 
   // TODO: add l10n strings
@@ -49,11 +66,14 @@ const ReportCard = (props: ReportCardProps) => {
           scoreType={ScoreType.nweaPercentileMath}
           score={props.scores.nweaPercentileMath}
           editable={false}
-          onChange={createScoreChangeHandler(ScoreType.nweaPercentileMath)}/>
+          onChange={createScoreChangeHandler(ScoreType.nweaPercentileMath)}
+          validationFunction={(score:number) => score >= 1 && score <= 99}
+        />
         <ScoreField
           scoreType={ScoreType.nweaPercentileRead}
           score={props.scores.nweaPercentileRead}
           editable={false}
+          validationFunction={(score:number) => score >= 1 && score <= 99}
           onChange={createScoreChangeHandler(ScoreType.nweaPercentileRead)}/>
 
         <div className="score-group-label">
