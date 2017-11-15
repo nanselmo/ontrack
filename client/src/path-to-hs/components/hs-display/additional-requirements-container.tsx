@@ -11,13 +11,20 @@ interface AdditionalReqContainerProps {
   onRequirementsChange: (newAddlReqs: AdditionalRequirements) => any 
 }
 
+import "./additional-requirements-container.scss";
+
 const AdditionalRequirementsContainer = (props: AdditionalReqContainerProps) => {
 
   const createInputValueChangeHandler = (addlReqKey: string) => {
     return (newValue: number) => {
       const origReq = props.additionalRequirements[addlReqKey];
-      const newReq = cloneAndExtend(origReq, {inputValue: newValue});
-      return cloneAndExtend(props.additionalRequirements, {addlReqKey: newReq});
+      const oldValue = origReq.inputValue;
+      if (newValue !== oldValue ) {
+        if (origReq.inputValidationFn && origReq.inputValidationFn(newValue)) {
+          const newReq = cloneAndExtend(origReq, {inputValue: newValue});
+          props.onRequirementsChange(cloneAndExtend(props.additionalRequirements, {[addlReqKey]: newReq}));
+        }
+      }
     };
   };
 
@@ -25,6 +32,9 @@ const AdditionalRequirementsContainer = (props: AdditionalReqContainerProps) => 
 
   return (
     <div className="hs-additional-requirements-container">
+      <div className="hs-additional-requirements-header">
+        Additional Requirements
+      </div>
       { addlReqKeys.map( key => {
         return (<AdditionalRequirementDisplay 
           key={key} 

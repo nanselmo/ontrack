@@ -117,6 +117,7 @@ export const HSConfigData: HSData = [
         desc: "In order to apply to a Selective Enrollment school, you need to take the Selective Enrollment test. You'll need to attend one of the testing sessions in winter of 8th grade. If you've already taken the Selective Enrollment test, put your percentile score in the box to the right. If you haven't taken the Selective Enrollment test yet, put different scores in the box to see how it changes the high schools you can get in to.",
         hasNumericInput: true,
         inputValue: 50,
+        inputValidationFn: (value: number) => value >= 1 && value <= 99,
         links: [
           new URL("http://go.cps.edu/about/faq/high-school")
         ]

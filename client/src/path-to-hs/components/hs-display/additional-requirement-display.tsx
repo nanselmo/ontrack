@@ -9,28 +9,25 @@ interface AddlReqsDisplayProps extends AdditionalRequirement {
   onInputValueChange: (newVal: number) => any
 }
 
+import "./additional-requirement-display.scss";
+
 const AdditionalRequirementDisplay = (props: AddlReqsDisplayProps) => {
+
+  const showLinks = props.links.length > 0;
+  const showInput = props.hasNumericInput;
 
   return (
     <div className="hs-additional-requirement">
       <div className="hs-additional-requirement-label">
         {props.displayName}
       </div>
-      <div className="hs-additional-requirement-description">
-        {props.desc}
-        { props.links.map( (link: URL) => {
-          <div key={link.hash} className="hs-additional-requirement-link">
-            {/* TODO: localize */}
-            <a href={link.toString()} target="_none">More info here...</a>
-            }
-          </div>
-        }) }
-      </div>
+      <div className="hs-additional-requirement-content">
 
-      { props.hasNumericInput && 
-        <div className="hs-additional-requirement-input">
+        {
+        showInput && 
+        <div className="hs-additional-requirement-input-container">
 
-          <input type="number" value={props.inputValue}
+          <input className="hs-additional-requirement-input" type="number" value={props.inputValue}
             onChange={ event => event.currentTarget.valueAsNumber } />
 
           <div className="requirement-change-button-container">
@@ -46,8 +43,26 @@ const AdditionalRequirementDisplay = (props: AddlReqsDisplayProps) => {
             </button>
           </div>
         </div>
-      }
+        }
 
+        <div className="hs-additional-requirement-description">
+            {props.desc}
+        </div>
+
+        { 
+        showLinks &&
+        <div className="hs-additional-requirement-links">
+          { props.links.map( (link: URL) => {
+            <div key={link.hash} className="hs-additional-requirement-link">
+              {/* TODO: localize */}
+              <a href={link.toString()} target="_none">More info here...</a>
+              }
+            </div>
+          }) }
+        </div>
+        }
+
+      </div>
     </div>
   );
 };

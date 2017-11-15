@@ -4,6 +4,7 @@ interface AdditionalRequirement {
   links: URL[],
   hasNumericInput: boolean,
   inputValue?: number,
+  inputValidationFn?: (value: number) => boolean
 }
 
 export default AdditionalRequirement;
