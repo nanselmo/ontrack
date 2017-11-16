@@ -4,39 +4,77 @@ import Highschool from "shared/types/highschool";
 import StudentData from "shared/types/student-data";
 import AdditionalRequirements from "shared/types/additional-requirements";
 
-interface HSListElementProps {
+import HSInfoCard from "./hs-info-card";
+
+interface HSListElemProps {
   highschool: Highschool
   studentData: StudentData
   additionalRequirements: AdditionalRequirements
 }
 
+interface HSListElemState {
+  showHSPreview: boolean
+}
+
 import "./hs-list-element.scss";
 
-const HSListElement: React.SFC<HSListElementProps> = (props) => {
+class HSListElement extends React.PureComponent<HSListElemProps, HSListElemState> {
   
-  const hs = props.highschool;
+  constructor(props) {
+    super(props);
+    const hs = props.highschool;
 
-  const canApply: boolean = hs.applicationRequirementsFunction(props.studentData, props.additionalRequirements); 
-  const likelySelected: boolean = hs.selectionRequirementsFunction(props.studentData, props.additionalRequirements);
+    this.state = { 
+      showHSPreview: false
+    };
 
-  let className="hs-list-element";
-  if (canApply === false) {
-    className += " disabled";
-  } else if (likelySelected === true) {
-    className += " active-outline";
-  }  
-  if (props.highschool.iconUrl) {
-    return (
-      <div className={className}>
-        {props.highschool.initials}
-      </div>
-    )
-  } else {
-    return (
-      <div className={className}>
-        <span className="hs-list-element-initials">{props.highschool.initials}</span>
-      </div>
-    )
+    const canApply: boolean = hs.applicationRequirementsFunction(props.studentData, props.additionalRequirements); 
+    const likelySelected: boolean = hs.selectionRequirementsFunction(props.studentData, props.additionalRequirements);
+
+    this.className="hs-list-element";
+    if (canApply === false) {
+      this.className += " disabled";
+    } else if (likelySelected === true) {
+      this.className += " active-outline";
+    }  
+  }
+
+  private className: string;
+
+  render() {
+    if (this.props.highschool.iconUrl) {
+      return (
+        <div 
+          className={this.className} 
+          onMouseEnter={() => this.setState({showHSPreview: true})}
+          onMouseLeave={() => this.setState({showHSPreview: false})}
+          >
+          <img 
+            className="hs-list-element-icon"
+            alt={`${this.props.highschool.shortName} icon`} 
+            src={this.props.highschool.iconUrl.toString()}
+          />
+          <HSInfoCard 
+            visible={this.state.showHSPreview} 
+            highschool={this.props.highschool}
+          />
+        </div>
+      );
+    } else {
+      return (
+        <div 
+          className={this.className}
+          onMouseEnter={() => this.setState({showHSPreview: true})}
+          onMouseLeave={() => this.setState({showHSPreview: false})}
+          >
+          <span className="hs-list-element-initials">{this.props.highschool.initials}</span>
+          <HSInfoCard 
+            visible={this.state.showHSPreview} 
+            highschool={this.props.highschool}
+          />
+        </div>
+      )
+    }
   }
 
 };

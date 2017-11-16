@@ -1,6 +1,8 @@
 @import "../../../shared/styles/variables";
 
 .hs-list-element {
+  position: relative;
+
   margin: 0.5em;
   width: 45px;
   height: 45px;

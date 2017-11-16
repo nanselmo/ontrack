@@ -8,7 +8,8 @@ interface Highschool {
   selectionRequirementsFunction: HSRequirementsFunction
   applicationRequirementsFunction: HSRequirementsFunction
   coordinates?: LatLongCoordinates
-  iconUrl?: string
+  iconUrl?: URL 
+  previewUrl?: URL
   // probably more
 }
 

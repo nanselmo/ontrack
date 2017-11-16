@@ -128,6 +128,7 @@ export const HSConfigData: HSData = [
         longName: "Gwendolyn Brooks College Preparatory Academy",
         shortName: "Brooks",
         initials: "B",
+        previewUrl: new URL("http://schoolinfo.cps.edu/schoolprofile/schooldetails.aspx?SchoolId=609726"),
         selectionRequirementsFunction: createSESelectionReqFn({
           rank: {avg: 834.15, min: 799,  max: 897},
           tier1: {avg: 700.76, min: 652,  max: 796},
@@ -135,7 +136,7 @@ export const HSConfigData: HSData = [
           tier3: {avg: 768.40, min: 750,  max: 792},
           tier4: {avg: 761.50, min: 723,  max: 797},
         }),
-        applicationRequirementsFunction: standardApplicationRequirements
+        applicationRequirementsFunction: standardApplicationRequirements,
       },
       {
         longName: "John Hancock College Preparatory High School",
