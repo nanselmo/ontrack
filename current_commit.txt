@@ -1,23 +1,15 @@
-Change how app handles Additional Requirements
+Implement config system
 
-* NOTE - additional requirements are the extra data
-  outside of past school grades needed to decide 
-  school admissions. Example additional requirements:
-  Selective Enrollment admission test, IB school 
-  information session, Fine arts school audition.
+* add config/ folder to top level
+  ** add data/ folder to contain raw data in json form
+    *** move tract-tier-table and rit-percentile-lookup
+      data from shared/data to config/data
+    *** move hs requirement function definitions from
+      hs-config-data to config/requirement_function_definitions.js
+    *** 
 
-* DONE add AdditionalRequirements type to shared/types
-* DONE add additionalRequirements property to StudentData
-* DONE change type HSRequirementsFunction from 
-  (StudentData, AdditionalReqs) => boolean to
-  (StudentData) => boolean
-* DONE refactor all implementations of HSRequirementsFunction
-  in shared/data/hs-config-data, and handle case where
-  AdditionalRequirement in AdditionalRequirements is null
-* DONE refactor calculateSEPoints to remove additionalReqs
-  positional argument, replaced by additionalRequirements property
-  in StudentData
-* TODO rename HSAdditionalRequirements -> AdditionalRequirementsDisplay
-* TODO refactor AdditionalRequirementDisplay to take
-  AdditionalRequirement | null as props and output
-  AdditionalRequirement
+  ** TODO write build code to compile a version of hs_programs
+    with requirement function names baked in, to avoid making
+    a trillion function calls to hs_requirement_function every
+    time state changes
+
