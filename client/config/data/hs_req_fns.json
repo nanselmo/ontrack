@@ -1,0 +1,567 @@
+{
+    "7e51568fc748dec3fd5aa79aae428009": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade final (cumulative) grades, and the audition."
+    }, 
+    "d3ddea21fb0e360b470bf095ce6bdfef": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: proximity, general."
+    }, 
+    "5e32e9c5ce34b2af75f2ec9e1a6c6643": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum percentile of 50 in both reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade.    IEP and EL students: Minimum combined percentile of 100 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade."
+    }, 
+    "85463a98c5a7ba21313aacdaeda48cd0": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are randomly selcted by computerized lottery. The lottery is conducted in the following order: students who live within the school's overlay boundary and attend an Information Session; students who live within the school's network and attend an Information Session; students who live outside of the network and attend an Information Session; students who live within the school's overlay boundary and do not attend an Information Session; students who live within the school's network and do not attend an Information Session; students who live outside of the network and do not attend an Information Session."
+    }, 
+    "ae43e969113d1c6b1b6fe0c0a1321c40": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum attendance percentage of 92. An audition is required for all eligible applicants."
+    }, 
+    "fd2b72f8025478fc320959b283c0ff2f": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the portfolio review."
+    }, 
+    "5fbf1b80166fef3a0e0db9557d500465": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum percentile of 25 in both reading and math on NWEA MAP.   IEP and EL students: Minimum combined percentile of 50 in reading and math on NWEA MAP, and minimum attendance percentage of 85."
+    }, 
+    "8ccbd2eb3d4e026932b83ee576862b16": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  An audition is required for all eligible applicants."
+    }, 
+    "5ecf3b571e5fbb7803582a0419070c55": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are selected based on their admissions exam score. At the entry-level grade, the first 30 percent of the seats are filled by rank ordering the exam scores. The remaining seats at the entry-level grade are equally distributed among the four tiers, and are filled in rank order by the top-scoring students in each tier. For all grades above the entry-level grades, seats are filled by the top-scoring students in rank order. There is no sibling preference."
+    }, 
+    "763686fddcad223e9a51aebaac42b61c": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: General Education and 504 Plan students: Minimum percentile of 60 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.  IEP/EL students have no eligibility requirements."
+    }, 
+    "a105512ab5a0eb6536021215baf98ea8": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in Chalmers, Dvorak, Herzl, Johnson, or Morton Elementary Schools; sibling; general."
+    }, 
+    "c66032656bbf52edb1c9d6b62ca2e2eb": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum combined percentile of 135 in reading and math on NWEA MAP and minimum 3.0 GPA in 7th grade."
+    }, 
+    "4ce6d6733bff330b780bc8390660d7cf": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students will be selected based on teacher recommendation letter(s) and an interview process."
+    }, 
+    "027fe7b2d9fd7d9c6e55de49f723852f": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum combined percentile of 40 in reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 30 in reading and math on NWEA MAP, and minimum attendance percentage of 90."
+    }, 
+    "69aef50164a2914f16a28630afa50270": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum percentile of 30 in both reading and math on NWEA MAP, minimum 2.0 GPA in 7th grade and minimum attendance percentage of 85.  IEP and EL students: Minimum combined percentile of 24 in reading and math on NWEA MAP, and minimum attendance percentage of 85."
+    }, 
+    "11bdd4bc6af64732a32d73a850bc78a4": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points.The school determines the minimum cutoff score for selections."
+    }, 
+    "0fe94ad9490cc5fe33139f705336bf3d": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are selected on a point system. Points are based on 7th grade final GPA and 7th grade stanines. Students are ranked and selected from high to low. Students residing within the attendance overlay boundary of the school are selected first."
+    }, 
+    "9a2a27708247d3b692481757756b5226": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum combined percentile of 40 in both reading and math on NWEA MAP, minimum 2.0 GPA in 7th grade, and minimum attendance percentage of 80.  IEP/EL students have no eligibility requirements."
+    }, 
+    "77620df9b5c4a530f21c30267af843ce": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP. An audition/portfolio review is required."
+    }, 
+    "308d8156364219130aef9a7de30a6c8d": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are randomly selected by computerized lottery."
+    }, 
+    "491080472217384211033e6b3e028de7": {
+        "name": "", 
+        "fn": "", 
+        "desc": "An admissions test is required. Students applying to grades K-4 do not have minimum eligibility requirements in order to be tested. Students applying to grades 5-8 must meet the following minimum eligibility requirements:  General Education/504 Plan Students: Minimum percentile of 60 in both reading and math on the NWEA MAP.  IEP Students: Minimum percentile of 50 in one subject (reading or math), and minimum percentile of 40 in the other subject on the NWEA MAP."
+    }, 
+    "bc517a96ab40c67deddde65b6a4c07a8": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  A portfolio review is required for all eligible applicants."
+    }, 
+    "08ee4f1aa31d5eb00bbc81c21139188b": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students who live within the school's attendance boundary: None  Students who live outside of the school's attendance boundary: Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 2.75 GPA in 7th grade. An audition is required for students who live outside of the school's attendance boundary."
+    }, 
+    "ff3e583dbc3724c10581273b3dae6910": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.\u00a0  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants."
+    }, 
+    "b4dc6bde064d3f16c8bed871ea0cee30": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Minimum percentile of 50 in reading on NWEA MAP, minimum 2.0 GPA in 7th grade, and minimum attendance percentage of 80."
+    }, 
+    "d76c385b612c2ef53c62501b074b6134": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are randomly selected by compterized lottery. The lottery is conducted in the following order: proximity, general."
+    }, 
+    "625d1f6025c2e892f5573e60ab69f903": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on the NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP."
+    }, 
+    "f4491f6cf1ebf200770f01271d93ba47": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Minimum percentile of 80 in both reading and math on NWEA MAP and minimum 3.5 GPA in 7th grade."
+    }, 
+    "6a02d16ba52a69b937a74a43c6a82769": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance is required at an Information Session for all eligible applicants."
+    }, 
+    "6adf97f83acf6453d4a6a4b1070f3754": {
+        "name": "", 
+        "fn": "", 
+        "desc": "None"
+    }, 
+    "95025d14a97b9b32f5a2c8225c4ddd6e": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance is required at an Information Session for all eliglble applicants."
+    }, 
+    "a787cb9987ca94d3c2370e2cb67d50cc": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum percentile of 50 in both reading and math on the NWEA MAP and minimum 3.0 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 60 in reading and math on NWEA MAP."
+    }, 
+    "6c2d1016a23c9b0e67736b91a166b594": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP socres in reading and math and the portfolio review."
+    }, 
+    "5096cc5a97943badb78efd427ee13eb6": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Eligible students are randomly selected by computerized lottery."
+    }, 
+    "685beedfccfae8bdb0649c36f03dfd7a": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in Chalmers, Dvorak, Herzl, Johnson, or Morton Elementary Schools; general."
+    }, 
+    "c32c0804dc719ba6c4c00322e7a69be2": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum percentile of 45 in both reading and math on NWEA MAP.  IEP and EL students: Minimum NWEA MAP percentile of 50 in one subject (reading or math) and minimum NWEA MAP percentile of 40 in the other subject (reading or math).  Testing is required for all eligible applicants."
+    }, 
+    "eb6acf17c18f9a5177bcdb7a4504672a": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Minimum percentile of 40 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, LAS Links Assessment composite of 4 or STAMP Assessment at the Intermediate Level."
+    }, 
+    "62c57f6f0d8cb1d35fb12bd66840819f": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Students who live outside of the school's attendance boundary are selected on a point system. The points are based on the student essay and NWEA MAP scores."
+    }, 
+    "23e3199eb5514de5456653457f75f366": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Minimum percentile of 60 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95."
+    }, 
+    "86b8c5719b264aa9072aa6433644fb60": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, and minimum attendance percentage of 90."
+    }, 
+    "f2829bdd4c9bc67e01b90bdd3db46c07": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Minimum percentile of 50 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 90."
+    }, 
+    "fd100fd06ddf9bd72e2809f6d659faf2": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students who live within the attendance boundaries of Chavez, Daley, Hamline, Hedges, Lara, or Seward Elementary Schools; general."
+    }, 
+    "bc314f72be86fc565247301f6d8f99b8": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Minimum percentile of 40 in both reading and math on NWEA MAP, minimum 2.8 GPA in 7th grade, and minimum attendance percentage of 92."
+    }, 
+    "5c5a7b3a722308af950d56ae8aa2eaad": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Contact the Office of Diverse Learner Supports and Services for more information. (773) 553-1800 www.cpsdiverselearner.org"
+    }, 
+    "abfbe30160c0ed3a6d925da2f6fbe7d6": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students who live within the school's attendance boundary have no eligibility/audition requirements and can be admitted automatically.  Students who live outside of the school's attendance boundary are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade GPA, and the audition."
+    }, 
+    "889af44e3306313029109d465b1c2de6": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum GPA of 2.5 in 7th grade and minimum attendance percentage of 85."
+    }, 
+    "0514de51e21823dae4f43b085538f9e6": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95."
+    }, 
+    "8a0c487746fe132f3f1925a84c56e9ee": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eliglble applicants."
+    }, 
+    "d7e3e54b06028c21a40cf58127e2aef4": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 3.0 GPA in 7th grade. Eligible students must submit teacher recommendations and an essay. See www.vonsteuben.org for submission details (click 'Apply' and 'Scholars Program'). Applicants who are not eligible will automatically be included in the computerized lottery selection process for the Von Steuben Science Program."
+    }, 
+    "7cc8a6e9cd27c6a9e8d43b323a961475": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Applicants must be girls currently enrolled in eighth grade."
+    }, 
+    "ae1af40b734a31b447b1ed50f6e4bc17": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Minimum combined percentile of 48 in reading and math on NWEA MAP. Attendance at an Information Session is required for eligible applicants."
+    }, 
+    "4cb40791c7d1594026d59845a2e5e5af": {
+        "name": "", 
+        "fn": "", 
+        "desc": "An admissions test is required. Students applying to grades K-4 do not have minimum eligibility requirements in order to be tested. Students applying to grade 5 must meet the following minimum eligibility requirements:  General Education/504 Plan Students: Minimum percentile of 60 in both reading and math on the NWEA MAP.  IEP Students: Minimum percentile of 50 in one subject (reading or math), and minimum percentile of 40 in the other subject on the NWEA MAP."
+    }, 
+    "3c0f47771fc40565978a3a894bd96705": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Minimum percentile of 50 in both reading and math on NWEA MAP, and minimum 2.0 GPA in 7th grade."
+    }, 
+    "f5ef0c0580eb110a06888b1c15313717": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 2.75 GPA in 7th grade. An audition is required for all eligible applicants."
+    }, 
+    "a6071a83f74612d54c3f659f9cb8a79c": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education/504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants."
+    }, 
+    "7e054e33cdc685f9b099a243e45f0386": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Minimum 2.5 GPA in 7th grade."
+    }, 
+    "29034b3dd211fc6857c0762ea4431354": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores and the interview."
+    }, 
+    "3e4ad403b3a6a2e998cd7d7b7d179091": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students who live within the school's attendance boundary have no eligibilty requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general."
+    }, 
+    "9f4eb5cee59306847a4fa61720f8e54d": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade GPA, and the audition."
+    }, 
+    "d41d8cd98f00b204e9800998ecf8427e": {
+        "name": "", 
+        "fn": "", 
+        "desc": ""
+    }, 
+    "0fedde2a8081243a74d2c6a3be90b411": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections."
+    }, 
+    "736b7d124b6930cf8ae642563037eeb9": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Attendance at an Information Session is not required, but preference is given to students who attend an Information Session."
+    }, 
+    "218f3d334a0ceaa37bb7ce57bec10e96": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, students enrolled in AUSL schools, general."
+    }, 
+    "70b7c4a5e527fb50d69ea37b000765d8": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Minimum percentile of 70 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 93."
+    }, 
+    "39fbe111b62498337fb2f7973a18e570": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 85.  IEP and EL students: Minimum combined percentile of 40 in reading and math on NWEA MAP and minimum attendance percentage of 85."
+    }, 
+    "94f10272b6ff9ee947b6c7f8e9adc98c": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Minimum percentile of 24 in both reading and math on NWEA MAP. An interview is required for applicants."
+    }, 
+    "7ef878b115498c24fd96f8891c346480": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 85.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, and minimum attendance percentage of 85."
+    }, 
+    "8e60c325cf7da2ae7aa09dc4e543590e": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are selected based on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school selects the minimum cutoff score for selections."
+    }, 
+    "1a043655763ab140a0d14f5080d63a2c": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants."
+    }, 
+    "e789f7a2cd51648a321089d66735d656": {
+        "name": "", 
+        "fn": "", 
+        "desc": "An admissions test is required. Students applying to grades 1-4 do not have minimum eligibility requirements in order to be tested. Students applying to grades 5-8 must meet the following minimum eligibility requirements:  General Education/504 Plan Students: Minimum percentile of 60 in both reading and math on the NWEA MAP.  IEP Students: Minimum percentile of 50 in one subject (reading or math), and minimum percentile of 40 in the other subject on the NWEA MAP."
+    }, 
+    "8605454896638a4de5feec75ed536489": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, Peirce Elementary School."
+    }, 
+    "47befdd406dee45058f2dbd64a097154": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are selected on a point system. Points are based on the combined NWEA MAP scores and the interview."
+    }, 
+    "1558a52d4663a54c6a5f06fa10062961": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside the school's attendance boundary are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and 7th grade GPA."
+    }, 
+    "bb9e0e6f1af678dafb340a8e48ff4fbf": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Minimum percentile of 50 in both reading and math on NWEA MAP and minimum 3.0 GPA in 7th grade."
+    }, 
+    "c36c294e63476a7959123bfe85a2c639": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general."
+    }, 
+    "4cb799c1cf8b41a3baf1e8d9176463d8": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP."
+    }, 
+    "9653c4a2af98c756aaeeaa36980f9dc5": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 24 in reading and math on NWEA MAP, and minimum attendance percentage of 90."
+    }, 
+    "78e3973b67c80b7984271b2a127e9ebf": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum 2.5 GPA in 7th grade and minimum attendance percentage of 85."
+    }, 
+    "1976701fe4ffdbf53913f7f638f61b26": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are randomly selected by computerized lottery. Preference is given to students with a sibling who is currently enrolled and will be enrolled in the upcoming school year."
+    }, 
+    "224ce8807abceb6ca72e650988637629": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for prior year final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points."
+    }, 
+    "b818fe3a332c5875caf9cef35c924a25": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students who live within the school's attendance boundary can be enrolled automatically and do not have to apply. Contact the school for registration instructions.  Students who live outside of the school's attendance boundary must submit a Standard Elementary Schools application between October and December. Available seats, if any, are filled via computerized lottery. Priority is given to applicants with a sibling who is currently enrolled in the school in grade K-7, and who will remain enrolled in the school for the coming school year."
+    }, 
+    "f1db9d2a50dce8fe832652cc7df6506a": {
+        "name": "", 
+        "fn": "", 
+        "desc": "An admissions test is required. Students applying to grades 7-8 must meet the following minimum eligibility requirements:  General Education/504 Plan Students: Minimum percentile of 60 in both reading and math on the NWEA MAP.  IEP Students: Minimum percentile of 50 in one subject (reading or math), and minimum percentile of 40 in the other subject on the NWEA MAP."
+    }, 
+    "cb76bc6620a1921e5f9630e2a39fb8d8": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade final (cumulative) grades, and the portfolio review."
+    }, 
+    "930c01733b718c40bc1f2af23839e14a": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants."
+    }, 
+    "13139e106583de2042ca173cf04ec272": {
+        "name": "", 
+        "fn": "", 
+        "desc": "An admissions test is required. Students applying to grades K-4 do not have minimum eligibility requirements in order to be tested. Students applying to grades 5-8 must have no lower than a 'B' on their finall reading and math grades from the previous school year in order to be tested."
+    }, 
+    "500cba9f742c1244ddaa1c37070299f1": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the audition."
+    }, 
+    "cbc3d549cb9e0240f077ac3c87b0f671": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery.\u00a0The lottery is conducted in the following order: sibling, general."
+    }, 
+    "f661cdb969617a4f2a3923f5c80c190c": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum percentile of 50 in both reading and math on NWEA MAP, minimum 2.7 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 50 in reading and math on NWEA MAP.  An Interview is required for all eligible applicants."
+    }, 
+    "0a7d20d2cdbb736d46e6c7a37e5b7764": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are selected on a point system. Points are based on the teacher recommendations and the essay."
+    }, 
+    "1d126a086436d78661af2cb249938c72": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum attendance percentage of 92."
+    }, 
+    "351d1f100c07b40673b51f4506b0e34e": {
+        "name": "", 
+        "fn": "", 
+        "desc": "None. All interested students, including students who live within the overlay boundary of the school, must submit apply."
+    }, 
+    "3d86881707e468c9fe2a0ce0f5eeac4f": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the interview."
+    }, 
+    "0640ddea233c6c9c97db5dd816b5c24a": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, students currently enrolled in a CPS elementary school with a world language or dual language program, general."
+    }, 
+    "7ca8e42afc3b2240bdc21e9b02a9b6ff": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 2.75 GPA in 7th grade. An audition is required for students who live outside of the school's attendance boundary."
+    }, 
+    "a59652b1328b73b5acb08979a32a9db8": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum attendance percentage of 92.  An audition is required for all eligible applicants."
+    }, 
+    "b89ee63f6f32c43ca9707a85d8dc98e7": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum attendance percentage of 92.   A portfolio review is required for all eligible applicants."
+    }, 
+    "8f880cad92a9a0dc49dd8d6ba4209b14": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students with a 7th grade final GPA of 2.5 or higher, general."
+    }, 
+    "2434179e9c2fb95777cc4e0c6c998de1": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum attendance percentage of 95."
+    }, 
+    "3f45862ca2003745fc3f4e12492abdfa": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  A portfolio review is required for all eligible applicants."
+    }, 
+    "9b26cbed99b12a4c7cfca5a4713c6e17": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in the Kenwood Academic Center, general."
+    }, 
+    "3086b8e507b2f64e53b85b8ad808e66d": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Minimum 2.0 GPA in 7th grade and minimum attendance percentage of 85."
+    }, 
+    "d1a202074d3e08c97ec301176ca18880": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery.\u00a0The lottery is conducted in the following order: students scoring above designated NWEA MAP percentile, sibling, general."
+    }, 
+    "87bdb6caf5cf899ddb8041511761e58b": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general."
+    }, 
+    "f6b1cadaa52f894d87ad4246bd4c9b0a": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, general."
+    }, 
+    "318bf6b2963c0fca4ec9a69505034352": {
+        "name": "", 
+        "fn": "", 
+        "desc": "An admissions test is required. Students applying to grades K-4 do not have minimum eligibility requirements in order to be tested. Students applying to grades 5-6 must meet the following minimum eligibility requirements:  General Education/504 Plan Students: Minimum percentile of 60 in both reading and math on the NWEA MAP.  IEP Students: Minimum percentile of 50 in one subject (reading or math), and minimum percentile of 40 in the other subject on the NWEA MAP."
+    }, 
+    "03c4df08f6e417f196f6e87415e2064f": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are selected on a point system. Points are based on NWEA MAP scores, 7th grade GPA, and the interview."
+    }, 
+    "9a6d8103474c5e8b4988360767a186de": {
+        "name": "", 
+        "fn": "", 
+        "desc": "During the Information Session, students will sign a Commitment Agreement, complete a Motivation and Perseverance Assessment and write a brief essay. Selections are based on a point system with a maximum of 500 points, derived from 7th grade final (cumulative) grades (100 points), 7th grade NWEA MAP scores (150 points), the two-part assessment (50 for each part), and the essay (100 points)."
+    }, 
+    "03010a12030cab563c3f5d9115e7aabe": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum percentile of 45 in both reading and math on NWEA MAP and minimum 2.0 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 90 in reading and math on NWEA MAP, and minimum 2.0 GPA in 7th grade."
+    }, 
+    "bd680e7bc10c03552140e26736221cf7": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for 7th grade final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points."
+    }, 
+    "6fddb8b397a12770dbed5afff360213b": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Minimum percentile of 75 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95."
+    }, 
+    "3d1c7a20cb38789ce4b0f651200dd9cd": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Minimum percentile of 75 in both reading and math on NWEA MAP, minimum 3.5 GPA in 7th grade, and minimum attendance percentage of 95."
+    }, 
+    "94798381edc76846cfb1ec3503fd61b0": {
+        "name": "", 
+        "fn": "", 
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Essay"
+    }, 
+    "01bb8009b315ff8fc0120dbadf71444c": {
+        "name": "", 
+        "fn": "", 
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading on math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90."
+    }
+}
