@@ -9,5 +9,7 @@ export default interface StudentInfo {
   gradeLevel: number 
   ell: boolean
   iep: boolean
+  attendancePercentage: number
+  gpa: number
   scores: StudentScores
 }
