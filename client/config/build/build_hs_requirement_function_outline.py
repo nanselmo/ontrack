@@ -23,6 +23,12 @@ def build_hs_requirement_function_outline(hs_programs_json_path, **kwargs):
         hashed.update(desc.encode("utf-8"))
         return hashed.hexdigest()
 
+    def get_program_name(hs_program):
+        shortname = hs_program["Short_Name"]
+        program_type = hs_program["Program_Type"]
+        return "{} - {}".format(shortname, program_type)
+
+
     with open(hs_programs_json_path, "r") as hs_programs_file:
         hs_programs = json.load(hs_programs_file)
         for program in hs_programs:
@@ -35,20 +41,27 @@ def build_hs_requirement_function_outline(hs_programs_json_path, **kwargs):
             selection_req_desc_hash = get_hash(selection_req_description)
 
             app_req_in_output = app_req_desc_hash in output_dict_req_fn_defs
-            selection_req_in_output = app_req_desc_hash in output_dict_req_fn_defs
+            selection_req_in_output = selection_req_desc_hash in output_dict_req_fn_defs
 
             if not app_req_in_output:
                 output_dict_req_fn_defs[app_req_desc_hash] = {
                         "name": "",
                         "desc": application_req_description,
+                        "programs": [get_program_name(program) + " - Application"],
                         "fn": ""
                         }
+            else: 
+                output_dict_req_fn_defs[app_req_desc_hash]["programs"].append(get_program_name(program) + " - Application")
+
             if not selection_req_in_output:
                 output_dict_req_fn_defs[selection_req_desc_hash] = {
                         "name": "",
                         "desc": selection_req_description,
+                        "programs": [get_program_name(program) + " - Selection"],
                         "fn": ""
                         }
+            else: 
+                output_dict_req_fn_defs[selection_req_desc_hash]["programs"].append(get_program_name(program) + " - Selection")
 
             # add new record to output_dict_hs_config_data with
             #   Application_Requirements_Fn and Program_Selections_Fn fields
