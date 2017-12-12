@@ -25,7 +25,7 @@ interface SchoolData {
         "Location": string
 }
 
-enum SuccessChance {
+enum ReqFnOutcome {
   CERTAIN
   LIKELY
   UNCERTAIN
@@ -44,7 +44,7 @@ interface ReqFnExplanation {
   }
 }
 
-type RequirementFunction = (StudentData, SchoolData) => ReqFnOutcome, ReqFnExplanation?;
+type RequirementFunction = (StudentData, SchoolData) => {outcome:ReqFnOutcome, explanation?:ReqFnExplanation};
 
 interface ReqFnTable {
   [hashId: string]: {
@@ -56,7 +56,6 @@ interface ReqFnTable {
 
 const RequirementFunctions: ReqFnTable = {
     "6adf97f83acf6453d4a6a4b1070f3754": {
-        "name": "",
         "desc": "None",
         "programs": [
             "NOBLE - JOHNSON HS - General Education - Application",
@@ -241,12 +240,11 @@ const RequirementFunctions: ReqFnTable = {
             "MARSHALL HS - Agricultural Sciences - Application",
             "MARSHALL HS - Culinary Arts - Application"
         ],
-        "fn": function noReq(studentData, schoolData) => {
-            return ReqFnOutcomes.CERTAIN_SUCCESS;
+        "fn": function noReq(studentData, schoolData) {
+          return {outcome: ReqFnOutcome.CERTAIN}
         }
     },
     "f1a0a3737e921ccaf4617c5eafab5f53": {
-        "name": "",
         "desc": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
         "programs": [
             "NOBLE - JOHNSON HS - General Education - Selection",
@@ -283,22 +281,20 @@ const RequirementFunctions: ReqFnTable = {
             "NOBLE - ACADEMY HS - General Education - Selection"
         ],
         "fn": function random(studentData, schoolData){
-            return Likelihood.UNCERTAIN;
+          return {outcome: ReqFnOutcome.CERTAIN}
         }
     },
     "ea7a8ea4de4f5cdcc8bc6e7aab6a7962": {
-        "name": "",
         "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled at Foundations College Prep, sibling, general.",
         "programs": [
             "FOUNDATIONS - General Education - Selection"
         ],
         "fn": (studentData, schoolData) => {
             // TODO: how to figure out if student in school attendance bound?
-            return NOTIMPLEMENTED;
+          return {outcome: ReqFnOutcome.CERTAIN} 
         }
     },
     "783216956d119ad64639725fa9f4d44b": {
-        "name": "",
         "desc": "Students who live within the school's attendance boundary can be admitted automatically. This program only accepts students who live within the school's attendance boundary.",
         "programs": [
             "FARRAGUT HS - General Education - Selection",
@@ -313,33 +309,30 @@ const RequirementFunctions: ReqFnTable = {
         ],
         "fn": (studentData, schoolData) => {
             // TODO: how to figure out if student in school attendance bound?
-            return NOTIMPLEMENTED;
+          return {outcome: ReqFnOutcome.NOTIMPLEMENTED}
         }
     },
     "240970c398eb1cf1d65952b71e811d58": {
-        "name": "",
         "desc": "If the school receives more applications than there are seats available, students are randomly selected through a computerized lottery.  Priority is given to students currently enrolled in the school and to siblings of students enrolled in the campus.",
         "programs": [
             "CHICAGO VIRTUAL - Charter - Selection"
         ],
         "fn": (studentData, schoolData) => {
             // TODO: how to figure out if student in school attendance bound?
-            return NOTIMPLEMENTED;
+          return {outcome: ReqFnOutcome.NOTIMPLEMENTED}
         }
     },
     "01a561f658ea66df980a6e77eae83235": {
-        "name": "",
         "desc": "If the school receives more applications than there are seats available, students are randomly selected through a computerized lottery.  Priority is given to students currently enrolled in the school who wish to continue and to siblings of students enrolled in the campus.",
         "programs": [
             "CICS - LONGWOOD - Charter - Selection"
         ],
         "fn": (studentData, schoolData) => {
             // TODO: how to figure out if student in school attendance bound?
-            return NOTIMPLEMENTED;
+          return {outcome: ReqFnOutcome.NOTIMPLEMENTED}
         }
     },
     "8c431d51587c33009ee9b67a566c042e": {
-        "name": "",
         "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
         "programs": [
             "AUSTIN CCA HS - General Education - Selection",
@@ -361,21 +354,26 @@ const RequirementFunctions: ReqFnTable = {
         ],
         "fn": (studentData, schoolData) => {
             // TODO: how to figure out if student in school attendance bound?
-            return NOTIMPLEMENTED;
+          return {outcome: ReqFnOutcome.NOTIMPLEMENTED}
         }
     },
     "6fddb8b397a12770dbed5afff360213b": {
-        "name": "",
         "desc": "Minimum percentile of 75 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.",
         "programs": [
             "SOLORIO HS - Double Honors/Scholars - Application"
         ],
         "fn": (studentData) => {
-            return studentData.scores.nweaPercentileMath >= 75 && studentData.scores.nweaPercentileRead >= 75 && studentData.attendancePercentage >= 95;
+          if (studentData.scores.nweaPercentileMath >= 75 &&
+                      studentData.scores.nweaPercentileRead >= 75 &&
+                      studentData.attendancePercentage >= 95) {
+            return {outcome: ReqFnOutcome.CERTAIN}
+          } else {
+            // FIXME: return progress thing
+            return {outcome: ReqFnOutcome.NONE}
+          }
         }
     },
     "218f3d334a0ceaa37bb7ce57bec10e96": {
-        "name": "",
         "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, students enrolled in AUSL schools, general.",
         "programs": [
             "SOLORIO HS - Double Honors/Scholars - Selection",
@@ -384,22 +382,25 @@ const RequirementFunctions: ReqFnTable = {
         ],
         "fn": (studentData, schoolData) => {
             // TODO: how to figure out if student in school attendance bound?
-            return NOTIMPLEMENTED;
+          return {outcome: ReqFnOutcome.NOTIMPLEMENTED}
         }
     },
     "3086b8e507b2f64e53b85b8ad808e66d": {
-        "name": "",
         "desc": "Minimum 2.0 GPA in 7th grade and minimum attendance percentage of 85.",
         "programs": [
             "FARRAGUT HS - JROTC - Application",
             "SCHURZ HS - AVID - Application"
         ],
         "fn": (studentData, schoolData) => {
-            return studentData.gpa >= 2.0 && studentData.attendancePercentage >= 85
+          if (studentData.gpa >= 2.0 && studentData.attendancePercentage >= 85) {
+            return {outcome: ReqFnOutcome.CERTAIN}
+          } else {
+            // FIXME: return progress/ explanation
+            return {outcome: ReqFnOutcome.NONE}
+          }
         }
     },
     "d3ddea21fb0e360b470bf095ce6bdfef": {
-        "name": "",
         "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: proximity, general.",
         "programs": [
             "FARRAGUT HS - JROTC - Selection",
@@ -410,11 +411,10 @@ const RequirementFunctions: ReqFnTable = {
         ],
         "fn": (studentData, schoolData) => {
             // TODO: how to figure out if student in school attendance bound?
-            return NOTIMPLEMENTED;
+          return {outcome: ReqFnOutcome.NOTIMPLEMENTED}
         }
     },
     "618315c228cf8e591d1909fc8ca41206": {
-        "name": "",
         "desc": "Students are selected on a point system. Points are based on 7th grade final GPA and NWEA MAP scores. The school determines the minimum cutoff score for selections.",
         "programs": [
             "WELLS HS - Pre-Law - Selection",
