@@ -1,4 +1,4 @@
-import StudentData from "../src/shared/types/student-data";
+import StudentData from "../../src/shared/types/student-data";
 
 interface SchoolData {
         "School_ID": string
@@ -7,8 +7,6 @@ interface SchoolData {
         "School_Type": string
         "Primary_Category": string
         "Address": string
-        "City": string
-        "State": string
         "Zip": string
         "Phone": string
         "Fax": string
@@ -34,20 +32,25 @@ enum SuccessChance {
   NOTIMPLEMENTED
 }
 
-// fixme: this isn't very good
-// TODO: need to think of a way to get a summary of what student needs to
-//  bring up or increase to get in. That's a design problem, too. Needs thinking.
-interface ReqFnExplanation {
-  [studentDataField:string]: {
-    has: string | number
-    needs: string | number
-  }
+// optional response that RequirementFunctions can give for schools
+// which have a scoring element to passing requirement -- can be used
+// to give feedback re how close student is to having a chance at succeeding (uncertain)
+// being likely to succeed (likely) and being almost certain to succeed (certain)
+interface Progress {
+  max: number
+  min: number
+  value: number
+  threshold_certain?: number
+  threshold_likely?: number
+  threshold_uncertain?: number
 }
 
-type RequirementFunction = (StudentData, SchoolData) => ReqFnOutcome, ReqFnExplanation?;
+type RequirementFunction (studentData: StudentData, schoolData: SchoolData) => {successChance: SuccessChance, 
+                                                                                progress?: Progress};
 
 interface ReqFnTable {
   [hashId: string]: {
+    name?: string
     desc: string
     programs: string[]
     fn: RequirementFunction
@@ -241,12 +244,11 @@ const RequirementFunctions: ReqFnTable = {
             "MARSHALL HS - Agricultural Sciences - Application",
             "MARSHALL HS - Culinary Arts - Application"
         ],
-        "fn": function noReq(studentData, schoolData) => {
+        "fn": function noReq(studentData, schoolData) {
             return ReqFnOutcomes.CERTAIN_SUCCESS;
         }
     },
     "f1a0a3737e921ccaf4617c5eafab5f53": {
-        "name": "",
         "desc": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
         "programs": [
             "NOBLE - JOHNSON HS - General Education - Selection",
