@@ -12,4 +12,6 @@ export default interface StudentInfo {
   attendancePercentage: number
   gpa: number
   scores: StudentScores
+  latitude: string
+  longitude: string
 }

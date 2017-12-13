@@ -45,7 +45,7 @@ interface Progress {
   threshold_uncertain?: number
 }
 
-type RequirementFunction (studentData: StudentData, schoolData: SchoolData) => {successChance: SuccessChance, 
+type RequirementFunction = (studentData: StudentData, schoolData: SchoolData) => {successChance: SuccessChance, 
                                                                               progress?: Progress};
 
 interface ReqFnTable {
@@ -56,6 +56,40 @@ interface ReqFnTable {
     fn: RequirementFunction
   }
 }
+
+const inAttendanceBound = (studentData: StudentData, schoolData, SchoolData): boolean => {
+  // TODO: this is a little bit of a stopgap considering that it accepts all students
+  // within a certain radius of the school. Need to consider a better alternative -- one
+  // that also doesn't introduce performance problems? Hard problemo my friendo.
+  const ATTEND_RADIUS_MI = 2.5 // approximate distance from school that attend bound covers, in miles
+
+  const tryParseFloat = (str: string): number => {
+    const num = parseFloat(str);
+    if (isNaN(num)){
+      throw new Error(`inAttendanceBound: Cannot parse '${str}' as float`);
+    }
+    return num;
+  };
+
+  const studentLat = tryParseFloat(studentData.latitude);
+  const studentLong = tryParseFloat(studentData.longitude);
+  const schoolLat = tryParseFloat(schoolData.latitude);
+  const schoolLong = tryParseFloat(schoolData.longitude);
+
+  // calculate approximate distance between student latlong and school latlong
+  const studentLatRad = Math.PI * studentLat / 180;
+  const schoolLatRad = Math.PI * schoolLat / 180;
+  const theta = studentLong - schoolLong;
+  const thetaRad = Math.PI * theta / 180;
+  let dist = Math.sin(studentLatRad) * Math.sin(schoolLatRad) * Math.cos(studentLatRad) * Math.cos(schoolLatRad) * Math.cos(thetaRad);
+  dist = Math.acos(dist);
+  dist = dist * 180 / Math.PI;
+  // convert to miles
+  dist = dist * 60 * 1.1515;
+
+  const isInBound = dist < ATTEND_RADIUS_MI;
+  return isInBound; 
+};
 
 const RequirementFunctions: ReqFnTable = {
     "6adf97f83acf6453d4a6a4b1070f3754": {
@@ -244,7 +278,7 @@ const RequirementFunctions: ReqFnTable = {
             "MARSHALL HS - Culinary Arts - Application"
         ],
         "fn": function noReq(studentData, schoolData) {
-          return {outcome: ReqFnOutcome.CERTAIN}
+          return {outcome: SuccessChance.CERTAIN}
         }
     },
     "f1a0a3737e921ccaf4617c5eafab5f53": {
@@ -284,7 +318,7 @@ const RequirementFunctions: ReqFnTable = {
             "NOBLE - ACADEMY HS - General Education - Selection"
         ],
         "fn": function random(studentData, schoolData){
-          return {outcome: ReqFnOutcome.CERTAIN}
+          return {outcome: SuccessChance.CERTAIN}
         }
     },
     "ea7a8ea4de4f5cdcc8bc6e7aab6a7962": {
@@ -294,7 +328,7 @@ const RequirementFunctions: ReqFnTable = {
         ],
         "fn": (studentData, schoolData) => {
             // TODO: how to figure out if student in school attendance bound?
-          return {outcome: ReqFnOutcome.CERTAIN} 
+          return {outcome: SuccessChance.CERTAIN} 
         }
     },
     "783216956d119ad64639725fa9f4d44b": {
@@ -312,7 +346,7 @@ const RequirementFunctions: ReqFnTable = {
         ],
         "fn": (studentData, schoolData) => {
             // TODO: how to figure out if student in school attendance bound?
-          return {outcome: ReqFnOutcome.NOTIMPLEMENTED}
+          return {outcome: SuccessChance.NOTIMPLEMENTED}
         }
     },
     "240970c398eb1cf1d65952b71e811d58": {
@@ -322,7 +356,7 @@ const RequirementFunctions: ReqFnTable = {
         ],
         "fn": (studentData, schoolData) => {
             // TODO: how to figure out if student in school attendance bound?
-          return {outcome: ReqFnOutcome.NOTIMPLEMENTED}
+          return {outcome: SuccessChance.NOTIMPLEMENTED}
         }
     },
     "01a561f658ea66df980a6e77eae83235": {
@@ -332,7 +366,7 @@ const RequirementFunctions: ReqFnTable = {
         ],
         "fn": (studentData, schoolData) => {
             // TODO: how to figure out if student in school attendance bound?
-          return {outcome: ReqFnOutcome.NOTIMPLEMENTED}
+          return {outcome: SuccessChance.NOTIMPLEMENTED}
         }
     },
     "8c431d51587c33009ee9b67a566c042e": {
@@ -357,7 +391,7 @@ const RequirementFunctions: ReqFnTable = {
         ],
         "fn": (studentData, schoolData) => {
             // TODO: how to figure out if student in school attendance bound?
-          return {outcome: ReqFnOutcome.NOTIMPLEMENTED}
+          return {outcome: SuccessChance.NOTIMPLEMENTED}
         }
     },
     "6fddb8b397a12770dbed5afff360213b": {
@@ -369,10 +403,10 @@ const RequirementFunctions: ReqFnTable = {
           if (studentData.scores.nweaPercentileMath >= 75 &&
                       studentData.scores.nweaPercentileRead >= 75 &&
                       studentData.attendancePercentage >= 95) {
-            return {outcome: ReqFnOutcome.CERTAIN}
+            return {outcome: SuccessChance.CERTAIN}
           } else {
             // FIXME: return progress thing
-            return {outcome: ReqFnOutcome.NONE}
+            return {outcome: SuccessChance.NONE}
           }
         }
     },
@@ -385,7 +419,7 @@ const RequirementFunctions: ReqFnTable = {
         ],
         "fn": (studentData, schoolData) => {
             // TODO: how to figure out if student in school attendance bound?
-          return {outcome: ReqFnOutcome.NOTIMPLEMENTED}
+          return {outcome: SuccessChance.NOTIMPLEMENTED}
         }
     },
     "3086b8e507b2f64e53b85b8ad808e66d": {
@@ -396,10 +430,10 @@ const RequirementFunctions: ReqFnTable = {
         ],
         "fn": (studentData, schoolData) => {
           if (studentData.gpa >= 2.0 && studentData.attendancePercentage >= 85) {
-            return {outcome: ReqFnOutcome.CERTAIN}
+            return {outcome: SuccessChance.CERTAIN}
           } else {
             // FIXME: return progress/ explanation
-            return {outcome: ReqFnOutcome.NONE}
+            return {outcome: SuccessChance.NONE}
           }
         }
     },
@@ -414,7 +448,7 @@ const RequirementFunctions: ReqFnTable = {
         ],
         "fn": (studentData, schoolData) => {
             // TODO: how to figure out if student in school attendance bound?
-          return {outcome: ReqFnOutcome.NOTIMPLEMENTED}
+          return {outcome: SuccessChance.NOTIMPLEMENTED}
         }
     },
     "618315c228cf8e591d1909fc8ca41206": {
