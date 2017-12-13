@@ -37,13 +37,30 @@ enum SuccessChance {
 // to give feedback re how close student is to having a chance at succeeding (uncertain)
 // being likely to succeed (likely) and being almost certain to succeed (certain)
 interface Progress {
-  max: number
-  min: number
   value: number
   threshold_certain?: number
   threshold_likely?: number
   threshold_uncertain?: number
 }
+
+const getPointsFromCutoff = (score: number, cutoff: number): number => {
+  const diff = cutoff - score;
+  if (diff <= 0) {
+    return 0;
+  } else {
+    return diff;
+  }
+};
+
+const average = (...nums: number[]): number => {
+  const count = nums.length;
+  const sum = nums.reduce( (a,b) => a + b);
+  return sum / count;
+};
+
+const norm = (value: number, max: number, min: number) => {
+  return ((value - min) / (max - min)) * 100;
+};
 
 type RequirementFunction = (studentData: StudentData, schoolData: SchoolData) => {successChance: SuccessChance, 
                                                                               progress?: Progress};
@@ -57,7 +74,7 @@ interface ReqFnTable {
   }
 }
 
-const inAttendanceBound = (studentData: StudentData, schoolData, SchoolData): boolean => {
+const inAttendanceBound = (studentData: StudentData, schoolData: SchoolData): boolean => {
   // TODO: this is a little bit of a stopgap considering that it accepts all students
   // within a certain radius of the school. Need to consider a better alternative -- one
   // that also doesn't introduce performance problems? Hard problemo my friendo.
@@ -73,8 +90,8 @@ const inAttendanceBound = (studentData: StudentData, schoolData, SchoolData): bo
 
   const studentLat = tryParseFloat(studentData.latitude);
   const studentLong = tryParseFloat(studentData.longitude);
-  const schoolLat = tryParseFloat(schoolData.latitude);
-  const schoolLong = tryParseFloat(schoolData.longitude);
+  const schoolLat = tryParseFloat(schoolData.School_Latitude);
+  const schoolLong = tryParseFloat(schoolData.School_Longitude);
 
   // calculate approximate distance between student latlong and school latlong
   const studentLatRad = Math.PI * studentLat / 180;
@@ -318,7 +335,7 @@ const RequirementFunctions: ReqFnTable = {
             "NOBLE - ACADEMY HS - General Education - Selection"
         ],
         "fn": function random(studentData, schoolData){
-          return {outcome: SuccessChance.CERTAIN}
+          return {outcome: SuccessChance.UNCERTAIN}
         }
     },
     "ea7a8ea4de4f5cdcc8bc6e7aab6a7962": {
@@ -327,8 +344,7 @@ const RequirementFunctions: ReqFnTable = {
             "FOUNDATIONS - General Education - Selection"
         ],
         "fn": (studentData, schoolData) => {
-            // TODO: how to figure out if student in school attendance bound?
-          return {outcome: SuccessChance.CERTAIN} 
+          return {outcome: SuccessChance.UNCERTAIN} 
         }
     },
     "783216956d119ad64639725fa9f4d44b": {
@@ -345,8 +361,11 @@ const RequirementFunctions: ReqFnTable = {
             "SENN HS - General Education - Selection"
         ],
         "fn": (studentData, schoolData) => {
-            // TODO: how to figure out if student in school attendance bound?
-          return {outcome: SuccessChance.NOTIMPLEMENTED}
+          if (inAttendanceBound(studentData, schoolData)) {
+            return {outcome: SuccessChance.CERTAIN}
+          } else {
+            return {outcome: SuccessChance.NONE}
+          }
         }
     },
     "240970c398eb1cf1d65952b71e811d58": {
@@ -355,8 +374,7 @@ const RequirementFunctions: ReqFnTable = {
             "CHICAGO VIRTUAL - Charter - Selection"
         ],
         "fn": (studentData, schoolData) => {
-            // TODO: how to figure out if student in school attendance bound?
-          return {outcome: SuccessChance.NOTIMPLEMENTED}
+          return {outcome: SuccessChance.UNCERTAIN}
         }
     },
     "01a561f658ea66df980a6e77eae83235": {
@@ -365,8 +383,7 @@ const RequirementFunctions: ReqFnTable = {
             "CICS - LONGWOOD - Charter - Selection"
         ],
         "fn": (studentData, schoolData) => {
-            // TODO: how to figure out if student in school attendance bound?
-          return {outcome: SuccessChance.NOTIMPLEMENTED}
+          return {outcome: SuccessChance.UNCERTAIN}
         }
     },
     "8c431d51587c33009ee9b67a566c042e": {
@@ -390,8 +407,7 @@ const RequirementFunctions: ReqFnTable = {
             "MARSHALL HS - General Education - Selection"
         ],
         "fn": (studentData, schoolData) => {
-            // TODO: how to figure out if student in school attendance bound?
-          return {outcome: SuccessChance.NOTIMPLEMENTED}
+          return {outcome: SuccessChance.UNCERTAIN}
         }
     },
     "6fddb8b397a12770dbed5afff360213b": {
@@ -399,14 +415,30 @@ const RequirementFunctions: ReqFnTable = {
         "programs": [
             "SOLORIO HS - Double Honors/Scholars - Application"
         ],
-        "fn": (studentData) => {
-          if (studentData.scores.nweaPercentileMath >= 75 &&
-                      studentData.scores.nweaPercentileRead >= 75 &&
-                      studentData.attendancePercentage >= 95) {
-            return {outcome: SuccessChance.CERTAIN}
+        "fn": (studentData, schoolData) => {
+          const NWEA_MATH_CUTOFF = 75;
+          const NWEA_READ_CUTOFF = 75;
+          const ATTEND_CUTOFF = 95;
+
+          const progress = {
+            min: 1,
+            max: 99,
+            threshold_certain: 99,
+            // value is the threshold minus the  average distance from the 
+            // cutoff scores for nwea scores and attend percentile
+            value: 99 - average(
+              getPointsFromCutoff(studentData.scores.nweaPercentileMath, NWEA_MATH_CUTOFF),
+              getPointsFromCutoff(studentData.scores.nweaPercentileRead, NWEA_READ_CUTOFF),
+              getPointsFromCutoff(studentData.attendancePercentage, ATTEND_CUTOFF)
+            ),
+          };
+
+          if (studentData.scores.nweaPercentileMath >= NWEA_MATH_CUTOFF &&
+                      studentData.scores.nweaPercentileRead >= NWEA_READ_CUTOFF &&
+                      studentData.attendancePercentage >= ATTEND_CUTOFF) {
+            return {outcome: SuccessChance.CERTAIN, progress: progress}
           } else {
-            // FIXME: return progress thing
-            return {outcome: SuccessChance.NONE}
+            return {outcome: SuccessChance.NONE, progress: progress}
           }
         }
     },
@@ -418,8 +450,11 @@ const RequirementFunctions: ReqFnTable = {
             "CHICAGO ACADEMY HS - General Education - Selection"
         ],
         "fn": (studentData, schoolData) => {
-            // TODO: how to figure out if student in school attendance bound?
-          return {outcome: SuccessChance.NOTIMPLEMENTED}
+          if (inAttendanceBound(studentData, schoolData)) {
+            return {outcome: SuccessChance.LIKELY};
+          } else {
+            return {outcome: SuccessChance.UNCERTAIN};
+          }
         }
     },
     "3086b8e507b2f64e53b85b8ad808e66d": {
@@ -429,11 +464,20 @@ const RequirementFunctions: ReqFnTable = {
             "SCHURZ HS - AVID - Application"
         ],
         "fn": (studentData, schoolData) => {
-          if (studentData.gpa >= 2.0 && studentData.attendancePercentage >= 85) {
-            return {outcome: SuccessChance.CERTAIN}
+          const GPA_CUTOFF = 2.0;
+          const ATTEND_CUTOFF = 85;
+
+          const progress = {
+            value: average(
+              norm(getPointsFromCutoff(studentData.gpa, GPA_CUTOFF), 4.0, 0.0),
+              getPointsFromCutoff(studentData.attendancePercentage, ATTEND_CUTOFF)
+            )
+          };
+
+          if (studentData.gpa >= GPA_CUTOFF && studentData.attendancePercentage >= ATTEND_CUTOFF) {
+            return {outcome: SuccessChance.CERTAIN, progress: progress}
           } else {
-            // FIXME: return progress/ explanation
-            return {outcome: SuccessChance.NONE}
+            return {outcome: SuccessChance.NONE, progress: progress}
           }
         }
     },
@@ -447,8 +491,11 @@ const RequirementFunctions: ReqFnTable = {
             "PROSSER HS - Career Academy - Selection"
         ],
         "fn": (studentData, schoolData) => {
-            // TODO: how to figure out if student in school attendance bound?
-          return {outcome: SuccessChance.NOTIMPLEMENTED}
+          if (inAttendanceBound(studentData, schoolData)) {
+            return {outcome: SuccessChance.LIKELY};
+          } else {
+            return {outcome: SuccessChance.UNCERTAIN};
+          }
         }
     },
     "618315c228cf8e591d1909fc8ca41206": {
@@ -470,11 +517,10 @@ const RequirementFunctions: ReqFnTable = {
         ],
         "fn": (studentData, schoolData) => {
             // TODO: get these cutoff scores for each school
-            return UNKNOWN;
+          return {outcome: SuccessChance.NOTIMPLEMENTED};
         }
     },
     "f661cdb969617a4f2a3923f5c80c190c": {
-        "name": "",
         "desc": "General Education and 504 Plan students: Minimum percentile of 50 in both reading and math on NWEA MAP, minimum 2.7 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 50 in reading and math on NWEA MAP.  An Interview is required for all eligible applicants.",
         "programs": [
             "DYETT ARTS HS - Music - Application",
