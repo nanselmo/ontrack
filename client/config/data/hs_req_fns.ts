@@ -421,12 +421,10 @@ const RequirementFunctions: ReqFnTable = {
           const ATTEND_CUTOFF = 95;
 
           const progress = {
-            min: 1,
-            max: 99,
-            threshold_certain: 99,
+            threshold_certain: 100,
             // value is the threshold minus the  average distance from the 
             // cutoff scores for nwea scores and attend percentile
-            value: 99 - average(
+            value: 100 - average(
               getPointsFromCutoff(studentData.scores.nweaPercentileMath, NWEA_MATH_CUTOFF),
               getPointsFromCutoff(studentData.scores.nweaPercentileRead, NWEA_READ_CUTOFF),
               getPointsFromCutoff(studentData.attendancePercentage, ATTEND_CUTOFF)
@@ -468,6 +466,8 @@ const RequirementFunctions: ReqFnTable = {
           const ATTEND_CUTOFF = 85;
 
           const progress = {
+            threshold_certain: 100,
+            // I know "build then improve" but this is pretty hard to understand
             value: average(
               norm(getPointsFromCutoff(studentData.gpa, GPA_CUTOFF), 4.0, 0.0),
               getPointsFromCutoff(studentData.attendancePercentage, ATTEND_CUTOFF)
@@ -528,21 +528,22 @@ const RequirementFunctions: ReqFnTable = {
             "DYETT ARTS HS - Dance - Application"
         ],
         "fn": (studentData, schoolData) => {
+          // TODO: add progress
             if (studentData.iep || studentData.ell) {
                   if(studentData.scores.nweaPercentileMath >= 50 && 
                         studentData.scores.nweaPercentileRead >= 50 &&
                         studentData.gpa >= 2.7 &&
                         studentData.attendancePercentage >= 97) {
 
-                        return SUCCESS;
+                    return {outcome: SuccessChance.CERTAIN};
                   } else {
-                        return FAILURE;
+                    return {outcome: SuccessChance.NONE};
                   }
             } else {
                   if(studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead >= 50) {
-                        return SUCCESS;
+                    return {outcome: SuccessChance.CERTAIN};
                   } else {
-                        return FAILURE;
+                    return {outcome: SuccessChance.NONE};
                   }
             }
         }
@@ -557,7 +558,7 @@ const RequirementFunctions: ReqFnTable = {
         ],
         "fn": (studentData, schoolData) => {
             // TODO: get hold of them point scores. Also, worth?
-            return UNCERTAIN;
+          return {outcome: SuccessChance.NOTIMPLEMENTED};
         }
     },
     "7672890f5b16cd8f5c0cae20d58d1888": {
@@ -627,8 +628,21 @@ const RequirementFunctions: ReqFnTable = {
             "MARSHALL HS - Culinary Arts - Selection"
         ],
         "fn": (studentData, schoolData) => {
-            // TODO: should we return advantage / disadvantage? Something like a point scale of how likely you are to get in?? You need to think hard about that.
-            return NOTIMPLEMENTED;
+          if (studentData.iep || studentData.ell) {
+            if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
+              return {outcome: SuccessChance.LIKELY};
+            } else {
+              return {outcome: SuccessChance.UNCERTAIN};
+            }
+          } else {
+            if (studentData.scores.nweaPercentileMath >= 24 &&
+              studentData.scores.nweaPercentileRead >= 24) {
+
+              return {outcome: SuccessChance.LIKELY};
+            } else {
+              return {outcome: SuccessChance.UNCERTAIN};
+            }
+          }
         }
     },
     "4ab864cc8934557f435c392c96e5cfc1": {
@@ -639,8 +653,11 @@ const RequirementFunctions: ReqFnTable = {
             "STEINMETZ HS - General Education - Selection"
         ],
         "fn": (studentData, schoolData) => {
-            // TODO: how to get att bound?
-            return NOTIMPLEMENTED;
+          if (inAttendanceBound(studentData, schoolData)) {
+            return {outcome: SuccessChance.CERTAIN};
+          } else {
+            return {outcome: SuccessChance.UNCERTAIN};
+          }
         }
     },
     "ae1af40b734a31b447b1ed50f6e4bc17": {
@@ -656,7 +673,7 @@ const RequirementFunctions: ReqFnTable = {
         ],
         "fn": (studentData, schoolData) => {
             if (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead >= 48) {
-                  return SUCCESS;
+              return {outcome: SuccessChance.CERTAIN};
             }
         }
     },
@@ -668,7 +685,7 @@ const RequirementFunctions: ReqFnTable = {
         ],
         "fn": (studentData, schoolData) => {
             // TODO: get hold of cutoff scores
-            return UNKNOWN;
+          return {outcome: SuccessChance.NOTIMPLEMENTED};
         }
     },
     "459b0b1aaa6e44d897f0a720ba82369e": {
@@ -678,8 +695,11 @@ const RequirementFunctions: ReqFnTable = {
             "JUAREZ HS - General Education - Selection"
         ],
         "fn": (studentData, schoolData) => {
-            // TODO: How to get att bound?
-            return NOTIMPLMENTED;
+          if (inAttendanceBound(studentData, schoolData)) {
+            return {outcome: SuccessChance.CERTAIN};
+          } else {
+            return {outcome: SuccessChance.UNCERTAIN};
+          }
         }
     },
     // FIXME: error in src file?
@@ -689,7 +709,9 @@ const RequirementFunctions: ReqFnTable = {
         "programs": [
             "KELLY HS - Digital Media - Application"
         ],
-        "fn": ""
+      "fn": (studentData, schoolData) => {
+        return {outcome: SuccessChance.NOTIMPLEMENTED};
+      }
     },
     "2317c60e8a1eec08ab495a14ccfd9c64": {
         "name": "",
@@ -702,8 +724,11 @@ const RequirementFunctions: ReqFnTable = {
             "MATHER HS - General Education - Selection"
         ],
         "fn": (studentData, schoolData) => {
-            // TODO: How to get att bound?
-            return NOTIMPLMENTED;
+          if (inAttendanceBound(studentData, schoolData)) {
+            return {outcome: SuccessChance.CERTAIN};
+          } else {
+            return {outcome: SuccessChance.UNCERTAIN};
+          }
         }
     },
     "c32c0804dc719ba6c4c00322e7a69be2": {
@@ -719,8 +744,7 @@ const RequirementFunctions: ReqFnTable = {
             "YOUNG HS - Academic Center - Application"
         ],
         "fn": (studentData, schoolData) => {
-            // TODO: testing is required? Oh, this is IB I think
-            return UNCERTAIN;
+          return {outcome: SuccessChance.NOTIMPLEMENTED};
         }
     },
     "224ce8807abceb6ca72e650988637629": {
@@ -739,6 +763,7 @@ const RequirementFunctions: ReqFnTable = {
             // convert scores to point system
             // look up cutoff scores for this school
             // check if score matches cutoff score
+          return {outcome: SuccessChance.NOTIMPLEMENTED};
         }
     },
     "03010a12030cab563c3f5d9115e7aabe": {
@@ -752,16 +777,16 @@ const RequirementFunctions: ReqFnTable = {
                   if (studentData.scores.nweaPercentileMath >= 45 &&
                       studentData.scores.nweaPercentileRead >= 45 &&
                       studentData.gpa > 2.0) {
-                        return SUCCESS;
+                     return {outcome: SuccessChance.CERTAIN};
                   } else {
-                        return FAILURE;
+                    return {outcome: SuccessChance.NONE};
                   }
             } else {
                   if (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead >= 90 &&
                       studentData.gpa > 2.0) {
-                        return SUCCESS;
+                    return {outcome: SuccessChance.CERTAIN};
                   } else {
-                        return FAILURE;
+                    return {outcome: SuccessChance.NONE};
                   }
             }
 
@@ -774,7 +799,7 @@ const RequirementFunctions: ReqFnTable = {
             "STEINMETZ HS - JROTC - Selection"
         ],
         "fn": (studentData, schoolData) => {
-            return UNCERTAIN;
+          return {outcome: SuccessChance.UNCERTAIN};
         }
     },
     "f6b1cadaa52f894d87ad4246bd4c9b0a": {
@@ -788,8 +813,11 @@ const RequirementFunctions: ReqFnTable = {
             "NORTH LAWNDALE - COLLINS HS - General Education - Selection"
         ],
         "fn": (studentData, schoolData) => {
-            // TODO: how to get attendance bounds and sibling info?
-            return UNCERTAIN;
+          if (inAttendanceBound(studentData, schoolData)) {
+            return {outcome: SuccessChance.LIKELY};
+          } else {
+            return {outcome: SuccessChance.UNCERTAIN};
+          }
         }
     },
     "77620df9b5c4a530f21c30267af843ce": {
@@ -800,8 +828,23 @@ const RequirementFunctions: ReqFnTable = {
             "CURIE HS - Music - Application",
             "CURIE HS - Visual Arts - Application"
         ],
-        // TODO: combine with other
-        "fn": () => NOTIMPLEMENTED
+      "fn": (studentData, schoolData) => {
+          if (studentData.iep || studentData.ell) {
+            if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
+              return {outcome: SuccessChance.LIKELY};
+            } else {
+              return {outcome: SuccessChance.UNCERTAIN};
+            }
+          } else {
+            if (studentData.scores.nweaPercentileMath >= 24 &&
+              studentData.scores.nweaPercentileRead >= 24) {
+
+              return {outcome: SuccessChance.LIKELY};
+            } else {
+              return {outcome: SuccessChance.UNCERTAIN};
+            }
+          }
+      }
     },
     "7e51568fc748dec3fd5aa79aae428009": {
         "name": "",
@@ -815,7 +858,9 @@ const RequirementFunctions: ReqFnTable = {
             "CURIE HS - Visual Arts - Selection"
         ],
         // TODO: wow I didn't even know about this. find the cutoff scores
-        "fn": ""
+      "fn": (studentData, schoolData) => {
+        return {outcome: SuccessChance.NOTIMPLEMENTED};
+      }
     },
     "0514de51e21823dae4f43b085538f9e6": {
         "name": "",
@@ -823,7 +868,29 @@ const RequirementFunctions: ReqFnTable = {
         "programs": [
             "WESTINGHOUSE HS - Career Academy - Application"
         ],
-        "fn": ""
+      "fn": (studentData, schoolData) => {
+        if (studentData.iep || studentData.ell) {
+          if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
+            studentData.gpa >= 3.0 &&
+            studentData.attendancePercentage >= 95) {
+
+            return {outcome: SuccessChance.CERTAIN};
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+
+        } else {
+          if ( studentData.scores.nweaPercentileMath >= 24 &&
+            studentData.scores.nweaPercentileRead >= 24 &&
+            studentData.gpa >= 3.0 &&
+            studentData.attendancePercentage >= 95 ) {
+
+            return {outcome: SuccessChance.CERTAIN};
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        }
+      }
     },
     "d76c385b612c2ef53c62501b074b6134": {
         "name": "",
@@ -831,7 +898,13 @@ const RequirementFunctions: ReqFnTable = {
         "programs": [
             "WESTINGHOUSE HS - Career Academy - Selection"
         ],
-        "fn": ""
+      "fn": (studentData, schoolData) => {
+        if (inAttendanceBound(studentData, schoolData)) {
+          return {outcome: SuccessChance.LIKELY};
+        } else {
+          return {outcome: SuccessChance.UNCERTAIN};
+        }
+      }
     },
     "5ee7cff3803c80e025f483be28b57f06": {
         "name": "",
@@ -839,7 +912,14 @@ const RequirementFunctions: ReqFnTable = {
         "programs": [
             "LAKE VIEW HS - General Education - Selection"
         ],
-        "fn": ""
+      "fn": (studentData, schoolData) => {
+        // TODO consider addding current school to student data
+        if (inAttendanceBound(studentData, schoolData)) {
+          return {outcome: SuccessChance.LIKELY};
+        } else {
+          return {outcome: SuccessChance.NONE};
+        }
+      }
     },
     "930c01733b718c40bc1f2af23839e14a": {
         "name": "",
@@ -860,7 +940,27 @@ const RequirementFunctions: ReqFnTable = {
             "WASHINGTON HS - International Baccalaureate (IB) - Application",
             "SCHURZ HS - International Baccalaureate (IB) - Application"
         ],
-        "fn": ""
+      "fn": (studentData, schoolData) => {
+        if (studentData.iep || studentData.ell) {
+          if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
+            studentData.gpa >= 2.5) {
+            
+            return {outcome: SuccessChance.CERTAIN};
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }            
+
+        } else {
+          if (studentData.scores.nweaPercentileMath >= 24 &&
+            studentData.scores.nweaPercentileRead >= 24 &&
+            studentData.gpa >= 2.5) {
+
+            return {outcome: SuccessChance.CERTAIN};
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        }
+      }
     },
     "11bdd4bc6af64732a32d73a850bc78a4": {
         "name": "",
@@ -870,7 +970,9 @@ const RequirementFunctions: ReqFnTable = {
             "BACK OF THE YARDS HS - International Baccalaureate (IB) - Selection",
             "JUAREZ HS - International Baccalaureate (IB) - Selection"
         ],
-        "fn": ""
+      "fn": (studentData, schoolData) => {
+        return {outcome: SuccessChance.NOTIMPLEMENTED};
+      }
     },
     "f79604e9d7984cc9b43fa3c69abe428d": {
         "name": "",
@@ -882,7 +984,9 @@ const RequirementFunctions: ReqFnTable = {
             "CARVER MILITARY HS - Service Learning Academies (Military) - Selection",
             "CHICAGO MILITARY HS - Service Learning Academies (Military) - Selection"
         ],
-        "fn": ""
+      "fn": (studentData, schoolData) => {
+        return {outcome: SuccessChance.NOTIMPLEMENTED};
+      }
     },
     "4cb799c1cf8b41a3baf1e8d9176463d8": {
         "name": "",
@@ -898,7 +1002,23 @@ const RequirementFunctions: ReqFnTable = {
             "CLARK HS - Early College STEM - Application",
             "DISNEY II HS - Fine Arts & Technology - Application"
         ],
-        "fn": ""
+      "fn": (studentData, schoolData) => {
+          if (studentData.iep || studentData.ell) {
+            if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
+              return {outcome: SuccessChance.LIKELY};
+            } else {
+              return {outcome: SuccessChance.UNCERTAIN};
+            }
+          } else {
+            if (studentData.scores.nweaPercentileMath >= 24 &&
+              studentData.scores.nweaPercentileRead >= 24) {
+
+              return {outcome: SuccessChance.LIKELY};
+            } else {
+              return {outcome: SuccessChance.UNCERTAIN};
+            }
+          }
+      }
     },
     "0fe94ad9490cc5fe33139f705336bf3d": {
         "name": "",
@@ -906,7 +1026,9 @@ const RequirementFunctions: ReqFnTable = {
         "programs": [
             "JONES HS - Pre-Engineering - Selection"
         ],
-        "fn": ""
+      "fn": (studentData, schoolData) => {
+        return {outcome: SuccessChance.NOTIMPLEMENTED};
+      }
     },
     "0fedde2a8081243a74d2c6a3be90b411": {
         "name": "",
@@ -936,7 +1058,10 @@ const RequirementFunctions: ReqFnTable = {
             "MATHER HS - Pre-Law - Selection",
             "ROOSEVELT HS - Cisco Networking - Selection"
         ],
-        "fn": ""
+      "fn": (studentData, schoolData) => {
+        // TODO 7th grade final stanines?
+        return {outcome: SuccessChance.NOTIMPLEMENTED};
+      }
     },
     "eb6acf17c18f9a5177bcdb7a4504672a": {
         "name": "",
@@ -945,7 +1070,10 @@ const RequirementFunctions: ReqFnTable = {
             "SCHURZ HS - Dual Language - Application",
             "BACK OF THE YARDS HS - Dual Language - Application"
         ],
-        "fn": ""
+      "fn": (studentData, schoolData) => {
+        // TODO LAS Links assessment? STAMP?
+        return {outcome: SuccessChance.NOTIMPLEMENTED};
+      }
     },
     "0640ddea233c6c9c97db5dd816b5c24a": {
         "name": "",
@@ -954,7 +1082,10 @@ const RequirementFunctions: ReqFnTable = {
             "SCHURZ HS - Dual Language - Selection",
             "BACK OF THE YARDS HS - Dual Language - Selection"
         ],
-        "fn": ""
+      "fn": (studentData, schoolData) => {
+        // TODO add curr school/program to studentData
+        return {outcome: SuccessChance.NOTIMPLEMENTED};
+      }
     },
     "8c1dffabe7825704cbe29a12138cc4d9": {
         "name": "",
@@ -963,7 +1094,10 @@ const RequirementFunctions: ReqFnTable = {
             "CHICAGO MATH & SCIENCE HS - General Education - Selection",
             "CICS - CHICAGOQUEST HS - General Education - Selection"
         ],
-        "fn": ""
+      "fn": (studentData, schoolData) => {
+        // TODO add curr school/program to studentData
+        return {outcome: SuccessChance.NOTIMPLEMENTED};
+      }
     },
     "70b7c4a5e527fb50d69ea37b000765d8": {
         "name": "",
@@ -971,7 +1105,17 @@ const RequirementFunctions: ReqFnTable = {
         "programs": [
             "CHICAGO ACADEMY HS - Scholars - Application"
         ],
-        "fn": ""
+      "fn": (studentData, schoolData) => {
+        if ( studentData.scores.nweaPercentileMath >= 70 &&
+          studentData.scores.nweaPercentileRead >= 70 &&
+          studentData.gpa >= 3.0 &&
+          studentData.attendancePercentage >= 93 ) {
+
+          return {outcome: SuccessChance.CERTAIN};
+        } else {
+          return {outcome: SuccessChance.NONE};
+        }
+      }
     },
     "1d126a086436d78661af2cb249938c72": {
         "name": "",
@@ -979,7 +1123,17 @@ const RequirementFunctions: ReqFnTable = {
         "programs": [
             "MULTICULTURAL HS - Fine and Performing Arts - Application"
         ],
-        "fn": ""
+      "fn": (studentData, schoolData) => {
+        if (inAttendanceBound(studentData, schoolData)) {
+          return {outcome: SuccessChance.CERTAIN};
+        } else {
+          if ( studentData.attendancePercentage >= 92 ) {
+            return {outcome: SuccessChance.CERTAIN};
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        }
+      }
     },
     "c36c294e63476a7959123bfe85a2c639": {
         "name": "",
@@ -989,7 +1143,13 @@ const RequirementFunctions: ReqFnTable = {
             "CLEMENTE HS - General Education - Selection",
             "PHILLIPS HS - General Education - Selection"
         ],
-        "fn": ""
+      "fn": (studentData, schoolData) => {
+        if (inAttendanceBound(studentData, schoolData)) {
+          return {outcome: SuccessChance.CERTAIN};
+        } else {
+          return {outcome: SuccessChance.UNCERTAIN};
+        }
+      }
     },
     "889af44e3306313029109d465b1c2de6": {
         "name": "",
@@ -997,7 +1157,19 @@ const RequirementFunctions: ReqFnTable = {
         "programs": [
             "CLEMENTE HS - General Education - Application"
         ],
-        "fn": ""
+      "fn": (studentData, schoolData) => {
+        if (inAttendanceBound(studentData, schoolData)) {
+          return {outcome: SuccessChance.CERTAIN};
+        } else {
+          if (studentData.gpa >= 2.5 && 
+            studentData.attendancePercentage >= 85) {
+
+            return {outcome: SuccessChance.CERTAIN};
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        }
+      }
     },
     "6a02d16ba52a69b937a74a43c6a82769": {
         "name": "",
@@ -1009,7 +1181,27 @@ const RequirementFunctions: ReqFnTable = {
             "BRONZEVILLE HS - International Baccalaureate (IB) - Application",
             "HYDE PARK HS - International Baccalaureate (IB) - Application"
         ],
-        "fn": ""
+      "fn": (studentData, schoolData) => {
+        if (studentData.iep || studentData.ell) {
+          if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
+            studentData.gpa >= 2.5 ) {
+
+            return {outcome: SuccessChance.CERTAIN};
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+
+        } else {
+          if ( studentData.scores.nweaPercentileMath >= 24 &&
+            studentData.scores.nweaPercentileRead >= 24 &&
+            studentData.gpa >= 2.5 ) {
+
+            return {outcome: SuccessChance.CERTAIN};
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        }
+      }
     },
     "1a043655763ab140a0d14f5080d63a2c": {
         "name": "",
@@ -1026,7 +1218,25 @@ const RequirementFunctions: ReqFnTable = {
             "PAYTON HS - Selective Enrollment High School - Application",
             "JONES HS - Selective Enrollment High School - Application"
         ],
-        "fn": ""
+      "fn": (studentData, schoolData) => {
+        if (studentData.iep || studentData.ell) {
+          if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 ) {
+
+            return {outcome: SuccessChance.CERTAIN};
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+
+        } else {
+          if ( studentData.scores.nweaPercentileMath >= 24 &&
+            studentData.scores.nweaPercentileRead >= 24 ) {
+
+            return {outcome: SuccessChance.CERTAIN};
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        }
+      }
     },
     "bd680e7bc10c03552140e26736221cf7": {
         "name": "",
@@ -1043,7 +1253,9 @@ const RequirementFunctions: ReqFnTable = {
             "KING HS - Selective Enrollment High School - Selection",
             "JONES HS - Selective Enrollment High School - Selection"
         ],
-        "fn": ""
+      "fn": (studentData, schoolData) => {
+        return {outcome: SuccessChance.NOTIMPLEMENTED};
+      }
     },
     "94f10272b6ff9ee947b6c7f8e9adc98c": {
         "name": "",
@@ -1051,7 +1263,15 @@ const RequirementFunctions: ReqFnTable = {
         "programs": [
             "TAFT HS - NJROTC - Application"
         ],
-        "fn": ""
+      "fn": (studentData, schoolData) => {
+        if (studentData.scores.nweaPercentileMath >= 24 &&
+          studentData.scores.nweaPercentileRead >= 24 ) {
+
+          return {outcome: SuccessChance.CERTAIN};
+        } else {
+          return {outcome: SuccessChance.NONE};
+        };
+      }
     },
     "29034b3dd211fc6857c0762ea4431354": {
         "name": "",
@@ -1104,6 +1324,7 @@ const RequirementFunctions: ReqFnTable = {
         "programs": [
             "SULLIVAN HS - Accounting - Selection"
         ],
+      // TODO add 'skip 7th grade or repeat 8th grade?' to student data
         "fn": ""
     },
     "3c0f47771fc40565978a3a894bd96705": {
