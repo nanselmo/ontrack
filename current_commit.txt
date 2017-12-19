@@ -1,15 +1,17 @@
-Implement config system
+[WIP] Wire together app and hs req fns
 
-* add config/ folder to top level
-  ** add data/ folder to contain raw data in json form
-    *** move tract-tier-table and rit-percentile-lookup
-      data from shared/data to config/data
-    *** move hs requirement function definitions from
-      hs-config-data to config/requirement_function_definitions.js
-    *** 
+* move everything out of config/data except hs_req_fns.ts
+  and hs_config_data.json
+* copy config/data/hs_req_fns.ts and /hs_config_data.json to src/shared/data
 
-  ** TODO write build code to compile a version of hs_programs
-    with requirement function names baked in, to avoid making
-    a trillion function calls to hs_requirement_function every
-    time state changes
-
+* change 'school type' based data expected by app to 'program type' based
+  data in new hs_config_data.json
+  ** Refactor HSRequirementFunction type
+  ** Add types HSPrograms, HSProgram, SuccessChance, SuccessProgress 
+  ** Remove types Highschool, HSCategoryData, HSData
+  ** New module in shared/util: data-access.ts
+    *** exposes loadHSPrograms(): HSPrograms
+      **** method reads hs_config_data.json and returns neatly formatted
+          HSPrograms
+  ** refactor path-to-hs.tsx to use data-access.loadHSPrograms
+  ** refactor hs-display.tsx to use HSPrograms instead of HSConfigData

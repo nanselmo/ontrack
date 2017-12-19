@@ -6,8 +6,8 @@ import HSDisplay from "./components/hs-display/hs-display";
 
 // TODO: remove hardcoded test data
 import {MOCK_STUDENT_DATA} from "./hardcoded";
-import {HSConfigData} from "shared/data/hs-config-data";
-
+//import {HSConfigData} from "shared/data/hs-config-data";
+import {loadHSPrograms} from "shared/util/data-access.ts";
 import StudentData from "shared/types/student-data";
 import StudentScores from "shared/types/student-scores";
 import {cloneAndExtend} from "shared/util/clone";

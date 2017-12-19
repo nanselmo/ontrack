@@ -14,4 +14,3 @@ if __name__ == "__main__":
             output_path_hs_config_data=hs_config_data_output_filepath,
             overwrite=False)
 
-
