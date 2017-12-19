@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 213);
+/******/ 	return __webpack_require__(__webpack_require__.s = 211);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -287,7 +287,7 @@ exports.default = function (instance, Constructor) {
 
 exports.__esModule = true;
 
-var _typeof2 = __webpack_require__(118);
+var _typeof2 = __webpack_require__(117);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -318,7 +318,7 @@ var _create = __webpack_require__(370);
 
 var _create2 = _interopRequireDefault(_create);
 
-var _typeof2 = __webpack_require__(118);
+var _typeof2 = __webpack_require__(117);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -349,7 +349,7 @@ exports.default = function (subClass, superClass) {
 
 exports.__esModule = true;
 
-var _assign = __webpack_require__(169);
+var _assign = __webpack_require__(167);
 
 var _assign2 = _interopRequireDefault(_assign);
 
@@ -473,7 +473,7 @@ if (process.env.NODE_ENV !== 'production') {
   // By explicitly using `prop-types` you are opting into new development behavior.
   // http://fb.me/prop-types-in-prod
   var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(138)(isValidElement, throwOnDirectAccess);
+  module.exports = __webpack_require__(137)(isValidElement, throwOnDirectAccess);
 } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
@@ -497,7 +497,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["splitBsPropsAndOmit"] = splitBsPropsAndOmit;
 /* harmony export (immutable) */ __webpack_exports__["addStyle"] = addStyle;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_curry", function() { return _curry; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_entries__ = __webpack_require__(181);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_entries__ = __webpack_require__(179);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_entries___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_entries__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends__);
@@ -505,7 +505,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__StyleConfig__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__StyleConfig__ = __webpack_require__(18);
 
 
 // TODO: The publicly exposed parts of this should be in lib/BootstrapUtils.
@@ -1039,7 +1039,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 var _prodInvariant = __webpack_require__(12);
 
 var DOMProperty = __webpack_require__(33);
-var ReactDOMComponentFlags = __webpack_require__(139);
+var ReactDOMComponentFlags = __webpack_require__(138);
 
 var invariant = __webpack_require__(10);
 
@@ -1306,6 +1306,59 @@ module.exports = ExecutionEnvironment;
 
 /***/ }),
 /* 18 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return Size; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return SIZE_MAP; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DEVICE_SIZES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return State; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return Style; });
+var Size = {
+  LARGE: 'large',
+  SMALL: 'small',
+  XSMALL: 'xsmall'
+};
+
+var SIZE_MAP = {
+  large: 'lg',
+  medium: 'md',
+  small: 'sm',
+  xsmall: 'xs',
+  lg: 'lg',
+  md: 'md',
+  sm: 'sm',
+  xs: 'xs'
+};
+
+var DEVICE_SIZES = ['lg', 'md', 'sm', 'xs'];
+
+var State = {
+  SUCCESS: 'success',
+  WARNING: 'warning',
+  DANGER: 'danger',
+  INFO: 'info'
+};
+
+var Style = {
+  DEFAULT: 'default',
+  PRIMARY: 'primary',
+  LINK: 'link',
+  INVERSE: 'inverse'
+};
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = __webpack_require__(226);
+
+
+/***/ }),
+/* 20 */
 /***/ (function(module, exports) {
 
 /*
@@ -1387,7 +1440,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 19 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -1433,7 +1486,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(317);
+var	fixUrls = __webpack_require__(315);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -1743,59 +1796,6 @@ function updateLink (link, options, obj) {
 
 	if(oldSrc) URL.revokeObjectURL(oldSrc);
 }
-
-
-/***/ }),
-/* 20 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return Size; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return SIZE_MAP; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DEVICE_SIZES; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return State; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return Style; });
-var Size = {
-  LARGE: 'large',
-  SMALL: 'small',
-  XSMALL: 'xsmall'
-};
-
-var SIZE_MAP = {
-  large: 'lg',
-  medium: 'md',
-  small: 'sm',
-  xsmall: 'xs',
-  lg: 'lg',
-  md: 'md',
-  sm: 'sm',
-  xs: 'xs'
-};
-
-var DEVICE_SIZES = ['lg', 'md', 'sm', 'xs'];
-
-var State = {
-  SUCCESS: 'success',
-  WARNING: 'warning',
-  DANGER: 'danger',
-  INFO: 'info'
-};
-
-var Style = {
-  DEFAULT: 'default',
-  PRIMARY: 'primary',
-  LINK: 'link',
-  INVERSE: 'inverse'
-};
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = __webpack_require__(228);
 
 
 /***/ }),
@@ -2441,7 +2441,7 @@ module.exports = emptyFunction;
 var debugTool = null;
 
 if (process.env.NODE_ENV !== 'production') {
-  var ReactDebugTool = __webpack_require__(238);
+  var ReactDebugTool = __webpack_require__(236);
   debugTool = ReactDebugTool;
 }
 
@@ -2570,11 +2570,11 @@ module.exports = ReactCurrentOwner;
 var _prodInvariant = __webpack_require__(12),
     _assign = __webpack_require__(14);
 
-var CallbackQueue = __webpack_require__(143);
+var CallbackQueue = __webpack_require__(142);
 var PooledClass = __webpack_require__(39);
-var ReactFeatureFlags = __webpack_require__(144);
+var ReactFeatureFlags = __webpack_require__(143);
 var ReactReconciler = __webpack_require__(44);
-var Transaction = __webpack_require__(70);
+var Transaction = __webpack_require__(69);
 
 var invariant = __webpack_require__(10);
 
@@ -2818,7 +2818,7 @@ if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 /* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var store      = __webpack_require__(114)('wks')
+var store      = __webpack_require__(113)('wks')
   , uid        = __webpack_require__(75)
   , Symbol     = __webpack_require__(35).Symbol
   , USE_SYMBOL = typeof Symbol == 'function';
@@ -3459,7 +3459,7 @@ module.exports = DOMProperty;
 
 var global    = __webpack_require__(35)
   , core      = __webpack_require__(29)
-  , ctx       = __webpack_require__(108)
+  , ctx       = __webpack_require__(107)
   , hide      = __webpack_require__(46)
   , PROTOTYPE = 'prototype';
 
@@ -3533,8 +3533,8 @@ if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
 /***/ (function(module, exports, __webpack_require__) {
 
 // to indexed object, toObject with fallback for non-array-like ES3 strings
-var IObject = __webpack_require__(173)
-  , defined = __webpack_require__(111);
+var IObject = __webpack_require__(171)
+  , defined = __webpack_require__(110);
 module.exports = function(it){
   return IObject(defined(it));
 };
@@ -3574,10 +3574,10 @@ var _assign = __webpack_require__(14);
 var ReactCurrentOwner = __webpack_require__(27);
 
 var warning = __webpack_require__(11);
-var canDefineProperty = __webpack_require__(67);
+var canDefineProperty = __webpack_require__(66);
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 
-var REACT_ELEMENT_TYPE = __webpack_require__(134);
+var REACT_ELEMENT_TYPE = __webpack_require__(133);
 
 var RESERVED_PROPS = {
   key: true,
@@ -4022,8 +4022,8 @@ module.exports = PooledClass;
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject       = __webpack_require__(47)
-  , IE8_DOM_DEFINE = __webpack_require__(170)
-  , toPrimitive    = __webpack_require__(109)
+  , IE8_DOM_DEFINE = __webpack_require__(168)
+  , toPrimitive    = __webpack_require__(108)
   , dP             = Object.defineProperty;
 
 exports.f = __webpack_require__(48) ? Object.defineProperty : function defineProperty(O, P, Attributes){
@@ -4066,15 +4066,15 @@ module.exports = function(it, key){
 
 var _assign = __webpack_require__(14);
 
-var ReactBaseClasses = __webpack_require__(132);
-var ReactChildren = __webpack_require__(214);
-var ReactDOMFactories = __webpack_require__(218);
+var ReactBaseClasses = __webpack_require__(131);
+var ReactChildren = __webpack_require__(212);
+var ReactDOMFactories = __webpack_require__(216);
 var ReactElement = __webpack_require__(38);
-var ReactPropTypes = __webpack_require__(222);
-var ReactVersion = __webpack_require__(224);
+var ReactPropTypes = __webpack_require__(220);
+var ReactVersion = __webpack_require__(222);
 
-var createReactClass = __webpack_require__(225);
-var onlyChild = __webpack_require__(227);
+var createReactClass = __webpack_require__(223);
+var onlyChild = __webpack_require__(225);
 
 var createElement = ReactElement.createElement;
 var createFactory = ReactElement.createFactory;
@@ -4082,8 +4082,8 @@ var cloneElement = ReactElement.cloneElement;
 
 if (process.env.NODE_ENV !== 'production') {
   var lowPriorityWarning = __webpack_require__(89);
-  var canDefineProperty = __webpack_require__(67);
-  var ReactElementValidator = __webpack_require__(136);
+  var canDefineProperty = __webpack_require__(66);
+  var ReactElementValidator = __webpack_require__(135);
   var didWarnPropTypesDeprecated = false;
   createElement = ReactElementValidator.createElement;
   createFactory = ReactElementValidator.createFactory;
@@ -4246,7 +4246,7 @@ module.exports = reactProdInvariant;
 
 
 
-var ReactRef = __webpack_require__(236);
+var ReactRef = __webpack_require__(234);
 var ReactInstrumentation = __webpack_require__(25);
 
 var warning = __webpack_require__(11);
@@ -4419,10 +4419,10 @@ module.exports = ReactReconciler;
 
 
 var DOMNamespaces = __webpack_require__(97);
-var setInnerHTML = __webpack_require__(72);
+var setInnerHTML = __webpack_require__(71);
 
 var createMicrosoftUnsafeLocalFunction = __webpack_require__(98);
-var setTextContent = __webpack_require__(148);
+var setTextContent = __webpack_require__(147);
 
 var ELEMENT_NODE_TYPE = 1;
 var DOCUMENT_FRAGMENT_NODE_TYPE = 11;
@@ -4529,7 +4529,7 @@ module.exports = DOMLazyTree;
 /***/ (function(module, exports, __webpack_require__) {
 
 var dP         = __webpack_require__(40)
-  , createDesc = __webpack_require__(62);
+  , createDesc = __webpack_require__(61);
 module.exports = __webpack_require__(48) ? function(object, key, value){
   return dP.f(object, key, createDesc(1, value));
 } : function(object, key, value){
@@ -4541,7 +4541,7 @@ module.exports = __webpack_require__(48) ? function(object, key, value){
 /* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(60);
+var isObject = __webpack_require__(59);
 module.exports = function(it){
   if(!isObject(it))throw TypeError(it + ' is not an object!');
   return it;
@@ -4552,7 +4552,7 @@ module.exports = function(it){
 /***/ (function(module, exports, __webpack_require__) {
 
 // Thank's IE8 for his funny defineProperty
-module.exports = !__webpack_require__(61)(function(){
+module.exports = !__webpack_require__(60)(function(){
   return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
 });
 
@@ -4561,8 +4561,8 @@ module.exports = !__webpack_require__(61)(function(){
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.14 / 15.2.3.14 Object.keys(O)
-var $keys       = __webpack_require__(172)
-  , enumBugKeys = __webpack_require__(115);
+var $keys       = __webpack_require__(170)
+  , enumBugKeys = __webpack_require__(114);
 
 module.exports = Object.keys || function keys(O){
   return $keys(O, enumBugKeys);
@@ -4643,7 +4643,7 @@ exports.default = function (componentOrElement) {
   return (0, _ownerDocument2.default)(_reactDom2.default.findDOMNode(componentOrElement));
 };
 
-var _reactDom = __webpack_require__(21);
+var _reactDom = __webpack_require__(19);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -4675,8 +4675,8 @@ module.exports = exports['default'];
 var EventPluginHub = __webpack_require__(55);
 var EventPluginUtils = __webpack_require__(91);
 
-var accumulateInto = __webpack_require__(140);
-var forEachAccumulated = __webpack_require__(141);
+var accumulateInto = __webpack_require__(139);
+var forEachAccumulated = __webpack_require__(140);
 var warning = __webpack_require__(11);
 
 var getListener = EventPluginHub.getListener;
@@ -4814,12 +4814,12 @@ module.exports = EventPropagators;
 
 var _prodInvariant = __webpack_require__(12);
 
-var EventPluginRegistry = __webpack_require__(69);
+var EventPluginRegistry = __webpack_require__(68);
 var EventPluginUtils = __webpack_require__(91);
 var ReactErrorUtils = __webpack_require__(92);
 
-var accumulateInto = __webpack_require__(140);
-var forEachAccumulated = __webpack_require__(141);
+var accumulateInto = __webpack_require__(139);
+var forEachAccumulated = __webpack_require__(140);
 var invariant = __webpack_require__(10);
 
 /**
@@ -5197,30 +5197,6 @@ module.exports = ReactInstanceMap;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.clone = function (src) {
-    if (src === undefined) {
-        return undefined;
-    }
-    else {
-        return Object.assign({}, src);
-    }
-};
-exports.cloneAndExtend = function (targetObject) {
-    var sourceObjects = [];
-    for (var _i = 1; _i < arguments.length; _i++) {
-        sourceObjects[_i - 1] = arguments[_i];
-    }
-    return Object.assign.apply(Object, [{}, targetObject].concat(sourceObjects));
-};
-
-
-/***/ }),
-/* 59 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
 var ScoreType;
 (function (ScoreType) {
     ScoreType["nweaPercentileMath"] = "nweaPercentileMath";
@@ -5234,7 +5210,7 @@ exports.default = ScoreType;
 
 
 /***/ }),
-/* 60 */
+/* 59 */
 /***/ (function(module, exports) {
 
 module.exports = function(it){
@@ -5242,7 +5218,7 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 61 */
+/* 60 */
 /***/ (function(module, exports) {
 
 module.exports = function(exec){
@@ -5254,7 +5230,7 @@ module.exports = function(exec){
 };
 
 /***/ }),
-/* 62 */
+/* 61 */
 /***/ (function(module, exports) {
 
 module.exports = function(bitmap, value){
@@ -5267,19 +5243,19 @@ module.exports = function(bitmap, value){
 };
 
 /***/ }),
-/* 63 */
+/* 62 */
 /***/ (function(module, exports) {
 
 exports.f = {}.propertyIsEnumerable;
 
 /***/ }),
-/* 64 */
+/* 63 */
 /***/ (function(module, exports) {
 
 module.exports = {};
 
 /***/ }),
-/* 65 */
+/* 64 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5304,7 +5280,7 @@ module.exports = {};
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_prop_types_extra_lib_elementType__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_prop_types_extra_lib_elementType___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_prop_types_extra_lib_elementType__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_bootstrapUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__SafeAnchor__ = __webpack_require__(31);
 
 
@@ -5403,7 +5379,7 @@ Button.defaultProps = defaultProps;
 /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_10__utils_bootstrapUtils__["bsClass"]('btn', __WEBPACK_IMPORTED_MODULE_10__utils_bootstrapUtils__["bsSizes"]([__WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__["c" /* Size */].LARGE, __WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__["c" /* Size */].SMALL, __WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__["c" /* Size */].XSMALL], __WEBPACK_IMPORTED_MODULE_10__utils_bootstrapUtils__["bsStyles"]([].concat(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_values___default.a(__WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__["d" /* State */]), [__WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__["e" /* Style */].DEFAULT, __WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__["e" /* Style */].PRIMARY, __WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__["e" /* Style */].LINK]), __WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__["e" /* Style */].DEFAULT, Button))));
 
 /***/ }),
-/* 66 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5440,7 +5416,7 @@ exports.default = (0, _createUncontrollable2.default)(mixin, set);
 module.exports = exports['default'];
 
 /***/ }),
-/* 67 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5472,7 +5448,7 @@ module.exports = canDefineProperty;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 68 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5498,7 +5474,7 @@ module.exports = emptyObject;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 69 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5757,7 +5733,7 @@ module.exports = EventPluginRegistry;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 70 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5991,7 +5967,7 @@ module.exports = TransactionImpl;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 71 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6008,7 +5984,7 @@ module.exports = TransactionImpl;
 
 
 var SyntheticUIEvent = __webpack_require__(56);
-var ViewportMetrics = __webpack_require__(147);
+var ViewportMetrics = __webpack_require__(146);
 
 var getEventModifierState = __webpack_require__(95);
 
@@ -6068,7 +6044,7 @@ SyntheticUIEvent.augmentClass(SyntheticMouseEvent, MouseEventInterface);
 module.exports = SyntheticMouseEvent;
 
 /***/ }),
-/* 72 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6171,7 +6147,7 @@ if (ExecutionEnvironment.canUseDOM) {
 module.exports = setInnerHTML;
 
 /***/ }),
-/* 73 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6298,7 +6274,7 @@ function escapeTextContentForBrowser(text) {
 module.exports = escapeTextContentForBrowser;
 
 /***/ }),
-/* 74 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6316,11 +6292,11 @@ module.exports = escapeTextContentForBrowser;
 
 var _assign = __webpack_require__(14);
 
-var EventPluginRegistry = __webpack_require__(69);
-var ReactEventEmitterMixin = __webpack_require__(262);
-var ViewportMetrics = __webpack_require__(147);
+var EventPluginRegistry = __webpack_require__(68);
+var ReactEventEmitterMixin = __webpack_require__(260);
+var ViewportMetrics = __webpack_require__(146);
 
-var getVendorPrefixedEventName = __webpack_require__(263);
+var getVendorPrefixedEventName = __webpack_require__(261);
 var isEventSupported = __webpack_require__(94);
 
 /**
@@ -6627,6 +6603,30 @@ var ReactBrowserEventEmitter = _assign({}, ReactEventEmitterMixin, {
 module.exports = ReactBrowserEventEmitter;
 
 /***/ }),
+/* 74 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.clone = function (src) {
+    if (src === undefined) {
+        return undefined;
+    }
+    else {
+        return Object.assign({}, src);
+    }
+};
+exports.cloneAndExtend = function (targetObject) {
+    var sourceObjects = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        sourceObjects[_i - 1] = arguments[_i];
+    }
+    return Object.assign.apply(Object, [{}, targetObject].concat(sourceObjects));
+};
+
+
+/***/ }),
 /* 75 */
 /***/ (function(module, exports) {
 
@@ -6804,7 +6804,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = style;
 
-var _camelizeStyle = __webpack_require__(186);
+var _camelizeStyle = __webpack_require__(184);
 
 var _camelizeStyle2 = _interopRequireDefault(_camelizeStyle);
 
@@ -6820,7 +6820,7 @@ var _removeStyle = __webpack_require__(393);
 
 var _removeStyle2 = _interopRequireDefault(_removeStyle);
 
-var _properties = __webpack_require__(187);
+var _properties = __webpack_require__(185);
 
 var _isTransform = __webpack_require__(394);
 
@@ -6914,17 +6914,17 @@ module.exports = exports['default'];
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_classnames__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_classnames__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_dom_helpers_activeElement__ = __webpack_require__(189);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_dom_helpers_activeElement__ = __webpack_require__(187);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_dom_helpers_activeElement___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_dom_helpers_activeElement__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_dom_helpers_query_contains__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_dom_helpers_query_contains___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_dom_helpers_query_contains__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_keycode__ = __webpack_require__(128);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_keycode__ = __webpack_require__(127);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_keycode___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_keycode__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_react_dom__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_react_dom__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_prop_types_extra_lib_all__ = __webpack_require__(78);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_prop_types_extra_lib_all___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12_prop_types_extra_lib_all__);
@@ -6932,13 +6932,13 @@ module.exports = exports['default'];
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_prop_types_extra_lib_elementType___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13_prop_types_extra_lib_elementType__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_prop_types_extra_lib_isRequiredForA11y__ = __webpack_require__(82);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_prop_types_extra_lib_isRequiredForA11y___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14_prop_types_extra_lib_isRequiredForA11y__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_uncontrollable__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_uncontrollable__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_uncontrollable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15_uncontrollable__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_warning__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__ButtonGroup__ = __webpack_require__(125);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__ButtonGroup__ = __webpack_require__(124);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__DropdownMenu__ = __webpack_require__(397);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__DropdownToggle__ = __webpack_require__(192);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__DropdownToggle__ = __webpack_require__(190);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__utils_bootstrapUtils__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__utils_createChainedFunction__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__utils_PropTypes__ = __webpack_require__(407);
@@ -7328,7 +7328,7 @@ module.exports = exports['default'];
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = splitComponentProps;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_entries__ = __webpack_require__(181);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_entries__ = __webpack_require__(179);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_entries___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_entries__);
 
 function splitComponentProps(props, Component) {
@@ -7370,7 +7370,7 @@ function splitComponentProps(props, Component) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react_overlays_lib_Transition__ = __webpack_require__(188);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react_overlays_lib_Transition__ = __webpack_require__(186);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react_overlays_lib_Transition___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_react_overlays_lib_Transition__);
 
 
@@ -7630,7 +7630,7 @@ module.exports = exports["default"];
 exports.__esModule = true;
 exports.default = getContainer;
 
-var _reactDom = __webpack_require__(21);
+var _reactDom = __webpack_require__(19);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -8219,13 +8219,13 @@ module.exports = getEventModifierState;
 
 
 var DOMLazyTree = __webpack_require__(45);
-var Danger = __webpack_require__(247);
+var Danger = __webpack_require__(245);
 var ReactDOMComponentTree = __webpack_require__(15);
 var ReactInstrumentation = __webpack_require__(25);
 
 var createMicrosoftUnsafeLocalFunction = __webpack_require__(98);
-var setInnerHTML = __webpack_require__(72);
-var setTextContent = __webpack_require__(148);
+var setInnerHTML = __webpack_require__(71);
+var setTextContent = __webpack_require__(147);
 
 function getNodeAfter(parentNode, node) {
   // Special case for text components, which return [open, close] comments
@@ -8514,8 +8514,8 @@ module.exports = createMicrosoftUnsafeLocalFunction;
 
 var _prodInvariant = __webpack_require__(12);
 
-var ReactPropTypesSecret = __webpack_require__(152);
-var propTypesFactory = __webpack_require__(137);
+var ReactPropTypesSecret = __webpack_require__(151);
+var propTypesFactory = __webpack_require__(136);
 
 var React = __webpack_require__(42);
 var PropTypes = propTypesFactory(React.isValidElement);
@@ -9549,119 +9549,6 @@ module.exports = getEventCharCode;
 /* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var score_type_1 = __webpack_require__(59);
-exports.GradeConvertErrors = {
-    BadScoreType: new Error("Incorrect ScoreType passed to GradeConvert method"),
-    BadScore: new Error("Bad score passed to GradeConvert method"),
-    BadPercentile: new Error("Bad percentile passed to GradeConvert method")
-};
-exports.scoreToString = function (score, scoreType) {
-    if (scoreType in score_type_1.default) {
-        return score.toString(10);
-    }
-    else {
-        throw exports.GradeConvertErrors.BadScoreType;
-    }
-};
-exports.tryParseScore = function (str, scoreType) {
-    if (scoreType in score_type_1.default) {
-        var score = Number.parseInt(str, 10);
-        if (Number.isNaN(score)) {
-            return [false, null];
-        }
-        else {
-            return [true, score];
-        }
-    }
-    else {
-        throw exports.GradeConvertErrors.BadScoreType;
-    }
-};
-exports.toGPA = function (scores) {
-    var toPoints = function (score) {
-        var letterGrade = exports.toLetterGrade(score);
-        switch (letterGrade) {
-            case "A":
-                return 4;
-            case "B":
-                return 3;
-            case "C":
-                return 2;
-            case "D":
-                return 1;
-            case "F":
-                return 0;
-        }
-    };
-    var numGrades = scores.length;
-    var gradePointSum = scores.map(toPoints).reduce(function (a, b) { return a + b; });
-    return gradePointSum / numGrades;
-};
-var letterGradeHighScores = {
-    A: 100,
-    B: 89,
-    C: 79,
-    D: 69,
-    F: 59
-};
-var isLetterGrade = function (strScore) {
-    var letterGrades = ["A", "B", "C", "D", "F"];
-    if (letterGrades.indexOf(strScore.toUpperCase()) !== -1) {
-        return true;
-    }
-    else {
-        return false;
-    }
-};
-var isNumberGrade = function (strScore) {
-    var intScore = Number.parseInt(strScore, 10);
-    var parseSuccessful = !Number.isNaN(intScore);
-    if (parseSuccessful) {
-        if (intScore >= 0 && intScore <= 100) {
-            return true;
-        }
-    }
-    else {
-        return false;
-    }
-};
-var toNumberGrade = function (strScore) {
-    if (isLetterGrade(strScore)) {
-        return Number.parseInt(strScore);
-    }
-    else if (isNumberGrade(strScore)) {
-        return letterGradeHighScores[strScore];
-    }
-    else {
-        throw new Error("toNumberGrade parse failed with " + strScore);
-    }
-};
-exports.toLetterGrade = function (grade) {
-    if (grade <= letterGradeHighScores["F"]) {
-        return "F";
-    }
-    else if (grade <= letterGradeHighScores["D"]) {
-        return "D";
-    }
-    else if (grade <= letterGradeHighScores["C"]) {
-        return "C";
-    }
-    else if (grade <= letterGradeHighScores["B"]) {
-        return "B";
-    }
-    else {
-        return "A";
-    }
-};
-
-
-/***/ }),
-/* 108 */
-/***/ (function(module, exports, __webpack_require__) {
-
 // optional / simple context binding
 var aFunction = __webpack_require__(340);
 module.exports = function(fn, that, length){
@@ -9684,11 +9571,11 @@ module.exports = function(fn, that, length){
 };
 
 /***/ }),
-/* 109 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.1 ToPrimitive(input [, PreferredType])
-var isObject = __webpack_require__(60);
+var isObject = __webpack_require__(59);
 // instead of the ES6 spec version, we didn't implement @@toPrimitive case
 // and the second argument - flag - preferred type is a string
 module.exports = function(it, S){
@@ -9701,7 +9588,7 @@ module.exports = function(it, S){
 };
 
 /***/ }),
-/* 110 */
+/* 109 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -9711,7 +9598,7 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 111 */
+/* 110 */
 /***/ (function(module, exports) {
 
 // 7.2.1 RequireObjectCoercible(argument)
@@ -9721,7 +9608,7 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 112 */
+/* 111 */
 /***/ (function(module, exports) {
 
 // 7.1.4 ToInteger
@@ -9732,17 +9619,17 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 113 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var shared = __webpack_require__(114)('keys')
+var shared = __webpack_require__(113)('keys')
   , uid    = __webpack_require__(75);
 module.exports = function(key){
   return shared[key] || (shared[key] = uid(key));
 };
 
 /***/ }),
-/* 114 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(35)
@@ -9753,7 +9640,7 @@ module.exports = function(key){
 };
 
 /***/ }),
-/* 115 */
+/* 114 */
 /***/ (function(module, exports) {
 
 // IE 8- don't enum bug keys
@@ -9762,23 +9649,23 @@ module.exports = (
 ).split(',');
 
 /***/ }),
-/* 116 */
+/* 115 */
 /***/ (function(module, exports) {
 
 exports.f = Object.getOwnPropertySymbols;
 
 /***/ }),
-/* 117 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.13 ToObject(argument)
-var defined = __webpack_require__(111);
+var defined = __webpack_require__(110);
 module.exports = function(it){
   return Object(defined(it));
 };
 
 /***/ }),
-/* 118 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9805,27 +9692,27 @@ exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.d
 };
 
 /***/ }),
-/* 119 */
+/* 118 */
 /***/ (function(module, exports) {
 
 module.exports = true;
 
 /***/ }),
-/* 120 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 var anObject    = __webpack_require__(47)
   , dPs         = __webpack_require__(348)
-  , enumBugKeys = __webpack_require__(115)
-  , IE_PROTO    = __webpack_require__(113)('IE_PROTO')
+  , enumBugKeys = __webpack_require__(114)
+  , IE_PROTO    = __webpack_require__(112)('IE_PROTO')
   , Empty       = function(){ /* empty */ }
   , PROTOTYPE   = 'prototype';
 
 // Create object with fake `null` prototype: use iframe Object with cleared prototype
 var createDict = function(){
   // Thrash, waste and sodomy: IE GC bug
-  var iframe = __webpack_require__(171)('iframe')
+  var iframe = __webpack_require__(169)('iframe')
     , i      = enumBugKeys.length
     , lt     = '<'
     , gt     = '>'
@@ -9858,7 +9745,7 @@ module.exports = Object.create || function create(O, Properties){
 
 
 /***/ }),
-/* 121 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var def = __webpack_require__(40).f
@@ -9870,19 +9757,19 @@ module.exports = function(it, tag, stat){
 };
 
 /***/ }),
-/* 122 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports.f = __webpack_require__(30);
 
 /***/ }),
-/* 123 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global         = __webpack_require__(35)
   , core           = __webpack_require__(29)
-  , LIBRARY        = __webpack_require__(119)
-  , wksExt         = __webpack_require__(122)
+  , LIBRARY        = __webpack_require__(118)
+  , wksExt         = __webpack_require__(121)
   , defineProperty = __webpack_require__(40).f;
 module.exports = function(name){
   var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
@@ -9890,7 +9777,7 @@ module.exports = function(name){
 };
 
 /***/ }),
-/* 124 */
+/* 123 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9962,7 +9849,7 @@ CloseButton.defaultProps = defaultProps;
 /* harmony default export */ __webpack_exports__["a"] = (CloseButton);
 
 /***/ }),
-/* 125 */
+/* 124 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9984,7 +9871,7 @@ CloseButton.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_all__ = __webpack_require__(78);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_all___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_all__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Button__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Button__ = __webpack_require__(64);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_bootstrapUtils__ = __webpack_require__(9);
 
 
@@ -10059,7 +9946,7 @@ ButtonGroup.defaultProps = defaultProps;
 /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_10__utils_bootstrapUtils__["bsClass"]('btn-group', ButtonGroup));
 
 /***/ }),
-/* 126 */
+/* 125 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10134,7 +10021,7 @@ Glyphicon.propTypes = propTypes;
 /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_8__utils_bootstrapUtils__["bsClass"]('glyphicon', Glyphicon));
 
 /***/ }),
-/* 127 */
+/* 126 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10156,9 +10043,9 @@ Glyphicon.propTypes = propTypes;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_react_overlays_lib_Transition__ = __webpack_require__(188);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_react_overlays_lib_Transition__ = __webpack_require__(186);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_react_overlays_lib_Transition___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_react_overlays_lib_Transition__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_capitalize__ = __webpack_require__(185);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_capitalize__ = __webpack_require__(183);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__utils_createChainedFunction__ = __webpack_require__(16);
 
 
@@ -10387,7 +10274,7 @@ Collapse.defaultProps = defaultProps;
 /* harmony default export */ __webpack_exports__["a"] = (Collapse);
 
 /***/ }),
-/* 128 */
+/* 127 */
 /***/ (function(module, exports) {
 
 // Source: http://jsfiddle.net/vWx8V/
@@ -10539,7 +10426,7 @@ for (var alias in aliases) {
 
 
 /***/ }),
-/* 129 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10570,7 +10457,7 @@ exports.default = off;
 module.exports = exports['default'];
 
 /***/ }),
-/* 130 */
+/* 129 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10586,7 +10473,7 @@ module.exports = exports['default'];
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_uncontrollable__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_uncontrollable__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_uncontrollable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_uncontrollable__);
 
 
@@ -10718,7 +10605,7 @@ TabContainer.childContextTypes = childContextTypes;
 /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_6_uncontrollable___default.a(TabContainer, { activeKey: 'onSelect' }));
 
 /***/ }),
-/* 131 */
+/* 130 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10928,7 +10815,7 @@ TabContent.childContextTypes = childContextTypes;
 /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_9__utils_bootstrapUtils__["bsClass"]('tab', TabContent));
 
 /***/ }),
-/* 132 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10947,10 +10834,10 @@ TabContent.childContextTypes = childContextTypes;
 var _prodInvariant = __webpack_require__(43),
     _assign = __webpack_require__(14);
 
-var ReactNoopUpdateQueue = __webpack_require__(133);
+var ReactNoopUpdateQueue = __webpack_require__(132);
 
-var canDefineProperty = __webpack_require__(67);
-var emptyObject = __webpack_require__(68);
+var canDefineProperty = __webpack_require__(66);
+var emptyObject = __webpack_require__(67);
 var invariant = __webpack_require__(10);
 var lowPriorityWarning = __webpack_require__(89);
 
@@ -11077,7 +10964,7 @@ module.exports = {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 133 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11178,7 +11065,7 @@ module.exports = ReactNoopUpdateQueue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 134 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11203,7 +11090,7 @@ var REACT_ELEMENT_TYPE = typeof Symbol === 'function' && Symbol['for'] && Symbol
 module.exports = REACT_ELEMENT_TYPE;
 
 /***/ }),
-/* 135 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11249,7 +11136,7 @@ function getIteratorFn(maybeIterable) {
 module.exports = getIteratorFn;
 
 /***/ }),
-/* 136 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11276,10 +11163,10 @@ var ReactCurrentOwner = __webpack_require__(27);
 var ReactComponentTreeHook = __webpack_require__(23);
 var ReactElement = __webpack_require__(38);
 
-var checkReactTypeSpec = __webpack_require__(219);
+var checkReactTypeSpec = __webpack_require__(217);
 
-var canDefineProperty = __webpack_require__(67);
-var getIteratorFn = __webpack_require__(135);
+var canDefineProperty = __webpack_require__(66);
+var getIteratorFn = __webpack_require__(134);
 var warning = __webpack_require__(11);
 var lowPriorityWarning = __webpack_require__(89);
 
@@ -11510,7 +11397,7 @@ module.exports = ReactElementValidator;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 137 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11529,7 +11416,7 @@ module.exports = ReactElementValidator;
 // Therefore we re-export development-only version with all the PropTypes checks here.
 // However if one is migrating to the `prop-types` npm library, they will go through the
 // `index.js` entry point, and it will branch depending on the environment.
-var factory = __webpack_require__(138);
+var factory = __webpack_require__(137);
 module.exports = function(isValidElement) {
   // It is still allowed in 15.5.
   var throwOnDirectAccess = false;
@@ -11538,7 +11425,7 @@ module.exports = function(isValidElement) {
 
 
 /***/ }),
-/* 138 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11558,7 +11445,7 @@ var invariant = __webpack_require__(10);
 var warning = __webpack_require__(11);
 
 var ReactPropTypesSecret = __webpack_require__(90);
-var checkPropTypes = __webpack_require__(223);
+var checkPropTypes = __webpack_require__(221);
 
 module.exports = function(isValidElement, throwOnDirectAccess) {
   /* global Symbol */
@@ -12058,7 +11945,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 139 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12081,7 +11968,7 @@ var ReactDOMComponentFlags = {
 module.exports = ReactDOMComponentFlags;
 
 /***/ }),
-/* 140 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12145,7 +12032,7 @@ module.exports = accumulateInto;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 141 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12181,7 +12068,7 @@ function forEachAccumulated(arr, cb, scope) {
 module.exports = forEachAccumulated;
 
 /***/ }),
-/* 142 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12219,7 +12106,7 @@ function getTextContentAccessor() {
 module.exports = getTextContentAccessor;
 
 /***/ }),
-/* 143 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12344,7 +12231,7 @@ module.exports = PooledClass.addPoolingTo(CallbackQueue);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 144 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12371,7 +12258,7 @@ var ReactFeatureFlags = {
 module.exports = ReactFeatureFlags;
 
 /***/ }),
-/* 145 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12499,7 +12386,7 @@ var inputValueTracking = {
 module.exports = inputValueTracking;
 
 /***/ }),
-/* 146 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12555,7 +12442,7 @@ function isTextInputElement(elem) {
 module.exports = isTextInputElement;
 
 /***/ }),
-/* 147 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12585,7 +12472,7 @@ var ViewportMetrics = {
 module.exports = ViewportMetrics;
 
 /***/ }),
-/* 148 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12602,8 +12489,8 @@ module.exports = ViewportMetrics;
 
 
 var ExecutionEnvironment = __webpack_require__(17);
-var escapeTextContentForBrowser = __webpack_require__(73);
-var setInnerHTML = __webpack_require__(72);
+var escapeTextContentForBrowser = __webpack_require__(72);
+var setInnerHTML = __webpack_require__(71);
 
 /**
  * Set the textContent property of a node, ensuring that whitespace is preserved
@@ -12642,7 +12529,7 @@ if (ExecutionEnvironment.canUseDOM) {
 module.exports = setTextContent;
 
 /***/ }),
-/* 149 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12674,7 +12561,7 @@ function focusNode(node) {
 module.exports = focusNode;
 
 /***/ }),
-/* 150 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12833,7 +12720,7 @@ var CSSProperty = {
 module.exports = CSSProperty;
 
 /***/ }),
-/* 151 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12853,7 +12740,7 @@ var DOMProperty = __webpack_require__(33);
 var ReactDOMComponentTree = __webpack_require__(15);
 var ReactInstrumentation = __webpack_require__(25);
 
-var quoteAttributeValueForBrowser = __webpack_require__(261);
+var quoteAttributeValueForBrowser = __webpack_require__(259);
 var warning = __webpack_require__(11);
 
 var VALID_ATTRIBUTE_NAME_REGEX = new RegExp('^[' + DOMProperty.ATTRIBUTE_NAME_START_CHAR + '][' + DOMProperty.ATTRIBUTE_NAME_CHAR + ']*$');
@@ -13074,7 +12961,7 @@ module.exports = DOMPropertyOperations;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 152 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13096,7 +12983,7 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 module.exports = ReactPropTypesSecret;
 
 /***/ }),
-/* 153 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13302,7 +13189,7 @@ module.exports = ReactDOMSelect;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 154 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13321,11 +13208,11 @@ module.exports = ReactDOMSelect;
 var _prodInvariant = __webpack_require__(12),
     _assign = __webpack_require__(14);
 
-var ReactCompositeComponent = __webpack_require__(269);
-var ReactEmptyComponent = __webpack_require__(156);
-var ReactHostComponent = __webpack_require__(157);
+var ReactCompositeComponent = __webpack_require__(267);
+var ReactEmptyComponent = __webpack_require__(155);
+var ReactHostComponent = __webpack_require__(156);
 
-var getNextDebugID = __webpack_require__(272);
+var getNextDebugID = __webpack_require__(270);
 var invariant = __webpack_require__(10);
 var warning = __webpack_require__(11);
 
@@ -13437,7 +13324,7 @@ module.exports = instantiateReactComponent;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 155 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13483,7 +13370,7 @@ module.exports = ReactNodeTypes;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 156 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13518,7 +13405,7 @@ ReactEmptyComponent.injection = ReactEmptyComponentInjection;
 module.exports = ReactEmptyComponent;
 
 /***/ }),
-/* 157 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13592,7 +13479,7 @@ module.exports = ReactHostComponent;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 158 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13611,9 +13498,9 @@ module.exports = ReactHostComponent;
 var _prodInvariant = __webpack_require__(12);
 
 var ReactCurrentOwner = __webpack_require__(27);
-var REACT_ELEMENT_TYPE = __webpack_require__(273);
+var REACT_ELEMENT_TYPE = __webpack_require__(271);
 
-var getIteratorFn = __webpack_require__(274);
+var getIteratorFn = __webpack_require__(272);
 var invariant = __webpack_require__(10);
 var KeyEscapeUtils = __webpack_require__(103);
 var warning = __webpack_require__(11);
@@ -13774,7 +13661,7 @@ module.exports = traverseAllChildren;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 159 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13864,7 +13751,7 @@ module.exports = EventListener;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 160 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13880,11 +13767,11 @@ module.exports = EventListener;
 
 
 
-var ReactDOMSelection = __webpack_require__(286);
+var ReactDOMSelection = __webpack_require__(284);
 
-var containsNode = __webpack_require__(288);
-var focusNode = __webpack_require__(149);
-var getActiveElement = __webpack_require__(161);
+var containsNode = __webpack_require__(286);
+var focusNode = __webpack_require__(148);
+var getActiveElement = __webpack_require__(160);
 
 function isInDocument(node) {
   return containsNode(document.documentElement, node);
@@ -13992,7 +13879,7 @@ var ReactInputSelection = {
 module.exports = ReactInputSelection;
 
 /***/ }),
-/* 161 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14036,7 +13923,7 @@ function getActiveElement(doc) /*?DOMElement*/{
 module.exports = getActiveElement;
 
 /***/ }),
-/* 162 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14057,23 +13944,23 @@ var _prodInvariant = __webpack_require__(12);
 var DOMLazyTree = __webpack_require__(45);
 var DOMProperty = __webpack_require__(33);
 var React = __webpack_require__(42);
-var ReactBrowserEventEmitter = __webpack_require__(74);
+var ReactBrowserEventEmitter = __webpack_require__(73);
 var ReactCurrentOwner = __webpack_require__(27);
 var ReactDOMComponentTree = __webpack_require__(15);
-var ReactDOMContainerInfo = __webpack_require__(303);
-var ReactDOMFeatureFlags = __webpack_require__(304);
-var ReactFeatureFlags = __webpack_require__(144);
+var ReactDOMContainerInfo = __webpack_require__(301);
+var ReactDOMFeatureFlags = __webpack_require__(302);
+var ReactFeatureFlags = __webpack_require__(143);
 var ReactInstanceMap = __webpack_require__(57);
 var ReactInstrumentation = __webpack_require__(25);
-var ReactMarkupChecksum = __webpack_require__(305);
+var ReactMarkupChecksum = __webpack_require__(303);
 var ReactReconciler = __webpack_require__(44);
 var ReactUpdateQueue = __webpack_require__(104);
 var ReactUpdates = __webpack_require__(28);
 
-var emptyObject = __webpack_require__(68);
-var instantiateReactComponent = __webpack_require__(154);
+var emptyObject = __webpack_require__(67);
+var instantiateReactComponent = __webpack_require__(153);
 var invariant = __webpack_require__(10);
-var setInnerHTML = __webpack_require__(72);
+var setInnerHTML = __webpack_require__(71);
 var shouldUpdateReactComponent = __webpack_require__(102);
 var warning = __webpack_require__(11);
 
@@ -14580,7 +14467,7 @@ module.exports = ReactMount;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 163 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14596,7 +14483,7 @@ module.exports = ReactMount;
 
 
 
-var ReactNodeTypes = __webpack_require__(155);
+var ReactNodeTypes = __webpack_require__(154);
 
 function getHostComponentFromComposite(inst) {
   var type;
@@ -14615,14 +14502,14 @@ function getHostComponentFromComposite(inst) {
 module.exports = getHostComponentFromComposite;
 
 /***/ }),
-/* 164 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-__webpack_require__(319);
+__webpack_require__(317);
 var Box = function (props) {
     var widthClass = "width-" + props.width;
     var heightClass = "height-" + props.height;
@@ -14641,44 +14528,127 @@ exports.default = Box;
 
 
 /***/ }),
+/* 164 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var score_type_1 = __webpack_require__(58);
+exports.GradeConvertErrors = {
+    BadScoreType: new Error("Incorrect ScoreType passed to GradeConvert method"),
+    BadScore: new Error("Bad score passed to GradeConvert method"),
+    BadPercentile: new Error("Bad percentile passed to GradeConvert method")
+};
+exports.scoreToString = function (score, scoreType) {
+    if (scoreType in score_type_1.default) {
+        return score.toString(10);
+    }
+    else {
+        throw exports.GradeConvertErrors.BadScoreType;
+    }
+};
+exports.tryParseScore = function (str, scoreType) {
+    if (scoreType in score_type_1.default) {
+        var score = Number.parseInt(str, 10);
+        if (Number.isNaN(score)) {
+            return [false, null];
+        }
+        else {
+            return [true, score];
+        }
+    }
+    else {
+        throw exports.GradeConvertErrors.BadScoreType;
+    }
+};
+exports.toGPA = function (scores) {
+    var toPoints = function (score) {
+        var letterGrade = exports.toLetterGrade(score);
+        switch (letterGrade) {
+            case "A":
+                return 4;
+            case "B":
+                return 3;
+            case "C":
+                return 2;
+            case "D":
+                return 1;
+            case "F":
+                return 0;
+        }
+    };
+    var numGrades = scores.length;
+    var gradePointSum = scores.map(toPoints).reduce(function (a, b) { return a + b; });
+    return gradePointSum / numGrades;
+};
+var letterGradeHighScores = {
+    A: 100,
+    B: 89,
+    C: 79,
+    D: 69,
+    F: 59
+};
+var isLetterGrade = function (strScore) {
+    var letterGrades = ["A", "B", "C", "D", "F"];
+    if (letterGrades.indexOf(strScore.toUpperCase()) !== -1) {
+        return true;
+    }
+    else {
+        return false;
+    }
+};
+var isNumberGrade = function (strScore) {
+    var intScore = Number.parseInt(strScore, 10);
+    var parseSuccessful = !Number.isNaN(intScore);
+    if (parseSuccessful) {
+        if (intScore >= 0 && intScore <= 100) {
+            return true;
+        }
+    }
+    else {
+        return false;
+    }
+};
+var toNumberGrade = function (strScore) {
+    if (isLetterGrade(strScore)) {
+        return Number.parseInt(strScore);
+    }
+    else if (isNumberGrade(strScore)) {
+        return letterGradeHighScores[strScore];
+    }
+    else {
+        throw new Error("toNumberGrade parse failed with " + strScore);
+    }
+};
+exports.toLetterGrade = function (grade) {
+    if (grade <= letterGradeHighScores["F"]) {
+        return "F";
+    }
+    else if (grade <= letterGradeHighScores["D"]) {
+        return "D";
+    }
+    else if (grade <= letterGradeHighScores["C"]) {
+        return "C";
+    }
+    else if (grade <= letterGradeHighScores["B"]) {
+        return "B";
+    }
+    else {
+        return "A";
+    }
+};
+
+
+/***/ }),
 /* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var CircledArrowUpIcon = function (props) {
-    return (React.createElement("svg", { width: props.width, height: props.height, viewBox: "0 0 24 24" },
-        React.createElement("path", { fill: "#000000", d: "M12,7L17,12H14V16H10V12H7L12,7M12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20Z" })));
-};
-exports.default = CircledArrowUpIcon;
-
-
-/***/ }),
-/* 166 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var CircledArrowDownIcon = function (props) {
-    return (React.createElement("svg", { width: props.width, height: props.height, viewBox: "0 0 24 24" },
-        React.createElement("path", { fill: "#000000", d: "M12,17L7,12H10V8H14V12H17L12,17M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z" })));
-};
-exports.default = CircledArrowDownIcon;
-
-
-/***/ }),
-/* 167 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var score_type_1 = __webpack_require__(59);
-var clone_1 = __webpack_require__(58);
+var score_type_1 = __webpack_require__(58);
+var clone_1 = __webpack_require__(74);
 exports.getAveragePercentileDifference = function (args) {
     var differences = [];
     for (var scoreType in score_type_1.default) {
@@ -14737,7 +14707,7 @@ var average = function (arr) {
 
 
 /***/ }),
-/* 168 */
+/* 166 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14750,29 +14720,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Badge", function() { return __WEBPACK_IMPORTED_MODULE_2__Badge__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Breadcrumb__ = __webpack_require__(380);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Breadcrumb", function() { return __WEBPACK_IMPORTED_MODULE_3__Breadcrumb__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__BreadcrumbItem__ = __webpack_require__(183);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__BreadcrumbItem__ = __webpack_require__(181);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "BreadcrumbItem", function() { return __WEBPACK_IMPORTED_MODULE_4__BreadcrumbItem__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Button__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Button__ = __webpack_require__(64);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Button", function() { return __WEBPACK_IMPORTED_MODULE_5__Button__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ButtonGroup__ = __webpack_require__(125);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ButtonGroup__ = __webpack_require__(124);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ButtonGroup", function() { return __WEBPACK_IMPORTED_MODULE_6__ButtonGroup__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ButtonToolbar__ = __webpack_require__(381);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ButtonToolbar", function() { return __WEBPACK_IMPORTED_MODULE_7__ButtonToolbar__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Carousel__ = __webpack_require__(382);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Carousel", function() { return __WEBPACK_IMPORTED_MODULE_8__Carousel__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__CarouselItem__ = __webpack_require__(184);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__CarouselItem__ = __webpack_require__(182);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CarouselItem", function() { return __WEBPACK_IMPORTED_MODULE_9__CarouselItem__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Checkbox__ = __webpack_require__(385);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Checkbox", function() { return __WEBPACK_IMPORTED_MODULE_10__Checkbox__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__Clearfix__ = __webpack_require__(386);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Clearfix", function() { return __WEBPACK_IMPORTED_MODULE_11__Clearfix__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__CloseButton__ = __webpack_require__(124);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__CloseButton__ = __webpack_require__(123);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CloseButton", function() { return __WEBPACK_IMPORTED_MODULE_12__CloseButton__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__ControlLabel__ = __webpack_require__(387);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ControlLabel", function() { return __WEBPACK_IMPORTED_MODULE_13__ControlLabel__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__Col__ = __webpack_require__(388);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Col", function() { return __WEBPACK_IMPORTED_MODULE_14__Col__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__Collapse__ = __webpack_require__(127);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__Collapse__ = __webpack_require__(126);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Collapse", function() { return __WEBPACK_IMPORTED_MODULE_15__Collapse__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__Dropdown__ = __webpack_require__(81);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Dropdown", function() { return __WEBPACK_IMPORTED_MODULE_16__Dropdown__["a"]; });
@@ -14786,9 +14756,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "FormControl", function() { return __WEBPACK_IMPORTED_MODULE_20__FormControl__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__FormGroup__ = __webpack_require__(413);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "FormGroup", function() { return __WEBPACK_IMPORTED_MODULE_21__FormGroup__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__Glyphicon__ = __webpack_require__(126);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__Glyphicon__ = __webpack_require__(125);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Glyphicon", function() { return __WEBPACK_IMPORTED_MODULE_22__Glyphicon__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__Grid__ = __webpack_require__(193);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__Grid__ = __webpack_require__(191);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Grid", function() { return __WEBPACK_IMPORTED_MODULE_23__Grid__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__HelpBlock__ = __webpack_require__(414);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "HelpBlock", function() { return __WEBPACK_IMPORTED_MODULE_24__HelpBlock__["a"]; });
@@ -14802,7 +14772,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Label", function() { return __WEBPACK_IMPORTED_MODULE_28__Label__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__ListGroup__ = __webpack_require__(421);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ListGroup", function() { return __WEBPACK_IMPORTED_MODULE_29__ListGroup__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__ListGroupItem__ = __webpack_require__(194);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__ListGroupItem__ = __webpack_require__(192);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ListGroupItem", function() { return __WEBPACK_IMPORTED_MODULE_30__ListGroupItem__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__Media__ = __webpack_require__(85);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Media", function() { return __WEBPACK_IMPORTED_MODULE_31__Media__["a"]; });
@@ -14810,25 +14780,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MenuItem", function() { return __WEBPACK_IMPORTED_MODULE_32__MenuItem__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__Modal__ = __webpack_require__(429);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Modal", function() { return __WEBPACK_IMPORTED_MODULE_33__Modal__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__ModalBody__ = __webpack_require__(199);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__ModalBody__ = __webpack_require__(197);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ModalBody", function() { return __WEBPACK_IMPORTED_MODULE_34__ModalBody__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__ModalFooter__ = __webpack_require__(200);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__ModalFooter__ = __webpack_require__(198);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ModalFooter", function() { return __WEBPACK_IMPORTED_MODULE_35__ModalFooter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__ModalHeader__ = __webpack_require__(201);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__ModalHeader__ = __webpack_require__(199);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ModalHeader", function() { return __WEBPACK_IMPORTED_MODULE_36__ModalHeader__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__ModalTitle__ = __webpack_require__(202);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__ModalTitle__ = __webpack_require__(200);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ModalTitle", function() { return __WEBPACK_IMPORTED_MODULE_37__ModalTitle__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__Nav__ = __webpack_require__(203);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__Nav__ = __webpack_require__(201);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Nav", function() { return __WEBPACK_IMPORTED_MODULE_38__Nav__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__Navbar__ = __webpack_require__(445);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Navbar", function() { return __WEBPACK_IMPORTED_MODULE_39__Navbar__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__NavbarBrand__ = __webpack_require__(204);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__NavbarBrand__ = __webpack_require__(202);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "NavbarBrand", function() { return __WEBPACK_IMPORTED_MODULE_40__NavbarBrand__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__NavDropdown__ = __webpack_require__(449);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "NavDropdown", function() { return __WEBPACK_IMPORTED_MODULE_41__NavDropdown__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__NavItem__ = __webpack_require__(205);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__NavItem__ = __webpack_require__(203);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "NavItem", function() { return __WEBPACK_IMPORTED_MODULE_42__NavItem__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__Overlay__ = __webpack_require__(206);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__Overlay__ = __webpack_require__(204);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Overlay", function() { return __WEBPACK_IMPORTED_MODULE_43__Overlay__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__OverlayTrigger__ = __webpack_require__(456);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "OverlayTrigger", function() { return __WEBPACK_IMPORTED_MODULE_44__OverlayTrigger__["a"]; });
@@ -14840,11 +14810,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Pager", function() { return __WEBPACK_IMPORTED_MODULE_47__Pager__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__Pagination__ = __webpack_require__(461);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Pagination", function() { return __WEBPACK_IMPORTED_MODULE_48__Pagination__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__PaginationButton__ = __webpack_require__(210);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__PaginationButton__ = __webpack_require__(208);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "PaginationButton", function() { return __WEBPACK_IMPORTED_MODULE_49__PaginationButton__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__Panel__ = __webpack_require__(462);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Panel", function() { return __WEBPACK_IMPORTED_MODULE_50__Panel__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__PanelGroup__ = __webpack_require__(180);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__PanelGroup__ = __webpack_require__(178);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "PanelGroup", function() { return __WEBPACK_IMPORTED_MODULE_51__PanelGroup__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__Popover__ = __webpack_require__(463);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Popover", function() { return __WEBPACK_IMPORTED_MODULE_52__Popover__["a"]; });
@@ -14862,19 +14832,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "SplitButton", function() { return __WEBPACK_IMPORTED_MODULE_58__SplitButton__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_59__Tab__ = __webpack_require__(470);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Tab", function() { return __WEBPACK_IMPORTED_MODULE_59__Tab__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_60__TabContainer__ = __webpack_require__(130);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_60__TabContainer__ = __webpack_require__(129);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "TabContainer", function() { return __WEBPACK_IMPORTED_MODULE_60__TabContainer__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_61__TabContent__ = __webpack_require__(131);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_61__TabContent__ = __webpack_require__(130);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "TabContent", function() { return __WEBPACK_IMPORTED_MODULE_61__TabContent__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_62__Table__ = __webpack_require__(471);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Table", function() { return __WEBPACK_IMPORTED_MODULE_62__Table__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_63__TabPane__ = __webpack_require__(211);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_63__TabPane__ = __webpack_require__(209);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "TabPane", function() { return __WEBPACK_IMPORTED_MODULE_63__TabPane__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_64__Tabs__ = __webpack_require__(472);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Tabs", function() { return __WEBPACK_IMPORTED_MODULE_64__Tabs__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_65__Thumbnail__ = __webpack_require__(473);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Thumbnail", function() { return __WEBPACK_IMPORTED_MODULE_65__Thumbnail__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_66__ToggleButton__ = __webpack_require__(212);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_66__ToggleButton__ = __webpack_require__(210);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ToggleButton", function() { return __WEBPACK_IMPORTED_MODULE_66__ToggleButton__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_67__ToggleButtonGroup__ = __webpack_require__(474);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ToggleButtonGroup", function() { return __WEBPACK_IMPORTED_MODULE_67__ToggleButtonGroup__["a"]; });
@@ -15028,24 +14998,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 169 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__(338), __esModule: true };
 
 /***/ }),
-/* 170 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = !__webpack_require__(48) && !__webpack_require__(61)(function(){
-  return Object.defineProperty(__webpack_require__(171)('div'), 'a', {get: function(){ return 7; }}).a != 7;
+module.exports = !__webpack_require__(48) && !__webpack_require__(60)(function(){
+  return Object.defineProperty(__webpack_require__(169)('div'), 'a', {get: function(){ return 7; }}).a != 7;
 });
 
 /***/ }),
-/* 171 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(60)
+var isObject = __webpack_require__(59)
   , document = __webpack_require__(35).document
   // in old IE typeof document.createElement is 'object'
   , is = isObject(document) && isObject(document.createElement);
@@ -15054,13 +15024,13 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 172 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var has          = __webpack_require__(41)
   , toIObject    = __webpack_require__(36)
   , arrayIndexOf = __webpack_require__(342)(false)
-  , IE_PROTO     = __webpack_require__(113)('IE_PROTO');
+  , IE_PROTO     = __webpack_require__(112)('IE_PROTO');
 
 module.exports = function(object, names){
   var O      = toIObject(object)
@@ -15076,28 +15046,28 @@ module.exports = function(object, names){
 };
 
 /***/ }),
-/* 173 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
-var cof = __webpack_require__(110);
+var cof = __webpack_require__(109);
 module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
   return cof(it) == 'String' ? it.split('') : Object(it);
 };
 
 /***/ }),
-/* 174 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.15 ToLength
-var toInteger = __webpack_require__(112)
+var toInteger = __webpack_require__(111)
   , min       = Math.min;
 module.exports = function(it){
   return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
 };
 
 /***/ }),
-/* 175 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15105,7 +15075,7 @@ module.exports = function(it){
 var $at  = __webpack_require__(346)(true);
 
 // 21.1.3.27 String.prototype[@@iterator]()
-__webpack_require__(176)(String, 'String', function(iterated){
+__webpack_require__(174)(String, 'String', function(iterated){
   this._t = String(iterated); // target
   this._i = 0;                // next index
 // 21.1.5.2.1 %StringIteratorPrototype%.next()
@@ -15120,19 +15090,19 @@ __webpack_require__(176)(String, 'String', function(iterated){
 });
 
 /***/ }),
-/* 176 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var LIBRARY        = __webpack_require__(119)
+var LIBRARY        = __webpack_require__(118)
   , $export        = __webpack_require__(34)
-  , redefine       = __webpack_require__(177)
+  , redefine       = __webpack_require__(175)
   , hide           = __webpack_require__(46)
   , has            = __webpack_require__(41)
-  , Iterators      = __webpack_require__(64)
+  , Iterators      = __webpack_require__(63)
   , $iterCreate    = __webpack_require__(347)
-  , setToStringTag = __webpack_require__(121)
+  , setToStringTag = __webpack_require__(120)
   , getPrototypeOf = __webpack_require__(350)
   , ITERATOR       = __webpack_require__(30)('iterator')
   , BUGGY          = !([].keys && 'next' in [].keys()) // Safari has buggy iterators w/o `next`
@@ -15196,33 +15166,33 @@ module.exports = function(Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED
 };
 
 /***/ }),
-/* 177 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(46);
 
 /***/ }),
-/* 178 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
-var $keys      = __webpack_require__(172)
-  , hiddenKeys = __webpack_require__(115).concat('length', 'prototype');
+var $keys      = __webpack_require__(170)
+  , hiddenKeys = __webpack_require__(114).concat('length', 'prototype');
 
 exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O){
   return $keys(O, hiddenKeys);
 };
 
 /***/ }),
-/* 179 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var pIE            = __webpack_require__(63)
-  , createDesc     = __webpack_require__(62)
+var pIE            = __webpack_require__(62)
+  , createDesc     = __webpack_require__(61)
   , toIObject      = __webpack_require__(36)
-  , toPrimitive    = __webpack_require__(109)
+  , toPrimitive    = __webpack_require__(108)
   , has            = __webpack_require__(41)
-  , IE8_DOM_DEFINE = __webpack_require__(170)
+  , IE8_DOM_DEFINE = __webpack_require__(168)
   , gOPD           = Object.getOwnPropertyDescriptor;
 
 exports.f = __webpack_require__(48) ? gOPD : function getOwnPropertyDescriptor(O, P){
@@ -15235,13 +15205,13 @@ exports.f = __webpack_require__(48) ? gOPD : function getOwnPropertyDescriptor(O
 };
 
 /***/ }),
-/* 180 */
+/* 178 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_assign__ = __webpack_require__(169);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_assign__ = __webpack_require__(167);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_assign___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_assign__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_objectWithoutProperties__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_objectWithoutProperties___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_objectWithoutProperties__);
@@ -15374,18 +15344,18 @@ PanelGroup.defaultProps = defaultProps;
 /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_9__utils_bootstrapUtils__["bsClass"]('panel-group', PanelGroup));
 
 /***/ }),
-/* 181 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__(374), __esModule: true };
 
 /***/ }),
-/* 182 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getKeys   = __webpack_require__(49)
   , toIObject = __webpack_require__(36)
-  , isEnum    = __webpack_require__(63).f;
+  , isEnum    = __webpack_require__(62).f;
 module.exports = function(isEntries){
   return function(it){
     var O      = toIObject(it)
@@ -15401,7 +15371,7 @@ module.exports = function(isEntries){
 };
 
 /***/ }),
-/* 183 */
+/* 181 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15495,7 +15465,7 @@ BreadcrumbItem.defaultProps = defaultProps;
 /* harmony default export */ __webpack_exports__["a"] = (BreadcrumbItem);
 
 /***/ }),
-/* 184 */
+/* 182 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15515,7 +15485,7 @@ BreadcrumbItem.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_react_dom__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_react_dom__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_TransitionEvents__ = __webpack_require__(384);
 
@@ -15651,7 +15621,7 @@ CarouselItem.defaultProps = defaultProps;
 /* harmony default export */ __webpack_exports__["a"] = (CarouselItem);
 
 /***/ }),
-/* 185 */
+/* 183 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15661,7 +15631,7 @@ function capitalize(string) {
 }
 
 /***/ }),
-/* 186 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15689,7 +15659,7 @@ function camelizeStyleName(string) {
 module.exports = exports['default'];
 
 /***/ }),
-/* 187 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15805,7 +15775,7 @@ function getTransitionProperties() {
 }
 
 /***/ }),
-/* 188 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15824,7 +15794,7 @@ var _on = __webpack_require__(80);
 
 var _on2 = _interopRequireDefault(_on);
 
-var _properties = __webpack_require__(187);
+var _properties = __webpack_require__(185);
 
 var _properties2 = _interopRequireDefault(_properties);
 
@@ -15836,7 +15806,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(21);
+var _reactDom = __webpack_require__(19);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -16146,7 +16116,7 @@ Transition.defaultProps = {
 exports.default = Transition;
 
 /***/ }),
-/* 189 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16173,7 +16143,7 @@ function activeElement() {
 module.exports = exports['default'];
 
 /***/ }),
-/* 190 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16193,11 +16163,11 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(21);
+var _reactDom = __webpack_require__(19);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _addEventListener = __webpack_require__(191);
+var _addEventListener = __webpack_require__(189);
 
 var _addEventListener2 = _interopRequireDefault(_addEventListener);
 
@@ -16343,7 +16313,7 @@ exports.default = RootCloseWrapper;
 module.exports = exports['default'];
 
 /***/ }),
-/* 191 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16365,7 +16335,7 @@ var _on = __webpack_require__(80);
 
 var _on2 = _interopRequireDefault(_on);
 
-var _off = __webpack_require__(129);
+var _off = __webpack_require__(128);
 
 var _off2 = _interopRequireDefault(_off);
 
@@ -16374,7 +16344,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 module.exports = exports['default'];
 
 /***/ }),
-/* 192 */
+/* 190 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16394,7 +16364,7 @@ module.exports = exports['default'];
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_classnames__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_classnames__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Button__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Button__ = __webpack_require__(64);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__SafeAnchor__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_bootstrapUtils__ = __webpack_require__(9);
 
@@ -16475,7 +16445,7 @@ DropdownToggle.defaultProps = defaultProps;
 /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_10__utils_bootstrapUtils__["bsClass"]('dropdown-toggle', DropdownToggle));
 
 /***/ }),
-/* 193 */
+/* 191 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16564,7 +16534,7 @@ Grid.defaultProps = defaultProps;
 /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_9__utils_bootstrapUtils__["bsClass"]('container', Grid));
 
 /***/ }),
-/* 194 */
+/* 192 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16587,7 +16557,7 @@ Grid.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_bootstrapUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_StyleConfig__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_StyleConfig__ = __webpack_require__(18);
 
 
 
@@ -16702,7 +16672,7 @@ ListGroupItem.defaultProps = defaultProps;
 /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_9__utils_bootstrapUtils__["bsClass"]('list-group-item', __WEBPACK_IMPORTED_MODULE_9__utils_bootstrapUtils__["bsStyles"](__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_values___default.a(__WEBPACK_IMPORTED_MODULE_10__utils_StyleConfig__["d" /* State */]), ListGroupItem)));
 
 /***/ }),
-/* 195 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16743,7 +16713,7 @@ var size = void 0;
 module.exports = exports['default'];
 
 /***/ }),
-/* 196 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16759,7 +16729,7 @@ function hasClass(element, className) {
 module.exports = exports["default"];
 
 /***/ }),
-/* 197 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16804,7 +16774,7 @@ function isOverflowing(container) {
 module.exports = exports['default'];
 
 /***/ }),
-/* 198 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16824,7 +16794,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(21);
+var _reactDom = __webpack_require__(19);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -16910,7 +16880,7 @@ exports.default = _reactDom2.default.createPortal ? Portal : _LegacyPortal2.defa
 module.exports = exports['default'];
 
 /***/ }),
-/* 199 */
+/* 197 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16985,7 +16955,7 @@ ModalBody.defaultProps = defaultProps;
 /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_8__utils_bootstrapUtils__["bsClass"]('modal-body', ModalBody));
 
 /***/ }),
-/* 200 */
+/* 198 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17060,7 +17030,7 @@ ModalFooter.defaultProps = defaultProps;
 /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_8__utils_bootstrapUtils__["bsClass"]('modal-footer', ModalFooter));
 
 /***/ }),
-/* 201 */
+/* 199 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17082,7 +17052,7 @@ ModalFooter.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils_bootstrapUtils__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_createChainedFunction__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__CloseButton__ = __webpack_require__(124);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__CloseButton__ = __webpack_require__(123);
 
 
 
@@ -17179,7 +17149,7 @@ ModalHeader.contextTypes = contextTypes;
 /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_8__utils_bootstrapUtils__["bsClass"]('modal-header', ModalHeader));
 
 /***/ }),
-/* 202 */
+/* 200 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17254,7 +17224,7 @@ ModalTitle.defaultProps = defaultProps;
 /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_8__utils_bootstrapUtils__["bsClass"]('modal-title', ModalTitle));
 
 /***/ }),
-/* 203 */
+/* 201 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17270,13 +17240,13 @@ ModalTitle.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_classnames__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_classnames__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_keycode__ = __webpack_require__(128);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_keycode__ = __webpack_require__(127);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_keycode___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_keycode__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_react_dom__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_react_dom__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_prop_types_extra_lib_all__ = __webpack_require__(78);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_prop_types_extra_lib_all___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_prop_types_extra_lib_all__);
@@ -17642,7 +17612,7 @@ Nav.contextTypes = contextTypes;
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
 /***/ }),
-/* 204 */
+/* 202 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17720,7 +17690,7 @@ NavbarBrand.contextTypes = contextTypes;
 /* harmony default export */ __webpack_exports__["a"] = (NavbarBrand);
 
 /***/ }),
-/* 205 */
+/* 203 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17838,7 +17808,7 @@ NavItem.defaultProps = defaultProps;
 /* harmony default export */ __webpack_exports__["a"] = (NavItem);
 
 /***/ }),
-/* 206 */
+/* 204 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17985,7 +17955,7 @@ Overlay.defaultProps = defaultProps;
 /* harmony default export */ __webpack_exports__["a"] = (Overlay);
 
 /***/ }),
-/* 207 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18036,7 +18006,7 @@ function offset(node) {
 module.exports = exports['default'];
 
 /***/ }),
-/* 208 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18063,7 +18033,7 @@ function scrollTop(node, val) {
 module.exports = exports['default'];
 
 /***/ }),
-/* 209 */
+/* 207 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18179,7 +18149,7 @@ PagerItem.defaultProps = defaultProps;
 /* harmony default export */ __webpack_exports__["a"] = (PagerItem);
 
 /***/ }),
-/* 210 */
+/* 208 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18303,7 +18273,7 @@ PaginationButton.defaultProps = defaultProps;
 /* harmony default export */ __webpack_exports__["a"] = (PaginationButton);
 
 /***/ }),
-/* 211 */
+/* 209 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18613,7 +18583,7 @@ TabPane.childContextTypes = childContextTypes;
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
 /***/ }),
-/* 212 */
+/* 210 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18631,7 +18601,7 @@ TabPane.childContextTypes = childContextTypes;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Button__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Button__ = __webpack_require__(64);
 
 
 
@@ -18723,20 +18693,20 @@ ToggleButton.propTypes = propTypes;
 /* harmony default export */ __webpack_exports__["a"] = (ToggleButton);
 
 /***/ }),
-/* 213 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var react_dom_1 = __webpack_require__(21);
-var path_to_hs_1 = __webpack_require__(313);
+var react_dom_1 = __webpack_require__(19);
+var path_to_hs_1 = __webpack_require__(311);
 react_dom_1.render((React.createElement(path_to_hs_1.default, null)), document.getElementById("root"));
 
 
 /***/ }),
-/* 214 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18752,11 +18722,11 @@ react_dom_1.render((React.createElement(path_to_hs_1.default, null)), document.g
 
 
 
-var PooledClass = __webpack_require__(215);
+var PooledClass = __webpack_require__(213);
 var ReactElement = __webpack_require__(38);
 
 var emptyFunction = __webpack_require__(24);
-var traverseAllChildren = __webpack_require__(216);
+var traverseAllChildren = __webpack_require__(214);
 
 var twoArgumentPooler = PooledClass.twoArgumentPooler;
 var fourArgumentPooler = PooledClass.fourArgumentPooler;
@@ -18932,7 +18902,7 @@ var ReactChildren = {
 module.exports = ReactChildren;
 
 /***/ }),
-/* 215 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19050,7 +19020,7 @@ module.exports = PooledClass;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 216 */
+/* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19069,11 +19039,11 @@ module.exports = PooledClass;
 var _prodInvariant = __webpack_require__(43);
 
 var ReactCurrentOwner = __webpack_require__(27);
-var REACT_ELEMENT_TYPE = __webpack_require__(134);
+var REACT_ELEMENT_TYPE = __webpack_require__(133);
 
-var getIteratorFn = __webpack_require__(135);
+var getIteratorFn = __webpack_require__(134);
 var invariant = __webpack_require__(10);
-var KeyEscapeUtils = __webpack_require__(217);
+var KeyEscapeUtils = __webpack_require__(215);
 var warning = __webpack_require__(11);
 
 var SEPARATOR = '.';
@@ -19232,7 +19202,7 @@ module.exports = traverseAllChildren;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 217 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19296,7 +19266,7 @@ var KeyEscapeUtils = {
 module.exports = KeyEscapeUtils;
 
 /***/ }),
-/* 218 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19321,7 +19291,7 @@ var ReactElement = __webpack_require__(38);
  */
 var createDOMFactory = ReactElement.createFactory;
 if (process.env.NODE_ENV !== 'production') {
-  var ReactElementValidator = __webpack_require__(136);
+  var ReactElementValidator = __webpack_require__(135);
   createDOMFactory = ReactElementValidator.createFactory;
 }
 
@@ -19471,7 +19441,7 @@ module.exports = ReactDOMFactories;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 219 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19489,8 +19459,8 @@ module.exports = ReactDOMFactories;
 
 var _prodInvariant = __webpack_require__(43);
 
-var ReactPropTypeLocationNames = __webpack_require__(220);
-var ReactPropTypesSecret = __webpack_require__(221);
+var ReactPropTypeLocationNames = __webpack_require__(218);
+var ReactPropTypesSecret = __webpack_require__(219);
 
 var invariant = __webpack_require__(10);
 var warning = __webpack_require__(11);
@@ -19564,7 +19534,7 @@ module.exports = checkReactTypeSpec;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 220 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19595,7 +19565,7 @@ module.exports = ReactPropTypeLocationNames;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 221 */
+/* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19617,7 +19587,7 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 module.exports = ReactPropTypesSecret;
 
 /***/ }),
-/* 222 */
+/* 220 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19636,12 +19606,12 @@ module.exports = ReactPropTypesSecret;
 var _require = __webpack_require__(38),
     isValidElement = _require.isValidElement;
 
-var factory = __webpack_require__(137);
+var factory = __webpack_require__(136);
 
 module.exports = factory(isValidElement);
 
 /***/ }),
-/* 223 */
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19710,7 +19680,7 @@ module.exports = checkPropTypes;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 224 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19729,7 +19699,7 @@ module.exports = checkPropTypes;
 module.exports = '15.6.1';
 
 /***/ }),
-/* 225 */
+/* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19745,19 +19715,19 @@ module.exports = '15.6.1';
 
 
 
-var _require = __webpack_require__(132),
+var _require = __webpack_require__(131),
     Component = _require.Component;
 
 var _require2 = __webpack_require__(38),
     isValidElement = _require2.isValidElement;
 
-var ReactNoopUpdateQueue = __webpack_require__(133);
-var factory = __webpack_require__(226);
+var ReactNoopUpdateQueue = __webpack_require__(132);
+var factory = __webpack_require__(224);
 
 module.exports = factory(Component, isValidElement, ReactNoopUpdateQueue);
 
 /***/ }),
-/* 226 */
+/* 224 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19775,7 +19745,7 @@ module.exports = factory(Component, isValidElement, ReactNoopUpdateQueue);
 
 var _assign = __webpack_require__(14);
 
-var emptyObject = __webpack_require__(68);
+var emptyObject = __webpack_require__(67);
 var _invariant = __webpack_require__(10);
 
 if (process.env.NODE_ENV !== 'production') {
@@ -20637,7 +20607,7 @@ module.exports = factory;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 227 */
+/* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20681,7 +20651,7 @@ module.exports = onlyChild;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 228 */
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20700,15 +20670,15 @@ module.exports = onlyChild;
 
 
 var ReactDOMComponentTree = __webpack_require__(15);
-var ReactDefaultInjection = __webpack_require__(229);
-var ReactMount = __webpack_require__(162);
+var ReactDefaultInjection = __webpack_require__(227);
+var ReactMount = __webpack_require__(161);
 var ReactReconciler = __webpack_require__(44);
 var ReactUpdates = __webpack_require__(28);
-var ReactVersion = __webpack_require__(307);
+var ReactVersion = __webpack_require__(305);
 
-var findDOMNode = __webpack_require__(308);
-var getHostComponentFromComposite = __webpack_require__(163);
-var renderSubtreeIntoContainer = __webpack_require__(309);
+var findDOMNode = __webpack_require__(306);
+var getHostComponentFromComposite = __webpack_require__(162);
+var renderSubtreeIntoContainer = __webpack_require__(307);
 var warning = __webpack_require__(11);
 
 ReactDefaultInjection.inject();
@@ -20785,9 +20755,9 @@ if (process.env.NODE_ENV !== 'production') {
 
 if (process.env.NODE_ENV !== 'production') {
   var ReactInstrumentation = __webpack_require__(25);
-  var ReactDOMUnknownPropertyHook = __webpack_require__(310);
-  var ReactDOMNullInputValuePropHook = __webpack_require__(311);
-  var ReactDOMInvalidARIAHook = __webpack_require__(312);
+  var ReactDOMUnknownPropertyHook = __webpack_require__(308);
+  var ReactDOMNullInputValuePropHook = __webpack_require__(309);
+  var ReactDOMInvalidARIAHook = __webpack_require__(310);
 
   ReactInstrumentation.debugTool.addHook(ReactDOMUnknownPropertyHook);
   ReactInstrumentation.debugTool.addHook(ReactDOMNullInputValuePropHook);
@@ -20798,7 +20768,7 @@ module.exports = ReactDOM;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 229 */
+/* 227 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20814,25 +20784,25 @@ module.exports = ReactDOM;
 
 
 
-var ARIADOMPropertyConfig = __webpack_require__(230);
-var BeforeInputEventPlugin = __webpack_require__(231);
-var ChangeEventPlugin = __webpack_require__(235);
-var DefaultEventPluginOrder = __webpack_require__(243);
-var EnterLeaveEventPlugin = __webpack_require__(244);
-var HTMLDOMPropertyConfig = __webpack_require__(245);
-var ReactComponentBrowserEnvironment = __webpack_require__(246);
-var ReactDOMComponent = __webpack_require__(252);
+var ARIADOMPropertyConfig = __webpack_require__(228);
+var BeforeInputEventPlugin = __webpack_require__(229);
+var ChangeEventPlugin = __webpack_require__(233);
+var DefaultEventPluginOrder = __webpack_require__(241);
+var EnterLeaveEventPlugin = __webpack_require__(242);
+var HTMLDOMPropertyConfig = __webpack_require__(243);
+var ReactComponentBrowserEnvironment = __webpack_require__(244);
+var ReactDOMComponent = __webpack_require__(250);
 var ReactDOMComponentTree = __webpack_require__(15);
-var ReactDOMEmptyComponent = __webpack_require__(278);
-var ReactDOMTreeTraversal = __webpack_require__(279);
-var ReactDOMTextComponent = __webpack_require__(280);
-var ReactDefaultBatchingStrategy = __webpack_require__(281);
-var ReactEventListener = __webpack_require__(282);
-var ReactInjection = __webpack_require__(284);
-var ReactReconcileTransaction = __webpack_require__(285);
-var SVGDOMPropertyConfig = __webpack_require__(291);
-var SelectEventPlugin = __webpack_require__(292);
-var SimpleEventPlugin = __webpack_require__(293);
+var ReactDOMEmptyComponent = __webpack_require__(276);
+var ReactDOMTreeTraversal = __webpack_require__(277);
+var ReactDOMTextComponent = __webpack_require__(278);
+var ReactDefaultBatchingStrategy = __webpack_require__(279);
+var ReactEventListener = __webpack_require__(280);
+var ReactInjection = __webpack_require__(282);
+var ReactReconcileTransaction = __webpack_require__(283);
+var SVGDOMPropertyConfig = __webpack_require__(289);
+var SelectEventPlugin = __webpack_require__(290);
+var SimpleEventPlugin = __webpack_require__(291);
 
 var alreadyInjected = false;
 
@@ -20889,7 +20859,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 230 */
+/* 228 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20968,7 +20938,7 @@ var ARIADOMPropertyConfig = {
 module.exports = ARIADOMPropertyConfig;
 
 /***/ }),
-/* 231 */
+/* 229 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20986,9 +20956,9 @@ module.exports = ARIADOMPropertyConfig;
 
 var EventPropagators = __webpack_require__(54);
 var ExecutionEnvironment = __webpack_require__(17);
-var FallbackCompositionState = __webpack_require__(232);
-var SyntheticCompositionEvent = __webpack_require__(233);
-var SyntheticInputEvent = __webpack_require__(234);
+var FallbackCompositionState = __webpack_require__(230);
+var SyntheticCompositionEvent = __webpack_require__(231);
+var SyntheticInputEvent = __webpack_require__(232);
 
 var END_KEYCODES = [9, 13, 27, 32]; // Tab, Return, Esc, Space
 var START_KEYCODE = 229;
@@ -21357,7 +21327,7 @@ var BeforeInputEventPlugin = {
 module.exports = BeforeInputEventPlugin;
 
 /***/ }),
-/* 232 */
+/* 230 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21377,7 +21347,7 @@ var _assign = __webpack_require__(14);
 
 var PooledClass = __webpack_require__(39);
 
-var getTextContentAccessor = __webpack_require__(142);
+var getTextContentAccessor = __webpack_require__(141);
 
 /**
  * This helper class stores information about text content of a target node,
@@ -21457,7 +21427,7 @@ PooledClass.addPoolingTo(FallbackCompositionState);
 module.exports = FallbackCompositionState;
 
 /***/ }),
-/* 233 */
+/* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21498,7 +21468,7 @@ SyntheticEvent.augmentClass(SyntheticCompositionEvent, CompositionEventInterface
 module.exports = SyntheticCompositionEvent;
 
 /***/ }),
-/* 234 */
+/* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21540,7 +21510,7 @@ SyntheticEvent.augmentClass(SyntheticInputEvent, InputEventInterface);
 module.exports = SyntheticInputEvent;
 
 /***/ }),
-/* 235 */
+/* 233 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21563,10 +21533,10 @@ var ReactDOMComponentTree = __webpack_require__(15);
 var ReactUpdates = __webpack_require__(28);
 var SyntheticEvent = __webpack_require__(32);
 
-var inputValueTracking = __webpack_require__(145);
+var inputValueTracking = __webpack_require__(144);
 var getEventTarget = __webpack_require__(93);
 var isEventSupported = __webpack_require__(94);
-var isTextInputElement = __webpack_require__(146);
+var isTextInputElement = __webpack_require__(145);
 
 var eventTypes = {
   change: {
@@ -21857,7 +21827,7 @@ var ChangeEventPlugin = {
 module.exports = ChangeEventPlugin;
 
 /***/ }),
-/* 236 */
+/* 234 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21874,7 +21844,7 @@ module.exports = ChangeEventPlugin;
 
 
 
-var ReactOwner = __webpack_require__(237);
+var ReactOwner = __webpack_require__(235);
 
 var ReactRef = {};
 
@@ -21951,7 +21921,7 @@ ReactRef.detachRefs = function (instance, element) {
 module.exports = ReactRef;
 
 /***/ }),
-/* 237 */
+/* 235 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22050,7 +22020,7 @@ module.exports = ReactOwner;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 238 */
+/* 236 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22067,12 +22037,12 @@ module.exports = ReactOwner;
 
 
 
-var ReactInvalidSetStateWarningHook = __webpack_require__(239);
-var ReactHostOperationHistoryHook = __webpack_require__(240);
+var ReactInvalidSetStateWarningHook = __webpack_require__(237);
+var ReactHostOperationHistoryHook = __webpack_require__(238);
 var ReactComponentTreeHook = __webpack_require__(23);
 var ExecutionEnvironment = __webpack_require__(17);
 
-var performanceNow = __webpack_require__(241);
+var performanceNow = __webpack_require__(239);
 var warning = __webpack_require__(11);
 
 var hooks = [];
@@ -22417,7 +22387,7 @@ module.exports = ReactDebugTool;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 239 */
+/* 237 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22460,7 +22430,7 @@ module.exports = ReactInvalidSetStateWarningHook;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 240 */
+/* 238 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22499,7 +22469,7 @@ var ReactHostOperationHistoryHook = {
 module.exports = ReactHostOperationHistoryHook;
 
 /***/ }),
-/* 241 */
+/* 239 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22516,7 +22486,7 @@ module.exports = ReactHostOperationHistoryHook;
  * @typechecks
  */
 
-var performance = __webpack_require__(242);
+var performance = __webpack_require__(240);
 
 var performanceNow;
 
@@ -22538,7 +22508,7 @@ if (performance.now) {
 module.exports = performanceNow;
 
 /***/ }),
-/* 242 */
+/* 240 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22566,7 +22536,7 @@ if (ExecutionEnvironment.canUseDOM) {
 module.exports = performance || {};
 
 /***/ }),
-/* 243 */
+/* 241 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22597,7 +22567,7 @@ var DefaultEventPluginOrder = ['ResponderEventPlugin', 'SimpleEventPlugin', 'Tap
 module.exports = DefaultEventPluginOrder;
 
 /***/ }),
-/* 244 */
+/* 242 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22615,7 +22585,7 @@ module.exports = DefaultEventPluginOrder;
 
 var EventPropagators = __webpack_require__(54);
 var ReactDOMComponentTree = __webpack_require__(15);
-var SyntheticMouseEvent = __webpack_require__(71);
+var SyntheticMouseEvent = __webpack_require__(70);
 
 var eventTypes = {
   mouseEnter: {
@@ -22700,7 +22670,7 @@ var EnterLeaveEventPlugin = {
 module.exports = EnterLeaveEventPlugin;
 
 /***/ }),
-/* 245 */
+/* 243 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22941,7 +22911,7 @@ var HTMLDOMPropertyConfig = {
 module.exports = HTMLDOMPropertyConfig;
 
 /***/ }),
-/* 246 */
+/* 244 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22958,7 +22928,7 @@ module.exports = HTMLDOMPropertyConfig;
 
 
 var DOMChildrenOperations = __webpack_require__(96);
-var ReactDOMIDOperations = __webpack_require__(251);
+var ReactDOMIDOperations = __webpack_require__(249);
 
 /**
  * Abstracts away all functionality of the reconciler that requires knowledge of
@@ -22974,7 +22944,7 @@ var ReactComponentBrowserEnvironment = {
 module.exports = ReactComponentBrowserEnvironment;
 
 /***/ }),
-/* 247 */
+/* 245 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22995,7 +22965,7 @@ var _prodInvariant = __webpack_require__(12);
 var DOMLazyTree = __webpack_require__(45);
 var ExecutionEnvironment = __webpack_require__(17);
 
-var createNodesFromMarkup = __webpack_require__(248);
+var createNodesFromMarkup = __webpack_require__(246);
 var emptyFunction = __webpack_require__(24);
 var invariant = __webpack_require__(10);
 
@@ -23026,7 +22996,7 @@ module.exports = Danger;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 248 */
+/* 246 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23047,8 +23017,8 @@ module.exports = Danger;
 
 var ExecutionEnvironment = __webpack_require__(17);
 
-var createArrayFromMixed = __webpack_require__(249);
-var getMarkupWrap = __webpack_require__(250);
+var createArrayFromMixed = __webpack_require__(247);
+var getMarkupWrap = __webpack_require__(248);
 var invariant = __webpack_require__(10);
 
 /**
@@ -23116,7 +23086,7 @@ module.exports = createNodesFromMarkup;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 249 */
+/* 247 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23249,7 +23219,7 @@ module.exports = createArrayFromMixed;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 250 */
+/* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23350,7 +23320,7 @@ module.exports = getMarkupWrap;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 251 */
+/* 249 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23388,7 +23358,7 @@ var ReactDOMIDOperations = {
 module.exports = ReactDOMIDOperations;
 
 /***/ }),
-/* 252 */
+/* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23409,31 +23379,31 @@ module.exports = ReactDOMIDOperations;
 var _prodInvariant = __webpack_require__(12),
     _assign = __webpack_require__(14);
 
-var AutoFocusUtils = __webpack_require__(253);
-var CSSPropertyOperations = __webpack_require__(254);
+var AutoFocusUtils = __webpack_require__(251);
+var CSSPropertyOperations = __webpack_require__(252);
 var DOMLazyTree = __webpack_require__(45);
 var DOMNamespaces = __webpack_require__(97);
 var DOMProperty = __webpack_require__(33);
-var DOMPropertyOperations = __webpack_require__(151);
+var DOMPropertyOperations = __webpack_require__(150);
 var EventPluginHub = __webpack_require__(55);
-var EventPluginRegistry = __webpack_require__(69);
-var ReactBrowserEventEmitter = __webpack_require__(74);
-var ReactDOMComponentFlags = __webpack_require__(139);
+var EventPluginRegistry = __webpack_require__(68);
+var ReactBrowserEventEmitter = __webpack_require__(73);
+var ReactDOMComponentFlags = __webpack_require__(138);
 var ReactDOMComponentTree = __webpack_require__(15);
-var ReactDOMInput = __webpack_require__(264);
-var ReactDOMOption = __webpack_require__(265);
-var ReactDOMSelect = __webpack_require__(153);
-var ReactDOMTextarea = __webpack_require__(266);
+var ReactDOMInput = __webpack_require__(262);
+var ReactDOMOption = __webpack_require__(263);
+var ReactDOMSelect = __webpack_require__(152);
+var ReactDOMTextarea = __webpack_require__(264);
 var ReactInstrumentation = __webpack_require__(25);
-var ReactMultiChild = __webpack_require__(267);
-var ReactServerRenderingTransaction = __webpack_require__(276);
+var ReactMultiChild = __webpack_require__(265);
+var ReactServerRenderingTransaction = __webpack_require__(274);
 
 var emptyFunction = __webpack_require__(24);
-var escapeTextContentForBrowser = __webpack_require__(73);
+var escapeTextContentForBrowser = __webpack_require__(72);
 var invariant = __webpack_require__(10);
 var isEventSupported = __webpack_require__(94);
 var shallowEqual = __webpack_require__(101);
-var inputValueTracking = __webpack_require__(145);
+var inputValueTracking = __webpack_require__(144);
 var validateDOMNesting = __webpack_require__(105);
 var warning = __webpack_require__(11);
 
@@ -24404,7 +24374,7 @@ module.exports = ReactDOMComponent;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 253 */
+/* 251 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24422,7 +24392,7 @@ module.exports = ReactDOMComponent;
 
 var ReactDOMComponentTree = __webpack_require__(15);
 
-var focusNode = __webpack_require__(149);
+var focusNode = __webpack_require__(148);
 
 var AutoFocusUtils = {
   focusDOMComponent: function () {
@@ -24433,7 +24403,7 @@ var AutoFocusUtils = {
 module.exports = AutoFocusUtils;
 
 /***/ }),
-/* 254 */
+/* 252 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24449,14 +24419,14 @@ module.exports = AutoFocusUtils;
 
 
 
-var CSSProperty = __webpack_require__(150);
+var CSSProperty = __webpack_require__(149);
 var ExecutionEnvironment = __webpack_require__(17);
 var ReactInstrumentation = __webpack_require__(25);
 
-var camelizeStyleName = __webpack_require__(255);
-var dangerousStyleValue = __webpack_require__(257);
-var hyphenateStyleName = __webpack_require__(258);
-var memoizeStringOnly = __webpack_require__(260);
+var camelizeStyleName = __webpack_require__(253);
+var dangerousStyleValue = __webpack_require__(255);
+var hyphenateStyleName = __webpack_require__(256);
+var memoizeStringOnly = __webpack_require__(258);
 var warning = __webpack_require__(11);
 
 var processStyleName = memoizeStringOnly(function (styleName) {
@@ -24654,7 +24624,7 @@ module.exports = CSSPropertyOperations;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 255 */
+/* 253 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24671,7 +24641,7 @@ module.exports = CSSPropertyOperations;
 
 
 
-var camelize = __webpack_require__(256);
+var camelize = __webpack_require__(254);
 
 var msPattern = /^-ms-/;
 
@@ -24699,7 +24669,7 @@ function camelizeStyleName(string) {
 module.exports = camelizeStyleName;
 
 /***/ }),
-/* 256 */
+/* 254 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24736,7 +24706,7 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 257 */
+/* 255 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24752,7 +24722,7 @@ module.exports = camelize;
 
 
 
-var CSSProperty = __webpack_require__(150);
+var CSSProperty = __webpack_require__(149);
 var warning = __webpack_require__(11);
 
 var isUnitlessNumber = CSSProperty.isUnitlessNumber;
@@ -24821,7 +24791,7 @@ module.exports = dangerousStyleValue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 258 */
+/* 256 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24838,7 +24808,7 @@ module.exports = dangerousStyleValue;
 
 
 
-var hyphenate = __webpack_require__(259);
+var hyphenate = __webpack_require__(257);
 
 var msPattern = /^ms-/;
 
@@ -24865,7 +24835,7 @@ function hyphenateStyleName(string) {
 module.exports = hyphenateStyleName;
 
 /***/ }),
-/* 259 */
+/* 257 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24903,7 +24873,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 260 */
+/* 258 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24938,7 +24908,7 @@ function memoizeStringOnly(callback) {
 module.exports = memoizeStringOnly;
 
 /***/ }),
-/* 261 */
+/* 259 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24954,7 +24924,7 @@ module.exports = memoizeStringOnly;
 
 
 
-var escapeTextContentForBrowser = __webpack_require__(73);
+var escapeTextContentForBrowser = __webpack_require__(72);
 
 /**
  * Escapes attribute value to prevent scripting attacks.
@@ -24969,7 +24939,7 @@ function quoteAttributeValueForBrowser(value) {
 module.exports = quoteAttributeValueForBrowser;
 
 /***/ }),
-/* 262 */
+/* 260 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25006,7 +24976,7 @@ var ReactEventEmitterMixin = {
 module.exports = ReactEventEmitterMixin;
 
 /***/ }),
-/* 263 */
+/* 261 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25112,7 +25082,7 @@ function getVendorPrefixedEventName(eventName) {
 module.exports = getVendorPrefixedEventName;
 
 /***/ }),
-/* 264 */
+/* 262 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25131,7 +25101,7 @@ module.exports = getVendorPrefixedEventName;
 var _prodInvariant = __webpack_require__(12),
     _assign = __webpack_require__(14);
 
-var DOMPropertyOperations = __webpack_require__(151);
+var DOMPropertyOperations = __webpack_require__(150);
 var LinkedValueUtils = __webpack_require__(99);
 var ReactDOMComponentTree = __webpack_require__(15);
 var ReactUpdates = __webpack_require__(28);
@@ -25405,7 +25375,7 @@ module.exports = ReactDOMInput;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 265 */
+/* 263 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25425,7 +25395,7 @@ var _assign = __webpack_require__(14);
 
 var React = __webpack_require__(42);
 var ReactDOMComponentTree = __webpack_require__(15);
-var ReactDOMSelect = __webpack_require__(153);
+var ReactDOMSelect = __webpack_require__(152);
 
 var warning = __webpack_require__(11);
 var didWarnInvalidOptionChildren = false;
@@ -25533,7 +25503,7 @@ module.exports = ReactDOMOption;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 266 */
+/* 264 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25699,7 +25669,7 @@ module.exports = ReactDOMTextarea;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 267 */
+/* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25723,10 +25693,10 @@ var ReactInstrumentation = __webpack_require__(25);
 
 var ReactCurrentOwner = __webpack_require__(27);
 var ReactReconciler = __webpack_require__(44);
-var ReactChildReconciler = __webpack_require__(268);
+var ReactChildReconciler = __webpack_require__(266);
 
 var emptyFunction = __webpack_require__(24);
-var flattenChildren = __webpack_require__(275);
+var flattenChildren = __webpack_require__(273);
 var invariant = __webpack_require__(10);
 
 /**
@@ -26151,7 +26121,7 @@ module.exports = ReactMultiChild;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 268 */
+/* 266 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26169,10 +26139,10 @@ module.exports = ReactMultiChild;
 
 var ReactReconciler = __webpack_require__(44);
 
-var instantiateReactComponent = __webpack_require__(154);
+var instantiateReactComponent = __webpack_require__(153);
 var KeyEscapeUtils = __webpack_require__(103);
 var shouldUpdateReactComponent = __webpack_require__(102);
-var traverseAllChildren = __webpack_require__(158);
+var traverseAllChildren = __webpack_require__(157);
 var warning = __webpack_require__(11);
 
 var ReactComponentTreeHook;
@@ -26310,7 +26280,7 @@ module.exports = ReactChildReconciler;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 269 */
+/* 267 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26335,14 +26305,14 @@ var ReactCurrentOwner = __webpack_require__(27);
 var ReactErrorUtils = __webpack_require__(92);
 var ReactInstanceMap = __webpack_require__(57);
 var ReactInstrumentation = __webpack_require__(25);
-var ReactNodeTypes = __webpack_require__(155);
+var ReactNodeTypes = __webpack_require__(154);
 var ReactReconciler = __webpack_require__(44);
 
 if (process.env.NODE_ENV !== 'production') {
-  var checkReactTypeSpec = __webpack_require__(270);
+  var checkReactTypeSpec = __webpack_require__(268);
 }
 
-var emptyObject = __webpack_require__(68);
+var emptyObject = __webpack_require__(67);
 var invariant = __webpack_require__(10);
 var shallowEqual = __webpack_require__(101);
 var shouldUpdateReactComponent = __webpack_require__(102);
@@ -27216,7 +27186,7 @@ module.exports = ReactCompositeComponent;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 270 */
+/* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27234,8 +27204,8 @@ module.exports = ReactCompositeComponent;
 
 var _prodInvariant = __webpack_require__(12);
 
-var ReactPropTypeLocationNames = __webpack_require__(271);
-var ReactPropTypesSecret = __webpack_require__(152);
+var ReactPropTypeLocationNames = __webpack_require__(269);
+var ReactPropTypesSecret = __webpack_require__(151);
 
 var invariant = __webpack_require__(10);
 var warning = __webpack_require__(11);
@@ -27309,7 +27279,7 @@ module.exports = checkReactTypeSpec;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 271 */
+/* 269 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27340,7 +27310,7 @@ module.exports = ReactPropTypeLocationNames;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 272 */
+/* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27366,7 +27336,7 @@ function getNextDebugID() {
 module.exports = getNextDebugID;
 
 /***/ }),
-/* 273 */
+/* 271 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27391,7 +27361,7 @@ var REACT_ELEMENT_TYPE = typeof Symbol === 'function' && Symbol['for'] && Symbol
 module.exports = REACT_ELEMENT_TYPE;
 
 /***/ }),
-/* 274 */
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27437,7 +27407,7 @@ function getIteratorFn(maybeIterable) {
 module.exports = getIteratorFn;
 
 /***/ }),
-/* 275 */
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27455,7 +27425,7 @@ module.exports = getIteratorFn;
 
 
 var KeyEscapeUtils = __webpack_require__(103);
-var traverseAllChildren = __webpack_require__(158);
+var traverseAllChildren = __webpack_require__(157);
 var warning = __webpack_require__(11);
 
 var ReactComponentTreeHook;
@@ -27519,7 +27489,7 @@ module.exports = flattenChildren;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 276 */
+/* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27538,9 +27508,9 @@ module.exports = flattenChildren;
 var _assign = __webpack_require__(14);
 
 var PooledClass = __webpack_require__(39);
-var Transaction = __webpack_require__(70);
+var Transaction = __webpack_require__(69);
 var ReactInstrumentation = __webpack_require__(25);
-var ReactServerUpdateQueue = __webpack_require__(277);
+var ReactServerUpdateQueue = __webpack_require__(275);
 
 /**
  * Executed within the scope of the `Transaction` instance. Consider these as
@@ -27615,7 +27585,7 @@ module.exports = ReactServerRenderingTransaction;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 277 */
+/* 275 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27760,7 +27730,7 @@ module.exports = ReactServerUpdateQueue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 278 */
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27825,7 +27795,7 @@ _assign(ReactDOMEmptyComponent.prototype, {
 module.exports = ReactDOMEmptyComponent;
 
 /***/ }),
-/* 279 */
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27967,7 +27937,7 @@ module.exports = {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 280 */
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27990,7 +27960,7 @@ var DOMChildrenOperations = __webpack_require__(96);
 var DOMLazyTree = __webpack_require__(45);
 var ReactDOMComponentTree = __webpack_require__(15);
 
-var escapeTextContentForBrowser = __webpack_require__(73);
+var escapeTextContentForBrowser = __webpack_require__(72);
 var invariant = __webpack_require__(10);
 var validateDOMNesting = __webpack_require__(105);
 
@@ -28135,7 +28105,7 @@ module.exports = ReactDOMTextComponent;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 281 */
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28154,7 +28124,7 @@ module.exports = ReactDOMTextComponent;
 var _assign = __webpack_require__(14);
 
 var ReactUpdates = __webpack_require__(28);
-var Transaction = __webpack_require__(70);
+var Transaction = __webpack_require__(69);
 
 var emptyFunction = __webpack_require__(24);
 
@@ -28208,7 +28178,7 @@ var ReactDefaultBatchingStrategy = {
 module.exports = ReactDefaultBatchingStrategy;
 
 /***/ }),
-/* 282 */
+/* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28226,14 +28196,14 @@ module.exports = ReactDefaultBatchingStrategy;
 
 var _assign = __webpack_require__(14);
 
-var EventListener = __webpack_require__(159);
+var EventListener = __webpack_require__(158);
 var ExecutionEnvironment = __webpack_require__(17);
 var PooledClass = __webpack_require__(39);
 var ReactDOMComponentTree = __webpack_require__(15);
 var ReactUpdates = __webpack_require__(28);
 
 var getEventTarget = __webpack_require__(93);
-var getUnboundedScrollPosition = __webpack_require__(283);
+var getUnboundedScrollPosition = __webpack_require__(281);
 
 /**
  * Find the deepest React component completely containing the root of the
@@ -28368,7 +28338,7 @@ var ReactEventListener = {
 module.exports = ReactEventListener;
 
 /***/ }),
-/* 283 */
+/* 281 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28412,7 +28382,7 @@ function getUnboundedScrollPosition(scrollable) {
 module.exports = getUnboundedScrollPosition;
 
 /***/ }),
-/* 284 */
+/* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28432,9 +28402,9 @@ var DOMProperty = __webpack_require__(33);
 var EventPluginHub = __webpack_require__(55);
 var EventPluginUtils = __webpack_require__(91);
 var ReactComponentEnvironment = __webpack_require__(100);
-var ReactEmptyComponent = __webpack_require__(156);
-var ReactBrowserEventEmitter = __webpack_require__(74);
-var ReactHostComponent = __webpack_require__(157);
+var ReactEmptyComponent = __webpack_require__(155);
+var ReactBrowserEventEmitter = __webpack_require__(73);
+var ReactHostComponent = __webpack_require__(156);
 var ReactUpdates = __webpack_require__(28);
 
 var ReactInjection = {
@@ -28451,7 +28421,7 @@ var ReactInjection = {
 module.exports = ReactInjection;
 
 /***/ }),
-/* 285 */
+/* 283 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28469,12 +28439,12 @@ module.exports = ReactInjection;
 
 var _assign = __webpack_require__(14);
 
-var CallbackQueue = __webpack_require__(143);
+var CallbackQueue = __webpack_require__(142);
 var PooledClass = __webpack_require__(39);
-var ReactBrowserEventEmitter = __webpack_require__(74);
-var ReactInputSelection = __webpack_require__(160);
+var ReactBrowserEventEmitter = __webpack_require__(73);
+var ReactInputSelection = __webpack_require__(159);
 var ReactInstrumentation = __webpack_require__(25);
-var Transaction = __webpack_require__(70);
+var Transaction = __webpack_require__(69);
 var ReactUpdateQueue = __webpack_require__(104);
 
 /**
@@ -28635,7 +28605,7 @@ module.exports = ReactReconcileTransaction;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 286 */
+/* 284 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28653,8 +28623,8 @@ module.exports = ReactReconcileTransaction;
 
 var ExecutionEnvironment = __webpack_require__(17);
 
-var getNodeForCharacterOffset = __webpack_require__(287);
-var getTextContentAccessor = __webpack_require__(142);
+var getNodeForCharacterOffset = __webpack_require__(285);
+var getTextContentAccessor = __webpack_require__(141);
 
 /**
  * While `isCollapsed` is available on the Selection object and `collapsed`
@@ -28852,7 +28822,7 @@ var ReactDOMSelection = {
 module.exports = ReactDOMSelection;
 
 /***/ }),
-/* 287 */
+/* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28931,7 +28901,7 @@ function getNodeForCharacterOffset(root, offset) {
 module.exports = getNodeForCharacterOffset;
 
 /***/ }),
-/* 288 */
+/* 286 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28948,7 +28918,7 @@ module.exports = getNodeForCharacterOffset;
  * 
  */
 
-var isTextNode = __webpack_require__(289);
+var isTextNode = __webpack_require__(287);
 
 /*eslint-disable no-bitwise */
 
@@ -28976,7 +28946,7 @@ function containsNode(outerNode, innerNode) {
 module.exports = containsNode;
 
 /***/ }),
-/* 289 */
+/* 287 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28993,7 +28963,7 @@ module.exports = containsNode;
  * @typechecks
  */
 
-var isNode = __webpack_require__(290);
+var isNode = __webpack_require__(288);
 
 /**
  * @param {*} object The object to check.
@@ -29006,7 +28976,7 @@ function isTextNode(object) {
 module.exports = isTextNode;
 
 /***/ }),
-/* 290 */
+/* 288 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29036,7 +29006,7 @@ function isNode(object) {
 module.exports = isNode;
 
 /***/ }),
-/* 291 */
+/* 289 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29343,7 +29313,7 @@ Object.keys(ATTRS).forEach(function (key) {
 module.exports = SVGDOMPropertyConfig;
 
 /***/ }),
-/* 292 */
+/* 290 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29362,11 +29332,11 @@ module.exports = SVGDOMPropertyConfig;
 var EventPropagators = __webpack_require__(54);
 var ExecutionEnvironment = __webpack_require__(17);
 var ReactDOMComponentTree = __webpack_require__(15);
-var ReactInputSelection = __webpack_require__(160);
+var ReactInputSelection = __webpack_require__(159);
 var SyntheticEvent = __webpack_require__(32);
 
-var getActiveElement = __webpack_require__(161);
-var isTextInputElement = __webpack_require__(146);
+var getActiveElement = __webpack_require__(160);
+var isTextInputElement = __webpack_require__(145);
 var shallowEqual = __webpack_require__(101);
 
 var skipSelectionChangeEvent = ExecutionEnvironment.canUseDOM && 'documentMode' in document && document.documentMode <= 11;
@@ -29536,7 +29506,7 @@ var SelectEventPlugin = {
 module.exports = SelectEventPlugin;
 
 /***/ }),
-/* 293 */
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29555,20 +29525,20 @@ module.exports = SelectEventPlugin;
 
 var _prodInvariant = __webpack_require__(12);
 
-var EventListener = __webpack_require__(159);
+var EventListener = __webpack_require__(158);
 var EventPropagators = __webpack_require__(54);
 var ReactDOMComponentTree = __webpack_require__(15);
-var SyntheticAnimationEvent = __webpack_require__(294);
-var SyntheticClipboardEvent = __webpack_require__(295);
+var SyntheticAnimationEvent = __webpack_require__(292);
+var SyntheticClipboardEvent = __webpack_require__(293);
 var SyntheticEvent = __webpack_require__(32);
-var SyntheticFocusEvent = __webpack_require__(296);
-var SyntheticKeyboardEvent = __webpack_require__(297);
-var SyntheticMouseEvent = __webpack_require__(71);
-var SyntheticDragEvent = __webpack_require__(299);
-var SyntheticTouchEvent = __webpack_require__(300);
-var SyntheticTransitionEvent = __webpack_require__(301);
+var SyntheticFocusEvent = __webpack_require__(294);
+var SyntheticKeyboardEvent = __webpack_require__(295);
+var SyntheticMouseEvent = __webpack_require__(70);
+var SyntheticDragEvent = __webpack_require__(297);
+var SyntheticTouchEvent = __webpack_require__(298);
+var SyntheticTransitionEvent = __webpack_require__(299);
 var SyntheticUIEvent = __webpack_require__(56);
-var SyntheticWheelEvent = __webpack_require__(302);
+var SyntheticWheelEvent = __webpack_require__(300);
 
 var emptyFunction = __webpack_require__(24);
 var getEventCharCode = __webpack_require__(106);
@@ -29768,7 +29738,7 @@ module.exports = SimpleEventPlugin;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 294 */
+/* 292 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29812,7 +29782,7 @@ SyntheticEvent.augmentClass(SyntheticAnimationEvent, AnimationEventInterface);
 module.exports = SyntheticAnimationEvent;
 
 /***/ }),
-/* 295 */
+/* 293 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29855,7 +29825,7 @@ SyntheticEvent.augmentClass(SyntheticClipboardEvent, ClipboardEventInterface);
 module.exports = SyntheticClipboardEvent;
 
 /***/ }),
-/* 296 */
+/* 294 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29896,7 +29866,7 @@ SyntheticUIEvent.augmentClass(SyntheticFocusEvent, FocusEventInterface);
 module.exports = SyntheticFocusEvent;
 
 /***/ }),
-/* 297 */
+/* 295 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29915,7 +29885,7 @@ module.exports = SyntheticFocusEvent;
 var SyntheticUIEvent = __webpack_require__(56);
 
 var getEventCharCode = __webpack_require__(106);
-var getEventKey = __webpack_require__(298);
+var getEventKey = __webpack_require__(296);
 var getEventModifierState = __webpack_require__(95);
 
 /**
@@ -29985,7 +29955,7 @@ SyntheticUIEvent.augmentClass(SyntheticKeyboardEvent, KeyboardEventInterface);
 module.exports = SyntheticKeyboardEvent;
 
 /***/ }),
-/* 298 */
+/* 296 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30102,7 +30072,7 @@ function getEventKey(nativeEvent) {
 module.exports = getEventKey;
 
 /***/ }),
-/* 299 */
+/* 297 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30118,7 +30088,7 @@ module.exports = getEventKey;
 
 
 
-var SyntheticMouseEvent = __webpack_require__(71);
+var SyntheticMouseEvent = __webpack_require__(70);
 
 /**
  * @interface DragEvent
@@ -30143,7 +30113,7 @@ SyntheticMouseEvent.augmentClass(SyntheticDragEvent, DragEventInterface);
 module.exports = SyntheticDragEvent;
 
 /***/ }),
-/* 300 */
+/* 298 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30193,7 +30163,7 @@ SyntheticUIEvent.augmentClass(SyntheticTouchEvent, TouchEventInterface);
 module.exports = SyntheticTouchEvent;
 
 /***/ }),
-/* 301 */
+/* 299 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30237,7 +30207,7 @@ SyntheticEvent.augmentClass(SyntheticTransitionEvent, TransitionEventInterface);
 module.exports = SyntheticTransitionEvent;
 
 /***/ }),
-/* 302 */
+/* 300 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30253,7 +30223,7 @@ module.exports = SyntheticTransitionEvent;
 
 
 
-var SyntheticMouseEvent = __webpack_require__(71);
+var SyntheticMouseEvent = __webpack_require__(70);
 
 /**
  * @interface WheelEvent
@@ -30293,7 +30263,7 @@ SyntheticMouseEvent.augmentClass(SyntheticWheelEvent, WheelEventInterface);
 module.exports = SyntheticWheelEvent;
 
 /***/ }),
-/* 303 */
+/* 301 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30332,7 +30302,7 @@ module.exports = ReactDOMContainerInfo;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 304 */
+/* 302 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30356,7 +30326,7 @@ var ReactDOMFeatureFlags = {
 module.exports = ReactDOMFeatureFlags;
 
 /***/ }),
-/* 305 */
+/* 303 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30372,7 +30342,7 @@ module.exports = ReactDOMFeatureFlags;
 
 
 
-var adler32 = __webpack_require__(306);
+var adler32 = __webpack_require__(304);
 
 var TAG_END = /\/?>/;
 var COMMENT_START = /^<\!\-\-/;
@@ -30411,7 +30381,7 @@ var ReactMarkupChecksum = {
 module.exports = ReactMarkupChecksum;
 
 /***/ }),
-/* 306 */
+/* 304 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30460,7 +30430,7 @@ function adler32(data) {
 module.exports = adler32;
 
 /***/ }),
-/* 307 */
+/* 305 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30479,7 +30449,7 @@ module.exports = adler32;
 module.exports = '15.6.1';
 
 /***/ }),
-/* 308 */
+/* 306 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30501,7 +30471,7 @@ var ReactCurrentOwner = __webpack_require__(27);
 var ReactDOMComponentTree = __webpack_require__(15);
 var ReactInstanceMap = __webpack_require__(57);
 
-var getHostComponentFromComposite = __webpack_require__(163);
+var getHostComponentFromComposite = __webpack_require__(162);
 var invariant = __webpack_require__(10);
 var warning = __webpack_require__(11);
 
@@ -30545,7 +30515,7 @@ module.exports = findDOMNode;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 309 */
+/* 307 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30561,12 +30531,12 @@ module.exports = findDOMNode;
 
 
 
-var ReactMount = __webpack_require__(162);
+var ReactMount = __webpack_require__(161);
 
 module.exports = ReactMount.renderSubtreeIntoContainer;
 
 /***/ }),
-/* 310 */
+/* 308 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30583,7 +30553,7 @@ module.exports = ReactMount.renderSubtreeIntoContainer;
 
 
 var DOMProperty = __webpack_require__(33);
-var EventPluginRegistry = __webpack_require__(69);
+var EventPluginRegistry = __webpack_require__(68);
 var ReactComponentTreeHook = __webpack_require__(23);
 
 var warning = __webpack_require__(11);
@@ -30684,7 +30654,7 @@ module.exports = ReactDOMUnknownPropertyHook;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 311 */
+/* 309 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30733,7 +30703,7 @@ module.exports = ReactDOMNullInputValuePropHook;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 312 */
+/* 310 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30832,7 +30802,7 @@ module.exports = ReactDOMInvalidARIAHook;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 313 */
+/* 311 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30849,12 +30819,13 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var page_1 = __webpack_require__(314);
-var student_info_display_1 = __webpack_require__(318);
+var page_1 = __webpack_require__(312);
+var student_info_display_1 = __webpack_require__(316);
 var hs_display_1 = __webpack_require__(495);
-var hardcoded_1 = __webpack_require__(514);
-var hs_config_data_1 = __webpack_require__(515);
-var score_projection_utils_1 = __webpack_require__(167);
+var hardcoded_1 = __webpack_require__(508);
+var data_access_ts_1 = __webpack_require__(509);
+var hsPrograms = data_access_ts_1.loadHSPrograms();
+var score_projection_utils_1 = __webpack_require__(165);
 var PathToHS = (function (_super) {
     __extends(PathToHS, _super);
     function PathToHS(props) {
@@ -30885,7 +30856,7 @@ var PathToHS = (function (_super) {
     PathToHS.prototype.render = function () {
         return (React.createElement(page_1.default, null,
             React.createElement(student_info_display_1.default, { studentData: this.state.studentData, projectedStudentData: this.state.projectedStudentData, onStudentDataChange: this.handleStudentDataChange, onProjectedStudentDataChange: this.handleProjectedStudentDataChange }),
-            React.createElement(hs_display_1.default, { hsData: hs_config_data_1.HSConfigData, studentData: this.state.projectedStudentData })));
+            React.createElement(hs_display_1.default, { hsData: hsPrograms, studentData: this.state.projectedStudentData })));
     };
     return PathToHS;
 }(React.Component));
@@ -30894,14 +30865,14 @@ exports.default = PathToHS;
 
 
 /***/ }),
-/* 314 */
+/* 312 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-__webpack_require__(315);
+__webpack_require__(313);
 var Page = function (props) {
     return (React.createElement("div", { className: "page" }, props.children));
 };
@@ -30909,13 +30880,13 @@ exports.default = Page;
 
 
 /***/ }),
-/* 315 */
+/* 313 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(316);
+var content = __webpack_require__(314);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -30923,7 +30894,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(19)(content, options);
+var update = __webpack_require__(21)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -30940,10 +30911,10 @@ if(false) {
 }
 
 /***/ }),
-/* 316 */
+/* 314 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(18)(undefined);
+exports = module.exports = __webpack_require__(20)(undefined);
 // imports
 
 
@@ -30954,7 +30925,7 @@ exports.push([module.i, ".page {\n  height: 100vh;\n  width: 100vw;\n  display: 
 
 
 /***/ }),
-/* 317 */
+/* 315 */
 /***/ (function(module, exports) {
 
 
@@ -31049,16 +31020,16 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 318 */
+/* 316 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var box_1 = __webpack_require__(164);
-var window_switcher_1 = __webpack_require__(321);
-var report_card_container_1 = __webpack_require__(325);
+var box_1 = __webpack_require__(163);
+var window_switcher_1 = __webpack_require__(319);
+var report_card_container_1 = __webpack_require__(323);
 var student_data_form_1 = __webpack_require__(336);
 var StudentInfoDisplay = function (props) {
     var handleProjectedStudentDataChange = function (newData) {
@@ -31075,13 +31046,13 @@ exports.default = StudentInfoDisplay;
 
 
 /***/ }),
-/* 319 */
+/* 317 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(320);
+var content = __webpack_require__(318);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -31089,7 +31060,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(19)(content, options);
+var update = __webpack_require__(21)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -31106,10 +31077,10 @@ if(false) {
 }
 
 /***/ }),
-/* 320 */
+/* 318 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(18)(undefined);
+exports = module.exports = __webpack_require__(20)(undefined);
 // imports
 
 
@@ -31120,7 +31091,7 @@ exports.push([module.i, ".box {\n  border: 2px solid #9e9e9e;\n  padding: 0.25em
 
 
 /***/ }),
-/* 321 */
+/* 319 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31137,8 +31108,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-__webpack_require__(322);
-var arrow_up_1 = __webpack_require__(324);
+__webpack_require__(320);
+var arrow_up_1 = __webpack_require__(322);
 var Window;
 (function (Window) {
     Window[Window["A"] = 0] = "A";
@@ -31176,13 +31147,13 @@ exports.default = WindowSwitcher;
 
 
 /***/ }),
-/* 322 */
+/* 320 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(323);
+var content = __webpack_require__(321);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -31190,7 +31161,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(19)(content, options);
+var update = __webpack_require__(21)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -31207,10 +31178,10 @@ if(false) {
 }
 
 /***/ }),
-/* 323 */
+/* 321 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(18)(undefined);
+exports = module.exports = __webpack_require__(20)(undefined);
 // imports
 
 
@@ -31221,7 +31192,7 @@ exports.push([module.i, ".window-switcher-container {\n  height: 100%;\n  width:
 
 
 /***/ }),
-/* 324 */
+/* 322 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31237,17 +31208,17 @@ exports.default = ArrowUpIcon;
 
 
 /***/ }),
-/* 325 */
+/* 323 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var clone_1 = __webpack_require__(58);
-var grade_change_selector_1 = __webpack_require__(326);
-var report_card_1 = __webpack_require__(329);
-var score_projection_utils_1 = __webpack_require__(167);
+var clone_1 = __webpack_require__(74);
+var grade_change_selector_1 = __webpack_require__(324);
+var report_card_1 = __webpack_require__(327);
+var score_projection_utils_1 = __webpack_require__(165);
 var ReportCardContainer = function (props) {
     var handleGradeChangeSelectorChange = function (newPercentileChange) {
         var HS_APPLICATION_GRADE_LEVEL = 7;
@@ -31277,14 +31248,14 @@ exports.default = ReportCardContainer;
 
 
 /***/ }),
-/* 326 */
+/* 324 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-__webpack_require__(327);
+__webpack_require__(325);
 var strings = {
     downALot: "go down a lot",
     down: "go down",
@@ -31343,13 +31314,13 @@ exports.default = GradeChangeSelector;
 
 
 /***/ }),
-/* 327 */
+/* 325 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(328);
+var content = __webpack_require__(326);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -31357,7 +31328,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(19)(content, options);
+var update = __webpack_require__(21)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -31374,10 +31345,10 @@ if(false) {
 }
 
 /***/ }),
-/* 328 */
+/* 326 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(18)(undefined);
+exports = module.exports = __webpack_require__(20)(undefined);
 // imports
 
 
@@ -31388,16 +31359,16 @@ exports.push([module.i, ".grade-change-selector {\n  padding: 5px;\n  font-size:
 
 
 /***/ }),
-/* 329 */
+/* 327 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var score_field_1 = __webpack_require__(330);
-var score_type_1 = __webpack_require__(59);
-var clone_1 = __webpack_require__(58);
+var score_field_1 = __webpack_require__(328);
+var score_type_1 = __webpack_require__(58);
+var clone_1 = __webpack_require__(74);
 __webpack_require__(333);
 var ReportCard = function (props) {
     var validateScore = function (score, scoreType) {
@@ -31447,7 +31418,7 @@ exports.default = ReportCard;
 
 
 /***/ }),
-/* 330 */
+/* 328 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31464,10 +31435,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var score_type_1 = __webpack_require__(59);
-var grade_convert_1 = __webpack_require__(107);
-var circled_arrow_up_icon_1 = __webpack_require__(165);
-var circled_arrow_down_icon_1 = __webpack_require__(166);
+var score_type_1 = __webpack_require__(58);
+var grade_convert_1 = __webpack_require__(164);
+var circled_arrow_up_icon_1 = __webpack_require__(329);
+var circled_arrow_down_icon_1 = __webpack_require__(330);
 __webpack_require__(331);
 ;
 var getLabel = function (scoreType) {
@@ -31534,6 +31505,36 @@ exports.default = ScoreField;
 
 
 /***/ }),
+/* 329 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var CircledArrowUpIcon = function (props) {
+    return (React.createElement("svg", { width: props.width, height: props.height, viewBox: "0 0 24 24" },
+        React.createElement("path", { fill: "#000000", d: "M12,7L17,12H14V16H10V12H7L12,7M12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20Z" })));
+};
+exports.default = CircledArrowUpIcon;
+
+
+/***/ }),
+/* 330 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var CircledArrowDownIcon = function (props) {
+    return (React.createElement("svg", { width: props.width, height: props.height, viewBox: "0 0 24 24" },
+        React.createElement("path", { fill: "#000000", d: "M12,17L7,12H10V8H14V12H17L12,17M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z" })));
+};
+exports.default = CircledArrowDownIcon;
+
+
+/***/ }),
 /* 331 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31548,7 +31549,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(19)(content, options);
+var update = __webpack_require__(21)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -31568,7 +31569,7 @@ if(false) {
 /* 332 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(18)(undefined);
+exports = module.exports = __webpack_require__(20)(undefined);
 // imports
 
 
@@ -31593,7 +31594,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(19)(content, options);
+var update = __webpack_require__(21)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -31613,7 +31614,7 @@ if(false) {
 /* 334 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(18)(undefined);
+exports = module.exports = __webpack_require__(20)(undefined);
 // imports
 
 
@@ -31637,10 +31638,10 @@ module.exports = __webpack_require__.p + "8939bf293e12aa837a2b92645724f327.png";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var clone_1 = __webpack_require__(58);
-var score_type_1 = __webpack_require__(59);
-var grade_convert_1 = __webpack_require__(107);
-var react_bootstrap_1 = __webpack_require__(168);
+var clone_1 = __webpack_require__(74);
+var score_type_1 = __webpack_require__(58);
+var grade_convert_1 = __webpack_require__(164);
+var react_bootstrap_1 = __webpack_require__(166);
 var address_tier_calculator_1 = __webpack_require__(478);
 __webpack_require__(493);
 var ValidationResponse;
@@ -31789,7 +31790,7 @@ exports.default = StudentDataForm;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__PanelGroup__ = __webpack_require__(180);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__PanelGroup__ = __webpack_require__(178);
 
 
 
@@ -31853,14 +31854,14 @@ module.exports = function(it){
 
 // 19.1.2.1 Object.assign(target, source, ...)
 var getKeys  = __webpack_require__(49)
-  , gOPS     = __webpack_require__(116)
-  , pIE      = __webpack_require__(63)
-  , toObject = __webpack_require__(117)
-  , IObject  = __webpack_require__(173)
+  , gOPS     = __webpack_require__(115)
+  , pIE      = __webpack_require__(62)
+  , toObject = __webpack_require__(116)
+  , IObject  = __webpack_require__(171)
   , $assign  = Object.assign;
 
 // should work with symbols and should have deterministic property order (V8 bug)
-module.exports = !$assign || __webpack_require__(61)(function(){
+module.exports = !$assign || __webpack_require__(60)(function(){
   var A = {}
     , B = {}
     , S = Symbol()
@@ -31891,7 +31892,7 @@ module.exports = !$assign || __webpack_require__(61)(function(){
 // false -> Array#indexOf
 // true  -> Array#includes
 var toIObject = __webpack_require__(36)
-  , toLength  = __webpack_require__(174)
+  , toLength  = __webpack_require__(172)
   , toIndex   = __webpack_require__(343);
 module.exports = function(IS_INCLUDES){
   return function($this, el, fromIndex){
@@ -31914,7 +31915,7 @@ module.exports = function(IS_INCLUDES){
 /* 343 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toInteger = __webpack_require__(112)
+var toInteger = __webpack_require__(111)
   , max       = Math.max
   , min       = Math.min;
 module.exports = function(index, length){
@@ -31932,16 +31933,16 @@ module.exports = { "default": __webpack_require__(345), __esModule: true };
 /* 345 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(175);
+__webpack_require__(173);
 __webpack_require__(351);
-module.exports = __webpack_require__(122).f('iterator');
+module.exports = __webpack_require__(121).f('iterator');
 
 /***/ }),
 /* 346 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toInteger = __webpack_require__(112)
-  , defined   = __webpack_require__(111);
+var toInteger = __webpack_require__(111)
+  , defined   = __webpack_require__(110);
 // true  -> String#at
 // false -> String#codePointAt
 module.exports = function(TO_STRING){
@@ -31964,9 +31965,9 @@ module.exports = function(TO_STRING){
 
 "use strict";
 
-var create         = __webpack_require__(120)
-  , descriptor     = __webpack_require__(62)
-  , setToStringTag = __webpack_require__(121)
+var create         = __webpack_require__(119)
+  , descriptor     = __webpack_require__(61)
+  , setToStringTag = __webpack_require__(120)
   , IteratorPrototype = {};
 
 // 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
@@ -32007,8 +32008,8 @@ module.exports = __webpack_require__(35).document && document.documentElement;
 
 // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
 var has         = __webpack_require__(41)
-  , toObject    = __webpack_require__(117)
-  , IE_PROTO    = __webpack_require__(113)('IE_PROTO')
+  , toObject    = __webpack_require__(116)
+  , IE_PROTO    = __webpack_require__(112)('IE_PROTO')
   , ObjectProto = Object.prototype;
 
 module.exports = Object.getPrototypeOf || function(O){
@@ -32026,7 +32027,7 @@ module.exports = Object.getPrototypeOf || function(O){
 __webpack_require__(352);
 var global        = __webpack_require__(35)
   , hide          = __webpack_require__(46)
-  , Iterators     = __webpack_require__(64)
+  , Iterators     = __webpack_require__(63)
   , TO_STRING_TAG = __webpack_require__(30)('toStringTag');
 
 for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList', 'CSSRuleList'], i = 0; i < 5; i++){
@@ -32045,14 +32046,14 @@ for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList'
 
 var addToUnscopables = __webpack_require__(353)
   , step             = __webpack_require__(354)
-  , Iterators        = __webpack_require__(64)
+  , Iterators        = __webpack_require__(63)
   , toIObject        = __webpack_require__(36);
 
 // 22.1.3.4 Array.prototype.entries()
 // 22.1.3.13 Array.prototype.keys()
 // 22.1.3.29 Array.prototype.values()
 // 22.1.3.30 Array.prototype[@@iterator]()
-module.exports = __webpack_require__(176)(Array, 'Array', function(iterated, kind){
+module.exports = __webpack_require__(174)(Array, 'Array', function(iterated, kind){
   this._t = toIObject(iterated); // target
   this._i = 0;                   // next index
   this._k = kind;                // kind
@@ -32118,25 +32119,25 @@ var global         = __webpack_require__(35)
   , has            = __webpack_require__(41)
   , DESCRIPTORS    = __webpack_require__(48)
   , $export        = __webpack_require__(34)
-  , redefine       = __webpack_require__(177)
+  , redefine       = __webpack_require__(175)
   , META           = __webpack_require__(358).KEY
-  , $fails         = __webpack_require__(61)
-  , shared         = __webpack_require__(114)
-  , setToStringTag = __webpack_require__(121)
+  , $fails         = __webpack_require__(60)
+  , shared         = __webpack_require__(113)
+  , setToStringTag = __webpack_require__(120)
   , uid            = __webpack_require__(75)
   , wks            = __webpack_require__(30)
-  , wksExt         = __webpack_require__(122)
-  , wksDefine      = __webpack_require__(123)
+  , wksExt         = __webpack_require__(121)
+  , wksDefine      = __webpack_require__(122)
   , keyOf          = __webpack_require__(359)
   , enumKeys       = __webpack_require__(360)
   , isArray        = __webpack_require__(361)
   , anObject       = __webpack_require__(47)
   , toIObject      = __webpack_require__(36)
-  , toPrimitive    = __webpack_require__(109)
-  , createDesc     = __webpack_require__(62)
-  , _create        = __webpack_require__(120)
+  , toPrimitive    = __webpack_require__(108)
+  , createDesc     = __webpack_require__(61)
+  , _create        = __webpack_require__(119)
   , gOPNExt        = __webpack_require__(362)
-  , $GOPD          = __webpack_require__(179)
+  , $GOPD          = __webpack_require__(177)
   , $DP            = __webpack_require__(40)
   , $keys          = __webpack_require__(49)
   , gOPD           = $GOPD.f
@@ -32261,11 +32262,11 @@ if(!USE_NATIVE){
 
   $GOPD.f = $getOwnPropertyDescriptor;
   $DP.f   = $defineProperty;
-  __webpack_require__(178).f = gOPNExt.f = $getOwnPropertyNames;
-  __webpack_require__(63).f  = $propertyIsEnumerable;
-  __webpack_require__(116).f = $getOwnPropertySymbols;
+  __webpack_require__(176).f = gOPNExt.f = $getOwnPropertyNames;
+  __webpack_require__(62).f  = $propertyIsEnumerable;
+  __webpack_require__(115).f = $getOwnPropertySymbols;
 
-  if(DESCRIPTORS && !__webpack_require__(119)){
+  if(DESCRIPTORS && !__webpack_require__(118)){
     redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
   }
 
@@ -32353,14 +32354,14 @@ setToStringTag(global.JSON, 'JSON', true);
 /***/ (function(module, exports, __webpack_require__) {
 
 var META     = __webpack_require__(75)('meta')
-  , isObject = __webpack_require__(60)
+  , isObject = __webpack_require__(59)
   , has      = __webpack_require__(41)
   , setDesc  = __webpack_require__(40).f
   , id       = 0;
 var isExtensible = Object.isExtensible || function(){
   return true;
 };
-var FREEZE = !__webpack_require__(61)(function(){
+var FREEZE = !__webpack_require__(60)(function(){
   return isExtensible(Object.preventExtensions({}));
 });
 var setMeta = function(it){
@@ -32427,8 +32428,8 @@ module.exports = function(object, el){
 
 // all enumerable object keys, includes symbols
 var getKeys = __webpack_require__(49)
-  , gOPS    = __webpack_require__(116)
-  , pIE     = __webpack_require__(63);
+  , gOPS    = __webpack_require__(115)
+  , pIE     = __webpack_require__(62);
 module.exports = function(it){
   var result     = getKeys(it)
     , getSymbols = gOPS.f;
@@ -32446,7 +32447,7 @@ module.exports = function(it){
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.2.2 IsArray(argument)
-var cof = __webpack_require__(110);
+var cof = __webpack_require__(109);
 module.exports = Array.isArray || function isArray(arg){
   return cof(arg) == 'Array';
 };
@@ -32457,7 +32458,7 @@ module.exports = Array.isArray || function isArray(arg){
 
 // fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
 var toIObject = __webpack_require__(36)
-  , gOPN      = __webpack_require__(178).f
+  , gOPN      = __webpack_require__(176).f
   , toString  = {}.toString;
 
 var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
@@ -32486,13 +32487,13 @@ module.exports.f = function getOwnPropertyNames(it){
 /* 364 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(123)('asyncIterator');
+__webpack_require__(122)('asyncIterator');
 
 /***/ }),
 /* 365 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(123)('observable');
+__webpack_require__(122)('observable');
 
 /***/ }),
 /* 366 */
@@ -32521,7 +32522,7 @@ $export($export.S, 'Object', {setPrototypeOf: __webpack_require__(369).set});
 
 // Works with __proto__ only. Old v8 can't work with null proto objects.
 /* eslint-disable no-proto */
-var isObject = __webpack_require__(60)
+var isObject = __webpack_require__(59)
   , anObject = __webpack_require__(47);
 var check = function(O, proto){
   anObject(O);
@@ -32531,7 +32532,7 @@ module.exports = {
   set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
     function(test, buggy, set){
       try {
-        set = __webpack_require__(108)(Function.call, __webpack_require__(179).f(Object.prototype, '__proto__').set, 2);
+        set = __webpack_require__(107)(Function.call, __webpack_require__(177).f(Object.prototype, '__proto__').set, 2);
         set(test, []);
         buggy = !(test instanceof Array);
       } catch(e){ buggy = true; }
@@ -32567,7 +32568,7 @@ module.exports = function create(P, D){
 
 var $export = __webpack_require__(34)
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
-$export($export.S, 'Object', {create: __webpack_require__(120)});
+$export($export.S, 'Object', {create: __webpack_require__(119)});
 
 /***/ }),
 /* 373 */
@@ -32648,7 +32649,7 @@ module.exports = __webpack_require__(29).Object.entries;
 
 // https://github.com/tc39/proposal-object-values-entries
 var $export  = __webpack_require__(34)
-  , $entries = __webpack_require__(182)(true);
+  , $entries = __webpack_require__(180)(true);
 
 $export($export.S, 'Object', {
   entries: function entries(it){
@@ -32680,8 +32681,8 @@ $export($export.S, 'Object', {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_bootstrapUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_StyleConfig__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__CloseButton__ = __webpack_require__(124);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_StyleConfig__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__CloseButton__ = __webpack_require__(123);
 
 
 
@@ -32766,7 +32767,7 @@ module.exports = __webpack_require__(29).Object.values;
 
 // https://github.com/tc39/proposal-object-values-entries
 var $export = __webpack_require__(34)
-  , $values = __webpack_require__(182)(false);
+  , $values = __webpack_require__(180)(false);
 
 $export($export.S, 'Object', {
   values: function values(it){
@@ -32896,7 +32897,7 @@ Badge.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_classnames__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__BreadcrumbItem__ = __webpack_require__(183);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__BreadcrumbItem__ = __webpack_require__(181);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils_bootstrapUtils__ = __webpack_require__(9);
 
 
@@ -33026,8 +33027,8 @@ var ButtonToolbar = function (_React$Component) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__CarouselCaption__ = __webpack_require__(383);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__CarouselItem__ = __webpack_require__(184);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Glyphicon__ = __webpack_require__(126);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__CarouselItem__ = __webpack_require__(182);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Glyphicon__ = __webpack_require__(125);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__SafeAnchor__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__utils_bootstrapUtils__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__utils_ValidComponentChildren__ = __webpack_require__(22);
@@ -33810,8 +33811,8 @@ Checkbox.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_elementType__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_elementType___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_elementType__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_bootstrapUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_capitalize__ = __webpack_require__(185);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_capitalize__ = __webpack_require__(183);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__ = __webpack_require__(18);
 
 
 
@@ -34032,7 +34033,7 @@ ControlLabel.contextTypes = contextTypes;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_elementType__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_elementType___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_elementType__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_bootstrapUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_StyleConfig__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_StyleConfig__ = __webpack_require__(18);
 
 
 
@@ -34353,7 +34354,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = _getComputedStyle;
 
-var _camelizeStyle = __webpack_require__(186);
+var _camelizeStyle = __webpack_require__(184);
 
 var _camelizeStyle2 = _interopRequireDefault(_camelizeStyle);
 
@@ -34779,15 +34780,15 @@ function isReactComponent(component) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_babel_runtime_helpers_inherits__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_classnames__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_classnames__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_keycode__ = __webpack_require__(128);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_keycode__ = __webpack_require__(127);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_keycode___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_keycode__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_react_dom__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_react_dom__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_react_overlays_lib_RootCloseWrapper__ = __webpack_require__(190);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_react_overlays_lib_RootCloseWrapper__ = __webpack_require__(188);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_react_overlays_lib_RootCloseWrapper___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11_react_overlays_lib_RootCloseWrapper__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__utils_bootstrapUtils__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__utils_createChainedFunction__ = __webpack_require__(16);
@@ -34962,7 +34963,7 @@ module.exports = { "default": __webpack_require__(399), __esModule: true };
 /* 399 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(175);
+__webpack_require__(173);
 __webpack_require__(400);
 module.exports = __webpack_require__(29).Array.from;
 
@@ -34972,12 +34973,12 @@ module.exports = __webpack_require__(29).Array.from;
 
 "use strict";
 
-var ctx            = __webpack_require__(108)
+var ctx            = __webpack_require__(107)
   , $export        = __webpack_require__(34)
-  , toObject       = __webpack_require__(117)
+  , toObject       = __webpack_require__(116)
   , call           = __webpack_require__(401)
   , isArrayIter    = __webpack_require__(402)
-  , toLength       = __webpack_require__(174)
+  , toLength       = __webpack_require__(172)
   , createProperty = __webpack_require__(403)
   , getIterFn      = __webpack_require__(404);
 
@@ -35032,7 +35033,7 @@ module.exports = function(iterator, fn, value, entries){
 /***/ (function(module, exports, __webpack_require__) {
 
 // check on default Array iterator
-var Iterators  = __webpack_require__(64)
+var Iterators  = __webpack_require__(63)
   , ITERATOR   = __webpack_require__(30)('iterator')
   , ArrayProto = Array.prototype;
 
@@ -35047,7 +35048,7 @@ module.exports = function(it){
 "use strict";
 
 var $defineProperty = __webpack_require__(40)
-  , createDesc      = __webpack_require__(62);
+  , createDesc      = __webpack_require__(61);
 
 module.exports = function(object, index, value){
   if(index in object)$defineProperty.f(object, index, createDesc(0, value));
@@ -35060,7 +35061,7 @@ module.exports = function(object, index, value){
 
 var classof   = __webpack_require__(405)
   , ITERATOR  = __webpack_require__(30)('iterator')
-  , Iterators = __webpack_require__(64);
+  , Iterators = __webpack_require__(63);
 module.exports = __webpack_require__(29).getIteratorMethod = function(it){
   if(it != undefined)return it[ITERATOR]
     || it['@@iterator']
@@ -35072,7 +35073,7 @@ module.exports = __webpack_require__(29).getIteratorMethod = function(it){
 /***/ (function(module, exports, __webpack_require__) {
 
 // getting tag from 19.1.3.6 Object.prototype.toString()
-var cof = __webpack_require__(110)
+var cof = __webpack_require__(109)
   , TAG = __webpack_require__(30)('toStringTag')
   // ES3 wrong here
   , ARG = cof(function(){ return arguments; }()) == 'Arguments';
@@ -35406,7 +35407,7 @@ Form.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__FormControlFeedback__ = __webpack_require__(411);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__FormControlStatic__ = __webpack_require__(412);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__utils_bootstrapUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__utils_StyleConfig__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__utils_StyleConfig__ = __webpack_require__(18);
 
 
 
@@ -35535,7 +35536,7 @@ FormControl.Static = __WEBPACK_IMPORTED_MODULE_11__FormControlStatic__["a" /* de
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Glyphicon__ = __webpack_require__(126);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Glyphicon__ = __webpack_require__(125);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_bootstrapUtils__ = __webpack_require__(9);
 
 
@@ -35718,7 +35719,7 @@ FormControlStatic.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils_bootstrapUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_StyleConfig__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_StyleConfig__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_ValidComponentChildren__ = __webpack_require__(22);
 
 
@@ -35994,7 +35995,7 @@ Image.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__InputGroupAddon__ = __webpack_require__(417);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__InputGroupButton__ = __webpack_require__(418);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_bootstrapUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_StyleConfig__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_StyleConfig__ = __webpack_require__(18);
 
 
 
@@ -36258,7 +36259,7 @@ Jumbotron.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils_bootstrapUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_StyleConfig__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_StyleConfig__ = __webpack_require__(18);
 
 
 
@@ -36347,7 +36348,7 @@ var Label = function (_React$Component) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types_extra_lib_elementType__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types_extra_lib_elementType___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types_extra_lib_elementType__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ListGroupItem__ = __webpack_require__(194);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ListGroupItem__ = __webpack_require__(192);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_bootstrapUtils__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_ValidComponentChildren__ = __webpack_require__(22);
 
@@ -37089,30 +37090,30 @@ MenuItem.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_dom_helpers_ownerDocument___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_dom_helpers_ownerDocument__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_dom_helpers_util_inDOM__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_dom_helpers_util_inDOM___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_dom_helpers_util_inDOM__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_dom_helpers_util_scrollbarSize__ = __webpack_require__(195);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_dom_helpers_util_scrollbarSize__ = __webpack_require__(193);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_dom_helpers_util_scrollbarSize___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_dom_helpers_util_scrollbarSize__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_react_dom__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_react_dom__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_react_overlays_lib_Modal__ = __webpack_require__(434);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_react_overlays_lib_Modal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13_react_overlays_lib_Modal__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_react_overlays_lib_utils_isOverflowing__ = __webpack_require__(197);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_react_overlays_lib_utils_isOverflowing__ = __webpack_require__(195);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_react_overlays_lib_utils_isOverflowing___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14_react_overlays_lib_utils_isOverflowing__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_prop_types_extra_lib_elementType__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_prop_types_extra_lib_elementType___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15_prop_types_extra_lib_elementType__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__Fade__ = __webpack_require__(84);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__ModalBody__ = __webpack_require__(199);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__ModalBody__ = __webpack_require__(197);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__ModalDialog__ = __webpack_require__(444);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__ModalFooter__ = __webpack_require__(200);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__ModalHeader__ = __webpack_require__(201);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__ModalTitle__ = __webpack_require__(202);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__ModalFooter__ = __webpack_require__(198);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__ModalHeader__ = __webpack_require__(199);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__ModalTitle__ = __webpack_require__(200);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__utils_bootstrapUtils__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__utils_createChainedFunction__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__utils_splitComponentProps__ = __webpack_require__(83);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__utils_StyleConfig__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__utils_StyleConfig__ = __webpack_require__(18);
 
 
 
@@ -37412,7 +37413,7 @@ var _on = __webpack_require__(80);
 
 var _on2 = _interopRequireDefault(_on);
 
-var _off = __webpack_require__(129);
+var _off = __webpack_require__(128);
 
 var _off2 = _interopRequireDefault(_off);
 
@@ -37525,7 +37526,7 @@ var _on = __webpack_require__(80);
 
 var _on2 = _interopRequireDefault(_on);
 
-var _off = __webpack_require__(129);
+var _off = __webpack_require__(128);
 
 var _off2 = _interopRequireDefault(_off);
 
@@ -37556,7 +37557,7 @@ exports.__esModule = true;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _activeElement = __webpack_require__(189);
+var _activeElement = __webpack_require__(187);
 
 var _activeElement2 = _interopRequireDefault(_activeElement);
 
@@ -37588,7 +37589,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(21);
+var _reactDom = __webpack_require__(19);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -37600,7 +37601,7 @@ var _ModalManager = __webpack_require__(436);
 
 var _ModalManager2 = _interopRequireDefault(_ModalManager);
 
-var _Portal = __webpack_require__(198);
+var _Portal = __webpack_require__(196);
 
 var _Portal2 = _interopRequireDefault(_Portal);
 
@@ -37608,7 +37609,7 @@ var _RefHolder = __webpack_require__(442);
 
 var _RefHolder2 = _interopRequireDefault(_RefHolder);
 
-var _addEventListener = __webpack_require__(191);
+var _addEventListener = __webpack_require__(189);
 
 var _addEventListener2 = _interopRequireDefault(_addEventListener);
 
@@ -38250,11 +38251,11 @@ var _style = __webpack_require__(79);
 
 var _style2 = _interopRequireDefault(_style);
 
-var _scrollbarSize = __webpack_require__(195);
+var _scrollbarSize = __webpack_require__(193);
 
 var _scrollbarSize2 = _interopRequireDefault(_scrollbarSize);
 
-var _isOverflowing = __webpack_require__(197);
+var _isOverflowing = __webpack_require__(195);
 
 var _isOverflowing2 = _interopRequireDefault(_isOverflowing);
 
@@ -38434,7 +38435,7 @@ var _removeClass = __webpack_require__(439);
 
 var _removeClass2 = _interopRequireDefault(_removeClass);
 
-var _hasClass = __webpack_require__(196);
+var _hasClass = __webpack_require__(194);
 
 var _hasClass2 = _interopRequireDefault(_hasClass);
 
@@ -38457,7 +38458,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = addClass;
 
-var _hasClass = __webpack_require__(196);
+var _hasClass = __webpack_require__(194);
 
 var _hasClass2 = _interopRequireDefault(_hasClass);
 
@@ -38553,7 +38554,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(21);
+var _reactDom = __webpack_require__(19);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -38786,7 +38787,7 @@ module.exports = exports['default'];
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils_bootstrapUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_StyleConfig__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_StyleConfig__ = __webpack_require__(18);
 
 
 
@@ -38885,15 +38886,15 @@ ModalDialog.propTypes = propTypes;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_elementType__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_elementType___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_elementType__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_uncontrollable__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_uncontrollable__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_uncontrollable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_uncontrollable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Grid__ = __webpack_require__(193);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__NavbarBrand__ = __webpack_require__(204);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Grid__ = __webpack_require__(191);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__NavbarBrand__ = __webpack_require__(202);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__NavbarCollapse__ = __webpack_require__(446);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__NavbarHeader__ = __webpack_require__(447);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__NavbarToggle__ = __webpack_require__(448);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__utils_bootstrapUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__utils_StyleConfig__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__utils_StyleConfig__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__utils_createChainedFunction__ = __webpack_require__(16);
 
 
@@ -39192,7 +39193,7 @@ UncontrollableNavbar.Link = createSimpleWrapper('a', 'link', 'NavbarLink');
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Collapse__ = __webpack_require__(127);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Collapse__ = __webpack_require__(126);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils_bootstrapUtils__ = __webpack_require__(9);
 
 
@@ -39576,7 +39577,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Portal = __webpack_require__(198);
+var _Portal = __webpack_require__(196);
 
 var _Portal2 = _interopRequireDefault(_Portal);
 
@@ -39584,7 +39585,7 @@ var _Position = __webpack_require__(451);
 
 var _Position2 = _interopRequireDefault(_Position);
 
-var _RootCloseWrapper = __webpack_require__(190);
+var _RootCloseWrapper = __webpack_require__(188);
 
 var _RootCloseWrapper2 = _interopRequireDefault(_RootCloseWrapper);
 
@@ -39808,7 +39809,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(21);
+var _reactDom = __webpack_require__(19);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -39997,7 +39998,7 @@ module.exports = exports['default'];
 exports.__esModule = true;
 exports.default = calculatePosition;
 
-var _offset = __webpack_require__(207);
+var _offset = __webpack_require__(205);
 
 var _offset2 = _interopRequireDefault(_offset);
 
@@ -40005,7 +40006,7 @@ var _position = __webpack_require__(453);
 
 var _position2 = _interopRequireDefault(_position);
 
-var _scrollTop = __webpack_require__(208);
+var _scrollTop = __webpack_require__(206);
 
 var _scrollTop2 = _interopRequireDefault(_scrollTop);
 
@@ -40133,7 +40134,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 exports.default = position;
 
-var _offset = __webpack_require__(207);
+var _offset = __webpack_require__(205);
 
 var _offset2 = _interopRequireDefault(_offset);
 
@@ -40141,7 +40142,7 @@ var _offsetParent = __webpack_require__(454);
 
 var _offsetParent2 = _interopRequireDefault(_offsetParent);
 
-var _scrollTop = __webpack_require__(208);
+var _scrollTop = __webpack_require__(206);
 
 var _scrollTop2 = _interopRequireDefault(_scrollTop);
 
@@ -40271,11 +40272,11 @@ module.exports = exports['default'];
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_react_dom__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_react_dom__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_warning__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Overlay__ = __webpack_require__(206);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Overlay__ = __webpack_require__(204);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__utils_createChainedFunction__ = __webpack_require__(16);
 
 
@@ -40663,7 +40664,7 @@ var PageHeader = function (_React$Component) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PagerItem__ = __webpack_require__(209);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PagerItem__ = __webpack_require__(207);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_deprecationWarning__ = __webpack_require__(459);
 
 
@@ -40682,7 +40683,7 @@ var PageHeader = function (_React$Component) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_possibleConstructorReturn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_possibleConstructorReturn__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_inherits__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_inherits__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_typeof__ = __webpack_require__(118);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_typeof__ = __webpack_require__(117);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_typeof___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_typeof__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_warning__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_warning__);
@@ -40775,7 +40776,7 @@ function _resetWarned() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__PagerItem__ = __webpack_require__(209);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__PagerItem__ = __webpack_require__(207);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_bootstrapUtils__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_createChainedFunction__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__utils_ValidComponentChildren__ = __webpack_require__(22);
@@ -40864,7 +40865,7 @@ Pager.Item = __WEBPACK_IMPORTED_MODULE_8__PagerItem__["a" /* default */];
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_elementType__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_elementType___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_elementType__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__PaginationButton__ = __webpack_require__(210);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__PaginationButton__ = __webpack_require__(208);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_bootstrapUtils__ = __webpack_require__(9);
 
 
@@ -41151,9 +41152,9 @@ Pagination.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Collapse__ = __webpack_require__(127);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Collapse__ = __webpack_require__(126);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_bootstrapUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__ = __webpack_require__(18);
 
 
 
@@ -41553,7 +41554,7 @@ Popover.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_bootstrapUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_StyleConfig__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_StyleConfig__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__utils_ValidComponentChildren__ = __webpack_require__(22);
 
 
@@ -42057,7 +42058,7 @@ Row.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Button__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Button__ = __webpack_require__(64);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Dropdown__ = __webpack_require__(81);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__SplitToggle__ = __webpack_require__(469);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_splitComponentProps__ = __webpack_require__(83);
@@ -42171,7 +42172,7 @@ SplitButton.Toggle = __WEBPACK_IMPORTED_MODULE_9__SplitToggle__["a" /* default *
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DropdownToggle__ = __webpack_require__(192);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DropdownToggle__ = __webpack_require__(190);
 
 
 
@@ -42220,9 +42221,9 @@ SplitToggle.defaultProps = __WEBPACK_IMPORTED_MODULE_5__DropdownToggle__["a" /* 
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__TabContainer__ = __webpack_require__(130);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__TabContent__ = __webpack_require__(131);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__TabPane__ = __webpack_require__(211);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__TabContainer__ = __webpack_require__(129);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__TabContent__ = __webpack_require__(130);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__TabPane__ = __webpack_require__(209);
 
 
 
@@ -42397,12 +42398,12 @@ Table.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types_extra_lib_isRequiredForA11y__ = __webpack_require__(82);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types_extra_lib_isRequiredForA11y___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types_extra_lib_isRequiredForA11y__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_uncontrollable__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_uncontrollable__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_uncontrollable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_uncontrollable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Nav__ = __webpack_require__(203);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__NavItem__ = __webpack_require__(205);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__TabContainer__ = __webpack_require__(130);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__TabContent__ = __webpack_require__(131);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Nav__ = __webpack_require__(201);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__NavItem__ = __webpack_require__(203);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__TabContainer__ = __webpack_require__(129);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__TabContent__ = __webpack_require__(130);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__utils_bootstrapUtils__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__utils_ValidComponentChildren__ = __webpack_require__(22);
 
@@ -42701,12 +42702,12 @@ Thumbnail.propTypes = propTypes;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_invariant__ = __webpack_require__(76);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_invariant__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_uncontrollable__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_uncontrollable__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_uncontrollable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_uncontrollable__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_createChainedFunction__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_ValidComponentChildren__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ButtonGroup__ = __webpack_require__(125);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ToggleButton__ = __webpack_require__(212);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ButtonGroup__ = __webpack_require__(124);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ToggleButton__ = __webpack_require__(210);
 
 
 
@@ -43005,7 +43006,7 @@ Tooltip.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__utils_bootstrapUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils_StyleConfig__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils_StyleConfig__ = __webpack_require__(18);
 
 
 
@@ -43085,7 +43086,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var timeout_1 = __webpack_require__(479);
-var react_bootstrap_1 = __webpack_require__(168);
+var react_bootstrap_1 = __webpack_require__(166);
 var tier_display_1 = __webpack_require__(480);
 var get_tier_1 = __webpack_require__(485);
 __webpack_require__(491);
@@ -43272,7 +43273,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(19)(content, options);
+var update = __webpack_require__(21)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -43292,7 +43293,7 @@ if(false) {
 /* 482 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(18)(undefined);
+exports = module.exports = __webpack_require__(20)(undefined);
 // imports
 
 
@@ -43317,7 +43318,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(19)(content, options);
+var update = __webpack_require__(21)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -43337,7 +43338,7 @@ if(false) {
 /* 484 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(18)(undefined);
+exports = module.exports = __webpack_require__(20)(undefined);
 // imports
 
 
@@ -43630,7 +43631,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(19)(content, options);
+var update = __webpack_require__(21)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -43650,7 +43651,7 @@ if(false) {
 /* 492 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(18)(undefined);
+exports = module.exports = __webpack_require__(20)(undefined);
 // imports
 
 
@@ -43675,7 +43676,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(19)(content, options);
+var update = __webpack_require__(21)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -43695,7 +43696,7 @@ if(false) {
 /* 494 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(18)(undefined);
+exports = module.exports = __webpack_require__(20)(undefined);
 // imports
 
 
@@ -43713,13 +43714,13 @@ exports.push([module.i, ".student-data-form {\n  width: 100%;\n  height: 100%;\n
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var box_1 = __webpack_require__(164);
-var hs_category_1 = __webpack_require__(496);
+var box_1 = __webpack_require__(163);
+var hs_program_type_1 = __webpack_require__(496);
 ;
 var HSDisplay = function (props) {
     return (React.createElement(box_1.default, { width: "half", height: "full", responsiveBehavior: { mobile: "fullscreen" } },
-        React.createElement("div", { style: { width: "100%", height: "100%", overflowY: "auto" } }, props.hsData.map(function (category) {
-            return React.createElement(hs_category_1.default, { categoryData: category, studentData: props.studentData, key: category.shortName });
+        React.createElement("div", { style: { width: "100%", height: "100%", overflowY: "auto" } }, Object.keys(props.hsData).map(function (programType) {
+            return React.createElement(hs_program_type_1.default, { programType: programType, programs: props.hsData[programType], studentData: props.studentData, key: programType });
         }))));
 };
 exports.default = HSDisplay;
@@ -43744,36 +43745,21 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var hs_list_1 = __webpack_require__(497);
-var additional_requirements_container_1 = __webpack_require__(506);
-__webpack_require__(512);
-var HSCategory = (function (_super) {
-    __extends(HSCategory, _super);
-    function HSCategory(props) {
-        var _this = _super.call(this, props) || this;
-        if (Object.keys(props.categoryData.additionalRequirements).length === 0) {
-            _this.state = {
-                addlReqs: null
-            };
-        }
-        else {
-            _this.state = {
-                addlReqs: props.categoryData.additionalRequirements
-            };
-        }
-        return _this;
+__webpack_require__(506);
+var HSProgramType = (function (_super) {
+    __extends(HSProgramType, _super);
+    function HSProgramType() {
+        return _super !== null && _super.apply(this, arguments) || this;
     }
-    HSCategory.prototype.render = function () {
-        var _this = this;
+    HSProgramType.prototype.render = function () {
         return (React.createElement("div", { className: "hs-category-container" },
-            React.createElement("div", { className: "hs-category-title" }, this.props.categoryData.longName),
-            this.state.addlReqs &&
-                React.createElement(additional_requirements_container_1.default, { additionalRequirements: this.state.addlReqs, onRequirementsChange: function (newReqs) { return _this.setState({ addlReqs: newReqs }); } }),
-            React.createElement(hs_list_1.default, { highschools: this.props.categoryData.highschools, studentData: this.props.studentData, addlRequirements: this.state.addlReqs })));
+            React.createElement("div", { className: "hs-category-title" }, this.props.programType),
+            React.createElement(hs_list_1.default, { highschools: this.props.programs, studentData: this.props.studentData })));
     };
-    return HSCategory;
+    return HSProgramType;
 }(React.PureComponent));
 ;
-exports.default = HSCategory;
+exports.default = HSProgramType;
 
 
 /***/ }),
@@ -43787,7 +43773,7 @@ var React = __webpack_require__(0);
 var hs_list_element_1 = __webpack_require__(498);
 __webpack_require__(504);
 var HSList = function (props) {
-    return (React.createElement("div", { className: "hs-list" }, props.highschools.map(function (hs) { return React.createElement(hs_list_element_1.default, { key: hs.longName, highschool: hs, studentData: props.studentData, additionalRequirements: props.addlRequirements }); })));
+    return (React.createElement("div", { className: "hs-list" }, props.highschools.map(function (hs) { return React.createElement(hs_list_element_1.default, { key: hs.Long_Name, program: hs, studentData: props.studentData }); })));
 };
 exports.default = HSList;
 
@@ -43810,39 +43796,50 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var hs_info_card_1 = __webpack_require__(499);
+var get_req_fn_1 = __webpack_require__(511);
+var success_chance_1 = __webpack_require__(513);
+var hs_program_info_card_1 = __webpack_require__(499);
 __webpack_require__(502);
 var HSListElement = (function (_super) {
     __extends(HSListElement, _super);
     function HSListElement(props) {
         var _this = _super.call(this, props) || this;
-        var hs = props.highschool;
+        _this.toInitials = function (hsName) {
+            var isCapitalized = function (str) { return str.toUpperCase() === str; };
+            var initials = "";
+            var words = hsName.split(" ");
+            for (var i = 0; i < words.length; i++) {
+                var word = words[i];
+                var initial = word.charAt(0);
+                if (isCapitalized(initial)) {
+                    initials += initial;
+                }
+            }
+            return initials.slice(0, 3);
+        };
+        var hs = props.program;
         _this.state = {
             showHSPreview: false
         };
-        var canApply = hs.applicationRequirementsFunction(props.studentData, props.additionalRequirements);
-        var likelySelected = hs.selectionRequirementsFunction(props.studentData, props.additionalRequirements);
+        var applicationReqFn = get_req_fn_1.default(props.program.Application_Requirements);
+        var selectionReqFn = get_req_fn_1.default(props.program.Program_Selections);
+        var applicationResult = applicationReqFn(props.studentData, props.program);
+        var selectionResult = selectionReqFn(props.studentData, props.program);
         _this.className = "hs-list-element";
-        if (canApply === false) {
+        if (applicationResult.outcome === success_chance_1.default.NONE) {
             _this.className += " disabled";
         }
-        else if (likelySelected === true) {
+        else if (selectionResult.outcome === success_chance_1.default.CERTAIN ||
+            selectionResult.outcome === success_chance_1.default.LIKELY) {
             _this.className += " active-outline";
         }
         return _this;
     }
     HSListElement.prototype.render = function () {
         var _this = this;
-        if (this.props.highschool.iconUrl) {
-            return (React.createElement("div", { className: this.className, onMouseEnter: function () { return _this.setState({ showHSPreview: true }); }, onMouseLeave: function () { return _this.setState({ showHSPreview: false }); } },
-                React.createElement("img", { className: "hs-list-element-icon", alt: this.props.highschool.shortName + " icon", src: this.props.highschool.iconUrl.toString() }),
-                React.createElement(hs_info_card_1.default, { visible: this.state.showHSPreview, highschool: this.props.highschool })));
-        }
-        else {
-            return (React.createElement("div", { className: this.className, onMouseEnter: function () { return _this.setState({ showHSPreview: true }); }, onMouseLeave: function () { return _this.setState({ showHSPreview: false }); } },
-                React.createElement("span", { className: "hs-list-element-initials" }, this.props.highschool.initials),
-                React.createElement(hs_info_card_1.default, { visible: this.state.showHSPreview, highschool: this.props.highschool })));
-        }
+        return (React.createElement("div", { className: this.className, onMouseEnter: function () { return _this.setState({ showHSPreview: true }); }, onMouseLeave: function () { return _this.setState({ showHSPreview: false }); } },
+            React.createElement("span", { className: "hs-list-element-initials" }, this.toInitials(this.props.program.Long_Name)),
+            React.createElement(hs_program_info_card_1.default, { visible: this.state.showHSPreview, program: this.props.program })));
     };
     return HSListElement;
 }(React.PureComponent));
@@ -43859,17 +43856,17 @@ exports.default = HSListElement;
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 __webpack_require__(500);
-var HSInfoCard = function (props) {
-    var hasPreviewUrl = props.highschool.previewUrl !== undefined;
+var HSProgramInfoCard = function (props) {
+    var hasPreviewUrl = props.program.CPS_School_Profile !== undefined;
     if (hasPreviewUrl) {
         return (React.createElement("div", { className: "hs-info-card " + (props.visible ? "visible" : "") },
-            React.createElement("iframe", { className: "hs-info-card-preview", src: props.highschool.previewUrl.toString() })));
+            React.createElement("iframe", { className: "hs-info-card-preview", src: props.program.CPS_School_Profile })));
     }
     else {
-        return (React.createElement("div", { className: "hs-info-card " + (props.visible ? "visible" : "") }, props.highschool.longName));
+        return (React.createElement("div", { className: "hs-info-card " + (props.visible ? "visible" : "") }, props.program.Long_Name));
     }
 };
-exports.default = HSInfoCard;
+exports.default = HSProgramInfoCard;
 
 
 /***/ }),
@@ -43887,14 +43884,14 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(19)(content, options);
+var update = __webpack_require__(21)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--2-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-info-card.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--2-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-info-card.scss");
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--2-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-info-card.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--2-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-info-card.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -43907,7 +43904,7 @@ if(false) {
 /* 501 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(18)(undefined);
+exports = module.exports = __webpack_require__(20)(undefined);
 // imports
 
 
@@ -43932,7 +43929,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(19)(content, options);
+var update = __webpack_require__(21)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -43952,7 +43949,7 @@ if(false) {
 /* 503 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(18)(undefined);
+exports = module.exports = __webpack_require__(20)(undefined);
 // imports
 
 
@@ -43977,7 +43974,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(19)(content, options);
+var update = __webpack_require__(21)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -43997,7 +43994,7 @@ if(false) {
 /* 505 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(18)(undefined);
+exports = module.exports = __webpack_require__(20)(undefined);
 // imports
 
 
@@ -44011,205 +44008,38 @@ exports.push([module.i, ".hs-list {\n  width: 100%;\n  min-height: 100px;\n  hei
 /* 506 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+// style-loader: Adds some css to the DOM by adding a <style> tag
 
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var clone_1 = __webpack_require__(58);
-var additional_requirement_display_1 = __webpack_require__(507);
-__webpack_require__(510);
-var AdditionalRequirementsContainer = function (props) {
-    var createInputValueChangeHandler = function (addlReqKey) {
-        return function (newValue) {
-            var origReq = props.additionalRequirements[addlReqKey];
-            var oldValue = origReq.inputValue;
-            if (newValue !== oldValue) {
-                if (origReq.inputValidationFn && origReq.inputValidationFn(newValue)) {
-                    var newReq = clone_1.cloneAndExtend(origReq, { inputValue: newValue });
-                    props.onRequirementsChange(clone_1.cloneAndExtend(props.additionalRequirements, (_a = {}, _a[addlReqKey] = newReq, _a)));
-                }
-            }
-            var _a;
-        };
-    };
-    var addlReqKeys = Object.keys(props.additionalRequirements);
-    return (React.createElement("div", { className: "hs-additional-requirements-container" },
-        React.createElement("div", { className: "hs-additional-requirements-header" }, "Additional Requirements"),
-        addlReqKeys.map(function (key) {
-            return (React.createElement(additional_requirement_display_1.default, __assign({ key: key }, props.additionalRequirements[key], { onInputValueChange: createInputValueChangeHandler(key) })));
-        })));
-};
-exports.default = AdditionalRequirementsContainer;
+// load the styles
+var content = __webpack_require__(507);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
 
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(21)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--2-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-type.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--2-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-type.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
 
 /***/ }),
 /* 507 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var circled_arrow_up_icon_1 = __webpack_require__(165);
-var circled_arrow_down_icon_1 = __webpack_require__(166);
-__webpack_require__(508);
-var AdditionalRequirementDisplay = function (props) {
-    var showLinks = props.links.length > 0;
-    var showInput = props.hasNumericInput;
-    return (React.createElement("div", { className: "hs-additional-requirement" },
-        React.createElement("div", { className: "hs-additional-requirement-label" }, props.displayName),
-        React.createElement("div", { className: "hs-additional-requirement-content" },
-            showInput &&
-                React.createElement("div", { className: "hs-additional-requirement-input-container" },
-                    React.createElement("input", { className: "hs-additional-requirement-input", type: "number", value: props.inputValue, onChange: function (event) { return event.currentTarget.valueAsNumber; } }),
-                    React.createElement("div", { className: "requirement-change-button-container" },
-                        React.createElement("button", { className: "requirement-change-button", onClick: function () { return props.onInputValueChange(props.inputValue + 1); } }, React.createElement(circled_arrow_up_icon_1.default, { width: "24px", height: "24px" })),
-                        React.createElement("button", { className: "requirement-change-button", onClick: function () { return props.onInputValueChange(props.inputValue - 1); } }, React.createElement(circled_arrow_down_icon_1.default, { width: "24px", height: "24px" })))),
-            React.createElement("div", { className: "hs-additional-requirement-description" }, props.desc),
-            showLinks &&
-                React.createElement("div", { className: "hs-additional-requirement-links" }, props.links.map(function (link) {
-                    React.createElement("div", { key: link.hash, className: "hs-additional-requirement-link" },
-                        React.createElement("a", { href: link.toString(), target: "_none" }, "More info here..."),
-                        "}");
-                })))));
-};
-exports.default = AdditionalRequirementDisplay;
-
-
-/***/ }),
-/* 508 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(509);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(19)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--2-2!../../../../node_modules/sass-loader/lib/loader.js!./additional-requirement-display.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--2-2!../../../../node_modules/sass-loader/lib/loader.js!./additional-requirement-display.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 509 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(18)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".hs-additional-requirement {\n  -webkit-box-flex: 1;\n      -ms-flex: 1 0 auto;\n          flex: 1 0 auto;\n  padding: 0.5em;\n  width: 100%;\n  height: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column; }\n\n.hs-additional-requirement-label {\n  text-align: center;\n  font-size: 70%;\n  color: #6a6a6a;\n  border-bottom: 1px solid #cacaca; }\n\n.hs-additional-requirement-content {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  width: 100%;\n  height: 100%; }\n\n.hs-additional-requirement-description {\n  font-size: 70%; }\n\n.hs-additional-requirement-input-container {\n  width: 250px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  margin-right: 0.5em; }\n\n.hs-additional-requirement-input {\n  width: 100%;\n  text-align: center;\n  font-size: 150%; }\n\n.hs-additional-requirement-label {\n  text-align: center;\n  font-size: 70%;\n  color: #6a6a6a;\n  border-bottom: 1px solid #cacaca; }\n\n.requirement-change-button-container {\n  margin-left: 0.25em;\n  width: 24px; }\n\n.requirement-change-button {\n  width: 24px;\n  height: 24px;\n  border: none;\n  padding: 0;\n  border-radius: 100%;\n  background: none;\n  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n  -webkit-transition: -webkit-box-shadow 50ms ease, -webkit-transform 50ms ease;\n  transition: -webkit-box-shadow 50ms ease, -webkit-transform 50ms ease;\n  transition: box-shadow 50ms ease, transform 50ms ease;\n  transition: box-shadow 50ms ease, transform 50ms ease, -webkit-box-shadow 50ms ease, -webkit-transform 50ms ease; }\n\n.requirement-change-button:hover {\n  -webkit-box-shadow: 0 4px 2px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n          box-shadow: 0 4px 2px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n  -webkit-transform: scale(1.05);\n          transform: scale(1.05); }\n\n.requirement-change-button:active {\n  -webkit-box-shadow: none;\n          box-shadow: none;\n  -webkit-transform: scale(0.97);\n          transform: scale(0.97); }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 510 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(511);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(19)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--2-2!../../../../node_modules/sass-loader/lib/loader.js!./additional-requirements-container.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--2-2!../../../../node_modules/sass-loader/lib/loader.js!./additional-requirements-container.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 511 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(18)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".hs-additional-requirements-container {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  width: 100%;\n  height: auto;\n  border: 1px solid #cacaca;\n  background-color: #efefef; }\n\n.hs-additional-requirements-header {\n  font-size: 95%;\n  width: 100%;\n  border-bottom: 1px solid #6a6a6a;\n  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 512 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(513);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(19)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--2-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-category.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--2-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-category.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 513 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(18)(undefined);
+exports = module.exports = __webpack_require__(20)(undefined);
 // imports
 
 
@@ -44220,7 +44050,7 @@ exports.push([module.i, ".hs-category-container {\n  width: 100%;\n  height: aut
 
 
 /***/ }),
-/* 514 */
+/* 508 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44237,1383 +44067,10811 @@ exports.MOCK_STUDENT_SCORES = {
 exports.MOCK_STUDENT_DATA = {
     studentFirstName: "Testfella",
     studentLastName: "McGee",
-    address: "761 W Altgeld",
+    address: "4747 S Marshfield Ave, Chicago IL",
     ell: true,
     iep: false,
     gradeLevel: 5,
     tier: "4",
     scores: exports.MOCK_STUDENT_SCORES,
+    attendancePercentage: 85,
+    gpa: 2.5,
+    latitude: "41.8073824",
+    longitude: "-87.6657907",
 };
 
 
 /***/ }),
-/* 515 */
+/* 509 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var hs_calc_utils_1 = __webpack_require__(516);
-var noRequirement = function (data) { return true; };
-var lotterySelection = function (data) { return false; };
-var magnetApplicationRequirement = function (data) { return true; };
-var magnetSelectionRequirement = function (data) { return false; };
-var militaryApplicationRequirement = function (data) { return true; };
-var militarySelectionRequirement = function (data) { return false; };
-var selectiveCTEApplicationRequirement = function (data) { return true; };
-var selectiveCTESelectionRequirement = function (data) { return true; };
-var implementMe = function (data) {
-    console.warn("HS requirement function not implemented!");
-    return false;
+var hsConfigData = __webpack_require__(510);
+exports.loadHSPrograms = function () {
+    var hsPrograms = groupByProgramType(hsConfigData);
+    return hsPrograms;
 };
-var standardApplicationRequirements = function (data) {
-    var nweaMathPercentile = data.scores.nweaPercentileMath;
-    var nweaReadPercentile = data.scores.nweaPercentileRead;
-    if (!data.ell && !data.iep) {
-        if (nweaMathPercentile > 24 && nweaReadPercentile > 24) {
-            return true;
+var groupByProgramType = function (allPrograms) {
+    var hsPrograms = {};
+    for (var i = 0; i < allPrograms.length; i++) {
+        var program = allPrograms[i];
+        var programType = program.Program_Type;
+        if (!hsPrograms[programType]) {
+            hsPrograms[programType] = [];
         }
+        hsPrograms[programType].push(program);
     }
-    else {
-        if (nweaMathPercentile + nweaReadPercentile > 48) {
-            return true;
-        }
-    }
-    return false;
+    return hsPrograms;
 };
-var createSESelectionReqFn = function (cutoffScores) {
-    return function (data, addlReqs) {
-        var seTestPercentile;
-        try {
-            seTestPercentile = addlReqs["seTestPercentile"].inputValue;
-        }
-        catch (e) {
-            return false;
-        }
-        var score = hs_calc_utils_1.calculateSEPoints(data, seTestPercentile);
-        var studentTierCutoffs;
-        switch (data.tier) {
-            case "1":
-                studentTierCutoffs = cutoffScores.tier1;
-                break;
-            case "2":
-                studentTierCutoffs = cutoffScores.tier2;
-                break;
-            case "3":
-                studentTierCutoffs = cutoffScores.tier3;
-                break;
-            case "4":
-                studentTierCutoffs = cutoffScores.tier4;
-                break;
-            default:
-                throw new Error("Unrecognized tier: " + data.tier);
-        }
-        return score >= studentTierCutoffs.avg - ((studentTierCutoffs.avg - studentTierCutoffs.min) / 2);
-    };
-};
-var createIBSelectionReqFn = function (cutoffScore) {
-    return function (data, additionalRequirements) {
-        var score = hs_calc_utils_1.calculateIBPoints(data);
-        return score >= cutoffScore;
-    };
-};
-exports.HSConfigData = [
-    {
-        longName: "Selective Enrollment",
-        shortName: "SE",
-        requirementsFunction: standardApplicationRequirements,
-        additionalRequirements: {
-            seTestPercentile: {
-                displayName: "Selective Enrollment Test",
-                desc: "In order to apply to a Selective Enrollment school, you need to take the Selective Enrollment test. You'll need to attend one of the testing sessions in winter of 8th grade. If you've already taken the Selective Enrollment test, put your percentile score in the box to the right. If you haven't taken the Selective Enrollment test yet, put different scores in the box to see how it changes the high schools you can get in to.",
-                hasNumericInput: true,
-                inputValue: 50,
-                inputValidationFn: function (value) { return value >= 1 && value <= 99; },
-                links: [
-                    new URL("http://go.cps.edu/about/faq/high-school")
-                ]
-            }
-        },
-        highschools: [
-            {
-                longName: "Gwendolyn Brooks College Preparatory Academy",
-                shortName: "Brooks",
-                initials: "B",
-                previewUrl: new URL("http://schoolinfo.cps.edu/schoolprofile/schooldetails.aspx?SchoolId=609726"),
-                selectionRequirementsFunction: createSESelectionReqFn({
-                    rank: { avg: 834.15, min: 799, max: 897 },
-                    tier1: { avg: 700.76, min: 652, max: 796 },
-                    tier2: { avg: 740.36, min: 687, max: 795 },
-                    tier3: { avg: 768.40, min: 750, max: 792 },
-                    tier4: { avg: 761.50, min: 723, max: 797 },
-                }),
-                applicationRequirementsFunction: standardApplicationRequirements,
-            },
-            {
-                longName: "John Hancock College Preparatory High School",
-                shortName: "Hancock",
-                initials: "H",
-                selectionRequirementsFunction: createSESelectionReqFn({
-                    rank: { avg: 823.92, min: 794, max: 880 },
-                    tier1: { avg: 706.40, min: 664, max: 791 },
-                    tier2: { avg: 757.68, min: 736, max: 790 },
-                    tier3: { avg: 772.69, min: 753, max: 791 },
-                    tier4: { avg: 740.63, min: 672, max: 792 },
-                }),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "William Jones College Preparatory High School",
-                shortName: "Jones",
-                initials: "J",
-                selectionRequirementsFunction: createSESelectionReqFn({
-                    rank: { avg: 893.81, min: 889, max: 900 },
-                    tier1: { avg: 816.86, min: 771, max: 887 },
-                    tier2: { avg: 851.57, min: 823, max: 889 },
-                    tier3: { avg: 874.12, min: 861, max: 889 },
-                    tier4: { avg: 886.69, min: 883, max: 889 },
-                }),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "Dr Martin Luther King Jr College Prep",
-                shortName: "King HS",
-                initials: "MLK",
-                selectionRequirementsFunction: createSESelectionReqFn({
-                    rank: { avg: 735.59, min: 682, max: 859 },
-                    tier1: { avg: 632.20, min: 600, max: 680 },
-                    tier2: { avg: 635.16, min: 601, max: 679 },
-                    tier3: { avg: 645.55, min: 608, max: 682 },
-                    tier4: { avg: 634.43, min: 600, max: 674 },
-                }),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "Albert G Lane Technical High School",
-                shortName: "Lane Tech HS",
-                initials: "LT",
-                selectionRequirementsFunction: createSESelectionReqFn({
-                    rank: { avg: 878.11, min: 866, max: 900 },
-                    tier1: { avg: 738.79, min: 692, max: 863 },
-                    tier2: { avg: 808.46, min: 777, max: 865 },
-                    tier3: { avg: 839.69, min: 818, max: 866 },
-                    tier4: { avg: 855.13, min: 843, max: 865 },
-                }),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "Robert Lindblom Math & Science Academy",
-                shortName: "Lindblom HS",
-                initials: "L",
-                selectionRequirementsFunction: createSESelectionReqFn({
-                    rank: { avg: 813.87, min: 774, max: 895 },
-                    tier1: { avg: 692.14, min: 655, max: 771 },
-                    tier2: { avg: 732.82, min: 700, max: 774 },
-                    tier3: { avg: 743.98, min: 720, max: 774 },
-                    tier4: { avg: 717.92, min: 672, max: 773 },
-                }),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "Northside College Preparatory High School",
-                shortName: "Northside Prep HS",
-                initials: "NP",
-                selectionRequirementsFunction: createSESelectionReqFn({
-                    rank: { avg: 898.85, min: 896, max: 900 },
-                    tier1: { avg: 820.31, min: 757, max: 892 },
-                    tier2: { avg: 867.55, min: 843, max: 895 },
-                    tier3: { avg: 889.04, min: 880, max: 895 },
-                    tier4: { avg: 893.92, min: 891, max: 896 },
-                }),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "Walter Payton College Preparatory High School",
-                shortName: "Payton HS",
-                initials: "P",
-                selectionRequirementsFunction: createSESelectionReqFn({
-                    rank: { avg: 899.03, min: 898, max: 900 },
-                    tier1: { avg: 837.66, min: 771, max: 897 },
-                    tier2: { avg: 875.60, min: 846, max: 897 },
-                    tier3: { avg: 886.97, min: 875, max: 898 },
-                    tier4: { avg: 895.59, min: 894, max: 898 },
-                }),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "South Shore Intl College Prep High School",
-                shortName: "South Shore Intl HS",
-                initials: "SS",
-                selectionRequirementsFunction: createSESelectionReqFn({
-                    rank: { avg: 725.28, min: 678, max: 837 },
-                    tier1: { avg: 621.10, min: 601, max: 674 },
-                    tier2: { avg: 637.17, min: 600, max: 677 },
-                    tier3: { avg: 632.43, min: 601, max: 677 },
-                    tier4: { avg: 634.77, min: 603, max: 672 },
-                }),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "George Westinghouse College Prep",
-                shortName: "Westinghouse HS",
-                initials: "W",
-                selectionRequirementsFunction: createSESelectionReqFn({
-                    rank: { avg: 799.38, min: 766, max: 883 },
-                    tier1: { avg: 706.44, min: 667, max: 760 },
-                    tier2: { avg: 733.79, min: 708, max: 765 },
-                    tier3: { avg: 730.68, min: 695, max: 765 },
-                    tier4: { avg: 691.26, min: 618, max: 766 },
-                }),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "Whitney M Young Magnet High School",
-                shortName: "Young HS",
-                initials: "Y",
-                selectionRequirementsFunction: createSESelectionReqFn({
-                    rank: { avg: 890.34, min: 882, max: 900 },
-                    tier1: { avg: 823.25, min: 780, max: 880 },
-                    tier2: { avg: 846.26, min: 821, max: 880 },
-                    tier3: { avg: 860.88, min: 849, max: 882 },
-                    tier4: { avg: 877.46, min: 874, max: 882 },
-                }),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-        ],
-    },
-    {
-        longName: "International Baccalaureate (IB)",
-        shortName: "IB",
-        requirementsFunction: standardApplicationRequirements,
-        additionalRequirements: {},
-        highschools: [
-            {
-                longName: "Roald Amundsen High School - IB Program",
-                shortName: "Amundsen HS",
-                initials: "Am",
-                selectionRequirementsFunction: createIBSelectionReqFn(600),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "Back of the Yards High School - IB Program",
-                shortName: "Back of the Yards HS",
-                initials: "BotY",
-                selectionRequirementsFunction: createIBSelectionReqFn(609),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "William J Bogan High School - IB Program",
-                shortName: "Bogan HS",
-                initials: "Bo",
-                selectionRequirementsFunction: createIBSelectionReqFn(350),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "Bronzeville Scholastic Academy High School - IB Program",
-                shortName: "Bronzeville HS - IB",
-                initials: "Br",
-                selectionRequirementsFunction: createIBSelectionReqFn(450),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "Roberto Clemente Community Academy High School - IB Program",
-                shortName: "Clemente HS - IB",
-                initials: "Cl",
-                selectionRequirementsFunction: createIBSelectionReqFn(490),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "Marie Sklodowska Curie Metropolitan High School - IB Program",
-                shortName: "Curie HS - IB",
-                initials: "Cu",
-                selectionRequirementsFunction: createIBSelectionReqFn(650),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "David G Farragut Career Academy High School - IB Program",
-                shortName: "Farragut HS - IB",
-                initials: "Fa",
-                selectionRequirementsFunction: createIBSelectionReqFn(350),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "Gurdon S Hubbard High School - IB Program",
-                shortName: "Hubbard HS - IB",
-                initials: "Hu",
-                selectionRequirementsFunction: createIBSelectionReqFn(600),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "Hyde Park Academy High School - IB Program",
-                shortName: "Hyde Park HS - IB",
-                initials: "HP",
-                selectionRequirementsFunction: createIBSelectionReqFn(375),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "Benito Juarez Community Academy High School - IB Program",
-                shortName: "Juarez HS - IB",
-                initials: "J",
-                selectionRequirementsFunction: createIBSelectionReqFn(500),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "Thomas Kelly High School - IB Program",
-                shortName: "Kelly HS - IB",
-                initials: "Kel",
-                selectionRequirementsFunction: createIBSelectionReqFn(650),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "John F Kennedy High School - IB Program",
-                shortName: "Kennedy HS - IB",
-                initials: "JFK",
-                selectionRequirementsFunction: createIBSelectionReqFn(600),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "Lincoln Park High School - IB Program",
-                shortName: "Lincoln Park HS - IB",
-                initials: "LP",
-                selectionRequirementsFunction: createIBSelectionReqFn(819),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "Morgan Park High School - IB Program",
-                shortName: "Morgan Park HS - IB",
-                initials: "MP",
-                selectionRequirementsFunction: createIBSelectionReqFn(500),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "Ogden International High School - IB Program",
-                shortName: "Ogden HS - IB",
-                initials: "Og",
-                selectionRequirementsFunction: createIBSelectionReqFn(520),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "Charles Allen Prosser Career Academy High School - IB Program",
-                shortName: "Prosser HS - IB",
-                initials: "Pr",
-                selectionRequirementsFunction: createIBSelectionReqFn(600),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "Carl Schurz High School - IB Program",
-                shortName: "Schurz HS - IB",
-                initials: "Sch",
-                selectionRequirementsFunction: createIBSelectionReqFn(360),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "Nicholas Senn High School - IB Program",
-                shortName: "Senn HS - IB",
-                initials: "Sch",
-                selectionRequirementsFunction: createIBSelectionReqFn(575),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "South Shore High School - IB Program",
-                shortName: "South Shore HS - IB",
-                initials: "SS",
-                selectionRequirementsFunction: createIBSelectionReqFn(427),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "Charles P Steinmetz College Preparatory HS - IB Program",
-                shortName: "Steinmetz HS - IB",
-                initials: "St",
-                selectionRequirementsFunction: createIBSelectionReqFn(450),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "William Howard Taft High School - IB Program",
-                shortName: "Taft HS - IB",
-                initials: "T",
-                selectionRequirementsFunction: createIBSelectionReqFn(836),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-            {
-                longName: "George Washington High School",
-                shortName: "Washington HS - IB",
-                initials: "W",
-                selectionRequirementsFunction: createIBSelectionReqFn(630),
-                applicationRequirementsFunction: standardApplicationRequirements
-            },
-        ],
-    },
-    {
-        longName: "Military Schools",
-        shortName: "Military",
-        requirementsFunction: standardApplicationRequirements,
-        additionalRequirements: {},
-        highschools: [
-            {
-                longName: "David G Farragut Career Academy High School - Military School Program",
-                shortName: "Farragut HS - Military",
-                initials: "Fa",
-                applicationRequirementsFunction: militaryApplicationRequirement,
-                selectionRequirementsFunction: militarySelectionRequirement
-            },
-            {
-                longName: "Charles P Steinmetz College Preparatory HS - Military School Program",
-                shortName: "Steinmetz HS - Military",
-                initials: "St",
-                applicationRequirementsFunction: militaryApplicationRequirement,
-                selectionRequirementsFunction: militarySelectionRequirement,
-            },
-            {
-                longName: "William Howard Taft High School - Military School Program",
-                shortName: "Taft HS - Military",
-                initials: "T",
-                applicationRequirementsFunction: militaryApplicationRequirement,
-                selectionRequirementsFunction: militarySelectionRequirement,
-            },
-            {
-                longName: "Air Force Academy High School",
-                shortName: "Air Force HS",
-                initials: "AF",
-                applicationRequirementsFunction: militaryApplicationRequirement,
-                selectionRequirementsFunction: militarySelectionRequirement,
-            },
-            {
-                longName: "George Washington Carver Military Academy HS",
-                shortName: "Carver Military HS",
-                initials: "Car",
-                applicationRequirementsFunction: militaryApplicationRequirement,
-                selectionRequirementsFunction: militarySelectionRequirement,
-            },
-            {
-                longName: "Chicago Military Academy High School",
-                shortName: "Chicago Military HS",
-                initials: "Chi",
-                applicationRequirementsFunction: militaryApplicationRequirement,
-                selectionRequirementsFunction: militarySelectionRequirement,
-            },
-            {
-                longName: "Marine Leadership Academy at Ames",
-                shortName: "Marine Leadership at Ames HS",
-                initials: "MLA",
-                applicationRequirementsFunction: militaryApplicationRequirement,
-                selectionRequirementsFunction: militarySelectionRequirement,
-            },
-            {
-                longName: "Phoenix Military Academy High School",
-                shortName: "Phoenix Miltary HS",
-                initials: "Ph",
-                applicationRequirementsFunction: militaryApplicationRequirement,
-                selectionRequirementsFunction: militarySelectionRequirement,
-            },
-            {
-                longName: "Hyman G Rickover Naval Academy High School",
-                shortName: "Rickover Miltary HS",
-                initials: "Ri",
-                applicationRequirementsFunction: militaryApplicationRequirement,
-                selectionRequirementsFunction: militarySelectionRequirement,
-            },
-        ],
-    },
-    {
-        longName: "Magnet Programs",
-        shortName: "Magnet",
-        requirementsFunction: standardApplicationRequirements,
-        additionalRequirements: {},
-        highschools: [
-            {
-                longName: "Marie Sklodowska Curie Metropolitan High School - Magnet Program",
-                shortName: "Curie HS - Magnet",
-                initials: "Cu",
-                applicationRequirementsFunction: magnetApplicationRequirement,
-                selectionRequirementsFunction: magnetSelectionRequirement,
-            },
-            {
-                longName: "John M Harlan Community Academy High School - Magnet Program",
-                shortName: "Harlan HS - Magnet",
-                initials: "Har",
-                applicationRequirementsFunction: magnetApplicationRequirement,
-                selectionRequirementsFunction: magnetSelectionRequirement,
-            },
-            {
-                longName: "Nicholas Senn High School - Magnet Program",
-                shortName: "Senn HS",
-                initials: "Se",
-                applicationRequirementsFunction: magnetApplicationRequirement,
-                selectionRequirementsFunction: magnetSelectionRequirement,
-            },
-            {
-                longName: "Chicago High School for Agricultural Sciences",
-                shortName: "Chicago Agriculture HS",
-                initials: "CA",
-                applicationRequirementsFunction: magnetApplicationRequirement,
-                selectionRequirementsFunction: magnetSelectionRequirement,
-            },
-            {
-                longName: "Michele Clark Academic Prep Magnet High School",
-                shortName: "Clark HS",
-                initials: "Cl",
-                applicationRequirementsFunction: magnetApplicationRequirement,
-                selectionRequirementsFunction: magnetSelectionRequirement,
-            },
-            {
-                longName: "Disney II Magnet High School",
-                shortName: "Disney II HS",
-                initials: "DII",
-                applicationRequirementsFunction: magnetApplicationRequirement,
-                selectionRequirementsFunction: magnetSelectionRequirement,
-            },
-            {
-                longName: "Kenwood Academy High School - Magnet Program",
-                shortName: "Kenwood HS - Magnet",
-                initials: "K",
-                applicationRequirementsFunction: magnetApplicationRequirement,
-                selectionRequirementsFunction: magnetSelectionRequirement,
-            },
-            {
-                longName: "Friedrich W von Steuben Metropolitan Science HS",
-                shortName: "Von Steuben HS",
-                initials: "VS",
-                applicationRequirementsFunction: magnetApplicationRequirement,
-                selectionRequirementsFunction: magnetSelectionRequirement,
-            },
-        ],
-    },
-    {
-        longName: "Citywide Schools",
-        shortName: "Citywide",
-        requirementsFunction: standardApplicationRequirements,
-        additionalRequirements: {},
-        highschools: [
-            {
-                longName: "Collins Academy High School",
-                shortName: "Collins HS",
-                initials: "Co",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Uplift Community High School",
-                shortName: "Uplift HS",
-                initials: "Up",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Daniel Hale Williams Prep School of Medicine",
-                shortName: "Williams HS",
-                initials: "Wil",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Back of the Yards High School",
-                shortName: "Back of the Yards HS",
-                initials: "BotY",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Bronzeville Scholastic Academy High School",
-                shortName: "Bronzeville HS",
-                initials: "Br",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Chicago Academy High School",
-                shortName: "Chicago Academy HS",
-                initials: "CA",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Frederick A Douglass Academy High School",
-                shortName: "Douglass HS",
-                initials: "D",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Sarah E. Goode STEM Academy",
-                shortName: "Goode HS",
-                initials: "Go",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Spry Community Links High School",
-                shortName: "Spry HS",
-                initials: "Sp",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "TEAM Englewood Community Academy High School",
-                shortName: "Team HS",
-                initials: "Te",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-        ],
-    },
-    {
-        longName: "Neighborhood Schools",
-        shortName: "Neighborhood",
-        requirementsFunction: standardApplicationRequirements,
-        additionalRequirements: {},
-        highschools: [
-            {
-                longName: "Louisa May Alcott College Preparatory HS",
-                shortName: "Alcott HS",
-                initials: "Al",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Roald Amundsen High School",
-                shortName: "Amundsen HS",
-                initials: "Am",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Austin College and Career Academy High School",
-                shortName: "Austin CCA HS",
-                initials: "Au",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "William J Bogan High School",
-                shortName: "Bogan HS",
-                initials: "Bo",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Bowen High School",
-                shortName: "Bowen HS",
-                initials: "Bow",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Chicago Vocational Career Academy High School",
-                shortName: "Chicago Vocational HS",
-                initials: "CV",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Roberto Clemente Community Academy High School",
-                shortName: "Clemente HS",
-                initials: "Cl",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Marie Sklodowska Curie Metropolitan High School",
-                shortName: "Curie HS",
-                initials: "Cu",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Walter Henri Dyett High School for the Arts",
-                shortName: "Dyett Arts HS",
-                initials: "Dy",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "David G Farragut Career Academy High School",
-                shortName: "Farragut HS",
-                initials: "Fa",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Christian Fenger Academy High School",
-                shortName: "Fenger HS",
-                initials: "Fe",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Edwin G. Foreman College and Career Academy",
-                shortName: "Foreman HS",
-                initials: "Fo",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "John M Harlan Community Academy High School",
-                shortName: "Harlan HS",
-                initials: "Har",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "William Rainey Harper High School",
-                shortName: "Harper HS",
-                initials: "Harp",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Hyde Park Academy High School",
-                shortName: "Hyde Park HS",
-                initials: "HP",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Benito Juarez Community Academy High School",
-                shortName: "Juarez HS",
-                initials: "Jua",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Percy L Julian High School",
-                shortName: "Julian HS",
-                initials: "Jul",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Thomas Kelly High School",
-                shortName: "Kelly HS",
-                initials: "Ke",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Manley Career Academy High School",
-                shortName: "Manley HS",
-                initials: "Man",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "John Marshall Metropolitan High School",
-                shortName: "Marshall HS",
-                initials: "Mar",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Stephen T Mather High School",
-                shortName: "Mather HS",
-                initials: "Mat",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "North-Grand High School",
-                shortName: "North-Grand HS",
-                initials: "NG",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Wendell Phillips Academy High School",
-                shortName: "Phillips HS",
-                initials: "Ph",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Ellen H Richards Career Academy High School",
-                shortName: "Richards HS",
-                initials: "Ri",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Paul Robeson High School",
-                shortName: "Robeson HS",
-                initials: "Ro",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Theodore Roosevelt High School",
-                shortName: "Roosevelt HS",
-                initials: "Ros",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Carl Schurz High School",
-                shortName: "Schurz HS",
-                initials: "Sch",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Charles P Steinmetz College Preparatory HS",
-                shortName: "Steinmetz HS",
-                initials: "St",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Roger C Sullivan HS",
-                shortName: "Sullivan HS",
-                initials: "Su",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Edward Tilden Career Community Academy HS",
-                shortName: "Tilden HS",
-                initials: "Ti",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Wells Community Academy High School",
-                shortName: "Wells HS",
-                initials: "W",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Gurdon S Hubbard High School",
-                shortName: "Hubbard HS",
-                initials: "Hub",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "John F Kennedy High School",
-                shortName: "Kennedy HS",
-                initials: "JFK",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Lincoln Park High School",
-                shortName: "Lincoln Park HS",
-                initials: "LP",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Morgan Park High School",
-                shortName: "Morgan Park HS",
-                initials: "MP",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Ogden International High School",
-                shortName: "Ogden HS",
-                initials: "Og",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Nicholas Senn High School",
-                shortName: "Senn HS",
-                initials: "Se",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "William Howard Taft High School",
-                shortName: "Taft HS",
-                initials: "T",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "George Washington High School",
-                shortName: "Washington HS",
-                initials: "Wa",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Kenwood Academy High School",
-                shortName: "Kenwood HS",
-                initials: "K",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "George H Corliss High School",
-                shortName: "Corliss HS",
-                initials: "K",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Gage Park High School",
-                shortName: "Gage Park HS",
-                initials: "GP",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Emil G Hirsch Metropolitan High School",
-                shortName: "Hirsch HS",
-                initials: "Hir",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Hope College Preparatory High School",
-                shortName: "Hope HS",
-                initials: "H",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Infinity Math Science and Technology High School",
-                shortName: "Infinity HS",
-                initials: "In",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Lake View High School",
-                shortName: "Lake View HS",
-                initials: "LV",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Multicultural Academy of Scholarship",
-                shortName: "Multicultural HS",
-                initials: "Mu",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Orr Academy High School",
-                shortName: "Orr HS",
-                initials: "Orr",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Greater Lawndale High School For Social Justice",
-                shortName: "Social Justice HS",
-                initials: "SJ",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Eric Solorio Academy High School",
-                shortName: "Solorio HS",
-                initials: "So",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Eric Solorio Academy High School - Double Honors/Scholars Program",
-                shortName: "Solorio HS - Double Honors/Scholars",
-                initials: "So",
-                applicationRequirementsFunction: implementMe,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "World Language Academy High School",
-                shortName: "World Language HS",
-                initials: "WL",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Kelvyn Park High School",
-                shortName: "Kelvyn Park HS",
-                initials: "KP",
-                applicationRequirementsFunction: implementMe,
-                selectionRequirementsFunction: implementMe,
-            },
-        ],
-    },
-    {
-        longName: "Career & Technical Education Programs",
-        shortName: "CTE",
-        requirementsFunction: standardApplicationRequirements,
-        additionalRequirements: {},
-        highschools: [
-            {
-                longName: "Louisa May Alcott College Preparatory HS - CTE Program",
-                shortName: "Alcott HS - CTE",
-                initials: "Al",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Roald Amundsen High School - CTE Program",
-                shortName: "Amundsen HS - CTE",
-                initials: "Am",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Austin College and Career Academy High School - CTE Program",
-                shortName: "Austin CCA HS - CTE",
-                initials: "Au",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "William J Bogan High School - CTE Program",
-                shortName: "Bogan HS - CTE",
-                initials: "Bog",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Bowen High School - CTE Program",
-                shortName: "Bowen HS - CTE",
-                initials: "Bow",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Chicago Vocational Career Academy High School - CTE Program",
-                shortName: "Chicago Vocational HS - CTE",
-                initials: "CV",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Roberto Clemente Community Academy High School - CTE Program",
-                shortName: "Clemente HS - CTE",
-                initials: "Cl",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Collins Academy High School - CTE Program",
-                shortName: "Collins HS - CTE",
-                initials: "Co",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Richard T Crane Medical Preparatory HS",
-                shortName: "Crane Medical HS",
-                initials: "Cr",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Marie Sklodowska Curie Metropolitan High School - CTE Program",
-                shortName: "Curie HS - CTE",
-                initials: "Cu",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Paul Laurence Dunbar Career Academy High School",
-                shortName: "Dunbar HS",
-                initials: "Du",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Walter Henri Dyett High School for the Arts - CTE Program",
-                shortName: "Dyett Arts HS - CTE",
-                initials: "Dy",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "David G Farragut Career Academy High School - CTE Program",
-                shortName: "Farragut HS - CTE",
-                initials: "Fa",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Christian Fenger Academy High School - CTE Program",
-                shortName: "Fenger HS - CTE",
-                initials: "Fe",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Edwin G. Foreman College and Career Academy - CTE Program",
-                shortName: "Foreman HS - CTE",
-                initials: "Fo",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "John Hancock College Preparatory High School - Selective CTE Program",
-                shortName: "Hancock HS - CTE",
-                initials: "Han",
-                applicationRequirementsFunction: selectiveCTEApplicationRequirement,
-                selectionRequirementsFunction: selectiveCTESelectionRequirement,
-            },
-            {
-                longName: "John M Harlan Community Academy High School - CTE Program",
-                shortName: "Harlan HS - CTE",
-                initials: "Hrl",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "William Rainey Harper High School - CTE Program",
-                shortName: "Harper HS - CTE",
-                initials: "Hrp",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Hyde Park Academy High School - CTE Program",
-                shortName: "Hyde Park HS - CTE",
-                initials: "HP",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "William Jones College Preparatory High School - Selective CTE Program",
-                shortName: "Jones HS - CTE",
-                initials: "Jo",
-                applicationRequirementsFunction: selectiveCTEApplicationRequirement,
-                selectionRequirementsFunction: selectiveCTESelectionRequirement,
-            },
-            {
-                longName: "Benito Juarez Community Academy High School - CTE Program",
-                shortName: "Juarez HS - CTE",
-                initials: "Jua",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Percy L Julian High School - CTE Program",
-                shortName: "Julian HS - CTE",
-                initials: "Jul",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Thomas Kelly High School - CTE Program",
-                shortName: "Kelly HS - CTE",
-                initials: "Ke",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Manley Career Academy High School - CTE Program",
-                shortName: "Manley HS - CTE",
-                initials: "Man",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "John Marshall Metropolitan High School - CTE Program",
-                shortName: "Marshall HS - CTE",
-                initials: "Mar",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Stephen T Mather High School - CTE Program",
-                shortName: "Mather HS - CTE",
-                initials: "Mat",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "North-Grand High School - CTE Program",
-                shortName: "North-Grand HS - CTE",
-                initials: "NG",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Wendell Phillips Academy High School - CTE Program",
-                shortName: "Phillips HS - CTE",
-                initials: "Ph",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Charles Allen Prosser Career Academy High School - CTE Program",
-                shortName: "Prosser HS - CTE",
-                initials: "Pr",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Al Raby High School - CTE Program",
-                shortName: "Raby HS - CTE",
-                initials: "Ra",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Ellen H Richards Career Academy High School - CTE Program",
-                shortName: "Richards HS - CTE",
-                initials: "Ri",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Paul Robeson High School - CTE Program",
-                shortName: "Robeson HS - CTE",
-                initials: "Rob",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Theodore Roosevelt High School - CTE Program",
-                shortName: "Roosevelt HS - CTE",
-                initials: "Ros",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Carl Schurz High School - CTE Program",
-                shortName: "Schurz HS - CTE",
-                initials: "Sch",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Neal F Simeon Career Academy High School - CTE Program",
-                shortName: "Simeon HS - CTE",
-                initials: "Sim",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "South Shore Intl College Prep High School - CTE Program",
-                shortName: "South Shore HS - CTE",
-                initials: "SS",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Charles P Steinmetz College Preparatory HS - CTE Program",
-                shortName: "Steinmetz HS - CTE",
-                initials: "St",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Roger C Sullivan HS - CTE Program",
-                shortName: "Sullivan HS - CTE",
-                initials: "Su",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Edward Tilden Career Community Academy HS - CTE Program",
-                shortName: "Tilden HS - CTE",
-                initials: "Ti",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Uplift Community High School - CTE Program",
-                shortName: "Uplift HS - CTE",
-                initials: "Up",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Wells Community Academy High School - CTE Program",
-                shortName: "Wells HS - CTE",
-                initials: "W",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "George Westinghouse College Prep - CTE Program",
-                shortName: "Westinghouse HS - CTE",
-                initials: "Wes",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-            {
-                longName: "Daniel Hale Williams Prep School of Medicine - CTE Program",
-                shortName: "Williams HS - CTE",
-                initials: "Wil",
-                applicationRequirementsFunction: noRequirement,
-                selectionRequirementsFunction: lotterySelection,
-            },
-        ],
-    },
-    {
-        longName: "Fine and Performing Arts Programs",
-        shortName: "Fine Arts",
-        requirementsFunction: standardApplicationRequirements,
-        additionalRequirements: {},
-        highschools: [],
-    }
+
+
+/***/ }),
+/* 510 */
+/***/ (function(module, exports) {
+
+module.exports = [
+	{
+		"School_ID": "400106",
+		"Short_Name": "NOBLE - JOHNSON HS",
+		"Long_Name": "Noble - John and Eunice Johnson College Prep",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "6350 S STEWART AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60621",
+		"Phone": "3123481888",
+		"Fax": "3122780449",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400106",
+		"Website": "http://johnsoncollegeprep.noblenetwork.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.778369",
+		"School_Longitude": "-87.635117",
+		"Location": "6350 S STEWART AVE\nChicago, Illinois 60621\n(41.778369, -87.635117)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "400171",
+		"Short_Name": "FOUNDATIONS",
+		"Long_Name": "Foundations College Preparatory Charter School",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "1233 W 109TH PL",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60643",
+		"Phone": "7732985800",
+		"Fax": "",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400171",
+		"Website": "http://www.foundationscollegeprep.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled at Foundations College Prep, sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.694671",
+		"School_Longitude": "-87.653535",
+		"Location": "1233 W 109TH PL\nChicago, Illinois 60643\n(41.694671, -87.653535)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "ea7a8ea4de4f5cdcc8bc6e7aab6a7962"
+	},
+	{
+		"School_ID": "400054",
+		"Short_Name": "NOBLE - PRITZKER HS",
+		"Long_Name": "Noble - Pritzker College Prep",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "4131 W CORTLAND ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60639",
+		"Phone": "7733942848",
+		"Fax": "7733942931",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400054",
+		"Website": "http://www.pritzkercollegeprep.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.915214",
+		"School_Longitude": "-87.730127",
+		"Location": "4131 W CORTLAND ST\nChicago, Illinois 60639\n(41.915214, -87.730127)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "400062",
+		"Short_Name": "PERSPECTIVES - TECH HS",
+		"Long_Name": "Perspectives - High School of Technology",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "8131 S MAY ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60620",
+		"Phone": "7733586120",
+		"Fax": "7733586129",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400062",
+		"Website": "http://www.pcsedu.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.745949",
+		"School_Longitude": "-87.650657",
+		"Location": "8131 S MAY ST\nChicago, Illinois 60620\n(41.745949, -87.650657)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "609704",
+		"Short_Name": "FARRAGUT HS",
+		"Long_Name": "David G Farragut Career Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "2345 S CHRISTIANA AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60623",
+		"Phone": "7735341300",
+		"Fax": "7735341336",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609704",
+		"Website": "http://www.fcaib.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically. This program only accepts students who live within the school's attendance boundary.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.84856",
+		"School_Longitude": "-87.708706",
+		"Location": "2345 S CHRISTIANA AVE\nChicago, Illinois 60623\n(41.84856, -87.708706)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "783216956d119ad64639725fa9f4d44b"
+	},
+	{
+		"School_ID": "400102",
+		"Short_Name": "URBAN PREP - WEST HS",
+		"Long_Name": "Urban Prep Charter Academy for Young Men - West",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "1326 W 14TH PL",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60608",
+		"Phone": "7735348860",
+		"Fax": "7735341050",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400102",
+		"Website": "http://www.urbanprep.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.86254",
+		"School_Longitude": "-87.660107",
+		"Location": "1326 W 14TH PL\nChicago, Illinois 60608\n(41.86254, -87.660107)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "610518",
+		"Short_Name": "AUSTIN CCA HS",
+		"Long_Name": "Austin College and Career Academy High School",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "231 N PINE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60644",
+		"Phone": "7735340660",
+		"Fax": "7735340667",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610518",
+		"Website": "http://www.ACCAChicago.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.885993",
+		"School_Longitude": "-87.761916",
+		"Location": "231 N PINE AVE\nChicago, Illinois 60644\n(41.885993, -87.761916)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "8c431d51587c33009ee9b67a566c042e"
+	},
+	{
+		"School_ID": "400036",
+		"Short_Name": "CHICAGO VIRTUAL",
+		"Long_Name": "Chicago Virtual Charter School",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "38 S PEORIA ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60607",
+		"Phone": "3122674486",
+		"Fax": "3126763689",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400036",
+		"Website": "http://www.k12.com/cvcs/home",
+		"Program_Type": "Charter",
+		"Application_Requirements": "None",
+		"Program_Selections": "If the school receives more applications than there are seats available, students are randomly selected through a computerized lottery.  Priority is given to students currently enrolled in the school and to siblings of students enrolled in the campus.",
+		"Subprograms": "",
+		"How_To_Apply": "Contact school",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.88055",
+		"School_Longitude": "-87.649772",
+		"Location": "38 S PEORIA ST\nChicago, Illinois 60607\n(41.88055, -87.649772)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "240970c398eb1cf1d65952b71e811d58"
+	},
+	{
+		"School_ID": "400179",
+		"Short_Name": "NOBLE - MANSUETO HS",
+		"Long_Name": "Noble Mansueto High School",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "2911 W 47TH",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60632",
+		"Phone": "7733498200",
+		"Fax": "7734090440",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400179",
+		"Website": "http://mansuetohighschool.noblenetwork.org/",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.800136",
+		"School_Longitude": "-87.728003",
+		"Location": "2911 W 47TH\nChicago, Illinois 60632\n(41.800136, -87.728003)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "400149",
+		"Short_Name": "ACERO - SOTO HS",
+		"Long_Name": "Acero Charter Schools - Victoria Soto",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "5025 S ST. LOUIS AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60632",
+		"Phone": "3124555446",
+		"Fax": "3124555447",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400149",
+		"Website": "http://www.ucsnschools.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.801762",
+		"School_Longitude": "-87.711025",
+		"Location": "5025 S ST. LOUIS AVE\nChicago, Illinois 60632\n(41.801762, -87.711025)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "400033",
+		"Short_Name": "CICS - LONGWOOD",
+		"Long_Name": "CICS - Longwood",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "1309 W 95TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60643",
+		"Phone": "7732385330",
+		"Fax": "7732385350",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400033",
+		"Website": "http://www.longwoodcharter.org",
+		"Program_Type": "Charter",
+		"Application_Requirements": "None",
+		"Program_Selections": "If the school receives more applications than there are seats available, students are randomly selected through a computerized lottery.  Priority is given to students currently enrolled in the school who wish to continue and to siblings of students enrolled in the campus.",
+		"Subprograms": "",
+		"How_To_Apply": "Contact school or visit www.chicagointo.org and complete an application.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.721221",
+		"School_Longitude": "-87.655768",
+		"Location": "1309 W 95TH ST\nChicago, Illinois 60643\n(41.721221, -87.655768)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "01a561f658ea66df980a6e77eae83235"
+	},
+	{
+		"School_ID": "610543",
+		"Short_Name": "SOLORIO HS",
+		"Long_Name": "Eric Solorio Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "5400 S ST LOUIS AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60632",
+		"Phone": "7735359070",
+		"Fax": "7735359073",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610543",
+		"Website": "http://solorioacademy.org/",
+		"Program_Type": "Double Honors/Scholars",
+		"Application_Requirements": "Minimum percentile of 75 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, students enrolled in AUSL schools, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.795201",
+		"School_Longitude": "-87.711059",
+		"Location": "5400 S ST LOUIS AVE\nChicago, Illinois 60632\n(41.795201, -87.711059)",
+		"Application_Requirements_Fn": "6fddb8b397a12770dbed5afff360213b",
+		"Program_Selections_Fn": "218f3d334a0ceaa37bb7ce57bec10e96"
+	},
+	{
+		"School_ID": "609704",
+		"Short_Name": "FARRAGUT HS",
+		"Long_Name": "David G Farragut Career Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "2345 S CHRISTIANA AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60623",
+		"Phone": "7735341300",
+		"Fax": "7735341336",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609704",
+		"Website": "http://www.fcaib.org",
+		"Program_Type": "JROTC",
+		"Application_Requirements": "Minimum 2.0 GPA in 7th grade and minimum attendance percentage of 85.",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: proximity, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.84856",
+		"School_Longitude": "-87.708706",
+		"Location": "2345 S CHRISTIANA AVE\nChicago, Illinois 60623\n(41.84856, -87.708706)",
+		"Application_Requirements_Fn": "3086b8e507b2f64e53b85b8ad808e66d",
+		"Program_Selections_Fn": "d3ddea21fb0e360b470bf095ce6bdfef"
+	},
+	{
+		"School_ID": "400051",
+		"Short_Name": "NOBLE - NOBLE HS",
+		"Long_Name": "Noble - Noble College Prep",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "1010 N NOBLE ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60642",
+		"Phone": "7738621449",
+		"Fax": "7732780421",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400051",
+		"Website": "http://noblestreet.noblenetwork.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.900191",
+		"School_Longitude": "-87.662628",
+		"Location": "1010 N NOBLE ST\nChicago, Illinois 60642\n(41.900191, -87.662628)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "400085",
+		"Short_Name": "ACERO - GARCIA HS",
+		"Long_Name": "Acero Charter Schools - Major Hector P. Garcia MD",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "4248 W 47TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60632",
+		"Phone": "7735793480",
+		"Fax": "7733765785",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400085",
+		"Website": "http://www.ucsnschools.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.809171",
+		"School_Longitude": "-87.730467",
+		"Location": "4248 W 47TH ST\nChicago, Illinois 60632\n(41.809171, -87.730467)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "400013",
+		"Short_Name": "ASPIRA - EARLY COLLEGE HS",
+		"Long_Name": "ASPIRA Charter School - Early College High School",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "3986 W BARRY AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60618",
+		"Phone": "7732520970",
+		"Fax": "7732673568",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400013",
+		"Website": "http://aspirail.org/domain/96",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.937298",
+		"School_Longitude": "-87.727096",
+		"Location": "3986 W BARRY AVE\nChicago, Illinois 60618\n(41.937298, -87.727096)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "400057",
+		"Short_Name": "NOBLE - UIC HS",
+		"Long_Name": "Noble - UIC College Prep",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "1231 S DAMEN AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60608",
+		"Phone": "3127684858",
+		"Fax": "7734967149",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400057",
+		"Website": "http://www.uiccollegeprep.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.865817",
+		"School_Longitude": "-87.676111",
+		"Location": "1231 S DAMEN AVE\nChicago, Illinois 60608\n(41.865817, -87.676111)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "609740",
+		"Short_Name": "WELLS HS",
+		"Long_Name": "Wells Community Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "936 N ASHLAND AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60622",
+		"Phone": "7735347010",
+		"Fax": "7735347078",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609740",
+		"Website": "http://wellshs.cps.edu",
+		"Program_Type": "Pre-Law",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are selected on a point system. Points are based on 7th grade final GPA and NWEA MAP scores. The school determines the minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.898995",
+		"School_Longitude": "-87.667483",
+		"Location": "936 N ASHLAND AVE\nChicago, Illinois 60622\n(41.898995, -87.667483)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "618315c228cf8e591d1909fc8ca41206"
+	},
+	{
+		"School_ID": "400052",
+		"Short_Name": "NOBLE - COMER",
+		"Long_Name": "Noble - Gary Comer College Prep",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "7131 S SOUTH CHICAGO AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60619",
+		"Phone": "7737293969",
+		"Fax": "7737293960",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400052",
+		"Website": "http://garycomercollegeprep.noblenetwork.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.764083",
+		"School_Longitude": "-87.601974",
+		"Location": "7131 S SOUTH CHICAGO AVE\nChicago, Illinois 60619\n(41.764083, -87.601974)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "610587",
+		"Short_Name": "DYETT ARTS HS",
+		"Long_Name": "Walter Henri Dyett High School for the Arts",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "555 E 51ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60615",
+		"Phone": "7735351825",
+		"Fax": "7735351037",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610587",
+		"Website": "http://www.newdyett.org/",
+		"Program_Type": "Music",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 50 in both reading and math on NWEA MAP, minimum 2.7 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 50 in reading and math on NWEA MAP.  An Interview is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the interview.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.801204",
+		"School_Longitude": "-87.612239",
+		"Location": "555 E 51ST\nChicago, Illinois 60615\n(41.801204, -87.612239)",
+		"Application_Requirements_Fn": "f661cdb969617a4f2a3923f5c80c190c",
+		"Program_Selections_Fn": "3d86881707e468c9fe2a0ce0f5eeac4f"
+	},
+	{
+		"School_ID": "609729",
+		"Short_Name": "SCHURZ HS",
+		"Long_Name": "Carl Schurz High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3601 N MILWAUKEE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60641",
+		"Phone": "7735343420",
+		"Fax": "7735343573",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609729",
+		"Website": "http://www.schurzhs.org",
+		"Program_Type": "Accounting & Entrepreneurship",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.946365",
+		"School_Longitude": "-87.735612",
+		"Location": "3601 N MILWAUKEE AVE\nChicago, Illinois 60641\n(41.946365, -87.735612)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609739",
+		"Short_Name": "WASHINGTON HS",
+		"Long_Name": "George Washington High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3535 E 114TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60617",
+		"Phone": "7735355725",
+		"Fax": "7735355038",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609739",
+		"Website": "http://www.gwashingtonhs.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically. This program only accepts students who live within the school's attendance boundary.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.688137",
+		"School_Longitude": "-87.53757",
+		"Location": "3535 E 114TH ST\nChicago, Illinois 60617\n(41.688137, -87.53757)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "783216956d119ad64639725fa9f4d44b"
+	},
+	{
+		"School_ID": "609729",
+		"Short_Name": "SCHURZ HS",
+		"Long_Name": "Carl Schurz High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3601 N MILWAUKEE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60641",
+		"Phone": "7735343420",
+		"Fax": "7735343573",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609729",
+		"Website": "http://www.schurzhs.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.946365",
+		"School_Longitude": "-87.735612",
+		"Location": "3601 N MILWAUKEE AVE\nChicago, Illinois 60641\n(41.946365, -87.735612)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "4ab864cc8934557f435c392c96e5cfc1"
+	},
+	{
+		"School_ID": "610513",
+		"Short_Name": "AIR FORCE HS",
+		"Long_Name": "Air Force Academy High School",
+		"School_Type": "Military academy",
+		"Primary_Category": "HS",
+		"Address": "3630 S WELLS ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60609",
+		"Phone": "7735351590",
+		"Fax": "7735351847",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610513",
+		"Website": "http://www.afahs.org",
+		"Program_Type": "Service Learning Academies (Military)",
+		"Application_Requirements": "Minimum combined percentile of 48 in reading and math on NWEA MAP. Attendance at an Information Session is required for eligible applicants.",
+		"Program_Selections": "During the Information Session, students will sign a Commitment Agreement, complete a Motivation and Perseverance Assessment and write a brief essay. Selections are based on a point system with a maximum of 500 points, derived from 7th grade final (cumulative) grades (100 points), 7th grade NWEA MAP scores (150 points), the two-part assessment (50 for each part), and the essay (100 points).",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.828145",
+		"School_Longitude": "-87.632757",
+		"Location": "3630 S WELLS ST\nChicago, Illinois 60609\n(41.828145, -87.632757)",
+		"Application_Requirements_Fn": "ae1af40b734a31b447b1ed50f6e4bc17",
+		"Program_Selections_Fn": "9a6d8103474c5e8b4988360767a186de"
+	},
+	{
+		"School_ID": "609764",
+		"Short_Name": "JUAREZ HS",
+		"Long_Name": "Benito Juarez Community Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "1450 W CERMAK RD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60608",
+		"Phone": "7735347030",
+		"Fax": "7735347058",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609764",
+		"Website": "http://www.benitojuarez.net",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary will be randomly selected by computerized lottery. The lottery will be conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.852667",
+		"School_Longitude": "-87.663732",
+		"Location": "1450 W CERMAK RD\nChicago, Illinois 60608\n(41.852667, -87.663732)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "459b0b1aaa6e44d897f0a720ba82369e"
+	},
+	{
+		"School_ID": "609715",
+		"Short_Name": "KELLY HS",
+		"Long_Name": "Thomas Kelly High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "4136 S CALIFORNIA AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60632",
+		"Phone": "7735354900",
+		"Fax": "7735354841",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609715",
+		"Website": "http://kellyhighschool.org/",
+		"Program_Type": "Digital Media",
+		"Application_Requirements": "",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.818729",
+		"School_Longitude": "-87.694639",
+		"Location": "4136 S CALIFORNIA AVE\nChicago, Illinois 60632\n(41.818729, -87.694639)",
+		"Application_Requirements_Fn": "d41d8cd98f00b204e9800998ecf8427e",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609674",
+		"Short_Name": "CHICAGO VOCATIONAL HS",
+		"Long_Name": "Chicago Vocational Career Academy High School",
+		"School_Type": "Career academy",
+		"Primary_Category": "HS",
+		"Address": "2100 E 87TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60617",
+		"Phone": "7735356100",
+		"Fax": "7735356975",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609674",
+		"Website": "http://www.cvcacademy.org",
+		"Program_Type": "Agricultural Sciences",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.737174",
+		"School_Longitude": "-87.573268",
+		"Location": "2100 E 87TH ST\nChicago, Illinois 60617\n(41.737174, -87.573268)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609682",
+		"Short_Name": "RICHARDS HS",
+		"Long_Name": "Ellen H Richards Career Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "5009 S LAFLIN ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60609",
+		"Phone": "7735354945",
+		"Fax": "7735354883",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609682",
+		"Website": "http://richards.cps.edu",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.802881",
+		"School_Longitude": "-87.662278",
+		"Location": "5009 S LAFLIN ST\nChicago, Illinois 60609\n(41.802881, -87.662278)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "2317c60e8a1eec08ab495a14ccfd9c64"
+	},
+	{
+		"School_ID": "609726",
+		"Short_Name": "BROOKS HS",
+		"Long_Name": "Gwendolyn Brooks College Preparatory Academy HS",
+		"School_Type": "Selective enrollment",
+		"Primary_Category": "HS",
+		"Address": "250 E 111TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60628",
+		"Phone": "7735359930",
+		"Fax": "7735359939",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609726",
+		"Website": "http://www.brookscollegeprep.org",
+		"Program_Type": "Academic Center",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 45 in both reading and math on NWEA MAP.  IEP and EL students: Minimum NWEA MAP percentile of 50 in one subject (reading or math) and minimum NWEA MAP percentile of 40 in the other subject (reading or math).  Testing is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for prior year final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online Selective Enrollment Elementary Schools application or paper Selective Enrollment Elementary Schools application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.692763",
+		"School_Longitude": "-87.616353",
+		"Location": "250 E 111TH ST\nChicago, Illinois 60628\n(41.692763, -87.616353)",
+		"Application_Requirements_Fn": "c32c0804dc719ba6c4c00322e7a69be2",
+		"Program_Selections_Fn": "224ce8807abceb6ca72e650988637629"
+	},
+	{
+		"School_ID": "609732",
+		"Short_Name": "STEINMETZ HS",
+		"Long_Name": "Charles P Steinmetz College Preparatory HS",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3030 N MOBILE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60634",
+		"Phone": "7735343030",
+		"Fax": "7735343151",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609732",
+		"Website": "http://www.steinmetzcp.org",
+		"Program_Type": "JROTC",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 45 in both reading and math on NWEA MAP and minimum 2.0 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 90 in reading and math on NWEA MAP, and minimum 2.0 GPA in 7th grade.",
+		"Program_Selections": "Eligible students are randomly selected by computerized lottery.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.935634",
+		"School_Longitude": "-87.783515",
+		"Location": "3030 N MOBILE AVE\nChicago, Illinois 60634\n(41.935634, -87.783515)",
+		"Application_Requirements_Fn": "03010a12030cab563c3f5d9115e7aabe",
+		"Program_Selections_Fn": "5096cc5a97943badb78efd427ee13eb6"
+	},
+	{
+		"School_ID": "609698",
+		"Short_Name": "BOGAN HS",
+		"Long_Name": "William J Bogan High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3939 W 79TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60652",
+		"Phone": "7735352180",
+		"Fax": "7735352165",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609698",
+		"Website": "http://www.boganhs.org",
+		"Program_Type": "Entrepreneurship",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.749376",
+		"School_Longitude": "-87.721097",
+		"Location": "3939 W 79TH ST\nChicago, Illinois 60652\n(41.749376, -87.721097)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "610245",
+		"Short_Name": "DOUGLASS HS",
+		"Long_Name": "Frederick A Douglass Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "543 N WALLER AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60644",
+		"Phone": "7735346176",
+		"Fax": "7735346172",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610245",
+		"Website": "http://www.douglassacademy.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.890369",
+		"School_Longitude": "-87.767668",
+		"Location": "543 N WALLER AVE\nChicago, Illinois 60644\n(41.890369, -87.767668)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f6b1cadaa52f894d87ad4246bd4c9b0a"
+	},
+	{
+		"School_ID": "609756",
+		"Short_Name": "CURIE HS",
+		"Long_Name": "Marie Sklodowska Curie Metropolitan High School",
+		"School_Type": "Magnet",
+		"Primary_Category": "HS",
+		"Address": "4959 S ARCHER AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60632",
+		"Phone": "7735352100",
+		"Fax": "7735352049",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609756",
+		"Website": "http://www.curiehs.org",
+		"Program_Type": "Dance",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP. An audition/portfolio review is required.",
+		"Program_Selections": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade final (cumulative) grades, and the audition.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.80306",
+		"School_Longitude": "-87.722042",
+		"Location": "4959 S ARCHER AVE\nChicago, Illinois 60632\n(41.80306, -87.722042)",
+		"Application_Requirements_Fn": "77620df9b5c4a530f21c30267af843ce",
+		"Program_Selections_Fn": "7e51568fc748dec3fd5aa79aae428009"
+	},
+	{
+		"School_ID": "609693",
+		"Short_Name": "WESTINGHOUSE HS",
+		"Long_Name": "George Westinghouse College Prep",
+		"School_Type": "Selective enrollment",
+		"Primary_Category": "HS",
+		"Address": "3223 W FRANKLIN BLVD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60624",
+		"Phone": "7735346400",
+		"Fax": "7735346422",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609693",
+		"Website": "http://www.newwestinghouse.org",
+		"Program_Type": "Career Academy",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.",
+		"Program_Selections": "Students are randomly selected by compterized lottery. The lottery is conducted in the following order: proximity, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.889977",
+		"School_Longitude": "-87.707332",
+		"Location": "3223 W FRANKLIN BLVD\nChicago, Illinois 60624\n(41.889977, -87.707332)",
+		"Application_Requirements_Fn": "0514de51e21823dae4f43b085538f9e6",
+		"Program_Selections_Fn": "d76c385b612c2ef53c62501b074b6134"
+	},
+	{
+		"School_ID": "609719",
+		"Short_Name": "LAKE VIEW HS",
+		"Long_Name": "Lake View High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "4015 N ASHLAND AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60613",
+		"Phone": "7735345440",
+		"Fax": "7735345585",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609719",
+		"Website": "http://www.lakeviewhs.com",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "This program only accepts students who live within the school's attendance boundary or who attend a Grow Community School (Audubon, Bell, Blaine, Budlong, Burley, Chappell, Coonley, Greeley, Hamilton, Hawthorne, Inter-American, Jahn, Jamieson, McPherson, Nettelhorst, Ravenswood, or Waters). Students are randomly selected by computerized lottery.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.954764",
+		"School_Longitude": "-87.668953",
+		"Location": "4015 N ASHLAND AVE\nChicago, Illinois 60613\n(41.954764, -87.668953)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "5ee7cff3803c80e025f483be28b57f06"
+	},
+	{
+		"School_ID": "609715",
+		"Short_Name": "KELLY HS",
+		"Long_Name": "Thomas Kelly High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "4136 S CALIFORNIA AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60632",
+		"Phone": "7735354900",
+		"Fax": "7735354841",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609715",
+		"Website": "http://kellyhighschool.org/",
+		"Program_Type": "International Baccalaureate (IB)",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points.The school determines the minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.818729",
+		"School_Longitude": "-87.694639",
+		"Location": "4136 S CALIFORNIA AVE\nChicago, Illinois 60632\n(41.818729, -87.694639)",
+		"Application_Requirements_Fn": "930c01733b718c40bc1f2af23839e14a",
+		"Program_Selections_Fn": "11bdd4bc6af64732a32d73a850bc78a4"
+	},
+	{
+		"School_ID": "609780",
+		"Short_Name": "MARINE LEADERSHIP AT AMES HS",
+		"Long_Name": "Marine Leadership Academy at Ames",
+		"School_Type": "Military academy",
+		"Primary_Category": "HS",
+		"Address": "1920 N HAMLIN AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60647",
+		"Phone": "7735344970",
+		"Fax": "7735344975",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609780",
+		"Website": "http://marine.cps.edu",
+		"Program_Type": "Service Learning Academies (Military)",
+		"Application_Requirements": "Minimum combined percentile of 48 in reading and math on NWEA MAP. Attendance at an Information Session is required for eligible applicants.",
+		"Program_Selections": "During the Information Session, students will sign a Commitment Agreement, complete a Motivation and Perseverance Assessment and write a brief essay. Selections will be based on a point system with a maximum of 500 points, derived from 7th grade final (cumulative) grades (100 points), 7th grade NWEA MAP scores (150 points), the two-part assessment (50 for each part), and the essay (100 points).",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.916045",
+		"School_Longitude": "-87.721742",
+		"Location": "1920 N HAMLIN AVE\nChicago, Illinois 60647\n(41.916045, -87.721742)",
+		"Application_Requirements_Fn": "ae1af40b734a31b447b1ed50f6e4bc17",
+		"Program_Selections_Fn": "f79604e9d7984cc9b43fa3c69abe428d"
+	},
+	{
+		"School_ID": "609678",
+		"Short_Name": "JONES HS",
+		"Long_Name": "William Jones College Preparatory High School",
+		"School_Type": "Selective enrollment",
+		"Primary_Category": "HS",
+		"Address": "700 S STATE ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60605",
+		"Phone": "7735348600",
+		"Fax": "7735348625",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609678",
+		"Website": "http://www.jonescollegeprep.org",
+		"Program_Type": "Pre-Engineering",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.",
+		"Program_Selections": "Students are selected on a point system. Points are based on 7th grade final GPA and 7th grade stanines. Students are ranked and selected from high to low. Students residing within the attendance overlay boundary of the school are selected first.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.873066",
+		"School_Longitude": "-87.627675",
+		"Location": "700 S STATE ST\nChicago, Illinois 60605\n(41.873066, -87.627675)",
+		"Application_Requirements_Fn": "4cb799c1cf8b41a3baf1e8d9176463d8",
+		"Program_Selections_Fn": "0fe94ad9490cc5fe33139f705336bf3d"
+	},
+	{
+		"School_ID": "609728",
+		"Short_Name": "ROOSEVELT HS",
+		"Long_Name": "Theodore Roosevelt High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3436 W WILSON AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60625",
+		"Phone": "7735345000",
+		"Fax": "7735345044",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609728",
+		"Website": "http://rhsroughriders.org",
+		"Program_Type": "Game Programming",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.964828",
+		"School_Longitude": "-87.714819",
+		"Location": "3436 W WILSON AVE\nChicago, Illinois 60625\n(41.964828, -87.714819)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "610547",
+		"Short_Name": "SOUTH SHORE INTL HS",
+		"Long_Name": "South Shore Intl College Prep High School",
+		"School_Type": "Selective enrollment",
+		"Primary_Category": "HS",
+		"Address": "1955 E 75TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60649",
+		"Phone": "7735358351",
+		"Fax": "",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610547",
+		"Website": "http://www.southshoreinternational.org",
+		"Program_Type": "International Baccalaureate (IB)",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.758792",
+		"School_Longitude": "-87.576353",
+		"Location": "1955 E 75TH ST\nChicago, Illinois 60649\n(41.758792, -87.576353)",
+		"Application_Requirements_Fn": "930c01733b718c40bc1f2af23839e14a",
+		"Program_Selections_Fn": "0fedde2a8081243a74d2c6a3be90b411"
+	},
+	{
+		"School_ID": "609728",
+		"Short_Name": "ROOSEVELT HS",
+		"Long_Name": "Theodore Roosevelt High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3436 W WILSON AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60625",
+		"Phone": "7735345000",
+		"Fax": "7735345044",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609728",
+		"Website": "http://rhsroughriders.org",
+		"Program_Type": "Medical & Health Careers",
+		"Application_Requirements": "None",
+		"Program_Selections": "Student selections are based on points. Students are assigned points for 7th grade final GPA and 7th grade stanines. Each school determines a minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.964828",
+		"School_Longitude": "-87.714819",
+		"Location": "3436 W WILSON AVE\nChicago, Illinois 60625\n(41.964828, -87.714819)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "70d67060ab98f9cd752d741b32e207ba"
+	},
+	{
+		"School_ID": "609691",
+		"Short_Name": "NORTH-GRAND HS",
+		"Long_Name": "North-Grand High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "4338 W WABANSIA AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60639",
+		"Phone": "7735348520",
+		"Fax": "7735348535",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609691",
+		"Website": "http://www.northgrandhs.org",
+		"Program_Type": "Culinary Arts",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.911674",
+		"School_Longitude": "-87.735238",
+		"Location": "4338 W WABANSIA AVE\nChicago, Illinois 60639\n(41.911674, -87.735238)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609708",
+		"Short_Name": "FOREMAN HS",
+		"Long_Name": "Edwin G. Foreman College and Career Academy",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3235 N LECLAIRE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60641",
+		"Phone": "7735343400",
+		"Fax": "7735343684",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609708",
+		"Website": "http://www.foremanhs.org",
+		"Program_Type": "Digital Media",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.939797",
+		"School_Longitude": "-87.754167",
+		"Location": "3235 N LECLAIRE AVE\nChicago, Illinois 60641\n(41.939797, -87.754167)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609727",
+		"Short_Name": "PHILLIPS HS",
+		"Long_Name": "Wendell Phillips Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "244 E PERSHING RD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60653",
+		"Phone": "7735351603",
+		"Fax": "7735351605",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609727",
+		"Website": "http://phillips.cps.edu",
+		"Program_Type": "Digital Media",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.82388",
+		"School_Longitude": "-87.619796",
+		"Location": "244 E PERSHING RD\nChicago, Illinois 60653\n(41.82388, -87.619796)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "610524",
+		"Short_Name": "ALCOTT HS",
+		"Long_Name": "Louisa May Alcott College Preparatory HS",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "2957 N HOYNE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60618",
+		"Phone": "7735345970",
+		"Fax": "7735345971",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610524",
+		"Website": "http://www.alcottcollegeprep.net",
+		"Program_Type": "Pre-Engineering",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are selected on a point system. Points are based on 7th grade final GPA and NWEA MAP scores. The school determines the minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.935795",
+		"School_Longitude": "-87.680562",
+		"Location": "2957 N HOYNE AVE\nChicago, Illinois 60618\n(41.935795, -87.680562)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "618315c228cf8e591d1909fc8ca41206"
+	},
+	{
+		"School_ID": "609729",
+		"Short_Name": "SCHURZ HS",
+		"Long_Name": "Carl Schurz High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3601 N MILWAUKEE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60641",
+		"Phone": "7735343420",
+		"Fax": "7735343573",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609729",
+		"Website": "http://www.schurzhs.org",
+		"Program_Type": "Dual Language",
+		"Application_Requirements": "Minimum percentile of 40 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, LAS Links Assessment composite of 4 or STAMP Assessment at the Intermediate Level.",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, students currently enrolled in a CPS elementary school with a world language or dual language program, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.946365",
+		"School_Longitude": "-87.735612",
+		"Location": "3601 N MILWAUKEE AVE\nChicago, Illinois 60641\n(41.946365, -87.735612)",
+		"Application_Requirements_Fn": "eb6acf17c18f9a5177bcdb7a4504672a",
+		"Program_Selections_Fn": "0640ddea233c6c9c97db5dd816b5c24a"
+	},
+	{
+		"School_ID": "609756",
+		"Short_Name": "CURIE HS",
+		"Long_Name": "Marie Sklodowska Curie Metropolitan High School",
+		"School_Type": "Magnet",
+		"Primary_Category": "HS",
+		"Address": "4959 S ARCHER AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60632",
+		"Phone": "7735352100",
+		"Fax": "7735352049",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609756",
+		"Website": "http://www.curiehs.org",
+		"Program_Type": "Game Programming & Web Design",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.80306",
+		"School_Longitude": "-87.722042",
+		"Location": "4959 S ARCHER AVE\nChicago, Illinois 60632\n(41.80306, -87.722042)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "610587",
+		"Short_Name": "DYETT ARTS HS",
+		"Long_Name": "Walter Henri Dyett High School for the Arts",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "555 E 51ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60615",
+		"Phone": "7735351825",
+		"Fax": "7735351037",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610587",
+		"Website": "http://www.newdyett.org/",
+		"Program_Type": "Visual Arts",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 50 in both reading and math on NWEA MAP, minimum 2.7 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 50 in reading and math on NWEA MAP.  An Interview is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the interview.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.801204",
+		"School_Longitude": "-87.612239",
+		"Location": "555 E 51ST\nChicago, Illinois 60615\n(41.801204, -87.612239)",
+		"Application_Requirements_Fn": "f661cdb969617a4f2a3923f5c80c190c",
+		"Program_Selections_Fn": "3d86881707e468c9fe2a0ce0f5eeac4f"
+	},
+	{
+		"School_ID": "400035",
+		"Short_Name": "CHICAGO MATH & SCIENCE HS",
+		"Long_Name": "Chicago Math and Science Academy Charter School",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "7212 N CLARK ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60626",
+		"Phone": "7737618960",
+		"Fax": "7737618961",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400035",
+		"Website": "http://www.cmsaonline.net",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students currently enrolled in the school's eighth grade will have a deadline to submit their intent to enroll in ninth grade. For remaining seats, students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "42.013031",
+		"School_Longitude": "-87.674818",
+		"Location": "7212 N CLARK ST\nChicago, Illinois 60626\n(42.013031, -87.674818)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "8c1dffabe7825704cbe29a12138cc4d9"
+	},
+	{
+		"School_ID": "610323",
+		"Short_Name": "BOWEN HS",
+		"Long_Name": "Bowen High School",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "2710 E 89TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60617",
+		"Phone": "7735357650",
+		"Fax": "7735356489",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610323",
+		"Website": "http://www.bowenhs.org",
+		"Program_Type": "Manufacturing",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.734627",
+		"School_Longitude": "-87.55755",
+		"Location": "2710 E 89TH ST\nChicago, Illinois 60617\n(41.734627, -87.55755)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "610340",
+		"Short_Name": "CHICAGO ACADEMY HS",
+		"Long_Name": "Chicago Academy High School",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "3400 N AUSTIN AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60634",
+		"Phone": "7735340146",
+		"Fax": "7735340192",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610340",
+		"Website": "http://cahs.auslchicago.org",
+		"Program_Type": "Scholars",
+		"Application_Requirements": "Minimum percentile of 70 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 93.",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, students enrolled in AUSL schools, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.943054",
+		"School_Longitude": "-87.776847",
+		"Location": "3400 N AUSTIN AVE\nChicago, Illinois 60634\n(41.943054, -87.776847)",
+		"Application_Requirements_Fn": "70b7c4a5e527fb50d69ea37b000765d8",
+		"Program_Selections_Fn": "218f3d334a0ceaa37bb7ce57bec10e96"
+	},
+	{
+		"School_ID": "610385",
+		"Short_Name": "MULTICULTURAL HS",
+		"Long_Name": "Multicultural Academy of Scholarship",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "3120 S KOSTNER AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60623",
+		"Phone": "7735354242",
+		"Fax": "7735354273",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610385",
+		"Website": "http://ma.lvlhs.org/",
+		"Program_Type": "Fine and Performing Arts",
+		"Application_Requirements": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum attendance percentage of 92.",
+		"Program_Selections": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.835282",
+		"School_Longitude": "-87.735283",
+		"Location": "3120 S KOSTNER AVE\nChicago, Illinois 60623\n(41.835282, -87.735283)",
+		"Application_Requirements_Fn": "1d126a086436d78661af2cb249938c72",
+		"Program_Selections_Fn": "c36c294e63476a7959123bfe85a2c639"
+	},
+	{
+		"School_ID": "609764",
+		"Short_Name": "JUAREZ HS",
+		"Long_Name": "Benito Juarez Community Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "1450 W CERMAK RD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60608",
+		"Phone": "7735347030",
+		"Fax": "7735347058",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609764",
+		"Website": "http://www.benitojuarez.net",
+		"Program_Type": "Culinary Arts",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.852667",
+		"School_Longitude": "-87.663732",
+		"Location": "1450 W CERMAK RD\nChicago, Illinois 60608\n(41.852667, -87.663732)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609733",
+		"Short_Name": "SULLIVAN HS",
+		"Long_Name": "Roger C Sullivan High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "6631 N BOSWORTH AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60626",
+		"Phone": "7735342000",
+		"Fax": "7735342141",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609733",
+		"Website": "http://www.sullivanhs.org",
+		"Program_Type": "Medical & Health Careers",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are selected on a point system. Points are based on 7th grade final GPA and NWEA MAP scores. The school determines the minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "42.002688",
+		"School_Longitude": "-87.669192",
+		"Location": "6631 N BOSWORTH AVE\nChicago, Illinois 60626\n(42.002688, -87.669192)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "618315c228cf8e591d1909fc8ca41206"
+	},
+	{
+		"School_ID": "609759",
+		"Short_Name": "CLEMENTE HS",
+		"Long_Name": "Roberto Clemente Community Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "1147 N WESTERN AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60622",
+		"Phone": "7735344000",
+		"Fax": "7735344012",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609759",
+		"Website": "http://www.rccachicago.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum GPA of 2.5 in 7th grade and minimum attendance percentage of 85.",
+		"Program_Selections": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.902626",
+		"School_Longitude": "-87.686906",
+		"Location": "1147 N WESTERN AVE\nChicago, Illinois 60622\n(41.902626, -87.686906)",
+		"Application_Requirements_Fn": "889af44e3306313029109d465b1c2de6",
+		"Program_Selections_Fn": "c36c294e63476a7959123bfe85a2c639"
+	},
+	{
+		"School_ID": "609759",
+		"Short_Name": "CLEMENTE HS",
+		"Long_Name": "Roberto Clemente Community Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "1147 N WESTERN AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60622",
+		"Phone": "7735344000",
+		"Fax": "7735344012",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609759",
+		"Website": "http://www.rccachicago.org",
+		"Program_Type": "International Baccalaureate (IB)",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance is required at an Information Session for all eligible applicants.",
+		"Program_Selections": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.902626",
+		"School_Longitude": "-87.686906",
+		"Location": "1147 N WESTERN AVE\nChicago, Illinois 60622\n(41.902626, -87.686906)",
+		"Application_Requirements_Fn": "6a02d16ba52a69b937a74a43c6a82769",
+		"Program_Selections_Fn": "0fedde2a8081243a74d2c6a3be90b411"
+	},
+	{
+		"School_ID": "609741",
+		"Short_Name": "HUBBARD HS",
+		"Long_Name": "Gurdon S Hubbard High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "6200 S HAMLIN AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60629",
+		"Phone": "7735352200",
+		"Fax": "7735352218",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609741",
+		"Website": "http://www.hubbardhighschool.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically. This program only accepts students who live within the school's attendance boundary.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.780526",
+		"School_Longitude": "-87.718014",
+		"Location": "6200 S HAMLIN AVE\nChicago, Illinois 60629\n(41.780526, -87.718014)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "783216956d119ad64639725fa9f4d44b"
+	},
+	{
+		"School_ID": "609726",
+		"Short_Name": "BROOKS HS",
+		"Long_Name": "Gwendolyn Brooks College Preparatory Academy HS",
+		"School_Type": "Selective enrollment",
+		"Primary_Category": "HS",
+		"Address": "250 E 111TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60628",
+		"Phone": "7735359930",
+		"Fax": "7735359939",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609726",
+		"Website": "http://www.brookscollegeprep.org",
+		"Program_Type": "Selective Enrollment High School",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for 7th grade final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.692763",
+		"School_Longitude": "-87.616353",
+		"Location": "250 E 111TH ST\nChicago, Illinois 60628\n(41.692763, -87.616353)",
+		"Application_Requirements_Fn": "1a043655763ab140a0d14f5080d63a2c",
+		"Program_Selections_Fn": "bd680e7bc10c03552140e26736221cf7"
+	},
+	{
+		"School_ID": "609674",
+		"Short_Name": "CHICAGO VOCATIONAL HS",
+		"Long_Name": "Chicago Vocational Career Academy High School",
+		"School_Type": "Career academy",
+		"Primary_Category": "HS",
+		"Address": "2100 E 87TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60617",
+		"Phone": "7735356100",
+		"Fax": "7735356975",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609674",
+		"Website": "http://www.cvcacademy.org",
+		"Program_Type": "Culinary Arts",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.737174",
+		"School_Longitude": "-87.573268",
+		"Location": "2100 E 87TH ST\nChicago, Illinois 60617\n(41.737174, -87.573268)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609734",
+		"Short_Name": "TAFT HS",
+		"Long_Name": "William Howard Taft High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "6530 W BRYN MAWR AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60631",
+		"Phone": "7735341000",
+		"Fax": "7735341027",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609734",
+		"Website": "http://www.tafths.org",
+		"Program_Type": "NJROTC",
+		"Application_Requirements": "Minimum percentile of 24 in both reading and math on NWEA MAP. An interview is required for applicants.",
+		"Program_Selections": "Students are selected on a point system. Points are based on the student's NWEA MAP scores and the interview.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.982961",
+		"School_Longitude": "-87.791547",
+		"Location": "6530 W BRYN MAWR AVE\nChicago, Illinois 60631\n(41.982961, -87.791547)",
+		"Application_Requirements_Fn": "94f10272b6ff9ee947b6c7f8e9adc98c",
+		"Program_Selections_Fn": "29034b3dd211fc6857c0762ea4431354"
+	},
+	{
+		"School_ID": "609755",
+		"Short_Name": "YOUNG HS",
+		"Long_Name": "Whitney M Young Magnet High School",
+		"School_Type": "Selective enrollment",
+		"Primary_Category": "HS",
+		"Address": "211 S LAFLIN ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60607",
+		"Phone": "7735347500",
+		"Fax": "7735347261",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609755",
+		"Website": "http://www.wyoung.org",
+		"Program_Type": "Selective Enrollment High School",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for 7th grade final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.878603",
+		"School_Longitude": "-87.664233",
+		"Location": "211 S LAFLIN ST\nChicago, Illinois 60607\n(41.878603, -87.664233)",
+		"Application_Requirements_Fn": "1a043655763ab140a0d14f5080d63a2c",
+		"Program_Selections_Fn": "bd680e7bc10c03552140e26736221cf7"
+	},
+	{
+		"School_ID": "609738",
+		"Short_Name": "LINCOLN PARK HS",
+		"Long_Name": "Lincoln Park High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "2001 N ORCHARD ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60614",
+		"Phone": "7735348130",
+		"Fax": "7735348218",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609738",
+		"Website": "http://www.lincolnparkhs.org",
+		"Program_Type": "Vocal Music",
+		"Application_Requirements": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 2.75 GPA in 7th grade. An audition is required for students who live outside of the school's attendance boundary.",
+		"Program_Selections": "Students who live within the school's attendance boundary have no eligibility/audition requirements and can be admitted automatically.  Students who live outside of the school's attendance boundary are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade GPA, and the audition.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.918268",
+		"School_Longitude": "-87.646009",
+		"Location": "2001 N ORCHARD ST\nChicago, Illinois 60614\n(41.918268, -87.646009)",
+		"Application_Requirements_Fn": "7ca8e42afc3b2240bdc21e9b02a9b6ff",
+		"Program_Selections_Fn": "abfbe30160c0ed3a6d925da2f6fbe7d6"
+	},
+	{
+		"School_ID": "400034",
+		"Short_Name": "CICS - NORTHTOWN HS",
+		"Long_Name": "CICS - Northtown",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "3900 W PETERSON AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60659",
+		"Phone": "7734783655",
+		"Fax": "7734786029",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400034",
+		"Website": "http://www.cicsnorthtown.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.990245",
+		"School_Longitude": "-87.726504",
+		"Location": "3900 W PETERSON AVE\nChicago, Illinois 60659\n(41.990245, -87.726504)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "609762",
+		"Short_Name": "JULIAN HS",
+		"Long_Name": "Percy L Julian High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "10330 S ELIZABETH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60643",
+		"Phone": "7735355170",
+		"Fax": "7735355230",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609762",
+		"Website": "http://www.pljulianhs.net",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.705859",
+		"School_Longitude": "-87.653749",
+		"Location": "10330 S ELIZABETH ST\nChicago, Illinois 60643\n(41.705859, -87.653749)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "8c431d51587c33009ee9b67a566c042e"
+	},
+	{
+		"School_ID": "609729",
+		"Short_Name": "SCHURZ HS",
+		"Long_Name": "Carl Schurz High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3601 N MILWAUKEE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60641",
+		"Phone": "7735343420",
+		"Fax": "7735343573",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609729",
+		"Website": "http://www.schurzhs.org",
+		"Program_Type": "Automotive Technology",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.946365",
+		"School_Longitude": "-87.735612",
+		"Location": "3601 N MILWAUKEE AVE\nChicago, Illinois 60641\n(41.946365, -87.735612)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609727",
+		"Short_Name": "PHILLIPS HS",
+		"Long_Name": "Wendell Phillips Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "244 E PERSHING RD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60653",
+		"Phone": "7735351603",
+		"Fax": "7735351605",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609727",
+		"Website": "http://phillips.cps.edu",
+		"Program_Type": "General Education",
+		"Application_Requirements": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 24 in reading and math on NWEA MAP, and minimum attendance percentage of 90.",
+		"Program_Selections": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.82388",
+		"School_Longitude": "-87.619796",
+		"Location": "244 E PERSHING RD\nChicago, Illinois 60653\n(41.82388, -87.619796)",
+		"Application_Requirements_Fn": "9653c4a2af98c756aaeeaa36980f9dc5",
+		"Program_Selections_Fn": "c36c294e63476a7959123bfe85a2c639"
+	},
+	{
+		"School_ID": "610561",
+		"Short_Name": "CRANE MEDICAL HS",
+		"Long_Name": "Richard T Crane Medical Preparatory HS",
+		"School_Type": "Magnet",
+		"Primary_Category": "HS",
+		"Address": "2245 W JACKSON BLVD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60612",
+		"Phone": "7735347600",
+		"Fax": "7735347612",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610561",
+		"Website": "http://www.newcranemedicalprep.org",
+		"Program_Type": "Health Sciences",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, tiers.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.876947",
+		"School_Longitude": "-87.683301",
+		"Location": "2245 W JACKSON BLVD\nChicago, Illinois 60612\n(41.876947, -87.683301)",
+		"Application_Requirements_Fn": "4cb799c1cf8b41a3baf1e8d9176463d8",
+		"Program_Selections_Fn": "49bc52caf46148ee777e8d3534f22700"
+	},
+	{
+		"School_ID": "400113",
+		"Short_Name": "CICS - CHICAGOQUEST HS",
+		"Long_Name": "CICS - ChicagoQuest North",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "1443 N OGDEN AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60610",
+		"Phone": "7735652100",
+		"Fax": "3129512906",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400113",
+		"Website": "http://www.chicagoquest.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students currently enrolled in the school's eighth grade will have a deadline to submit their intent to enroll in ninth grade. For remaining seats, students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.907797",
+		"School_Longitude": "-87.645561",
+		"Location": "1443 N OGDEN AVE\nChicago, Illinois 60610\n(41.907797, -87.645561)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "8c1dffabe7825704cbe29a12138cc4d9"
+	},
+	{
+		"School_ID": "610563",
+		"Short_Name": "BACK OF THE YARDS HS",
+		"Long_Name": "Back of the Yards IB HS",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "2111 W 47TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60609",
+		"Phone": "7735357320",
+		"Fax": "7735356880",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610563",
+		"Website": "http://www.boycp.org",
+		"Program_Type": "International Baccalaureate (IB)",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points.The school determines the minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.808413",
+		"School_Longitude": "-87.677541",
+		"Location": "2111 W 47TH ST\nChicago, Illinois 60609\n(41.808413, -87.677541)",
+		"Application_Requirements_Fn": "930c01733b718c40bc1f2af23839e14a",
+		"Program_Selections_Fn": "11bdd4bc6af64732a32d73a850bc78a4"
+	},
+	{
+		"School_ID": "610499",
+		"Short_Name": "COLLINS HS",
+		"Long_Name": "Collins Academy High School",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "1313 S SACRAMENTO DR",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60623",
+		"Phone": "7735341840",
+		"Fax": "7735426471",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610499",
+		"Website": "http://auslchicago.org/schools/pages/collins",
+		"Program_Type": "Game Programming",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.864149",
+		"School_Longitude": "-87.702042",
+		"Location": "1313 S SACRAMENTO DR\nChicago, Illinois 60623\n(41.864149, -87.702042)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609733",
+		"Short_Name": "SULLIVAN HS",
+		"Long_Name": "Roger C Sullivan High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "6631 N BOSWORTH AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60626",
+		"Phone": "7735342000",
+		"Fax": "7735342141",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609733",
+		"Website": "http://www.sullivanhs.org",
+		"Program_Type": "Accounting",
+		"Application_Requirements": "None",
+		"Program_Selections": "Studentts are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "42.002688",
+		"School_Longitude": "-87.669192",
+		"Location": "6631 N BOSWORTH AVE\nChicago, Illinois 60626\n(42.002688, -87.669192)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "61f50de703d591d18f2fb852131bbb9c"
+	},
+	{
+		"School_ID": "609753",
+		"Short_Name": "CHICAGO AGRICULTURE HS",
+		"Long_Name": "Chicago High School for Agricultural Sciences",
+		"School_Type": "Magnet",
+		"Primary_Category": "HS",
+		"Address": "3857 W 111TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60655",
+		"Phone": "7735352500",
+		"Fax": "7735352507",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609753",
+		"Website": "http://www.chicagoagr.org",
+		"Program_Type": "Agricultural Sciences",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, tiers.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.691221",
+		"School_Longitude": "-87.71777",
+		"Location": "3857 W 111TH ST\nChicago, Illinois 60655\n(41.691221, -87.71777)",
+		"Application_Requirements_Fn": "4cb799c1cf8b41a3baf1e8d9176463d8",
+		"Program_Selections_Fn": "49bc52caf46148ee777e8d3534f22700"
+	},
+	{
+		"School_ID": "609705",
+		"Short_Name": "FENGER HS",
+		"Long_Name": "Christian Fenger Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "11220 S WALLACE ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60628",
+		"Phone": "7735355430",
+		"Fax": "7735355444",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609705",
+		"Website": "http://www.fengerhighschool.org",
+		"Program_Type": "Honors",
+		"Application_Requirements": "Minimum percentile of 50 in both reading and math on NWEA MAP, and minimum 2.0 GPA in 7th grade.",
+		"Program_Selections": "Students are randomly selected by computerized lottery.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.689951",
+		"School_Longitude": "-87.637572",
+		"Location": "11220 S WALLACE ST\nChicago, Illinois 60628\n(41.689951, -87.637572)",
+		"Application_Requirements_Fn": "3c0f47771fc40565978a3a894bd96705",
+		"Program_Selections_Fn": "308d8156364219130aef9a7de30a6c8d"
+	},
+	{
+		"School_ID": "400036",
+		"Short_Name": "CHICAGO VIRTUAL",
+		"Long_Name": "Chicago Virtual Charter School",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "38 S PEORIA ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60607",
+		"Phone": "3122674486",
+		"Fax": "3126763689",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400036",
+		"Website": "http://www.k12.com/cvcs/home",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.88055",
+		"School_Longitude": "-87.649772",
+		"Location": "38 S PEORIA ST\nChicago, Illinois 60607\n(41.88055, -87.649772)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "308d8156364219130aef9a7de30a6c8d"
+	},
+	{
+		"School_ID": "609679",
+		"Short_Name": "PROSSER HS",
+		"Long_Name": "Charles Allen Prosser Career Academy High School",
+		"School_Type": "Career academy",
+		"Primary_Category": "HS",
+		"Address": "2148 N LONG AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60639",
+		"Phone": "7735343200",
+		"Fax": "7735343382",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609679",
+		"Website": "http://www.prosseracademy.org",
+		"Program_Type": "International Baccalaureate (IB)",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. Each school selects a minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.920059",
+		"School_Longitude": "-87.761048",
+		"Location": "2148 N LONG AVE\nChicago, Illinois 60639\n(41.920059, -87.761048)",
+		"Application_Requirements_Fn": "930c01733b718c40bc1f2af23839e14a",
+		"Program_Selections_Fn": "ab7e9a52b2c607977c432dd5f27c6fe9"
+	},
+	{
+		"School_ID": "610357",
+		"Short_Name": "SPRY HS",
+		"Long_Name": "Spry Community Links High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "2400 S MARSHALL BLVD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60623",
+		"Phone": "7735341997",
+		"Fax": "7735340354",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610357",
+		"Website": "http://www.comlinkshs.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Spry is a three-year, year-round school. Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.847762",
+		"School_Longitude": "-87.698946",
+		"Location": "2400 S MARSHALL BLVD\nChicago, Illinois 60623\n(41.847762, -87.698946)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "1fb20237fa7f24217e8e191fd839f283"
+	},
+	{
+		"School_ID": "609715",
+		"Short_Name": "KELLY HS",
+		"Long_Name": "Thomas Kelly High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "4136 S CALIFORNIA AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60632",
+		"Phone": "7735354900",
+		"Fax": "7735354841",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609715",
+		"Website": "http://kellyhighschool.org/",
+		"Program_Type": "AVID",
+		"Application_Requirements": "Minimum percentile of 50 in reading on NWEA MAP, minimum 2.0 GPA in 7th grade, and minimum attendance percentage of 80.",
+		"Program_Selections": "Students will be selected based on teacher recommendation letter(s) and an interview process.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.818729",
+		"School_Longitude": "-87.694639",
+		"Location": "4136 S CALIFORNIA AVE\nChicago, Illinois 60632\n(41.818729, -87.694639)",
+		"Application_Requirements_Fn": "b4dc6bde064d3f16c8bed871ea0cee30",
+		"Program_Selections_Fn": "4ce6d6733bff330b780bc8390660d7cf"
+	},
+	{
+		"School_ID": "609704",
+		"Short_Name": "FARRAGUT HS",
+		"Long_Name": "David G Farragut Career Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "2345 S CHRISTIANA AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60623",
+		"Phone": "7735341300",
+		"Fax": "7735341336",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609704",
+		"Website": "http://www.fcaib.org",
+		"Program_Type": "Pre-Law",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are selected on a point system. Points are based on 7th grade final GPA and NWEA MAP scores. The school determines the minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.84856",
+		"School_Longitude": "-87.708706",
+		"Location": "2345 S CHRISTIANA AVE\nChicago, Illinois 60623\n(41.84856, -87.708706)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "618315c228cf8e591d1909fc8ca41206"
+	},
+	{
+		"School_ID": "609749",
+		"Short_Name": "NORTHSIDE PREP HS",
+		"Long_Name": "Northside College Preparatory High School",
+		"School_Type": "Selective enrollment",
+		"Primary_Category": "HS",
+		"Address": "5501 N KEDZIE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60625",
+		"Phone": "7735343954",
+		"Fax": "7735343964",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609749",
+		"Website": "http://www.northsideprep.org",
+		"Program_Type": "Selective Enrollment High School",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.   IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for 7th grade final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.981315",
+		"School_Longitude": "-87.708708",
+		"Location": "5501 N KEDZIE AVE\nChicago, Illinois 60625\n(41.981315, -87.708708)",
+		"Application_Requirements_Fn": "ff3e583dbc3724c10581273b3dae6910",
+		"Program_Selections_Fn": "bd680e7bc10c03552140e26736221cf7"
+	},
+	{
+		"School_ID": "400157",
+		"Short_Name": "NOBLE - BAKER HS",
+		"Long_Name": "Noble - Baker College Prep",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "2710 E 89TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60617",
+		"Phone": "7735356460",
+		"Fax": "7739130346",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400157",
+		"Website": "http://bakercollegeprep.noblenetwork.org/",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.734622",
+		"School_Longitude": "-87.556201",
+		"Location": "2710 E 89TH ST\nChicago, Illinois 60617\n(41.734622, -87.556201)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "609734",
+		"Short_Name": "TAFT HS",
+		"Long_Name": "William Howard Taft High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "6530 W BRYN MAWR AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60631",
+		"Phone": "7735341000",
+		"Fax": "7735341027",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609734",
+		"Website": "http://www.tafths.org",
+		"Program_Type": "Academic Center",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 45 in both reading and math on NWEA MAP.  IEP and EL students: Minimum NWEA MAP percentile of 50 in one subject (reading or math) and minimum NWEA MAP percentile of 40 in the other subject (reading or math).  Testing is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for prior year final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online Selective Enrollment Elementary Schools application or paper Selective Enrollment Elementary Schools application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.982961",
+		"School_Longitude": "-87.791547",
+		"Location": "6530 W BRYN MAWR AVE\nChicago, Illinois 60631\n(41.982961, -87.791547)",
+		"Application_Requirements_Fn": "c32c0804dc719ba6c4c00322e7a69be2",
+		"Program_Selections_Fn": "224ce8807abceb6ca72e650988637629"
+	},
+	{
+		"School_ID": "609759",
+		"Short_Name": "CLEMENTE HS",
+		"Long_Name": "Roberto Clemente Community Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "1147 N WESTERN AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60622",
+		"Phone": "7735344000",
+		"Fax": "7735344012",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609759",
+		"Website": "http://www.rccachicago.org",
+		"Program_Type": "Broadcast Technology",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.902626",
+		"School_Longitude": "-87.686906",
+		"Location": "1147 N WESTERN AVE\nChicago, Illinois 60622\n(41.902626, -87.686906)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "610547",
+		"Short_Name": "SOUTH SHORE INTL HS",
+		"Long_Name": "South Shore Intl College Prep High School",
+		"School_Type": "Selective enrollment",
+		"Primary_Category": "HS",
+		"Address": "1955 E 75TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60649",
+		"Phone": "7735358351",
+		"Fax": "",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610547",
+		"Website": "http://www.southshoreinternational.org",
+		"Program_Type": "Medical & Health Careers",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are selected on a point system. Points are based on 7th grade final GPA and NWEA MAP scores. The school determines the minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.758792",
+		"School_Longitude": "-87.576353",
+		"Location": "1955 E 75TH ST\nChicago, Illinois 60649\n(41.758792, -87.576353)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "618315c228cf8e591d1909fc8ca41206"
+	},
+	{
+		"School_ID": "609694",
+		"Short_Name": "HANCOCK HS",
+		"Long_Name": "John Hancock College Preparatory High School",
+		"School_Type": "Selective enrollment",
+		"Primary_Category": "HS",
+		"Address": "4034 W 56TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60629",
+		"Phone": "7735352410",
+		"Fax": "7735352434",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609694",
+		"Website": "http://www.hancockhs.org",
+		"Program_Type": "Pre-Law",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.",
+		"Program_Selections": "Student selections are based on points. Students are assigned points for 7th grade final GPA and 7th grade stanines. Students are ranked and selected from high to low. Students residing within the attendance overlay boundary of the school are selected first.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.791464",
+		"School_Longitude": "-87.72447",
+		"Location": "4034 W 56TH ST\nChicago, Illinois 60629\n(41.791464, -87.72447)",
+		"Application_Requirements_Fn": "4cb799c1cf8b41a3baf1e8d9176463d8",
+		"Program_Selections_Fn": "14673a83b42347d3fdc6f2fa445c4d2f"
+	},
+	{
+		"School_ID": "609746",
+		"Short_Name": "KENWOOD HS",
+		"Long_Name": "Kenwood Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "5015 S BLACKSTONE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60615",
+		"Phone": "7735351350",
+		"Fax": "7735351360",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609746",
+		"Website": "http://www.kenwoodacademy.org",
+		"Program_Type": "Honors",
+		"Application_Requirements": "Minimum percentile of 75 in both reading and math on NWEA MAP, minimum 3.5 GPA in 7th grade, and minimum attendance percentage of 95.",
+		"Program_Selections": "Students are randomly selected by computerized lottery.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.803772",
+		"School_Longitude": "-87.590421",
+		"Location": "5015 S BLACKSTONE AVE\nChicago, Illinois 60615\n(41.803772, -87.590421)",
+		"Application_Requirements_Fn": "3d1c7a20cb38789ce4b0f651200dd9cd",
+		"Program_Selections_Fn": "308d8156364219130aef9a7de30a6c8d"
+	},
+	{
+		"School_ID": "609720",
+		"Short_Name": "LANE TECH HS",
+		"Long_Name": "Albert G Lane Technical High School",
+		"School_Type": "Selective enrollment",
+		"Primary_Category": "HS",
+		"Address": "2501 W ADDISON ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60618",
+		"Phone": "7735345400",
+		"Fax": "7735345544",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609720",
+		"Website": "http://www.lanetech.org",
+		"Program_Type": "Academic Center",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 45 in both reading and math on NWEA MAP.  IEP and EL students: Minimum NWEA MAP percentile of 50 in one subject (reading or math) and minimum NWEA MAP percentile of 40 in the other subject (reading or math).  Testing is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for prior year final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online Selective Enrollment Elementary Schools application or paper Selective Enrollment Elementary Schools application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.946645",
+		"School_Longitude": "-87.691013",
+		"Location": "2501 W ADDISON ST\nChicago, Illinois 60618\n(41.946645, -87.691013)",
+		"Application_Requirements_Fn": "c32c0804dc719ba6c4c00322e7a69be2",
+		"Program_Selections_Fn": "224ce8807abceb6ca72e650988637629"
+	},
+	{
+		"School_ID": "609694",
+		"Short_Name": "HANCOCK HS",
+		"Long_Name": "John Hancock College Preparatory High School",
+		"School_Type": "Selective enrollment",
+		"Primary_Category": "HS",
+		"Address": "4034 W 56TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60629",
+		"Phone": "7735352410",
+		"Fax": "7735352434",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609694",
+		"Website": "http://www.hancockhs.org",
+		"Program_Type": "Pre-Engineering",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.",
+		"Program_Selections": "Student selections are based on points. Students are assigned points for 7th grade final GPA and 7th grade stanines. Students are ranked and selected from high to low. Students residing within the attendance overlay boundary of the school are selected first.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.791464",
+		"School_Longitude": "-87.72447",
+		"Location": "4034 W 56TH ST\nChicago, Illinois 60629\n(41.791464, -87.72447)",
+		"Application_Requirements_Fn": "4cb799c1cf8b41a3baf1e8d9176463d8",
+		"Program_Selections_Fn": "14673a83b42347d3fdc6f2fa445c4d2f"
+	},
+	{
+		"School_ID": "610547",
+		"Short_Name": "SOUTH SHORE INTL HS",
+		"Long_Name": "South Shore Intl College Prep High School",
+		"School_Type": "Selective enrollment",
+		"Primary_Category": "HS",
+		"Address": "1955 E 75TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60649",
+		"Phone": "7735358351",
+		"Fax": "",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610547",
+		"Website": "http://www.southshoreinternational.org",
+		"Program_Type": "Selective Enrollment High School",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for 7th grade final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.758792",
+		"School_Longitude": "-87.576353",
+		"Location": "1955 E 75TH ST\nChicago, Illinois 60649\n(41.758792, -87.576353)",
+		"Application_Requirements_Fn": "1a043655763ab140a0d14f5080d63a2c",
+		"Program_Selections_Fn": "bd680e7bc10c03552140e26736221cf7"
+	},
+	{
+		"School_ID": "609725",
+		"Short_Name": "MORGAN PARK HS",
+		"Long_Name": "Morgan Park High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "1744 W PRYOR AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60643",
+		"Phone": "7735352550",
+		"Fax": "7735352706",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609725",
+		"Website": "http://www.morganparkcps.org",
+		"Program_Type": "Academic Center",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 45 in both reading and math on NWEA MAP.  IEP and EL students: Minimum NWEA MAP percentile of 50 in one subject (reading or math) and minimum NWEA MAP percentile of 40 in the other subject (reading or math).  Testing is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for prior year final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online Selective Enrollment Elementary Schools application or paper Selective Enrollment Elementary Schools application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.692035",
+		"School_Longitude": "-87.665658",
+		"Location": "1744 W PRYOR AVE\nChicago, Illinois 60643\n(41.692035, -87.665658)",
+		"Application_Requirements_Fn": "c32c0804dc719ba6c4c00322e7a69be2",
+		"Program_Selections_Fn": "224ce8807abceb6ca72e650988637629"
+	},
+	{
+		"School_ID": "609692",
+		"Short_Name": "SIMEON HS",
+		"Long_Name": "Neal F Simeon Career Academy High School",
+		"School_Type": "Career academy",
+		"Primary_Category": "HS",
+		"Address": "8147 S VINCENNES AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60620",
+		"Phone": "7735353200",
+		"Fax": "7735353465",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609692",
+		"Website": "http://www.simeonca.org",
+		"Program_Type": "Career Academy",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum combined percentile of 40 in reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 30 in reading and math on NWEA MAP, and minimum attendance percentage of 90.",
+		"Program_Selections": "Students are selected on a point system. Points are based on the combined NWEA MAP scores and the interview.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.745781",
+		"School_Longitude": "-87.63541",
+		"Location": "8147 S VINCENNES AVE\nChicago, Illinois 60620\n(41.745781, -87.63541)",
+		"Application_Requirements_Fn": "027fe7b2d9fd7d9c6e55de49f723852f",
+		"Program_Selections_Fn": "47befdd406dee45058f2dbd64a097154"
+	},
+	{
+		"School_ID": "609710",
+		"Short_Name": "HARLAN HS",
+		"Long_Name": "John M Harlan Community Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "9652 S MICHIGAN AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60628",
+		"Phone": "7735355400",
+		"Fax": "7735355061",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609710",
+		"Website": "http://www.harlanfalcons.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 85.  IEP and EL students: Minimum combined percentile of 40 in reading and math on NWEA MAP and minimum attendance percentage of 85.",
+		"Program_Selections": "Students who live within the school's attendance boundary have no eligibilty requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.718372",
+		"School_Longitude": "-87.620623",
+		"Location": "9652 S MICHIGAN AVE\nChicago, Illinois 60628\n(41.718372, -87.620623)",
+		"Application_Requirements_Fn": "39fbe111b62498337fb2f7973a18e570",
+		"Program_Selections_Fn": "3e4ad403b3a6a2e998cd7d7b7d179091"
+	},
+	{
+		"School_ID": "609756",
+		"Short_Name": "CURIE HS",
+		"Long_Name": "Marie Sklodowska Curie Metropolitan High School",
+		"School_Type": "Magnet",
+		"Primary_Category": "HS",
+		"Address": "4959 S ARCHER AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60632",
+		"Phone": "7735352100",
+		"Fax": "7735352049",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609756",
+		"Website": "http://www.curiehs.org",
+		"Program_Type": "Accounting",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.80306",
+		"School_Longitude": "-87.722042",
+		"Location": "4959 S ARCHER AVE\nChicago, Illinois 60632\n(41.80306, -87.722042)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609693",
+		"Short_Name": "WESTINGHOUSE HS",
+		"Long_Name": "George Westinghouse College Prep",
+		"School_Type": "Selective enrollment",
+		"Primary_Category": "HS",
+		"Address": "3223 W FRANKLIN BLVD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60624",
+		"Phone": "7735346400",
+		"Fax": "7735346422",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609693",
+		"Website": "http://www.newwestinghouse.org",
+		"Program_Type": "Selective Enrollment High School",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for 7th grade final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.889977",
+		"School_Longitude": "-87.707332",
+		"Location": "3223 W FRANKLIN BLVD\nChicago, Illinois 60624\n(41.889977, -87.707332)",
+		"Application_Requirements_Fn": "1a043655763ab140a0d14f5080d63a2c",
+		"Program_Selections_Fn": "bd680e7bc10c03552140e26736221cf7"
+	},
+	{
+		"School_ID": "609728",
+		"Short_Name": "ROOSEVELT HS",
+		"Long_Name": "Theodore Roosevelt High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3436 W WILSON AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60625",
+		"Phone": "7735345000",
+		"Fax": "7735345044",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609728",
+		"Website": "http://rhsroughriders.org",
+		"Program_Type": "Early Childhood",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.964828",
+		"School_Longitude": "-87.714819",
+		"Location": "3436 W WILSON AVE\nChicago, Illinois 60625\n(41.964828, -87.714819)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "400066",
+		"Short_Name": "PERSPECTIVES - MATH & SCI HS",
+		"Long_Name": "Perspectives - Math and Science Academy",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "3663 S WABASH AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60653",
+		"Phone": "7733586800",
+		"Fax": "7733586055",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400066",
+		"Website": "http://www.pcsedu.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.827784",
+		"School_Longitude": "-87.624788",
+		"Location": "3663 S WABASH AVE\nChicago, Illinois 60653\n(41.827784, -87.624788)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "610390",
+		"Short_Name": "RICKOVER MILITARY HS",
+		"Long_Name": "Hyman G Rickover Naval Academy High School",
+		"School_Type": "Military academy",
+		"Primary_Category": "HS",
+		"Address": "5900 N GLENWOOD AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60660",
+		"Phone": "7735342890",
+		"Fax": "7735342895",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610390",
+		"Website": "http://www.rickovernaval.org",
+		"Program_Type": "Service Learning Academies (Military)",
+		"Application_Requirements": "Minimum combined percentile of 48 in reading and math on NWEA MAP. Attendance at an Information Session is required for eligible applicants.",
+		"Program_Selections": "During the Information Session, students will sign a Commitment Agreement, complete a Motivation and Perseverance Assessment and write a brief essay. Selections will be based on a point system with a maximum of 500 points, derived from 7th grade final (cumulative) grades (100 points), 7th grade NWEA MAP scores (150 points), the two-part assessment (50 for each part), and the essay (100 points).",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.989021",
+		"School_Longitude": "-87.665789",
+		"Location": "5900 N GLENWOOD AVE\nChicago, Illinois 60660\n(41.989021, -87.665789)",
+		"Application_Requirements_Fn": "ae1af40b734a31b447b1ed50f6e4bc17",
+		"Program_Selections_Fn": "f79604e9d7984cc9b43fa3c69abe428d"
+	},
+	{
+		"School_ID": "609718",
+		"Short_Name": "KENNEDY HS",
+		"Long_Name": "John F Kennedy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "6325 W 56TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60638",
+		"Phone": "7735352325",
+		"Fax": "7735352485",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609718",
+		"Website": "http://www.kennedyhschicago.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically. This program only accepts students who live within the school's attendance boundary.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.789961",
+		"School_Longitude": "-87.78084",
+		"Location": "6325 W 56TH ST\nChicago, Illinois 60638\n(41.789961, -87.78084)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "783216956d119ad64639725fa9f4d44b"
+	},
+	{
+		"School_ID": "609715",
+		"Short_Name": "KELLY HS",
+		"Long_Name": "Thomas Kelly High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "4136 S CALIFORNIA AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60632",
+		"Phone": "7735354900",
+		"Fax": "7735354841",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609715",
+		"Website": "http://kellyhighschool.org/",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically. This program only accepts students who live within the school's attendance boundary.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.818729",
+		"School_Longitude": "-87.694639",
+		"Location": "4136 S CALIFORNIA AVE\nChicago, Illinois 60632\n(41.818729, -87.694639)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "783216956d119ad64639725fa9f4d44b"
+	},
+	{
+		"School_ID": "609704",
+		"Short_Name": "FARRAGUT HS",
+		"Long_Name": "David G Farragut Career Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "2345 S CHRISTIANA AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60623",
+		"Phone": "7735341300",
+		"Fax": "7735341336",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609704",
+		"Website": "http://www.fcaib.org",
+		"Program_Type": "Automotive Technology",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.84856",
+		"School_Longitude": "-87.708706",
+		"Location": "2345 S CHRISTIANA AVE\nChicago, Illinois 60623\n(41.84856, -87.708706)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609732",
+		"Short_Name": "STEINMETZ HS",
+		"Long_Name": "Charles P Steinmetz College Preparatory HS",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3030 N MOBILE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60634",
+		"Phone": "7735343030",
+		"Fax": "7735343151",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609732",
+		"Website": "http://www.steinmetzcp.org",
+		"Program_Type": "International Baccalaureate (IB)",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.935634",
+		"School_Longitude": "-87.783515",
+		"Location": "3030 N MOBILE AVE\nChicago, Illinois 60634\n(41.935634, -87.783515)",
+		"Application_Requirements_Fn": "930c01733b718c40bc1f2af23839e14a",
+		"Program_Selections_Fn": "0fedde2a8081243a74d2c6a3be90b411"
+	},
+	{
+		"School_ID": "609762",
+		"Short_Name": "JULIAN HS",
+		"Long_Name": "Percy L Julian High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "10330 S ELIZABETH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60643",
+		"Phone": "7735355170",
+		"Fax": "7735355230",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609762",
+		"Website": "http://www.pljulianhs.net",
+		"Program_Type": "Entrepreneurship",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.705859",
+		"School_Longitude": "-87.653749",
+		"Location": "10330 S ELIZABETH ST\nChicago, Illinois 60643\n(41.705859, -87.653749)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609692",
+		"Short_Name": "SIMEON HS",
+		"Long_Name": "Neal F Simeon Career Academy High School",
+		"School_Type": "Career academy",
+		"Primary_Category": "HS",
+		"Address": "8147 S VINCENNES AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60620",
+		"Phone": "7735353200",
+		"Fax": "7735353465",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609692",
+		"Website": "http://www.simeonca.org",
+		"Program_Type": "Honors",
+		"Application_Requirements": "Minimum percentile of 50 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 90.",
+		"Program_Selections": "Students are selected on a point system. Points are based on the combined NWEA MAP scores and the interview.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.745781",
+		"School_Longitude": "-87.63541",
+		"Location": "8147 S VINCENNES AVE\nChicago, Illinois 60620\n(41.745781, -87.63541)",
+		"Application_Requirements_Fn": "f2829bdd4c9bc67e01b90bdd3db46c07",
+		"Program_Selections_Fn": "47befdd406dee45058f2dbd64a097154"
+	},
+	{
+		"School_ID": "609738",
+		"Short_Name": "LINCOLN PARK HS",
+		"Long_Name": "Lincoln Park High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "2001 N ORCHARD ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60614",
+		"Phone": "7735348130",
+		"Fax": "7735348218",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609738",
+		"Website": "http://www.lincolnparkhs.org",
+		"Program_Type": "Honors/Double Honors",
+		"Application_Requirements": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum combined percentile of 135 in reading and math on NWEA MAP and minimum 3.0 GPA in 7th grade.",
+		"Program_Selections": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside the school's attendance boundary are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and 7th grade GPA.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.918268",
+		"School_Longitude": "-87.646009",
+		"Location": "2001 N ORCHARD ST\nChicago, Illinois 60614\n(41.918268, -87.646009)",
+		"Application_Requirements_Fn": "c66032656bbf52edb1c9d6b62ca2e2eb",
+		"Program_Selections_Fn": "1558a52d4663a54c6a5f06fa10062961"
+	},
+	{
+		"School_ID": "609674",
+		"Short_Name": "CHICAGO VOCATIONAL HS",
+		"Long_Name": "Chicago Vocational Career Academy High School",
+		"School_Type": "Career academy",
+		"Primary_Category": "HS",
+		"Address": "2100 E 87TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60617",
+		"Phone": "7735356100",
+		"Fax": "7735356975",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609674",
+		"Website": "http://www.cvcacademy.org",
+		"Program_Type": "Carpentry",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.737174",
+		"School_Longitude": "-87.573268",
+		"Location": "2100 E 87TH ST\nChicago, Illinois 60617\n(41.737174, -87.573268)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "400032",
+		"Short_Name": "CICS - ELLISON HS",
+		"Long_Name": "CICS - Ralph Ellison",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "1817 W 80TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60620",
+		"Phone": "7734784434",
+		"Fax": "7732242594",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400032",
+		"Website": "http://www.cicsellison.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.748382",
+		"School_Longitude": "-87.66898",
+		"Location": "1817 W 80TH ST\nChicago, Illinois 60620\n(41.748382, -87.66898)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "400097",
+		"Short_Name": "NOBLE - BULLS HS",
+		"Long_Name": "Noble - Chicago Bulls College Prep",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "2040 W ADAMS ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60612",
+		"Phone": "7735347599",
+		"Fax": "3128500192",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400097",
+		"Website": "http://www.chicagobullscollegeprep.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.878809",
+		"School_Longitude": "-87.678195",
+		"Location": "2040 W ADAMS ST\nChicago, Illinois 60612\n(41.878809, -87.678195)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "609753",
+		"Short_Name": "CHICAGO AGRICULTURE HS",
+		"Long_Name": "Chicago High School for Agricultural Sciences",
+		"School_Type": "Magnet",
+		"Primary_Category": "HS",
+		"Address": "3857 W 111TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60655",
+		"Phone": "7735352500",
+		"Fax": "7735352507",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609753",
+		"Website": "http://www.chicagoagr.org",
+		"Program_Type": "Scholars",
+		"Application_Requirements": "Minimum percentile of 80 in both reading and math on NWEA MAP and minimum 3.5 GPA in 7th grade.",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Preference is given to students with a sibling who is currently enrolled and will be enrolled in the upcoming school year.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.691221",
+		"School_Longitude": "-87.71777",
+		"Location": "3857 W 111TH ST\nChicago, Illinois 60655\n(41.691221, -87.71777)",
+		"Application_Requirements_Fn": "f4491f6cf1ebf200770f01271d93ba47",
+		"Program_Selections_Fn": "1976701fe4ffdbf53913f7f638f61b26"
+	},
+	{
+		"School_ID": "610558",
+		"Short_Name": "GOODE HS",
+		"Long_Name": "Sarah E. Goode STEM Academy",
+		"School_Type": "Citywide-Option",
+		"Primary_Category": "HS",
+		"Address": "7651 S HOMAN AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60652",
+		"Phone": "7735357875",
+		"Fax": "7735357877",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610558",
+		"Website": "http://GoodeSTEMAcademy.org",
+		"Program_Type": "Early College STEM",
+		"Application_Requirements": "Attendance at an Information Session is not required, but preference is given to students who attend an Information Session.",
+		"Program_Selections": "Students are randomly selcted by computerized lottery. The lottery is conducted in the following order: students who live within the school's overlay boundary and attend an Information Session; students who live within the school's network and attend an Information Session; students who live outside of the network and attend an Information Session; students who live within the school's overlay boundary and do not attend an Information Session; students who live within the school's network and do not attend an Information Session; students who live outside of the network and do not attend an Information Session.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.75375",
+		"School_Longitude": "-87.707345",
+		"Location": "7651 S HOMAN AVE\nChicago, Illinois 60652\n(41.75375, -87.707345)",
+		"Application_Requirements_Fn": "736b7d124b6930cf8ae642563037eeb9",
+		"Program_Selections_Fn": "85463a98c5a7ba21313aacdaeda48cd0"
+	},
+	{
+		"School_ID": "609720",
+		"Short_Name": "LANE TECH HS",
+		"Long_Name": "Albert G Lane Technical High School",
+		"School_Type": "Selective enrollment",
+		"Primary_Category": "HS",
+		"Address": "2501 W ADDISON ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60618",
+		"Phone": "7735345400",
+		"Fax": "7735345544",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609720",
+		"Website": "http://www.lanetech.org",
+		"Program_Type": "Selective Enrollment High School",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for 7th grade final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.946645",
+		"School_Longitude": "-87.691013",
+		"Location": "2501 W ADDISON ST\nChicago, Illinois 60618\n(41.946645, -87.691013)",
+		"Application_Requirements_Fn": "1a043655763ab140a0d14f5080d63a2c",
+		"Program_Selections_Fn": "bd680e7bc10c03552140e26736221cf7"
+	},
+	{
+		"School_ID": "609762",
+		"Short_Name": "JULIAN HS",
+		"Long_Name": "Percy L Julian High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "10330 S ELIZABETH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60643",
+		"Phone": "7735355170",
+		"Fax": "7735355230",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609762",
+		"Website": "http://www.pljulianhs.net",
+		"Program_Type": "Allied Health",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are selected on a point system. Points are based on 7th grade final GPA and NWEA MAP scores. The school determines the minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.705859",
+		"School_Longitude": "-87.653749",
+		"Location": "10330 S ELIZABETH ST\nChicago, Illinois 60643\n(41.705859, -87.653749)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "618315c228cf8e591d1909fc8ca41206"
+	},
+	{
+		"School_ID": "609730",
+		"Short_Name": "SENN HS",
+		"Long_Name": "Nicholas Senn High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "5900 N GLENWOOD AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60660",
+		"Phone": "7735342365",
+		"Fax": "7735342369",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609730",
+		"Website": "http://www.sennhs.org",
+		"Program_Type": "Dance",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  An audition is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade final (cumulative) grades, and the audition.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.989029",
+		"School_Longitude": "-87.667136",
+		"Location": "5900 N GLENWOOD AVE\nChicago, Illinois 60660\n(41.989029, -87.667136)",
+		"Application_Requirements_Fn": "8ccbd2eb3d4e026932b83ee576862b16",
+		"Program_Selections_Fn": "7e51568fc748dec3fd5aa79aae428009"
+	},
+	{
+		"School_ID": "609728",
+		"Short_Name": "ROOSEVELT HS",
+		"Long_Name": "Theodore Roosevelt High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3436 W WILSON AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60625",
+		"Phone": "7735345000",
+		"Fax": "7735345044",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609728",
+		"Website": "http://rhsroughriders.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically. This program only accepts students who live within the school's attendance boundary.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.964828",
+		"School_Longitude": "-87.714819",
+		"Location": "3436 W WILSON AVE\nChicago, Illinois 60625\n(41.964828, -87.714819)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "783216956d119ad64639725fa9f4d44b"
+	},
+	{
+		"School_ID": "400086",
+		"Short_Name": "URBAN PREP - ENGLEWOOD HS",
+		"Long_Name": "Urban Prep Academy for Young Men - Englewood",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "6201 S STEWART AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60621",
+		"Phone": "7735359724",
+		"Fax": "7735350012",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400086",
+		"Website": "http://www.urbanprep.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.781498",
+		"School_Longitude": "-87.634357",
+		"Location": "6201 S STEWART AVE\nChicago, Illinois 60621\n(41.781498, -87.634357)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "609707",
+		"Short_Name": "ROBESON HS",
+		"Long_Name": "Paul Robeson High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "6835 S NORMAL BLVD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60621",
+		"Phone": "7735353800",
+		"Fax": "7735353620",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609707",
+		"Website": "",
+		"Program_Type": "Allied Health",
+		"Application_Requirements": "Minimum 2.5 GPA in 7th grade.",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: proximity, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.769714",
+		"School_Longitude": "-87.637153",
+		"Location": "6835 S NORMAL BLVD\nChicago, Illinois 60621\n(41.769714, -87.637153)",
+		"Application_Requirements_Fn": "7e054e33cdc685f9b099a243e45f0386",
+		"Program_Selections_Fn": "d3ddea21fb0e360b470bf095ce6bdfef"
+	},
+	{
+		"School_ID": "609713",
+		"Short_Name": "HYDE PARK HS",
+		"Long_Name": "Hyde Park Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "6220 S STONY ISLAND AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60637",
+		"Phone": "7735350880",
+		"Fax": "7735350633",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609713",
+		"Website": "http://www.hydeparkcps.org",
+		"Program_Type": "Broadcast Technology",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.782257",
+		"School_Longitude": "-87.586615",
+		"Location": "6220 S STONY ISLAND AVE\nChicago, Illinois 60637\n(41.782257, -87.586615)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609691",
+		"Short_Name": "NORTH-GRAND HS",
+		"Long_Name": "North-Grand High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "4338 W WABANSIA AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60639",
+		"Phone": "7735348520",
+		"Fax": "7735348535",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609691",
+		"Website": "http://www.northgrandhs.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.911674",
+		"School_Longitude": "-87.735238",
+		"Location": "4338 W WABANSIA AVE\nChicago, Illinois 60639\n(41.911674, -87.735238)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "8c431d51587c33009ee9b67a566c042e"
+	},
+	{
+		"School_ID": "609709",
+		"Short_Name": "GAGE PARK HS",
+		"Long_Name": "Gage Park High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "5630 S ROCKWELL ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60629",
+		"Phone": "7735359230",
+		"Fax": "7735359411",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609709",
+		"Website": "http://www.gageparkhs.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.791013",
+		"School_Longitude": "-87.688954",
+		"Location": "5630 S ROCKWELL ST\nChicago, Illinois 60629\n(41.791013, -87.688954)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "8c431d51587c33009ee9b67a566c042e"
+	},
+	{
+		"School_ID": "609725",
+		"Short_Name": "MORGAN PARK HS",
+		"Long_Name": "Morgan Park High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "1744 W PRYOR AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60643",
+		"Phone": "7735352550",
+		"Fax": "7735352706",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609725",
+		"Website": "http://www.morganparkcps.org",
+		"Program_Type": "International Baccalaureate (IB)",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school selects the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school’s Academic Center.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.692035",
+		"School_Longitude": "-87.665658",
+		"Location": "1744 W PRYOR AVE\nChicago, Illinois 60643\n(41.692035, -87.665658)",
+		"Application_Requirements_Fn": "930c01733b718c40bc1f2af23839e14a",
+		"Program_Selections_Fn": "b3b514880eaa7b9a4db6d6b6308eb1f7"
+	},
+	{
+		"School_ID": "610394",
+		"Short_Name": "UPLIFT HS",
+		"Long_Name": "Uplift Community High School",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "900 W WILSON AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60640",
+		"Phone": "7735342875",
+		"Fax": "7735342876",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610394",
+		"Website": "http://www.uplifths.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling; students who attend Brennemann, Courtenay, or McCutcheon Elementary Schools; general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.965547",
+		"School_Longitude": "-87.652473",
+		"Location": "900 W WILSON AVE\nChicago, Illinois 60640\n(41.965547, -87.652473)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7574e7fa48dfdf030b059dbaff5351b6"
+	},
+	{
+		"School_ID": "609764",
+		"Short_Name": "JUAREZ HS",
+		"Long_Name": "Benito Juarez Community Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "1450 W CERMAK RD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60608",
+		"Phone": "7735347030",
+		"Fax": "7735347058",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609764",
+		"Website": "http://www.benitojuarez.net",
+		"Program_Type": "Automotive Technology",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.852667",
+		"School_Longitude": "-87.663732",
+		"Location": "1450 W CERMAK RD\nChicago, Illinois 60608\n(41.852667, -87.663732)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "400077",
+		"Short_Name": "U OF C - WOODLAWN HS",
+		"Long_Name": "University of Chicago - Woodlawn",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "6420 S UNIVERSITY AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60637",
+		"Phone": "7737528101",
+		"Fax": "7733240653",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400077",
+		"Website": "http://www.uchicagocharter.org/page.cfm?p=519",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled at the University of Chicago Woodlawn, sibling, proximity, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.77813",
+		"School_Longitude": "-87.598114",
+		"Location": "6420 S UNIVERSITY AVE\nChicago, Illinois 60637\n(41.77813, -87.598114)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f9d7148f613933f83ad7d81004715614"
+	},
+	{
+		"School_ID": "610499",
+		"Short_Name": "COLLINS HS",
+		"Long_Name": "Collins Academy High School",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "1313 S SACRAMENTO DR",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60623",
+		"Phone": "7735341840",
+		"Fax": "7735426471",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610499",
+		"Website": "http://auslchicago.org/schools/pages/collins",
+		"Program_Type": "Scholars",
+		"Application_Requirements": "Minimum percentile of 40 in both reading and math on NWEA MAP, minimum 2.8 GPA in 7th grade, and minimum attendance percentage of 92.",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in Chalmers, Dvorak, Herzl, Johnson, or Morton Elementary Schools; general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.864149",
+		"School_Longitude": "-87.702042",
+		"Location": "1313 S SACRAMENTO DR\nChicago, Illinois 60623\n(41.864149, -87.702042)",
+		"Application_Requirements_Fn": "bc314f72be86fc565247301f6d8f99b8",
+		"Program_Selections_Fn": "685beedfccfae8bdb0649c36f03dfd7a"
+	},
+	{
+		"School_ID": "609735",
+		"Short_Name": "TILDEN HS",
+		"Long_Name": "Edward Tilden Career Community Academy HS",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "4747 S UNION AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60609",
+		"Phone": "7735351625",
+		"Fax": "7735351866",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609735",
+		"Website": "http://tilden.cps.edu/",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.80751",
+		"School_Longitude": "-87.642966",
+		"Location": "4747 S UNION AVE\nChicago, Illinois 60609\n(41.80751, -87.642966)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "2317c60e8a1eec08ab495a14ccfd9c64"
+	},
+	{
+		"School_ID": "609756",
+		"Short_Name": "CURIE HS",
+		"Long_Name": "Marie Sklodowska Curie Metropolitan High School",
+		"School_Type": "Magnet",
+		"Primary_Category": "HS",
+		"Address": "4959 S ARCHER AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60632",
+		"Phone": "7735352100",
+		"Fax": "7735352049",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609756",
+		"Website": "http://www.curiehs.org",
+		"Program_Type": "Music",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP. An audition/portfolio review is required.",
+		"Program_Selections": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade final (cumulative) grades, and the audition.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.80306",
+		"School_Longitude": "-87.722042",
+		"Location": "4959 S ARCHER AVE\nChicago, Illinois 60632\n(41.80306, -87.722042)",
+		"Application_Requirements_Fn": "77620df9b5c4a530f21c30267af843ce",
+		"Program_Selections_Fn": "7e51568fc748dec3fd5aa79aae428009"
+	},
+	{
+		"School_ID": "610506",
+		"Short_Name": "TEAM HS",
+		"Long_Name": "TEAM Englewood Community Academy High School",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "6201 S STEWART AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60621",
+		"Phone": "7735353530",
+		"Fax": "7735353586",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610506",
+		"Website": "http://www.teamenglewood.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum combined percentile of 40 in both reading and math on NWEA MAP, minimum 2.0 GPA in 7th grade, and minimum attendance percentage of 80.  IEP/EL students have no eligibility requirements.",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students with a 7th grade final GPA of 2.5 or higher, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.781485",
+		"School_Longitude": "-87.633019",
+		"Location": "6201 S STEWART AVE\nChicago, Illinois 60621\n(41.781485, -87.633019)",
+		"Application_Requirements_Fn": "9a2a27708247d3b692481757756b5226",
+		"Program_Selections_Fn": "8f880cad92a9a0dc49dd8d6ba4209b14"
+	},
+	{
+		"School_ID": "610323",
+		"Short_Name": "BOWEN HS",
+		"Long_Name": "Bowen High School",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "2710 E 89TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60617",
+		"Phone": "7735357650",
+		"Fax": "7735356489",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610323",
+		"Website": "http://www.bowenhs.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.734627",
+		"School_Longitude": "-87.55755",
+		"Location": "2710 E 89TH ST\nChicago, Illinois 60617\n(41.734627, -87.55755)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "8c431d51587c33009ee9b67a566c042e"
+	},
+	{
+		"School_ID": "609676",
+		"Short_Name": "DUNBAR HS",
+		"Long_Name": "Paul Laurence Dunbar Career Academy High School",
+		"School_Type": "Career academy",
+		"Primary_Category": "HS",
+		"Address": "3000 S KING DR",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60616",
+		"Phone": "7735349000",
+		"Fax": "7735349250",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609676",
+		"Website": "http://dunbarhs.weebly.com/",
+		"Program_Type": "Chicago Builds",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: proximity, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.840226",
+		"School_Longitude": "-87.617637",
+		"Location": "3000 S KING DR\nChicago, Illinois 60616\n(41.840226, -87.617637)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "d3ddea21fb0e360b470bf095ce6bdfef"
+	},
+	{
+		"School_ID": "609734",
+		"Short_Name": "TAFT HS",
+		"Long_Name": "William Howard Taft High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "6530 W BRYN MAWR AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60631",
+		"Phone": "7735341000",
+		"Fax": "7735341027",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609734",
+		"Website": "http://www.tafths.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students enrolled in the Taft Academic Center or students who live within the school's attendance boundary can be admitted automatically. This program only accepts students who live within the school's attendance boundary or who attend the school's Academic Center.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.982961",
+		"School_Longitude": "-87.791547",
+		"Location": "6530 W BRYN MAWR AVE\nChicago, Illinois 60631\n(41.982961, -87.791547)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "43cabfe5f36cbf1ccbb95a9962d90319"
+	},
+	{
+		"School_ID": "609694",
+		"Short_Name": "HANCOCK HS",
+		"Long_Name": "John Hancock College Preparatory High School",
+		"School_Type": "Selective enrollment",
+		"Primary_Category": "HS",
+		"Address": "4034 W 56TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60629",
+		"Phone": "7735352410",
+		"Fax": "7735352434",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609694",
+		"Website": "http://www.hancockhs.org",
+		"Program_Type": "Selective Enrollment High School",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for 7th grade final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.791464",
+		"School_Longitude": "-87.72447",
+		"Location": "4034 W 56TH ST\nChicago, Illinois 60629\n(41.791464, -87.72447)",
+		"Application_Requirements_Fn": "1a043655763ab140a0d14f5080d63a2c",
+		"Program_Selections_Fn": "bd680e7bc10c03552140e26736221cf7"
+	},
+	{
+		"School_ID": "609725",
+		"Short_Name": "MORGAN PARK HS",
+		"Long_Name": "Morgan Park High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "1744 W PRYOR AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60643",
+		"Phone": "7735352550",
+		"Fax": "7735352706",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609725",
+		"Website": "http://www.morganparkcps.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who are enrolled in the Morgan Park Academic Center and students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.692035",
+		"School_Longitude": "-87.665658",
+		"Location": "1744 W PRYOR AVE\nChicago, Illinois 60643\n(41.692035, -87.665658)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "9fad1e147fb546e7a25d0fccba608035"
+	},
+	{
+		"School_ID": "609762",
+		"Short_Name": "JULIAN HS",
+		"Long_Name": "Percy L Julian High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "10330 S ELIZABETH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60643",
+		"Phone": "7735355170",
+		"Fax": "7735355230",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609762",
+		"Website": "http://www.pljulianhs.net",
+		"Program_Type": "Broadcast Technology",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.705859",
+		"School_Longitude": "-87.653749",
+		"Location": "10330 S ELIZABETH ST\nChicago, Illinois 60643\n(41.705859, -87.653749)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "610380",
+		"Short_Name": "WILLIAMS HS",
+		"Long_Name": "Daniel Hale Williams Prep School of Medicine",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "4934 S WABASH AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60615",
+		"Phone": "7735351120",
+		"Fax": "7735351023",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610380",
+		"Website": "http://www.dhwprepmed.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 85.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, and minimum attendance percentage of 85.",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.806118",
+		"School_Longitude": "-87.62503",
+		"Location": "4934 S WABASH AVE\nChicago, Illinois 60615\n(41.806118, -87.62503)",
+		"Application_Requirements_Fn": "7ef878b115498c24fd96f8891c346480",
+		"Program_Selections_Fn": "f6b1cadaa52f894d87ad4246bd4c9b0a"
+	},
+	{
+		"School_ID": "609756",
+		"Short_Name": "CURIE HS",
+		"Long_Name": "Marie Sklodowska Curie Metropolitan High School",
+		"School_Type": "Magnet",
+		"Primary_Category": "HS",
+		"Address": "4959 S ARCHER AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60632",
+		"Phone": "7735352100",
+		"Fax": "7735352049",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609756",
+		"Website": "http://www.curiehs.org",
+		"Program_Type": "Early Childhood & Teaching",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.80306",
+		"School_Longitude": "-87.722042",
+		"Location": "4959 S ARCHER AVE\nChicago, Illinois 60632\n(41.80306, -87.722042)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609759",
+		"Short_Name": "CLEMENTE HS",
+		"Long_Name": "Roberto Clemente Community Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "1147 N WESTERN AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60622",
+		"Phone": "7735344000",
+		"Fax": "7735344012",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609759",
+		"Website": "http://www.rccachicago.org",
+		"Program_Type": "Culinary Arts",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.902626",
+		"School_Longitude": "-87.686906",
+		"Location": "1147 N WESTERN AVE\nChicago, Illinois 60622\n(41.902626, -87.686906)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609741",
+		"Short_Name": "HUBBARD HS",
+		"Long_Name": "Gurdon S Hubbard High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "6200 S HAMLIN AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60629",
+		"Phone": "7735352200",
+		"Fax": "7735352218",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609741",
+		"Website": "http://www.hubbardhighschool.org",
+		"Program_Type": "University Scholars",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading on math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.",
+		"Program_Selections": "Students are randomly selected by computerized lottery.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.780526",
+		"School_Longitude": "-87.718014",
+		"Location": "6200 S HAMLIN AVE\nChicago, Illinois 60629\n(41.780526, -87.718014)",
+		"Application_Requirements_Fn": "01bb8009b315ff8fc0120dbadf71444c",
+		"Program_Selections_Fn": "308d8156364219130aef9a7de30a6c8d"
+	},
+	{
+		"School_ID": "609730",
+		"Short_Name": "SENN HS",
+		"Long_Name": "Nicholas Senn High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "5900 N GLENWOOD AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60660",
+		"Phone": "7735342365",
+		"Fax": "7735342369",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609730",
+		"Website": "http://www.sennhs.org",
+		"Program_Type": "Digital Journalism",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, and minimum attendance percentage of 90.",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.989029",
+		"School_Longitude": "-87.667136",
+		"Location": "5900 N GLENWOOD AVE\nChicago, Illinois 60660\n(41.989029, -87.667136)",
+		"Application_Requirements_Fn": "86b8c5719b264aa9072aa6433644fb60",
+		"Program_Selections_Fn": "f6b1cadaa52f894d87ad4246bd4c9b0a"
+	},
+	{
+		"School_ID": "610563",
+		"Short_Name": "BACK OF THE YARDS HS",
+		"Long_Name": "Back of the Yards IB HS",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "2111 W 47TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60609",
+		"Phone": "7735357320",
+		"Fax": "7735356880",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610563",
+		"Website": "http://www.boycp.org",
+		"Program_Type": "Dual Language",
+		"Application_Requirements": "Minimum percentile of 40 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, LAS Links Assessment composite of 4 or STAMP Assessment at the Intermediate Level.",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, students currently enrolled in a CPS elementary school with a world language or dual language program, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.808413",
+		"School_Longitude": "-87.677541",
+		"Location": "2111 W 47TH ST\nChicago, Illinois 60609\n(41.808413, -87.677541)",
+		"Application_Requirements_Fn": "eb6acf17c18f9a5177bcdb7a4504672a",
+		"Program_Selections_Fn": "0640ddea233c6c9c97db5dd816b5c24a"
+	},
+	{
+		"School_ID": "609698",
+		"Short_Name": "BOGAN HS",
+		"Long_Name": "William J Bogan High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3939 W 79TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60652",
+		"Phone": "7735352180",
+		"Fax": "7735352165",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609698",
+		"Website": "http://www.boganhs.org",
+		"Program_Type": "Accounting",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan Students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.749376",
+		"School_Longitude": "-87.721097",
+		"Location": "3939 W 79TH ST\nChicago, Illinois 60652\n(41.749376, -87.721097)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "4773ff8378c681fdc3855cec189b446d"
+	},
+	{
+		"School_ID": "609691",
+		"Short_Name": "NORTH-GRAND HS",
+		"Long_Name": "North-Grand High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "4338 W WABANSIA AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60639",
+		"Phone": "7735348520",
+		"Fax": "7735348535",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609691",
+		"Website": "http://www.northgrandhs.org",
+		"Program_Type": "Pre-Engineering",
+		"Application_Requirements": "None",
+		"Program_Selections": "Student selections are based on points. Students are assigned points for 7th grade final GPA and 7th grade stanines. Each school determines a minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.911674",
+		"School_Longitude": "-87.735238",
+		"Location": "4338 W WABANSIA AVE\nChicago, Illinois 60639\n(41.911674, -87.735238)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "70d67060ab98f9cd752d741b32e207ba"
+	},
+	{
+		"School_ID": "609756",
+		"Short_Name": "CURIE HS",
+		"Long_Name": "Marie Sklodowska Curie Metropolitan High School",
+		"School_Type": "Magnet",
+		"Primary_Category": "HS",
+		"Address": "4959 S ARCHER AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60632",
+		"Phone": "7735352100",
+		"Fax": "7735352049",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609756",
+		"Website": "http://www.curiehs.org",
+		"Program_Type": "Automotive Technology",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.80306",
+		"School_Longitude": "-87.722042",
+		"Location": "4959 S ARCHER AVE\nChicago, Illinois 60632\n(41.80306, -87.722042)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609764",
+		"Short_Name": "JUAREZ HS",
+		"Long_Name": "Benito Juarez Community Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "1450 W CERMAK RD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60608",
+		"Phone": "7735347030",
+		"Fax": "7735347058",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609764",
+		"Website": "http://www.benitojuarez.net",
+		"Program_Type": "Medical & Health Careers",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are selected on a point system. Points are based on 7th grade final GPA and NWEA MAP scores. The school determines the minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.852667",
+		"School_Longitude": "-87.663732",
+		"Location": "1450 W CERMAK RD\nChicago, Illinois 60608\n(41.852667, -87.663732)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "618315c228cf8e591d1909fc8ca41206"
+	},
+	{
+		"School_ID": "609762",
+		"Short_Name": "JULIAN HS",
+		"Long_Name": "Percy L Julian High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "10330 S ELIZABETH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60643",
+		"Phone": "7735355170",
+		"Fax": "7735355230",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609762",
+		"Website": "http://www.pljulianhs.net",
+		"Program_Type": "Game Programming",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.705859",
+		"School_Longitude": "-87.653749",
+		"Location": "10330 S ELIZABETH ST\nChicago, Illinois 60643\n(41.705859, -87.653749)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609691",
+		"Short_Name": "NORTH-GRAND HS",
+		"Long_Name": "North-Grand High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "4338 W WABANSIA AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60639",
+		"Phone": "7735348520",
+		"Fax": "7735348535",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609691",
+		"Website": "http://www.northgrandhs.org",
+		"Program_Type": "Allied Health",
+		"Application_Requirements": "None",
+		"Program_Selections": "Student selections are based on points. Students are assigned points for 7th grade final GPA and 7th grade stanines. Each school determines a minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.911674",
+		"School_Longitude": "-87.735238",
+		"Location": "4338 W WABANSIA AVE\nChicago, Illinois 60639\n(41.911674, -87.735238)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "70d67060ab98f9cd752d741b32e207ba"
+	},
+	{
+		"School_ID": "610391",
+		"Short_Name": "LINDBLOM HS",
+		"Long_Name": "Robert Lindblom Math & Science Academy HS",
+		"School_Type": "Selective enrollment",
+		"Primary_Category": "HS",
+		"Address": "6130 S WOLCOTT AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60636",
+		"Phone": "7735359300",
+		"Fax": "7735359314",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610391",
+		"Website": "http://www.lindblomeagles.org",
+		"Program_Type": "Selective Enrollment High School",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for 7th grade final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.782041",
+		"School_Longitude": "-87.671662",
+		"Location": "6130 S WOLCOTT AVE\nChicago, Illinois 60636\n(41.782041, -87.671662)",
+		"Application_Requirements_Fn": "1a043655763ab140a0d14f5080d63a2c",
+		"Program_Selections_Fn": "bd680e7bc10c03552140e26736221cf7"
+	},
+	{
+		"School_ID": "609764",
+		"Short_Name": "JUAREZ HS",
+		"Long_Name": "Benito Juarez Community Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "1450 W CERMAK RD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60608",
+		"Phone": "7735347030",
+		"Fax": "7735347058",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609764",
+		"Website": "http://www.benitojuarez.net",
+		"Program_Type": "Architecture",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.852667",
+		"School_Longitude": "-87.663732",
+		"Location": "1450 W CERMAK RD\nChicago, Illinois 60608\n(41.852667, -87.663732)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609735",
+		"Short_Name": "TILDEN HS",
+		"Long_Name": "Edward Tilden Career Community Academy HS",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "4747 S UNION AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60609",
+		"Phone": "7735351625",
+		"Fax": "7735351866",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609735",
+		"Website": "http://tilden.cps.edu/",
+		"Program_Type": "Culinary Arts",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.80751",
+		"School_Longitude": "-87.642966",
+		"Location": "4747 S UNION AVE\nChicago, Illinois 60609\n(41.80751, -87.642966)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "400162",
+		"Short_Name": "INTRINSIC HS",
+		"Long_Name": "Intrinsic Charter School",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "4540 W BELMONT AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60641",
+		"Phone": "7088872735",
+		"Fax": "7088872812",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400162",
+		"Website": "http://intrinsicschools.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.938988",
+		"School_Longitude": "-87.741129",
+		"Location": "4540 W BELMONT AVE\nChicago, Illinois 60641\n(41.938988, -87.741129)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "87bdb6caf5cf899ddb8041511761e58b"
+	},
+	{
+		"School_ID": "400055",
+		"Short_Name": "NOBLE - RAUNER HS",
+		"Long_Name": "Noble - Rauner College Prep",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "1337 W OHIO ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60642",
+		"Phone": "3122265345",
+		"Fax": "3122263552",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400055",
+		"Website": "http://raunercollegeprep.noblenetwork.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.892425",
+		"School_Longitude": "-87.660859",
+		"Location": "1337 W OHIO ST\nChicago, Illinois 60642\n(41.892425, -87.660859)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "609729",
+		"Short_Name": "SCHURZ HS",
+		"Long_Name": "Carl Schurz High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3601 N MILWAUKEE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60641",
+		"Phone": "7735343420",
+		"Fax": "7735343573",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609729",
+		"Website": "http://www.schurzhs.org",
+		"Program_Type": "Digital Media",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.946365",
+		"School_Longitude": "-87.735612",
+		"Location": "3601 N MILWAUKEE AVE\nChicago, Illinois 60641\n(41.946365, -87.735612)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609708",
+		"Short_Name": "FOREMAN HS",
+		"Long_Name": "Edwin G. Foreman College and Career Academy",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3235 N LECLAIRE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60641",
+		"Phone": "7735343400",
+		"Fax": "7735343684",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609708",
+		"Website": "http://www.foremanhs.org",
+		"Program_Type": "Web Design",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.939797",
+		"School_Longitude": "-87.754167",
+		"Location": "3235 N LECLAIRE AVE\nChicago, Illinois 60641\n(41.939797, -87.754167)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609746",
+		"Short_Name": "KENWOOD HS",
+		"Long_Name": "Kenwood Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "5015 S BLACKSTONE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60615",
+		"Phone": "7735351350",
+		"Fax": "7735351360",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609746",
+		"Website": "http://www.kenwoodacademy.org",
+		"Program_Type": "Magnet Program",
+		"Application_Requirements": "Minimum percentile of 60 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in the Kenwood Academic Center, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.803772",
+		"School_Longitude": "-87.590421",
+		"Location": "5015 S BLACKSTONE AVE\nChicago, Illinois 60615\n(41.803772, -87.590421)",
+		"Application_Requirements_Fn": "23e3199eb5514de5456653457f75f366",
+		"Program_Selections_Fn": "9b26cbed99b12a4c7cfca5a4713c6e17"
+	},
+	{
+		"School_ID": "400061",
+		"Short_Name": "PERSPECTIVES - LEADERSHIP HS",
+		"Long_Name": "Perspectives - Leadership Academy",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "8131 S MAY ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60620",
+		"Phone": "7733586100",
+		"Fax": "7733586199",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400061",
+		"Website": "http://www.pcsedu.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.745961",
+		"School_Longitude": "-87.652045",
+		"Location": "8131 S MAY ST\nChicago, Illinois 60620\n(41.745961, -87.652045)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "610304",
+		"Short_Name": "PHOENIX MILITARY HS",
+		"Long_Name": "Phoenix Military Academy High School",
+		"School_Type": "Military academy",
+		"Primary_Category": "HS",
+		"Address": "145 S CAMPBELL AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60612",
+		"Phone": "7735347275",
+		"Fax": "7735347273",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610304",
+		"Website": "http://www.phoenixmilitary.org",
+		"Program_Type": "Service Learning Academies (Military)",
+		"Application_Requirements": "Minimum combined percentile of 48 in reading and math on NWEA MAP. Attendance at an Information Session is required for eligible applicants.",
+		"Program_Selections": "During the Information Session, students will sign a Commitment Agreement, complete a Motivation and Perseverance Assessment and write a brief essay. Selections will be based on a point system with a maximum of 500 points, derived from 7th grade final (cumulative) grades (100 points), 7th grade NWEA MAP scores (150 points), the two-part assessment (50 for each part), and the essay (100 points).",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.879118",
+		"School_Longitude": "-87.68696",
+		"Location": "145 S CAMPBELL AVE\nChicago, Illinois 60612\n(41.879118, -87.68696)",
+		"Application_Requirements_Fn": "ae1af40b734a31b447b1ed50f6e4bc17",
+		"Program_Selections_Fn": "f79604e9d7984cc9b43fa3c69abe428d"
+	},
+	{
+		"School_ID": "609713",
+		"Short_Name": "HYDE PARK HS",
+		"Long_Name": "Hyde Park Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "6220 S STONY ISLAND AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60637",
+		"Phone": "7735350880",
+		"Fax": "7735350633",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609713",
+		"Website": "http://www.hydeparkcps.org",
+		"Program_Type": "Digital Media",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.782257",
+		"School_Longitude": "-87.586615",
+		"Location": "6220 S STONY ISLAND AVE\nChicago, Illinois 60637\n(41.782257, -87.586615)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609756",
+		"Short_Name": "CURIE HS",
+		"Long_Name": "Marie Sklodowska Curie Metropolitan High School",
+		"School_Type": "Magnet",
+		"Primary_Category": "HS",
+		"Address": "4959 S ARCHER AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60632",
+		"Phone": "7735352100",
+		"Fax": "7735352049",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609756",
+		"Website": "http://www.curiehs.org",
+		"Program_Type": "International Baccalaureate (IB)",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance is required at an Information Session for all eligible applicants.",
+		"Program_Selections": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibilty requirements, attend an Information Session, and are enrolled in the school’s Middle Years Programme partner, Edwards Elementary School.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.80306",
+		"School_Longitude": "-87.722042",
+		"Location": "4959 S ARCHER AVE\nChicago, Illinois 60632\n(41.80306, -87.722042)",
+		"Application_Requirements_Fn": "6a02d16ba52a69b937a74a43c6a82769",
+		"Program_Selections_Fn": "0df5dab7dc2c1e8d8947d27287872269"
+	},
+	{
+		"School_ID": "400033",
+		"Short_Name": "CICS - LONGWOOD",
+		"Long_Name": "CICS - Longwood",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "1309 W 95TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60643",
+		"Phone": "7732385330",
+		"Fax": "7732385350",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400033",
+		"Website": "http://www.longwoodcharter.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.721221",
+		"School_Longitude": "-87.655768",
+		"Location": "1309 W 95TH ST\nChicago, Illinois 60643\n(41.721221, -87.655768)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "609761",
+		"Short_Name": "CORLISS HS",
+		"Long_Name": "George H Corliss High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "821 E 103RD ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60628",
+		"Phone": "7735355115",
+		"Fax": "7735355511",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609761",
+		"Website": "http://www.newcorlisshs.org",
+		"Program_Type": "Early College STEM",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the schools attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.70666",
+		"School_Longitude": "-87.601216",
+		"Location": "821 E 103RD ST\nChicago, Illinois 60628\n(41.70666, -87.601216)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "9e837f0a671ce67593e611ccf595306a"
+	},
+	{
+		"School_ID": "609734",
+		"Short_Name": "TAFT HS",
+		"Long_Name": "William Howard Taft High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "6530 W BRYN MAWR AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60631",
+		"Phone": "7735341000",
+		"Fax": "7735341027",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609734",
+		"Website": "http://www.tafths.org",
+		"Program_Type": "International Baccalaureate (IB)",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school’s Academic Center.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.982961",
+		"School_Longitude": "-87.791547",
+		"Location": "6530 W BRYN MAWR AVE\nChicago, Illinois 60631\n(41.982961, -87.791547)",
+		"Application_Requirements_Fn": "930c01733b718c40bc1f2af23839e14a",
+		"Program_Selections_Fn": "2fdf00001de412f0e493fa242647bad0"
+	},
+	{
+		"School_ID": "609751",
+		"Short_Name": "KING HS",
+		"Long_Name": "Dr  Martin Luther King  Jr  College Prep HS",
+		"School_Type": "Selective enrollment",
+		"Primary_Category": "HS",
+		"Address": "4445 S DREXEL BLVD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60653",
+		"Phone": "7735351180",
+		"Fax": "7735351658",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609751",
+		"Website": "http://www.newkcp.org",
+		"Program_Type": "Selective Enrollment High School",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for 7th grade final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.813675",
+		"School_Longitude": "-87.603874",
+		"Location": "4445 S DREXEL BLVD\nChicago, Illinois 60653\n(41.813675, -87.603874)",
+		"Application_Requirements_Fn": "1a043655763ab140a0d14f5080d63a2c",
+		"Program_Selections_Fn": "bd680e7bc10c03552140e26736221cf7"
+	},
+	{
+		"School_ID": "610323",
+		"Short_Name": "BOWEN HS",
+		"Long_Name": "Bowen High School",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "2710 E 89TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60617",
+		"Phone": "7735357650",
+		"Fax": "7735356489",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610323",
+		"Website": "http://www.bowenhs.org",
+		"Program_Type": "Pre-Engineering",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are selected on a point system. Points are based on 7th grade final GPA and NWEA MAP scores. The school determines the minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.734627",
+		"School_Longitude": "-87.55755",
+		"Location": "2710 E 89TH ST\nChicago, Illinois 60617\n(41.734627, -87.55755)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "618315c228cf8e591d1909fc8ca41206"
+	},
+	{
+		"School_ID": "609713",
+		"Short_Name": "HYDE PARK HS",
+		"Long_Name": "Hyde Park Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "6220 S STONY ISLAND AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60637",
+		"Phone": "7735350880",
+		"Fax": "7735350633",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609713",
+		"Website": "http://www.hydeparkcps.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance area can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in Carnegie Elementary School, sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.782257",
+		"School_Longitude": "-87.586615",
+		"Location": "6220 S STONY ISLAND AVE\nChicago, Illinois 60637\n(41.782257, -87.586615)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "ba2bb65c77d8d0932634f43bb01707cc"
+	},
+	{
+		"School_ID": "609728",
+		"Short_Name": "ROOSEVELT HS",
+		"Long_Name": "Theodore Roosevelt High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3436 W WILSON AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60625",
+		"Phone": "7735345000",
+		"Fax": "7735345044",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609728",
+		"Website": "http://rhsroughriders.org",
+		"Program_Type": "Culinary Arts",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.964828",
+		"School_Longitude": "-87.714819",
+		"Location": "3436 W WILSON AVE\nChicago, Illinois 60625\n(41.964828, -87.714819)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609738",
+		"Short_Name": "LINCOLN PARK HS",
+		"Long_Name": "Lincoln Park High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "2001 N ORCHARD ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60614",
+		"Phone": "7735348130",
+		"Fax": "7735348218",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609738",
+		"Website": "http://www.lincolnparkhs.org",
+		"Program_Type": "Instrumental Music",
+		"Application_Requirements": "Students who live within the school's attendance boundary: None  Students who live outside of the school's attendance boundary: Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 2.75 GPA in 7th grade. An audition is required for students who live outside of the school's attendance boundary.",
+		"Program_Selections": "Students who live within the school's attendance boundary have no eligibility/audition requirements and can be admitted automatically.  Students who live outside of the school's attendance boundary are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade GPA, and the audition.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.918268",
+		"School_Longitude": "-87.646009",
+		"Location": "2001 N ORCHARD ST\nChicago, Illinois 60614\n(41.918268, -87.646009)",
+		"Application_Requirements_Fn": "08ee4f1aa31d5eb00bbc81c21139188b",
+		"Program_Selections_Fn": "abfbe30160c0ed3a6d925da2f6fbe7d6"
+	},
+	{
+		"School_ID": "609708",
+		"Short_Name": "FOREMAN HS",
+		"Long_Name": "Edwin G. Foreman College and Career Academy",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3235 N LECLAIRE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60641",
+		"Phone": "7735343400",
+		"Fax": "7735343684",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609708",
+		"Website": "http://www.foremanhs.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.939797",
+		"School_Longitude": "-87.754167",
+		"Location": "3235 N LECLAIRE AVE\nChicago, Illinois 60641\n(41.939797, -87.754167)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "8c431d51587c33009ee9b67a566c042e"
+	},
+	{
+		"School_ID": "400056",
+		"Short_Name": "NOBLE - ROWE CLARK HS",
+		"Long_Name": "Noble - Rowe-Clark Math and Science Academy",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "3645 W CHICAGO AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60651",
+		"Phone": "7732422212",
+		"Fax": "7738266936",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400056",
+		"Website": "http://roweclark.noblenetwork.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.895362",
+		"School_Longitude": "-87.718047",
+		"Location": "3645 W CHICAGO AVE\nChicago, Illinois 60651\n(41.895362, -87.718047)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "609756",
+		"Short_Name": "CURIE HS",
+		"Long_Name": "Marie Sklodowska Curie Metropolitan High School",
+		"School_Type": "Magnet",
+		"Primary_Category": "HS",
+		"Address": "4959 S ARCHER AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60632",
+		"Phone": "7735352100",
+		"Fax": "7735352049",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609756",
+		"Website": "http://www.curiehs.org",
+		"Program_Type": "Broadcast Technology",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.80306",
+		"School_Longitude": "-87.722042",
+		"Location": "4959 S ARCHER AVE\nChicago, Illinois 60632\n(41.80306, -87.722042)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "400098",
+		"Short_Name": "NOBLE - MUCHIN HS",
+		"Long_Name": "Noble - Muchin College Prep",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "1 N STATE ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60602",
+		"Phone": "3124454680",
+		"Fax": "3123320058",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400098",
+		"Website": "http://www.muchincollegeprep.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.88274",
+		"School_Longitude": "-87.626338",
+		"Location": "1 N STATE ST\nChicago, Illinois 60602\n(41.88274, -87.626338)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "610524",
+		"Short_Name": "ALCOTT HS",
+		"Long_Name": "Louisa May Alcott College Preparatory HS",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "2957 N HOYNE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60618",
+		"Phone": "7735345970",
+		"Fax": "7735345971",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610524",
+		"Website": "http://www.alcottcollegeprep.net",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: Alcott Elementary School students, proximity, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.935795",
+		"School_Longitude": "-87.680562",
+		"Location": "2957 N HOYNE AVE\nChicago, Illinois 60618\n(41.935795, -87.680562)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "d1b719a6ff9e6979e8f14b2c05b63352"
+	},
+	{
+		"School_ID": "609682",
+		"Short_Name": "RICHARDS HS",
+		"Long_Name": "Ellen H Richards Career Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "5009 S LAFLIN ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60609",
+		"Phone": "7735354945",
+		"Fax": "7735354883",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609682",
+		"Website": "http://richards.cps.edu",
+		"Program_Type": "Culinary Arts",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.802881",
+		"School_Longitude": "-87.662278",
+		"Location": "5009 S LAFLIN ST\nChicago, Illinois 60609\n(41.802881, -87.662278)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609738",
+		"Short_Name": "LINCOLN PARK HS",
+		"Long_Name": "Lincoln Park High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "2001 N ORCHARD ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60614",
+		"Phone": "7735348130",
+		"Fax": "7735348218",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609738",
+		"Website": "http://www.lincolnparkhs.org",
+		"Program_Type": "Drama",
+		"Application_Requirements": "Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 2.75 GPA in 7th grade. An audition is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade GPA, and the audition.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.918268",
+		"School_Longitude": "-87.646009",
+		"Location": "2001 N ORCHARD ST\nChicago, Illinois 60614\n(41.918268, -87.646009)",
+		"Application_Requirements_Fn": "f5ef0c0580eb110a06888b1c15313717",
+		"Program_Selections_Fn": "9f4eb5cee59306847a4fa61720f8e54d"
+	},
+	{
+		"School_ID": "609705",
+		"Short_Name": "FENGER HS",
+		"Long_Name": "Christian Fenger Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "11220 S WALLACE ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60628",
+		"Phone": "7735355430",
+		"Fax": "7735355444",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609705",
+		"Website": "http://www.fengerhighschool.org",
+		"Program_Type": "Culinary Arts",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.689951",
+		"School_Longitude": "-87.637572",
+		"Location": "11220 S WALLACE ST\nChicago, Illinois 60628\n(41.689951, -87.637572)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609729",
+		"Short_Name": "SCHURZ HS",
+		"Long_Name": "Carl Schurz High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3601 N MILWAUKEE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60641",
+		"Phone": "7735343420",
+		"Fax": "7735343573",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609729",
+		"Website": "http://www.schurzhs.org",
+		"Program_Type": "Allied Health",
+		"Application_Requirements": "None",
+		"Program_Selections": "Student selections are based on points. Students are assigned points for 7th grade final GPA and 7th grade stanines. Each school determines a minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.946365",
+		"School_Longitude": "-87.735612",
+		"Location": "3601 N MILWAUKEE AVE\nChicago, Illinois 60641\n(41.946365, -87.735612)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "70d67060ab98f9cd752d741b32e207ba"
+	},
+	{
+		"School_ID": "609710",
+		"Short_Name": "HARLAN HS",
+		"Long_Name": "John M Harlan Community Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "9652 S MICHIGAN AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60628",
+		"Phone": "7735355400",
+		"Fax": "7735355061",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609710",
+		"Website": "http://www.harlanfalcons.org",
+		"Program_Type": "Pre-Engineering",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on the NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Preference is given to students with a sibling who is currently enrolled and will be enrolled in the upcoming school year.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.718372",
+		"School_Longitude": "-87.620623",
+		"Location": "9652 S MICHIGAN AVE\nChicago, Illinois 60628\n(41.718372, -87.620623)",
+		"Application_Requirements_Fn": "625d1f6025c2e892f5573e60ab69f903",
+		"Program_Selections_Fn": "1976701fe4ffdbf53913f7f638f61b26"
+	},
+	{
+		"School_ID": "610334",
+		"Short_Name": "RABY HS",
+		"Long_Name": "Al Raby High School",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "3545 W FULTON BLVD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60624",
+		"Phone": "7735346755",
+		"Fax": "7735346938",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610334",
+		"Website": "http://alraby.cps.edu/",
+		"Program_Type": "Culinary Arts",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.88621",
+		"School_Longitude": "-87.715423",
+		"Location": "3545 W FULTON BLVD\nChicago, Illinois 60624\n(41.88621, -87.715423)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "610334",
+		"Short_Name": "RABY HS",
+		"Long_Name": "Al Raby High School",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "3545 W FULTON BLVD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60624",
+		"Phone": "7735346755",
+		"Fax": "7735346938",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610334",
+		"Website": "http://alraby.cps.edu/",
+		"Program_Type": "Pre-Law",
+		"Application_Requirements": "None",
+		"Program_Selections": "Student selections are based on points. Students are assigned points for 7th grade final GPA and 7th grade stanines. Each school determines a minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.88621",
+		"School_Longitude": "-87.715423",
+		"Location": "3545 W FULTON BLVD\nChicago, Illinois 60624\n(41.88621, -87.715423)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "70d67060ab98f9cd752d741b32e207ba"
+	},
+	{
+		"School_ID": "609760",
+		"Short_Name": "CARVER MILITARY HS",
+		"Long_Name": "George Washington Carver Military Academy HS",
+		"School_Type": "Military academy",
+		"Primary_Category": "HS",
+		"Address": "13100 S DOTY AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60627",
+		"Phone": "7735355250",
+		"Fax": "7735355037",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609760",
+		"Website": "http://www.carvermilitary.org",
+		"Program_Type": "Service Learning Academies (Military)",
+		"Application_Requirements": "Minimum combined percentile of 48 in reading and math on NWEA MAP. Attendance at an Information Session is required for eligible applicants.",
+		"Program_Selections": "During the Information Session, students will sign a Commitment Agreement, complete a Motivation and Perseverance Assessment and write a brief essay. Selections will be based on a point system with a maximum of 500 points, derived from 7th grade final (cumulative) grades (100 points), 7th grade NWEA MAP scores (150 points), the two-part assessment (50 for each part), and the essay (100 points).",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.65629",
+		"School_Longitude": "-87.59062",
+		"Location": "13100 S DOTY AVE\nChicago, Illinois 60627\n(41.65629, -87.59062)",
+		"Application_Requirements_Fn": "ae1af40b734a31b447b1ed50f6e4bc17",
+		"Program_Selections_Fn": "f79604e9d7984cc9b43fa3c69abe428d"
+	},
+	{
+		"School_ID": "609730",
+		"Short_Name": "SENN HS",
+		"Long_Name": "Nicholas Senn High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "5900 N GLENWOOD AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60660",
+		"Phone": "7735342365",
+		"Fax": "7735342369",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609730",
+		"Website": "http://www.sennhs.org",
+		"Program_Type": "Visual Arts",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  A portfolio review is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade final (cumulative) grades, and the portfolio review.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.989029",
+		"School_Longitude": "-87.667136",
+		"Location": "5900 N GLENWOOD AVE\nChicago, Illinois 60660\n(41.989029, -87.667136)",
+		"Application_Requirements_Fn": "bc517a96ab40c67deddde65b6a4c07a8",
+		"Program_Selections_Fn": "cb76bc6620a1921e5f9630e2a39fb8d8"
+	},
+	{
+		"School_ID": "609705",
+		"Short_Name": "FENGER HS",
+		"Long_Name": "Christian Fenger Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "11220 S WALLACE ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60628",
+		"Phone": "7735355430",
+		"Fax": "7735355444",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609705",
+		"Website": "http://www.fengerhighschool.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.689951",
+		"School_Longitude": "-87.637572",
+		"Location": "11220 S WALLACE ST\nChicago, Illinois 60628\n(41.689951, -87.637572)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "8c431d51587c33009ee9b67a566c042e"
+	},
+	{
+		"School_ID": "609711",
+		"Short_Name": "HARPER HS",
+		"Long_Name": "William Rainey Harper High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "6520 S WOOD ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60636",
+		"Phone": "7735359150",
+		"Fax": "7735359090",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609711",
+		"Website": "http://www.harperhighschool.org",
+		"Program_Type": "Culinary Arts",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.775124",
+		"School_Longitude": "-87.669089",
+		"Location": "6520 S WOOD ST\nChicago, Illinois 60636\n(41.775124, -87.669089)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "400118",
+		"Short_Name": "NOBLE - DRW HS",
+		"Long_Name": "Noble - DRW College Prep",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "931 S HOMAN AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60624",
+		"Phone": "7738934500",
+		"Fax": "7738934501",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400118",
+		"Website": "http://drwcollegeprep.noblenetwork.org/",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.869328",
+		"School_Longitude": "-87.711654",
+		"Location": "931 S HOMAN AVE\nChicago, Illinois 60624\n(41.869328, -87.711654)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "609695",
+		"Short_Name": "AMUNDSEN HS",
+		"Long_Name": "Roald Amundsen High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "5110 N DAMEN AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60625",
+		"Phone": "7735342320",
+		"Fax": "7735342330",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609695",
+		"Website": "http://www.amundsenhs.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary or who attend Grow Community Schools can be admitted automatically. This program only accepts students who live within the school's attendance boundary or attend a Grow Community School.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.975067",
+		"School_Longitude": "-87.679484",
+		"Location": "5110 N DAMEN AVE\nChicago, Illinois 60625\n(41.975067, -87.679484)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "afb0dfcaa0f2cc236b2bd07a0244385e"
+	},
+	{
+		"School_ID": "610380",
+		"Short_Name": "WILLIAMS HS",
+		"Long_Name": "Daniel Hale Williams Prep School of Medicine",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "4934 S WABASH AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60615",
+		"Phone": "7735351120",
+		"Fax": "7735351023",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610380",
+		"Website": "http://www.dhwprepmed.org",
+		"Program_Type": "Medical & Health Careers",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are selected on a point system. Points are based on 7th grade final GPA and NWEA MAP scores. The school determines the minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.806118",
+		"School_Longitude": "-87.62503",
+		"Location": "4934 S WABASH AVE\nChicago, Illinois 60615\n(41.806118, -87.62503)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "618315c228cf8e591d1909fc8ca41206"
+	},
+	{
+		"School_ID": "400053",
+		"Short_Name": "NOBLE - GOLDER HS",
+		"Long_Name": "Noble - Golder College Prep",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "1454 W SUPERIOR ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60642",
+		"Phone": "3122659925",
+		"Fax": "3122438402",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400053",
+		"Website": "http://www.goldercollegeprep.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.895282",
+		"School_Longitude": "-87.664483",
+		"Location": "1454 W SUPERIOR ST\nChicago, Illinois 60642\n(41.895282, -87.664483)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "610334",
+		"Short_Name": "RABY HS",
+		"Long_Name": "Al Raby High School",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "3545 W FULTON BLVD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60624",
+		"Phone": "7735346755",
+		"Fax": "7735346938",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610334",
+		"Website": "http://alraby.cps.edu/",
+		"Program_Type": "Broadcast Technology",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.88621",
+		"School_Longitude": "-87.715423",
+		"Location": "3545 W FULTON BLVD\nChicago, Illinois 60624\n(41.88621, -87.715423)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609712",
+		"Short_Name": "HIRSCH HS",
+		"Long_Name": "Emil G Hirsch Metropolitan High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "7740 S INGLESIDE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60619",
+		"Phone": "7735353100",
+		"Fax": "7735353240",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609712",
+		"Website": "http://www.hirschmetro.org/",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.753748",
+		"School_Longitude": "-87.601727",
+		"Location": "7740 S INGLESIDE AVE\nChicago, Illinois 60619\n(41.753748, -87.601727)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "8c431d51587c33009ee9b67a566c042e"
+	},
+	{
+		"School_ID": "609716",
+		"Short_Name": "KELVYN PARK HS",
+		"Long_Name": "Kelvyn Park High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "4343 W WRIGHTWOOD AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60639",
+		"Phone": "7735344200",
+		"Fax": "7735344507",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609716",
+		"Website": "http://www.kelvynparkhs.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum 2.5 GPA in 7th grade and minimum attendance percentage of 85.",
+		"Program_Selections": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are selected on a point system. Points are based on NWEA MAP scores, 7th grade GPA, and the interview.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.927918",
+		"School_Longitude": "-87.735999",
+		"Location": "4343 W WRIGHTWOOD AVE\nChicago, Illinois 60639\n(41.927918, -87.735999)",
+		"Application_Requirements_Fn": "78e3973b67c80b7984271b2a127e9ebf",
+		"Program_Selections_Fn": "03c4df08f6e417f196f6e87415e2064f"
+	},
+	{
+		"School_ID": "609732",
+		"Short_Name": "STEINMETZ HS",
+		"Long_Name": "Charles P Steinmetz College Preparatory HS",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3030 N MOBILE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60634",
+		"Phone": "7735343030",
+		"Fax": "7735343151",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609732",
+		"Website": "http://www.steinmetzcp.org",
+		"Program_Type": "Digital Media",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.935634",
+		"School_Longitude": "-87.783515",
+		"Location": "3030 N MOBILE AVE\nChicago, Illinois 60634\n(41.935634, -87.783515)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609762",
+		"Short_Name": "JULIAN HS",
+		"Long_Name": "Percy L Julian High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "10330 S ELIZABETH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60643",
+		"Phone": "7735355170",
+		"Fax": "7735355230",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609762",
+		"Website": "http://www.pljulianhs.net",
+		"Program_Type": "Digital Media",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.705859",
+		"School_Longitude": "-87.653749",
+		"Location": "10330 S ELIZABETH ST\nChicago, Illinois 60643\n(41.705859, -87.653749)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609754",
+		"Short_Name": "CHICAGO MILITARY HS",
+		"Long_Name": "Chicago Military Academy High School",
+		"School_Type": "Military academy",
+		"Primary_Category": "HS",
+		"Address": "3519 S GILES AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60653",
+		"Phone": "7735349750",
+		"Fax": "7735349760",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609754",
+		"Website": "http://www.chicagomilitaryacademy.org",
+		"Program_Type": "Service Learning Academies (Military)",
+		"Application_Requirements": "Minimum combined percentile of 48 in reading and math on NWEA MAP. Attendance at an Information Session is required for eligible applicants.",
+		"Program_Selections": "During the Information Session, students will sign a Commitment Agreement, complete a Motivation and Perseverance Assessment and write a brief essay. Selections will be based on a point system with a maximum of 500 points, derived from 7th grade final (cumulative) grades (100 points), 7th grade NWEA MAP scores (150 points), the two-part assessment (50 for each part), and the essay (100 points).",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.830555",
+		"School_Longitude": "-87.619216",
+		"Location": "3519 S GILES AVE\nChicago, Illinois 60653\n(41.830555, -87.619216)",
+		"Application_Requirements_Fn": "ae1af40b734a31b447b1ed50f6e4bc17",
+		"Program_Selections_Fn": "f79604e9d7984cc9b43fa3c69abe428d"
+	},
+	{
+		"School_ID": "610518",
+		"Short_Name": "AUSTIN CCA HS",
+		"Long_Name": "Austin College and Career Academy High School",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "231 N PINE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60644",
+		"Phone": "7735340660",
+		"Fax": "7735340667",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610518",
+		"Website": "http://www.ACCAChicago.org",
+		"Program_Type": "Manufacturing",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.885993",
+		"School_Longitude": "-87.761916",
+		"Location": "231 N PINE AVE\nChicago, Illinois 60644\n(41.885993, -87.761916)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609711",
+		"Short_Name": "HARPER HS",
+		"Long_Name": "William Rainey Harper High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "6520 S WOOD ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60636",
+		"Phone": "7735359150",
+		"Fax": "7735359090",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609711",
+		"Website": "http://www.harperhighschool.org",
+		"Program_Type": "Digital Media",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.775124",
+		"School_Longitude": "-87.669089",
+		"Location": "6520 S WOOD ST\nChicago, Illinois 60636\n(41.775124, -87.669089)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "610587",
+		"Short_Name": "DYETT ARTS HS",
+		"Long_Name": "Walter Henri Dyett High School for the Arts",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "555 E 51ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60615",
+		"Phone": "7735351825",
+		"Fax": "7735351037",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610587",
+		"Website": "http://www.newdyett.org/",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.801204",
+		"School_Longitude": "-87.612239",
+		"Location": "555 E 51ST\nChicago, Illinois 60615\n(41.801204, -87.612239)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "2317c60e8a1eec08ab495a14ccfd9c64"
+	},
+	{
+		"School_ID": "609724",
+		"Short_Name": "MATHER HS",
+		"Long_Name": "Stephen T Mather High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "5835 N LINCOLN AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60659",
+		"Phone": "7735342350",
+		"Fax": "7735342424",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609724",
+		"Website": "http://www.matherhs.org",
+		"Program_Type": "Pre-Law",
+		"Application_Requirements": "None",
+		"Program_Selections": "Student selections are based on points. Students are assigned points for 7th grade final GPA and 7th grade stanines. Each school determines a minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.987589",
+		"School_Longitude": "-87.702496",
+		"Location": "5835 N LINCOLN AVE\nChicago, Illinois 60659\n(41.987589, -87.702496)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "70d67060ab98f9cd752d741b32e207ba"
+	},
+	{
+		"School_ID": "609695",
+		"Short_Name": "AMUNDSEN HS",
+		"Long_Name": "Roald Amundsen High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "5110 N DAMEN AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60625",
+		"Phone": "7735342320",
+		"Fax": "7735342330",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609695",
+		"Website": "http://www.amundsenhs.org",
+		"Program_Type": "Game Programming & Web Design",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.975067",
+		"School_Longitude": "-87.679484",
+		"Location": "5110 N DAMEN AVE\nChicago, Illinois 60625\n(41.975067, -87.679484)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609741",
+		"Short_Name": "HUBBARD HS",
+		"Long_Name": "Gurdon S Hubbard High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "6200 S HAMLIN AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60629",
+		"Phone": "7735352200",
+		"Fax": "7735352218",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609741",
+		"Website": "http://www.hubbardhighschool.org",
+		"Program_Type": "International Baccalaureate (IB)",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance is required at an Information Session for all eliglble applicants.",
+		"Program_Selections": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.780526",
+		"School_Longitude": "-87.718014",
+		"Location": "6200 S HAMLIN AVE\nChicago, Illinois 60629\n(41.780526, -87.718014)",
+		"Application_Requirements_Fn": "95025d14a97b9b32f5a2c8225c4ddd6e",
+		"Program_Selections_Fn": "0fedde2a8081243a74d2c6a3be90b411"
+	},
+	{
+		"School_ID": "610543",
+		"Short_Name": "SOLORIO HS",
+		"Long_Name": "Eric Solorio Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "5400 S ST LOUIS AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60632",
+		"Phone": "7735359070",
+		"Fax": "7735359073",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610543",
+		"Website": "http://solorioacademy.org/",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.795201",
+		"School_Longitude": "-87.711059",
+		"Location": "5400 S ST LOUIS AVE\nChicago, Illinois 60632\n(41.795201, -87.711059)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "2317c60e8a1eec08ab495a14ccfd9c64"
+	},
+	{
+		"School_ID": "609746",
+		"Short_Name": "KENWOOD HS",
+		"Long_Name": "Kenwood Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "5015 S BLACKSTONE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60615",
+		"Phone": "7735351350",
+		"Fax": "7735351360",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609746",
+		"Website": "http://www.kenwoodacademy.org",
+		"Program_Type": "Academic Center",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 45 in both reading and math on NWEA MAP.  IEP and EL students: Minimum NWEA MAP percentile of 50 in one subject (reading or math) and minimum NWEA MAP percentile of 40 in the other subject (reading or math).  Testing is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for prior year final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online Selective Enrollment Elementary Schools application or paper Selective Enrollment Elementary Schools application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.803772",
+		"School_Longitude": "-87.590421",
+		"Location": "5015 S BLACKSTONE AVE\nChicago, Illinois 60615\n(41.803772, -87.590421)",
+		"Application_Requirements_Fn": "c32c0804dc719ba6c4c00322e7a69be2",
+		"Program_Selections_Fn": "224ce8807abceb6ca72e650988637629"
+	},
+	{
+		"School_ID": "400064",
+		"Short_Name": "PERSPECTIVES - JOSLIN HS",
+		"Long_Name": "Perspectives - Rodney D. Joslin",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "1930 S ARCHER AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60616",
+		"Phone": "3122257400",
+		"Fax": "3122257411",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400064",
+		"Website": "http://www.pcsedu.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.855999",
+		"School_Longitude": "-87.628531",
+		"Location": "1930 S ARCHER AVE\nChicago, Illinois 60616\n(41.855999, -87.628531)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "609682",
+		"Short_Name": "RICHARDS HS",
+		"Long_Name": "Ellen H Richards Career Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "5009 S LAFLIN ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60609",
+		"Phone": "7735354945",
+		"Fax": "7735354883",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609682",
+		"Website": "http://richards.cps.edu",
+		"Program_Type": "Accounting",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.802881",
+		"School_Longitude": "-87.662278",
+		"Location": "5009 S LAFLIN ST\nChicago, Illinois 60609\n(41.802881, -87.662278)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "610587",
+		"Short_Name": "DYETT ARTS HS",
+		"Long_Name": "Walter Henri Dyett High School for the Arts",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "555 E 51ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60615",
+		"Phone": "7735351825",
+		"Fax": "7735351037",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610587",
+		"Website": "http://www.newdyett.org/",
+		"Program_Type": "Dance",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 50 in both reading and math on NWEA MAP, minimum 2.7 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 50 in reading and math on NWEA MAP.  An Interview is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the interview.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.801204",
+		"School_Longitude": "-87.612239",
+		"Location": "555 E 51ST\nChicago, Illinois 60615\n(41.801204, -87.612239)",
+		"Application_Requirements_Fn": "f661cdb969617a4f2a3923f5c80c190c",
+		"Program_Selections_Fn": "3d86881707e468c9fe2a0ce0f5eeac4f"
+	},
+	{
+		"School_ID": "609678",
+		"Short_Name": "JONES HS",
+		"Long_Name": "William Jones College Preparatory High School",
+		"School_Type": "Selective enrollment",
+		"Primary_Category": "HS",
+		"Address": "700 S STATE ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60605",
+		"Phone": "7735348600",
+		"Fax": "7735348625",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609678",
+		"Website": "http://www.jonescollegeprep.org",
+		"Program_Type": "Pre-Law",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.",
+		"Program_Selections": "Students are selected on a point system. Students are assigned points for 7th grade final GPA and 7th grade stanines. Students are ranked and selected from high to low. Students residing within the attendance overlay boundary of the school are selected first.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.873066",
+		"School_Longitude": "-87.627675",
+		"Location": "700 S STATE ST\nChicago, Illinois 60605\n(41.873066, -87.627675)",
+		"Application_Requirements_Fn": "4cb799c1cf8b41a3baf1e8d9176463d8",
+		"Program_Selections_Fn": "296d2849362aa5311f457ffc834a868b"
+	},
+	{
+		"School_ID": "609753",
+		"Short_Name": "CHICAGO AGRICULTURE HS",
+		"Long_Name": "Chicago High School for Agricultural Sciences",
+		"School_Type": "Magnet",
+		"Primary_Category": "HS",
+		"Address": "3857 W 111TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60655",
+		"Phone": "7735352500",
+		"Fax": "7735352507",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609753",
+		"Website": "http://www.chicagoagr.org",
+		"Program_Type": "Honors",
+		"Application_Requirements": "Minimum percentile of 50 in both reading and math on NWEA MAP and minimum 3.0 GPA in 7th grade.",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Preference is given to students with a sibling who is currently enrolled and will be enrolled in the upcoming school year.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.691221",
+		"School_Longitude": "-87.71777",
+		"Location": "3857 W 111TH ST\nChicago, Illinois 60655\n(41.691221, -87.71777)",
+		"Application_Requirements_Fn": "bb9e0e6f1af678dafb340a8e48ff4fbf",
+		"Program_Selections_Fn": "1976701fe4ffdbf53913f7f638f61b26"
+	},
+	{
+		"School_ID": "609698",
+		"Short_Name": "BOGAN HS",
+		"Long_Name": "William J Bogan High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3939 W 79TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60652",
+		"Phone": "7735352180",
+		"Fax": "7735352165",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609698",
+		"Website": "http://www.boganhs.org",
+		"Program_Type": "International Baccalaureate (IB)",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.749376",
+		"School_Longitude": "-87.721097",
+		"Location": "3939 W 79TH ST\nChicago, Illinois 60652\n(41.749376, -87.721097)",
+		"Application_Requirements_Fn": "930c01733b718c40bc1f2af23839e14a",
+		"Program_Selections_Fn": "0fedde2a8081243a74d2c6a3be90b411"
+	},
+	{
+		"School_ID": "609704",
+		"Short_Name": "FARRAGUT HS",
+		"Long_Name": "David G Farragut Career Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "2345 S CHRISTIANA AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60623",
+		"Phone": "7735341300",
+		"Fax": "7735341336",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609704",
+		"Website": "http://www.fcaib.org",
+		"Program_Type": "International Baccalaureate (IB)",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance is required at an Information Session for all eligible applicants.",
+		"Program_Selections": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school’s Middle Years Programme partner,  Madero Middle School.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.84856",
+		"School_Longitude": "-87.708706",
+		"Location": "2345 S CHRISTIANA AVE\nChicago, Illinois 60623\n(41.84856, -87.708706)",
+		"Application_Requirements_Fn": "6a02d16ba52a69b937a74a43c6a82769",
+		"Program_Selections_Fn": "26f5b02fa29f8a9c2b5bc909b844e585"
+	},
+	{
+		"School_ID": "609724",
+		"Short_Name": "MATHER HS",
+		"Long_Name": "Stephen T Mather High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "5835 N LINCOLN AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60659",
+		"Phone": "7735342350",
+		"Fax": "7735342424",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609724",
+		"Website": "http://www.matherhs.org",
+		"Program_Type": "Game Programming & Web Design",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.987589",
+		"School_Longitude": "-87.702496",
+		"Location": "5835 N LINCOLN AVE\nChicago, Illinois 60659\n(41.987589, -87.702496)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "400094",
+		"Short_Name": "EPIC HS",
+		"Long_Name": "EPIC Academy Charter High School",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "8255 S HOUSTON AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60617",
+		"Phone": "7735357930",
+		"Fax": "7735537934",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400094",
+		"Website": "http://www.epicacademy.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.744849",
+		"School_Longitude": "-87.550222",
+		"Location": "8255 S HOUSTON AVE\nChicago, Illinois 60617\n(41.744849, -87.550222)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "609698",
+		"Short_Name": "BOGAN HS",
+		"Long_Name": "William J Bogan High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3939 W 79TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60652",
+		"Phone": "7735352180",
+		"Fax": "7735352165",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609698",
+		"Website": "http://www.boganhs.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically. This program only accepts students who live within the school's attendance boundary.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.749376",
+		"School_Longitude": "-87.721097",
+		"Location": "3939 W 79TH ST\nChicago, Illinois 60652\n(41.749376, -87.721097)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "783216956d119ad64639725fa9f4d44b"
+	},
+	{
+		"School_ID": "400161",
+		"Short_Name": "CHICAGO COLLEGIATE",
+		"Long_Name": "Chicago Collegiate Charter School",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "11816 S INDIANA",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60628",
+		"Phone": "7735369098",
+		"Fax": "7732645792",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400161",
+		"Website": "http://www.chicagocollegiate.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled at Chicago Collegiate Charter School, sibling, proximity, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.679318",
+		"School_Longitude": "-87.617968",
+		"Location": "11816 S INDIANA\nChicago, Illinois 60628\n(41.679318, -87.617968)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "6de001ff1207c6d38de87e65f3e11ff3"
+	},
+	{
+		"School_ID": "609764",
+		"Short_Name": "JUAREZ HS",
+		"Long_Name": "Benito Juarez Community Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "1450 W CERMAK RD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60608",
+		"Phone": "7735347030",
+		"Fax": "7735347058",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609764",
+		"Website": "http://www.benitojuarez.net",
+		"Program_Type": "International Baccalaureate (IB)",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points.The school determines the minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.852667",
+		"School_Longitude": "-87.663732",
+		"Location": "1450 W CERMAK RD\nChicago, Illinois 60608\n(41.852667, -87.663732)",
+		"Application_Requirements_Fn": "930c01733b718c40bc1f2af23839e14a",
+		"Program_Selections_Fn": "11bdd4bc6af64732a32d73a850bc78a4"
+	},
+	{
+		"School_ID": "610563",
+		"Short_Name": "BACK OF THE YARDS HS",
+		"Long_Name": "Back of the Yards IB HS",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "2111 W 47TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60609",
+		"Phone": "7735357320",
+		"Fax": "7735356880",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610563",
+		"Website": "http://www.boycp.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None. All interested students, including students who live within the overlay boundary of the school, must submit apply.",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students who live within the attendance boundaries of Chavez, Daley, Hamline, Hedges, Lara, or Seward Elementary Schools; general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.808413",
+		"School_Longitude": "-87.677541",
+		"Location": "2111 W 47TH ST\nChicago, Illinois 60609\n(41.808413, -87.677541)",
+		"Application_Requirements_Fn": "351d1f100c07b40673b51f4506b0e34e",
+		"Program_Selections_Fn": "fd100fd06ddf9bd72e2809f6d659faf2"
+	},
+	{
+		"School_ID": "609740",
+		"Short_Name": "WELLS HS",
+		"Long_Name": "Wells Community Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "936 N ASHLAND AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60622",
+		"Phone": "7735347010",
+		"Fax": "7735347078",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609740",
+		"Website": "http://wellshs.cps.edu",
+		"Program_Type": "General Education",
+		"Application_Requirements": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: General Education and 504 Plan students: Minimum percentile of 60 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.  IEP/EL students have no eligibility requirements.",
+		"Program_Selections": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: students scoring above designated NWEA MAP percentile, sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.898995",
+		"School_Longitude": "-87.667483",
+		"Location": "936 N ASHLAND AVE\nChicago, Illinois 60622\n(41.898995, -87.667483)",
+		"Application_Requirements_Fn": "763686fddcad223e9a51aebaac42b61c",
+		"Program_Selections_Fn": "d1a202074d3e08c97ec301176ca18880"
+	},
+	{
+		"School_ID": "609756",
+		"Short_Name": "CURIE HS",
+		"Long_Name": "Marie Sklodowska Curie Metropolitan High School",
+		"School_Type": "Magnet",
+		"Primary_Category": "HS",
+		"Address": "4959 S ARCHER AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60632",
+		"Phone": "7735352100",
+		"Fax": "7735352049",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609756",
+		"Website": "http://www.curiehs.org",
+		"Program_Type": "Culinary Arts",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.80306",
+		"School_Longitude": "-87.722042",
+		"Location": "4959 S ARCHER AVE\nChicago, Illinois 60632\n(41.80306, -87.722042)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "610334",
+		"Short_Name": "RABY HS",
+		"Long_Name": "Al Raby High School",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "3545 W FULTON BLVD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60624",
+		"Phone": "7735346755",
+		"Fax": "7735346938",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610334",
+		"Website": "http://alraby.cps.edu/",
+		"Program_Type": "Entrepreneurship",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.88621",
+		"School_Longitude": "-87.715423",
+		"Location": "3545 W FULTON BLVD\nChicago, Illinois 60624\n(41.88621, -87.715423)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609730",
+		"Short_Name": "SENN HS",
+		"Long_Name": "Nicholas Senn High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "5900 N GLENWOOD AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60660",
+		"Phone": "7735342365",
+		"Fax": "7735342369",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609730",
+		"Website": "http://www.sennhs.org",
+		"Program_Type": "Music",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  An audition is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade final (cumulative) grades, and the audition.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.989029",
+		"School_Longitude": "-87.667136",
+		"Location": "5900 N GLENWOOD AVE\nChicago, Illinois 60660\n(41.989029, -87.667136)",
+		"Application_Requirements_Fn": "8ccbd2eb3d4e026932b83ee576862b16",
+		"Program_Selections_Fn": "7e51568fc748dec3fd5aa79aae428009"
+	},
+	{
+		"School_ID": "610499",
+		"Short_Name": "COLLINS HS",
+		"Long_Name": "Collins Academy High School",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "1313 S SACRAMENTO DR",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60623",
+		"Phone": "7735341840",
+		"Fax": "7735426471",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610499",
+		"Website": "http://auslchicago.org/schools/pages/collins",
+		"Program_Type": "General Education",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 30 in both reading and math on NWEA MAP, minimum 2.0 GPA in 7th grade and minimum attendance percentage of 85.  IEP and EL students: Minimum combined percentile of 24 in reading and math on NWEA MAP, and minimum attendance percentage of 85.",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in Chalmers, Dvorak, Herzl, Johnson, or Morton Elementary Schools; sibling; general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.864149",
+		"School_Longitude": "-87.702042",
+		"Location": "1313 S SACRAMENTO DR\nChicago, Illinois 60623\n(41.864149, -87.702042)",
+		"Application_Requirements_Fn": "69aef50164a2914f16a28630afa50270",
+		"Program_Selections_Fn": "a105512ab5a0eb6536021215baf98ea8"
+	},
+	{
+		"School_ID": "609759",
+		"Short_Name": "CLEMENTE HS",
+		"Long_Name": "Roberto Clemente Community Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "1147 N WESTERN AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60622",
+		"Phone": "7735344000",
+		"Fax": "7735344012",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609759",
+		"Website": "http://www.rccachicago.org",
+		"Program_Type": "Allied Health",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are selected on a point system. Points are based on 7th grade final GPA and NWEA MAP scores. The school determines the minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.902626",
+		"School_Longitude": "-87.686906",
+		"Location": "1147 N WESTERN AVE\nChicago, Illinois 60622\n(41.902626, -87.686906)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "618315c228cf8e591d1909fc8ca41206"
+	},
+	{
+		"School_ID": "609737",
+		"Short_Name": "VON STEUBEN HS",
+		"Long_Name": "Friedrich W von Steuben Metropolitan Science HS",
+		"School_Type": "Magnet",
+		"Primary_Category": "HS",
+		"Address": "5039 N KIMBALL AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60625",
+		"Phone": "7735345100",
+		"Fax": "7735345210",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609737",
+		"Website": "http://www.vonsteuben.org",
+		"Program_Type": "Science",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, tiers.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.973185",
+		"School_Longitude": "-87.713386",
+		"Location": "5039 N KIMBALL AVE\nChicago, Illinois 60625\n(41.973185, -87.713386)",
+		"Application_Requirements_Fn": "4cb799c1cf8b41a3baf1e8d9176463d8",
+		"Program_Selections_Fn": "49bc52caf46148ee777e8d3534f22700"
+	},
+	{
+		"School_ID": "610244",
+		"Short_Name": "CLARK HS",
+		"Long_Name": "Michele Clark Academic Prep Magnet High School",
+		"School_Type": "Magnet",
+		"Primary_Category": "HS",
+		"Address": "5101 W HARRISON ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60644",
+		"Phone": "7735346250",
+		"Fax": "7735346292",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610244",
+		"Website": "http://www.micheleclark.org",
+		"Program_Type": "Early College STEM",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, tiers.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.872885",
+		"School_Longitude": "-87.753325",
+		"Location": "5101 W HARRISON ST\nChicago, Illinois 60644\n(41.872885, -87.753325)",
+		"Application_Requirements_Fn": "4cb799c1cf8b41a3baf1e8d9176463d8",
+		"Program_Selections_Fn": "49bc52caf46148ee777e8d3534f22700"
+	},
+	{
+		"School_ID": "610529",
+		"Short_Name": "OGDEN HS",
+		"Long_Name": "Ogden International High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "1250 W ERIE ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60642",
+		"Phone": "7735340866",
+		"Fax": "7735340869",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610529",
+		"Website": "http://ogden.cps.edu",
+		"Program_Type": "International Baccalaureate (IB)",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school selects the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school’s Middle Years Programme partner, Ogden Elementary School.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.893548",
+		"School_Longitude": "-87.659405",
+		"Location": "1250 W ERIE ST\nChicago, Illinois 60642\n(41.893548, -87.659405)",
+		"Application_Requirements_Fn": "930c01733b718c40bc1f2af23839e14a",
+		"Program_Selections_Fn": "47750c8ffb643412fb55f3f3d6bde14a"
+	},
+	{
+		"School_ID": "610587",
+		"Short_Name": "DYETT ARTS HS",
+		"Long_Name": "Walter Henri Dyett High School for the Arts",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "555 E 51ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60615",
+		"Phone": "7735351825",
+		"Fax": "7735351037",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610587",
+		"Website": "http://www.newdyett.org/",
+		"Program_Type": "Digital Media",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.801204",
+		"School_Longitude": "-87.612239",
+		"Location": "555 E 51ST\nChicago, Illinois 60615\n(41.801204, -87.612239)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "965d710ce70f9e59e622f51311b5a986"
+	},
+	{
+		"School_ID": "609676",
+		"Short_Name": "DUNBAR HS",
+		"Long_Name": "Paul Laurence Dunbar Career Academy High School",
+		"School_Type": "Career academy",
+		"Primary_Category": "HS",
+		"Address": "3000 S KING DR",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60616",
+		"Phone": "7735349000",
+		"Fax": "7735349250",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609676",
+		"Website": "http://dunbarhs.weebly.com/",
+		"Program_Type": "Allied Health",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are selected on a point system. Points are based on 7th grade final GPA and NWEA MAP scores. The school determines the minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.840226",
+		"School_Longitude": "-87.617637",
+		"Location": "3000 S KING DR\nChicago, Illinois 60616\n(41.840226, -87.617637)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "618315c228cf8e591d1909fc8ca41206"
+	},
+	{
+		"School_ID": "609674",
+		"Short_Name": "CHICAGO VOCATIONAL HS",
+		"Long_Name": "Chicago Vocational Career Academy High School",
+		"School_Type": "Career academy",
+		"Primary_Category": "HS",
+		"Address": "2100 E 87TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60617",
+		"Phone": "7735356100",
+		"Fax": "7735356975",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609674",
+		"Website": "http://www.cvcacademy.org",
+		"Program_Type": "Early College STEM",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.737174",
+		"School_Longitude": "-87.573268",
+		"Location": "2100 E 87TH ST\nChicago, Illinois 60617\n(41.737174, -87.573268)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609710",
+		"Short_Name": "HARLAN HS",
+		"Long_Name": "John M Harlan Community Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "9652 S MICHIGAN AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60628",
+		"Phone": "7735355400",
+		"Fax": "7735355061",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609710",
+		"Website": "http://www.harlanfalcons.org",
+		"Program_Type": "Digital Media",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.718372",
+		"School_Longitude": "-87.620623",
+		"Location": "9652 S MICHIGAN AVE\nChicago, Illinois 60628\n(41.718372, -87.620623)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609718",
+		"Short_Name": "KENNEDY HS",
+		"Long_Name": "John F Kennedy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "6325 W 56TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60638",
+		"Phone": "7735352325",
+		"Fax": "7735352485",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609718",
+		"Website": "http://www.kennedyhschicago.org",
+		"Program_Type": "International Baccalaureate (IB)",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.789961",
+		"School_Longitude": "-87.78084",
+		"Location": "6325 W 56TH ST\nChicago, Illinois 60638\n(41.789961, -87.78084)",
+		"Application_Requirements_Fn": "930c01733b718c40bc1f2af23839e14a",
+		"Program_Selections_Fn": "0fedde2a8081243a74d2c6a3be90b411"
+	},
+	{
+		"School_ID": "609676",
+		"Short_Name": "DUNBAR HS",
+		"Long_Name": "Paul Laurence Dunbar Career Academy High School",
+		"School_Type": "Career academy",
+		"Primary_Category": "HS",
+		"Address": "3000 S KING DR",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60616",
+		"Phone": "7735349000",
+		"Fax": "7735349250",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609676",
+		"Website": "http://dunbarhs.weebly.com/",
+		"Program_Type": "Career Academy",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.840226",
+		"School_Longitude": "-87.617637",
+		"Location": "3000 S KING DR\nChicago, Illinois 60616\n(41.840226, -87.617637)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "308d8156364219130aef9a7de30a6c8d"
+	},
+	{
+		"School_ID": "609722",
+		"Short_Name": "MANLEY HS",
+		"Long_Name": "Manley Career Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "2935 W POLK ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60612",
+		"Phone": "7735346900",
+		"Fax": "7735346924",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609722",
+		"Website": "http://www.manleyhighschool.org",
+		"Program_Type": "Culinary Arts",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.870939",
+		"School_Longitude": "-87.699896",
+		"Location": "2935 W POLK ST\nChicago, Illinois 60612\n(41.870939, -87.699896)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609730",
+		"Short_Name": "SENN HS",
+		"Long_Name": "Nicholas Senn High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "5900 N GLENWOOD AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60660",
+		"Phone": "7735342365",
+		"Fax": "7735342369",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609730",
+		"Website": "http://www.sennhs.org",
+		"Program_Type": "Theatre",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  An audition is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade final (cumulative) grades, and the audition.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.989029",
+		"School_Longitude": "-87.667136",
+		"Location": "5900 N GLENWOOD AVE\nChicago, Illinois 60660\n(41.989029, -87.667136)",
+		"Application_Requirements_Fn": "8ccbd2eb3d4e026932b83ee576862b16",
+		"Program_Selections_Fn": "7e51568fc748dec3fd5aa79aae428009"
+	},
+	{
+		"School_ID": "609730",
+		"Short_Name": "SENN HS",
+		"Long_Name": "Nicholas Senn High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "5900 N GLENWOOD AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60660",
+		"Phone": "7735342365",
+		"Fax": "7735342369",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609730",
+		"Website": "http://www.sennhs.org",
+		"Program_Type": "International Baccalaureate (IB)",
+		"Application_Requirements": "General Education/504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school’s Middle Years Programme partner, Peirce Elementary School.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.989029",
+		"School_Longitude": "-87.667136",
+		"Location": "5900 N GLENWOOD AVE\nChicago, Illinois 60660\n(41.989029, -87.667136)",
+		"Application_Requirements_Fn": "a6071a83f74612d54c3f659f9cb8a79c",
+		"Program_Selections_Fn": "8605454896638a4de5feec75ed536489"
+	},
+	{
+		"School_ID": "609674",
+		"Short_Name": "CHICAGO VOCATIONAL HS",
+		"Long_Name": "Chicago Vocational Career Academy High School",
+		"School_Type": "Career academy",
+		"Primary_Category": "HS",
+		"Address": "2100 E 87TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60617",
+		"Phone": "7735356100",
+		"Fax": "7735356975",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609674",
+		"Website": "http://www.cvcacademy.org",
+		"Program_Type": "Diesel Technology",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.737174",
+		"School_Longitude": "-87.573268",
+		"Location": "2100 E 87TH ST\nChicago, Illinois 60617\n(41.737174, -87.573268)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609756",
+		"Short_Name": "CURIE HS",
+		"Long_Name": "Marie Sklodowska Curie Metropolitan High School",
+		"School_Type": "Magnet",
+		"Primary_Category": "HS",
+		"Address": "4959 S ARCHER AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60632",
+		"Phone": "7735352100",
+		"Fax": "7735352049",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609756",
+		"Website": "http://www.curiehs.org",
+		"Program_Type": "Fine Arts & Technology - NEIGHBORHOOD",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically. This program only accepts students who live within the school's attendance boundary.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.80306",
+		"School_Longitude": "-87.722042",
+		"Location": "4959 S ARCHER AVE\nChicago, Illinois 60632\n(41.80306, -87.722042)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "783216956d119ad64639725fa9f4d44b"
+	},
+	{
+		"School_ID": "610381",
+		"Short_Name": "BRONZEVILLE HS",
+		"Long_Name": "Bronzeville Scholastic Academy High School",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "4934 S WABASH AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60615",
+		"Phone": "7735351150",
+		"Fax": "7735351228",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610381",
+		"Website": "",
+		"Program_Type": "Honors",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 50 in both reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade.    IEP and EL students: Minimum combined percentile of 100 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.",
+		"Program_Selections": "Students are randomly selected by computerized lottery.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.805204",
+		"School_Longitude": "-87.625004",
+		"Location": "4934 S WABASH AVE\nChicago, Illinois 60615\n(41.805204, -87.625004)",
+		"Application_Requirements_Fn": "5e32e9c5ce34b2af75f2ec9e1a6c6643",
+		"Program_Selections_Fn": "308d8156364219130aef9a7de30a6c8d"
+	},
+	{
+		"School_ID": "609674",
+		"Short_Name": "CHICAGO VOCATIONAL HS",
+		"Long_Name": "Chicago Vocational Career Academy High School",
+		"School_Type": "Career academy",
+		"Primary_Category": "HS",
+		"Address": "2100 E 87TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60617",
+		"Phone": "7735356100",
+		"Fax": "7735356975",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609674",
+		"Website": "http://www.cvcacademy.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.737174",
+		"School_Longitude": "-87.573268",
+		"Location": "2100 E 87TH ST\nChicago, Illinois 60617\n(41.737174, -87.573268)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "8c431d51587c33009ee9b67a566c042e"
+	},
+	{
+		"School_ID": "610381",
+		"Short_Name": "BRONZEVILLE HS",
+		"Long_Name": "Bronzeville Scholastic Academy High School",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "4934 S WABASH AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60615",
+		"Phone": "7735351150",
+		"Fax": "7735351228",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610381",
+		"Website": "",
+		"Program_Type": "International Baccalaureate (IB)",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance is required at an Information Session for all eligible applicants.",
+		"Program_Selections": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.805204",
+		"School_Longitude": "-87.625004",
+		"Location": "4934 S WABASH AVE\nChicago, Illinois 60615\n(41.805204, -87.625004)",
+		"Application_Requirements_Fn": "6a02d16ba52a69b937a74a43c6a82769",
+		"Program_Selections_Fn": "0fedde2a8081243a74d2c6a3be90b411"
+	},
+	{
+		"School_ID": "609732",
+		"Short_Name": "STEINMETZ HS",
+		"Long_Name": "Charles P Steinmetz College Preparatory HS",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3030 N MOBILE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60634",
+		"Phone": "7735343030",
+		"Fax": "7735343151",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609732",
+		"Website": "http://www.steinmetzcp.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.935634",
+		"School_Longitude": "-87.783515",
+		"Location": "3030 N MOBILE AVE\nChicago, Illinois 60634\n(41.935634, -87.783515)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "4ab864cc8934557f435c392c96e5cfc1"
+	},
+	{
+		"School_ID": "609738",
+		"Short_Name": "LINCOLN PARK HS",
+		"Long_Name": "Lincoln Park High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "2001 N ORCHARD ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60614",
+		"Phone": "7735348130",
+		"Fax": "7735348218",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609738",
+		"Website": "http://www.lincolnparkhs.org",
+		"Program_Type": "International Baccalaureate (IB)",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eliglble applicants.",
+		"Program_Selections": "Students are selected based on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school selects the minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.918268",
+		"School_Longitude": "-87.646009",
+		"Location": "2001 N ORCHARD ST\nChicago, Illinois 60614\n(41.918268, -87.646009)",
+		"Application_Requirements_Fn": "8a0c487746fe132f3f1925a84c56e9ee",
+		"Program_Selections_Fn": "8e60c325cf7da2ae7aa09dc4e543590e"
+	},
+	{
+		"School_ID": "609730",
+		"Short_Name": "SENN HS",
+		"Long_Name": "Nicholas Senn High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "5900 N GLENWOOD AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60660",
+		"Phone": "7735342365",
+		"Fax": "7735342369",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609730",
+		"Website": "http://www.sennhs.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically. This program only accepts students who live within the school's attendance boundary.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.989029",
+		"School_Longitude": "-87.667136",
+		"Location": "5900 N GLENWOOD AVE\nChicago, Illinois 60660\n(41.989029, -87.667136)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "783216956d119ad64639725fa9f4d44b"
+	},
+	{
+		"School_ID": "609695",
+		"Short_Name": "AMUNDSEN HS",
+		"Long_Name": "Roald Amundsen High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "5110 N DAMEN AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60625",
+		"Phone": "7735342320",
+		"Fax": "7735342330",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609695",
+		"Website": "http://www.amundsenhs.org",
+		"Program_Type": "International Baccalaureate (IB)",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.  Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school’s Middle Years Programme partner, McPherson Elementary School.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.975067",
+		"School_Longitude": "-87.679484",
+		"Location": "5110 N DAMEN AVE\nChicago, Illinois 60625\n(41.975067, -87.679484)",
+		"Application_Requirements_Fn": "930c01733b718c40bc1f2af23839e14a",
+		"Program_Selections_Fn": "f1650d13a99b142887259980d7570270"
+	},
+	{
+		"School_ID": "609740",
+		"Short_Name": "WELLS HS",
+		"Long_Name": "Wells Community Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "936 N ASHLAND AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60622",
+		"Phone": "7735347010",
+		"Fax": "7735347078",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609740",
+		"Website": "http://wellshs.cps.edu",
+		"Program_Type": "Game Programming",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.898995",
+		"School_Longitude": "-87.667483",
+		"Location": "936 N ASHLAND AVE\nChicago, Illinois 60622\n(41.898995, -87.667483)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "400117",
+		"Short_Name": "NOBLE - HANSBERRY HS",
+		"Long_Name": "Noble - Hansberry College Prep",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "8748 S ABERDEEN ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60620",
+		"Phone": "7737293400",
+		"Fax": "7733041995",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400117",
+		"Website": "http://www.hansberrycollegeprep.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.734442",
+		"School_Longitude": "-87.650987",
+		"Location": "8748 S ABERDEEN ST\nChicago, Illinois 60620\n(41.734442, -87.650987)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "609707",
+		"Short_Name": "ROBESON HS",
+		"Long_Name": "Paul Robeson High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "6835 S NORMAL BLVD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60621",
+		"Phone": "7735353800",
+		"Fax": "7735353620",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609707",
+		"Website": "",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.769714",
+		"School_Longitude": "-87.637153",
+		"Location": "6835 S NORMAL BLVD\nChicago, Illinois 60621\n(41.769714, -87.637153)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "8c431d51587c33009ee9b67a566c042e"
+	},
+	{
+		"School_ID": "610392",
+		"Short_Name": "WORLD LANGUAGE HS",
+		"Long_Name": "World Language Academy High School",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "3120 S KOSTNER AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60623",
+		"Phone": "7735354334",
+		"Fax": "7732548470",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610392",
+		"Website": "http://wl.lvlhs.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum attendance percentage of 95.",
+		"Program_Selections": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.834397",
+		"School_Longitude": "-87.735292",
+		"Location": "3120 S KOSTNER AVE\nChicago, Illinois 60623\n(41.834397, -87.735292)",
+		"Application_Requirements_Fn": "2434179e9c2fb95777cc4e0c6c998de1",
+		"Program_Selections_Fn": "cbc3d549cb9e0240f077ac3c87b0f671"
+	},
+	{
+		"School_ID": "609674",
+		"Short_Name": "CHICAGO VOCATIONAL HS",
+		"Long_Name": "Chicago Vocational Career Academy High School",
+		"School_Type": "Career academy",
+		"Primary_Category": "HS",
+		"Address": "2100 E 87TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60617",
+		"Phone": "7735356100",
+		"Fax": "7735356975",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609674",
+		"Website": "http://www.cvcacademy.org",
+		"Program_Type": "Medical Assisting",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are selected on a point system. Points are based on 7th grade final GPA and NWEA MAP scores. The school determines the minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.737174",
+		"School_Longitude": "-87.573268",
+		"Location": "2100 E 87TH ST\nChicago, Illinois 60617\n(41.737174, -87.573268)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "618315c228cf8e591d1909fc8ca41206"
+	},
+	{
+		"School_ID": "609719",
+		"Short_Name": "LAKE VIEW HS",
+		"Long_Name": "Lake View High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "4015 N ASHLAND AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60613",
+		"Phone": "7735345440",
+		"Fax": "7735345585",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609719",
+		"Website": "http://www.lakeviewhs.com",
+		"Program_Type": "Early College STEM",
+		"Application_Requirements": "None",
+		"Program_Selections": "Contact the school for information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.954764",
+		"School_Longitude": "-87.668953",
+		"Location": "4015 N ASHLAND AVE\nChicago, Illinois 60613\n(41.954764, -87.668953)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "5cfeec40267082ca1ee0ca7e469687a7"
+	},
+	{
+		"School_ID": "609674",
+		"Short_Name": "CHICAGO VOCATIONAL HS",
+		"Long_Name": "Chicago Vocational Career Academy High School",
+		"School_Type": "Career academy",
+		"Primary_Category": "HS",
+		"Address": "2100 E 87TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60617",
+		"Phone": "7735356100",
+		"Fax": "7735356975",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609674",
+		"Website": "http://www.cvcacademy.org",
+		"Program_Type": "Cosmetology",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery.  General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.737174",
+		"School_Longitude": "-87.573268",
+		"Location": "2100 E 87TH ST\nChicago, Illinois 60617\n(41.737174, -87.573268)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "01ad18923e7e8de10e8fb09bb2c6722a"
+	},
+	{
+		"School_ID": "609705",
+		"Short_Name": "FENGER HS",
+		"Long_Name": "Christian Fenger Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "11220 S WALLACE ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60628",
+		"Phone": "7735355430",
+		"Fax": "7735355444",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609705",
+		"Website": "http://www.fengerhighschool.org",
+		"Program_Type": "Carpentry",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.689951",
+		"School_Longitude": "-87.637572",
+		"Location": "11220 S WALLACE ST\nChicago, Illinois 60628\n(41.689951, -87.637572)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609710",
+		"Short_Name": "HARLAN HS",
+		"Long_Name": "John M Harlan Community Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "9652 S MICHIGAN AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60628",
+		"Phone": "7735355400",
+		"Fax": "7735355061",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609710",
+		"Website": "http://www.harlanfalcons.org",
+		"Program_Type": "Web Design",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.718372",
+		"School_Longitude": "-87.620623",
+		"Location": "9652 S MICHIGAN AVE\nChicago, Illinois 60628\n(41.718372, -87.620623)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609756",
+		"Short_Name": "CURIE HS",
+		"Long_Name": "Marie Sklodowska Curie Metropolitan High School",
+		"School_Type": "Magnet",
+		"Primary_Category": "HS",
+		"Address": "4959 S ARCHER AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60632",
+		"Phone": "7735352100",
+		"Fax": "7735352049",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609756",
+		"Website": "http://www.curiehs.org",
+		"Program_Type": "Digital Media",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.80306",
+		"School_Longitude": "-87.722042",
+		"Location": "4959 S ARCHER AVE\nChicago, Illinois 60632\n(41.80306, -87.722042)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "400105",
+		"Short_Name": "URBAN PREP - BRONZEVILLE HS",
+		"Long_Name": "Urban Prep Academy for Young Men - Bronzeville",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "521 E 35TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60616",
+		"Phone": "7736243444",
+		"Fax": "7736243405",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400105",
+		"Website": "http://www.urbanprep.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.831118",
+		"School_Longitude": "-87.613629",
+		"Location": "521 E 35TH ST\nChicago, Illinois 60616\n(41.831118, -87.613629)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "610383",
+		"Short_Name": "SOCIAL JUSTICE HS",
+		"Long_Name": "Greater Lawndale High School For Social Justice",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "3120 S KOSTNER AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60623",
+		"Phone": "7735354300",
+		"Fax": "7735354271",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610383",
+		"Website": "http://sj.lvlhs.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Essay",
+		"Program_Selections": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Students who live outside of the school's attendance boundary are selected on a point system. The points are based on the student essay and NWEA MAP scores.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.833507",
+		"School_Longitude": "-87.735299",
+		"Location": "3120 S KOSTNER AVE\nChicago, Illinois 60623\n(41.833507, -87.735299)",
+		"Application_Requirements_Fn": "94798381edc76846cfb1ec3503fd61b0",
+		"Program_Selections_Fn": "62c57f6f0d8cb1d35fb12bd66840819f"
+	},
+	{
+		"School_ID": "609713",
+		"Short_Name": "HYDE PARK HS",
+		"Long_Name": "Hyde Park Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "6220 S STONY ISLAND AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60637",
+		"Phone": "7735350880",
+		"Fax": "7735350633",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609713",
+		"Website": "http://www.hydeparkcps.org",
+		"Program_Type": "International Baccalaureate (IB)",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance is required at an Information Session for all eligible applicants.",
+		"Program_Selections": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.  Preference is given to students who meet the minimum eligibilty requirements, attend an Information Session, and are enrolled in the school’s Middle Years Programme partner, Carnegie Elementary School.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.782257",
+		"School_Longitude": "-87.586615",
+		"Location": "6220 S STONY ISLAND AVE\nChicago, Illinois 60637\n(41.782257, -87.586615)",
+		"Application_Requirements_Fn": "6a02d16ba52a69b937a74a43c6a82769",
+		"Program_Selections_Fn": "182b0f39bdb6558622d86addc2aae6b7"
+	},
+	{
+		"School_ID": "609756",
+		"Short_Name": "CURIE HS",
+		"Long_Name": "Marie Sklodowska Curie Metropolitan High School",
+		"School_Type": "Magnet",
+		"Primary_Category": "HS",
+		"Address": "4959 S ARCHER AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60632",
+		"Phone": "7735352100",
+		"Fax": "7735352049",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609756",
+		"Website": "http://www.curiehs.org",
+		"Program_Type": "Architecture",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.80306",
+		"School_Longitude": "-87.722042",
+		"Location": "4959 S ARCHER AVE\nChicago, Illinois 60632\n(41.80306, -87.722042)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "610564",
+		"Short_Name": "DISNEY II HS",
+		"Long_Name": "Disney II Magnet High School",
+		"School_Type": "Magnet",
+		"Primary_Category": "HS",
+		"Address": "3900 N LAWNDALE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60618",
+		"Phone": "7735345010",
+		"Fax": "7735345199",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610564",
+		"Website": "http://disneyiimagnet.org",
+		"Program_Type": "Fine Arts & Technology",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, tiers.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.952488",
+		"School_Longitude": "-87.721364",
+		"Location": "3900 N LAWNDALE AVE\nChicago, Illinois 60618\n(41.952488, -87.721364)",
+		"Application_Requirements_Fn": "4cb799c1cf8b41a3baf1e8d9176463d8",
+		"Program_Selections_Fn": "49bc52caf46148ee777e8d3534f22700"
+	},
+	{
+		"School_ID": "609746",
+		"Short_Name": "KENWOOD HS",
+		"Long_Name": "Kenwood Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "5015 S BLACKSTONE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60615",
+		"Phone": "7735351350",
+		"Fax": "7735351360",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609746",
+		"Website": "http://www.kenwoodacademy.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary and students currently enrolled in the Kenwood Academic Center can be admitted automatically. This program only accepts students who live within the school's attendance boundary or who are enrolled in the school's Academic Center.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.803772",
+		"School_Longitude": "-87.590421",
+		"Location": "5015 S BLACKSTONE AVE\nChicago, Illinois 60615\n(41.803772, -87.590421)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "c7ce3086f4acc55ea53e0c97f71d12aa"
+	},
+	{
+		"School_ID": "609724",
+		"Short_Name": "MATHER HS",
+		"Long_Name": "Stephen T Mather High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "5835 N LINCOLN AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60659",
+		"Phone": "7735342350",
+		"Fax": "7735342424",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609724",
+		"Website": "http://www.matherhs.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.987589",
+		"School_Longitude": "-87.702496",
+		"Location": "5835 N LINCOLN AVE\nChicago, Illinois 60659\n(41.987589, -87.702496)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "2317c60e8a1eec08ab495a14ccfd9c64"
+	},
+	{
+		"School_ID": "610518",
+		"Short_Name": "AUSTIN CCA HS",
+		"Long_Name": "Austin College and Career Academy High School",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "231 N PINE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60644",
+		"Phone": "7735340660",
+		"Fax": "7735340667",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610518",
+		"Website": "http://www.ACCAChicago.org",
+		"Program_Type": "Pre-Engineering",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are selected on a point system. Points are based on 7th grade final GPA and NWEA MAP scores. The school determines the minimum cutoff score for selections. Preference is given to students who live within the school's attendance boundary.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.885993",
+		"School_Longitude": "-87.761916",
+		"Location": "231 N PINE AVE\nChicago, Illinois 60644\n(41.885993, -87.761916)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "65f9f712e101af2ba0f44401e01ca729"
+	},
+	{
+		"School_ID": "610340",
+		"Short_Name": "CHICAGO ACADEMY HS",
+		"Long_Name": "Chicago Academy High School",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "3400 N AUSTIN AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60634",
+		"Phone": "7735340146",
+		"Fax": "7735340192",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610340",
+		"Website": "http://cahs.auslchicago.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 25 in both reading and math on NWEA MAP.   IEP and EL students: Minimum combined percentile of 50 in reading and math on NWEA MAP, and minimum attendance percentage of 85.",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, students enrolled in AUSL schools, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.943054",
+		"School_Longitude": "-87.776847",
+		"Location": "3400 N AUSTIN AVE\nChicago, Illinois 60634\n(41.943054, -87.776847)",
+		"Application_Requirements_Fn": "5fbf1b80166fef3a0e0db9557d500465",
+		"Program_Selections_Fn": "218f3d334a0ceaa37bb7ce57bec10e96"
+	},
+	{
+		"School_ID": "610389",
+		"Short_Name": "ORR HS",
+		"Long_Name": "Orr Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "730 N PULASKI RD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60624",
+		"Phone": "7735346500",
+		"Fax": "7735346504",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610389",
+		"Website": "http://www.orracademy.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.894449",
+		"School_Longitude": "-87.726166",
+		"Location": "730 N PULASKI RD\nChicago, Illinois 60624\n(41.894449, -87.726166)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "8c431d51587c33009ee9b67a566c042e"
+	},
+	{
+		"School_ID": "609733",
+		"Short_Name": "SULLIVAN HS",
+		"Long_Name": "Roger C Sullivan High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "6631 N BOSWORTH AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60626",
+		"Phone": "7735342000",
+		"Fax": "7735342141",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609733",
+		"Website": "http://www.sullivanhs.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: students attending Boone, Field, Gale, Hayt, Jordan, Kilmer, McCutcheon, McPherson, or West Ridge Elementary Schools; sibling; general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "42.002688",
+		"School_Longitude": "-87.669192",
+		"Location": "6631 N BOSWORTH AVE\nChicago, Illinois 60626\n(42.002688, -87.669192)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "924ceb6aa82922cdb541302a265549eb"
+	},
+	{
+		"School_ID": "609722",
+		"Short_Name": "MANLEY HS",
+		"Long_Name": "Manley Career Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "2935 W POLK ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60612",
+		"Phone": "7735346900",
+		"Fax": "7735346924",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609722",
+		"Website": "http://www.manleyhighschool.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.870939",
+		"School_Longitude": "-87.699896",
+		"Location": "2935 W POLK ST\nChicago, Illinois 60612\n(41.870939, -87.699896)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "8c431d51587c33009ee9b67a566c042e"
+	},
+	{
+		"School_ID": "609680",
+		"Short_Name": "PAYTON HS",
+		"Long_Name": "Walter Payton College Preparatory High School",
+		"School_Type": "Selective enrollment",
+		"Primary_Category": "HS",
+		"Address": "1034 N WELLS ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60610",
+		"Phone": "7735340034",
+		"Fax": "7735340035",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609680",
+		"Website": "http://www.wpcp.org",
+		"Program_Type": "Selective Enrollment High School",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system with a maximum of 900 points. Points are based on 7th grade final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.901575",
+		"School_Longitude": "-87.635385",
+		"Location": "1034 N WELLS ST\nChicago, Illinois 60610\n(41.901575, -87.635385)",
+		"Application_Requirements_Fn": "1a043655763ab140a0d14f5080d63a2c",
+		"Program_Selections_Fn": "46083386e3daad02ff00ac73d3987286"
+	},
+	{
+		"School_ID": "609768",
+		"Short_Name": "HOPE HS",
+		"Long_Name": "Hope College Preparatory High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "5515 S LOWE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60621",
+		"Phone": "7735353160",
+		"Fax": "7735353444",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609768",
+		"Website": "http://johnhopecollegeprephs.org/",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.793553",
+		"School_Longitude": "-87.641244",
+		"Location": "5515 S LOWE AVE\nChicago, Illinois 60621\n(41.793553, -87.641244)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "8c431d51587c33009ee9b67a566c042e"
+	},
+	{
+		"School_ID": "610391",
+		"Short_Name": "LINDBLOM HS",
+		"Long_Name": "Robert Lindblom Math & Science Academy HS",
+		"School_Type": "Selective enrollment",
+		"Primary_Category": "HS",
+		"Address": "6130 S WOLCOTT AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60636",
+		"Phone": "7735359300",
+		"Fax": "7735359314",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610391",
+		"Website": "http://www.lindblomeagles.org",
+		"Program_Type": "Academic Center",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 45 in both reading and math on NWEA MAP.  IEP and EL students: Minimum NWEA MAP percentile of 50 in one subject (reading or math) and minimum NWEA MAP percentile of 40 in the other subject (reading or math).  Testing is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for prior year final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online Selective Enrollment Elementary Schools application or paper Selective Enrollment Elementary Schools application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.782041",
+		"School_Longitude": "-87.671662",
+		"Location": "6130 S WOLCOTT AVE\nChicago, Illinois 60636\n(41.782041, -87.671662)",
+		"Application_Requirements_Fn": "c32c0804dc719ba6c4c00322e7a69be2",
+		"Program_Selections_Fn": "224ce8807abceb6ca72e650988637629"
+	},
+	{
+		"School_ID": "400058",
+		"Short_Name": "NORTH LAWNDALE - CHRISTIANA HS",
+		"Long_Name": "North Lawndale College Prep - Christiana",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "1615 S CHRISTIANA AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60623",
+		"Phone": "7735421490",
+		"Fax": "7735421492",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400058",
+		"Website": "http://www.nlcphs.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.858564",
+		"School_Longitude": "-87.708987",
+		"Location": "1615 S CHRISTIANA AVE\nChicago, Illinois 60623\n(41.858564, -87.708987)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f6b1cadaa52f894d87ad4246bd4c9b0a"
+	},
+	{
+		"School_ID": "609756",
+		"Short_Name": "CURIE HS",
+		"Long_Name": "Marie Sklodowska Curie Metropolitan High School",
+		"School_Type": "Magnet",
+		"Primary_Category": "HS",
+		"Address": "4959 S ARCHER AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60632",
+		"Phone": "7735352100",
+		"Fax": "7735352049",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609756",
+		"Website": "http://www.curiehs.org",
+		"Program_Type": "Visual Arts",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP. An audition/portfolio review is required.",
+		"Program_Selections": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade final (cumulative) grades, and the audition.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.80306",
+		"School_Longitude": "-87.722042",
+		"Location": "4959 S ARCHER AVE\nChicago, Illinois 60632\n(41.80306, -87.722042)",
+		"Application_Requirements_Fn": "77620df9b5c4a530f21c30267af843ce",
+		"Program_Selections_Fn": "7e51568fc748dec3fd5aa79aae428009"
+	},
+	{
+		"School_ID": "609729",
+		"Short_Name": "SCHURZ HS",
+		"Long_Name": "Carl Schurz High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3601 N MILWAUKEE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60641",
+		"Phone": "7735343420",
+		"Fax": "7735343573",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609729",
+		"Website": "http://www.schurzhs.org",
+		"Program_Type": "AVID",
+		"Application_Requirements": "Minimum 2.0 GPA in 7th grade and minimum attendance percentage of 85.",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: proximity, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.946365",
+		"School_Longitude": "-87.735612",
+		"Location": "3601 N MILWAUKEE AVE\nChicago, Illinois 60641\n(41.946365, -87.735612)",
+		"Application_Requirements_Fn": "3086b8e507b2f64e53b85b8ad808e66d",
+		"Program_Selections_Fn": "d3ddea21fb0e360b470bf095ce6bdfef"
+	},
+	{
+		"School_ID": "609678",
+		"Short_Name": "JONES HS",
+		"Long_Name": "William Jones College Preparatory High School",
+		"School_Type": "Selective enrollment",
+		"Primary_Category": "HS",
+		"Address": "700 S STATE ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60605",
+		"Phone": "7735348600",
+		"Fax": "7735348625",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609678",
+		"Website": "http://www.jonescollegeprep.org",
+		"Program_Type": "Selective Enrollment High School",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for 7th grade final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.873066",
+		"School_Longitude": "-87.627675",
+		"Location": "700 S STATE ST\nChicago, Illinois 60605\n(41.873066, -87.627675)",
+		"Application_Requirements_Fn": "1a043655763ab140a0d14f5080d63a2c",
+		"Program_Selections_Fn": "bd680e7bc10c03552140e26736221cf7"
+	},
+	{
+		"School_ID": "609739",
+		"Short_Name": "WASHINGTON HS",
+		"Long_Name": "George Washington High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3535 E 114TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60617",
+		"Phone": "7735355725",
+		"Fax": "7735355038",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609739",
+		"Website": "http://www.gwashingtonhs.org",
+		"Program_Type": "International Baccalaureate (IB)",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.688137",
+		"School_Longitude": "-87.53757",
+		"Location": "3535 E 114TH ST\nChicago, Illinois 60617\n(41.688137, -87.53757)",
+		"Application_Requirements_Fn": "930c01733b718c40bc1f2af23839e14a",
+		"Program_Selections_Fn": "0fedde2a8081243a74d2c6a3be90b411"
+	},
+	{
+		"School_ID": "400059",
+		"Short_Name": "NORTH LAWNDALE - COLLINS HS",
+		"Long_Name": "North Lawndale College Prep - Collins",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "1313 S SACRAMENTO DR",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60623",
+		"Phone": "7735426766",
+		"Fax": "7735426995",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400059",
+		"Website": "http://www.nlcphs.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.864146",
+		"School_Longitude": "-87.700681",
+		"Location": "1313 S SACRAMENTO DR\nChicago, Illinois 60623\n(41.864146, -87.700681)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f6b1cadaa52f894d87ad4246bd4c9b0a"
+	},
+	{
+		"School_ID": "610394",
+		"Short_Name": "UPLIFT HS",
+		"Long_Name": "Uplift Community High School",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "900 W WILSON AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60640",
+		"Phone": "7735342875",
+		"Fax": "7735342876",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610394",
+		"Website": "http://www.uplifths.org",
+		"Program_Type": "Teaching",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.965547",
+		"School_Longitude": "-87.652473",
+		"Location": "900 W WILSON AVE\nChicago, Illinois 60640\n(41.965547, -87.652473)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609729",
+		"Short_Name": "SCHURZ HS",
+		"Long_Name": "Carl Schurz High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3601 N MILWAUKEE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60641",
+		"Phone": "7735343420",
+		"Fax": "7735343573",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609729",
+		"Website": "http://www.schurzhs.org",
+		"Program_Type": "Pre-Engineering",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are selected on a point system. Points are based on 7th grade final GPA and NWEA MAP scores. The school determines the minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.946365",
+		"School_Longitude": "-87.735612",
+		"Location": "3601 N MILWAUKEE AVE\nChicago, Illinois 60641\n(41.946365, -87.735612)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "618315c228cf8e591d1909fc8ca41206"
+	},
+	{
+		"School_ID": "400010",
+		"Short_Name": "ACE TECH HS",
+		"Long_Name": "ACE Technical Charter School",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "5410 S STATE ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60609",
+		"Phone": "7735488705",
+		"Fax": "7735488706",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400010",
+		"Website": "http://www.acetechnical.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.796122",
+		"School_Longitude": "-87.625849",
+		"Location": "5410 S STATE ST\nChicago, Illinois 60609\n(41.796122, -87.625849)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "308d8156364219130aef9a7de30a6c8d"
+	},
+	{
+		"School_ID": "400119",
+		"Short_Name": "LEGAL PREP HS",
+		"Long_Name": "Legal Prep Charter Academy",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "4319 W WASHINGTON BLVD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60624",
+		"Phone": "7739227800",
+		"Fax": "3123865796",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400119",
+		"Website": "http://www.legalprep.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conduced in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.881733",
+		"School_Longitude": "-87.733778",
+		"Location": "4319 W WASHINGTON BLVD\nChicago, Illinois 60624\n(41.881733, -87.733778)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "536556326f56a1875afccbeedde85fb9"
+	},
+	{
+		"School_ID": "609755",
+		"Short_Name": "YOUNG HS",
+		"Long_Name": "Whitney M Young Magnet High School",
+		"School_Type": "Selective enrollment",
+		"Primary_Category": "HS",
+		"Address": "211 S LAFLIN ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60607",
+		"Phone": "7735347500",
+		"Fax": "7735347261",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609755",
+		"Website": "http://www.wyoung.org",
+		"Program_Type": "Academic Center",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 45 in both reading and math on NWEA MAP.  IEP and EL students: Minimum NWEA MAP percentile of 50 in one subject (reading or math) and minimum NWEA MAP percentile of 40 in the other subject (reading or math).  Testing is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for prior year final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online Selective Enrollment Elementary Schools application or paper Selective Enrollment Elementary Schools application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.878603",
+		"School_Longitude": "-87.664233",
+		"Location": "211 S LAFLIN ST\nChicago, Illinois 60607\n(41.878603, -87.664233)",
+		"Application_Requirements_Fn": "c32c0804dc719ba6c4c00322e7a69be2",
+		"Program_Selections_Fn": "224ce8807abceb6ca72e650988637629"
+	},
+	{
+		"School_ID": "609729",
+		"Short_Name": "SCHURZ HS",
+		"Long_Name": "Carl Schurz High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3601 N MILWAUKEE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60641",
+		"Phone": "7735343420",
+		"Fax": "7735343573",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609729",
+		"Website": "http://www.schurzhs.org",
+		"Program_Type": "International Baccalaureate (IB)",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.946365",
+		"School_Longitude": "-87.735612",
+		"Location": "3601 N MILWAUKEE AVE\nChicago, Illinois 60641\n(41.946365, -87.735612)",
+		"Application_Requirements_Fn": "930c01733b718c40bc1f2af23839e14a",
+		"Program_Selections_Fn": "0fedde2a8081243a74d2c6a3be90b411"
+	},
+	{
+		"School_ID": "400172",
+		"Short_Name": "ASPIRA - BUSINESS & FINANCE HS",
+		"Long_Name": "ASPIRA Business and Finance",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "2989 N MILWAUKEE AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60618",
+		"Phone": "7732520970",
+		"Fax": "",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400172",
+		"Website": "http://www.aspirail.org/ASPIRASchools",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.935726",
+		"School_Longitude": "-87.718204",
+		"Location": "2989 N MILWAUKEE AVE\nChicago, Illinois 60618\n(41.935726, -87.718204)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "400087",
+		"Short_Name": "YOUNG WOMENS HS",
+		"Long_Name": "Young Women's Leadership Charter School",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "2641 S CALUMET AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60616",
+		"Phone": "3129499400",
+		"Fax": "3129499142",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400087",
+		"Website": "http://www.ywlcs.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "Applicants must be girls currently enrolled in eighth grade.",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.844544",
+		"School_Longitude": "-87.618724",
+		"Location": "2641 S CALUMET AVE\nChicago, Illinois 60616\n(41.844544, -87.618724)",
+		"Application_Requirements_Fn": "7cc8a6e9cd27c6a9e8d43b323a961475",
+		"Program_Selections_Fn": "87bdb6caf5cf899ddb8041511761e58b"
+	},
+	{
+		"School_ID": "609764",
+		"Short_Name": "JUAREZ HS",
+		"Long_Name": "Benito Juarez Community Academy High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "1450 W CERMAK RD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60608",
+		"Phone": "7735347030",
+		"Fax": "7735347058",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609764",
+		"Website": "http://www.benitojuarez.net",
+		"Program_Type": "Game Programming & Web Design",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.852667",
+		"School_Longitude": "-87.663732",
+		"Location": "1450 W CERMAK RD\nChicago, Illinois 60608\n(41.852667, -87.663732)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609679",
+		"Short_Name": "PROSSER HS",
+		"Long_Name": "Charles Allen Prosser Career Academy High School",
+		"School_Type": "Career academy",
+		"Primary_Category": "HS",
+		"Address": "2148 N LONG AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60639",
+		"Phone": "7735343200",
+		"Fax": "7735343382",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609679",
+		"Website": "http://www.prosseracademy.org",
+		"Program_Type": "Career Academy",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: proximity, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.920059",
+		"School_Longitude": "-87.761048",
+		"Location": "2148 N LONG AVE\nChicago, Illinois 60639\n(41.920059, -87.761048)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "d3ddea21fb0e360b470bf095ce6bdfef"
+	},
+	{
+		"School_ID": "609711",
+		"Short_Name": "HARPER HS",
+		"Long_Name": "William Rainey Harper High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "6520 S WOOD ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60636",
+		"Phone": "7735359150",
+		"Fax": "7735359090",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609711",
+		"Website": "http://www.harperhighschool.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.775124",
+		"School_Longitude": "-87.669089",
+		"Location": "6520 S WOOD ST\nChicago, Illinois 60636\n(41.775124, -87.669089)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "8c431d51587c33009ee9b67a566c042e"
+	},
+	{
+		"School_ID": "400104",
+		"Short_Name": "INSTITUTO - HEALTH",
+		"Long_Name": "Instituto Health Sciences Career Academy",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "2520 S WESTERN AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60608",
+		"Phone": "7738908020",
+		"Fax": "7733768573",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400104",
+		"Website": "http://www.ihsca.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.845967",
+		"School_Longitude": "-87.68724",
+		"Location": "2520 S WESTERN AVE\nChicago, Illinois 60608\n(41.845967, -87.68724)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "87bdb6caf5cf899ddb8041511761e58b"
+	},
+	{
+		"School_ID": "609728",
+		"Short_Name": "ROOSEVELT HS",
+		"Long_Name": "Theodore Roosevelt High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3436 W WILSON AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60625",
+		"Phone": "7735345000",
+		"Fax": "7735345044",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609728",
+		"Website": "http://rhsroughriders.org",
+		"Program_Type": "Cisco Networking",
+		"Application_Requirements": "None",
+		"Program_Selections": "Student selections are based on points. Students are assigned points for 7th grade final GPA and 7th grade stanines. Each school determines a minimum cutoff score for selections.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.964828",
+		"School_Longitude": "-87.714819",
+		"Location": "3436 W WILSON AVE\nChicago, Illinois 60625\n(41.964828, -87.714819)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "70d67060ab98f9cd752d741b32e207ba"
+	},
+	{
+		"School_ID": "609725",
+		"Short_Name": "MORGAN PARK HS",
+		"Long_Name": "Morgan Park High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "1744 W PRYOR AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60643",
+		"Phone": "7735352550",
+		"Fax": "7735352706",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609725",
+		"Website": "http://www.morganparkcps.org",
+		"Program_Type": "World Language and International Studies",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 50 in both reading and math on the NWEA MAP and minimum 3.0 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 60 in reading and math on NWEA MAP.",
+		"Program_Selections": "Students are randomly selected by computerized lottery.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.692035",
+		"School_Longitude": "-87.665658",
+		"Location": "1744 W PRYOR AVE\nChicago, Illinois 60643\n(41.692035, -87.665658)",
+		"Application_Requirements_Fn": "a787cb9987ca94d3c2370e2cb67d50cc",
+		"Program_Selections_Fn": "308d8156364219130aef9a7de30a6c8d"
+	},
+	{
+		"School_ID": "610384",
+		"Short_Name": "INFINITY HS",
+		"Long_Name": "Infinity Math Science and Technology High School",
+		"School_Type": "Small",
+		"Primary_Category": "HS",
+		"Address": "3120 S KOSTNER AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60623",
+		"Phone": "7735354225",
+		"Fax": "7735354270",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=610384",
+		"Website": "http://imst.lvlhs.org",
+		"Program_Type": "Science/Technology/Engineering/Math",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.836169",
+		"School_Longitude": "-87.735278",
+		"Location": "3120 S KOSTNER AVE\nChicago, Illinois 60623\n(41.836169, -87.735278)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "8c431d51587c33009ee9b67a566c042e"
+	},
+	{
+		"School_ID": "400091",
+		"Short_Name": "CHICAGO TECH HS",
+		"Long_Name": "Chicago Technology Academy High School",
+		"School_Type": "Contract",
+		"Primary_Category": "HS",
+		"Address": "1301 W 14TH ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60608",
+		"Phone": "7735347755",
+		"Fax": "7735347757",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400091",
+		"Website": "http://www.chitech.org",
+		"Program_Type": "Science/Technology/Engineering/Math",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.863301",
+		"School_Longitude": "-87.659095",
+		"Location": "1301 W 14TH ST\nChicago, Illinois 60608\n(41.863301, -87.659095)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "308d8156364219130aef9a7de30a6c8d"
+	},
+	{
+		"School_ID": "609737",
+		"Short_Name": "VON STEUBEN HS",
+		"Long_Name": "Friedrich W von Steuben Metropolitan Science HS",
+		"School_Type": "Magnet",
+		"Primary_Category": "HS",
+		"Address": "5039 N KIMBALL AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60625",
+		"Phone": "7735345100",
+		"Fax": "7735345210",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609737",
+		"Website": "http://www.vonsteuben.org",
+		"Program_Type": "Scholars",
+		"Application_Requirements": "Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 3.0 GPA in 7th grade. Eligible students must submit teacher recommendations and an essay. See www.vonsteuben.org for submission details (click 'Apply' and 'Scholars Program'). Applicants who are not eligible will automatically be included in the computerized lottery selection process for the Von Steuben Science Program.",
+		"Program_Selections": "Students are selected on a point system. Points are based on the teacher recommendations and the essay.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.973185",
+		"School_Longitude": "-87.713386",
+		"Location": "5039 N KIMBALL AVE\nChicago, Illinois 60625\n(41.973185, -87.713386)",
+		"Application_Requirements_Fn": "d7e3e54b06028c21a40cf58127e2aef4",
+		"Program_Selections_Fn": "0a7d20d2cdbb736d46e6c7a37e5b7764"
+	},
+	{
+		"School_ID": "400169",
+		"Short_Name": "NOBLE - ITW SPEER HS",
+		"Long_Name": "Noble - ITW David Speer Academy",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "5321 W GRAND AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60639",
+		"Phone": "7736227484",
+		"Fax": "7733042700",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400169",
+		"Website": "http://itwspeeracademy.noblenetwork.org/",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.92563",
+		"School_Longitude": "-87.769808",
+		"Location": "5321 W GRAND AVE\nChicago, Illinois 60639\n(41.92563, -87.769808)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "400156",
+		"Short_Name": "NOBLE - BUTLER HS",
+		"Long_Name": "Noble - Butler College Prep",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "821 E 103RD ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60628",
+		"Phone": "7735355490",
+		"Fax": "7734420343",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400156",
+		"Website": "http://butlercollegeprep.noblenetwork.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.706667",
+		"School_Longitude": "-87.602573",
+		"Location": "821 E 103RD ST\nChicago, Illinois 60628\n(41.706667, -87.602573)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "400022",
+		"Short_Name": "CHIARTS HS",
+		"Long_Name": "Chicago High School for the Arts (ChiArts)",
+		"School_Type": "Contract",
+		"Primary_Category": "HS",
+		"Address": "2714 W AUGUSTA BLVD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60622",
+		"Phone": "7735349710",
+		"Fax": "7735349720",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400022",
+		"Website": "http://www.chiarts.org",
+		"Program_Type": "Music - Vocal",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum attendance percentage of 92.  An audition is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the audition.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.899377",
+		"School_Longitude": "-87.694945",
+		"Location": "2714 W AUGUSTA BLVD\nChicago, Illinois 60622\n(41.899377, -87.694945)",
+		"Application_Requirements_Fn": "a59652b1328b73b5acb08979a32a9db8",
+		"Program_Selections_Fn": "500cba9f742c1244ddaa1c37070299f1"
+	},
+	{
+		"School_ID": "400022",
+		"Short_Name": "CHIARTS HS",
+		"Long_Name": "Chicago High School for the Arts (ChiArts)",
+		"School_Type": "Contract",
+		"Primary_Category": "HS",
+		"Address": "2714 W AUGUSTA BLVD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60622",
+		"Phone": "7735349710",
+		"Fax": "7735349720",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400022",
+		"Website": "http://www.chiarts.org",
+		"Program_Type": "Theatre",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum attendance percentage of 92.  An audition is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the audition.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.899377",
+		"School_Longitude": "-87.694945",
+		"Location": "2714 W AUGUSTA BLVD\nChicago, Illinois 60622\n(41.899377, -87.694945)",
+		"Application_Requirements_Fn": "a59652b1328b73b5acb08979a32a9db8",
+		"Program_Selections_Fn": "500cba9f742c1244ddaa1c37070299f1"
+	},
+	{
+		"School_ID": "400022",
+		"Short_Name": "CHIARTS HS",
+		"Long_Name": "Chicago High School for the Arts (ChiArts)",
+		"School_Type": "Contract",
+		"Primary_Category": "HS",
+		"Address": "2714 W AUGUSTA BLVD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60622",
+		"Phone": "7735349710",
+		"Fax": "7735349720",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400022",
+		"Website": "http://www.chiarts.org",
+		"Program_Type": "Music - Instumental",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum attendance percentage of 92.  An audition is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the audition.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.899377",
+		"School_Longitude": "-87.694945",
+		"Location": "2714 W AUGUSTA BLVD\nChicago, Illinois 60622\n(41.899377, -87.694945)",
+		"Application_Requirements_Fn": "a59652b1328b73b5acb08979a32a9db8",
+		"Program_Selections_Fn": "500cba9f742c1244ddaa1c37070299f1"
+	},
+	{
+		"School_ID": "400022",
+		"Short_Name": "CHIARTS HS",
+		"Long_Name": "Chicago High School for the Arts (ChiArts)",
+		"School_Type": "Contract",
+		"Primary_Category": "HS",
+		"Address": "2714 W AUGUSTA BLVD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60622",
+		"Phone": "7735349710",
+		"Fax": "7735349720",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400022",
+		"Website": "http://www.chiarts.org",
+		"Program_Type": "Creative Writing",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum attendance percentage of 92.   A portfolio review is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the portfolio review.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.899377",
+		"School_Longitude": "-87.694945",
+		"Location": "2714 W AUGUSTA BLVD\nChicago, Illinois 60622\n(41.899377, -87.694945)",
+		"Application_Requirements_Fn": "b89ee63f6f32c43ca9707a85d8dc98e7",
+		"Program_Selections_Fn": "fd2b72f8025478fc320959b283c0ff2f"
+	},
+	{
+		"School_ID": "400022",
+		"Short_Name": "CHIARTS HS",
+		"Long_Name": "Chicago High School for the Arts (ChiArts)",
+		"School_Type": "Contract",
+		"Primary_Category": "HS",
+		"Address": "2714 W AUGUSTA BLVD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60622",
+		"Phone": "7735349710",
+		"Fax": "7735349720",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400022",
+		"Website": "http://www.chiarts.org",
+		"Program_Type": "Dance",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum attendance percentage of 92.  An audition is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the audition.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.899377",
+		"School_Longitude": "-87.694945",
+		"Location": "2714 W AUGUSTA BLVD\nChicago, Illinois 60622\n(41.899377, -87.694945)",
+		"Application_Requirements_Fn": "a59652b1328b73b5acb08979a32a9db8",
+		"Program_Selections_Fn": "500cba9f742c1244ddaa1c37070299f1"
+	},
+	{
+		"School_ID": "400022",
+		"Short_Name": "CHIARTS HS",
+		"Long_Name": "Chicago High School for the Arts (ChiArts)",
+		"School_Type": "Contract",
+		"Primary_Category": "HS",
+		"Address": "2714 W AUGUSTA BLVD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60622",
+		"Phone": "7735349710",
+		"Fax": "7735349720",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400022",
+		"Website": "http://www.chiarts.org",
+		"Program_Type": "Visual Arts",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  A portfolio review is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system. Points are based on the student's NWEA MAP socres in reading and math and the portfolio review.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.899377",
+		"School_Longitude": "-87.694945",
+		"Location": "2714 W AUGUSTA BLVD\nChicago, Illinois 60622\n(41.899377, -87.694945)",
+		"Application_Requirements_Fn": "3f45862ca2003745fc3f4e12492abdfa",
+		"Program_Selections_Fn": "6c2d1016a23c9b0e67736b91a166b594"
+	},
+	{
+		"School_ID": "400022",
+		"Short_Name": "CHIARTS HS",
+		"Long_Name": "Chicago High School for the Arts (ChiArts)",
+		"School_Type": "Contract",
+		"Primary_Category": "HS",
+		"Address": "2714 W AUGUSTA BLVD",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60622",
+		"Phone": "7735349710",
+		"Fax": "7735349720",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400022",
+		"Website": "http://www.chiarts.org",
+		"Program_Type": "Musical Theatre",
+		"Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum attendance percentage of 92. An audition is required for all eligible applicants.",
+		"Program_Selections": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the audition.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.899377",
+		"School_Longitude": "-87.694945",
+		"Location": "2714 W AUGUSTA BLVD\nChicago, Illinois 60622\n(41.899377, -87.694945)",
+		"Application_Requirements_Fn": "ae43e969113d1c6b1b6fe0c0a1321c40",
+		"Program_Selections_Fn": "500cba9f742c1244ddaa1c37070299f1"
+	},
+	{
+		"School_ID": "400170",
+		"Short_Name": "NOBLE - ACADEMY HS",
+		"Long_Name": "Noble - The Noble Academy",
+		"School_Type": "Charter",
+		"Primary_Category": "HS",
+		"Address": "1443 N OGDEN AVE",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60610",
+		"Phone": "3125741527",
+		"Fax": "7085754217",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=400170",
+		"Website": "http://thenobleacademy.noblenetwork.org",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "Contact school",
+		"School_Latitude": "41.906879",
+		"School_Longitude": "-87.645577",
+		"Location": "1443 N OGDEN AVE\nChicago, Illinois 60610\n(41.906879, -87.645577)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "f1a0a3737e921ccaf4617c5eafab5f53"
+	},
+	{
+		"School_ID": "609723",
+		"Short_Name": "MARSHALL HS",
+		"Long_Name": "John Marshall Metropolitan High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3250 W ADAMS ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60624",
+		"Phone": "7735346455",
+		"Fax": "7735346409",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609723",
+		"Website": "http://marshallmetro.cps.edu",
+		"Program_Type": "General Education",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.878444",
+		"School_Longitude": "-87.70805",
+		"Location": "3250 W ADAMS ST\nChicago, Illinois 60624\n(41.878444, -87.70805)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "8c431d51587c33009ee9b67a566c042e"
+	},
+	{
+		"School_ID": "609723",
+		"Short_Name": "MARSHALL HS",
+		"Long_Name": "John Marshall Metropolitan High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3250 W ADAMS ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60624",
+		"Phone": "7735346455",
+		"Fax": "7735346409",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609723",
+		"Website": "http://marshallmetro.cps.edu",
+		"Program_Type": "Agricultural Sciences",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.878444",
+		"School_Longitude": "-87.70805",
+		"Location": "3250 W ADAMS ST\nChicago, Illinois 60624\n(41.878444, -87.70805)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	},
+	{
+		"School_ID": "609723",
+		"Short_Name": "MARSHALL HS",
+		"Long_Name": "John Marshall Metropolitan High School",
+		"School_Type": "Neighborhood",
+		"Primary_Category": "HS",
+		"Address": "3250 W ADAMS ST",
+		"City": "Chicago",
+		"State": "Illinois",
+		"Zip": "60624",
+		"Phone": "7735346455",
+		"Fax": "7735346409",
+		"CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609723",
+		"Website": "http://marshallmetro.cps.edu",
+		"Program_Type": "Culinary Arts",
+		"Application_Requirements": "None",
+		"Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+		"Subprograms": "",
+		"How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
+		"Deadline": "12/15/2017",
+		"School_Latitude": "41.878444",
+		"School_Longitude": "-87.70805",
+		"Location": "3250 W ADAMS ST\nChicago, Illinois 60624\n(41.878444, -87.70805)",
+		"Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
+		"Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
+	}
 ];
 
-
 /***/ }),
-/* 516 */
+/* 511 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var grade_convert_1 = __webpack_require__(107);
-exports.calculateSEPoints = function (data, seTestPercentile) {
-    var NWEA_SCORE_CONSTANT = 1.515;
-    var nweaMathPoints = Math.round(data.scores.nweaPercentileMath * NWEA_SCORE_CONSTANT);
-    var nweaReadPoints = Math.round(data.scores.nweaPercentileRead * NWEA_SCORE_CONSTANT);
-    var gradePointsLookup = {
-        "A": 75,
-        "B": 50,
-        "C": 25,
-        "D": 0,
-        "F": 0,
-    };
-    var subjGradeMathPoints = gradePointsLookup[grade_convert_1.toLetterGrade(data.scores.subjGradeMath)];
-    var subjGradeReadPoints = gradePointsLookup[grade_convert_1.toLetterGrade(data.scores.subjGradeRead)];
-    var subjGradeSciPoints = gradePointsLookup[grade_convert_1.toLetterGrade(data.scores.subjGradeSci)];
-    var subjGradeSocStudiesPoints = gradePointsLookup[grade_convert_1.toLetterGrade(data.scores.subjGradeSocStudies)];
-    var SE_TEST_PERCENTILE_CONSTANT = 3.03;
-    if (!seTestPercentile) {
-        throw new Error("No SETestPercentile passed to calculateSEPoints!");
+var hs_req_fns_ts_1 = __webpack_require__(512);
+var getReqFn = function (id) {
+    try {
+        return hs_req_fns_ts_1.default[id].fn;
     }
-    var seTestPoints = Math.round(seTestPercentile * SE_TEST_PERCENTILE_CONSTANT);
-    var sePoints = nweaMathPoints +
-        nweaReadPoints +
-        subjGradeMathPoints +
-        subjGradeReadPoints +
-        subjGradeSciPoints +
-        subjGradeSocStudiesPoints +
-        seTestPoints;
-    return sePoints;
+    catch (e) {
+        console.log(id);
+    }
 };
-exports.calculateIBPoints = function (data) {
-    var NWEA_SCORE_CONSTANT = 2.2727;
-    var nweaMathPoints = Math.round(data.scores.nweaPercentileMath * NWEA_SCORE_CONSTANT);
-    var nweaReadPoints = Math.round(data.scores.nweaPercentileRead * NWEA_SCORE_CONSTANT);
-    var gradePointsLookup = {
-        "A": 112.5,
-        "B": 75,
-        "C": 38,
-        "D": 0,
-        "F": 0,
+exports.default = getReqFn;
+
+
+/***/ }),
+/* 512 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var success_chance_ts_1 = __webpack_require__(513);
+var getPointsFromCutoff = function (score, cutoff) {
+    var diff = cutoff - score;
+    if (diff <= 0) {
+        return 0;
+    }
+    else {
+        return diff;
+    }
+};
+var average = function () {
+    var nums = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        nums[_i] = arguments[_i];
+    }
+    var count = nums.length;
+    var sum = nums.reduce(function (a, b) { return a + b; });
+    return sum / count;
+};
+var norm = function (value, max, min) {
+    return ((value - min) / (max - min)) * 100;
+};
+var inAttendanceBound = function (student, school) {
+    var ATTEND_RADIUS_MI = 2.5;
+    var tryParseFloat = function (str) {
+        var num = parseFloat(str);
+        if (isNaN(num)) {
+            throw new Error("inAttendanceBound: Cannot parse '" + str + "' as float");
+        }
+        return num;
     };
-    var subjGradeMathPoints = gradePointsLookup[grade_convert_1.toLetterGrade(data.scores.subjGradeMath)];
-    var subjGradeReadPoints = gradePointsLookup[grade_convert_1.toLetterGrade(data.scores.subjGradeRead)];
-    var subjGradeSciPoints = gradePointsLookup[grade_convert_1.toLetterGrade(data.scores.subjGradeSci)];
-    var subjGradeSocStudiesPoints = gradePointsLookup[grade_convert_1.toLetterGrade(data.scores.subjGradeSocStudies)];
-    var ibPoints = nweaMathPoints +
-        nweaReadPoints +
-        subjGradeMathPoints +
-        subjGradeReadPoints +
-        subjGradeSciPoints +
-        subjGradeSocStudiesPoints;
-    return ibPoints;
+    var studentLat = tryParseFloat(student.latitude);
+    var studentLong = tryParseFloat(student.longitude);
+    var schoolLat = tryParseFloat(school.School_Latitude);
+    var schoolLong = tryParseFloat(school.School_Longitude);
+    var studentLatRad = Math.PI * studentLat / 180;
+    var schoolLatRad = Math.PI * schoolLat / 180;
+    var theta = studentLong - schoolLong;
+    var thetaRad = Math.PI * theta / 180;
+    var dist = Math.sin(studentLatRad) * Math.sin(schoolLatRad) * Math.cos(studentLatRad) * Math.cos(schoolLatRad) * Math.cos(thetaRad);
+    dist = Math.acos(dist);
+    dist = dist * 180 / Math.PI;
+    dist = dist * 60 * 1.1515;
+    var isInBound = dist < ATTEND_RADIUS_MI;
+    return isInBound;
 };
+var HsReqFns = {
+    "6adf97f83acf6453d4a6a4b1070f3754": {
+        "desc": "None",
+        "programs": [
+            "NOBLE - JOHNSON HS - General Education - Application",
+            "FOUNDATIONS - General Education - Application",
+            "NOBLE - PRITZKER HS - General Education - Application",
+            "PERSPECTIVES - TECH HS - General Education - Application",
+            "FARRAGUT HS - General Education - Application",
+            "URBAN PREP - WEST HS - General Education - Application",
+            "AUSTIN CCA HS - General Education - Application",
+            "CHICAGO VIRTUAL - Charter - Application",
+            "NOBLE - MANSUETO HS - General Education - Application",
+            "ACERO - SOTO HS - General Education - Application",
+            "CICS - LONGWOOD - Charter - Application",
+            "NOBLE - NOBLE HS - General Education - Application",
+            "ACERO - GARCIA HS - General Education - Application",
+            "ASPIRA - EARLY COLLEGE HS - General Education - Application",
+            "NOBLE - UIC HS - General Education - Application",
+            "WELLS HS - Pre-Law - Application",
+            "NOBLE - COMER - General Education - Application",
+            "SCHURZ HS - Accounting & Entrepreneurship - Application",
+            "WASHINGTON HS - General Education - Application",
+            "SCHURZ HS - General Education - Application",
+            "JUAREZ HS - General Education - Application",
+            "CHICAGO VOCATIONAL HS - Agricultural Sciences - Application",
+            "RICHARDS HS - General Education - Application",
+            "BOGAN HS - Entrepreneurship - Application",
+            "DOUGLASS HS - General Education - Application",
+            "LAKE VIEW HS - General Education - Application",
+            "ROOSEVELT HS - Game Programming - Application",
+            "ROOSEVELT HS - Medical & Health Careers - Application",
+            "NORTH-GRAND HS - Culinary Arts - Application",
+            "FOREMAN HS - Digital Media - Application",
+            "PHILLIPS HS - Digital Media - Application",
+            "ALCOTT HS - Pre-Engineering - Application",
+            "CURIE HS - Game Programming & Web Design - Application",
+            "CHICAGO MATH & SCIENCE HS - General Education - Application",
+            "BOWEN HS - Manufacturing - Application",
+            "JUAREZ HS - Culinary Arts - Application",
+            "SULLIVAN HS - Medical & Health Careers - Application",
+            "HUBBARD HS - General Education - Application",
+            "CHICAGO VOCATIONAL HS - Culinary Arts - Application",
+            "CICS - NORTHTOWN HS - General Education - Application",
+            "JULIAN HS - General Education - Application",
+            "SCHURZ HS - Automotive Technology - Application",
+            "CICS - CHICAGOQUEST HS - General Education - Application",
+            "COLLINS HS - Game Programming - Application",
+            "SULLIVAN HS - Accounting - Application",
+            "CHICAGO VIRTUAL - General Education - Application",
+            "SPRY HS - General Education - Application",
+            "FARRAGUT HS - Pre-Law - Application",
+            "NOBLE - BAKER HS - General Education - Application",
+            "CLEMENTE HS - Broadcast Technology - Application",
+            "SOUTH SHORE INTL HS - Medical & Health Careers - Application",
+            "CURIE HS - Accounting - Application",
+            "ROOSEVELT HS - Early Childhood - Application",
+            "PERSPECTIVES - MATH & SCI HS - General Education - Application",
+            "KENNEDY HS - General Education - Application",
+            "KELLY HS - General Education - Application",
+            "FARRAGUT HS - Automotive Technology - Application",
+            "JULIAN HS - Entrepreneurship - Application",
+            "CHICAGO VOCATIONAL HS - Carpentry - Application",
+            "CICS - ELLISON HS - General Education - Application",
+            "NOBLE - BULLS HS - General Education - Application",
+            "JULIAN HS - Allied Health - Application",
+            "ROOSEVELT HS - General Education - Application",
+            "URBAN PREP - ENGLEWOOD HS - General Education - Application",
+            "HYDE PARK HS - Broadcast Technology - Application",
+            "NORTH-GRAND HS - General Education - Application",
+            "GAGE PARK HS - General Education - Application",
+            "UPLIFT HS - General Education - Application",
+            "JUAREZ HS - Automotive Technology - Application",
+            "U OF C - WOODLAWN HS - General Education - Application",
+            "TILDEN HS - General Education - Application",
+            "BOWEN HS - General Education - Application",
+            "DUNBAR HS - Chicago Builds - Application",
+            "TAFT HS - General Education - Application",
+            "MORGAN PARK HS - General Education - Application",
+            "JULIAN HS - Broadcast Technology - Application",
+            "CURIE HS - Early Childhood & Teaching - Application",
+            "CLEMENTE HS - Culinary Arts - Application",
+            "BOGAN HS - Accounting - Application",
+            "NORTH-GRAND HS - Pre-Engineering - Application",
+            "CURIE HS - Automotive Technology - Application",
+            "JUAREZ HS - Medical & Health Careers - Application",
+            "JULIAN HS - Game Programming - Application",
+            "NORTH-GRAND HS - Allied Health - Application",
+            "JUAREZ HS - Architecture - Application",
+            "TILDEN HS - Culinary Arts - Application",
+            "INTRINSIC HS - General Education - Application",
+            "NOBLE - RAUNER HS - General Education - Application",
+            "SCHURZ HS - Digital Media - Application",
+            "FOREMAN HS - Web Design - Application",
+            "PERSPECTIVES - LEADERSHIP HS - General Education - Application",
+            "HYDE PARK HS - Digital Media - Application",
+            "CICS - LONGWOOD - General Education - Application",
+            "CORLISS HS - Early College STEM - Application",
+            "BOWEN HS - Pre-Engineering - Application",
+            "HYDE PARK HS - General Education - Application",
+            "ROOSEVELT HS - Culinary Arts - Application",
+            "FOREMAN HS - General Education - Application",
+            "NOBLE - ROWE CLARK HS - General Education - Application",
+            "CURIE HS - Broadcast Technology - Application",
+            "NOBLE - MUCHIN HS - General Education - Application",
+            "ALCOTT HS - General Education - Application",
+            "RICHARDS HS - Culinary Arts - Application",
+            "FENGER HS - Culinary Arts - Application",
+            "SCHURZ HS - Allied Health - Application",
+            "RABY HS - Culinary Arts - Application",
+            "RABY HS - Pre-Law - Application",
+            "FENGER HS - General Education - Application",
+            "HARPER HS - Culinary Arts - Application",
+            "NOBLE - DRW HS - General Education - Application",
+            "AMUNDSEN HS - General Education - Application",
+            "WILLIAMS HS - Medical & Health Careers - Application",
+            "NOBLE - GOLDER HS - General Education - Application",
+            "RABY HS - Broadcast Technology - Application",
+            "HIRSCH HS - General Education - Application",
+            "STEINMETZ HS - Digital Media - Application",
+            "JULIAN HS - Digital Media - Application",
+            "AUSTIN CCA HS - Manufacturing - Application",
+            "HARPER HS - Digital Media - Application",
+            "DYETT ARTS HS - General Education - Application",
+            "MATHER HS - Pre-Law - Application",
+            "AMUNDSEN HS - Game Programming & Web Design - Application",
+            "SOLORIO HS - General Education - Application",
+            "PERSPECTIVES - JOSLIN HS - General Education - Application",
+            "RICHARDS HS - Accounting - Application",
+            "MATHER HS - Game Programming & Web Design - Application",
+            "EPIC HS - General Education - Application",
+            "BOGAN HS - General Education - Application",
+            "CHICAGO COLLEGIATE - General Education - Application",
+            "CURIE HS - Culinary Arts - Application",
+            "RABY HS - Entrepreneurship - Application",
+            "CLEMENTE HS - Allied Health - Application",
+            "DYETT ARTS HS - Digital Media - Application",
+            "DUNBAR HS - Allied Health - Application",
+            "CHICAGO VOCATIONAL HS - Early College STEM - Application",
+            "HARLAN HS - Digital Media - Application",
+            "DUNBAR HS - Career Academy - Application",
+            "MANLEY HS - Culinary Arts - Application",
+            "CHICAGO VOCATIONAL HS - Diesel Technology - Application",
+            "CURIE HS - Fine Arts & Technology - NEIGHBORHOOD - Application",
+            "CHICAGO VOCATIONAL HS - General Education - Application",
+            "STEINMETZ HS - General Education - Application",
+            "SENN HS - General Education - Application",
+            "WELLS HS - Game Programming - Application",
+            "NOBLE - HANSBERRY HS - General Education - Application",
+            "ROBESON HS - General Education - Application",
+            "CHICAGO VOCATIONAL HS - Medical Assisting - Application",
+            "LAKE VIEW HS - Early College STEM - Application",
+            "CHICAGO VOCATIONAL HS - Cosmetology - Application",
+            "FENGER HS - Carpentry - Application",
+            "HARLAN HS - Web Design - Application",
+            "CURIE HS - Digital Media - Application",
+            "URBAN PREP - BRONZEVILLE HS - General Education - Application",
+            "CURIE HS - Architecture - Application",
+            "KENWOOD HS - General Education - Application",
+            "MATHER HS - General Education - Application",
+            "AUSTIN CCA HS - Pre-Engineering - Application",
+            "ORR HS - General Education - Application",
+            "SULLIVAN HS - General Education - Application",
+            "MANLEY HS - General Education - Application",
+            "HOPE HS - General Education - Application",
+            "NORTH LAWNDALE - CHRISTIANA HS - General Education - Application",
+            "NORTH LAWNDALE - COLLINS HS - General Education - Application",
+            "UPLIFT HS - Teaching - Application",
+            "SCHURZ HS - Pre-Engineering - Application",
+            "ACE TECH HS - General Education - Application",
+            "LEGAL PREP HS - General Education - Application",
+            "ASPIRA - BUSINESS & FINANCE HS - General Education - Application",
+            "JUAREZ HS - Game Programming & Web Design - Application",
+            "PROSSER HS - Career Academy - Application",
+            "HARPER HS - General Education - Application",
+            "INSTITUTO - HEALTH - General Education - Application",
+            "ROOSEVELT HS - Cisco Networking - Application",
+            "INFINITY HS - Science/Technology/Engineering/Math - Application",
+            "CHICAGO TECH HS - Science/Technology/Engineering/Math - Application",
+            "NOBLE - ITW SPEER HS - General Education - Application",
+            "NOBLE - BUTLER HS - General Education - Application",
+            "NOBLE - ACADEMY HS - General Education - Application",
+            "MARSHALL HS - General Education - Application",
+            "MARSHALL HS - Agricultural Sciences - Application",
+            "MARSHALL HS - Culinary Arts - Application"
+        ],
+        "fn": function noReq(studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.CERTAIN };
+        }
+    },
+    "f1a0a3737e921ccaf4617c5eafab5f53": {
+        "desc": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+        "programs": [
+            "NOBLE - JOHNSON HS - General Education - Selection",
+            "NOBLE - PRITZKER HS - General Education - Selection",
+            "PERSPECTIVES - TECH HS - General Education - Selection",
+            "URBAN PREP - WEST HS - General Education - Selection",
+            "NOBLE - MANSUETO HS - General Education - Selection",
+            "ACERO - SOTO HS - General Education - Selection",
+            "NOBLE - NOBLE HS - General Education - Selection",
+            "ACERO - GARCIA HS - General Education - Selection",
+            "ASPIRA - EARLY COLLEGE HS - General Education - Selection",
+            "NOBLE - UIC HS - General Education - Selection",
+            "NOBLE - COMER - General Education - Selection",
+            "CICS - NORTHTOWN HS - General Education - Selection",
+            "NOBLE - BAKER HS - General Education - Selection",
+            "PERSPECTIVES - MATH & SCI HS - General Education - Selection",
+            "CICS - ELLISON HS - General Education - Selection",
+            "NOBLE - BULLS HS - General Education - Selection",
+            "URBAN PREP - ENGLEWOOD HS - General Education - Selection",
+            "NOBLE - RAUNER HS - General Education - Selection",
+            "PERSPECTIVES - LEADERSHIP HS - General Education - Selection",
+            "CICS - LONGWOOD - General Education - Selection",
+            "NOBLE - ROWE CLARK HS - General Education - Selection",
+            "NOBLE - MUCHIN HS - General Education - Selection",
+            "NOBLE - DRW HS - General Education - Selection",
+            "NOBLE - GOLDER HS - General Education - Selection",
+            "PERSPECTIVES - JOSLIN HS - General Education - Selection",
+            "EPIC HS - General Education - Selection",
+            "NOBLE - HANSBERRY HS - General Education - Selection",
+            "URBAN PREP - BRONZEVILLE HS - General Education - Selection",
+            "ASPIRA - BUSINESS & FINANCE HS - General Education - Selection",
+            "NOBLE - ITW SPEER HS - General Education - Selection",
+            "NOBLE - BUTLER HS - General Education - Selection",
+            "NOBLE - ACADEMY HS - General Education - Selection"
+        ],
+        "fn": function random(studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "ea7a8ea4de4f5cdcc8bc6e7aab6a7962": {
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled at Foundations College Prep, sibling, general.",
+        "programs": [
+            "FOUNDATIONS - General Education - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "783216956d119ad64639725fa9f4d44b": {
+        "desc": "Students who live within the school's attendance boundary can be admitted automatically. This program only accepts students who live within the school's attendance boundary.",
+        "programs": [
+            "FARRAGUT HS - General Education - Selection",
+            "WASHINGTON HS - General Education - Selection",
+            "HUBBARD HS - General Education - Selection",
+            "KENNEDY HS - General Education - Selection",
+            "KELLY HS - General Education - Selection",
+            "ROOSEVELT HS - General Education - Selection",
+            "BOGAN HS - General Education - Selection",
+            "CURIE HS - Fine Arts & Technology - NEIGHBORHOOD - Selection",
+            "SENN HS - General Education - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "240970c398eb1cf1d65952b71e811d58": {
+        "desc": "If the school receives more applications than there are seats available, students are randomly selected through a computerized lottery.  Priority is given to students currently enrolled in the school and to siblings of students enrolled in the campus.",
+        "programs": [
+            "CHICAGO VIRTUAL - Charter - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "01a561f658ea66df980a6e77eae83235": {
+        "desc": "If the school receives more applications than there are seats available, students are randomly selected through a computerized lottery.  Priority is given to students currently enrolled in the school who wish to continue and to siblings of students enrolled in the campus.",
+        "programs": [
+            "CICS - LONGWOOD - Charter - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "8c431d51587c33009ee9b67a566c042e": {
+        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+        "programs": [
+            "AUSTIN CCA HS - General Education - Selection",
+            "JULIAN HS - General Education - Selection",
+            "NORTH-GRAND HS - General Education - Selection",
+            "GAGE PARK HS - General Education - Selection",
+            "BOWEN HS - General Education - Selection",
+            "FOREMAN HS - General Education - Selection",
+            "FENGER HS - General Education - Selection",
+            "HIRSCH HS - General Education - Selection",
+            "CHICAGO VOCATIONAL HS - General Education - Selection",
+            "ROBESON HS - General Education - Selection",
+            "ORR HS - General Education - Selection",
+            "MANLEY HS - General Education - Selection",
+            "HOPE HS - General Education - Selection",
+            "HARPER HS - General Education - Selection",
+            "INFINITY HS - Science/Technology/Engineering/Math - Selection",
+            "MARSHALL HS - General Education - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "6fddb8b397a12770dbed5afff360213b": {
+        "desc": "Minimum percentile of 75 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.",
+        "programs": [
+            "SOLORIO HS - Double Honors/Scholars - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            var NWEA_MATH_CUTOFF = 75;
+            var NWEA_READ_CUTOFF = 75;
+            var ATTEND_CUTOFF = 95;
+            var progress = {
+                threshold_certain: 100,
+                value: 100 - average(getPointsFromCutoff(studentData.scores.nweaPercentileMath, NWEA_MATH_CUTOFF), getPointsFromCutoff(studentData.scores.nweaPercentileRead, NWEA_READ_CUTOFF), getPointsFromCutoff(studentData.attendancePercentage, ATTEND_CUTOFF)),
+            };
+            if (studentData.scores.nweaPercentileMath >= NWEA_MATH_CUTOFF &&
+                studentData.scores.nweaPercentileRead >= NWEA_READ_CUTOFF &&
+                studentData.attendancePercentage >= ATTEND_CUTOFF) {
+                return { outcome: success_chance_ts_1.default.CERTAIN, progress: progress };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE, progress: progress };
+            }
+        }
+    },
+    "218f3d334a0ceaa37bb7ce57bec10e96": {
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, students enrolled in AUSL schools, general.",
+        "programs": [
+            "SOLORIO HS - Double Honors/Scholars - Selection",
+            "CHICAGO ACADEMY HS - Scholars - Selection",
+            "CHICAGO ACADEMY HS - General Education - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "3086b8e507b2f64e53b85b8ad808e66d": {
+        "desc": "Minimum 2.0 GPA in 7th grade and minimum attendance percentage of 85.",
+        "programs": [
+            "FARRAGUT HS - JROTC - Application",
+            "SCHURZ HS - AVID - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            var GPA_CUTOFF = 2.0;
+            var ATTEND_CUTOFF = 85;
+            var progress = {
+                threshold_certain: 100,
+                value: average(norm(getPointsFromCutoff(studentData.gpa, GPA_CUTOFF), 4.0, 0.0), getPointsFromCutoff(studentData.attendancePercentage, ATTEND_CUTOFF))
+            };
+            if (studentData.gpa >= GPA_CUTOFF && studentData.attendancePercentage >= ATTEND_CUTOFF) {
+                return { outcome: success_chance_ts_1.default.CERTAIN, progress: progress };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE, progress: progress };
+            }
+        }
+    },
+    "d3ddea21fb0e360b470bf095ce6bdfef": {
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: proximity, general.",
+        "programs": [
+            "FARRAGUT HS - JROTC - Selection",
+            "ROBESON HS - Allied Health - Selection",
+            "DUNBAR HS - Chicago Builds - Selection",
+            "SCHURZ HS - AVID - Selection",
+            "PROSSER HS - Career Academy - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "618315c228cf8e591d1909fc8ca41206": {
+        "desc": "Students are selected on a point system. Points are based on 7th grade final GPA and NWEA MAP scores. The school determines the minimum cutoff score for selections.",
+        "programs": [
+            "WELLS HS - Pre-Law - Selection",
+            "ALCOTT HS - Pre-Engineering - Selection",
+            "SULLIVAN HS - Medical & Health Careers - Selection",
+            "FARRAGUT HS - Pre-Law - Selection",
+            "SOUTH SHORE INTL HS - Medical & Health Careers - Selection",
+            "JULIAN HS - Allied Health - Selection",
+            "JUAREZ HS - Medical & Health Careers - Selection",
+            "BOWEN HS - Pre-Engineering - Selection",
+            "WILLIAMS HS - Medical & Health Careers - Selection",
+            "CLEMENTE HS - Allied Health - Selection",
+            "DUNBAR HS - Allied Health - Selection",
+            "CHICAGO VOCATIONAL HS - Medical Assisting - Selection",
+            "SCHURZ HS - Pre-Engineering - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "f661cdb969617a4f2a3923f5c80c190c": {
+        "desc": "General Education and 504 Plan students: Minimum percentile of 50 in both reading and math on NWEA MAP, minimum 2.7 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 50 in reading and math on NWEA MAP.  An Interview is required for all eligible applicants.",
+        "programs": [
+            "DYETT ARTS HS - Music - Application",
+            "DYETT ARTS HS - Visual Arts - Application",
+            "DYETT ARTS HS - Dance - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if (studentData.scores.nweaPercentileMath >= 50 &&
+                    studentData.scores.nweaPercentileRead >= 50 &&
+                    studentData.gpa >= 2.7 &&
+                    studentData.attendancePercentage >= 97) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead >= 50) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "3d86881707e468c9fe2a0ce0f5eeac4f": {
+        "name": "",
+        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the interview.",
+        "programs": [
+            "DYETT ARTS HS - Music - Selection",
+            "DYETT ARTS HS - Visual Arts - Selection",
+            "DYETT ARTS HS - Dance - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "7672890f5b16cd8f5c0cae20d58d1888": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+        "programs": [
+            "SCHURZ HS - Accounting & Entrepreneurship - Selection",
+            "KELLY HS - Digital Media - Selection",
+            "CHICAGO VOCATIONAL HS - Agricultural Sciences - Selection",
+            "BOGAN HS - Entrepreneurship - Selection",
+            "ROOSEVELT HS - Game Programming - Selection",
+            "NORTH-GRAND HS - Culinary Arts - Selection",
+            "FOREMAN HS - Digital Media - Selection",
+            "PHILLIPS HS - Digital Media - Selection",
+            "CURIE HS - Game Programming & Web Design - Selection",
+            "BOWEN HS - Manufacturing - Selection",
+            "JUAREZ HS - Culinary Arts - Selection",
+            "CHICAGO VOCATIONAL HS - Culinary Arts - Selection",
+            "SCHURZ HS - Automotive Technology - Selection",
+            "COLLINS HS - Game Programming - Selection",
+            "CLEMENTE HS - Broadcast Technology - Selection",
+            "CURIE HS - Accounting - Selection",
+            "ROOSEVELT HS - Early Childhood - Selection",
+            "FARRAGUT HS - Automotive Technology - Selection",
+            "JULIAN HS - Entrepreneurship - Selection",
+            "CHICAGO VOCATIONAL HS - Carpentry - Selection",
+            "HYDE PARK HS - Broadcast Technology - Selection",
+            "JUAREZ HS - Automotive Technology - Selection",
+            "JULIAN HS - Broadcast Technology - Selection",
+            "CURIE HS - Early Childhood & Teaching - Selection",
+            "CLEMENTE HS - Culinary Arts - Selection",
+            "CURIE HS - Automotive Technology - Selection",
+            "JULIAN HS - Game Programming - Selection",
+            "JUAREZ HS - Architecture - Selection",
+            "TILDEN HS - Culinary Arts - Selection",
+            "SCHURZ HS - Digital Media - Selection",
+            "FOREMAN HS - Web Design - Selection",
+            "HYDE PARK HS - Digital Media - Selection",
+            "ROOSEVELT HS - Culinary Arts - Selection",
+            "CURIE HS - Broadcast Technology - Selection",
+            "RICHARDS HS - Culinary Arts - Selection",
+            "FENGER HS - Culinary Arts - Selection",
+            "RABY HS - Culinary Arts - Selection",
+            "HARPER HS - Culinary Arts - Selection",
+            "RABY HS - Broadcast Technology - Selection",
+            "STEINMETZ HS - Digital Media - Selection",
+            "JULIAN HS - Digital Media - Selection",
+            "AUSTIN CCA HS - Manufacturing - Selection",
+            "HARPER HS - Digital Media - Selection",
+            "AMUNDSEN HS - Game Programming & Web Design - Selection",
+            "RICHARDS HS - Accounting - Selection",
+            "MATHER HS - Game Programming & Web Design - Selection",
+            "CURIE HS - Culinary Arts - Selection",
+            "RABY HS - Entrepreneurship - Selection",
+            "CHICAGO VOCATIONAL HS - Early College STEM - Selection",
+            "HARLAN HS - Digital Media - Selection",
+            "MANLEY HS - Culinary Arts - Selection",
+            "CHICAGO VOCATIONAL HS - Diesel Technology - Selection",
+            "WELLS HS - Game Programming - Selection",
+            "FENGER HS - Carpentry - Selection",
+            "HARLAN HS - Web Design - Selection",
+            "CURIE HS - Digital Media - Selection",
+            "CURIE HS - Architecture - Selection",
+            "UPLIFT HS - Teaching - Selection",
+            "JUAREZ HS - Game Programming & Web Design - Selection",
+            "MARSHALL HS - Agricultural Sciences - Selection",
+            "MARSHALL HS - Culinary Arts - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 &&
+                    studentData.scores.nweaPercentileRead >= 24) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+        }
+    },
+    "4ab864cc8934557f435c392c96e5cfc1": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery.\u00a0The lottery is conducted in the following order: sibling, general.",
+        "programs": [
+            "SCHURZ HS - General Education - Selection",
+            "STEINMETZ HS - General Education - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "ae1af40b734a31b447b1ed50f6e4bc17": {
+        "name": "",
+        "desc": "Minimum combined percentile of 48 in reading and math on NWEA MAP. Attendance at an Information Session is required for eligible applicants.",
+        "programs": [
+            "AIR FORCE HS - Service Learning Academies (Military) - Application",
+            "MARINE LEADERSHIP AT AMES HS - Service Learning Academies (Military) - Application",
+            "RICKOVER MILITARY HS - Service Learning Academies (Military) - Application",
+            "PHOENIX MILITARY HS - Service Learning Academies (Military) - Application",
+            "CARVER MILITARY HS - Service Learning Academies (Military) - Application",
+            "CHICAGO MILITARY HS - Service Learning Academies (Military) - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead >= 48) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+        }
+    },
+    "9a6d8103474c5e8b4988360767a186de": {
+        "name": "",
+        "desc": "During the Information Session, students will sign a Commitment Agreement, complete a Motivation and Perseverance Assessment and write a brief essay. Selections are based on a point system with a maximum of 500 points, derived from 7th grade final (cumulative) grades (100 points), 7th grade NWEA MAP scores (150 points), the two-part assessment (50 for each part), and the essay (100 points).",
+        "programs": [
+            "AIR FORCE HS - Service Learning Academies (Military) - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "459b0b1aaa6e44d897f0a720ba82369e": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary will be randomly selected by computerized lottery. The lottery will be conducted in the following order: sibling, general.",
+        "programs": [
+            "JUAREZ HS - General Education - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "d41d8cd98f00b204e9800998ecf8427e": {
+        "name": "",
+        "desc": "",
+        "programs": [
+            "KELLY HS - Digital Media - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "2317c60e8a1eec08ab495a14ccfd9c64": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery.",
+        "programs": [
+            "RICHARDS HS - General Education - Selection",
+            "TILDEN HS - General Education - Selection",
+            "DYETT ARTS HS - General Education - Selection",
+            "SOLORIO HS - General Education - Selection",
+            "MATHER HS - General Education - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "c32c0804dc719ba6c4c00322e7a69be2": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 45 in both reading and math on NWEA MAP.  IEP and EL students: Minimum NWEA MAP percentile of 50 in one subject (reading or math) and minimum NWEA MAP percentile of 40 in the other subject (reading or math).  Testing is required for all eligible applicants.",
+        "programs": [
+            "BROOKS HS - Academic Center - Application",
+            "TAFT HS - Academic Center - Application",
+            "LANE TECH HS - Academic Center - Application",
+            "MORGAN PARK HS - Academic Center - Application",
+            "KENWOOD HS - Academic Center - Application",
+            "LINDBLOM HS - Academic Center - Application",
+            "YOUNG HS - Academic Center - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "224ce8807abceb6ca72e650988637629": {
+        "name": "",
+        "desc": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for prior year final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
+        "programs": [
+            "BROOKS HS - Academic Center - Selection",
+            "TAFT HS - Academic Center - Selection",
+            "LANE TECH HS - Academic Center - Selection",
+            "MORGAN PARK HS - Academic Center - Selection",
+            "KENWOOD HS - Academic Center - Selection",
+            "LINDBLOM HS - Academic Center - Selection",
+            "YOUNG HS - Academic Center - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "03010a12030cab563c3f5d9115e7aabe": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 45 in both reading and math on NWEA MAP and minimum 2.0 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 90 in reading and math on NWEA MAP, and minimum 2.0 GPA in 7th grade.",
+        "programs": [
+            "STEINMETZ HS - JROTC - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if (studentData.scores.nweaPercentileMath >= 45 &&
+                    studentData.scores.nweaPercentileRead >= 45 &&
+                    studentData.gpa > 2.0) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 90 &&
+                    studentData.gpa > 2.0) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "5096cc5a97943badb78efd427ee13eb6": {
+        "name": "",
+        "desc": "Eligible students are randomly selected by computerized lottery.",
+        "programs": [
+            "STEINMETZ HS - JROTC - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "f6b1cadaa52f894d87ad4246bd4c9b0a": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, general.",
+        "programs": [
+            "DOUGLASS HS - General Education - Selection",
+            "WILLIAMS HS - General Education - Selection",
+            "SENN HS - Digital Journalism - Selection",
+            "NORTH LAWNDALE - CHRISTIANA HS - General Education - Selection",
+            "NORTH LAWNDALE - COLLINS HS - General Education - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "77620df9b5c4a530f21c30267af843ce": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP. An audition/portfolio review is required.",
+        "programs": [
+            "CURIE HS - Dance - Application",
+            "CURIE HS - Music - Application",
+            "CURIE HS - Visual Arts - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 &&
+                    studentData.scores.nweaPercentileRead >= 24) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+        }
+    },
+    "7e51568fc748dec3fd5aa79aae428009": {
+        "name": "",
+        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade final (cumulative) grades, and the audition.",
+        "programs": [
+            "CURIE HS - Dance - Selection",
+            "SENN HS - Dance - Selection",
+            "CURIE HS - Music - Selection",
+            "SENN HS - Music - Selection",
+            "SENN HS - Theatre - Selection",
+            "CURIE HS - Visual Arts - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "0514de51e21823dae4f43b085538f9e6": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.",
+        "programs": [
+            "WESTINGHOUSE HS - Career Academy - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
+                    studentData.gpa >= 3.0 &&
+                    studentData.attendancePercentage >= 95) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 &&
+                    studentData.scores.nweaPercentileRead >= 24 &&
+                    studentData.gpa >= 3.0 &&
+                    studentData.attendancePercentage >= 95) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "d76c385b612c2ef53c62501b074b6134": {
+        "name": "",
+        "desc": "Students are randomly selected by compterized lottery. The lottery is conducted in the following order: proximity, general.",
+        "programs": [
+            "WESTINGHOUSE HS - Career Academy - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "5ee7cff3803c80e025f483be28b57f06": {
+        "name": "",
+        "desc": "This program only accepts students who live within the school's attendance boundary or who attend a Grow Community School (Audubon, Bell, Blaine, Budlong, Burley, Chappell, Coonley, Greeley, Hamilton, Hawthorne, Inter-American, Jahn, Jamieson, McPherson, Nettelhorst, Ravenswood, or Waters). Students are randomly selected by computerized lottery.",
+        "programs": [
+            "LAKE VIEW HS - General Education - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "930c01733b718c40bc1f2af23839e14a": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants.",
+        "programs": [
+            "KELLY HS - International Baccalaureate (IB) - Application",
+            "SOUTH SHORE INTL HS - International Baccalaureate (IB) - Application",
+            "BACK OF THE YARDS HS - International Baccalaureate (IB) - Application",
+            "PROSSER HS - International Baccalaureate (IB) - Application",
+            "STEINMETZ HS - International Baccalaureate (IB) - Application",
+            "MORGAN PARK HS - International Baccalaureate (IB) - Application",
+            "TAFT HS - International Baccalaureate (IB) - Application",
+            "BOGAN HS - International Baccalaureate (IB) - Application",
+            "JUAREZ HS - International Baccalaureate (IB) - Application",
+            "OGDEN HS - International Baccalaureate (IB) - Application",
+            "KENNEDY HS - International Baccalaureate (IB) - Application",
+            "AMUNDSEN HS - International Baccalaureate (IB) - Application",
+            "WASHINGTON HS - International Baccalaureate (IB) - Application",
+            "SCHURZ HS - International Baccalaureate (IB) - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
+                    studentData.gpa >= 2.5) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 &&
+                    studentData.scores.nweaPercentileRead >= 24 &&
+                    studentData.gpa >= 2.5) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "11bdd4bc6af64732a32d73a850bc78a4": {
+        "name": "",
+        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points.The school determines the minimum cutoff score for selections.",
+        "programs": [
+            "KELLY HS - International Baccalaureate (IB) - Selection",
+            "BACK OF THE YARDS HS - International Baccalaureate (IB) - Selection",
+            "JUAREZ HS - International Baccalaureate (IB) - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "f79604e9d7984cc9b43fa3c69abe428d": {
+        "name": "",
+        "desc": "During the Information Session, students will sign a Commitment Agreement, complete a Motivation and Perseverance Assessment and write a brief essay. Selections will be based on a point system with a maximum of 500 points, derived from 7th grade final (cumulative) grades (100 points), 7th grade NWEA MAP scores (150 points), the two-part assessment (50 for each part), and the essay (100 points).",
+        "programs": [
+            "MARINE LEADERSHIP AT AMES HS - Service Learning Academies (Military) - Selection",
+            "RICKOVER MILITARY HS - Service Learning Academies (Military) - Selection",
+            "PHOENIX MILITARY HS - Service Learning Academies (Military) - Selection",
+            "CARVER MILITARY HS - Service Learning Academies (Military) - Selection",
+            "CHICAGO MILITARY HS - Service Learning Academies (Military) - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "4cb799c1cf8b41a3baf1e8d9176463d8": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.",
+        "programs": [
+            "JONES HS - Pre-Engineering - Application",
+            "CRANE MEDICAL HS - Health Sciences - Application",
+            "CHICAGO AGRICULTURE HS - Agricultural Sciences - Application",
+            "HANCOCK HS - Pre-Law - Application",
+            "HANCOCK HS - Pre-Engineering - Application",
+            "JONES HS - Pre-Law - Application",
+            "VON STEUBEN HS - Science - Application",
+            "CLARK HS - Early College STEM - Application",
+            "DISNEY II HS - Fine Arts & Technology - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 &&
+                    studentData.scores.nweaPercentileRead >= 24) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+        }
+    },
+    "0fe94ad9490cc5fe33139f705336bf3d": {
+        "name": "",
+        "desc": "Students are selected on a point system. Points are based on 7th grade final GPA and 7th grade stanines. Students are ranked and selected from high to low. Students residing within the attendance overlay boundary of the school are selected first.",
+        "programs": [
+            "JONES HS - Pre-Engineering - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "0fedde2a8081243a74d2c6a3be90b411": {
+        "name": "",
+        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.",
+        "programs": [
+            "SOUTH SHORE INTL HS - International Baccalaureate (IB) - Selection",
+            "CLEMENTE HS - International Baccalaureate (IB) - Selection",
+            "STEINMETZ HS - International Baccalaureate (IB) - Selection",
+            "HUBBARD HS - International Baccalaureate (IB) - Selection",
+            "BOGAN HS - International Baccalaureate (IB) - Selection",
+            "KENNEDY HS - International Baccalaureate (IB) - Selection",
+            "BRONZEVILLE HS - International Baccalaureate (IB) - Selection",
+            "WASHINGTON HS - International Baccalaureate (IB) - Selection",
+            "SCHURZ HS - International Baccalaureate (IB) - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "70d67060ab98f9cd752d741b32e207ba": {
+        "name": "",
+        "desc": "Student selections are based on points. Students are assigned points for 7th grade final GPA and 7th grade stanines. Each school determines a minimum cutoff score for selections.",
+        "programs": [
+            "ROOSEVELT HS - Medical & Health Careers - Selection",
+            "NORTH-GRAND HS - Pre-Engineering - Selection",
+            "NORTH-GRAND HS - Allied Health - Selection",
+            "SCHURZ HS - Allied Health - Selection",
+            "RABY HS - Pre-Law - Selection",
+            "MATHER HS - Pre-Law - Selection",
+            "ROOSEVELT HS - Cisco Networking - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "eb6acf17c18f9a5177bcdb7a4504672a": {
+        "name": "",
+        "desc": "Minimum percentile of 40 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, LAS Links Assessment composite of 4 or STAMP Assessment at the Intermediate Level.",
+        "programs": [
+            "SCHURZ HS - Dual Language - Application",
+            "BACK OF THE YARDS HS - Dual Language - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "0640ddea233c6c9c97db5dd816b5c24a": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, students currently enrolled in a CPS elementary school with a world language or dual language program, general.",
+        "programs": [
+            "SCHURZ HS - Dual Language - Selection",
+            "BACK OF THE YARDS HS - Dual Language - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "8c1dffabe7825704cbe29a12138cc4d9": {
+        "name": "",
+        "desc": "Students currently enrolled in the school's eighth grade will have a deadline to submit their intent to enroll in ninth grade. For remaining seats, students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+        "programs": [
+            "CHICAGO MATH & SCIENCE HS - General Education - Selection",
+            "CICS - CHICAGOQUEST HS - General Education - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "70b7c4a5e527fb50d69ea37b000765d8": {
+        "name": "",
+        "desc": "Minimum percentile of 70 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 93.",
+        "programs": [
+            "CHICAGO ACADEMY HS - Scholars - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.scores.nweaPercentileMath >= 70 &&
+                studentData.scores.nweaPercentileRead >= 70 &&
+                studentData.gpa >= 3.0 &&
+                studentData.attendancePercentage >= 93) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "1d126a086436d78661af2cb249938c72": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum attendance percentage of 92.",
+        "programs": [
+            "MULTICULTURAL HS - Fine and Performing Arts - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                if (studentData.attendancePercentage >= 92) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "c36c294e63476a7959123bfe85a2c639": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+        "programs": [
+            "MULTICULTURAL HS - Fine and Performing Arts - Selection",
+            "CLEMENTE HS - General Education - Selection",
+            "PHILLIPS HS - General Education - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "889af44e3306313029109d465b1c2de6": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum GPA of 2.5 in 7th grade and minimum attendance percentage of 85.",
+        "programs": [
+            "CLEMENTE HS - General Education - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                if (studentData.gpa >= 2.5 &&
+                    studentData.attendancePercentage >= 85) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "6a02d16ba52a69b937a74a43c6a82769": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance is required at an Information Session for all eligible applicants.",
+        "programs": [
+            "CLEMENTE HS - International Baccalaureate (IB) - Application",
+            "CURIE HS - International Baccalaureate (IB) - Application",
+            "FARRAGUT HS - International Baccalaureate (IB) - Application",
+            "BRONZEVILLE HS - International Baccalaureate (IB) - Application",
+            "HYDE PARK HS - International Baccalaureate (IB) - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
+                    studentData.gpa >= 2.5) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 &&
+                    studentData.scores.nweaPercentileRead >= 24 &&
+                    studentData.gpa >= 2.5) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "1a043655763ab140a0d14f5080d63a2c": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
+        "programs": [
+            "BROOKS HS - Selective Enrollment High School - Application",
+            "YOUNG HS - Selective Enrollment High School - Application",
+            "SOUTH SHORE INTL HS - Selective Enrollment High School - Application",
+            "WESTINGHOUSE HS - Selective Enrollment High School - Application",
+            "LANE TECH HS - Selective Enrollment High School - Application",
+            "HANCOCK HS - Selective Enrollment High School - Application",
+            "LINDBLOM HS - Selective Enrollment High School - Application",
+            "KING HS - Selective Enrollment High School - Application",
+            "PAYTON HS - Selective Enrollment High School - Application",
+            "JONES HS - Selective Enrollment High School - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 &&
+                    studentData.scores.nweaPercentileRead >= 24) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "bd680e7bc10c03552140e26736221cf7": {
+        "name": "",
+        "desc": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for 7th grade final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
+        "programs": [
+            "BROOKS HS - Selective Enrollment High School - Selection",
+            "YOUNG HS - Selective Enrollment High School - Selection",
+            "NORTHSIDE PREP HS - Selective Enrollment High School - Selection",
+            "SOUTH SHORE INTL HS - Selective Enrollment High School - Selection",
+            "WESTINGHOUSE HS - Selective Enrollment High School - Selection",
+            "LANE TECH HS - Selective Enrollment High School - Selection",
+            "HANCOCK HS - Selective Enrollment High School - Selection",
+            "LINDBLOM HS - Selective Enrollment High School - Selection",
+            "KING HS - Selective Enrollment High School - Selection",
+            "JONES HS - Selective Enrollment High School - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "94f10272b6ff9ee947b6c7f8e9adc98c": {
+        "name": "",
+        "desc": "Minimum percentile of 24 in both reading and math on NWEA MAP. An interview is required for applicants.",
+        "programs": [
+            "TAFT HS - NJROTC - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.scores.nweaPercentileMath >= 24 &&
+                studentData.scores.nweaPercentileRead >= 24) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "29034b3dd211fc6857c0762ea4431354": {
+        "name": "",
+        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores and the interview.",
+        "programs": [
+            "TAFT HS - NJROTC - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "7ca8e42afc3b2240bdc21e9b02a9b6ff": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 2.75 GPA in 7th grade. An audition is required for students who live outside of the school's attendance boundary.",
+        "programs": [
+            "LINCOLN PARK HS - Vocal Music - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 60 &&
+                    studentData.scores.nweaPercentileRead >= 60 &&
+                    studentData.gpa >= 2.5) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "abfbe30160c0ed3a6d925da2f6fbe7d6": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility/audition requirements and can be admitted automatically.  Students who live outside of the school's attendance boundary are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade GPA, and the audition.",
+        "programs": [
+            "LINCOLN PARK HS - Vocal Music - Selection",
+            "LINCOLN PARK HS - Instrumental Music - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+            }
+        }
+    },
+    "9653c4a2af98c756aaeeaa36980f9dc5": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 24 in reading and math on NWEA MAP, and minimum attendance percentage of 90.",
+        "programs": [
+            "PHILLIPS HS - General Education - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                if (studentData.iep || studentData.ell) {
+                    if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 24 &&
+                        studentData.attendancePercentage >= 90) {
+                        return { outcome: success_chance_ts_1.default.CERTAIN };
+                    }
+                    else {
+                        return { outcome: success_chance_ts_1.default.NONE };
+                    }
+                }
+                else {
+                    if (studentData.scores.nweaPercentileMath >= 24 &&
+                        studentData.scores.nweaPercentileRead >= 24 &&
+                        studentData.attendancePercentage >= 90) {
+                        return { outcome: success_chance_ts_1.default.CERTAIN };
+                    }
+                    else {
+                        return { outcome: success_chance_ts_1.default.NONE };
+                    }
+                }
+            }
+        }
+    },
+    "49bc52caf46148ee777e8d3534f22700": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, tiers.",
+        "programs": [
+            "CRANE MEDICAL HS - Health Sciences - Selection",
+            "CHICAGO AGRICULTURE HS - Agricultural Sciences - Selection",
+            "VON STEUBEN HS - Science - Selection",
+            "CLARK HS - Early College STEM - Selection",
+            "DISNEY II HS - Fine Arts & Technology - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "61f50de703d591d18f2fb852131bbb9c": {
+        "name": "",
+        "desc": "Studentts are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+        "programs": [
+            "SULLIVAN HS - Accounting - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                if (studentData.iep || studentData.ell) {
+                    if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
+                        return { outcome: success_chance_ts_1.default.LIKELY };
+                    }
+                    else {
+                        return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                    }
+                }
+                else {
+                    if (studentData.scores.nweaPercentileMath >= 24 &&
+                        studentData.scores.nweaPercentileRead >= 24) {
+                        return { outcome: success_chance_ts_1.default.LIKELY };
+                    }
+                    else {
+                        return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                    }
+                }
+            }
+        }
+    },
+    "3c0f47771fc40565978a3a894bd96705": {
+        "name": "",
+        "desc": "Minimum percentile of 50 in both reading and math on NWEA MAP, and minimum 2.0 GPA in 7th grade.",
+        "programs": [
+            "FENGER HS - Honors - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.scores.nweaPercentileMath >= 50 &&
+                studentData.scores.nweaPercentileRead >= 50 &&
+                studentData.gpa >= 2.0) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "308d8156364219130aef9a7de30a6c8d": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery.",
+        "programs": [
+            "FENGER HS - Honors - Selection",
+            "CHICAGO VIRTUAL - General Education - Selection",
+            "KENWOOD HS - Honors - Selection",
+            "HUBBARD HS - University Scholars - Selection",
+            "DUNBAR HS - Career Academy - Selection",
+            "BRONZEVILLE HS - Honors - Selection",
+            "ACE TECH HS - General Education - Selection",
+            "MORGAN PARK HS - World Language and International Studies - Selection",
+            "CHICAGO TECH HS - Science/Technology/Engineering/Math - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "ab7e9a52b2c607977c432dd5f27c6fe9": {
+        "name": "",
+        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. Each school selects a minimum cutoff score for selections.",
+        "programs": [
+            "PROSSER HS - International Baccalaureate (IB) - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "1fb20237fa7f24217e8e191fd839f283": {
+        "name": "",
+        "desc": "Spry is a three-year, year-round school. Students are randomly selected by computerized lottery.\u00a0The lottery is conducted in the following order: sibling, general.",
+        "programs": [
+            "SPRY HS - General Education - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "b4dc6bde064d3f16c8bed871ea0cee30": {
+        "name": "",
+        "desc": "Minimum percentile of 50 in reading on NWEA MAP, minimum 2.0 GPA in 7th grade, and minimum attendance percentage of 80.",
+        "programs": [
+            "KELLY HS - AVID - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.scores.nweaPercentileRead >= 50 &&
+                studentData.gpa >= 2.0 &&
+                studentData.attendancePercentage >= 80) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "4ce6d6733bff330b780bc8390660d7cf": {
+        "name": "",
+        "desc": "Students will be selected based on teacher recommendation letter(s) and an interview process.",
+        "programs": [
+            "KELLY HS - AVID - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "ff3e583dbc3724c10581273b3dae6910": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.\u00a0  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
+        "programs": [
+            "NORTHSIDE PREP HS - Selective Enrollment High School - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 &&
+                    studentData.scores.nweaPercentileRead >= 24) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+        }
+    },
+    "14673a83b42347d3fdc6f2fa445c4d2f": {
+        "name": "",
+        "desc": "Student selections are based on points. Students are assigned points for 7th grade final GPA and 7th grade stanines. Students are ranked and selected from high to low. Students residing within the attendance overlay boundary of the school are selected first.",
+        "programs": [
+            "HANCOCK HS - Pre-Law - Selection",
+            "HANCOCK HS - Pre-Engineering - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "3d1c7a20cb38789ce4b0f651200dd9cd": {
+        "name": "",
+        "desc": "Minimum percentile of 75 in both reading and math on NWEA MAP, minimum 3.5 GPA in 7th grade, and minimum attendance percentage of 95.",
+        "programs": [
+            "KENWOOD HS - Honors - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.scores.nweaPercentileMath >= 75 &&
+                studentData.scores.nweaPercentileRead >= 75 &&
+                studentData.gpa >= 3.5 &&
+                studentData.attendancePercentage >= 95) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "027fe7b2d9fd7d9c6e55de49f723852f": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum combined percentile of 40 in reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 30 in reading and math on NWEA MAP, and minimum attendance percentage of 90.",
+        "programs": [
+            "SIMEON HS - Career Academy - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) > 30 &&
+                    studentData.attendancePercentage >= 90) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) > 40 &&
+                    studentData.gpa >= 2.5 &&
+                    studentData.attendancePercentage >= 90) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "48befdd406dee45058f2dbd64a097154": {
+        "name": "",
+        "desc": "Students are selected on a point system. Points are based on the combined NWEA MAP scores and the interview.",
+        "programs": [
+            "SIMEON HS - Career Academy - Selection",
+            "SIMEON HS - Honors - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "39fbe111b62498337fb2f7973a18e570": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 85.  IEP and EL students: Minimum combined percentile of 40 in reading and math on NWEA MAP and minimum attendance percentage of 85.",
+        "programs": [
+            "HARLAN HS - General Education - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                if (studentData.iep || studentData.ell) {
+                    if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 40 &&
+                        studentData.attendancePercentage >= 85) {
+                        return { outcome: success_chance_ts_1.default.CERTAIN };
+                    }
+                    else {
+                        return { outcome: success_chance_ts_1.default.NONE };
+                    }
+                }
+                else {
+                    if (studentData.scores.nweaPercentileMath >= 24 &&
+                        studentData.scores.nweaPercentileRead >= 24 &&
+                        studentData.attendancePercentage >= 85) {
+                        return { outcome: success_chance_ts_1.default.CERTAIN };
+                    }
+                    else {
+                        return { outcome: success_chance_ts_1.default.NONE };
+                    }
+                }
+            }
+        }
+    },
+    "3e4ad403b3a6a2e998cd7d7b7d179091": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibilty requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+        "programs": [
+            "HARLAN HS - General Education - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "f2829bdd4c9bc67e01b90bdd3db46c07": {
+        "name": "",
+        "desc": "Minimum percentile of 50 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 90.",
+        "programs": [
+            "SIMEON HS - Honors - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.scores.nweaPercentileMath >= 50 &&
+                studentData.scores.nweaPercentileRead >= 50 &&
+                studentData.gpa >= 3.0 &&
+                studentData.attendancePercentage >= 90) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "c66032656bbf52edb1c9d6b62ca2e2eb": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum combined percentile of 135 in reading and math on NWEA MAP and minimum 3.0 GPA in 7th grade.",
+        "programs": [
+            "LINCOLN PARK HS - Honors/Double Honors - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 135 &&
+                    studentData.gpa >= 3.0) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "1558a52d4663a54c6a5f06fa10062961": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside the school's attendance boundary are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and 7th grade GPA.",
+        "programs": [
+            "LINCOLN PARK HS - Honors/Double Honors - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+            }
+        }
+    },
+    "f4491f6cf1ebf200770f01271d93ba47": {
+        "name": "",
+        "desc": "Minimum percentile of 80 in both reading and math on NWEA MAP and minimum 3.5 GPA in 7th grade.",
+        "programs": [
+            "CHICAGO AGRICULTURE HS - Scholars - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.scores.nweaPercentileMath >= 80 &&
+                studentData.scores.nweaPercentileRead >= 80 &&
+                studentData.gpa >= 3.5) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "1976701fe4ffdbf53913f7f638f61b26": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. Preference is given to students with a sibling who is currently enrolled and will be enrolled in the upcoming school year.",
+        "programs": [
+            "CHICAGO AGRICULTURE HS - Scholars - Selection",
+            "HARLAN HS - Pre-Engineering - Selection",
+            "CHICAGO AGRICULTURE HS - Honors - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "736b7d124b6930cf8ae642563037eeb9": {
+        "name": "",
+        "desc": "Attendance at an Information Session is not required, but preference is given to students who attend an Information Session.",
+        "programs": [
+            "GOODE HS - Early College STEM - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "85463a98c5a7ba21313aacdaeda48cd0": {
+        "name": "",
+        "desc": "Students are randomly selcted by computerized lottery. The lottery is conducted in the following order: students who live within the school's overlay boundary and attend an Information Session; students who live within the school's network and attend an Information Session; students who live outside of the network and attend an Information Session; students who live within the school's overlay boundary and do not attend an Information Session; students who live within the school's network and do not attend an Information Session; students who live outside of the network and do not attend an Information Session.",
+        "programs": [
+            "GOODE HS - Early College STEM - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "8ccbd2eb3d4e026932b83ee576862b16": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  An audition is required for all eligible applicants.",
+        "programs": [
+            "SENN HS - Dance - Application",
+            "SENN HS - Music - Application",
+            "SENN HS - Theatre - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 &&
+                    studentData.scores.nweaPercentileRead >= 24) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+        }
+    },
+    "7e054e33cdc685f9b099a243e45f0386": {
+        "name": "",
+        "desc": "Minimum 2.5 GPA in 7th grade.",
+        "programs": [
+            "ROBESON HS - Allied Health - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.gpa >= 2.5) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "b3b514880eaa7b9a4db6d6b6308eb1f7": {
+        "name": "",
+        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school selects the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Academic Center.",
+        "programs": [
+            "MORGAN PARK HS - International Baccalaureate (IB) - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "7574e7fa48dfdf030b059dbaff5351b6": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling; students who attend Brennemann, Courtenay, or McCutcheon Elementary Schools; general.",
+        "programs": [
+            "UPLIFT HS - General Education - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "f9d7148f613933f83ad7d81004715614": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled at the University of Chicago Woodlawn, sibling, proximity, general.",
+        "programs": [
+            "U OF C - WOODLAWN HS - General Education - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "bc314f72be86fc565247301f6d8f99b8": {
+        "name": "",
+        "desc": "Minimum percentile of 40 in both reading and math on NWEA MAP, minimum 2.8 GPA in 7th grade, and minimum attendance percentage of 92.",
+        "programs": [
+            "COLLINS HS - Scholars - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.scores.nweaPercentileMath >= 40 &&
+                studentData.scores.nweaPercentileRead >= 40 &&
+                studentData.gpa >= 2.8 &&
+                studentData.attendancePercentage >= 92) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "685beedfccfae8bdb0649c36f03dfd7a": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in Chalmers, Dvorak, Herzl, Johnson, or Morton Elementary Schools; general.",
+        "programs": [
+            "COLLINS HS - Scholars - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "9a2a27708247d3b692481757756b5226": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum combined percentile of 40 in both reading and math on NWEA MAP, minimum 2.0 GPA in 7th grade, and minimum attendance percentage of 80.  IEP/EL students have no eligibility requirements.",
+        "programs": [
+            "TEAM HS - General Education - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 40 &&
+                    studentData.gpa >= 2.0 &&
+                    studentData.attendancePercentage >= 80) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "8f880cad92a9a0dc49dd8d6ba4209b14": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students with a 7th grade final GPA of 2.5 or higher, general.",
+        "programs": [
+            "TEAM HS - General Education - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.gpa >= 2.5) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "43cabfe5f36cbf1ccbb95a9962d90319": {
+        "name": "",
+        "desc": "Students enrolled in the Taft Academic Center or students who live within the school's attendance boundary can be admitted automatically. This program only accepts students who live within the school's attendance boundary or who attend the school's Academic Center.",
+        "programs": [
+            "TAFT HS - General Education - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "9fad1e147fb546e7a25d0fccba608035": {
+        "name": "",
+        "desc": "Students who are enrolled in the Morgan Park Academic Center and students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+        "programs": [
+            "MORGAN PARK HS - General Education - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "7ef878b115498c24fd96f8891c346480": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 85.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, and minimum attendance percentage of 85.",
+        "programs": [
+            "WILLIAMS HS - General Education - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
+                    studentData.attendancePercentage >= 85) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 &&
+                    studentData.scores.nweaPercentileRead >= 24 &&
+                    studentData.attendancePercentage >= 85) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "01bb8009b315ff8fc0120dbadf71444c": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading on math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.",
+        "programs": [
+            "HUBBARD HS - University Scholars - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
+                    studentData.gpa >= 2.5 &&
+                    studentData.attendancePercentage >= 90) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 &&
+                    studentData.scores.nweaPercentileRead >= 24 &&
+                    studentData.gpa >= 2.5 &&
+                    studentData.attendancePercentage >= 90) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "86b8c5719b264aa9072aa6433644fb60": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, and minimum attendance percentage of 90.",
+        "programs": [
+            "SENN HS - Digital Journalism - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
+                    studentData.attendancePercentage >= 90) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 &&
+                    studentData.scores.nweaPercentileRead >= 24 &&
+                    studentData.gpa >= 2.5 &&
+                    studentData.attendancePercentage >= 90) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "4773ff8378c681fdc3855cec189b446d": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. General Education and 504 Plan Students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+        "programs": [
+            "BOGAN HS - Accounting - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 && studentData.scores.nweaPercentileRead >= 24) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+        }
+    },
+    "87bdb6caf5cf899ddb8041511761e58b": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+        "programs": [
+            "INTRINSIC HS - General Education - Selection",
+            "YOUNG WOMENS HS - General Education - Selection",
+            "INSTITUTO - HEALTH - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "23e3199eb5514de5456653457f75f366": {
+        "name": "",
+        "desc": "Minimum percentile of 60 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.",
+        "programs": [
+            "KENWOOD HS - Magnet Program - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.scores.nweaPercentileMath >= 60 &&
+                student.scores.nweaPercentileRead >= 60 &&
+                student.gpa >= 3.0 &&
+                student.attendancePercentage >= 95) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "9b26cbed99b12a4c7cfca5a4713c6e17": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in the Kenwood Academic Center, general.",
+        "programs": [
+            "KENWOOD HS - Magnet Program - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "0df5dab7dc2c1e8d8947d27287872269": {
+        "name": "",
+        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibilty requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, Edwards Elementary School.",
+        "programs": [
+            "CURIE HS - International Baccalaureate (IB) - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "9e837f0a671ce67593e611ccf595306a": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the schools attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+        "programs": [
+            "CORLISS HS - Early College STEM - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "2fdf00001de412f0e493fa242647bad0": {
+        "name": "",
+        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Academic Center.",
+        "programs": [
+            "TAFT HS - International Baccalaureate (IB) - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "ba2bb65c77d8d0932634f43bb01707cc": {
+        "name": "",
+        "desc": "Students who live within the school's attendance area can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in Carnegie Elementary School, sibling, general.",
+        "programs": [
+            "HYDE PARK HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "08ee4f1aa31d5eb00bbc81c21139188b": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary: None  Students who live outside of the school's attendance boundary: Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 2.75 GPA in 7th grade. An audition is required for students who live outside of the school's attendance boundary.",
+        "programs": [
+            "LINCOLN PARK HS - Instrumental Music - Application"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                if (student.scores.nweaPercentileMath >= 60 &&
+                    student.scores.nweaPercentileRead >= 60 &&
+                    student.gpa >= 2.75) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "d1b719a6ff9e6979e8f14b2c05b63352": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: Alcott Elementary School students, proximity, general.",
+        "programs": [
+            "ALCOTT HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "f5ef0c0580eb110a06888b1c15313717": {
+        "name": "",
+        "desc": "Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 2.75 GPA in 7th grade. An audition is required for all eligible applicants.",
+        "programs": [
+            "LINCOLN PARK HS - Drama - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.scores.nweaPercentileMath >= 60 &&
+                student.scores.nweaPercentileRead >= 60 &&
+                student.gpa >= 2.75) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "9f4eb5cee59306847a4fa61720f8e54d": {
+        "name": "",
+        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade GPA, and the audition.",
+        "programs": [
+            "LINCOLN PARK HS - Drama - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "625d1f6025c2e892f5573e60ab69f903": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on the NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.",
+        "programs": [
+            "HARLAN HS - Pre-Engineering - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (student.scores.nweaPercentileMath >= 24 &&
+                    student.scores.nweaPercentileRead >= 24) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "bc517a96ab40c67deddde65b6a4c07a8": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  A portfolio review is required for all eligible applicants.",
+        "programs": [
+            "SENN HS - Visual Arts - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (student.scores.nweaPercentileMath >= 24 &&
+                    student.scores.nweaPercentileRead >= 24) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "cb76bc6620a1921e5f9630e2a39fb8d8": {
+        "name": "",
+        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade final (cumulative) grades, and the portfolio review.",
+        "programs": [
+            "SENN HS - Visual Arts - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "afb0dfcaa0f2cc236b2bd07a0244385e": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary or who attend Grow Community Schools can be admitted automatically. This program only accepts students who live within the school's attendance boundary or attend a Grow Community School.",
+        "programs": [
+            "AMUNDSEN HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "78e3973b67c80b7984271b2a127e9ebf": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum 2.5 GPA in 7th grade and minimum attendance percentage of 85.",
+        "programs": [
+            "KELVYN PARK HS - General Education - Application"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                if (student.gpa >= 2.5 &&
+                    student.attendancePercentage >= 85) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "03c4df08f6e417f196f6e87415e2064f": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are selected on a point system. Points are based on NWEA MAP scores, 7th grade GPA, and the interview.",
+        "programs": [
+            "KELVYN PARK HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+            }
+        }
+    },
+    "95025d14a97b9b32f5a2c8225c4ddd6e": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance is required at an Information Session for all eliglble applicants.",
+        "programs": [
+            "HUBBARD HS - International Baccalaureate (IB) - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
+                    studentData.gpa >= 2.5) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 &&
+                    studentData.scores.nweaPercentileRead >= 24 &&
+                    studentData.gpa >= 2.5) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "297d2849362aa5311f457ffc834a868b": {
+        "name": "",
+        "desc": "Students are selected on a point system. Students are assigned points for 7th grade final GPA and 7th grade stanines. Students are ranked and selected from high to low. Students residing within the attendance overlay boundary of the school are selected first.",
+        "programs": [
+            "JONES HS - Pre-Law - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "bb9e0e6f1af678dafb340a8e48ff4fbf": {
+        "name": "",
+        "desc": "Minimum percentile of 50 in both reading and math on NWEA MAP and minimum 3.0 GPA in 7th grade.",
+        "programs": [
+            "CHICAGO AGRICULTURE HS - Honors - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.scores.nweaPercentileMath >= 50 &&
+                student.scores.nweaPercentileRead >= 50 &&
+                student.gpa >= 3.0) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "26f5b02fa29f8a9c2b5bc909b844e585": {
+        "name": "",
+        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner,  Madero Middle School.",
+        "programs": [
+            "FARRAGUT HS - International Baccalaureate (IB) - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.NONE };
+        }
+    },
+    "6de001ff1207c6d38de87e65f3e11ff3": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled at Chicago Collegiate Charter School, sibling, proximity, general.",
+        "programs": [
+            "CHICAGO COLLEGIATE - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "351d1f100c07b40673b51f4506b0e34e": {
+        "name": "",
+        "desc": "None. All interested students, including students who live within the overlay boundary of the school, must submit apply.",
+        "programs": [
+            "BACK OF THE YARDS HS - General Education - Application"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.CERTAIN };
+        }
+    },
+    "fd100fd06ddf9bd72e2809f6d659faf2": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students who live within the attendance boundaries of Chavez, Daley, Hamline, Hedges, Lara, or Seward Elementary Schools; general.",
+        "programs": [
+            "BACK OF THE YARDS HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "763686fddcad223e9a51aebaac42b61c": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: General Education and 504 Plan students: Minimum percentile of 60 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.  IEP/EL students have no eligibility requirements.",
+        "programs": [
+            "WELLS HS - General Education - Application"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                if (student.iep || student.ell) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    if (student.scores.nweaPercentileMath >= 60 &&
+                        student.scores.nweaPercentileRead >= 60 &&
+                        student.gpa >= 3.0 &&
+                        student.attendancePercentage >= 95) {
+                        return { outcome: success_chance_ts_1.default.CERTAIN };
+                    }
+                    else {
+                        return { outcome: success_chance_ts_1.default.NONE };
+                    }
+                }
+            }
+        }
+    },
+    "d1a202074d3e08c97ec301176ca18880": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery.\u00a0The lottery is conducted in the following order: students scoring above designated NWEA MAP percentile, sibling, general.",
+        "programs": [
+            "WELLS HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                if (student.scores.nweaPercentileMath >= 60 &&
+                    student.scores.nweaPercentileRead >= 60) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+        }
+    },
+    "69aef50164a2914f16a28630afa50270": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 30 in both reading and math on NWEA MAP, minimum 2.0 GPA in 7th grade and minimum attendance percentage of 85.  IEP and EL students: Minimum combined percentile of 24 in reading and math on NWEA MAP, and minimum attendance percentage of 85.",
+        "programs": [
+            "COLLINS HS - General Education - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 24 &&
+                    student.attendancePercentage >= 85) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "a105512ab5a0eb6536021215baf98ea8": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in Chalmers, Dvorak, Herzl, Johnson, or Morton Elementary Schools; sibling; general.",
+        "programs": [
+            "COLLINS HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "47750c8ffb643412fb55f3f3d6bde14a": {
+        "name": "",
+        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school selects the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, Ogden Elementary School.",
+        "programs": [
+            "OGDEN HS - International Baccalaureate (IB) - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "965d710ce70f9e59e622f51311b5a986": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+        "programs": [
+            "DYETT ARTS HS - Digital Media - Selection"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+            else {
+                if (student.scores.nweaPercentileMath >= 24 &&
+                    student.scores.nweaPercentileRead >= 24) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+        }
+    },
+    "a6071a83f74612d54c3f659f9cb8a79c": {
+        "name": "",
+        "desc": "General Education/504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants.",
+        "programs": [
+            "SENN HS - International Baccalaureate (IB) - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
+                    student.gpa >= 2.5) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (student.scores.nweaPercentileMath >= 24 &&
+                    student.scores.nweaPercentileRead >= 24 &&
+                    student.gpa >= 2.5) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "8605454896638a4de5feec75ed536489": {
+        "name": "",
+        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, Peirce Elementary School.",
+        "programs": [
+            "SENN HS - International Baccalaureate (IB) - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "5e32e9c5ce34b2af75f2ec9e1a6c6643": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 50 in both reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade.    IEP and EL students: Minimum combined percentile of 100 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.",
+        "programs": [
+            "BRONZEVILLE HS - Honors - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 100 &&
+                    student.gpa >= 2.5) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (student.scores.nweaPercentileMath >= 50 &&
+                    student.scores.nweaPercentileRead >= 50 &&
+                    student.gpa >= 2.5) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "8a0c487746fe132f3f1925a84c56e9ee": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eliglble applicants.",
+        "programs": [
+            "LINCOLN PARK HS - International Baccalaureate (IB) - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
+                    student.gpa >= 2.5) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (student.scores.nweaPercentileMath >= 24 &&
+                    student.scores.nweaPercentileRead >= 24 &&
+                    student.gpa >= 2.5) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "8e60c325cf7da2ae7aa09dc4e543590e": {
+        "name": "",
+        "desc": "Students are selected based on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school selects the minimum cutoff score for selections.",
+        "programs": [
+            "LINCOLN PARK HS - International Baccalaureate (IB) - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "f1650d13a99b142887259980d7570270": {
+        "name": "",
+        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.  Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, McPherson Elementary School.",
+        "programs": [
+            "AMUNDSEN HS - International Baccalaureate (IB) - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "2434179e9c2fb95777cc4e0c6c998de1": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum attendance percentage of 95.",
+        "programs": [
+            "WORLD LANGUAGE HS - General Education - Application"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                if (student.attendancePercentage >= 95) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "cbc3d549cb9e0240f077ac3c87b0f671": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery.\u00a0The lottery is conducted in the following order: sibling, general.",
+        "programs": [
+            "WORLD LANGUAGE HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "5cfeec40267082ca1ee0ca7e469687a7": {
+        "name": "",
+        "desc": "Contact the school for information.",
+        "programs": [
+            "LAKE VIEW HS - Early College STEM - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "01ad18923e7e8de10e8fb09bb2c6722a": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery.  General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+        "programs": [
+            "CHICAGO VOCATIONAL HS - Cosmetology - Selection"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+            else {
+                if (student.scores.nweaPercentileMath >= 24 &&
+                    student.scores.nweaPercentileRead >= 24) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+        }
+    },
+    "94798381edc76846cfb1ec3503fd61b0": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Essay",
+        "programs": [
+            "SOCIAL JUSTICE HS - General Education - Application"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "62c57f6f0d8cb1d35fb12bd66840819f": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Students who live outside of the school's attendance boundary are selected on a point system. The points are based on the student essay and NWEA MAP scores.",
+        "programs": [
+            "SOCIAL JUSTICE HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+            }
+        }
+    },
+    "182b0f39bdb6558622d86addc2aae6b7": {
+        "name": "",
+        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.  Preference is given to students who meet the minimum eligibilty requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, Carnegie Elementary School.",
+        "programs": [
+            "HYDE PARK HS - International Baccalaureate (IB) - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "c7ce3086f4acc55ea53e0c97f71d12aa": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary and students currently enrolled in the Kenwood Academic Center can be admitted automatically. This program only accepts students who live within the school's attendance boundary or who are enrolled in the school's Academic Center.",
+        "programs": [
+            "KENWOOD HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "65f9f712e101af2ba0f44401e01ca729": {
+        "name": "",
+        "desc": "Students are selected on a point system. Points are based on 7th grade final GPA and NWEA MAP scores. The school determines the minimum cutoff score for selections. Preference is given to students who live within the school's attendance boundary.",
+        "programs": [
+            "AUSTIN CCA HS - Pre-Engineering - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "5fbf1b80166fef3a0e0db9557d500465": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 25 in both reading and math on NWEA MAP.   IEP and EL students: Minimum combined percentile of 50 in reading and math on NWEA MAP, and minimum attendance percentage of 85.",
+        "programs": [
+            "CHICAGO ACADEMY HS - General Education - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 50 &&
+                    student.attendancePercentage >= 85) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (student.scores.nweaPercentileMath >= 25 &&
+                    student.scores.nweaPercentileRead >= 25 &&
+                    student.attendancePercentage >= 85) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "924ceb6aa82922cdb541302a265549eb": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: students attending Boone, Field, Gale, Hayt, Jordan, Kilmer, McCutcheon, McPherson, or West Ridge Elementary Schools; sibling; general.",
+        "programs": [
+            "SULLIVAN HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "46083386e3daad02ff00ac73d3987286": {
+        "name": "",
+        "desc": "Students are selected on a point system with a maximum of 900 points. Points are based on 7th grade final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
+        "programs": [
+            "PAYTON HS - Selective Enrollment High School - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "536556326f56a1875afccbeedde85fb9": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conduced in the following order: sibling, general.",
+        "programs": [
+            "LEGAL PREP HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "7cc8a6e9cd27c6a9e8d43b323a961475": {
+        "name": "",
+        "desc": "Applicants must be girls currently enrolled in eighth grade.",
+        "programs": [
+            "YOUNG WOMENS HS - General Education - Application"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "a787cb9987ca94d3c2370e2cb67d50cc": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 50 in both reading and math on the NWEA MAP and minimum 3.0 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 60 in reading and math on NWEA MAP.",
+        "programs": [
+            "MORGAN PARK HS - World Language and International Studies - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 60) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (student.scores.nweaPercentileRead >= 50 &&
+                    student.scores.nweaPercentileMath >= 50 &&
+                    student.gpa >= 3.0) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "d7e3e54b06028c21a40cf58127e2aef4": {
+        "name": "",
+        "desc": "Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 3.0 GPA in 7th grade. Eligible students must submit teacher recommendations and an essay. See www.vonsteuben.org for submission details (click 'Apply' and 'Scholars Program'). Applicants who are not eligible will automatically be included in the computerized lottery selection process for the Von Steuben Science Program.",
+        "programs": [
+            "VON STEUBEN HS - Scholars - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.scores.nweaPercentileMath >= 60 &&
+                student.scores.nweaPercentileRead >= 60 &&
+                student.gpa >= 3.0) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "0a7d20d2cdbb736d46e6c7a37e5b7764": {
+        "name": "",
+        "desc": "Students are selected on a point system. Points are based on the teacher recommendations and the essay.",
+        "programs": [
+            "VON STEUBEN HS - Scholars - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "a59652b1328b73b5acb08979a32a9db8": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum attendance percentage of 92.  An audition is required for all eligible applicants.",
+        "programs": [
+            "CHIARTS HS - Music - Vocal - Application",
+            "CHIARTS HS - Theatre - Application",
+            "CHIARTS HS - Music - Instumental - Application",
+            "CHIARTS HS - Dance - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
+                    student.attendancePercentage >= 92) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (student.scores.nweaPercentileMath >= 24 &&
+                    student.scores.nweaPercentileMath >= 24 &&
+                    student.attendancePercentage >= 92) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "500cba9f742c1244ddaa1c37070299f1": {
+        "name": "",
+        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the audition.",
+        "programs": [
+            "CHIARTS HS - Music - Vocal - Selection",
+            "CHIARTS HS - Theatre - Selection",
+            "CHIARTS HS - Music - Instumental - Selection",
+            "CHIARTS HS - Dance - Selection",
+            "CHIARTS HS - Musical Theatre - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "b89ee63f6f32c43ca9707a85d8dc98e7": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum attendance percentage of 92.   A portfolio review is required for all eligible applicants.",
+        "programs": [
+            "CHIARTS HS - Creative Writing - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
+                    student.attendancePercentage >= 92) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (student.scores.nweaPercentileMath >= 24 &&
+                    student.scores.nweaPercentileMath >= 24 &&
+                    student.attendancePercentage >= 92) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "fd2b72f8025478fc320959b283c0ff2f": {
+        "name": "",
+        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the portfolio review.",
+        "programs": [
+            "CHIARTS HS - Creative Writing - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "3f45862ca2003745fc3f4e12492abdfa": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  A portfolio review is required for all eligible applicants.",
+        "programs": [
+            "CHIARTS HS - Visual Arts - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
+                    student.attendancePercentage >= 92) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (student.scores.nweaPercentileMath >= 24 &&
+                    student.scores.nweaPercentileMath >= 24 &&
+                    student.attendancePercentage >= 92) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "6c2d1016a23c9b0e67736b91a166b594": {
+        "name": "",
+        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP socres in reading and math and the portfolio review.",
+        "programs": [
+            "CHIARTS HS - Visual Arts - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "ae43e969113d1c6b1b6fe0c0a1321c40": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum attendance percentage of 92. An audition is required for all eligible applicants.",
+        "programs": [
+            "CHIARTS HS - Musical Theatre - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
+                    student.attendancePercentage >= 92) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (student.scores.nweaPercentileMath >= 24 &&
+                    student.scores.nweaPercentileMath >= 24 &&
+                    student.attendancePercentage >= 92) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    }
+};
+exports.default = HsReqFns;
+
+
+/***/ }),
+/* 513 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var SuccessChance;
+(function (SuccessChance) {
+    SuccessChance[SuccessChance["CERTAIN"] = 0] = "CERTAIN";
+    SuccessChance[SuccessChance["LIKELY"] = 1] = "LIKELY";
+    SuccessChance[SuccessChance["UNCERTAIN"] = 2] = "UNCERTAIN";
+    SuccessChance[SuccessChance["NONE"] = 3] = "NONE";
+    SuccessChance[SuccessChance["NOTIMPLEMENTED"] = 4] = "NOTIMPLEMENTED";
+})(SuccessChance || (SuccessChance = {}));
+;
+exports.default = SuccessChance;
 
 
 /***/ })

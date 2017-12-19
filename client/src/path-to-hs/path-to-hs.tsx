@@ -6,8 +6,9 @@ import HSDisplay from "./components/hs-display/hs-display";
 
 // TODO: remove hardcoded test data
 import {MOCK_STUDENT_DATA} from "./hardcoded";
-//import {HSConfigData} from "shared/data/hs-config-data";
 import {loadHSPrograms} from "shared/util/data-access.ts";
+const hsPrograms = loadHSPrograms();
+
 import StudentData from "shared/types/student-data";
 import StudentScores from "shared/types/student-scores";
 import {cloneAndExtend} from "shared/util/clone";
@@ -62,7 +63,7 @@ class PathToHS extends React.Component<PathToHSProps, PathToHSState> {
           />
           
         <HSDisplay
-          hsData={HSConfigData}
+          hsData={hsPrograms}
           studentData={this.state.projectedStudentData} 
           />
       </Page>

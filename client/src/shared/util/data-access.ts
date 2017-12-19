@@ -1,10 +1,13 @@
 import HSPrograms from "shared/types/hs-programs";
 import HSProgram from "shared/types/hs-program";
 
-const loadHSPrograms = (): HSPrograms => {
-  // read hs config data from json
-  const allHSPrograms: HSProgram[] = JSON.parse("../../shared/data/hs_config_data.json");
-  const hsPrograms: HSPrograms = groupByProgramType(allHSPrograms);
+//import hsConfigData from "../../shared/data/hs_config_data.json";
+declare const require:any;
+const hsConfigData = require("../../shared/data/hs_config_data.json");
+
+export const loadHSPrograms = (): HSPrograms => {
+  // read hs config data from hs_config_data.json
+  const hsPrograms: HSPrograms = groupByProgramType(hsConfigData);
   return hsPrograms;
 };
 
@@ -21,3 +24,4 @@ const groupByProgramType = (allPrograms: HSProgram[]): HSPrograms => {
   }
   return hsPrograms;
 };
+

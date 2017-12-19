@@ -1,15 +1,15 @@
 import * as React from "react";
 
 import StudentData from "shared/types/student-data";
-import HSCategoryData from "shared/types/hs-category-data";
-import HSData from "shared/types/hs-data";
+import HSPrograms from "shared/types/hs-programs";
+import HSProgram from "shared/types/hs-program";
 
 import Box from "shared/components/layout/box";
-import HSCategory from "./hs-category";
+import HSProgramType from "./hs-program-type";
 
 interface HSDisplayProps {
   studentData: StudentData
-  hsData: HSData
+  hsData: HSPrograms
 };
 
 const HSDisplay: React.SFC<HSDisplayProps> = (props) => {
@@ -17,11 +17,12 @@ const HSDisplay: React.SFC<HSDisplayProps> = (props) => {
   return (
     <Box width="half" height="full" responsiveBehavior={{mobile: "fullscreen"}}>
       <div style={{width: "100%", height: "100%", overflowY: "auto"}}>
-        { props.hsData.map( (category: HSCategoryData) => {
-        return <HSCategory 
-          categoryData={category}  
+        { Object.keys(props.hsData).map( (programType: string) => {
+        return <HSProgramType
+          programType={programType}
+          programs={props.hsData[programType]}
           studentData={props.studentData}
-          key={category.shortName}/>
+          key={programType}/>
         }) }
       </div>
     </Box>

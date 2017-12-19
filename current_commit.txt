@@ -13,5 +13,24 @@
     *** exposes loadHSPrograms(): HSPrograms
       **** method reads hs_config_data.json and returns neatly formatted
           HSPrograms
+
   ** refactor path-to-hs.tsx to use data-access.loadHSPrograms
   ** refactor hs-display.tsx to use HSPrograms instead of HSConfigData
+  ** refactor hs-cateogry.tsx to use HSPrograms
+    *** rename to hs-program-type.tsx
+    *** remove additional requirement code until certain what to do with it
+    *** refactor to only display name of program type until we can figure out what
+      more to include
+  ** refactor hs-list.tsx to not require AddlReqs prop
+  ** refactor hs-list-element.tsx to not require AddlReqs prop and accept
+    HSProgram not Highschool
+    *** comment out iconURL handling code
+  ** refactor hs-info-card -> hs-program-info-card
+  ** add shared/utils/get-req-fn to cover up hsReqFn hashtable lookup
+
+* TODO IN FUTURE hs_config_data.json appears to have a few programs that aren't
+  matched with hs req fns. (How ever did that happen?) Should patch them up manually
+  by sticking on the hash value to the records in hs_config_data.json. For right now,
+  tho, I'm gonna jet. This was a really good day.
+
+

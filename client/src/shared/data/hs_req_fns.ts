@@ -1,47 +1,7 @@
-import StudentData from "../../src/shared/types/student-data";
-
-interface SchoolData {
-        "School_ID": string
-        "Short_Name": string
-        "Long_Name": string
-        "School_Type": string
-        "Primary_Category": string
-        "Address": string
-        "Zip": string
-        "Phone": string
-        "Fax": string
-        "CPS_School_Profile": string
-        "Website": string
-        "Program_Type": string
-        "Application_Requirements": string
-        "Program_Selections": string
-        "Subprograms": string
-        "How_To_Apply": string
-        "Deadline": string
-        "School_Latitude": string
-        "School_Longitude": string
-        "Location": string
-}
-
-enum SuccessChance {
-  CERTAIN,
-  LIKELY,
-  UNCERTAIN,
-  NONE,
-  UNKNOWN,
-  NOTIMPLEMENTED
-}
-
-// optional response that RequirementFunctions can give for schools
-// which have a scoring element to passing requirement -- can be used
-// to give feedback re how close student is to having a chance at succeeding (uncertain)
-// being likely to succeed (likely) and being almost certain to succeed (certain)
-interface Progress {
-  value: number
-  threshold_certain?: number
-  threshold_likely?: number
-  threshold_uncertain?: number
-}
+import StudentData from "shared/types/student-data";
+import HSRequirementFunction from "shared/types/hs-requirement-function";
+import SuccessChance from "shared/enums/success-chance.ts";
+import HSProgram from "shared/types/hs-program";
 
 const getPointsFromCutoff = (score: number, cutoff: number): number => {
   const diff = cutoff - score;
@@ -62,7 +22,7 @@ const norm = (value: number, max: number, min: number) => {
   return ((value - min) / (max - min)) * 100;
 };
 
-const inAttendanceBound = (studentData: StudentData, schoolData: SchoolData): boolean => {
+const inAttendanceBound = (student: StudentData, school: HSProgram): boolean => {
   // TODO: this is a little bit of a stopgap considering that it accepts all students
   // within a certain radius of the school. Need to consider a better alternative -- one
   // that also doesn't introduce performance problems? Hard problemo my friendo.
@@ -76,10 +36,10 @@ const inAttendanceBound = (studentData: StudentData, schoolData: SchoolData): bo
     return num;
   };
 
-  const studentLat = tryParseFloat(studentData.latitude);
-  const studentLong = tryParseFloat(studentData.longitude);
-  const schoolLat = tryParseFloat(schoolData.School_Latitude);
-  const schoolLong = tryParseFloat(schoolData.School_Longitude);
+  const studentLat = tryParseFloat(student.latitude);
+  const studentLong = tryParseFloat(student.longitude);
+  const schoolLat = tryParseFloat(school.School_Latitude);
+  const schoolLong = tryParseFloat(school.School_Longitude);
 
   // calculate approximate distance between student latlong and school latlong
   const studentLatRad = Math.PI * studentLat / 180;
@@ -96,17 +56,15 @@ const inAttendanceBound = (studentData: StudentData, schoolData: SchoolData): bo
   return isInBound; 
 };
 
-type RequirementFunction = (studentData: StudentData, schoolData: SchoolData) => {outcome: SuccessChance, 
-                                                                              progress?: Progress};
 interface ReqFnTable {
   [hashId: string]: {
     name?: string
     desc: string
     programs: string[]
-    fn: RequirementFunction
+    fn: HSRequirementFunction
   }
 }
-const RequirementFunctions: ReqFnTable = {
+const HsReqFns: ReqFnTable = {
     "6adf97f83acf6453d4a6a4b1070f3754": {
         "desc": "None",
         "programs": [
@@ -1550,7 +1508,7 @@ const RequirementFunctions: ReqFnTable = {
         ],
       "fn": (studentData, schoolData) => {
         if (studentData.iep || studentData.ell) {
-          if ( (studentData.scores.nweaPercentileMath + studentData.iep) > 30 &&
+          if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) > 30 &&
             studentData.attendancePercentage >= 90 ) {
 
             return {outcome: SuccessChance.CERTAIN};
@@ -3019,3 +2977,5 @@ const RequirementFunctions: ReqFnTable = {
         }
     }
   }
+
+export default HsReqFns;

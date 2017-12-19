@@ -1,6 +1,5 @@
 import StudentScores from "shared/types/student-scores";
 import StudentData from "shared/types/student-data";
-import HSData from "shared/types/hs-data";
 
 export const MOCK_STUDENT_SCORES: StudentScores = {
   nweaPercentileMath: 50,
@@ -14,11 +13,16 @@ export const MOCK_STUDENT_SCORES: StudentScores = {
 export const MOCK_STUDENT_DATA: StudentData = {
   studentFirstName: "Testfella",
   studentLastName: "McGee",
-  address: "761 W Altgeld",
+  address: "4747 S Marshfield Ave, Chicago IL",
   ell: true,
   iep: false,
   gradeLevel: 5,
   tier: "4",
   scores: MOCK_STUDENT_SCORES,
+  attendancePercentage: 85,
+  gpa: 2.5,
+  latitude: "41.8073824",
+  longitude: "-87.6657907",
+  
 }
 

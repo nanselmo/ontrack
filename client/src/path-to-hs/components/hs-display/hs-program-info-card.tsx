@@ -1,34 +1,34 @@
 import * as React from "react";
 
-import Highschool from "shared/types/highschool";
+import HSProgram from "shared/types/hs-program";
 
-import "./hs-info-card.scss";
+import "./hs-program-info-card.scss";
 
 interface HSInfoCardProps {
-  highschool: Highschool
+  program: HSProgram
   visible: boolean
 }
 
-const HSInfoCard = (props: HSInfoCardProps) => {
+const HSProgramInfoCard = (props: HSInfoCardProps) => {
 
-  const hasPreviewUrl = props.highschool.previewUrl !== undefined;
+  const hasPreviewUrl = props.program.CPS_School_Profile !== undefined;
 
   if (hasPreviewUrl) {
     return (
       <div className={`hs-info-card ${props.visible ? "visible" : "" }`}>
         <iframe 
           className="hs-info-card-preview"
-          src={props.highschool.previewUrl.toString()}>
+          src={props.program.CPS_School_Profile}>
         </iframe>
       </div>
     );
   } else {
     return (
       <div className={`hs-info-card ${props.visible ? "visible" : "" }`}>
-        {props.highschool.longName}
+        {props.program.Long_Name}
       </div>
     )
   }
 };
 
-export default HSInfoCard;
+export default HSProgramInfoCard;
