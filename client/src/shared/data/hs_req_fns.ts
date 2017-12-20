@@ -1,5 +1,4 @@
-import StudentData from "shared/types/student-data";
-import HSRequirementFunction from "shared/types/hs-requirement-function";
+import StudentData from "shared/types/student-data"; import HSRequirementFunction from "shared/types/hs-requirement-function";
 import SuccessChance from "shared/enums/success-chance.ts";
 import HSProgram from "shared/types/hs-program";
 
@@ -1500,6 +1499,7 @@ const HsReqFns: ReqFnTable = {
         }
       }
     },
+
     "027fe7b2d9fd7d9c6e55de49f723852f": {
         "name": "",
         "desc": "General Education and 504 Plan students: Minimum combined percentile of 40 in reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 30 in reading and math on NWEA MAP, and minimum attendance percentage of 90.",
@@ -1527,7 +1527,7 @@ const HsReqFns: ReqFnTable = {
         }
       }
     },
-    "48befdd406dee45058f2dbd64a097154": {
+    "47befdd406dee45058f2dbd64a097154": {
         "name": "",
         "desc": "Students are selected on a point system. Points are based on the combined NWEA MAP scores and the interview.",
         "programs": [
@@ -2266,7 +2266,7 @@ const HsReqFns: ReqFnTable = {
           }
         }
     },
-    "297d2849362aa5311f457ffc834a868b": {
+    "296d2849362aa5311f457ffc834a868b": {
         "name": "",
         "desc": "Students are selected on a point system. Students are assigned points for 7th grade final GPA and 7th grade stanines. Students are ranked and selected from high to low. Students residing within the attendance overlay boundary of the school are selected first.",
         "programs": [

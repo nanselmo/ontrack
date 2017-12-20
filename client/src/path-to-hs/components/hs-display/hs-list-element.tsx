@@ -32,8 +32,8 @@ class HSListElement extends React.PureComponent<HSListElemProps, HSListElemState
       showHSPreview: false
     };
 
-    const applicationReqFn = getReqFn(props.program.Application_Requirements);
-    const selectionReqFn = getReqFn(props.program.Program_Selections);
+    const applicationReqFn = getReqFn(props.program.Application_Requirements_Fn);
+    const selectionReqFn = getReqFn(props.program.Program_Selections_Fn);
     const applicationResult = applicationReqFn(props.studentData, props.program); 
     const selectionResult = selectionReqFn(props.studentData, props.program);
 
