@@ -16,10 +16,12 @@ const HSProgramInfoCard = (props: HSInfoCardProps) => {
   if (hasPreviewUrl) {
     return (
       <div className={`hs-info-card ${props.visible ? "visible" : "" }`}>
+        { props.visible && 
         <iframe 
           className="hs-info-card-preview"
           src={props.program.CPS_School_Profile}>
         </iframe>
+        }
       </div>
     );
   } else {
