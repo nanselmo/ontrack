@@ -1,3 +1,12 @@
-* <2017-10-04 Wed> 
-** TODO Debug and wire together HSCalculator and HSDisplay
-***  TODO  
+<2018-01-03 Wed> 
+Implement dangling school selection requirements
+* TODO implement sibling selection requirements
+* TODO implement prev school selection requirements
+* TODO implement prev grade selection requirements
+* TODO implement gender selection requirements
+* TODO implement IOWA test stanines selection requirements
+* TODO implement LAS Links and STAMP test selection requirements
+
+* TODO find out point system for all unknown point system
+  ** First line of attack: googling
+  ** Second line of attack: (gulp) calling

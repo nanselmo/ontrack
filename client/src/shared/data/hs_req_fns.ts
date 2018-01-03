@@ -2,6 +2,51 @@ import StudentData from "shared/types/student-data"; import HSRequirementFunctio
 import SuccessChance from "shared/enums/success-chance.ts";
 import HSProgram from "shared/types/hs-program";
 
+
+interface SECutoffTable {
+  [schoolID: string]: {
+    rank: {
+      avg: number
+      min: number
+      max: number
+    },
+    tier1: {
+      avg: number
+      min: number
+      max: number
+    },
+    tier2: {
+      avg: number
+      min: number
+      max: number
+    },
+    tier3: {
+      avg: number
+      min: number
+      max: number
+    },
+    tier4: {
+      avg: number
+      min: number
+      max: number
+    }
+  }
+}
+
+const seCutoffTable = {
+
+};
+
+interface IBCutoffTable {
+  [schoolID: string]: {
+    min: number
+  }
+}
+
+const ibCutoffTable = {
+
+};
+
 const getPointsFromCutoff = (score: number, cutoff: number): number => {
   const diff = cutoff - score;
   if (diff <= 0) {
