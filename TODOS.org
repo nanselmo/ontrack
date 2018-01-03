@@ -1,4 +1,3 @@
-<2018-01-03 Wed> 
 Implement dangling school selection requirements
 * TODO implement sibling selection requirements
 * TODO implement prev school selection requirements
@@ -10,3 +9,5 @@ Implement dangling school selection requirements
 * TODO find out point system for all unknown point system
   ** First line of attack: googling
   ** Second line of attack: (gulp) calling
+
+Figure out progress reporting system

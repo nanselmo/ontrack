@@ -33,9 +33,6 @@ interface SECutoffTable {
   }
 }
 
-const seCutoffTable = {
-
-};
 
 interface IBCutoffTable {
   [schoolID: string]: {
@@ -43,8 +40,143 @@ interface IBCutoffTable {
   }
 }
 
-const ibCutoffTable = {
 
+const seCutoffTable: SECutoffTable = {
+  // BROOKS HS
+  "609726": {
+          rank: {avg: 834.15, min: 799,  max: 897},
+          tier1: {avg: 700.76, min: 652,  max: 796},
+          tier2: {avg: 740.36, min: 687,  max: 795},
+          tier3: {avg: 768.40, min: 750,  max: 792},
+          tier4: {avg: 761.50, min: 723,  max: 797},
+  },
+  // HANCOCK HS
+  "609694": {
+          rank: {avg: 823.92, min: 794,  max: 880},
+          tier1: {avg: 706.40, min: 664,  max: 791},
+          tier2: {avg: 757.68, min: 736,  max: 790},
+          tier3: {avg: 772.69, min: 753,  max: 791},
+          tier4: {avg: 740.63, min: 672,  max: 792},
+  },
+  // JONES HS
+  "609678": {
+          rank: {avg: 893.81, min: 889,  max: 900},
+          tier1: {avg: 816.86, min: 771,  max: 887},
+          tier2: {avg: 851.57, min: 823,  max: 889},
+          tier3: {avg: 874.12, min: 861,  max: 889},
+          tier4: {avg: 886.69, min: 883,  max: 889},
+  },
+  // KING HS
+  "609751": {
+          rank: {avg: 735.59, min: 682,  max: 859},
+          tier1: {avg: 632.20, min: 600,  max: 680},
+          tier2: {avg: 635.16, min: 601,  max: 679},
+          tier3: {avg: 645.55, min: 608,  max: 682},
+          tier4: {avg: 634.43, min: 600,  max: 674},
+  },
+  // LANE TECH HS
+  "609720": {
+          rank: {avg: 878.11, min: 866,  max: 900},
+          tier1: {avg: 738.79, min: 692,  max: 863},
+          tier2: {avg: 808.46, min: 777,  max: 865},
+          tier3: {avg: 839.69, min: 818,  max: 866},
+          tier4: {avg: 855.13, min: 843,  max: 865},
+  },
+  // LINDBLOM HS
+  "610391": {
+          rank: {avg: 813.87, min: 774,  max: 895},
+          tier1: {avg: 692.14, min: 655,  max: 771},
+          tier2: {avg: 732.82, min: 700,  max: 774},
+          tier3: {avg: 743.98, min: 720,  max: 774},
+          tier4: {avg: 717.92, min: 672,  max: 773},
+  },
+  // NORTHSIDE PREP HS
+  "609749": {
+          rank: {avg: 898.85, min: 896,  max: 900},
+          tier1: {avg: 820.31, min: 757,  max: 892},
+          tier2: {avg: 867.55, min: 843,  max: 895},
+          tier3: {avg: 889.04, min: 880,  max: 895},
+          tier4: {avg: 893.92, min: 891,  max: 896},
+  },
+  // PAYTON HS
+  "609680": {
+          rank: {avg: 899.03, min: 898,  max: 900},
+          tier1: {avg: 837.66, min: 771,  max: 897},
+          tier2: {avg: 875.60, min: 846,  max: 897},
+          tier3: {avg: 886.97, min: 875,  max: 898},
+          tier4: {avg: 895.59, min: 894,  max: 898},
+  },
+  // SOUTH SHORE INTL HS
+  "610547": {
+          rank: {avg: 725.28, min: 678,  max: 837},
+          tier1: {avg: 621.10, min: 601,  max: 674},
+          tier2: {avg: 637.17, min: 600,  max: 677},
+          tier3: {avg: 632.43, min: 601,  max: 677},
+          tier4: {avg: 634.77, min: 603,  max: 672},
+  },
+  // WESTINGHOUSE HS
+  "609693": {
+          rank: {avg: 799.38, min: 766,  max: 883},
+          tier1: {avg: 706.44, min: 667,  max: 760},
+          tier2: {avg: 733.79, min: 708,  max: 765},
+          tier3: {avg: 730.68, min: 695,  max: 765},
+          tier4: {avg: 691.26, min: 618,  max: 766},
+  },
+  // YOUNG HS
+  "609755": {
+          rank: {avg: 890.34, min: 882,  max: 900},
+          tier1: {avg: 823.25, min: 780,  max: 880},
+          tier2: {avg: 846.26, min: 821,  max: 880},
+          tier3: {avg: 860.88, min: 849,  max: 882},
+          tier4: {avg: 877.46, min: 874,  max: 882},
+  }
+};
+
+const ibCutoffTable: IBCutoffTable = {
+  // AMUNDSEN HS
+  "609695": {min: 600},
+  // BACK OF THE YARDS HS
+  "610563": {min: 609},
+  // BOGAN HS
+  "609698": {min: 350},
+  // BRONZEVILLE HS
+  "610381": {min: 450},
+  // CLEMENTE HS
+  "609759": {min: 490},
+  // CURIE HS
+  "609756": {min: 650},
+  // FARRAGUT HS
+  "609704": {min: 350},
+  // HUBBARD HS
+  "609741": {min: 600},
+  // HYDE PARK HS
+  "609713": {min: 375},
+  // JUAREZ HS
+  "609764": {min: 500},
+  // KELLY HS
+  "609715": {min: 650},
+  // KENNEDY HS
+  "609718": {min: 600}, 
+  // LINCOLN PARK HS
+  "609738": {min: 819},
+  // MORGAN PARK HS
+  "609725": {min: 500},
+  // OGDEN HS
+  "610529": {min: 520},
+  // PROSSER HS
+  "609679": {min: 600},
+  // SCHURZ HS
+  "609729": {min: 360},
+  // SENN HS
+  "609730": {min: 575},
+  // SOUTH SHORE HS
+  "610547": {min: 427},
+  // STEINMETZ HS
+  "609732": {min: 450},
+  // TAFT HS
+  "609734": {min: 836},
+  // WASHINGTON HS
+  "609739": {min: 640},
 };
 
 const getPointsFromCutoff = (score: number, cutoff: number): number => {
