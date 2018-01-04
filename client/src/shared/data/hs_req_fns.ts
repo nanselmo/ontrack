@@ -1,42 +1,30 @@
-import StudentData from "shared/types/student-data"; import HSRequirementFunction from "shared/types/hs-requirement-function";
+import StudentData from "shared/types/student-data"; 
+import HSRequirementFunction from "shared/types/hs-requirement-function";
 import SuccessChance from "shared/enums/success-chance.ts";
 import HSProgram from "shared/types/hs-program";
 import {calculateSEPoints, calculateIBPoints} from "shared/util/hs-calc-utils";
 
+interface SECutoff {
+  avg: number
+  min: number
+  max: number
+}
+
 interface SECutoffTable {
   [schoolID: string]: {
-    rank: {
-      avg: number
-      min: number
-      max: number
-    },
-    tier1: {
-      avg: number
-      min: number
-      max: number
-    },
-    tier2: {
-      avg: number
-      min: number
-      max: number
-    },
-    tier3: {
-      avg: number
-      min: number
-      max: number
-    },
-    tier4: {
-      avg: number
-      min: number
-      max: number
-    }
+    rank: SECutoff 
+    tier1: SECutoff
+    tier2: SECutoff
+    tier3: SECutoff
+    tier4: SECutoff
   }
 }
 
+interface IBCutoff {
+  min: number
+}
 interface IBCutoffTable {
-  [schoolID: string]: {
-    min: number
-  }
+  [schoolID: string]: IBCutoff
 }
 
 const seCutoffTable: SECutoffTable = {
@@ -177,28 +165,28 @@ const ibCutoffTable: IBCutoffTable = {
   "609739": {min: 640},
 };
 
-const getSECutoff = (student: StudentData, school: SchoolData): number => {
+const getSECutoff = (student: StudentData, school: HSProgram): SECutoff => {
   // TODO: this ignores rank cutoff scores, assuming that if you make it
   // past your tier cutoff scores you're good. Make double sure that's a
   // good assumption.
-  const cutoff = seCutoffTable[school.schoolID];
+  const cutoff = seCutoffTable[school.School_ID];
   if (cutoff === undefined) {
     throw new Error(`School ${school.Long_Name} not found in SE Cutoff scores`); 
   }
   switch(student.tier) {
-    case 1:
+    case '1':
       return cutoff.tier1; 
-    case 2:
+    case '2':
       return cutoff.tier2;
-    case 3:
+    case '3':
       return cutoff.tier3;
-    case 4:
+    case '4':
       return cutoff.tier4;
   }
 };
 
-const getIBCutoff = (student: StudentData, school: SchoolData): number => {
-  const cutoff = ibCutoffTable[school.schoolID];
+const getIBCutoff = (student: StudentData, school: HSProgram): IBCutoff => {
+  const cutoff = ibCutoffTable[school.School_ID];
   if (cutoff === undefined) {
     throw new Error(`School ${school.Long_Name} not found in IB Cutoff scores`); 
   }
@@ -1162,7 +1150,7 @@ const HsReqFns: ReqFnTable = {
         ],
       "fn": (student, school) => {
         const score = calculateIBPoints(student);
-        const cutoff = getIBCutoff(school).min;
+        const cutoff = getIBCutoff(student, school).min;
         if (inAttendanceBound(student, school)) {
           const bonusPoints = 50;
           const adjustedCutoff = cutoff + bonusPoints; 
@@ -1191,6 +1179,7 @@ const HsReqFns: ReqFnTable = {
             "CHICAGO MILITARY HS - Service Learning Academies (Military) - Selection"
         ],
       "fn": (studentData, schoolData) => {
+        // TODO add military school info to studentdata
         return {outcome: SuccessChance.NOTIMPLEMENTED};
       }
     },
@@ -1233,6 +1222,7 @@ const HsReqFns: ReqFnTable = {
             "JONES HS - Pre-Engineering - Selection"
         ],
       "fn": (studentData, schoolData) => {
+        // TODO find out what stanines are
         return {outcome: SuccessChance.NOTIMPLEMENTED};
       }
     },
@@ -1251,8 +1241,23 @@ const HsReqFns: ReqFnTable = {
             "SCHURZ HS - International Baccalaureate (IB) - Selection"
         ],
       "fn": (student, school) => {
-        // TODO implement IB selection reqs
-        return {outcome: SuccessChance.NOTIMPLEMENTED};
+        const score = calculateIBPoints(student);
+        const cutoff = getIBCutoff(student, school).min;
+        if (inAttendanceBound(student, school)) {
+          const bonusPoints = 50;
+          const adjustedCutoff = cutoff + bonusPoints; 
+          if (score >= adjustedCutoff) {
+            return {outcome: SuccessChance.CERTAIN};   
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        } else {
+          if (score >= cutoff) {
+            return {outcome: SuccessChance.CERTAIN};
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        }
       }
     },
     "70d67060ab98f9cd752d741b32e207ba": {
@@ -1462,9 +1467,22 @@ const HsReqFns: ReqFnTable = {
             "KING HS - Selective Enrollment High School - Selection",
             "JONES HS - Selective Enrollment High School - Selection"
         ],
-      "fn": (studentData, schoolData) => {
-        return {outcome: SuccessChance.NOTIMPLEMENTED};
-      }
+        "fn": (student, school) => {
+          // convert scores to point system
+          const score = calculateSEPoints(student);
+          // look up cutoff scores for this school
+          // for this student's tier
+          const cutoff = getSECutoff(student, school);
+          if (score >= cutoff.max) {
+            return {outcome: SuccessChance.CERTAIN};
+          } else if (score >= cutoff.avg) {
+            return {outcome: SuccessChance.LIKELY};
+          } else if (score >= cutoff.min) {
+            return {outcome: SuccessChance.UNCERTAIN}; 
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        }
     },
     "94f10272b6ff9ee947b6c7f8e9adc98c": {
         "name": "",
@@ -1654,9 +1672,24 @@ const HsReqFns: ReqFnTable = {
         "programs": [
             "PROSSER HS - International Baccalaureate (IB) - Selection"
         ],
-      "fn": (studentData, schoolData) => {
-        // TODO: implement ib school cutoff scooooores
-        return {outcome: SuccessChance.NOTIMPLEMENTED};
+      "fn": (student, school) => {
+        const score = calculateIBPoints(student);
+        const cutoff = getIBCutoff(student, school).min;
+        if (inAttendanceBound(student, school)) {
+          const bonusPoints = 50;
+          const adjustedCutoff = cutoff + bonusPoints; 
+          if (score >= adjustedCutoff) {
+            return {outcome: SuccessChance.CERTAIN};   
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        } else {
+          if (score >= cutoff) {
+            return {outcome: SuccessChance.CERTAIN};
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        }
       }
     },
     "1fb20237fa7f24217e8e191fd839f283": {
@@ -1991,8 +2024,25 @@ const HsReqFns: ReqFnTable = {
         "programs": [
             "MORGAN PARK HS - International Baccalaureate (IB) - Selection"
         ],
-      "fn": (studentData, schoolData) => {
-        return {outcome: SuccessChance.NOTIMPLEMENTED};
+      "fn": (student, school) => {
+        // TODO factor in academic center preference for MORGAN PARK HS - IB
+        const score = calculateIBPoints(student);
+        const cutoff = getIBCutoff(student, school).min;
+        if (inAttendanceBound(student, school)) {
+          const bonusPoints = 50;
+          const adjustedCutoff = cutoff + bonusPoints; 
+          if (score >= adjustedCutoff) {
+            return {outcome: SuccessChance.CERTAIN};   
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        } else {
+          if (score >= cutoff) {
+            return {outcome: SuccessChance.CERTAIN};
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        }
       }
     },
     "7574e7fa48dfdf030b059dbaff5351b6": {
@@ -2270,8 +2320,24 @@ const HsReqFns: ReqFnTable = {
             "CURIE HS - International Baccalaureate (IB) - Selection"
         ],
       "fn": (student, school) => {
-        // TODO write IB selection reqs
-        return {outcome: SuccessChance.NOTIMPLEMENTED};
+        // TODO factor in preference for students enrolled at Edwards Elem
+        const score = calculateIBPoints(student);
+        const cutoff = getIBCutoff(student, school).min;
+        if (inAttendanceBound(student, school)) {
+          const bonusPoints = 50;
+          const adjustedCutoff = cutoff + bonusPoints; 
+          if (score >= adjustedCutoff) {
+            return {outcome: SuccessChance.CERTAIN};   
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        } else {
+          if (score >= cutoff) {
+            return {outcome: SuccessChance.CERTAIN};
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        }
       }
     },
     "9e837f0a671ce67593e611ccf595306a": {
@@ -2296,8 +2362,24 @@ const HsReqFns: ReqFnTable = {
             "TAFT HS - International Baccalaureate (IB) - Selection"
         ],
       "fn": (student, school) => {
-        // TODO write IB selection reqs
-        return {outcome: SuccessChance.NOTIMPLEMENTED};
+        // TODO Factor in TAFT HS - IB preference for students enrolled in TAFT HS - Academic Center (Elementary school program)
+        const score = calculateIBPoints(student);
+        const cutoff = getIBCutoff(student, school).min;
+        if (inAttendanceBound(student, school)) {
+          const bonusPoints = 50;
+          const adjustedCutoff = cutoff + bonusPoints; 
+          if (score >= adjustedCutoff) {
+            return {outcome: SuccessChance.CERTAIN};   
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        } else {
+          if (score >= cutoff) {
+            return {outcome: SuccessChance.CERTAIN};
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        }
       }
     },
     "ba2bb65c77d8d0932634f43bb01707cc": {
@@ -2553,11 +2635,26 @@ const HsReqFns: ReqFnTable = {
         "programs": [
             "FARRAGUT HS - International Baccalaureate (IB) - Selection"
         ],
-        "fn": (student, school) => {
-          // TODO add prev schol to StudentData
-          // TODO implement IB Selection Fn
-          return {outcome: SuccessChance.NONE};
+      "fn": (student, school) => {
+        // TODO factor in FARRAGUT HS - IB preference for students attending Madero Middle School
+        const score = calculateIBPoints(student);
+        const cutoff = getIBCutoff(student, school).min;
+        if (inAttendanceBound(student, school)) {
+          const bonusPoints = 50;
+          const adjustedCutoff = cutoff + bonusPoints; 
+          if (score >= adjustedCutoff) {
+            return {outcome: SuccessChance.CERTAIN};   
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        } else {
+          if (score >= cutoff) {
+            return {outcome: SuccessChance.CERTAIN};
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
         }
+      }
     },
     "6de001ff1207c6d38de87e65f3e11ff3": {
         "name": "",
@@ -2677,8 +2774,24 @@ const HsReqFns: ReqFnTable = {
             "OGDEN HS - International Baccalaureate (IB) - Selection"
         ],
       "fn": (student, school) => {
-        // TODO write IB school req fn
-        return {outcome: SuccessChance.NOTIMPLEMENTED};
+        // TODO factor in OGDEN HS - IB preference for students enrolled in Ogden Elem school
+        const score = calculateIBPoints(student);
+        const cutoff = getIBCutoff(student, school).min;
+        if (inAttendanceBound(student, school)) {
+          const bonusPoints = 50;
+          const adjustedCutoff = cutoff + bonusPoints; 
+          if (score >= adjustedCutoff) {
+            return {outcome: SuccessChance.CERTAIN};   
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        } else {
+          if (score >= cutoff) {
+            return {outcome: SuccessChance.CERTAIN};
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        }
       }
     },
     "965d710ce70f9e59e622f51311b5a986": {
@@ -2740,8 +2853,24 @@ const HsReqFns: ReqFnTable = {
             "SENN HS - International Baccalaureate (IB) - Selection"
         ],
       "fn": (student, school) => {
-        // TODO implement IB selection req fn
-        return {outcome: SuccessChance.NOTIMPLEMENTED};
+        // TODO factor in SENN HS preference for students enrolled in Pierce Elementary School
+        const score = calculateIBPoints(student);
+        const cutoff = getIBCutoff(student, school).min;
+        if (inAttendanceBound(student, school)) {
+          const bonusPoints = 50;
+          const adjustedCutoff = cutoff + bonusPoints; 
+          if (score >= adjustedCutoff) {
+            return {outcome: SuccessChance.CERTAIN};   
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        } else {
+          if (score >= cutoff) {
+            return {outcome: SuccessChance.CERTAIN};
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        }
       }
     },
     "5e32e9c5ce34b2af75f2ec9e1a6c6643": {
@@ -2805,8 +2934,23 @@ const HsReqFns: ReqFnTable = {
             "LINCOLN PARK HS - International Baccalaureate (IB) - Selection"
         ],
       "fn": (student, school) => {
-        // TODO implement IB selection reqs
-        return {outcome: SuccessChance.NOTIMPLEMENTED};
+        const score = calculateIBPoints(student);
+        const cutoff = getIBCutoff(student, school).min;
+        if (inAttendanceBound(student, school)) {
+          const bonusPoints = 50;
+          const adjustedCutoff = cutoff + bonusPoints; 
+          if (score >= adjustedCutoff) {
+            return {outcome: SuccessChance.CERTAIN};   
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        } else {
+          if (score >= cutoff) {
+            return {outcome: SuccessChance.CERTAIN};
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        }
       }
     },
     "f1650d13a99b142887259980d7570270": {
@@ -2816,8 +2960,24 @@ const HsReqFns: ReqFnTable = {
             "AMUNDSEN HS - International Baccalaureate (IB) - Selection"
         ],
       "fn": (student, school) => {
-        // TODO implement IB selection reqs
-        return {outcome: SuccessChance.NOTIMPLEMENTED};
+        // TODO factor in AMUNDSEN HS - IB preference for students at McPherson Elem
+        const score = calculateIBPoints(student);
+        const cutoff = getIBCutoff(student, school).min;
+        if (inAttendanceBound(student, school)) {
+          const bonusPoints = 50;
+          const adjustedCutoff = cutoff + bonusPoints; 
+          if (score >= adjustedCutoff) {
+            return {outcome: SuccessChance.CERTAIN};   
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        } else {
+          if (score >= cutoff) {
+            return {outcome: SuccessChance.CERTAIN};
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        }
       }
     },
     "2434179e9c2fb95777cc4e0c6c998de1": {
@@ -2925,8 +3085,24 @@ const HsReqFns: ReqFnTable = {
             "HYDE PARK HS - International Baccalaureate (IB) - Selection"
         ],
       "fn": (student, school) => {
-        // TODO implement IB selection reqs
-        return {outcome: SuccessChance.NOTIMPLEMENTED};
+        // TODO factor in HYDE PARK HS preference for students at Carnegie Elem
+        const score = calculateIBPoints(student);
+        const cutoff = getIBCutoff(student, school).min;
+        if (inAttendanceBound(student, school)) {
+          const bonusPoints = 50;
+          const adjustedCutoff = cutoff + bonusPoints; 
+          if (score >= adjustedCutoff) {
+            return {outcome: SuccessChance.CERTAIN};   
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        } else {
+          if (score >= cutoff) {
+            return {outcome: SuccessChance.CERTAIN};
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        }
       }
     },
     "c7ce3086f4acc55ea53e0c97f71d12aa": {
@@ -3004,8 +3180,20 @@ const HsReqFns: ReqFnTable = {
             "PAYTON HS - Selective Enrollment High School - Selection"
         ],
         "fn": (student, school) => {
-          // TODO implement se selection
-          return {outcome: SuccessChance.NOTIMPLEMENTED};
+          // convert scores to point system
+          const score = calculateSEPoints(student);
+          // look up cutoff scores for this school
+          // for this student's tier
+          const cutoff = getSECutoff(student, school);
+          if (score >= cutoff.max) {
+            return {outcome: SuccessChance.CERTAIN};
+          } else if (score >= cutoff.avg) {
+            return {outcome: SuccessChance.LIKELY};
+          } else if (score >= cutoff.min) {
+            return {outcome: SuccessChance.UNCERTAIN}; 
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
         }
     },
     "536556326f56a1875afccbeedde85fb9": {
