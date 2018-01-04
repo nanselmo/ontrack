@@ -1,13 +1,14 @@
-Implement dangling school selection requirements
-* TODO implement sibling selection requirements
-* TODO implement prev school selection requirements
-* TODO implement prev grade selection requirements
-* TODO implement gender selection requirements
-* TODO implement IOWA test stanines selection requirements
-* TODO implement LAS Links and STAMP test selection requirements
+* Implement dangling school selection requirements
+** TODO implement sibling selection requirements
+** TODO implement prev school selection requirements
+** TODO implement prev grade selection requirements
+** TODO implement gender selection requirements
+** TODO implement IOWA test stanines selection requirements
+** TODO implement LAS Links and STAMP test selection requirements
+** TODO find out point system for all unknown point system
+  *** First line of attack: googling
+  *** Second line of attack: (gulp) calling
 
-* TODO find out point system for all unknown point system
-  ** First line of attack: googling
-  ** Second line of attack: (gulp) calling
+* Figure out progress reporting system
+* Remove Academic Center programs from HS Programs list
 
-Figure out progress reporting system
