@@ -2,8 +2,8 @@ import StudentScores from "shared/types/student-scores";
 import AdditionalRequirements from "shared/types/additional-requirements";
 
 export default interface StudentInfo {
-  studentFirstName: string,
-  studentLastName: string,
+  studentFirstName: string
+  studentLastName: string
   address: string
   tier: string
   gradeLevel: number 
@@ -14,4 +14,5 @@ export default interface StudentInfo {
   scores: StudentScores
   latitude: string
   longitude: string
+  seTestPercentile: number
 }

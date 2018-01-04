@@ -2,12 +2,12 @@ import StudentData from "shared/types/student-data";
 import {toLetterGrade} from "shared/util/grade-convert";
 import {NWEATestType} from "shared/util/nwea-convert";
 
-export const calculateSEPoints = (data: StudentData, seTestPercentile: number): number => {
+export const calculateSEPoints = (student: StudentData): number => {
 
   // calculate points for NWEA scores
   const NWEA_SCORE_CONSTANT = 1.515;
-  const nweaMathPoints = Math.round(data.scores.nweaPercentileMath * NWEA_SCORE_CONSTANT);
-  const nweaReadPoints = Math.round(data.scores.nweaPercentileRead * NWEA_SCORE_CONSTANT);
+  const nweaMathPoints = Math.round(student.scores.nweaPercentileMath * NWEA_SCORE_CONSTANT);
+  const nweaReadPoints = Math.round(student.scores.nweaPercentileRead * NWEA_SCORE_CONSTANT);
 
   // calculate points for subjGrades
   const gradePointsLookup = {
@@ -17,18 +17,14 @@ export const calculateSEPoints = (data: StudentData, seTestPercentile: number): 
     "D": 0,
     "F": 0,
   }
-  const subjGradeMathPoints = gradePointsLookup[toLetterGrade(data.scores.subjGradeMath)];
-  const subjGradeReadPoints = gradePointsLookup[toLetterGrade(data.scores.subjGradeRead)];
-  const subjGradeSciPoints = gradePointsLookup[toLetterGrade(data.scores.subjGradeSci)];
-  const subjGradeSocStudiesPoints = gradePointsLookup[toLetterGrade(data.scores.subjGradeSocStudies)];
+  const subjGradeMathPoints = gradePointsLookup[toLetterGrade(student.scores.subjGradeMath)];
+  const subjGradeReadPoints = gradePointsLookup[toLetterGrade(student.scores.subjGradeRead)];
+  const subjGradeSciPoints = gradePointsLookup[toLetterGrade(student.scores.subjGradeSci)];
+  const subjGradeSocStudiesPoints = gradePointsLookup[toLetterGrade(student.scores.subjGradeSocStudies)];
 
   // calculate score component for SE Test percentile 
   const SE_TEST_PERCENTILE_CONSTANT = 3.03; 
-  // throw if no additionalReqs passed
-  if (!seTestPercentile) {
-    throw new Error("No SETestPercentile passed to calculateSEPoints!");
-  }
-  const seTestPoints = Math.round(seTestPercentile * SE_TEST_PERCENTILE_CONSTANT);
+  const seTestPoints = Math.round(student.seTestPercentile * SE_TEST_PERCENTILE_CONSTANT);
   
   const sePoints = nweaMathPoints +
     nweaReadPoints +
@@ -41,11 +37,11 @@ export const calculateSEPoints = (data: StudentData, seTestPercentile: number): 
   return sePoints;
 };
 
-export const calculateIBPoints = (data: StudentData): number => {
+export const calculateIBPoints = (student: StudentData): number => {
   // calculate points for NWEA scores
   const NWEA_SCORE_CONSTANT = 2.2727;
-  const nweaMathPoints = Math.round(data.scores.nweaPercentileMath * NWEA_SCORE_CONSTANT);
-  const nweaReadPoints = Math.round(data.scores.nweaPercentileRead * NWEA_SCORE_CONSTANT);
+  const nweaMathPoints = Math.round(student.scores.nweaPercentileMath * NWEA_SCORE_CONSTANT);
+  const nweaReadPoints = Math.round(student.scores.nweaPercentileRead * NWEA_SCORE_CONSTANT);
 
   // calculate score component for subj grades
   const gradePointsLookup = {
@@ -55,14 +51,11 @@ export const calculateIBPoints = (data: StudentData): number => {
     "D": 0,
     "F": 0,
   }
-  const subjGradeMathPoints = gradePointsLookup[toLetterGrade(data.scores.subjGradeMath)];
-  const subjGradeReadPoints = gradePointsLookup[toLetterGrade(data.scores.subjGradeRead)];
-  const subjGradeSciPoints = gradePointsLookup[toLetterGrade(data.scores.subjGradeSci)];
-  const subjGradeSocStudiesPoints = gradePointsLookup[toLetterGrade(data.scores.subjGradeSocStudies)];
+  const subjGradeMathPoints = gradePointsLookup[toLetterGrade(student.scores.subjGradeMath)];
+  const subjGradeReadPoints = gradePointsLookup[toLetterGrade(student.scores.subjGradeRead)];
+  const subjGradeSciPoints = gradePointsLookup[toLetterGrade(student.scores.subjGradeSci)];
+  const subjGradeSocStudiesPoints = gradePointsLookup[toLetterGrade(student.scores.subjGradeSocStudies)];
   
-  // is student within attendance boundaries?
-  // TODO: this is hard to do correctly. Can just compute flat-earth distance as a stopgap
-  // until can architect a solution involving looking up coordinates in geoJSON and stuff
   const ibPoints = nweaMathPoints +
     nweaReadPoints +
     subjGradeMathPoints +
@@ -71,5 +64,4 @@ export const calculateIBPoints = (data: StudentData): number => {
     subjGradeSocStudiesPoints;
 
   return ibPoints;
-};
-
+};  

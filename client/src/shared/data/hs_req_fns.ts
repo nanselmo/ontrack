@@ -1,7 +1,7 @@
 import StudentData from "shared/types/student-data"; import HSRequirementFunction from "shared/types/hs-requirement-function";
 import SuccessChance from "shared/enums/success-chance.ts";
 import HSProgram from "shared/types/hs-program";
-
+import {calculateSEPoints, calculateIBPoints} from "shared/util/hs-calc-utils";
 
 interface SECutoffTable {
   [schoolID: string]: {
@@ -33,13 +33,11 @@ interface SECutoffTable {
   }
 }
 
-
 interface IBCutoffTable {
   [schoolID: string]: {
     min: number
   }
 }
-
 
 const seCutoffTable: SECutoffTable = {
   // BROOKS HS
@@ -179,6 +177,34 @@ const ibCutoffTable: IBCutoffTable = {
   "609739": {min: 640},
 };
 
+const getSECutoff = (student: StudentData, school: SchoolData): number => {
+  // TODO: this ignores rank cutoff scores, assuming that if you make it
+  // past your tier cutoff scores you're good. Make double sure that's a
+  // good assumption.
+  const cutoff = seCutoffTable[school.schoolID];
+  if (cutoff === undefined) {
+    throw new Error(`School ${school.Long_Name} not found in SE Cutoff scores`); 
+  }
+  switch(student.tier) {
+    case 1:
+      return cutoff.tier1; 
+    case 2:
+      return cutoff.tier2;
+    case 3:
+      return cutoff.tier3;
+    case 4:
+      return cutoff.tier4;
+  }
+};
+
+const getIBCutoff = (student: StudentData, school: SchoolData): number => {
+  const cutoff = ibCutoffTable[school.schoolID];
+  if (cutoff === undefined) {
+    throw new Error(`School ${school.Long_Name} not found in IB Cutoff scores`); 
+  }
+  return cutoff;
+};
+
 const getPointsFromCutoff = (score: number, cutoff: number): number => {
   const diff = cutoff - score;
   if (diff <= 0) {
@@ -190,7 +216,7 @@ const getPointsFromCutoff = (score: number, cutoff: number): number => {
 
 const average = (...nums: number[]): number => {
   const count = nums.length;
-  const sum = nums.reduce( (a,b) => a + b);
+  const sum = nums.reduce( (a,b) => a + b );
   return sum / count;
 };
 
@@ -875,8 +901,31 @@ const HsReqFns: ReqFnTable = {
             "LINDBLOM HS - Academic Center - Application",
             "YOUNG HS - Academic Center - Application"
         ],
-        "fn": (studentData, schoolData) => {
-          return {outcome: SuccessChance.NOTIMPLEMENTED};
+        "fn": (student, school) => {
+          if (student.iep || student.ell) {
+            let higher;
+            let lower;
+            if (student.scores.nweaPercentileMath > student.scores.nweaPercentileRead) {
+              higher = student.scores.nweaPercentileMath;
+              lower = student.scores.nweaPercentileRead;
+            } else {
+              higher = student.scores.nweaPercentileRead;
+              lower = student.scores.nweaPercentileMath;
+            }
+            
+            if (higher >= 50 && lower >= 40) {
+              return {outcome: SuccessChance.CERTAIN}; 
+            } else {
+              return {outcome: SuccessChance.NONE};
+            }
+            
+          } else {
+            if (student.scores.nweaPercentileMath >= 45 && student.scores.nweaPercentileRead >= 45) {
+              return {outcome: SuccessChance.CERTAIN};
+            } else {
+              return {outcome: SuccessChance.NONE};
+            }
+          }
         }
     },
     "224ce8807abceb6ca72e650988637629": {
@@ -891,11 +940,21 @@ const HsReqFns: ReqFnTable = {
             "LINDBLOM HS - Academic Center - Selection",
             "YOUNG HS - Academic Center - Selection"
         ],
-        "fn": (studentData, schoolData) => {
-            // convert scores to point system
-            // look up cutoff scores for this school
-            // check if score matches cutoff score
-          return {outcome: SuccessChance.NOTIMPLEMENTED};
+        "fn": (student, school) => {
+          // convert scores to point system
+          const score = calculateSEPoints(student);
+          // look up cutoff scores for this school
+          // for this student's tier
+          const cutoff = getSECutoff(student, school);
+          if (score >= cutoff.max) {
+            return {outcome: SuccessChance.CERTAIN};
+          } else if (score >= cutoff.avg) {
+            return {outcome: SuccessChance.LIKELY};
+          } else if (score >= cutoff.min) {
+            return {outcome: SuccessChance.UNCERTAIN}; 
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
         }
     },
     "03010a12030cab563c3f5d9115e7aabe": {
@@ -1101,8 +1160,24 @@ const HsReqFns: ReqFnTable = {
             "BACK OF THE YARDS HS - International Baccalaureate (IB) - Selection",
             "JUAREZ HS - International Baccalaureate (IB) - Selection"
         ],
-      "fn": (studentData, schoolData) => {
-        return {outcome: SuccessChance.NOTIMPLEMENTED};
+      "fn": (student, school) => {
+        const score = calculateIBPoints(student);
+        const cutoff = getIBCutoff(school).min;
+        if (inAttendanceBound(student, school)) {
+          const bonusPoints = 50;
+          const adjustedCutoff = cutoff + bonusPoints; 
+          if (score >= adjustedCutoff) {
+            return {outcome: SuccessChance.CERTAIN};   
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        } else {
+          if (score >= cutoff) {
+            return {outcome: SuccessChance.CERTAIN};
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
+        }
       }
     },
     "f79604e9d7984cc9b43fa3c69abe428d": {
