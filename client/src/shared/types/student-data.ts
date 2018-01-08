@@ -15,4 +15,5 @@ export default interface StudentInfo {
   latitude: string
   longitude: string
   seTestPercentile: number
+  siblingHSPrograms: string[]
 }

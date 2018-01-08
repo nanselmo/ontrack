@@ -246,6 +246,15 @@ const inAttendanceBound = (student: StudentData, school: HSProgram): boolean => 
   return isInBound; 
 };
 
+const hasSiblingInProgram = (student: StudentData, program: HSProgram) => {
+  const siblingAttends = student.siblingHSPrograms.indexOf(program.ID) !== -1;
+  if (siblingAttends) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 interface ReqFnTable {
   [hashId: string]: {
     name?: string
@@ -485,12 +494,17 @@ const HsReqFns: ReqFnTable = {
         }
     },
     "ea7a8ea4de4f5cdcc8bc6e7aab6a7962": {
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled at Foundations College Prep, sibling, general.",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled at Foundations College Prep, isibling, general.",
         "programs": [
             "FOUNDATIONS - General Education - Selection"
         ],
-        "fn": (studentData, schoolData) => {
-          return {outcome: SuccessChance.UNCERTAIN} 
+        "fn": (student, school) => {
+          // TODO write currently enrolled requirement -- also why are students applying if already currently enrolled?
+          if (hasSiblingInProgram(student, school)) {
+            return {outcome: SuccessChance.LIKELY};
+          } else {
+            return {outcome: SuccessChance.UNCERTAIN} 
+          }
         }
     },
     "783216956d119ad64639725fa9f4d44b": {
@@ -519,8 +533,13 @@ const HsReqFns: ReqFnTable = {
         "programs": [
             "CHICAGO VIRTUAL - Charter - Selection"
         ],
-        "fn": (studentData, schoolData) => {
-          return {outcome: SuccessChance.UNCERTAIN}
+        "fn": (student, school) => {
+          // TODO: write currently enrolled requirement (also, why are students applying if already enrolled? Elementary school?)
+          if (hasSiblingInProgram(student, school)) {
+            return {outcome: SuccessChance.LIKELY};
+          } else {
+            return {outcome: SuccessChance.UNCERTAIN}
+          }
         }
     },
     "01a561f658ea66df980a6e77eae83235": {
@@ -528,8 +547,13 @@ const HsReqFns: ReqFnTable = {
         "programs": [
             "CICS - LONGWOOD - Charter - Selection"
         ],
-        "fn": (studentData, schoolData) => {
-          return {outcome: SuccessChance.UNCERTAIN}
+        "fn": (student, school) => {
+          // TODO: write currently enrolled requirement (also, why are students applying if already enrolled? Elementary school?)
+          if (hasSiblingInProgram(student, school)) {
+            return {outcome: SuccessChance.LIKELY};
+          } else {
+            return {outcome: SuccessChance.UNCERTAIN}
+          }
         }
     },
     "8c431d51587c33009ee9b67a566c042e": {
@@ -552,8 +576,12 @@ const HsReqFns: ReqFnTable = {
             "INFINITY HS - Science/Technology/Engineering/Math - Selection",
             "MARSHALL HS - General Education - Selection"
         ],
-        "fn": (studentData, schoolData) => {
-          return {outcome: SuccessChance.UNCERTAIN}
+        "fn": (student, school) => {
+          if (hasSiblingInProgram(student, school)) {
+            return {outcome: SuccessChance.LIKELY};
+          } else {
+            return {outcome: SuccessChance.UNCERTAIN}
+          }
         }
     },
     "6fddb8b397a12770dbed5afff360213b": {
@@ -593,8 +621,11 @@ const HsReqFns: ReqFnTable = {
             "CHICAGO ACADEMY HS - Scholars - Selection",
             "CHICAGO ACADEMY HS - General Education - Selection"
         ],
-        "fn": (studentData, schoolData) => {
-          if (inAttendanceBound(studentData, schoolData)) {
+        "fn": (student, school) => {
+          // TODO 'students enrolled in AUSL schools' requirement -- what are AUSL schools?
+          if (inAttendanceBound(student, school) || 
+            hasSiblingInProgram(student, school)) {
+
             return {outcome: SuccessChance.LIKELY};
           } else {
             return {outcome: SuccessChance.UNCERTAIN};
@@ -798,9 +829,11 @@ const HsReqFns: ReqFnTable = {
             "SCHURZ HS - General Education - Selection",
             "STEINMETZ HS - General Education - Selection"
         ],
-        "fn": (studentData, schoolData) => {
-          if (inAttendanceBound(studentData, schoolData)) {
+        "fn": (student, school) => {
+          if (inAttendanceBound(student, school)) {
             return {outcome: SuccessChance.CERTAIN};
+          } else if (hasSiblingInProgram(student, school)) {
+            return {outcome: SuccessChance.LIKELY};
           } else {
             return {outcome: SuccessChance.UNCERTAIN};
           }
@@ -840,9 +873,11 @@ const HsReqFns: ReqFnTable = {
         "programs": [
             "JUAREZ HS - General Education - Selection"
         ],
-        "fn": (studentData, schoolData) => {
-          if (inAttendanceBound(studentData, schoolData)) {
+        "fn": (student, school) => {
+          if (inAttendanceBound(student, school)) {
             return {outcome: SuccessChance.CERTAIN};
+          } else if (hasSiblingInProgram(student, school)) {
+            return {outcome: SuccessChance.LIKELY};
           } else {
             return {outcome: SuccessChance.UNCERTAIN};
           }
@@ -990,8 +1025,10 @@ const HsReqFns: ReqFnTable = {
             "NORTH LAWNDALE - CHRISTIANA HS - General Education - Selection",
             "NORTH LAWNDALE - COLLINS HS - General Education - Selection"
         ],
-        "fn": (studentData, schoolData) => {
-          if (inAttendanceBound(studentData, schoolData)) {
+        "fn": (student, school) => {
+          if ( inAttendanceBound(student, school) || 
+            hasSiblingInProgram(student, school) ) {
+
             return {outcome: SuccessChance.LIKELY};
           } else {
             return {outcome: SuccessChance.UNCERTAIN};
@@ -1296,9 +1333,13 @@ const HsReqFns: ReqFnTable = {
             "SCHURZ HS - Dual Language - Selection",
             "BACK OF THE YARDS HS - Dual Language - Selection"
         ],
-      "fn": (studentData, schoolData) => {
+      "fn": (student, school) => {
         // TODO add curr school/program to studentData
-        return {outcome: SuccessChance.NOTIMPLEMENTED};
+        if (hasSiblingInProgram(student, school)) {
+          return {outcome: SuccessChance.LIKELY};
+        } else {
+          return {outcome: SuccessChance.UNCERTAIN};
+        }
       }
     },
     "8c1dffabe7825704cbe29a12138cc4d9": {
@@ -1308,9 +1349,13 @@ const HsReqFns: ReqFnTable = {
             "CHICAGO MATH & SCIENCE HS - General Education - Selection",
             "CICS - CHICAGOQUEST HS - General Education - Selection"
         ],
-      "fn": (studentData, schoolData) => {
+      "fn": (student, school) => {
         // TODO add curr school/program to studentData
-        return {outcome: SuccessChance.NOTIMPLEMENTED};
+        if (hasSiblingInProgram(student, school)) {
+          return {outcome: SuccessChance.LIKELY};
+        } else {
+          return {outcome: SuccessChance.UNCERTAIN};
+        }
       }
     },
     "70b7c4a5e527fb50d69ea37b000765d8": {
@@ -1357,9 +1402,11 @@ const HsReqFns: ReqFnTable = {
             "CLEMENTE HS - General Education - Selection",
             "PHILLIPS HS - General Education - Selection"
         ],
-      "fn": (studentData, schoolData) => {
-        if (inAttendanceBound(studentData, schoolData)) {
+      "fn": (student, school) => {
+        if (inAttendanceBound(student, school)) {
           return {outcome: SuccessChance.CERTAIN};
+        } else if (hasSiblingInProgram(student, school)) {
+          return {outcome: SuccessChance.LIKELY};
         } else {
           return {outcome: SuccessChance.UNCERTAIN};
         }
@@ -1560,7 +1607,7 @@ const HsReqFns: ReqFnTable = {
 
         } else {
           if (studentData.iep || studentData.ell) {
-            // FIXME: is this a typo??
+            // TODO: is this a typo??
             if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 24 &&
               studentData.attendancePercentage >= 90 ) {
 
@@ -1592,8 +1639,11 @@ const HsReqFns: ReqFnTable = {
             "CLARK HS - Early College STEM - Selection",
             "DISNEY II HS - Fine Arts & Technology - Selection"
         ],
-      "fn": (studentData, schoolData) => {
-        if (inAttendanceBound(studentData, schoolData)) {
+      "fn": (student, school) => {
+        // TODO: ...tiers? (As the third and final stage in lottery.) I think it's fine to keep it as 'UNCERTAIN' considering we have no info about other applicants.
+        if (inAttendanceBound(student, school) || 
+          hasSiblingInProgram(student, school)) {
+
           return {outcome: SuccessChance.LIKELY};
         } else {
           return {outcome: SuccessChance.UNCERTAIN};
@@ -1698,9 +1748,12 @@ const HsReqFns: ReqFnTable = {
         "programs": [
             "SPRY HS - General Education - Selection"
         ],
-      // TODO implement sibling?
-      "fn": (studentData, schoolData) => {
-        return {outcome: SuccessChance.UNCERTAIN};
+      "fn": (student, school) => {
+        if (hasSiblingInProgram(student, school)) {
+          return {outcome: SuccessChance.LIKELY};
+        } else {
+          return {outcome: SuccessChance.UNCERTAIN};
+        }
       }
     },
     "b4dc6bde064d3f16c8bed871ea0cee30": {
@@ -1861,9 +1914,11 @@ const HsReqFns: ReqFnTable = {
         "programs": [
             "HARLAN HS - General Education - Selection"
         ],
-      "fn": (studentData, schoolData) => {
-        if (inAttendanceBound(studentData, schoolData)) {
+      "fn": (student, school) => {
+        if (inAttendanceBound(student, school)) {
           return {outcome: SuccessChance.CERTAIN};
+        } else if (hasSiblingInProgram(student, school)) {
+            return {outcome: SuccessChance.LIKELY};
         } else {
           return {outcome: SuccessChance.UNCERTAIN};
         }
@@ -1947,9 +2002,12 @@ const HsReqFns: ReqFnTable = {
             "HARLAN HS - Pre-Engineering - Selection",
             "CHICAGO AGRICULTURE HS - Honors - Selection"
         ],
-      "fn": (studentData, schoolData) => {
-        // TODO: figure out sibling stuff
-        return {outcome: SuccessChance.UNCERTAIN};
+      "fn": (student, school) => {
+        if (hasSiblingInProgram(student, school)) {
+          return {outcome: SuccessChance.LIKELY};
+        } else {
+          return {outcome: SuccessChance.UNCERTAIN};
+        }
       }
     },
     "736b7d124b6930cf8ae642563037eeb9": {
@@ -2051,9 +2109,13 @@ const HsReqFns: ReqFnTable = {
         "programs": [
             "UPLIFT HS - General Education - Selection"
         ],
-      "fn": (studentData, schoolData) => {
+      "fn": (student, school) => {
         // TODO: add prev school to StudentData
-        return {outcome: SuccessChance.UNCERTAIN};
+        if (hasSiblingInProgram(student, school)) {
+          return {outcome: SuccessChance.LIKELY};
+        } else {
+          return {outcome: SuccessChance.UNCERTAIN};
+        }
       }
     },
     "f9d7148f613933f83ad7d81004715614": {
@@ -2064,7 +2126,9 @@ const HsReqFns: ReqFnTable = {
         ],
       "fn": (studentData, schoolData) => {
         // TODO: add prev school to StudentData
-        if (inAttendanceBound(studentData, schoolData)) {
+        if (inAttendanceBound(studentData, schoolData) || 
+          hasSiblingInProgram(studentData, schoolData) ) {
+
           return {outcome: SuccessChance.LIKELY};
         } else {
           return {outcome: SuccessChance.UNCERTAIN};
@@ -2159,6 +2223,8 @@ const HsReqFns: ReqFnTable = {
       "fn": (studentData, schoolData) => {
         if (inAttendanceBound(studentData, schoolData)) {
           return {outcome: SuccessChance.CERTAIN};
+        } else if (hasSiblingInProgram(studentData, schoolData)) {
+          return {outcome: SuccessChance.LIKELY};
         } else {
           return {outcome: SuccessChance.UNCERTAIN};
         }
@@ -2280,8 +2346,11 @@ const HsReqFns: ReqFnTable = {
             "INSTITUTO - HEALTH - General Education - Selection"
         ],
       "fn": (student, school) => {
-        // TODO add sibling attend to StudentData?
-        return {outcome: SuccessChance.UNCERTAIN};
+        if (hasSiblingInProgram(student, school)) {
+          return {outcome: SuccessChance.LIKELY};
+        } else {
+          return {outcome: SuccessChance.UNCERTAIN};
+        }
       }
     },
     "23e3199eb5514de5456653457f75f366": {
@@ -2347,9 +2416,10 @@ const HsReqFns: ReqFnTable = {
             "CORLISS HS - Early College STEM - Selection"
         ],
       "fn": (student, school) => {
-        // TODO add sibling to StudentData
         if (inAttendanceBound(student,school)) {
           return {outcome: SuccessChance.CERTAIN};
+        } else if (hasSiblingInProgram(student, school)) {
+          return {outcome: SuccessChance.LIKELY};
         } else {
           return {outcome: SuccessChance.UNCERTAIN};
         }
@@ -2389,10 +2459,11 @@ const HsReqFns: ReqFnTable = {
             "HYDE PARK HS - General Education - Selection"
         ],
         "fn": (student, school) => {
-          // TODO add sibling to StudentData
           // TODO add prev school to StudentData
           if (inAttendanceBound(student,school)) {
             return {outcome: SuccessChance.CERTAIN};
+          } else if (hasSiblingInProgram(student, school)) {
+            return {outcome: SuccessChance.LIKELY};
           } else {
             return {outcome: SuccessChance.UNCERTAIN};
           }
@@ -2664,7 +2735,9 @@ const HsReqFns: ReqFnTable = {
         ],
       "fn": (student, school) => {
         // TODO: add prev school to StudentData
-        if (inAttendanceBound(student, school)) {
+        if (inAttendanceBound(student, school) || 
+          hasSiblingInProgram(student, school) ) {
+
           return {outcome: SuccessChance.LIKELY};
         } else {
           return {outcome: SuccessChance.UNCERTAIN};
@@ -2728,9 +2801,10 @@ const HsReqFns: ReqFnTable = {
         if (inAttendanceBound(student, school)) {
           return {outcome: SuccessChance.CERTAIN};
         } else {
-          if ( student.scores.nweaPercentileMath >= 60 &&
-            student.scores.nweaPercentileRead >= 60 ) {
+          const scoredAboveThreshold = student.scores.nweaPercentileMath >= 60 &&
+            student.scores.nweaPercentileRead >= 60;
 
+          if ( scoredAboveThreshold || hasSiblingInProgram(student, school)) {
             return {outcome: SuccessChance.LIKELY};
           } else {
             return {outcome: SuccessChance.UNCERTAIN};
@@ -2764,7 +2838,11 @@ const HsReqFns: ReqFnTable = {
         ],
       "fn": (student, school) => {
         // TODO: add prev school to StudentData
-        return {outcome: SuccessChance.UNCERTAIN};
+        if (hasSiblingInProgram(student, school)) {
+          return {outcome: SuccessChance.LIKELY};
+        } else {
+          return {outcome: SuccessChance.UNCERTAIN};
+        }
       }
     },
     "47750c8ffb643412fb55f3f3d6bde14a": {
@@ -3005,9 +3083,10 @@ const HsReqFns: ReqFnTable = {
             "WORLD LANGUAGE HS - General Education - Selection"
         ],
       "fn": (student, school) => {
-        // TODO add sibling info to studentData
         if (inAttendanceBound(student, school)) {
           return {outcome: SuccessChance.CERTAIN};
+        } else if (hasSiblingInProgram(student, school)) {
+          return {outcome: SuccessChance.LIKELY};
         } else {
           return {outcome: SuccessChance.UNCERTAIN};
         }
@@ -3166,7 +3245,9 @@ const HsReqFns: ReqFnTable = {
         ],
         "fn": (student, school) => {
           // TODO get attend bound for other middle schools
-          if (inAttendanceBound(student, school)) {
+          if (inAttendanceBound(student, school) ||
+            hasSiblingInProgram(student, school) ) {
+
             return {outcome: SuccessChance.CERTAIN};
           } else {
             return {outcome: SuccessChance.UNCERTAIN};
@@ -3203,8 +3284,11 @@ const HsReqFns: ReqFnTable = {
             "LEGAL PREP HS - General Education - Selection"
         ],
         "fn": (student, school) => {
-          // TODO add sibling school to StudentData
-          return {outcome: SuccessChance.UNCERTAIN};
+          if (hasSiblingInProgram(student, school)) {
+            return {outcome: SuccessChance.LIKELY};
+          } else {
+            return {outcome: SuccessChance.UNCERTAIN};
+          }
         }
     },
     "7cc8a6e9cd27c6a9e8d43b323a961475": {
