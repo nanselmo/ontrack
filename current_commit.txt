@@ -1,5 +1,6 @@
-Implement sibling requirements in requirement functions
+Add elementary school programs to program data
 
-* Add siblingHSPrograms property to StudentData
-* Write or extend requirement functions that relate to sibling
-  data
+* rename hs_programs.json -> cps_programs.json
+* add currESProgram to StudentData
+* add elementary school programs to cps_programs.json
+
