@@ -1,4 +1,7 @@
 * Implement dangling school selection requirements
+** WIP add unique & stable indices for each HS Program
+*** write add_program_id.py for operating on hs_programs.json
+*** TODO IN FUTURE figure out an organization for all this config nonsense
 ** TODO implement sibling selection requirements
 ** TODO implement prev school selection requirements
 ** TODO implement prev grade selection requirements

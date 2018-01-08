@@ -1,4 +1,5 @@
 interface HSProgram {
+        "Program_ID": string
         "School_ID": string
         "Short_Name": string
         "Long_Name": string

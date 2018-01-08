@@ -1,2 +1,10 @@
-Implement SE and IB selection functions
+Add Program_ID property to HSProgram type
 
+* Write create_program_id.py to add Program_ID property to
+  hs_programs.json -- hash of school_ID and program type, so
+  hopefully stable ID
+* Add unique Program_ID to every highschool in hs_programs.json
+* NOTE can now uniquely identify hs programs. This is not only handy
+  in general but also important for e.g. identifying prev school
+  that student attended, where sibling attended, or in which student's
+  address must be w/in attend bounds
