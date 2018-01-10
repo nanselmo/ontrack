@@ -3362,6 +3362,7 @@ const HsReqFns: ReqFnTable = {
             "VON STEUBEN HS - Scholars - Application"
         ],
         "fn": (student, school) => {
+          // TODO add non eligible applicants still apply to science program
           if ( student.scores.nweaPercentileMath >= 60 &&
             student.scores.nweaPercentileRead >= 60 &&
             student.gpa >= 3.0 ) {
