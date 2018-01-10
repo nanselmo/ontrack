@@ -1,8 +1,15 @@
-Write requirement fns involving prev grade and gender
+Debug app afte changes in requirement functions
 
-* add prevGradelevel property to StudentData interface
-* add gender property to StudentData interface
-* add shared/enums/gender.ts
-* add UNLIKELY value to SuccessChance enum
-* write/edit req fns that involve prev grade level
-* write/edit req fns that involve gender
+* fix tsc compilation errors
+  ** add missing properties to hardcoded student data 
+      in src/path-to-hs/hardcoded.ts
+  ** update StudentData type to make seTestPercentile to make
+    seTestPercentile property optional
+
+* TODO remove requirement functions for Academic Centers in
+  shared/data/hs_req_fns.ts
+  ** NOTE earlier, I had incorrectly assumed Academic Centers
+    were Selective Enrollment schools -- so I tried to look up
+    their cutoff scores using the getSECutoff() function. This
+    errored because Academic Centers are not SE schools.
+  

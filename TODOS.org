@@ -27,7 +27,14 @@
   *** First line of attack: googling
   *** Second line of attack: (gulp) calling
 
-* TODO Figure out progress reporting system
-* TODO Remove Academic Center programs from HS Programs list
-* TODO figure out better way to check attend bound
+* TODO IN FUTURE Figure out progress reporting system
+* TODO IN FUTURE Remove Academic Center programs from HS Programs list
+* TODO IN FUTURE figure out better way to check attend bound
 
+* TODO get app to run, make it look real good
+* TODO prep for talking (??!) about it to People (!??)
+  ** TODO get hold of adapter or use lenovo, also cords
+    *** It's hard to imagine a projector only using hdmi but make
+      sure that isn't the case before you show.
+* TODO throw dist/ on s3 somewhere, confirm that it works
+  on different computers

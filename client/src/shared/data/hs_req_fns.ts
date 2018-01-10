@@ -926,30 +926,33 @@ const HsReqFns: ReqFnTable = {
             "YOUNG HS - Academic Center - Application"
         ],
         "fn": (student, school) => {
-          if (student.iep || student.ell) {
-            let higher;
-            let lower;
-            if (student.scores.nweaPercentileMath > student.scores.nweaPercentileRead) {
-              higher = student.scores.nweaPercentileMath;
-              lower = student.scores.nweaPercentileRead;
-            } else {
-              higher = student.scores.nweaPercentileRead;
-              lower = student.scores.nweaPercentileMath;
-            }
-            
-            if (higher >= 50 && lower >= 40) {
-              return {outcome: SuccessChance.CERTAIN}; 
-            } else {
-              return {outcome: SuccessChance.NONE};
-            }
-            
-          } else {
-            if (student.scores.nweaPercentileMath >= 45 && student.scores.nweaPercentileRead >= 45) {
-              return {outcome: SuccessChance.CERTAIN};
-            } else {
-              return {outcome: SuccessChance.NONE};
-            }
-          }
+          //  if (student.iep || student.ell) {
+          //    let higher;
+          //    let lower;
+          //    if (student.scores.nweaPercentileMath > student.scores.nweaPercentileRead) {
+          //      higher = student.scores.nweaPercentileMath;
+          //      lower = student.scores.nweaPercentileRead;
+          //    } else {
+          //      higher = student.scores.nweaPercentileRead;
+          //      lower = student.scores.nweaPercentileMath;
+          //    }
+          //    
+          //    if (higher >= 50 && lower >= 40) {
+          //      return {outcome: SuccessChance.CERTAIN}; 
+          //    } else {
+          //      return {outcome: SuccessChance.NONE};
+          //    }
+          //    
+          //  } else {
+          //    if (student.scores.nweaPercentileMath >= 45 && student.scores.nweaPercentileRead >= 45) {
+          //      return {outcome: SuccessChance.CERTAIN};
+          //    } else {
+          //      return {outcome: SuccessChance.NONE};
+          //    }
+          //}
+         
+          // TODO remove Academic Center programs from list of cps programs and req fns
+          return {outcome: SuccessChance.NOTIMPLEMENTED};
         }
     },
     "224ce8807abceb6ca72e650988637629": {
@@ -965,20 +968,23 @@ const HsReqFns: ReqFnTable = {
             "YOUNG HS - Academic Center - Selection"
         ],
         "fn": (student, school) => {
-          // convert scores to point system
-          const score = calculateSEPoints(student);
-          // look up cutoff scores for this school
-          // for this student's tier
-          const cutoff = getSECutoff(student, school);
-          if (score >= cutoff.max) {
-            return {outcome: SuccessChance.CERTAIN};
-          } else if (score >= cutoff.avg) {
-            return {outcome: SuccessChance.LIKELY};
-          } else if (score >= cutoff.min) {
-            return {outcome: SuccessChance.UNCERTAIN}; 
-          } else {
-            return {outcome: SuccessChance.NONE};
-          }
+          // // convert scores to point system
+          // const score = calculateSEPoints(student);
+          // // look up cutoff scores for this school
+          // // for this student's tier
+          // const cutoff = getSECutoff(student, school);
+          // if (score >= cutoff.max) {
+          //   return {outcome: SuccessChance.CERTAIN};
+          // } else if (score >= cutoff.avg) {
+          //   return {outcome: SuccessChance.LIKELY};
+          // } else if (score >= cutoff.min) {
+          //   return {outcome: SuccessChance.UNCERTAIN}; 
+          // } else {
+          //   return {outcome: SuccessChance.NONE};
+          // }
+         
+          // TODO remove Academic Center programs from list of cps programs and req fns
+          return {outcome: SuccessChance.NOTIMPLEMENTED};
         }
     },
     "03010a12030cab563c3f5d9115e7aabe": {

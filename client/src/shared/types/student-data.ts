@@ -8,8 +8,12 @@ export default interface StudentInfo {
   studentFirstName: string
   studentLastName: string
   gender: Gender
+
   address: string
+  latitude: string
+  longitude: string
   tier: string
+
   gradeLevel: GradeLevel
   prevGradeLevel: GradeLevel
   ell: boolean
@@ -17,8 +21,8 @@ export default interface StudentInfo {
   attendancePercentage: number
   gpa: number
   scores: StudentScores
-  latitude: string
-  longitude: string
-  seTestPercentile: number
+
   siblingHSPrograms: string[]
+
+  seTestPercentile?: number
 }
