@@ -9,17 +9,25 @@
 *** TODO add elementary schools to hs_programs.json
 **** TODO refactor build.py according to details in
   config/README.txt
-**** TODO run build.py on new CPS data to add ES programs
+***** TODO refactor python scripts in config/build/ to operate
+  on opened files rather than on filepaths
+**** TODO run build.py on new CPS data to create records 
+      for ES programs
+***** TODO add ES program records to hs_programs.json
 *** TODO rename hs_programs.json -> cps_programs.json
 
 ** TODO implement prev grade selection requirements
 ** TODO implement gender selection requirements
-** TODO implement IOWA test stanines selection requirements
+** NVM implement IOWA test stanines selection requirements
+*** NOTE 'stanines' still being present appears to be a 
+    mistake in the school requirements
+** TODO add military school info to StudentData
 ** TODO implement LAS Links and STAMP test selection requirements
 ** TODO find out point system for all unknown point system
   *** First line of attack: googling
   *** Second line of attack: (gulp) calling
 
-* Figure out progress reporting system
-* Remove Academic Center programs from HS Programs list
+* TODO Figure out progress reporting system
+* TODO Remove Academic Center programs from HS Programs list
+* TODO figure out better way to check attend bound
 

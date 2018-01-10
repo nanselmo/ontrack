@@ -1,4 +1,5 @@
 import StudentData from "shared/types/student-data"; 
+import Gender from "shared/enums/gender";
 import HSRequirementFunction from "shared/types/hs-requirement-function";
 import SuccessChance from "shared/enums/success-chance.ts";
 import HSProgram from "shared/types/hs-program";
@@ -1128,7 +1129,7 @@ const HsReqFns: ReqFnTable = {
             "LAKE VIEW HS - General Education - Selection"
         ],
       "fn": (studentData, schoolData) => {
-        // TODO consider addding current school to student data
+        // TODO add current school to student data
         if (inAttendanceBound(studentData, schoolData)) {
           return {outcome: SuccessChance.LIKELY};
         } else {
@@ -1666,6 +1667,8 @@ const HsReqFns: ReqFnTable = {
           if (studentData.iep || studentData.ell) {
             if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 ) {
               return {outcome: SuccessChance.LIKELY};
+            } else if (studentData.prevGradeLevel !== 7) {
+              return {outcome: SuccessChance.UNLIKELY};
             } else {
               return {outcome: SuccessChance.UNCERTAIN};
             }
@@ -1674,6 +1677,8 @@ const HsReqFns: ReqFnTable = {
               studentData.scores.nweaPercentileRead >= 24 ) {
 
               return {outcome: SuccessChance.LIKELY};
+            } else if (studentData.prevGradeLevel !== 7) {
+              return {outcome: SuccessChance.UNLIKELY};
             } else {
               return {outcome: SuccessChance.UNCERTAIN};
             }
@@ -2321,16 +2326,19 @@ const HsReqFns: ReqFnTable = {
             "BOGAN HS - Accounting - Selection"
         ],
       "fn": (studentData, schoolData) => {
-        // TODO add prev grade to StudentData
         if (studentData.iep || studentData.ell) {
           if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 ) {
             return {outcome: SuccessChance.LIKELY};
+          } else if (studentData.prevGradeLevel !== 7) {
+            return {outcome: SuccessChance.UNLIKELY};
           } else {
             return {outcome: SuccessChance.UNCERTAIN};
           }
         } else {
           if ( studentData.scores.nweaPercentileMath >= 24 && studentData.scores.nweaPercentileRead >= 24 ) {
             return {outcome: SuccessChance.LIKELY};
+          } else if (studentData.prevGradeLevel !== 7) {
+            return {outcome: SuccessChance.UNLIKELY};
           } else {
             return {outcome: SuccessChance.UNCERTAIN};
           }
@@ -2476,6 +2484,7 @@ const HsReqFns: ReqFnTable = {
             "LINCOLN PARK HS - Instrumental Music - Application"
         ],
         "fn": (student, school) => {
+          // TODO add audition additional requirement?
           if ( inAttendanceBound(student, school)) {
             return {outcome: SuccessChance.CERTAIN};
           } else {
@@ -2879,10 +2888,11 @@ const HsReqFns: ReqFnTable = {
             "DYETT ARTS HS - Digital Media - Selection"
         ],
       "fn": (student, school) => {
-        // TODO add prev grade to StudentData
         if (student.iep || student.ell) {
           if ( (student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 ) {
             return {outcome: SuccessChance.LIKELY};
+          } else if (student.prevGradeLevel !== 7) {
+            return {outcome: SuccessChance.UNLIKELY};
           } else {
             return {outcome: SuccessChance.UNCERTAIN};
           }
@@ -2891,6 +2901,8 @@ const HsReqFns: ReqFnTable = {
             student.scores.nweaPercentileRead >= 24 ) {
 
             return {outcome: SuccessChance.LIKELY};
+          } else if (student.prevGradeLevel !== 7) {
+            return {outcome: SuccessChance.UNLIKELY};
           } else {
             return {outcome: SuccessChance.UNCERTAIN};
           } 
@@ -3298,8 +3310,24 @@ const HsReqFns: ReqFnTable = {
             "YOUNG WOMENS HS - General Education - Application"
         ],
         "fn": (student, school) => {
-          // TODO WHAAT?? GENDER???? Add gender to StudentData
-          return {outcome: SuccessChance.NOTIMPLEMENTED};
+          if (student.gradeLevel === 8) {
+            if (student.gender === Gender.FEMALE) {
+              return {outcome: SuccessChance.CERTAIN};
+
+            } else if (student.gender === Gender.OTHER ||
+              student.gender === Gender.NOANSWER) {
+
+              return {outcome: SuccessChance.UNCERTAIN};
+
+            } else if (student.gender === Gender.MALE) {
+              return {outcome: SuccessChance.NONE};
+
+            } else {
+              return {outcome: SuccessChance.UNCERTAIN};
+            }
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
         }
     },
     "a787cb9987ca94d3c2370e2cb67d50cc": {

@@ -1,6 +1,8 @@
-Add elementary school programs to program data
+Write requirement fns involving prev grade and gender
 
-* rename hs_programs.json -> cps_programs.json
-* add currESProgram to StudentData
-* add elementary school programs to cps_programs.json
-
+* add prevGradelevel property to StudentData interface
+* add gender property to StudentData interface
+* add shared/enums/gender.ts
+* add UNLIKELY value to SuccessChance enum
+* write/edit req fns that involve prev grade level
+* write/edit req fns that involve gender
