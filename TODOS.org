@@ -38,3 +38,14 @@
       sure that isn't the case before you show.
 * TODO throw dist/ on s3 somewhere, confirm that it works
   on different computers
+
+frontend
+* random things to fix
+  ** fix iframe cutting out on bottom of page
+  ** fix hs bubbles sometimes appearing over iframes
+* design improvements
+  ** hs bubble states -- SUCCESS, LIKELY, UNCERTAIN, etc
+  ** progress ?
+  ** add explanation of requirements, and detailed progress on
+    mouseover
+* general: try to imagine you're using the website for the first time
