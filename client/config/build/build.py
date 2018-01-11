@@ -1,17 +1,28 @@
 from os import path
-from build_hs_requirement_function_outline import build_hs_requirement_function_outline
+import sys
+from build_utils import with_program_ids, with_requirement_function_keys, write_requirement_function_outline
+from csvtojson import csvtojson
+import json
 
 curr_filepath = path.realpath(__file__)
 
-hs_programs_filepath = path.abspath(path.join(__file__, "../..", "data", "hs_programs.json"))
-
-hs_req_fn_output_filepath = path.abspath(path.join(__file__, "../..", "data", "hs_req_fns.json"))
-hs_config_data_output_filepath = path.abspath(path.join(__file__, "../..", "data", "hs_config_data.json"))
+cps_programs_csv_filepath = sys.argv[1]
+req_fns_output_filepath = path.abspath(path.join(__file__, "../..", "data", "hs_req_fns.json"))
+cps_programs_output_filepath = path.abspath(path.join(__file__, "../..", "data", "cps_programs.json"))
 
 if __name__ == "__main__":
-    build_hs_requirement_function_outline(hs_programs_filepath, 
-            output_path_req_fn_defs=hs_req_fn_output_filepath,
-            output_path_hs_config_data=hs_config_data_output_filepath,
-            overwrite=False)
+    with open(cps_programs_csv_filepath) as cps_programs_csvfile:
+        cps_programs_json_str = csvtojson(cps_programs_csvfile.read()) 
+        cps_programs = json.loads(cps_programs_json_str)
+
+        cps_programs = with_program_ids(cps_programs)
+        cps_programs = with_requirement_function_keys(cps_programs)
+        with open(cps_programs_output_filepath, "w") as f:
+            json.dump(cps_programs, f, indent=2)
+
+        req_fns = write_requirement_function_outline(cps_programs)
+        with open(req_fns_output_filepath, "w") as f:
+            json.dump(req_fns, f, indent=2)
+            
 
 

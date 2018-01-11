@@ -6,9 +6,8 @@
 ** DONE implement sibling selection requirements
 
 ** WIP implement prev school selection requirements
+*** TODO refactor build.py according to details in config/README.txt 
 *** TODO add elementary schools to hs_programs.json
-**** TODO refactor build.py according to details in
-  config/README.txt
 **** TODO run build.py on new CPS data to add ES programs
 *** TODO rename hs_programs.json -> cps_programs.json
 
