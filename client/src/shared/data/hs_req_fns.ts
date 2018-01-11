@@ -1,4 +1,5 @@
 import StudentData from "shared/types/student-data"; 
+import Gender from "shared/enums/gender";
 import HSRequirementFunction from "shared/types/hs-requirement-function";
 import SuccessChance from "shared/enums/success-chance.ts";
 import HSProgram from "shared/types/hs-program";
@@ -925,30 +926,33 @@ const HsReqFns: ReqFnTable = {
             "YOUNG HS - Academic Center - Application"
         ],
         "fn": (student, school) => {
-          if (student.iep || student.ell) {
-            let higher;
-            let lower;
-            if (student.scores.nweaPercentileMath > student.scores.nweaPercentileRead) {
-              higher = student.scores.nweaPercentileMath;
-              lower = student.scores.nweaPercentileRead;
-            } else {
-              higher = student.scores.nweaPercentileRead;
-              lower = student.scores.nweaPercentileMath;
-            }
-            
-            if (higher >= 50 && lower >= 40) {
-              return {outcome: SuccessChance.CERTAIN}; 
-            } else {
-              return {outcome: SuccessChance.NONE};
-            }
-            
-          } else {
-            if (student.scores.nweaPercentileMath >= 45 && student.scores.nweaPercentileRead >= 45) {
-              return {outcome: SuccessChance.CERTAIN};
-            } else {
-              return {outcome: SuccessChance.NONE};
-            }
-          }
+          //  if (student.iep || student.ell) {
+          //    let higher;
+          //    let lower;
+          //    if (student.scores.nweaPercentileMath > student.scores.nweaPercentileRead) {
+          //      higher = student.scores.nweaPercentileMath;
+          //      lower = student.scores.nweaPercentileRead;
+          //    } else {
+          //      higher = student.scores.nweaPercentileRead;
+          //      lower = student.scores.nweaPercentileMath;
+          //    }
+          //    
+          //    if (higher >= 50 && lower >= 40) {
+          //      return {outcome: SuccessChance.CERTAIN}; 
+          //    } else {
+          //      return {outcome: SuccessChance.NONE};
+          //    }
+          //    
+          //  } else {
+          //    if (student.scores.nweaPercentileMath >= 45 && student.scores.nweaPercentileRead >= 45) {
+          //      return {outcome: SuccessChance.CERTAIN};
+          //    } else {
+          //      return {outcome: SuccessChance.NONE};
+          //    }
+          //}
+         
+          // TODO remove Academic Center programs from list of cps programs and req fns
+          return {outcome: SuccessChance.NOTIMPLEMENTED};
         }
     },
     "224ce8807abceb6ca72e650988637629": {
@@ -964,20 +968,23 @@ const HsReqFns: ReqFnTable = {
             "YOUNG HS - Academic Center - Selection"
         ],
         "fn": (student, school) => {
-          // convert scores to point system
-          const score = calculateSEPoints(student);
-          // look up cutoff scores for this school
-          // for this student's tier
-          const cutoff = getSECutoff(student, school);
-          if (score >= cutoff.max) {
-            return {outcome: SuccessChance.CERTAIN};
-          } else if (score >= cutoff.avg) {
-            return {outcome: SuccessChance.LIKELY};
-          } else if (score >= cutoff.min) {
-            return {outcome: SuccessChance.UNCERTAIN}; 
-          } else {
-            return {outcome: SuccessChance.NONE};
-          }
+          // // convert scores to point system
+          // const score = calculateSEPoints(student);
+          // // look up cutoff scores for this school
+          // // for this student's tier
+          // const cutoff = getSECutoff(student, school);
+          // if (score >= cutoff.max) {
+          //   return {outcome: SuccessChance.CERTAIN};
+          // } else if (score >= cutoff.avg) {
+          //   return {outcome: SuccessChance.LIKELY};
+          // } else if (score >= cutoff.min) {
+          //   return {outcome: SuccessChance.UNCERTAIN}; 
+          // } else {
+          //   return {outcome: SuccessChance.NONE};
+          // }
+         
+          // TODO remove Academic Center programs from list of cps programs and req fns
+          return {outcome: SuccessChance.NOTIMPLEMENTED};
         }
     },
     "03010a12030cab563c3f5d9115e7aabe": {
@@ -1128,7 +1135,7 @@ const HsReqFns: ReqFnTable = {
             "LAKE VIEW HS - General Education - Selection"
         ],
       "fn": (studentData, schoolData) => {
-        // TODO consider addding current school to student data
+        // TODO add current school to student data
         if (inAttendanceBound(studentData, schoolData)) {
           return {outcome: SuccessChance.LIKELY};
         } else {
@@ -1666,6 +1673,8 @@ const HsReqFns: ReqFnTable = {
           if (studentData.iep || studentData.ell) {
             if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 ) {
               return {outcome: SuccessChance.LIKELY};
+            } else if (studentData.prevGradeLevel !== 7) {
+              return {outcome: SuccessChance.UNLIKELY};
             } else {
               return {outcome: SuccessChance.UNCERTAIN};
             }
@@ -1674,6 +1683,8 @@ const HsReqFns: ReqFnTable = {
               studentData.scores.nweaPercentileRead >= 24 ) {
 
               return {outcome: SuccessChance.LIKELY};
+            } else if (studentData.prevGradeLevel !== 7) {
+              return {outcome: SuccessChance.UNLIKELY};
             } else {
               return {outcome: SuccessChance.UNCERTAIN};
             }
@@ -2321,16 +2332,19 @@ const HsReqFns: ReqFnTable = {
             "BOGAN HS - Accounting - Selection"
         ],
       "fn": (studentData, schoolData) => {
-        // TODO add prev grade to StudentData
         if (studentData.iep || studentData.ell) {
           if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 ) {
             return {outcome: SuccessChance.LIKELY};
+          } else if (studentData.prevGradeLevel !== 7) {
+            return {outcome: SuccessChance.UNLIKELY};
           } else {
             return {outcome: SuccessChance.UNCERTAIN};
           }
         } else {
           if ( studentData.scores.nweaPercentileMath >= 24 && studentData.scores.nweaPercentileRead >= 24 ) {
             return {outcome: SuccessChance.LIKELY};
+          } else if (studentData.prevGradeLevel !== 7) {
+            return {outcome: SuccessChance.UNLIKELY};
           } else {
             return {outcome: SuccessChance.UNCERTAIN};
           }
@@ -2476,6 +2490,7 @@ const HsReqFns: ReqFnTable = {
             "LINCOLN PARK HS - Instrumental Music - Application"
         ],
         "fn": (student, school) => {
+          // TODO add audition additional requirement?
           if ( inAttendanceBound(student, school)) {
             return {outcome: SuccessChance.CERTAIN};
           } else {
@@ -2879,10 +2894,11 @@ const HsReqFns: ReqFnTable = {
             "DYETT ARTS HS - Digital Media - Selection"
         ],
       "fn": (student, school) => {
-        // TODO add prev grade to StudentData
         if (student.iep || student.ell) {
           if ( (student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 ) {
             return {outcome: SuccessChance.LIKELY};
+          } else if (student.prevGradeLevel !== 7) {
+            return {outcome: SuccessChance.UNLIKELY};
           } else {
             return {outcome: SuccessChance.UNCERTAIN};
           }
@@ -2891,6 +2907,8 @@ const HsReqFns: ReqFnTable = {
             student.scores.nweaPercentileRead >= 24 ) {
 
             return {outcome: SuccessChance.LIKELY};
+          } else if (student.prevGradeLevel !== 7) {
+            return {outcome: SuccessChance.UNLIKELY};
           } else {
             return {outcome: SuccessChance.UNCERTAIN};
           } 
@@ -3298,8 +3316,24 @@ const HsReqFns: ReqFnTable = {
             "YOUNG WOMENS HS - General Education - Application"
         ],
         "fn": (student, school) => {
-          // TODO WHAAT?? GENDER???? Add gender to StudentData
-          return {outcome: SuccessChance.NOTIMPLEMENTED};
+          if (student.gradeLevel === 8) {
+            if (student.gender === Gender.FEMALE) {
+              return {outcome: SuccessChance.CERTAIN};
+
+            } else if (student.gender === Gender.OTHER ||
+              student.gender === Gender.NOANSWER) {
+
+              return {outcome: SuccessChance.UNCERTAIN};
+
+            } else if (student.gender === Gender.MALE) {
+              return {outcome: SuccessChance.NONE};
+
+            } else {
+              return {outcome: SuccessChance.UNCERTAIN};
+            }
+          } else {
+            return {outcome: SuccessChance.NONE};
+          }
         }
     },
     "a787cb9987ca94d3c2370e2cb67d50cc": {
@@ -3334,6 +3368,7 @@ const HsReqFns: ReqFnTable = {
             "VON STEUBEN HS - Scholars - Application"
         ],
         "fn": (student, school) => {
+          // TODO add non eligible applicants still apply to science program
           if ( student.scores.nweaPercentileMath >= 60 &&
             student.scores.nweaPercentileRead >= 60 &&
             student.gpa >= 3.0 ) {

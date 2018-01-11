@@ -2,6 +2,7 @@ enum SuccessChance {
   CERTAIN,
   LIKELY,
   UNCERTAIN,
+  UNLIKELY,
   NONE,
   NOTIMPLEMENTED
 };

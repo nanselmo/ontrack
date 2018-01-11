@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [WIP] Update build scripts in build.py
 
 * build.py now takes filepath to raw admissions
@@ -13,3 +14,20 @@
 
 * README.txt contains instructions for writing app
   config using build.py
+=======
+Debug app afte changes in requirement functions
+
+* fix tsc compilation errors
+  ** add missing properties to hardcoded student data 
+      in src/path-to-hs/hardcoded.ts
+  ** update StudentData type to make seTestPercentile to make
+    seTestPercentile property optional
+
+* TODO remove requirement functions for Academic Centers in
+  shared/data/hs_req_fns.ts
+  ** NOTE earlier, I had incorrectly assumed Academic Centers
+    were Selective Enrollment schools -- so I tried to look up
+    their cutoff scores using the getSECutoff() function. This
+    errored because Academic Centers are not SE schools.
+  
+>>>>>>> efca9ae0b65c973aed4dfa6952fa17f74f2aefee

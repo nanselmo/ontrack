@@ -5,20 +5,44 @@
 
 ** DONE implement sibling selection requirements
 
+** TODO rename hs_programs.json -> cps_programs.json
 ** WIP implement prev school selection requirements
-*** TODO refactor build.py according to details in config/README.txt 
-*** TODO add elementary schools to hs_programs.json
-**** TODO run build.py on new CPS data to add ES programs
-*** TODO rename hs_programs.json -> cps_programs.json
-
-** TODO implement prev grade selection requirements
-** TODO implement gender selection requirements
-** TODO implement IOWA test stanines selection requirements
+*** DONE refactor build.py according to details in config/README.txt 
+**** DONE refactor python scripts in config/build/ to operate
+  on opened files rather than on filepaths
+*** WIP add elementary schools to hs_programs.json
+**** DONE run new build.py on new CPS data to create records 
+      for ES programs
+** DONE implement prev grade selection requirements
+** DONE implement gender selection requirements
+** NVM implement IOWA test stanines selection requirements
+*** NOTE 'stanines' still being present appears to be a 
+    mistake in the school requirements
+** TODO add military school info to StudentData
 ** TODO implement LAS Links and STAMP test selection requirements
 ** TODO find out point system for all unknown point system
   *** First line of attack: googling
   *** Second line of attack: (gulp) calling
 
-* Figure out progress reporting system
-* Remove Academic Center programs from HS Programs list
+* TODO IN FUTURE Figure out progress reporting system
+* TODO IN FUTURE Remove Academic Center programs from HS Programs list
+* TODO IN FUTURE figure out better way to check attend bound
 
+* DONE get app to run with config changes
+* TODO prep for talking (??!) about it to People (!??)
+  ** TODO get hold of adapter or use lenovo, also cords
+    *** It's hard to imagine a projector only using hdmi but make
+      sure that isn't the case before you show.
+* TODO throw dist/ on s3 somewhere, confirm that it works
+  on different computers
+
+frontend
+* random things to fix
+  ** fix iframe cutting out on bottom of page
+  ** fix hs bubbles sometimes appearing over iframes
+* design improvements
+  ** hs bubble states -- SUCCESS, LIKELY, UNCERTAIN, etc
+  ** progress ?
+  ** add explanation of requirements, and detailed progress on
+    mouseover
+* general: try to imagine you're using the website for the first time
