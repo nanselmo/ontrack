@@ -1,12 +1,12 @@
 import * as React from "react";
 
-import HSProgram from "shared/types/hs-program";
+import CPSProgram from "shared/types/cps-program";
 import StudentData from "shared/types/student-data";
 
 import HSListElement from "./hs-list-element";
 
 interface HSListProps {
-  highschools: HSProgram[]
+  highschools: CPSProgram[]
   studentData: StudentData
 }
 
@@ -17,7 +17,7 @@ const HSList: React.SFC<HSListProps> = (props) => {
   return (
     <div className="hs-list">
       { 
-        props.highschools.map( (hs: HSProgram) => <HSListElement key={hs.Long_Name} 
+        props.highschools.map( (hs: CPSProgram) => <HSListElement key={hs.Long_Name} 
                               program={hs} 
                               studentData={props.studentData} 
                               /> )

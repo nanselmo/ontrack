@@ -1,7 +1,7 @@
-import HSProgram from "shared/types/hs-program";
+import CPSProgram from "shared/types/cps-program";
 
-type HSPrograms = {
-  [HSProgramType: string]: HSProgram[]
+type CPSPrograms = {
+  [CPSProgramType: string]: CPSProgram[]
 };
 
-export default HSPrograms;
+export default CPSPrograms;

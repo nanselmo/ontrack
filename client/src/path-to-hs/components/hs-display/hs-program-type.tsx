@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import HSProgram from "shared/types/hs-program";
+import CPSProgram from "shared/types/cps-program";
 import StudentData from "shared/types/student-data";
 import AdditionalRequirements from "shared/types/additional-requirements";
 
@@ -12,7 +12,7 @@ import "./hs-program-type.scss";
 
 interface HSProgramTypeProps {
   programType: string
-  programs: HSProgram[]
+  programs: CPSProgram[]
   studentData: StudentData
 }
 

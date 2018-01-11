@@ -1,4 +1,4 @@
-interface HSProgram {
+interface CPSProgram {
         "ID": string
         "School_ID": string
         "Short_Name": string
@@ -22,4 +22,4 @@ interface HSProgram {
         "Location": string
 };
 
-export default HSProgram;
+export default CPSProgram;

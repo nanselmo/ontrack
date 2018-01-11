@@ -1,27 +1,41 @@
-import HSPrograms from "shared/types/hs-programs";
-import HSProgram from "shared/types/hs-program";
+import CPSPrograms from "shared/types/cps-programs";
+import CPSProgram from "shared/types/cps-program";
+import isESProgram from "shared/util/is-es-program";
+import isHSProgram from "shared/util/is-es-program";
 
-//import hsConfigData from "../../shared/data/hs_config_data.json";
 declare const require:any;
-const hsConfigData = require("../../shared/data/hs_config_data.json");
+const cpsPrograms: CPSProgram[] = require("../../shared/data/cps_programs.json");
 
-export const loadHSPrograms = (): HSPrograms => {
-  // read hs config data from hs_config_data.json
-  const hsPrograms: HSPrograms = groupByProgramType(hsConfigData);
-  return hsPrograms;
+// returns all programs, including elementary school programs and
+// high school programs
+export const getAllPrograms = (): CPSPrograms => {
+  const programs: CPSPrograms = groupByProgramType(cpsPrograms);
+  return programs;
 };
 
-const groupByProgramType = (allPrograms: HSProgram[]): HSPrograms => {
-  let hsPrograms: HSPrograms = {} as HSPrograms;
+// returns just high school programs
+export const getHSPrograms = (): CPSPrograms => {
+  const programs = groupByProgramType(cpsPrograms.filter(isHSProgram));
+  return programs;
+};
+
+// returns just elementary school programs
+export const getESPrograms = (): CPSPrograms => {
+  const programs = groupByProgramType(cpsPrograms.filter(isESProgram));
+  return programs;
+};
+
+const groupByProgramType = (allPrograms: CPSProgram[]): CPSPrograms => {
+  let programs: CPSPrograms = {} as CPSPrograms;
   for (let i = 0; i < allPrograms.length; i++) {
     const program = allPrograms[i];
     const programType = program.Program_Type;
-    // sort programs into hsPrograms object based on programType property
-    if (!hsPrograms[programType]) {
-      hsPrograms[programType] = [];
+    // sort programs based on programType property
+    if (!programs[programType]) {
+      programs[programType] = [];
     }
-    hsPrograms[programType].push(program);
+    programs[programType].push(program);
   }
-  return hsPrograms;
+  return programs;
 };
 

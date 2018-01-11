@@ -1,9 +1,9 @@
 import StudentData from "shared/types/student-data";
-import HSProgram from "shared/types/hs-program";
+import CPSProgram from "shared/types/cps-program";
 import HSReqFnProgress from "shared/types/hs-req-fn-progress";
 import SuccessChance from "shared/enums/success-chance";
 
-type RequirementFunction = (student: StudentData, program: HSProgram) => {outcome: SuccessChance, 
+type HSRequirementFunction = (student: StudentData, program: CPSProgram) => {outcome: SuccessChance, 
                                                                               progress?: HSReqFnProgress};
 
-export default RequirementFunction;
+export default HSRequirementFunction;

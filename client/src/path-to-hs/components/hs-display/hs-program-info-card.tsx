@@ -1,11 +1,11 @@
 import * as React from "react";
 
-import HSProgram from "shared/types/hs-program";
+import CPSProgram from "shared/types/cps-program";
 
 import "./hs-program-info-card.scss";
 
 interface HSInfoCardProps {
-  program: HSProgram
+  program: CPSProgram 
   visible: boolean
 }
 

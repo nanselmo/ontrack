@@ -2,7 +2,7 @@ import * as React from "react";
 
 import getReqFn from "shared/util/get-req-fn";
 
-import HSProgram from "shared/types/hs-program";
+import CPSProgram from "shared/types/cps-program";
 import StudentData from "shared/types/student-data";
 import AdditionalRequirements from "shared/types/additional-requirements";
 
@@ -13,7 +13,7 @@ type HSReqFnResponse = {outcome: SuccessChance, progress?: HSReqFnProgress};
 import HSProgramInfoCard from "./hs-program-info-card";
 
 interface HSListElemProps {
-  program: HSProgram
+  program: CPSProgram
   studentData: StudentData
 }
 

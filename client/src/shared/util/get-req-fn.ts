@@ -1,8 +1,8 @@
-import HsReqFn from "shared/types/hs-req-fn";
+import HSRequirementFunction from "shared/types/hs-requirement-function";
 
 import HsReqFns from "shared/data/hs_req_fns.ts";
 
-const getReqFn = (id: string): HsReqFn => {
+const getReqFn = (id: string): HSRequirementFunction => {
   // debug
   try {
     return HsReqFns[id].fn;

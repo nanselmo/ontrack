@@ -2,7 +2,7 @@ import StudentData from "shared/types/student-data";
 import Gender from "shared/enums/gender";
 import HSRequirementFunction from "shared/types/hs-requirement-function";
 import SuccessChance from "shared/enums/success-chance.ts";
-import HSProgram from "shared/types/hs-program";
+import CPSProgram from "shared/types/cps-program";
 import {calculateSEPoints, calculateIBPoints} from "shared/util/hs-calc-utils";
 
 interface SECutoff {
@@ -166,7 +166,7 @@ const ibCutoffTable: IBCutoffTable = {
   "609739": {min: 640},
 };
 
-const getSECutoff = (student: StudentData, school: HSProgram): SECutoff => {
+const getSECutoff = (student: StudentData, school: CPSProgram): SECutoff => {
   // TODO: this ignores rank cutoff scores, assuming that if you make it
   // past your tier cutoff scores you're good. Make double sure that's a
   // good assumption.
@@ -186,7 +186,7 @@ const getSECutoff = (student: StudentData, school: HSProgram): SECutoff => {
   }
 };
 
-const getIBCutoff = (student: StudentData, school: HSProgram): IBCutoff => {
+const getIBCutoff = (student: StudentData, school: CPSProgram): IBCutoff => {
   const cutoff = ibCutoffTable[school.School_ID];
   if (cutoff === undefined) {
     throw new Error(`School ${school.Long_Name} not found in IB Cutoff scores`); 
@@ -213,7 +213,7 @@ const norm = (value: number, max: number, min: number) => {
   return ((value - min) / (max - min)) * 100;
 };
 
-const inAttendanceBound = (student: StudentData, school: HSProgram): boolean => {
+const inAttendanceBound = (student: StudentData, school: CPSProgram): boolean => {
   // TODO: this is a little bit of a stopgap considering that it accepts all students
   // within a certain radius of the school. Need to consider a better alternative -- one
   // that also doesn't introduce performance problems? Hard problemo my friendo.
@@ -247,7 +247,7 @@ const inAttendanceBound = (student: StudentData, school: HSProgram): boolean => 
   return isInBound; 
 };
 
-const hasSiblingInProgram = (student: StudentData, program: HSProgram) => {
+const hasSiblingInProgram = (student: StudentData, program: CPSProgram) => {
   const siblingAttends = student.siblingHSPrograms.indexOf(program.ID) !== -1;
   if (siblingAttends) {
     return true;

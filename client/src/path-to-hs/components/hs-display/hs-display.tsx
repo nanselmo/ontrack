@@ -1,15 +1,15 @@
 import * as React from "react";
 
 import StudentData from "shared/types/student-data";
-import HSPrograms from "shared/types/hs-programs";
-import HSProgram from "shared/types/hs-program";
+import CPSPrograms from "shared/types/cps-programs";
+import CPSProgram from "shared/types/cps-program";
 
 import Box from "shared/components/layout/box";
 import HSProgramType from "./hs-program-type";
 
 interface HSDisplayProps {
   studentData: StudentData
-  hsData: HSPrograms
+  hsData: CPSPrograms
 };
 
 const HSDisplay: React.SFC<HSDisplayProps> = (props) => {

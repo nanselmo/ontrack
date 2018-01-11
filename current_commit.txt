@@ -1,33 +1,10 @@
-<<<<<<< HEAD
-[WIP] Update build scripts in build.py
+Add ES programs to app
 
-* build.py now takes filepath to raw admissions
-  program data from cps and writes JSON file
-  with all programs, plus added ID, Application_Req_Fn
-  and Selection_Req_Fn properties
-
-* refactor scripts in build/
-  ** previous build scripts did several things at once and
-    wrote directly to filesystem; refactored scripts to
-    each do one thing at once, and to take file objects
-    as input and return file objects as output.
-
-* README.txt contains instructions for writing app
-  config using build.py
-=======
-Debug app afte changes in requirement functions
-
-* fix tsc compilation errors
-  ** add missing properties to hardcoded student data 
-      in src/path-to-hs/hardcoded.ts
-  ** update StudentData type to make seTestPercentile to make
-    seTestPercentile property optional
-
-* TODO remove requirement functions for Academic Centers in
-  shared/data/hs_req_fns.ts
-  ** NOTE earlier, I had incorrectly assumed Academic Centers
-    were Selective Enrollment schools -- so I tried to look up
-    their cutoff scores using the getSECutoff() function. This
-    errored because Academic Centers are not SE schools.
-  
->>>>>>> efca9ae0b65c973aed4dfa6952fa17f74f2aefee
+* rename shared/data/hs_programs.json -> cps_programs.json
+* rename HSProgram and HSPrograms type to CPSProgram / CPSPrograms
+* refactor shared/util/data-access.ts 
+  ** rename loadHSPrograms -> getHSPrograms
+  ** rewrite getHSPrograms to return only HS programs from list of all
+    CPS programs
+  ** add getAllPrograms and getESPrograms methods
+* add isHSProgram and isESProgram functions to shared/util
