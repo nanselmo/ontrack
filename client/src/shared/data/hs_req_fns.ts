@@ -1753,9 +1753,9 @@ const HsReqFns: ReqFnTable = {
         }
       }
     },
-    "1fb20237fa7f24217e8e191fd839f283": {
+    "8f4240fa22d2281a32186e7a65e75011": {
         "name": "",
-        "desc": "Spry is a three-year, year-round school. Students are randomly selected by computerized lottery.\u00a0The lottery is conducted in the following order: sibling, general.",
+        "desc": "Spry is a three-year, year-round school. Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
         "programs": [
             "SPRY HS - General Education - Selection"
         ],
@@ -1794,9 +1794,9 @@ const HsReqFns: ReqFnTable = {
         return {outcome: SuccessChance.UNCERTAIN};
       }
     },
-    "ff3e583dbc3724c10581273b3dae6910": {
+    "cb7238b523517845746779fe18ea174a": {
         "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.\u00a0  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.   IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
         "programs": [
             "NORTHSIDE PREP HS - Selective Enrollment High School - Application"
         ],
@@ -2806,9 +2806,9 @@ const HsReqFns: ReqFnTable = {
         }
       }
     },
-    "d1a202074d3e08c97ec301176ca18880": {
+    "379139122b47f0c7efa0e423df956e30": {
         "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery.\u00a0The lottery is conducted in the following order: students scoring above designated NWEA MAP percentile, sibling, general.",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: students scoring above designated NWEA MAP percentile, sibling, general.",
         "programs": [
             "WELLS HS - General Education - Selection"
         ],

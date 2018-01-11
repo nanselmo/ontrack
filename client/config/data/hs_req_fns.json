@@ -255,6 +255,7 @@
     "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
     "programs": [
       "AUSTIN CCA HS - General Education - Selection",
+      "SCHURZ HS - General Education - Selection",
       "JULIAN HS - General Education - Selection",
       "NORTH-GRAND HS - General Education - Selection",
       "GAGE PARK HS - General Education - Selection",
@@ -263,6 +264,7 @@
       "FENGER HS - General Education - Selection",
       "HIRSCH HS - General Education - Selection",
       "CHICAGO VOCATIONAL HS - General Education - Selection",
+      "STEINMETZ HS - General Education - Selection",
       "ROBESON HS - General Education - Selection",
       "ORR HS - General Education - Selection",
       "MANLEY HS - General Education - Selection",
@@ -385,6 +387,7 @@
       "JUAREZ HS - Culinary Arts - Selection",
       "CHICAGO VOCATIONAL HS - Culinary Arts - Selection",
       "SCHURZ HS - Automotive Technology - Selection",
+      "COLLINS HS - Game Programming - Selection",
       "SULLIVAN HS - Accounting - Selection",
       "CLEMENTE HS - Broadcast Technology - Selection",
       "CURIE HS - Accounting - Selection",
@@ -436,15 +439,6 @@
     ],
     "fn": ""
   },
-  "4ab864cc8934557f435c392c96e5cfc1": {
-    "name": "",
-    "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery.\u00a0The lottery is conducted in the following order: sibling, general.",
-    "programs": [
-      "SCHURZ HS - General Education - Selection",
-      "STEINMETZ HS - General Education - Selection"
-    ],
-    "fn": ""
-  },
   "ae1af40b734a31b447b1ed50f6e4bc17": {
     "name": "",
     "desc": "Minimum combined percentile of 48 in reading and math on NWEA MAP. Attendance at an Information Session is required for eligible applicants.",
@@ -487,7 +481,9 @@
     "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery.",
     "programs": [
       "RICHARDS HS - General Education - Selection",
+      "TILDEN HS - General Education - Selection",
       "DYETT ARTS HS - General Education - Selection",
+      "SOLORIO HS - General Education - Selection",
       "MATHER HS - General Education - Selection"
     ],
     "fn": ""
@@ -500,9 +496,9 @@
     ],
     "fn": ""
   },
-  "48790d03493d5af436ee47537f07d804": {
+  "5096cc5a97943badb78efd427ee13eb6": {
     "name": "",
-    "desc": "Eligible students are randomly selected by computerized lottery.\u00a0",
+    "desc": "Eligible students are randomly selected by computerized lottery.",
     "programs": [
       "STEINMETZ HS - JROTC - Selection"
     ],
@@ -713,7 +709,8 @@
     "programs": [
       "MULTICULTURAL HS - Fine and Performing Arts - Selection",
       "CLEMENTE HS - General Education - Selection",
-      "PHILLIPS HS - General Education - Selection"
+      "PHILLIPS HS - General Education - Selection",
+      "WORLD LANGUAGE HS - General Education - Selection"
     ],
     "fn": ""
   },
@@ -824,14 +821,6 @@
     ],
     "fn": ""
   },
-  "60a713d81db21cc22dc45103acea77a3": {
-    "name": "",
-    "desc": "Students are randomly selected by computerized lottery. General Education and 504 Pla students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
-    "programs": [
-      "COLLINS HS - Game Programming - Selection"
-    ],
-    "fn": ""
-  },
   "3c0f47771fc40565978a3a894bd96705": {
     "name": "",
     "desc": "Minimum percentile of 50 in both reading and math on NWEA MAP, and minimum 2.0 GPA in 7th grade.",
@@ -864,9 +853,9 @@
     ],
     "fn": ""
   },
-  "1fb20237fa7f24217e8e191fd839f283": {
+  "8f4240fa22d2281a32186e7a65e75011": {
     "name": "",
-    "desc": "Spry is a three-year, year-round school. Students are randomly selected by computerized lottery.\u00a0The lottery is conducted in the following order: sibling, general.",
+    "desc": "Spry is a three-year, year-round school. Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
     "programs": [
       "SPRY HS - General Education - Selection"
     ],
@@ -888,9 +877,9 @@
     ],
     "fn": ""
   },
-  "ff3e583dbc3724c10581273b3dae6910": {
+  "cb7238b523517845746779fe18ea174a": {
     "name": "",
-    "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.\u00a0  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
+    "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.   IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
     "programs": [
       "NORTHSIDE PREP HS - Selective Enrollment High School - Application"
     ],
@@ -1059,15 +1048,6 @@
     "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in Chalmers, Dvorak, Herzl, Johnson, or Morton Elementary Schools; general.",
     "programs": [
       "COLLINS HS - Scholars - Selection"
-    ],
-    "fn": ""
-  },
-  "3ef513af8f7ae5027716ef262d14b1a0": {
-    "name": "",
-    "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery.\u00a0",
-    "programs": [
-      "TILDEN HS - General Education - Selection",
-      "SOLORIO HS - General Education - Selection"
     ],
     "fn": ""
   },
@@ -1337,9 +1317,9 @@
     ],
     "fn": ""
   },
-  "d1a202074d3e08c97ec301176ca18880": {
+  "379139122b47f0c7efa0e423df956e30": {
     "name": "",
-    "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery.\u00a0The lottery is conducted in the following order: students scoring above designated NWEA MAP percentile, sibling, general.",
+    "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: students scoring above designated NWEA MAP percentile, sibling, general.",
     "programs": [
       "WELLS HS - General Education - Selection"
     ],
@@ -1430,14 +1410,6 @@
     "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum attendance percentage of 95.",
     "programs": [
       "WORLD LANGUAGE HS - General Education - Application"
-    ],
-    "fn": ""
-  },
-  "cbc3d549cb9e0240f077ac3c87b0f671": {
-    "name": "",
-    "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery.\u00a0The lottery is conducted in the following order: sibling, general.",
-    "programs": [
-      "WORLD LANGUAGE HS - General Education - Selection"
     ],
     "fn": ""
   },

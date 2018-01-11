@@ -12732,7 +12732,7 @@
     "Website": "http://www.schurzhs.org",
     "Program_Type": "General Education",
     "Application_Requirements": "None",
-    "Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery.\u00a0The lottery is conducted in the following order: sibling, general.",
+    "Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
     "Subprograms": "",
     "How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
     "Deadline": "12/15/2017",
@@ -12741,7 +12741,7 @@
     "Location": "3601 N MILWAUKEE AVE\nChicago, Illinois 60641\n(41.946365, -87.735612)",
     "ID": "c7f9c3699e1827a1fcb78295c1e63b85",
     "Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
-    "Program_Selections_Fn": "4ab864cc8934557f435c392c96e5cfc1"
+    "Program_Selections_Fn": "8c431d51587c33009ee9b67a566c042e"
   },
   {
     "School_ID": "610513",
@@ -12921,7 +12921,7 @@
     "Website": "http://www.steinmetzcp.org",
     "Program_Type": "JROTC",
     "Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 45 in both reading and math on NWEA MAP and minimum 2.0 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 90 in reading and math on NWEA MAP, and minimum 2.0 GPA in 7th grade.",
-    "Program_Selections": "Eligible students are randomly selected by computerized lottery.\u00a0",
+    "Program_Selections": "Eligible students are randomly selected by computerized lottery.",
     "Subprograms": "",
     "How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
     "Deadline": "12/15/2017",
@@ -12930,7 +12930,7 @@
     "Location": "3030 N MOBILE AVE\nChicago, Illinois 60634\n(41.935634, -87.783515)",
     "ID": "b4cd2fcf94cbc53ce85abb9939c24cac",
     "Application_Requirements_Fn": "03010a12030cab563c3f5d9115e7aabe",
-    "Program_Selections_Fn": "48790d03493d5af436ee47537f07d804"
+    "Program_Selections_Fn": "5096cc5a97943badb78efd427ee13eb6"
   },
   {
     "School_ID": "609698",
@@ -14001,7 +14001,7 @@
     "Website": "http://auslchicago.org/schools/pages/collins",
     "Program_Type": "Game Programming",
     "Application_Requirements": "None",
-    "Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Pla students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+    "Program_Selections": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
     "Subprograms": "",
     "How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
     "Deadline": "12/15/2017",
@@ -14010,7 +14010,7 @@
     "Location": "1313 S SACRAMENTO DR\nChicago, Illinois 60623\n(41.864149, -87.702042)",
     "ID": "e6aa8f6f156ef480da0ac5ab6d51ee0f",
     "Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
-    "Program_Selections_Fn": "60a713d81db21cc22dc45103acea77a3"
+    "Program_Selections_Fn": "7672890f5b16cd8f5c0cae20d58d1888"
   },
   {
     "School_ID": "609733",
@@ -14163,7 +14163,7 @@
     "Website": "http://www.comlinkshs.org",
     "Program_Type": "General Education",
     "Application_Requirements": "None",
-    "Program_Selections": "Spry is a three-year, year-round school. Students are randomly selected by computerized lottery.\u00a0The lottery is conducted in the following order: sibling, general.",
+    "Program_Selections": "Spry is a three-year, year-round school. Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
     "Subprograms": "",
     "How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
     "Deadline": "12/15/2017",
@@ -14172,7 +14172,7 @@
     "Location": "2400 S MARSHALL BLVD\nChicago, Illinois 60623\n(41.847762, -87.698946)",
     "ID": "a802969db4e40179667dc741de1fac5c",
     "Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
-    "Program_Selections_Fn": "1fb20237fa7f24217e8e191fd839f283"
+    "Program_Selections_Fn": "8f4240fa22d2281a32186e7a65e75011"
   },
   {
     "School_ID": "609715",
@@ -14243,7 +14243,7 @@
     "CPS_School_Profile": "http://cps.edu/Schools/Pages/school.aspx?SchoolID=609749",
     "Website": "http://www.northsideprep.org",
     "Program_Type": "Selective Enrollment High School",
-    "Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.\u00a0  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
+    "Application_Requirements": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.   IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
     "Program_Selections": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for 7th grade final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
     "Subprograms": "",
     "How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
@@ -14252,7 +14252,7 @@
     "School_Longitude": "-87.708708",
     "Location": "5501 N KEDZIE AVE\nChicago, Illinois 60625\n(41.981315, -87.708708)",
     "ID": "bd05d0c26608d179626dc71dc0df3407",
-    "Application_Requirements_Fn": "ff3e583dbc3724c10581273b3dae6910",
+    "Application_Requirements_Fn": "cb7238b523517845746779fe18ea174a",
     "Program_Selections_Fn": "bd680e7bc10c03552140e26736221cf7"
   },
   {
@@ -15432,7 +15432,7 @@
     "Website": "http://tilden.cps.edu/",
     "Program_Type": "General Education",
     "Application_Requirements": "None",
-    "Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery.\u00a0",
+    "Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery.",
     "Subprograms": "",
     "How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
     "Deadline": "12/15/2017",
@@ -17403,7 +17403,7 @@
     "Website": "http://solorioacademy.org/",
     "Program_Type": "General Education",
     "Application_Requirements": "None",
-    "Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery.\u00a0",
+    "Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery.",
     "Subprograms": "",
     "How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
     "Deadline": "12/15/2017",
@@ -17808,7 +17808,7 @@
     "Website": "http://wellshs.cps.edu",
     "Program_Type": "General Education",
     "Application_Requirements": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: General Education and 504 Plan students: Minimum percentile of 60 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.  IEP/EL students have no eligibility requirements.",
-    "Program_Selections": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery.\u00a0The lottery is conducted in the following order: students scoring above designated NWEA MAP percentile, sibling, general.",
+    "Program_Selections": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: students scoring above designated NWEA MAP percentile, sibling, general.",
     "Subprograms": "",
     "How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
     "Deadline": "12/15/2017",
@@ -17817,7 +17817,7 @@
     "Location": "936 N ASHLAND AVE\nChicago, Illinois 60622\n(41.898995, -87.667483)",
     "ID": "3cf700fd989123967192fb4e4603fd6a",
     "Application_Requirements_Fn": "763686fddcad223e9a51aebaac42b61c",
-    "Program_Selections_Fn": "d1a202074d3e08c97ec301176ca18880"
+    "Program_Selections_Fn": "379139122b47f0c7efa0e423df956e30"
   },
   {
     "School_ID": "609756",
@@ -18456,7 +18456,7 @@
     "Website": "http://www.steinmetzcp.org",
     "Program_Type": "General Education",
     "Application_Requirements": "None",
-    "Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery.\u00a0The lottery is conducted in the following order: sibling, general.",
+    "Program_Selections": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
     "Subprograms": "",
     "How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
     "Deadline": "12/15/2017",
@@ -18465,7 +18465,7 @@
     "Location": "3030 N MOBILE AVE\nChicago, Illinois 60634\n(41.935634, -87.783515)",
     "ID": "b60dc3bd2f9c42bfaeb2589d7bb733ad",
     "Application_Requirements_Fn": "6adf97f83acf6453d4a6a4b1070f3754",
-    "Program_Selections_Fn": "4ab864cc8934557f435c392c96e5cfc1"
+    "Program_Selections_Fn": "8c431d51587c33009ee9b67a566c042e"
   },
   {
     "School_ID": "609738",
@@ -18645,7 +18645,7 @@
     "Website": "http://wl.lvlhs.org",
     "Program_Type": "General Education",
     "Application_Requirements": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum attendance percentage of 95.",
-    "Program_Selections": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery.\u00a0The lottery is conducted in the following order: sibling, general.",
+    "Program_Selections": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
     "Subprograms": "",
     "How_To_Apply": "Access online high school application or paper high school application at go.cps.edu.",
     "Deadline": "12/15/2017",
@@ -18654,7 +18654,7 @@
     "Location": "3120 S KOSTNER AVE\nChicago, Illinois 60623\n(41.834397, -87.735292)",
     "ID": "297d93ae5bb426236f5dce8139e2b295",
     "Application_Requirements_Fn": "2434179e9c2fb95777cc4e0c6c998de1",
-    "Program_Selections_Fn": "cbc3d549cb9e0240f077ac3c87b0f671"
+    "Program_Selections_Fn": "c36c294e63476a7959123bfe85a2c639"
   },
   {
     "School_ID": "609674",

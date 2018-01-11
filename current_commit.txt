@@ -1,10 +1,10 @@
-Add ES programs to app
+Bugfix: fill nonbreaking spaces when building hs_req_fns.ts
 
-* rename shared/data/hs_programs.json -> cps_programs.json
-* rename HSProgram and HSPrograms type to CPSProgram / CPSPrograms
-* refactor shared/util/data-access.ts 
-  ** rename loadHSPrograms -> getHSPrograms
-  ** rewrite getHSPrograms to return only HS programs from list of all
-    CPS programs
-  ** add getAllPrograms and getESPrograms methods
-* add isHSProgram and isESProgram functions to shared/util
+* for some reason, the unicode nbsp character was being inconsistently
+  inserted into different programs' selection and application req fn
+  descriptions, playing havoc with the hash that links requirement functions.
+  (It was bad enough when I thought it was consistent, and some schools
+  with the same semantic requirements would have different requirement function
+  records because of a typo, but this time it's caused the req_fn_id properties
+  of some programs to change after I updated cps_programs.json recently, which
+  is super bad.)
