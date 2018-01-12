@@ -8,22 +8,27 @@ import HSListElement from "./hs-list-element";
 interface HSListProps {
   highschools: CPSProgram[]
   studentData: StudentData
-}
+  hsDisplayBoundingRect: ClientRect
+} 
+
 
 import "./hs-list.scss";
 
-const HSList: React.SFC<HSListProps> = (props) => {
+const HSList: React.SFC<HSListProps> = props => {
 
-  return (
-    <div className="hs-list">
-      { 
-        props.highschools.map( (hs: CPSProgram) => <HSListElement key={hs.Long_Name} 
-                              program={hs} 
-                              studentData={props.studentData} 
-                              /> )
-      }
-    </div>
-  )
+    return (
+      <div 
+        ref={ elem => elem && (this.ref = elem) }
+        className="hs-list">
+        { 
+          props.highschools.map( (hs: CPSProgram) => <HSListElement key={hs.Long_Name} 
+                                hsDisplayBoundingRect={props.hsDisplayBoundingRect}
+                                program={hs} 
+                                studentData={props.studentData} 
+                                /> )
+        }
+      </div>
+    )
 
 };
 

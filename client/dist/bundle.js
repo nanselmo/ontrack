@@ -43772,26 +43772,6 @@ exports.push([module.i, ".student-data-form {\n  width: 100%;\n  height: 100%;\n
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var box_1 = __webpack_require__(164);
-var hs_program_type_1 = __webpack_require__(499);
-;
-var HSDisplay = function (props) {
-    return (React.createElement(box_1.default, { width: "half", height: "full", responsiveBehavior: { mobile: "fullscreen" } },
-        React.createElement("div", { style: { width: "100%", height: "100%", overflowY: "auto" } }, Object.keys(props.hsData).map(function (programType) {
-            return React.createElement(hs_program_type_1.default, { programType: programType, programs: props.hsData[programType], studentData: props.studentData, key: programType });
-        }))));
-};
-exports.default = HSDisplay;
-
-
-/***/ }),
-/* 499 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -43804,21 +43784,53 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var hs_list_1 = __webpack_require__(500);
-__webpack_require__(512);
-var HSProgramType = (function (_super) {
-    __extends(HSProgramType, _super);
-    function HSProgramType() {
-        return _super !== null && _super.apply(this, arguments) || this;
+var box_1 = __webpack_require__(164);
+var hs_program_type_1 = __webpack_require__(499);
+;
+;
+var HSDisplay = (function (_super) {
+    __extends(HSDisplay, _super);
+    function HSDisplay(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = {
+            boundingRect: null
+        };
+        return _this;
     }
-    HSProgramType.prototype.render = function () {
-        return (React.createElement("div", { className: "hs-category-container" },
-            React.createElement("div", { className: "hs-category-title" }, this.props.programType),
-            React.createElement(hs_list_1.default, { highschools: this.props.programs, studentData: this.props.studentData })));
+    HSDisplay.prototype.componentDidMount = function () {
+        console.log(this.ref.getBoundingClientRect());
+        this.setState({
+            boundingRect: this.ref.getBoundingClientRect()
+        });
     };
-    return HSProgramType;
+    HSDisplay.prototype.render = function () {
+        var _this = this;
+        return (React.createElement(box_1.default, { width: "half", height: "full", responsiveBehavior: { mobile: "fullscreen" } },
+            React.createElement("div", { ref: function (elem) { return (_this.ref = elem); }, style: { width: "100%", height: "100%", overflowY: "auto" } }, Object.keys(this.props.hsData).map(function (programType) {
+                return React.createElement(hs_program_type_1.default, { hsDisplayBoundingRect: _this.state.boundingRect, programType: programType, programs: _this.props.hsData[programType], studentData: _this.props.studentData, key: programType });
+            }))));
+    };
+    return HSDisplay;
 }(React.PureComponent));
 ;
+exports.default = HSDisplay;
+
+
+/***/ }),
+/* 499 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var hs_list_1 = __webpack_require__(500);
+__webpack_require__(512);
+var HSProgramType = function (props) {
+    return (React.createElement("div", { className: "hs-category-container" },
+        React.createElement("div", { className: "hs-category-title" }, props.programType),
+        React.createElement(hs_list_1.default, { hsDisplayBoundingRect: props.hsDisplayBoundingRect, highschools: props.programs, studentData: props.studentData })));
+};
 exports.default = HSProgramType;
 
 
@@ -43828,12 +43840,13 @@ exports.default = HSProgramType;
 
 "use strict";
 
+var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var hs_list_element_1 = __webpack_require__(501);
 __webpack_require__(510);
 var HSList = function (props) {
-    return (React.createElement("div", { className: "hs-list" }, props.highschools.map(function (hs) { return React.createElement(hs_list_element_1.default, { key: hs.Long_Name, program: hs, studentData: props.studentData }); })));
+    return (React.createElement("div", { ref: function (elem) { return elem && (_this.ref = elem); }, className: "hs-list" }, props.highschools.map(function (hs) { return React.createElement(hs_list_element_1.default, { key: hs.Long_Name, hsDisplayBoundingRect: props.hsDisplayBoundingRect, program: hs, studentData: props.studentData }); })));
 };
 exports.default = HSList;
 
@@ -43903,7 +43916,7 @@ var HSListElement = (function (_super) {
         _this.state = {
             showHSPreview: false,
             applicationResult: applicationResult,
-            selectionResult: selectionResult
+            selectionResult: selectionResult,
         };
         return _this;
     }
@@ -43920,7 +43933,7 @@ var HSListElement = (function (_super) {
         var _this = this;
         return (React.createElement("div", { className: "hs-list-element" + " " + this.outcomeToClassName(this.state.selectionResult.outcome), onMouseEnter: function () { return _this.setState({ showHSPreview: true }); }, onMouseLeave: function () { return _this.setState({ showHSPreview: false }); } },
             React.createElement("span", { className: "hs-list-element-initials" }, this.toInitials(this.props.program.Long_Name)),
-            React.createElement(hs_program_info_card_1.default, { visible: this.state.showHSPreview, program: this.props.program })));
+            React.createElement(hs_program_info_card_1.default, { boundingRect: this.props.hsDisplayBoundingRect, visible: this.state.showHSPreview, program: this.props.program })));
     };
     return HSListElement;
 }(React.PureComponent));
@@ -45025,7 +45038,6 @@ var HsReqFns = {
         "fn": function (student, school) {
             var score = hs_calc_utils_1.calculateIBPoints(student);
             var cutoff = getIBCutoff(student, school).min;
-            console.log("score: " + score + ", cutoff: " + cutoff);
             if (inAttendanceBound(student, school)) {
                 var bonusPoints = 50;
                 var adjustedCutoff = cutoff + bonusPoints;
@@ -47505,19 +47517,72 @@ exports.calculateIBPoints = function (student) {
 
 "use strict";
 
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 __webpack_require__(506);
-var HSProgramInfoCard = function (props) {
-    var hasPreviewUrl = props.program.CPS_School_Profile !== undefined;
-    if (hasPreviewUrl) {
-        return (React.createElement("div", { className: "hs-info-card " + (props.visible ? "visible" : "") }, props.visible &&
-            React.createElement("iframe", { className: "hs-info-card-preview", src: props.program.CPS_School_Profile })));
+var HSProgramInfoCard = (function (_super) {
+    __extends(HSProgramInfoCard, _super);
+    function HSProgramInfoCard(props) {
+        var _this = _super.call(this, props) || this;
+        _this.calculateOffset = function (rect, boundingRect) {
+            if (!rect || !boundingRect) {
+                return [0, 0];
+            }
+            var xOffset = 0;
+            var yOffset = 0;
+            console.log(rect);
+            console.log(boundingRect);
+            if (rect.left < boundingRect.left) {
+                xOffset = 0;
+            }
+            else {
+                xOffset = rect.left - boundingRect.left;
+            }
+            if (rect.top < boundingRect.top) {
+                yOffset = 0;
+            }
+            else {
+                yOffset = rect.top - boundingRect.top;
+            }
+            return [xOffset, yOffset];
+        };
+        _this.state = {
+            xOffset: 0,
+            yOffset: 0
+        };
+        return _this;
     }
-    else {
-        return (React.createElement("div", { className: "hs-info-card " + (props.visible ? "visible" : "") }, props.program.Long_Name));
-    }
-};
+    HSProgramInfoCard.prototype.componentWillReceiveProps = function (nextProps) {
+        if (nextProps.visible) {
+            console.log(this.selfRef);
+            var elemRect = this.selfRef ? this.selfRef.getBoundingClientRect() : null;
+            var _a = this.calculateOffset(elemRect, nextProps.boundingRect), xOffset = _a[0], yOffset = _a[1];
+            console.log(xOffset, yOffset);
+        }
+    };
+    HSProgramInfoCard.prototype.render = function () {
+        var _this = this;
+        if (this.props.visible) {
+            return (React.createElement("div", { ref: function (elem) { return (_this.selfRef = elem); }, style: { top: this.state.xOffset, left: this.state.yOffset }, className: "hs-info-card visible" },
+                React.createElement("iframe", { className: "hs-info-card-preview", src: this.props.program.CPS_School_Profile })));
+        }
+        else {
+            return React.createElement("div", { className: "hs-info-card hidden" });
+        }
+    };
+    return HSProgramInfoCard;
+}(React.PureComponent));
+;
 exports.default = HSProgramInfoCard;
 
 

@@ -12,22 +12,47 @@ interface HSDisplayProps {
   hsData: CPSPrograms
 };
 
-const HSDisplay: React.SFC<HSDisplayProps> = (props) => {
+interface HSDisplayState {
+  boundingRect: ClientRect
+};
 
-  return (
-    <Box width="half" height="full" responsiveBehavior={{mobile: "fullscreen"}}>
-      <div style={{width: "100%", height: "100%", overflowY: "auto"}}>
-        { Object.keys(props.hsData).map( (programType: string) => {
-        return <HSProgramType
-          programType={programType}
-          programs={props.hsData[programType]}
-          studentData={props.studentData}
-          key={programType}/>
-        }) }
-      </div>
-    </Box>
-  )
+class HSDisplay extends React.PureComponent<HSDisplayProps, HSDisplayState> {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      boundingRect: null
+    }
+  }
+
+  private ref: HTMLDivElement;
+
+  componentDidMount() {
+    console.log(this.ref.getBoundingClientRect());
+    this.setState({
+      boundingRect: this.ref.getBoundingClientRect()
+    });
+  }
+
+  render() {
+    return (
+      <Box 
+        width="half" height="full" responsiveBehavior={{mobile: "fullscreen"}}>
+        <div 
+          ref={elem => (this.ref = elem)} 
+          style={{width: "100%", height: "100%", overflowY: "auto"}}>
+          { Object.keys(this.props.hsData).map( (programType: string) => {
+          return <HSProgramType
+            hsDisplayBoundingRect={this.state.boundingRect}
+            programType={programType}
+            programs={this.props.hsData[programType]}
+            studentData={this.props.studentData}
+            key={programType}/>
+          }) }
+        </div>
+      </Box>
+    )
+  }
 };
 
 export default HSDisplay;
