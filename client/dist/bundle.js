@@ -43864,6 +43864,24 @@ var HSListElement = (function (_super) {
     __extends(HSListElement, _super);
     function HSListElement(props) {
         var _this = _super.call(this, props) || this;
+        _this.outcomeToClassName = function (outcome) {
+            switch (outcome) {
+                case success_chance_1.default.CERTAIN:
+                    return "certain";
+                case success_chance_1.default.LIKELY:
+                    return "likely";
+                case success_chance_1.default.UNCERTAIN:
+                    return "uncertain";
+                case success_chance_1.default.UNLIKELY:
+                    return "unlikely";
+                case success_chance_1.default.NONE:
+                    return "none";
+                case success_chance_1.default.NOTIMPLEMENTED:
+                    return "not-implemented";
+                default:
+                    return "not-implemented";
+            }
+        };
         _this.toInitials = function (hsName) {
             var isCapitalized = function (str) { return str.toUpperCase() === str; };
             var initials = "";
@@ -43878,26 +43896,29 @@ var HSListElement = (function (_super) {
             return initials.slice(0, 3);
         };
         var hs = props.program;
+        _this.applicationReqFn = get_req_fn_1.default(props.program.Application_Requirements_Fn);
+        _this.selectionReqFn = get_req_fn_1.default(props.program.Program_Selections_Fn);
+        var applicationResult = _this.applicationReqFn(props.studentData, props.program);
+        var selectionResult = _this.selectionReqFn(props.studentData, props.program);
         _this.state = {
-            showHSPreview: false
+            showHSPreview: false,
+            applicationResult: applicationResult,
+            selectionResult: selectionResult
         };
-        var applicationReqFn = get_req_fn_1.default(props.program.Application_Requirements_Fn);
-        var selectionReqFn = get_req_fn_1.default(props.program.Program_Selections_Fn);
-        var applicationResult = applicationReqFn(props.studentData, props.program);
-        var selectionResult = selectionReqFn(props.studentData, props.program);
-        _this.className = "hs-list-element";
-        if (applicationResult.outcome === success_chance_1.default.NONE) {
-            _this.className += " disabled";
-        }
-        else if (selectionResult.outcome === success_chance_1.default.CERTAIN ||
-            selectionResult.outcome === success_chance_1.default.LIKELY) {
-            _this.className += " active-outline";
-        }
         return _this;
     }
+    HSListElement.prototype.componentWillReceiveProps = function (props) {
+        var applicationResult = this.applicationReqFn(props.studentData, props.program);
+        var selectionResult = this.selectionReqFn(props.studentData, props.program);
+        this.setState({
+            applicationResult: applicationResult,
+            selectionResult: selectionResult
+        });
+    };
+    ;
     HSListElement.prototype.render = function () {
         var _this = this;
-        return (React.createElement("div", { className: this.className, onMouseEnter: function () { return _this.setState({ showHSPreview: true }); }, onMouseLeave: function () { return _this.setState({ showHSPreview: false }); } },
+        return (React.createElement("div", { className: "hs-list-element" + " " + this.outcomeToClassName(this.state.selectionResult.outcome), onMouseEnter: function () { return _this.setState({ showHSPreview: true }); }, onMouseLeave: function () { return _this.setState({ showHSPreview: false }); } },
             React.createElement("span", { className: "hs-list-element-initials" }, this.toInitials(this.props.program.Long_Name)),
             React.createElement(hs_program_info_card_1.default, { visible: this.state.showHSPreview, program: this.props.program })));
     };
@@ -45004,6 +45025,7 @@ var HsReqFns = {
         "fn": function (student, school) {
             var score = hs_calc_utils_1.calculateIBPoints(student);
             var cutoff = getIBCutoff(student, school).min;
+            console.log("score: " + score + ", cutoff: " + cutoff);
             if (inAttendanceBound(student, school)) {
                 var bonusPoints = 50;
                 var adjustedCutoff = cutoff + bonusPoints;

@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import getReqFn from "shared/util/get-req-fn";
+import HSRequirementFunction from "shared/types/hs-requirement-function";
 
 import CPSProgram from "shared/types/cps-program";
 import StudentData from "shared/types/student-data";
@@ -19,6 +20,8 @@ interface HSListElemProps {
 
 interface HSListElemState {
   showHSPreview: boolean
+  applicationResult: HSReqFnResponse
+  selectionResult: HSReqFnResponse
 }
 
 import "./hs-list-element.scss";
@@ -28,25 +31,50 @@ class HSListElement extends React.PureComponent<HSListElemProps, HSListElemState
   constructor(props) {
     super(props);
     const hs = props.program;
+
+    this.applicationReqFn = getReqFn(props.program.Application_Requirements_Fn);
+    this.selectionReqFn = getReqFn(props.program.Program_Selections_Fn);
+
+    const applicationResult = this.applicationReqFn(props.studentData, props.program); 
+    const selectionResult = this.selectionReqFn(props.studentData, props.program);
+
     this.state = { 
-      showHSPreview: false
+      showHSPreview: false,
+      applicationResult: applicationResult,
+      selectionResult: selectionResult
     };
-
-    const applicationReqFn = getReqFn(props.program.Application_Requirements_Fn);
-    const selectionReqFn = getReqFn(props.program.Program_Selections_Fn);
-    const applicationResult = applicationReqFn(props.studentData, props.program); 
-    const selectionResult = selectionReqFn(props.studentData, props.program);
-
-    this.className="hs-list-element";
-    if (applicationResult.outcome === SuccessChance.NONE) {
-      this.className += " disabled";
-    } else if (selectionResult.outcome === SuccessChance.CERTAIN ||
-                selectionResult.outcome === SuccessChance.LIKELY) {
-      this.className += " active-outline";
-    }  
   }
 
-  private className: string;
+  private applicationReqFn: HSRequirementFunction;
+  private selectionReqFn: HSRequirementFunction;
+
+  componentWillReceiveProps(props) {
+    const applicationResult = this.applicationReqFn(props.studentData, props.program); 
+    const selectionResult = this.selectionReqFn(props.studentData, props.program);
+    this.setState({
+      applicationResult: applicationResult,
+      selectionResult: selectionResult
+    })
+  };
+
+  private outcomeToClassName = (outcome: SuccessChance) => {
+    switch(outcome){
+      case SuccessChance.CERTAIN:
+        return "certain"
+      case SuccessChance.LIKELY:
+        return "likely"
+      case SuccessChance.UNCERTAIN:
+        return "uncertain"
+      case SuccessChance.UNLIKELY:
+        return "unlikely"
+      case SuccessChance.NONE:
+        return "none"
+      case SuccessChance.NOTIMPLEMENTED:
+        return "not-implemented"
+      default:
+        return "not-implemented"
+    }
+  }
 
   private toInitials = (hsName:string): string => {
     const isCapitalized = (str: string) => str.toUpperCase() === str;
@@ -65,28 +93,9 @@ class HSListElement extends React.PureComponent<HSListElemProps, HSListElemState
   }
 
   render() {
-    //if (this.props.highschool.iconUrl) {
-    //  return (
-    //    <div 
-    //      className={this.className} 
-    //      onMouseEnter={() => this.setState({showHSPreview: true})}
-    //      onMouseLeave={() => this.setState({showHSPreview: false})}
-    //      >
-    //      <img 
-    //        className="hs-list-element-icon"
-    //        alt={`${this.props.highschool.shortName} icon`} 
-    //        src={this.props.highschool.iconUrl.toString()}
-    //      />
-    //      <HSInfoCard 
-    //        visible={this.state.showHSPreview} 
-    //        highschool={this.props.highschool}
-    //      />
-    //    </div>
-    //  );
-    //} else {
     return (
       <div 
-        className={this.className}
+        className={"hs-list-element" + " " + this.outcomeToClassName(this.state.selectionResult.outcome)}
         onMouseEnter={() => this.setState({showHSPreview: true})}
         onMouseLeave={() => this.setState({showHSPreview: false})}
         >
