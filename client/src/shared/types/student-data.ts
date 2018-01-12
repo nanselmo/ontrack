@@ -16,6 +16,7 @@ export default interface StudentInfo {
 
   gradeLevel: GradeLevel
   prevGradeLevel: GradeLevel
+  currESProgram: string
   ell: boolean
   iep: boolean
   attendancePercentage: number

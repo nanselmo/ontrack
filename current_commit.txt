@@ -1,10 +1,12 @@
-Bugfix: fill nonbreaking spaces when building hs_req_fns.ts
+Add current elementary school progam to StudentData
 
-* for some reason, the unicode nbsp character was being inconsistently
-  inserted into different programs' selection and application req fn
-  descriptions, playing havoc with the hash that links requirement functions.
-  (It was bad enough when I thought it was consistent, and some schools
-  with the same semantic requirements would have different requirement function
-  records because of a typo, but this time it's caused the req_fn_id properties
-  of some programs to change after I updated cps_programs.json recently, which
-  is super bad.)
+* add currESProgram property to StudentData
+* TODO IN FUTURE write requirement functions that rely on
+  enrollment in certain elementary school programs
+* TODO IN FUTURE write req functions that rely on 
+  living in attend bounds of certain elementary schools
+  ** NOTE both of the above will be time-consuming to write
+    due to need to look up and copy school ids in requirement
+    functions. So for the moment I'm shelving them in order to
+    do more pressing work cleaning up the frontend of the app
+    in order to present it in about a week.
