@@ -4,10 +4,14 @@ import StudentData from "shared/types/student-data";
 import {StudentDataFormStrings as strings} from "shared/l10n/strings";
 import {cloneAndExtend} from "shared/util/clone";
 import ScoreType from "shared/enums/score-type";
+import ValidationState from "shared/enums/validation-state";
 
 import {scoreToString, tryParseScore} from "shared/util/grade-convert";
 
-import {Form, FormGroup, FormControl, ControlLabel} from "react-bootstrap";
+import DropdownInput from "shared/components/ui/dropdown-input";
+import ComboBoxInput from "shared/components/ui/combo-box-input";
+import TextInput from "shared/components/ui/text-input";
+import NumberInput from "shared/components/ui/number-input";
 
 import AddressTierCalculator from "./address-tier-calculator";
 
@@ -18,238 +22,149 @@ interface StudentDataFormProps {
   onChange: (data: StudentData) => any
 }
 
-enum ValidationResponse {
-  Success = "success",
-  Warn = "warning",
-  Err = "error"
-}
-
-// TODO (a lot)
-// -- general refactor 
-//    -- use l10n strings
-//    -- get less html in this component if it makes sense
-//    -- remove react-bootstrap dependency - too heavy/poorly designed
-
 const StudentDataForm = (props: StudentDataFormProps) => {
 
-  // FIXME: messy
-  const createChangeHandler = (property: string) =>  {
-    return (event: React.KeyboardEvent<any>) => {
-      const value: string = event.currentTarget.value;
-      let newStudentData: StudentData;
-      if (property === "gradeLevel"){
-        const newScore = Number.parseInt(value, 10);
-        newStudentData = cloneAndExtend(props.studentData, {[property]: newScore});
-      } else if (property === "ell" || property === "iep") {
-        const newValue = value === "true" ? true : false;
-        newStudentData = cloneAndExtend(props.studentData, {[property]: newValue});
-      } else {
-        newStudentData = cloneAndExtend(props.studentData, {[property]: value});
-      }
+
+  const validateNWEAPercentile = (pct: number): ValidationState => {
+    if (pct >= 1 && pct <= 99) {
+      return ValidationState.VALID;
+    } else {
+      return ValidationState.INVALID;
+    }
+  };
+
+  const validateSubjGrade = (grade: number): ValidationState => {
+    if (grade >= 0 && grade <= 100) {
+      return ValidationState.VALID;
+    } else {
+      return ValidationState.INVALID;
+    }
+  };
+
+  const updateStudentData = (prop: string, value: string | boolean): void => {
+    if (props.studentData[prop] !== value) {
+      const newStudentData = cloneAndExtend(props.studentData, {[prop]: value});
       props.onChange(newStudentData);
     }
   };
 
-  const createScoreChangeHandler = (property: string) => {
-    return (event: React.KeyboardEvent<any>) => {
-      const value:string = event.currentTarget.value;
-      const newScore = Number.parseInt(value, 10);
-      const newScores = cloneAndExtend(props.studentData.scores, {[property]: newScore});
-      const newStudentData = cloneAndExtend(props.studentData, {scores: newScores});
+  const updateStudentScores = (prop: string, value: number): void => {
+    if (props.studentData.scores[prop] !== value) {
+      const newStudentScores = cloneAndExtend(props.studentData.scores, {[prop]: value}); 
+      const newStudentData = cloneAndExtend(props.studentData, newStudentScores);
       props.onChange(newStudentData);
     }
   };
 
-  const validateScore = (score: string, scoreType: ScoreType): ValidationResponse => {
-    const [success, parsedScore] = tryParseScore(score, scoreType);
-    if (success) {
-      return ValidationResponse.Success;
-    } else {
-      return ValidationResponse.Err;
-    }
-  };
-
-  const isNotEmpty = (value: string): ValidationResponse => {
-    if (value.length > 0) {
-      return ValidationResponse.Success;
-    } else {
-      return ValidationResponse.Err;
-    }
-  };
-
-  const isNotNull = (value: any): ValidationResponse => {
-    if (value !== null) {
-      return ValidationResponse.Success;
-    } else {
-      return ValidationResponse.Err;
-    }
-  };
+  // NOTE to refactor into smaller components, we'll need:
+  // - text input
+  // - dropdown input
+  // - combo box input
+  // - number input
+  // common props:
+  //  - value:
+  //  - onChange:
+  //  - placeholder:
+  //  - label:
+  //  - validator:
+  // dropdown / combo box:
+  //  - options
+  
 
   return (
     <div className="student-data-form">
       <div className="student-data-form-subheader"> 
         Your student information 
       </div>
-      <div className="form-group">
-        <Form inline>
-          <FormGroup
-            controlId="studentFirstName"
-            validationState={isNotEmpty(props.studentData.studentFirstName)} >
-            <ControlLabel>First Name</ControlLabel>
-            {' '}
-            <FormControl
-              type="text"
-              defaultValue={props.studentData.studentFirstName}
-              placeholder="Your first name..."
-              onChange={createChangeHandler("studentFirstName")}
-            />
-          </FormGroup>
-          {'  '}
-          <FormGroup controlId="studentLastName"
-            validationState={isNotEmpty(props.studentData.studentLastName)} >
-            <ControlLabel>Last Name</ControlLabel>
-            {' '}
-            <FormControl
-              type="text"
-              defaultValue={props.studentData.studentFirstName}
-              placeholder="Your last name..."
-              onChange={createChangeHandler("studentLastName")}
-            />
-          </FormGroup>
-        </Form>
+      <TextInput
+        placeholder="Your first name..."
+        value={props.studentData.studentFirstName}
+        onChange={fname => updateStudentData("studentFirstName", fname)}
+      />
+      <TextInput
+        placeholder="Your last name..."
+        value={props.studentData.studentLastName}
+        onChange={lname => updateStudentData("studentLastName", lname)}
+      />
+      <DropdownInput
+        label="What grade are you in?"
+        value={props.studentData.gradeLevel.toString()}
+        onChange={grade => updateStudentData("gradeLevel", grade)}
+      >
+          <option value="4">4th grade</option>
+          <option value="5">5th grade</option>
+          <option value="6">6th grade</option>
+          <option value="7">7th grade</option>
+          <option value="8">8th grade</option>
+      </DropdownInput>
 
-        <Form inline>
-          <FormGroup controlId="studentGradeLevel">
-            <ControlLabel>What grade are you in?</ControlLabel>
-          {'  '}
-            <FormControl
-              componentClass="select"
-              placeholder="Choose one..."
-              defaultValue={props.studentData.gradeLevel.toString()}
-              onChange={createChangeHandler("gradeLevel")}
-            >
-              <option value="4">4th grade</option>
-              <option value="5">5th grade</option>
-              <option value="6">6th grade</option>
-              <option value="7">7th grade</option>
-              <option value="8">8th grade</option>
-            </FormControl>
+      <DropdownInput
+        label="Do you have an IEP?"
+        value={props.studentData.iep ? "true" : "false"}
+        onChange={iep => updateStudentData("iep", iep)}
+      >
+          <option value="true">Yes</option>
+          <option value="false">No</option>
+      </DropdownInput>
 
-          </FormGroup>
-          {'  '}
-          <FormGroup controlId="iep">
-            <ControlLabel>Do you have an IEP?</ControlLabel>
-          {'  '}
-            <FormControl
-              componentClass="select"
-              placeholder="Choose one..."
-              defaultValue={props.studentData.iep ? "true" : "false"}
-              onChange={createChangeHandler("iep")}
-            >
-              <option value="true">Yes</option>
-              <option value="false">No</option>
-            </FormControl>
-
-          </FormGroup>
-          {'  '}
-          <FormGroup controlId="ell">
-            <ControlLabel>Are you an English Language Learner?</ControlLabel>
-          {'  '}
-            <FormControl
-              componentClass="select"
-              placeholder="Choose one..."
-              defaultValue={props.studentData.ell ? "true" : "false"}
-              onChange={createChangeHandler("ell")}
-            >
-              <option value="true">Yes</option>
-              <option value="false">No</option>
-            </FormControl>
-          </FormGroup>
-        </Form>
-
-        <AddressTierCalculator
-          address={props.studentData.address}
-          tier={props.studentData.tier}
-          onAddressChange={(newAddress: string) => props.onChange(cloneAndExtend(props.studentData, {address: newAddress}))}
-          onTierChange={(newTier: string) => props.onChange(cloneAndExtend(props.studentData, {tier: newTier}))}
-        />
-      </div>
+      <DropdownInput
+        label="Are you an English Language Learner?"
+        value={props.studentData.ell ? "true" : "false"}
+        onChange={ell => updateStudentData("ell", ell)}
+      >
+          <option value="true">Yes</option>
+          <option value="false">No</option>
+      </DropdownInput>
+      
+      // TODO geolocate address
+      <AddressTierCalculator
+        address={props.studentData.address}
+        tier={props.studentData.tier}
+        onAddressChange={address => updateStudentData("address", address)}
+        onTierChange={tier => updateStudentData("tier", tier)}
+      />
 
       <div className="student-data-form-subheader">
         Your most recent grades
       </div>
-      <div className="form-group">
-        <div className="form-group-row">
-          <div className="form-wrapper">
-            <FormGroup controlId="nweaMath"
-              validationState={isNotNull(props.studentData.scores.nweaPercentileMath)} >
-              <ControlLabel>NWEA Math Percentile</ControlLabel>
-              <FormControl
-                type="number"
-                defaultValue={scoreToString(props.studentData.scores.nweaPercentileMath, ScoreType.nweaPercentileMath)}
-                onChange={createScoreChangeHandler("nweaPercentileMath")}
-              />
-            </FormGroup>
-          </div>
-          <div className="form-wrapper">
-            <FormGroup controlId="nweaRead"
-              validationState={isNotNull(props.studentData.scores.nweaPercentileRead)} >
-              <ControlLabel>NWEA Reading Percentile</ControlLabel>
-              <FormControl
-                type="number"
-                defaultValue={scoreToString(props.studentData.scores.nweaPercentileRead, ScoreType.nweaPercentileRead)}
-                onChange={createScoreChangeHandler("nweaPercentileRead")}
-              />
-            </FormGroup>
-          </div>
-        </div>
-        <div className="form-group-row">
-          <div className="form-wrapper">
-            <FormGroup controlId="subjGradeMath"
-              validationState={isNotNull(props.studentData.scores.subjGradeMath)} >
-              <ControlLabel>Your Math grade</ControlLabel>
-              <FormControl
-                type="number"
-                defaultValue={props.studentData.scores.subjGradeMath.toString(10)}
-                onChange={createScoreChangeHandler("subjGradeMath")}
-              />
-            </FormGroup>
-          </div>
-          <div className="form-wrapper">
-            <FormGroup controlId="subjGradeRead"
-              validationState={isNotNull(props.studentData.scores.subjGradeRead)} >
-              <ControlLabel>Your Reading grade</ControlLabel>
-              <FormControl
-                type="number"
-                defaultValue={props.studentData.scores.subjGradeRead.toString(10)}
-                onChange={createScoreChangeHandler("subjGradeRead")}
-              />
-            </FormGroup>
-          </div>
-          <div className="form-wrapper">
-            <FormGroup controlId="subjGradeSci"
-              validationState={isNotNull(props.studentData.scores.subjGradeSci)} >
-              <ControlLabel>Your Science grade</ControlLabel>
-              <FormControl
-                type="number"
-                defaultValue={props.studentData.scores.subjGradeSci.toString(10)}
-                onChange={createScoreChangeHandler("subjGradeSci")}
-              />
-            </FormGroup>
-          </div> 
-          <div className="form-wrapper">
-            <FormGroup controlId="subjGradeSocStudies"
-              validationState={isNotNull(props.studentData.scores.subjGradeSocStudies)} >
-              <ControlLabel>Your Social Studies grade</ControlLabel>
-              <FormControl
-                type="number"
-                defaultValue={props.studentData.scores.subjGradeSocStudies.toString(10)}
-                onChange={createScoreChangeHandler("subjGradeSocStudies")}
-              />
-            </FormGroup>
-          </div>
-        </div>
-      </div>
+      
+      <NumberInput
+        label="NWEA Math percentile"
+        value={props.studentData.scores.nweaPercentileMath}
+        onChange={nweaPercentileMath => updateStudentScores("nweaPercentileMath", nweaPercentileMath)}
+        validationState={validateNWEAPercentile(props.studentData.scores.nweaPercentileMath)}
+      />
+      <NumberInput
+        label="NWEA Reading percentile"
+        value={props.studentData.scores.nweaPercentileRead}
+        onChange={nweaPercentileRead => updateStudentScores("nweaPercentileRead", nweaPercentileRead)}
+        validationState={validateNWEAPercentile(props.studentData.scores.nweaPercentileRead)}
+      />
+      <NumberInput
+        label="Your Math grade"
+        value={props.studentData.scores.subjGradeMath}
+        onChange={subjGradeMath => updateStudentScores("subjGradeMath", subjGradeMath)}
+        validationState={validateSubjGrade(props.studentData.scores.subjGradeMath)}
+      />
+      <NumberInput
+        label="Your Reading grade"
+        value={props.studentData.scores.subjGradeRead}
+        onChange={subjGradeRead => updateStudentScores("subjGradeRead", subjGradeRead)}
+        validationState={validateSubjGrade(props.studentData.scores.subjGradeRead)}
+      />
+      <NumberInput
+        label="Your Science grade"
+        value={props.studentData.scores.subjGradeSci}
+        onChange={subjGradeSci => updateStudentScores("subjGradeSci", subjGradeSci)}
+        validationState={validateSubjGrade(props.studentData.scores.subjGradeSci)}
+      />
+      <NumberInput
+        label="Your Social Studies grade"
+        value={props.studentData.scores.subjGradeSocStudies}
+        onChange={subjGradeSocStudies => updateStudentScores("subjGradeSocStudies", subjGradeSocStudies)}
+        validationState={validateSubjGrade(props.studentData.scores.subjGradeSocStudies)}
+      />
+      
     </div>
   );
 }

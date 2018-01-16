@@ -1,3 +1,16 @@
-Fix HSInfoCard appearing in front of other HSListElements
+[WIP] Refactor StudentDataForm
 
-
+* DONE convert raw html form fields in student-data-form.tsx 
+  into new shared form fields components
+* WIP redo styling of form field components, 
+  remove react-bootstrap depenendency
+* DONE deleted some unused old form field components in
+  shared/components/ui
+* TODO fix incorrect validation of some form fields
+  * fix nwea percentile inputs allowing values <1 and >99
+  * fix grade inputs allowing values <0 and >100
+* TODO add missing form fields for new properties on StudentData:
+  ** gender
+  ** prev school
+  ** sibling current school
+  ** attendance percentage
