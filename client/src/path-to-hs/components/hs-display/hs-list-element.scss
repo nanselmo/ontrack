@@ -1,5 +1,13 @@
 @import "../../../shared/styles/variables";
 
+$col-succ-certain: #5bed2a;
+$col-succ-likely: #beee40;
+$col-succ-uncertain: #fde74c;
+$col-succ-unlikely: #f4743b;
+$col-succ-none: #eee;
+$col-succ-not-implemented: #eee;
+
+
 .hs-list-element {
   position: relative;
 
@@ -18,18 +26,43 @@
 
   background-color: lighten($col-app-gray-light, 15%);
 
-  box-shadow: $box-shadow-z4;
+  box-shadow: $box-shadow-z1;
 }
 
-.hs-list-element.disabled {
-  box-shadow: $box-shadow-z2;
+// Certain success
+.hs-list-element.succ-certain {
+  transform: scale(1.1);
+  border: 5px solid $col-succ-certain;
+}
+
+// Likely success
+.hs-list-element.succ-likely {
+  border: 3px solid $col-succ-likely;
+}
+
+// Uncertain success
+.hs-list-element.succ-uncertain {
+  border: 2px solid $col-succ-uncertain;
+}
+
+// Unlikely success
+.hs-list-element.succ-unlikely {
+  border: 1px solid $col-succ-unlikely;
+}
+
+// No chance of success
+.hs-list-element.succ-none {
+  border: 2px dashed $col-succ-none; 
+  box-shadow: $box-shadow-none;
   color: $col-app-gray;
 }
 
-
-.hs-list-element.active-outline {
-  transform: scale(1.1);
-  border: 5px solid $col-app-1;
+// Not implemented
+.hs-list-element.succ-not-implemented {
+  color: #aaa;
+  background-color: #fff;
+  box-shadow: $box-shadow-none;
+  border: 2px dashed #999;
 }
 
 .hs-list-element-icon {

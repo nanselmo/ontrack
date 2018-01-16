@@ -60,19 +60,19 @@ class HSListElement extends React.PureComponent<HSListElemProps, HSListElemState
   private outcomeToClassName = (outcome: SuccessChance) => {
     switch(outcome){
       case SuccessChance.CERTAIN:
-        return "certain"
+        return "succ-certain"
       case SuccessChance.LIKELY:
-        return "likely"
+        return "succ-likely"
       case SuccessChance.UNCERTAIN:
-        return "uncertain"
+        return "succ-uncertain"
       case SuccessChance.UNLIKELY:
-        return "unlikely"
+        return "succ-unlikely"
       case SuccessChance.NONE:
-        return "none"
+        return "succ-none"
       case SuccessChance.NOTIMPLEMENTED:
-        return "not-implemented"
+        return "succ-not-implemented"
       default:
-        return "not-implemented"
+        return "succ-not-implemented"
     }
   }
 

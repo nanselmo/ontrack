@@ -1,12 +1,10 @@
-Add current elementary school progam to StudentData
+Refactor styles of HSListElement
 
-* add currESProgram property to StudentData
-* TODO IN FUTURE write requirement functions that rely on
-  enrollment in certain elementary school programs
-* TODO IN FUTURE write req functions that rely on 
-  living in attend bounds of certain elementary schools
-  ** NOTE both of the above will be time-consuming to write
-    due to need to look up and copy school ids in requirement
-    functions. So for the moment I'm shelving them in order to
-    do more pressing work cleaning up the frontend of the app
-    in order to present it in about a week.
+* Redo base styling for increased legibility
+  ** remove box-shadow
+  ** stop using differences in greyscale to indicate different
+    states
+* Add states for all different outcomes: certain success, likely
+  success, uncertain success, unlikely success, no chance of success,
+  not implemented.
+* Add state legend at top of HSDisplay

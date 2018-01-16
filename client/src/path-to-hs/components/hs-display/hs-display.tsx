@@ -6,6 +6,7 @@ import CPSProgram from "shared/types/cps-program";
 
 import Box from "shared/components/layout/box";
 import HSProgramType from "./hs-program-type";
+import HSProgramSuccessChanceKey from "./hs-program-success-chance-key";
 
 interface HSDisplayProps {
   studentData: StudentData
@@ -16,6 +17,7 @@ const HSDisplay: React.SFC<HSDisplayProps> = (props) => {
 
   return (
     <Box width="half" height="full" responsiveBehavior={{mobile: "fullscreen"}}>
+      <HSProgramSuccessChanceKey/>
       <div style={{width: "100%", height: "100%", overflowY: "auto"}}>
         { Object.keys(props.hsData).map( (programType: string) => {
         return <HSProgramType

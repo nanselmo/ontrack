@@ -43776,9 +43776,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var box_1 = __webpack_require__(164);
 var hs_program_type_1 = __webpack_require__(499);
+var hs_program_success_chance_key_1 = __webpack_require__(517);
 ;
 var HSDisplay = function (props) {
     return (React.createElement(box_1.default, { width: "half", height: "full", responsiveBehavior: { mobile: "fullscreen" } },
+        React.createElement(hs_program_success_chance_key_1.default, null),
         React.createElement("div", { style: { width: "100%", height: "100%", overflowY: "auto" } }, Object.keys(props.hsData).map(function (programType) {
             return React.createElement(hs_program_type_1.default, { programType: programType, programs: props.hsData[programType], studentData: props.studentData, key: programType });
         }))));
@@ -43867,19 +43869,19 @@ var HSListElement = (function (_super) {
         _this.outcomeToClassName = function (outcome) {
             switch (outcome) {
                 case success_chance_1.default.CERTAIN:
-                    return "certain";
+                    return "succ-certain";
                 case success_chance_1.default.LIKELY:
-                    return "likely";
+                    return "succ-likely";
                 case success_chance_1.default.UNCERTAIN:
-                    return "uncertain";
+                    return "succ-uncertain";
                 case success_chance_1.default.UNLIKELY:
-                    return "unlikely";
+                    return "succ-unlikely";
                 case success_chance_1.default.NONE:
-                    return "none";
+                    return "succ-none";
                 case success_chance_1.default.NOTIMPLEMENTED:
-                    return "not-implemented";
+                    return "succ-not-implemented";
                 default:
-                    return "not-implemented";
+                    return "succ-not-implemented";
             }
         };
         _this.toInitials = function (hsName) {
@@ -47605,7 +47607,7 @@ exports = module.exports = __webpack_require__(20)(undefined);
 
 
 // module
-exports.push([module.i, ".hs-list-element {\n  position: relative;\n  margin: 0.5em;\n  width: 45px;\n  height: 45px;\n  padding-top: 2px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  border: 2px solid #9e9e9e;\n  border-radius: 100%;\n  background-color: #f0f0f0;\n  -webkit-box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);\n          box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); }\n\n.hs-list-element.disabled {\n  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n  color: #9e9e9e; }\n\n.hs-list-element.active-outline {\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 5px solid #95e57a; }\n\n.hs-list-element-initials {\n  line-height: 1em; }\n", ""]);
+exports.push([module.i, ".hs-list-element {\n  position: relative;\n  margin: 0.5em;\n  width: 45px;\n  height: 45px;\n  padding-top: 2px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  border: 2px solid #9e9e9e;\n  border-radius: 100%;\n  background-color: #f0f0f0;\n  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); }\n\n.hs-list-element.succ-certain {\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 5px solid #5bed2a; }\n\n.hs-list-element.succ-likely {\n  border: 3px solid #beee40; }\n\n.hs-list-element.succ-uncertain {\n  border: 2px solid #fde74c; }\n\n.hs-list-element.succ-unlikely {\n  border: 1px solid #f4743b; }\n\n.hs-list-element.succ-none {\n  border: 2px dashed #eee;\n  -webkit-box-shadow: none;\n          box-shadow: none;\n  color: #9e9e9e; }\n\n.hs-list-element.succ-not-implemented {\n  color: #aaa;\n  background-color: #fff;\n  -webkit-box-shadow: none;\n          box-shadow: none;\n  border: 2px dashed #999; }\n\n.hs-list-element-initials {\n  line-height: 1em; }\n", ""]);
 
 // exports
 
@@ -68621,6 +68623,35 @@ module.exports = [
 		"Program_Selections_Fn": ""
 	}
 ];
+
+/***/ }),
+/* 517 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var HSProgramSuccessChanceKey = function (props) {
+    return (React.createElement("div", { style: { width: "100%", display: "flex", flexDirection: "row" } },
+        React.createElement("div", null,
+            "You will almost certainly be accepted.",
+            React.createElement("div", { className: "hs-list-element succ-certain" })),
+        React.createElement("div", null,
+            "You're likely to be accepted.",
+            React.createElement("div", { className: "hs-list-element succ-likely" })),
+        React.createElement("div", null,
+            "You have a chance of being accepted.",
+            React.createElement("div", { className: "hs-list-element succ-uncertain" })),
+        React.createElement("div", null,
+            "You're less likely to be accepted.",
+            React.createElement("div", { className: "hs-list-element succ-unlikely" })),
+        React.createElement("div", null,
+            "You probably won't be accepted.",
+            React.createElement("div", { className: "hs-list-element succ-none" }))));
+};
+exports.default = HSProgramSuccessChanceKey;
+
 
 /***/ })
 /******/ ]);
