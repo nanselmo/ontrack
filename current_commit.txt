@@ -1,18 +1,12 @@
-[WIP] Fix hs-program-info-card overflow issue
+Add current elementary school progam to StudentData
 
-* issue: HSProgramInfoCard, which drops down on mouseover
-  of HSListElement, overflowed past page boundaries
-  when it appears
-
-* modify HSDisplay, HSList, HSListElement, and HSProgramInfoCard
-  to pass bounding box info of HSList down to HSProgramInfoCard
-  ** HSDisplay and HSProgramInfoCard converted to React.PureComponent
-    in order to handle bounding box calculations
-  ** HSProgramInfoCard calculates its bounding boxe when it is 
-    drawn to see if it goes over the lines of the HSList bounding
-    box passed down to it; if it does overflow, the component offsets
-    itself by that amount via the 'left' and 'top' css declarations
-  ** NOTE this passing the bounding boxes down the component tree malarkey
-    is another reason why using Redux would be a really good idea
-
-* remove old hasPreviewURL check from HSProgramInfoCard
+* add currESProgram property to StudentData
+* TODO IN FUTURE write requirement functions that rely on
+  enrollment in certain elementary school programs
+* TODO IN FUTURE write req functions that rely on 
+  living in attend bounds of certain elementary schools
+  ** NOTE both of the above will be time-consuming to write
+    due to need to look up and copy school ids in requirement
+    functions. So for the moment I'm shelving them in order to
+    do more pressing work cleaning up the frontend of the app
+    in order to present it in about a week.

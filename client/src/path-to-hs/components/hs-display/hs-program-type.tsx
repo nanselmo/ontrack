@@ -14,24 +14,24 @@ interface HSProgramTypeProps {
   programType: string
   programs: CPSProgram[]
   studentData: StudentData
-  hsDisplayBoundingRect: ClientRect
 }
 
 
-const HSProgramType: React.SFC<HSProgramTypeProps> = props => {
+class HSProgramType extends React.PureComponent<HSProgramTypeProps> {
 
-  return (
-    <div className="hs-category-container">
-      <div className="hs-category-title">
-        {props.programType}
+  render() {
+    return (
+      <div className="hs-category-container">
+        <div className="hs-category-title">
+          {this.props.programType}
+        </div>
+        <HSList 
+          highschools={this.props.programs}
+          studentData={this.props.studentData}
+          />
       </div>
-      <HSList 
-        hsDisplayBoundingRect={props.hsDisplayBoundingRect}
-        highschools={props.programs}
-        studentData={props.studentData}
-        />
-    </div>
-  )
+    )
+  }
 
 };
 

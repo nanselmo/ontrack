@@ -16,7 +16,6 @@ import HSProgramInfoCard from "./hs-program-info-card";
 interface HSListElemProps {
   program: CPSProgram
   studentData: StudentData
-  hsDisplayBoundingRect: ClientRect
 }
 
 interface HSListElemState {
@@ -42,7 +41,7 @@ class HSListElement extends React.PureComponent<HSListElemProps, HSListElemState
     this.state = { 
       showHSPreview: false,
       applicationResult: applicationResult,
-      selectionResult: selectionResult,
+      selectionResult: selectionResult
     };
   }
 
@@ -102,7 +101,6 @@ class HSListElement extends React.PureComponent<HSListElemProps, HSListElemState
         >
         <span className="hs-list-element-initials">{this.toInitials(this.props.program.Long_Name)}</span>
         <HSProgramInfoCard 
-          boundingRect={this.props.hsDisplayBoundingRect}
           visible={this.state.showHSPreview} 
           program={this.props.program}
         />
