@@ -1,10 +1,8 @@
-Refactor styles of HSListElement
+Change appearance of HSListElement
 
-* Redo base styling for increased legibility
-  ** remove box-shadow
-  ** stop using differences in greyscale to indicate different
-    states
-* Add states for all different outcomes: certain success, likely
-  success, uncertain success, unlikely success, no chance of success,
-  not implemented.
-* Add state legend at top of HSDisplay
+* replace bubble with high school icon
+* temporarily hide hs initials
+* change background color of HSListElement for each
+  success chance state
+* TODO IN FUTURE change color of high school icon for each
+  success chance state (instead of changing background color)

@@ -30882,8 +30882,8 @@ var React = __webpack_require__(0);
 var page_1 = __webpack_require__(315);
 var student_info_display_1 = __webpack_require__(319);
 var hs_display_1 = __webpack_require__(498);
-var hardcoded_1 = __webpack_require__(514);
-var data_access_ts_1 = __webpack_require__(515);
+var hardcoded_1 = __webpack_require__(516);
+var data_access_ts_1 = __webpack_require__(517);
 var hsPrograms = data_access_ts_1.getHSPrograms();
 var score_projection_utils_1 = __webpack_require__(165);
 var PathToHS = (function (_super) {
@@ -43776,7 +43776,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var box_1 = __webpack_require__(164);
 var hs_program_type_1 = __webpack_require__(499);
-var hs_program_success_chance_key_1 = __webpack_require__(517);
+var hs_program_success_chance_key_1 = __webpack_require__(515);
 ;
 var HSDisplay = function (props) {
     return (React.createElement(box_1.default, { width: "half", height: "full", responsiveBehavior: { mobile: "fullscreen" } },
@@ -43807,7 +43807,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var hs_list_1 = __webpack_require__(500);
-__webpack_require__(512);
+__webpack_require__(513);
 var HSProgramType = (function (_super) {
     __extends(HSProgramType, _super);
     function HSProgramType() {
@@ -43833,7 +43833,7 @@ exports.default = HSProgramType;
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var hs_list_element_1 = __webpack_require__(501);
-__webpack_require__(510);
+__webpack_require__(511);
 var HSList = function (props) {
     return (React.createElement("div", { className: "hs-list" }, props.highschools.map(function (hs) { return React.createElement(hs_list_element_1.default, { key: hs.Long_Name, program: hs, studentData: props.studentData }); })));
 };
@@ -47607,7 +47607,7 @@ exports = module.exports = __webpack_require__(20)(undefined);
 
 
 // module
-exports.push([module.i, ".hs-list-element {\n  position: relative;\n  margin: 0.5em;\n  width: 45px;\n  height: 45px;\n  padding-top: 2px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  border: 2px solid #9e9e9e;\n  border-radius: 100%;\n  background-color: #f0f0f0;\n  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); }\n\n.hs-list-element.succ-certain {\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 5px solid #5bed2a; }\n\n.hs-list-element.succ-likely {\n  border: 3px solid #beee40; }\n\n.hs-list-element.succ-uncertain {\n  border: 2px solid #fde74c; }\n\n.hs-list-element.succ-unlikely {\n  border: 1px solid #f4743b; }\n\n.hs-list-element.succ-none {\n  border: 2px dashed #eee;\n  -webkit-box-shadow: none;\n          box-shadow: none;\n  color: #9e9e9e; }\n\n.hs-list-element.succ-not-implemented {\n  color: #aaa;\n  background-color: #fff;\n  -webkit-box-shadow: none;\n          box-shadow: none;\n  border: 2px dashed #999; }\n\n.hs-list-element-initials {\n  line-height: 1em; }\n", ""]);
+exports.push([module.i, ".hs-list-element {\n  position: relative;\n  margin: 0.5em;\n  width: 45px;\n  height: 45px;\n  padding-top: 2px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  border: 2px solid #9e9e9e;\n  border-radius: 100%;\n  background-size: 470px 470px;\n  background: url(" + __webpack_require__(510) + ");\n  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); }\n\n.hs-list-element.succ-certain {\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  background-color: #7ff159;\n  border: 5px solid #5bed2a; }\n\n.hs-list-element.succ-likely {\n  background-color: #cef26f;\n  border: 3px solid #beee40; }\n\n.hs-list-element.succ-uncertain {\n  background-color: #feee7e;\n  border: 2px solid #fde74c; }\n\n.hs-list-element.succ-unlikely {\n  background-color: #f7966b;\n  border: 1px solid #f4743b; }\n\n.hs-list-element.succ-none {\n  background-color: white;\n  border: 2px dashed #eee;\n  -webkit-box-shadow: none;\n          box-shadow: none;\n  color: #9e9e9e; }\n\n.hs-list-element.succ-not-implemented {\n  color: #aaa;\n  background-color: #eee;\n  -webkit-box-shadow: none;\n          box-shadow: none;\n  border: 2px dashed #999; }\n\n.hs-list-element-initials {\n  display: none;\n  line-height: 1em; }\n", ""]);
 
 // exports
 
@@ -47616,10 +47616,16 @@ exports.push([module.i, ".hs-list-element {\n  position: relative;\n  margin: 0.
 /* 510 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = __webpack_require__.p + "f50e14b4c7654a4c10235e9ddc4b8756.svg";
+
+/***/ }),
+/* 511 */
+/***/ (function(module, exports, __webpack_require__) {
+
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(511);
+var content = __webpack_require__(512);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -47644,7 +47650,7 @@ if(false) {
 }
 
 /***/ }),
-/* 511 */
+/* 512 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(20)(undefined);
@@ -47658,13 +47664,13 @@ exports.push([module.i, ".hs-list {\n  width: 100%;\n  min-height: 100px;\n  hei
 
 
 /***/ }),
-/* 512 */
+/* 513 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(513);
+var content = __webpack_require__(514);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -47689,7 +47695,7 @@ if(false) {
 }
 
 /***/ }),
-/* 513 */
+/* 514 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(20)(undefined);
@@ -47703,7 +47709,36 @@ exports.push([module.i, ".hs-category-container {\n  width: 100%;\n  height: aut
 
 
 /***/ }),
-/* 514 */
+/* 515 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var HSProgramSuccessChanceKey = function (props) {
+    return (React.createElement("div", { style: { width: "100%", display: "flex", flexDirection: "row" } },
+        React.createElement("div", null,
+            "You will almost certainly be accepted.",
+            React.createElement("div", { className: "hs-list-element succ-certain" })),
+        React.createElement("div", null,
+            "You're likely to be accepted.",
+            React.createElement("div", { className: "hs-list-element succ-likely" })),
+        React.createElement("div", null,
+            "You have a chance of being accepted.",
+            React.createElement("div", { className: "hs-list-element succ-uncertain" })),
+        React.createElement("div", null,
+            "You're less likely to be accepted.",
+            React.createElement("div", { className: "hs-list-element succ-unlikely" })),
+        React.createElement("div", null,
+            "You probably won't be accepted.",
+            React.createElement("div", { className: "hs-list-element succ-none" }))));
+};
+exports.default = HSProgramSuccessChanceKey;
+
+
+/***/ }),
+/* 516 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47738,7 +47773,7 @@ exports.MOCK_STUDENT_DATA = {
 
 
 /***/ }),
-/* 515 */
+/* 517 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47746,7 +47781,7 @@ exports.MOCK_STUDENT_DATA = {
 Object.defineProperty(exports, "__esModule", { value: true });
 var is_es_program_1 = __webpack_require__(213);
 var is_es_program_2 = __webpack_require__(213);
-var cpsPrograms = __webpack_require__(516);
+var cpsPrograms = __webpack_require__(518);
 exports.getAllPrograms = function () {
     var programs = groupByProgramType(cpsPrograms);
     return programs;
@@ -47774,7 +47809,7 @@ var groupByProgramType = function (allPrograms) {
 
 
 /***/ }),
-/* 516 */
+/* 518 */
 /***/ (function(module, exports) {
 
 module.exports = [
@@ -68623,35 +68658,6 @@ module.exports = [
 		"Program_Selections_Fn": ""
 	}
 ];
-
-/***/ }),
-/* 517 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var HSProgramSuccessChanceKey = function (props) {
-    return (React.createElement("div", { style: { width: "100%", display: "flex", flexDirection: "row" } },
-        React.createElement("div", null,
-            "You will almost certainly be accepted.",
-            React.createElement("div", { className: "hs-list-element succ-certain" })),
-        React.createElement("div", null,
-            "You're likely to be accepted.",
-            React.createElement("div", { className: "hs-list-element succ-likely" })),
-        React.createElement("div", null,
-            "You have a chance of being accepted.",
-            React.createElement("div", { className: "hs-list-element succ-uncertain" })),
-        React.createElement("div", null,
-            "You're less likely to be accepted.",
-            React.createElement("div", { className: "hs-list-element succ-unlikely" })),
-        React.createElement("div", null,
-            "You probably won't be accepted.",
-            React.createElement("div", { className: "hs-list-element succ-none" }))));
-};
-exports.default = HSProgramSuccessChanceKey;
-
 
 /***/ })
 /******/ ]);
