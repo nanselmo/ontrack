@@ -10,6 +10,7 @@ $col-succ-not-implemented: #eee;
 $hs-list-element-icon-size: 470px 470px;
 
 .hs-list-element {
+  z-index: 1;
   position: relative;
 
   margin: 0.5em;
@@ -29,6 +30,14 @@ $hs-list-element-icon-size: 470px 470px;
   background: url("../../../shared/images/school.svg");
 
   box-shadow: $box-shadow-z1;
+}
+
+// scoot list element forward on hover so that hovered preview
+// doesn't appear behind other hs-list-elements
+// FIXME: may have to move this logic to component if implenting,
+// e.g., preview on click rather than preview on hover.
+.hs-list-element:hover {
+  z-index: 2;
 }
 
 // Certain success

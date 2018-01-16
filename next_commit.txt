@@ -1,0 +1,6 @@
+Sort HSListIcons on page by success chance
+ 
+* NOTE may require refactoring HSListElement so that
+  it's an empty shell for the school info and the state,
+  and the actual calculation of successchance happens outside.
+  Again, live and learn.

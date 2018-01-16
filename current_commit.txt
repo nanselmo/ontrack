@@ -1,8 +1,3 @@
-Change appearance of HSListElement
+Fix HSInfoCard appearing in front of other HSListElements
 
-* replace bubble with high school icon
-* temporarily hide hs initials
-* change background color of HSListElement for each
-  success chance state
-* TODO IN FUTURE change color of high school icon for each
-  success chance state (instead of changing background color)
+
