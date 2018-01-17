@@ -14,7 +14,6 @@ $hs-list-element-width: 45px;
   width: 45px;
   height: 80px;
   margin: 0 0.5em;
-  overflow: hidden;
 }
 
 .hs-list-element-icon {
@@ -40,11 +39,7 @@ $hs-list-element-width: 45px;
   box-shadow: $box-shadow-z1;
 }
 
-// scoot list element forward on hover so that hovered preview
-// doesn't appear behind other hs-list-element-icons
-// FIXME: may have to move this logic to component if implenting,
-// e.g., preview on click rather than preview on hover.
-.hs-list-element-icon:hover {
+.hs-list-element-icon.focus {
   z-index: 2;
 }
 
@@ -92,6 +87,7 @@ $hs-list-element-width: 45px;
 
 .hs-list-element-shortname {
   width: 45px;
+  height: 30px;
   font-size: 70%;
   text-align: center;
   word-wrap: normal; 

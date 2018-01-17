@@ -1,8 +1,7 @@
 @import "../../../shared/styles/variables";
 
-.hs-info-card {
-  display: none;
-
+.hs-info-card-container {
+  visibility: hidden;
   position: absolute;
   top: 0;
   left: 0;
@@ -11,13 +10,50 @@
   height: 0px;
 }
 
-.hs-info-card.visible {
+.hs-info-card-container.visible {
+  visibility: visible;
   display: block;
   width: 300px;
   height: 300px;
 }
 
-.hs-info-card-preview {
+.hs-info-card {
   width: 100%;
   height: 100%;
+  background: $col-app-neutral;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
+
+.hs-info-card-program-name {
+  font-size: 115%;
+  font-weight: bold;
+
+  width: 100%;
+  text-align: center;
+}
+
+.hs-info-card-requirement-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid gray;
+}
+
+.hs-info-card-requirement {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.hs-info-card-req-desc-container {
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+}
+
+.hs-info-card-req-desc {
+  font-size: 80%;
+}
+

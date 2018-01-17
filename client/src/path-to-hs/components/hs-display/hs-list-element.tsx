@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import getReqFn from "shared/util/get-req-fn";
+import getReqFns from "shared/util/get-req-fns";
 import HSRequirementFunction from "shared/types/hs-requirement-function";
 
 import CPSProgram from "shared/types/cps-program";
@@ -32,8 +32,9 @@ class HSListElement extends React.PureComponent<HSListElemProps, HSListElemState
     super(props);
     const hs = props.program;
 
-    this.applicationReqFn = getReqFn(props.program).application;
-    this.selectionReqFn = getReqFn(props.program).selection;
+    const reqFns = getReqFns(props.program);
+    this.applicationReqFn = reqFns.application;
+    this.selectionReqFn = reqFns.selection;
 
     const applicationResult = this.applicationReqFn(props.studentData, props.program); 
     const selectionResult = this.selectionReqFn(props.studentData, props.program);
@@ -84,33 +85,18 @@ class HSListElement extends React.PureComponent<HSListElemProps, HSListElemState
     }
   }
 
-  private toInitials = (hsName:string): string => {
-    const isCapitalized = (str: string) => str.toUpperCase() === str;
-    // take the intials of all capitalized words
-    let initials = "";
-    let words = hsName.split(" ");
-    for (let i = 0; i < words.length; i++) {
-      const word = words[i];
-      const initial = word.charAt(0);
-      if (isCapitalized(initial)) {
-        initials += initial;
-      }
-    }
-    // keep only the first 3 initials 
-    return initials.slice(0, 3);
-  }
-
   render() {
     return (
     <div className="hs-list-element">
       <div 
-        className={"hs-list-element-icon" + " " + this.outcomeToClassName(this.getCombinedSuccessChance(this.state.applicationResult.outcome, this.state.selectionResult.outcome))}
-        onMouseEnter={() => this.setState({showHSPreview: true})}
-        onMouseLeave={() => this.setState({showHSPreview: false})}
+        className={"hs-list-element-icon " + (this.state.showHSPreview ? "focus " : "") + this.outcomeToClassName(this.getCombinedSuccessChance(this.state.applicationResult.outcome, this.state.selectionResult.outcome))}
+        onClick={() => this.setState({showHSPreview: !this.state.showHSPreview})}
         >
         <HSProgramInfoCard 
           visible={this.state.showHSPreview} 
           program={this.props.program}
+          applicationSuccess={this.state.applicationResult.outcome}
+          selectionSuccess={this.state.selectionResult.outcome}
         />
       </div>
       <div className="hs-list-element-shortname">
