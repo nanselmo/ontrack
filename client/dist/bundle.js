@@ -68840,13 +68840,13 @@ var HSProgramSuccessChanceKey = function (props) {
             "You will almost certainly be accepted.",
             React.createElement("div", { className: "hs-list-element-icon succ-certain" })),
         React.createElement("div", { className: "hs-program-success-chance-example" },
-            "You're likely to be accepted.",
+            "You're more likely to be accepted than other students.",
             React.createElement("div", { className: "hs-list-element-icon succ-likely" })),
         React.createElement("div", { className: "hs-program-success-chance-example" },
-            "You have a chance of being accepted.",
+            "You're about as likely to be accepted as other students.",
             React.createElement("div", { className: "hs-list-element-icon succ-uncertain" })),
         React.createElement("div", { className: "hs-program-success-chance-example" },
-            "You're less likely to be accepted.",
+            "You're less likely to be accepted than other students.",
             React.createElement("div", { className: "hs-list-element-icon succ-unlikely" })),
         React.createElement("div", { className: "hs-program-success-chance-example" },
             "You probably won't be accepted.",
@@ -68895,7 +68895,7 @@ exports = module.exports = __webpack_require__(20)(undefined);
 
 
 // module
-exports.push([module.i, ".hs-program-success-chance-key {\n  width: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  margin-left: -0.5em;\n  padding-bottom: 0.5em;\n  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n  text-align: center; }\n\n.hs-program-success-chance-example {\n  -webkit-transform: scale(0.85);\n          transform: scale(0.85); }\n\n.hs-program-success-chance-example > .hs-list-element-icon {\n  margin: 0 auto; }\n", ""]);
+exports.push([module.i, ".hs-program-success-chance-key {\n  width: 100%;\n  height: 150px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  margin-left: -0.5em;\n  padding-bottom: 0.5em;\n  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n  text-align: center; }\n\n.hs-program-success-chance-example {\n  -webkit-transform: scale(0.85);\n          transform: scale(0.85); }\n\n.hs-program-success-chance-example > .hs-list-element-icon {\n  margin: 0 auto; }\n", ""]);
 
 // exports
 

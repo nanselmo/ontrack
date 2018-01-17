@@ -3,9 +3,6 @@ import * as React from "react";
 import "./hs-program-success-chance-key.scss";
 
 const HSProgramSuccessChanceKey = (props) => {
-  // FIXME: hacky to rely on css classes as opposed to React components;
-  // but the way I wrote the HSListElement component makes it not very
-  // reusable. Live and learn.
   return (
     <div className="hs-program-success-chance-key">
       <div className="hs-program-success-chance-example">
@@ -14,17 +11,17 @@ const HSProgramSuccessChanceKey = (props) => {
         </div>
       </div>
       <div className="hs-program-success-chance-example">
-        You're likely to be accepted.
+        You're more likely to be accepted than other students.
         <div className="hs-list-element-icon succ-likely">
         </div>
       </div>
       <div className="hs-program-success-chance-example">
-        You have a chance of being accepted.
+        You're about as likely to be accepted as other students.
         <div className="hs-list-element-icon succ-uncertain">
         </div>
       </div>
       <div className="hs-program-success-chance-example">
-        You're less likely to be accepted.
+        You're less likely to be accepted than other students.
         <div className="hs-list-element-icon succ-unlikely">
         </div>
       </div>

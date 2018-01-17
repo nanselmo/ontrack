@@ -1,4 +1,3 @@
-Add Selective Enrollment test score to StudentDataForm
+Change text of HSProgramSuccessChanceKey to be more accurate
 
-* this may (probably will) be a temporary move until we 
-  can maybe put it in the HSList area.
+* increase height of key in order that hs program icons fit
