@@ -1,21 +1,2 @@
-Refactor HSList to include application requirements
-
-* current system does not take application requirements into
-    account when showing success state -- obviously bad
-* refactor getReqFn to be of type
-    CPSProgram => {application: HSRequirementFunction,
-                selection: HSRequirementFunction}
-* rename getReqFn -> getReqFns
-
-* refactor HSList and HSListElement to calculate
-    success state by this procedure:
-    is application req outcome CERTAIN or LIKELY?
-      if yes, return selection req outcome
-      otherwise, return application req outcome
-  ** add getCombinedSuccessChance util function to
-    shared/util, import it in HSList and HSListElement
-  ** TODO IN FUTURE the code is very messy. Could use
-    some rethinking.
-* rename HsReqFns -> HSReqFns for consistency with
-  rest of codebase
+Add school shortname to HSListElement
 

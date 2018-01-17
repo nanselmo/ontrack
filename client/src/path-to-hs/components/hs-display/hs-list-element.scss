@@ -9,14 +9,22 @@ $col-succ-not-implemented: #eee;
 
 $hs-list-element-icon-size: 470px 470px;
 
+$hs-list-element-width: 45px;
 .hs-list-element {
+  width: 45px;
+  height: 80px;
+  margin: 0 0.5em;
+  overflow: hidden;
+}
+
+.hs-list-element-icon {
   z-index: 1;
   position: relative;
 
-  margin: 0.5em;
   width: 45px;
   height: 45px;
   padding-top: 2px;
+  margin-bottom: 5px;
 
   display: flex;
   flex-direction: column;
@@ -33,40 +41,40 @@ $hs-list-element-icon-size: 470px 470px;
 }
 
 // scoot list element forward on hover so that hovered preview
-// doesn't appear behind other hs-list-elements
+// doesn't appear behind other hs-list-element-icons
 // FIXME: may have to move this logic to component if implenting,
 // e.g., preview on click rather than preview on hover.
-.hs-list-element:hover {
+.hs-list-element-icon:hover {
   z-index: 2;
 }
 
 // Certain success
-.hs-list-element.succ-certain {
+.hs-list-element-icon.succ-certain {
   transform: scale(1.1);
   background-color: lighten($col-succ-certain, 10%);
   border: 5px solid $col-succ-certain;
 }
 
 // Likely success
-.hs-list-element.succ-likely {
+.hs-list-element-icon.succ-likely {
   background-color: lighten($col-succ-likely, 10%);
   border: 3px solid $col-succ-likely;
 }
 
 // Uncertain success
-.hs-list-element.succ-uncertain {
+.hs-list-element-icon.succ-uncertain {
   background-color: lighten($col-succ-uncertain, 10%);
   border: 2px solid $col-succ-uncertain;
 }
 
 // Unlikely success
-.hs-list-element.succ-unlikely {
+.hs-list-element-icon.succ-unlikely {
   background-color: lighten($col-succ-unlikely, 10%);
   border: 1px solid $col-succ-unlikely;
 }
 
 // No chance of success
-.hs-list-element.succ-none {
+.hs-list-element-icon.succ-none {
   background-color: lighten($col-succ-none, 10%);
   border: 2px dashed $col-succ-none; 
   box-shadow: $box-shadow-none;
@@ -74,18 +82,19 @@ $hs-list-element-icon-size: 470px 470px;
 }
 
 // Not implemented
-.hs-list-element.succ-not-implemented {
+.hs-list-element-icon.succ-not-implemented {
   color: #aaa;
   background-color: #eee;
   box-shadow: $box-shadow-none;
   border: 2px dashed #999;
 }
 
-.hs-list-element-icon {
 
-}
-
-.hs-list-element-initials {
-  display: none;
-  line-height: 1em;
+.hs-list-element-shortname {
+  width: 45px;
+  font-size: 70%;
+  text-align: center;
+  word-wrap: normal; 
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

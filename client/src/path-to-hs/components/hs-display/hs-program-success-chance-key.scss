@@ -1,0 +1,19 @@
+@import "../../../shared/styles/variables";
+
+.hs-program-success-chance-key {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  margin-left: -0.5em;
+  padding-bottom: 0.5em;
+  box-shadow: $box-shadow-z2;
+  text-align: center;
+}
+
+.hs-program-success-chance-example {
+  transform: scale(0.85);
+}
+
+.hs-program-success-chance-example > .hs-list-element-icon {
+  margin: 0 auto;
+}

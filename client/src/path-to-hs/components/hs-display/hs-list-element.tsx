@@ -102,17 +102,21 @@ class HSListElement extends React.PureComponent<HSListElemProps, HSListElemState
 
   render() {
     return (
+    <div className="hs-list-element">
       <div 
-        className={"hs-list-element" + " " + this.outcomeToClassName(this.getCombinedSuccessChance(this.state.applicationResult.outcome, this.state.selectionResult.outcome))}
+        className={"hs-list-element-icon" + " " + this.outcomeToClassName(this.getCombinedSuccessChance(this.state.applicationResult.outcome, this.state.selectionResult.outcome))}
         onMouseEnter={() => this.setState({showHSPreview: true})}
         onMouseLeave={() => this.setState({showHSPreview: false})}
         >
-        <span className="hs-list-element-initials">{this.toInitials(this.props.program.Long_Name)}</span>
         <HSProgramInfoCard 
           visible={this.state.showHSPreview} 
           program={this.props.program}
         />
       </div>
+      <div className="hs-list-element-shortname">
+        {this.props.program.Short_Name}
+      </div>
+    </div>
     )
   }
 
