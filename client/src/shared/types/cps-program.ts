@@ -20,6 +20,8 @@ interface CPSProgram {
         "School_Latitude": string
         "School_Longitude": string
         "Location": string
+        "Application_Requirements_Fn": string
+        "Program_Selections_Fn": string
 };
 
 export default CPSProgram;

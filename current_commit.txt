@@ -1,15 +1,13 @@
-Add geolocation to AddressTierCalculator
+Sort HSListElements by success chance
 
-* modify getTier
-* add geolocation to response from AddressTierCalculator
-* add Geolocation type to shared/types
-* convert StudentData.latitude and StudentData.longitude
-  to StudentData.geolocation using Geolocation type
-  ** modify attend bound function in hs-req-fns.ts to use
-    new geolocation property
+* simple/naive implentation in HSList, just
+  involves running a sort operation on list
+  of highschools passed to component. Sort
+  operation runs all requirement functions,
+  meaning each requirement function is called
+  twice with same StudentData; there's gotta be
+  a way to make that faster
 
-* fix bugs preventing StudentData from updating properly
-  ** fixed ell and iep dropdowns setting StudentData.ell
-    and StudentData.iep to string literals 'true' and 'false'
-  ** fixed bug preventing AddressTierCalculator's callback
-    methods from firing
+* add Application_Requirements_Fn and
+  Program_Selections_Fn to CPSProgram type,
+  which somehow had been missing it
