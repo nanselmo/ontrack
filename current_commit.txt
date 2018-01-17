@@ -1,4 +1,6 @@
-Fix overflow issue on HSList
+Fix bug in requirement functions
 
-* fix is very quick and dirty -- just hid the x overflow
-  on HSList. It may cause problems in the future.
+* one function (COLLINS HS - General Education - Selection) 
+  had incorrect if/then logic, causing runtime errors
+
+

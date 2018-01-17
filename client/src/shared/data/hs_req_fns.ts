@@ -2839,9 +2839,9 @@ const HSReqFns: ReqFnTable = {
             student.attendancePercentage >= 85 ) {
 
             return {outcome: SuccessChance.CERTAIN};
-          } else {
-            return {outcome: SuccessChance.NONE};
           }
+        } else {
+          return {outcome: SuccessChance.NONE};
         }
       }
     },

@@ -64935,14 +64935,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var success_chance_1 = __webpack_require__(54);
 var get_req_fns_1 = __webpack_require__(214);
 var getCombinedSuccessChance = function (student, program) {
-    var reqFns = get_req_fns_1.default(program);
-    var applicationSuccess = reqFns.application(student, program).outcome;
-    var selectionSuccess = reqFns.selection(student, program).outcome;
-    if (applicationSuccess === success_chance_1.default.CERTAIN || applicationSuccess === success_chance_1.default.LIKELY) {
-        return selectionSuccess;
+    try {
+        var reqFns = get_req_fns_1.default(program);
+        var applicationSuccess = reqFns.application(student, program).outcome;
+        var selectionSuccess = reqFns.selection(student, program).outcome;
+        if (applicationSuccess === success_chance_1.default.CERTAIN || applicationSuccess === success_chance_1.default.LIKELY) {
+            return selectionSuccess;
+        }
+        else {
+            return applicationSuccess;
+        }
     }
-    else {
-        return applicationSuccess;
+    catch (e) {
+        console.log(e);
+        console.log(program);
     }
 };
 exports.default = getCombinedSuccessChance;
@@ -67713,9 +67719,9 @@ var HSReqFns = {
                     student.attendancePercentage >= 85) {
                     return { outcome: success_chance_ts_1.default.CERTAIN };
                 }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
             }
         }
     },
