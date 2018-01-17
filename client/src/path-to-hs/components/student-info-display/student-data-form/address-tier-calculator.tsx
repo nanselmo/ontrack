@@ -8,21 +8,26 @@ import {getTier, GetTierError} from "shared/util/get-tier";
 
 import "./address-tier-calculator.scss";
 
+type Geolocation = {latitude: number, longitude: number};
 interface AddressInfo {
   address: string
   tier: string
+  geolocation: Geolocation
 }
 
 interface AddrTierCalcProps {
   address: string | null
   tier: string | null
+  geolocation: Geolocation | null
   onAddressChange: (newAddress: string) => any
   onTierChange: (newTier: string) => any
+  onGeolocationChange: (newGeo: Geolocation) => any
 }
 
 interface AddrTierCalcState {
   address: string
   tier: string
+  geo: Geolocation
   request?: Promise<string> 
   timeoutInstance?: Timeout | null
   requestInProgress: boolean
@@ -34,8 +39,9 @@ export default class AddressTierCalculator extends React.Component<AddrTierCalcP
   constructor(props){
     super(props);
     this.state = {
-      address: props.address,
-      tier: props.tier,
+      address: props.address ? props.address : "",
+      tier: props.tier ? props.tier : "",
+      geo: props.geolocation ? props.geolocation : {latitude: 0, longitude: 0},
       timeoutInstance: null,
       requestInProgress: false,
       addressValidationState: null
@@ -64,7 +70,6 @@ export default class AddressTierCalculator extends React.Component<AddrTierCalcP
       tier: null
     });
 
-
     const validate = (address: string) => {
       // TODO: extend
       return address && address.length > 5;
@@ -79,14 +84,17 @@ export default class AddressTierCalculator extends React.Component<AddrTierCalcP
 
       // if address passes basic validation
       if (validate(address)) {
-        getTier(address).then( tier => {
+        getTier(address).then( ({tier, geo}) => {
           this.setState({
             tier: tier,
+            geo: geo,
             addressValidationState: "success"
           });
           this.setRequestInProgress(false);
-          // FIXME: does this wipe the validation state?
-          //this.props.onTierChange(tier);
+          this.props.onAddressChange(address.trim());
+          this.props.onTierChange(tier);
+          this.props.onGeolocationChange(geo);
+
         }).catch( err => {
           if (err === GetTierError.InvalidAddressErr) {
             this.setState({

@@ -1,5 +1,6 @@
 import TractTierTable from "../data/tract-tier-table"
 import createUrl from "shared/util/create-url";
+import Geolocation from "shared/types/geolocation";
 import * as JSONP from "browser-jsonp";
 
 export const GetTierError = {
@@ -8,12 +9,17 @@ export const GetTierError = {
   RequestFailedErr: new Error("Request Failed"),
 };
 
-export const getTier = (address: string): Promise<string> => {
+export interface GetTierResponse {
+  tier: string
+  geo: Geolocation
+};
+
+export const getTier = (address: string): Promise<GetTierResponse> => {
 
   return new Promise((resolve, reject) => {
-    getCensusTract(address).then( tract => {
+    getTractAndGeo(address).then( ({tract, geo}) => {
       lookupTierFromTract(tract).then( tier => {
-        resolve(tier);
+        resolve({tier, geo});
       }).catch( err => reject(GetTierError.NoTierFoundErr));
     }).catch( err => {
       if (err === GetTierError.RequestFailedErr){
@@ -40,6 +46,7 @@ interface GeocodingAPIResponse {
 }
 
 interface GeocodingAddressMatch {
+  coordinates: {x: number, y: number}
   geographies:{
     "Census Tracts": [{
       TRACT: string,
@@ -48,7 +55,7 @@ interface GeocodingAddressMatch {
   }
 }
 
-const getCensusTract = (address: string): Promise<string> => {
+const getTractAndGeo = (address: string): Promise<{tract: string, geo: Geolocation}> => {
   const API_BASE_URL = "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress";
   const apiParams: GeocodingAPIParams = {
     address: address,
@@ -75,9 +82,16 @@ const getCensusTract = (address: string): Promise<string> => {
     return response.result.addressMatches[0].geographies["Census Tracts"][0].BASENAME;
   };
 
+  const extractGeo = (response: GeocodingAPIResponse): Geolocation => {
+    const coords = response.result.addressMatches[0].coordinates;
+    return {latitude: coords.y, longitude: coords.x};
+  };
+
   return new Promise( (resolve, reject) => {
     sendRequest(API_BASE_URL, apiParams).then( res => {
-      resolve(extractTract(res));
+      const tract = extractTract(res);
+      const geo = extractGeo(res);
+      resolve({tract, geo});
     }).catch( e => reject(e));
   });
 };

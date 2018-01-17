@@ -46,6 +46,7 @@ class PathToHS extends React.Component<PathToHSProps, PathToHSState> {
   }
 
   private handleStudentDataChange = (newStudentData: StudentData) => {
+    console.log(newStudentData);
     this.setState({
       studentData: newStudentData,
       projectedStudentData: this.defaultProjectStudentData(newStudentData)

@@ -227,8 +227,8 @@ const inAttendanceBound = (student: StudentData, school: CPSProgram): boolean =>
     return num;
   };
 
-  const studentLat = tryParseFloat(student.latitude);
-  const studentLong = tryParseFloat(student.longitude);
+  const studentLat = student.geolocation.latitude;
+  const studentLong = student.geolocation.longitude;
   const schoolLat = tryParseFloat(school.School_Latitude);
   const schoolLong = tryParseFloat(school.School_Longitude);
 

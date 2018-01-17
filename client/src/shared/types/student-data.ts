@@ -1,5 +1,6 @@
 import StudentScores from "shared/types/student-scores";
 import AdditionalRequirements from "shared/types/additional-requirements";
+import Geolocation from "shared/types/geolocation";
 import Gender from "shared/enums/gender";
 
 type GradeLevel = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
@@ -10,8 +11,7 @@ export default interface StudentInfo {
   gender: Gender
 
   address: string
-  latitude: string
-  longitude: string
+  geolocation: Geolocation
   tier: string
 
   gradeLevel: GradeLevel

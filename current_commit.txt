@@ -1,22 +1,15 @@
-Refactor StudentDataForm
+Add geolocation to AddressTierCalculator
 
-* convert raw html form fields in student-data-form.tsx 
-  into new shared form fields components
-* deleted some unused old form field components in
-  shared/components/ui
-* fix incorrect validation of some form fields
-  * fix nwea percentile inputs allowing values <1 and >99
-  * fix grade inputs allowing values <0 and >100
-* add missing form fields for new properties on StudentData:
-  **  gender
-  **  attendance percentage
-  **  prev school
-  **  sibling current school
-* update api in data-access.ts to return CPS programs
-  grouped by program type only when asked for
-  ** updated components which call getHSProgramsByType
-  ** fixed bug which prevented proper returning of es programs
-* TODO IN FUTURE debounce input from Input components to avoid
-  constant validation checks / page updates. We're in a hurry,
-  so it'll have to stay messy for now.
-  
+* modify getTier
+* add geolocation to response from AddressTierCalculator
+* add Geolocation type to shared/types
+* convert StudentData.latitude and StudentData.longitude
+  to StudentData.geolocation using Geolocation type
+  ** modify attend bound function in hs-req-fns.ts to use
+    new geolocation property
+
+* fix bugs preventing StudentData from updating properly
+  ** fixed ell and iep dropdowns setting StudentData.ell
+    and StudentData.iep to string literals 'true' and 'false'
+  ** fixed bug preventing AddressTierCalculator's callback
+    methods from firing

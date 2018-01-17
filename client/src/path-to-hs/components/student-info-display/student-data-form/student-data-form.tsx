@@ -63,6 +63,7 @@ const StudentDataForm = (props: StudentDataFormProps) => {
   };
 
   const updateStudentData = (prop: string, value: any): void => {
+    console.log(`${prop}: ${value}`);
     if (props.studentData[prop] !== value) {
       const newStudentData = cloneAndExtend(props.studentData, {[prop]: value});
       props.onChange(newStudentData);
@@ -111,7 +112,7 @@ const StudentDataForm = (props: StudentDataFormProps) => {
       <DropdownInput
         label="Do you have an IEP?"
         value={props.studentData.iep ? "true" : "false"}
-        onChange={iep => updateStudentData("iep", iep)}
+        onChange={iep => updateStudentData("iep", iep === "true" ? true : false)}
       >
           <option value="true">Yes</option>
           <option value="false">No</option>
@@ -131,7 +132,7 @@ const StudentDataForm = (props: StudentDataFormProps) => {
       <DropdownInput
         label="Are you an English Language Learner?"
         value={props.studentData.ell ? "true" : "false"}
-        onChange={ell => updateStudentData("ell", ell)}
+        onChange={ell => updateStudentData("ell", ell === "true" ? true : false)}
       >
           <option value="true">Yes</option>
           <option value="false">No</option>
@@ -156,12 +157,13 @@ const StudentDataForm = (props: StudentDataFormProps) => {
       { hsPrograms.map( program => <option key={program.ID} value={program.ID}>{program.Short_Name + " - " + program.Program_Type}</option>)}
       </ComboBoxInput>
       
-      {/* TODO geolocate address */}
       <AddressTierCalculator
         address={props.studentData.address}
         tier={props.studentData.tier}
+        geolocation={props.studentData.geolocation}
         onAddressChange={address => updateStudentData("address", address)}
         onTierChange={tier => updateStudentData("tier", tier)}
+        onGeolocationChange={geolocation => updateStudentData("geolocation", geolocation)}
       />
 
       <NumberInput

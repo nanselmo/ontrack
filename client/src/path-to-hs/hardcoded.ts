@@ -22,8 +22,7 @@ export const MOCK_STUDENT_DATA: StudentData = {
   scores: MOCK_STUDENT_SCORES,
   attendancePercentage: 85,
   gpa: 2.5,
-  latitude: "41.8073824",
-  longitude: "-87.6657907",
+  geolocation: {latitude: 41.8073824, longitude:-87.6657907},
   gender: Gender.FEMALE,
   prevGradeLevel: 7,
   siblingHSPrograms: []
