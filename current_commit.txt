@@ -1,4 +1,4 @@
-Fix HSInfoCard not displaying correct selection req outcome
+Fix overflow issue on HSList
 
-* typo caused application requirement function outcome to be
-  used for both
+* fix is very quick and dirty -- just hid the x overflow
+  on HSList. It may cause problems in the future.

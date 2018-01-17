@@ -18,7 +18,7 @@ const HSDisplay: React.SFC<HSDisplayProps> = (props) => {
   return (
     <Box width="half" height="full" responsiveBehavior={{mobile: "fullscreen"}}>
       <HSProgramSuccessChanceKey/>
-      <div style={{width: "100%", height: "100%", overflowY: "auto"}}>
+      <div style={{width: "100%", height: "100%", overflowY: "auto", overflowX:"hidden"}}>
         { Object.keys(props.hsData).map( (programType: string) => {
         return <HSProgramType
           programType={programType}

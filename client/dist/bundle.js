@@ -64825,7 +64825,7 @@ var hs_program_success_chance_key_1 = __webpack_require__(524);
 var HSDisplay = function (props) {
     return (React.createElement(box_1.default, { width: "half", height: "full", responsiveBehavior: { mobile: "fullscreen" } },
         React.createElement(hs_program_success_chance_key_1.default, null),
-        React.createElement("div", { style: { width: "100%", height: "100%", overflowY: "auto" } }, Object.keys(props.hsData).map(function (programType) {
+        React.createElement("div", { style: { width: "100%", height: "100%", overflowY: "auto", overflowX: "hidden" } }, Object.keys(props.hsData).map(function (programType) {
             return React.createElement(hs_program_type_1.default, { programType: programType, programs: props.hsData[programType], studentData: props.studentData, key: programType });
         }))));
 };
