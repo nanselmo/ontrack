@@ -65,7 +65,7 @@ const HSProgramInfoCard = (props: HSInfoCardProps) => {
               </div>
             </div>
             <div className="hs-info-card-req-success">
-              {toMessage(props.applicationSuccess)}
+              {toMessage(props.selectionSuccess)}
             </div>
           </div>
         </div>

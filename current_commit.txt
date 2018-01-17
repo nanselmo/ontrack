@@ -1,3 +1,4 @@
-Change text of HSProgramSuccessChanceKey to be more accurate
+Fix HSInfoCard not displaying correct selection req outcome
 
-* increase height of key in order that hs program icons fit
+* typo caused application requirement function outcome to be
+  used for both

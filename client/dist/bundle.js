@@ -68634,7 +68634,7 @@ var HSProgramInfoCard = function (props) {
                     React.createElement("div", { className: "hs-info-card-req-desc-container" },
                         "To Be Selected:",
                         React.createElement("div", { className: "hs-info-card-req-desc" }, props.program.Program_Selections)),
-                    React.createElement("div", { className: "hs-info-card-req-success" }, toMessage(props.applicationSuccess)))))));
+                    React.createElement("div", { className: "hs-info-card-req-success" }, toMessage(props.selectionSuccess)))))));
 };
 exports.default = HSProgramInfoCard;
 
