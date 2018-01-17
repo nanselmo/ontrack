@@ -1,27 +1,32 @@
 import CPSPrograms from "shared/types/cps-programs";
 import CPSProgram from "shared/types/cps-program";
 import isESProgram from "shared/util/is-es-program";
-import isHSProgram from "shared/util/is-es-program";
+import isHSProgram from "shared/util/is-hs-program";
 
 declare const require:any;
 const cpsPrograms: CPSProgram[] = require("../../shared/data/cps_programs.json");
 
 // returns all programs, including elementary school programs and
 // high school programs
-export const getAllPrograms = (): CPSPrograms => {
+export const getAllProgramsByProgramType = (): CPSPrograms => {
   const programs: CPSPrograms = groupByProgramType(cpsPrograms);
   return programs;
 };
 
 // returns just high school programs
-export const getHSPrograms = (): CPSPrograms => {
+export const getHSPrograms = (): CPSProgram[] => {
+  const programs = cpsPrograms.filter(isHSProgram);
+  return programs;
+};
+
+export const getHSProgramsByType = (): CPSPrograms => {
   const programs = groupByProgramType(cpsPrograms.filter(isHSProgram));
   return programs;
 };
 
 // returns just elementary school programs
-export const getESPrograms = (): CPSPrograms => {
-  const programs = groupByProgramType(cpsPrograms.filter(isESProgram));
+export const getESPrograms = (): CPSProgram[] => {
+  const programs = cpsPrograms.filter(isESProgram);
   return programs;
 };
 

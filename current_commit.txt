@@ -1,16 +1,22 @@
-[WIP] Refactor StudentDataForm
+Refactor StudentDataForm
 
-* DONE convert raw html form fields in student-data-form.tsx 
+* convert raw html form fields in student-data-form.tsx 
   into new shared form fields components
-* WIP redo styling of form field components, 
-  remove react-bootstrap depenendency
-* DONE deleted some unused old form field components in
+* deleted some unused old form field components in
   shared/components/ui
-* TODO fix incorrect validation of some form fields
+* fix incorrect validation of some form fields
   * fix nwea percentile inputs allowing values <1 and >99
   * fix grade inputs allowing values <0 and >100
-* TODO add missing form fields for new properties on StudentData:
-  ** gender
-  ** prev school
-  ** sibling current school
-  ** attendance percentage
+* add missing form fields for new properties on StudentData:
+  **  gender
+  **  attendance percentage
+  **  prev school
+  **  sibling current school
+* update api in data-access.ts to return CPS programs
+  grouped by program type only when asked for
+  ** updated components which call getHSProgramsByType
+  ** fixed bug which prevented proper returning of es programs
+* TODO IN FUTURE debounce input from Input components to avoid
+  constant validation checks / page updates. We're in a hurry,
+  so it'll have to stay messy for now.
+  
