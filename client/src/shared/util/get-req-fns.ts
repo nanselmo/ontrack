@@ -4,7 +4,7 @@ import HSReqFns from "shared/data/hs_req_fns.ts";
 import SuccessChance from "shared/enums/success-chance";
 
 
-const getReqFns = (program: CPSProgram): {application: HSRequirementFunction, selection: HSRequirementFunction} => {
+const getReqFn = (program: CPSProgram): {application: HSRequirementFunction, selection: HSRequirementFunction} => {
 
   const applFnID = program.Application_Requirements_Fn;
   const selFnID = program.Program_Selections_Fn;
@@ -32,4 +32,4 @@ const getReqFns = (program: CPSProgram): {application: HSRequirementFunction, se
                                         
 
 
-export default getReqFns;
+export default getReqFn;

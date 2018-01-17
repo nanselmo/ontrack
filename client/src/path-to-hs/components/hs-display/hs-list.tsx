@@ -3,7 +3,8 @@ import * as React from "react";
 import CPSProgram from "shared/types/cps-program";
 import StudentData from "shared/types/student-data";
 import SuccessChance from "shared/enums/success-chance";
-import getReqFn from "shared/util/get-req-fn";
+import getReqFns from "shared/util/get-req-fns";
+import getCombinedSuccessChance from "shared/util/get-combined-success-chance";
 
 import HSListElement from "./hs-list-element";
 
@@ -26,9 +27,8 @@ const HSList: React.SFC<HSListProps> = (props) => {
 
     for (let i = 0; i < programs.length; i++) {
       const program = programs[i];
-      const selectionReqFn = getReqFn(program.Program_Selections_Fn);
-      const res = selectionReqFn(student, program);
-      switch (res.outcome){
+      const successChance = getCombinedSuccessChance(student, program);
+      switch (successChance){
         case SuccessChance.CERTAIN:
           certain.push(program);
         break;

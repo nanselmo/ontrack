@@ -287,7 +287,7 @@ exports.default = function (instance, Constructor) {
 
 exports.__esModule = true;
 
-var _typeof2 = __webpack_require__(118);
+var _typeof2 = __webpack_require__(119);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -318,7 +318,7 @@ var _create = __webpack_require__(381);
 
 var _create2 = _interopRequireDefault(_create);
 
-var _typeof2 = __webpack_require__(118);
+var _typeof2 = __webpack_require__(119);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -501,7 +501,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_entries___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_entries__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant__ = __webpack_require__(76);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant__ = __webpack_require__(77);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_prop_types__);
@@ -898,7 +898,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _createChainableTypeChecker = __webpack_require__(77);
+var _createChainableTypeChecker = __webpack_require__(78);
 
 var _createChainableTypeChecker2 = _interopRequireDefault(_createChainableTypeChecker);
 
@@ -2574,7 +2574,7 @@ var CallbackQueue = __webpack_require__(144);
 var PooledClass = __webpack_require__(39);
 var ReactFeatureFlags = __webpack_require__(145);
 var ReactReconciler = __webpack_require__(44);
-var Transaction = __webpack_require__(68);
+var Transaction = __webpack_require__(69);
 
 var invariant = __webpack_require__(10);
 
@@ -2818,8 +2818,8 @@ if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 /* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var store      = __webpack_require__(114)('wks')
-  , uid        = __webpack_require__(75)
+var store      = __webpack_require__(115)('wks')
+  , uid        = __webpack_require__(76)
   , Symbol     = __webpack_require__(35).Symbol
   , USE_SYMBOL = typeof Symbol == 'function';
 
@@ -3459,7 +3459,7 @@ module.exports = DOMProperty;
 
 var global    = __webpack_require__(35)
   , core      = __webpack_require__(29)
-  , ctx       = __webpack_require__(108)
+  , ctx       = __webpack_require__(109)
   , hide      = __webpack_require__(46)
   , PROTOTYPE = 'prototype';
 
@@ -3534,7 +3534,7 @@ if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
 
 // to indexed object, toObject with fallback for non-array-like ES3 strings
 var IObject = __webpack_require__(173)
-  , defined = __webpack_require__(111);
+  , defined = __webpack_require__(112);
 module.exports = function(it){
   return IObject(defined(it));
 };
@@ -3574,7 +3574,7 @@ var _assign = __webpack_require__(14);
 var ReactCurrentOwner = __webpack_require__(27);
 
 var warning = __webpack_require__(11);
-var canDefineProperty = __webpack_require__(65);
+var canDefineProperty = __webpack_require__(66);
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 
 var REACT_ELEMENT_TYPE = __webpack_require__(135);
@@ -4023,7 +4023,7 @@ module.exports = PooledClass;
 
 var anObject       = __webpack_require__(47)
   , IE8_DOM_DEFINE = __webpack_require__(170)
-  , toPrimitive    = __webpack_require__(109)
+  , toPrimitive    = __webpack_require__(110)
   , dP             = Object.defineProperty;
 
 exports.f = __webpack_require__(48) ? Object.defineProperty : function defineProperty(O, P, Attributes){
@@ -4081,8 +4081,8 @@ var createFactory = ReactElement.createFactory;
 var cloneElement = ReactElement.cloneElement;
 
 if (process.env.NODE_ENV !== 'production') {
-  var lowPriorityWarning = __webpack_require__(89);
-  var canDefineProperty = __webpack_require__(65);
+  var lowPriorityWarning = __webpack_require__(90);
+  var canDefineProperty = __webpack_require__(66);
   var ReactElementValidator = __webpack_require__(137);
   var didWarnPropTypesDeprecated = false;
   createElement = ReactElementValidator.createElement;
@@ -4418,10 +4418,10 @@ module.exports = ReactReconciler;
 
 
 
-var DOMNamespaces = __webpack_require__(97);
-var setInnerHTML = __webpack_require__(70);
+var DOMNamespaces = __webpack_require__(98);
+var setInnerHTML = __webpack_require__(71);
 
-var createMicrosoftUnsafeLocalFunction = __webpack_require__(98);
+var createMicrosoftUnsafeLocalFunction = __webpack_require__(99);
 var setTextContent = __webpack_require__(149);
 
 var ELEMENT_NODE_TYPE = 1;
@@ -4529,7 +4529,7 @@ module.exports = DOMLazyTree;
 /***/ (function(module, exports, __webpack_require__) {
 
 var dP         = __webpack_require__(40)
-  , createDesc = __webpack_require__(60);
+  , createDesc = __webpack_require__(61);
 module.exports = __webpack_require__(48) ? function(object, key, value){
   return dP.f(object, key, createDesc(1, value));
 } : function(object, key, value){
@@ -4541,7 +4541,7 @@ module.exports = __webpack_require__(48) ? function(object, key, value){
 /* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(58);
+var isObject = __webpack_require__(59);
 module.exports = function(it){
   if(!isObject(it))throw TypeError(it + ' is not an object!');
   return it;
@@ -4552,7 +4552,7 @@ module.exports = function(it){
 /***/ (function(module, exports, __webpack_require__) {
 
 // Thank's IE8 for his funny defineProperty
-module.exports = !__webpack_require__(59)(function(){
+module.exports = !__webpack_require__(60)(function(){
   return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
 });
 
@@ -4562,7 +4562,7 @@ module.exports = !__webpack_require__(59)(function(){
 
 // 19.1.2.14 / 15.2.3.14 Object.keys(O)
 var $keys       = __webpack_require__(172)
-  , enumBugKeys = __webpack_require__(115);
+  , enumBugKeys = __webpack_require__(116);
 
 module.exports = Object.keys || function keys(O){
   return $keys(O, enumBugKeys);
@@ -4660,6 +4660,26 @@ module.exports = exports['default'];
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var SuccessChance;
+(function (SuccessChance) {
+    SuccessChance[SuccessChance["CERTAIN"] = 0] = "CERTAIN";
+    SuccessChance[SuccessChance["LIKELY"] = 1] = "LIKELY";
+    SuccessChance[SuccessChance["UNCERTAIN"] = 2] = "UNCERTAIN";
+    SuccessChance[SuccessChance["UNLIKELY"] = 3] = "UNLIKELY";
+    SuccessChance[SuccessChance["NONE"] = 4] = "NONE";
+    SuccessChance[SuccessChance["NOTIMPLEMENTED"] = 5] = "NOTIMPLEMENTED";
+})(SuccessChance || (SuccessChance = {}));
+;
+exports.default = SuccessChance;
+
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -4672,8 +4692,8 @@ module.exports = exports['default'];
 
 
 
-var EventPluginHub = __webpack_require__(55);
-var EventPluginUtils = __webpack_require__(91);
+var EventPluginHub = __webpack_require__(56);
+var EventPluginUtils = __webpack_require__(92);
 
 var accumulateInto = __webpack_require__(141);
 var forEachAccumulated = __webpack_require__(142);
@@ -4796,7 +4816,7 @@ module.exports = EventPropagators;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4814,9 +4834,9 @@ module.exports = EventPropagators;
 
 var _prodInvariant = __webpack_require__(12);
 
-var EventPluginRegistry = __webpack_require__(67);
-var EventPluginUtils = __webpack_require__(91);
-var ReactErrorUtils = __webpack_require__(92);
+var EventPluginRegistry = __webpack_require__(68);
+var EventPluginUtils = __webpack_require__(92);
+var ReactErrorUtils = __webpack_require__(93);
 
 var accumulateInto = __webpack_require__(141);
 var forEachAccumulated = __webpack_require__(142);
@@ -5076,7 +5096,7 @@ module.exports = EventPluginHub;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5094,7 +5114,7 @@ module.exports = EventPluginHub;
 
 var SyntheticEvent = __webpack_require__(32);
 
-var getEventTarget = __webpack_require__(93);
+var getEventTarget = __webpack_require__(94);
 
 /**
  * @interface UIEvent
@@ -5140,7 +5160,7 @@ SyntheticEvent.augmentClass(SyntheticUIEvent, UIEventInterface);
 module.exports = SyntheticUIEvent;
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5191,7 +5211,7 @@ var ReactInstanceMap = {
 module.exports = ReactInstanceMap;
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports) {
 
 module.exports = function(it){
@@ -5199,7 +5219,7 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports) {
 
 module.exports = function(exec){
@@ -5211,7 +5231,7 @@ module.exports = function(exec){
 };
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports) {
 
 module.exports = function(bitmap, value){
@@ -5224,19 +5244,19 @@ module.exports = function(bitmap, value){
 };
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports) {
 
 exports.f = {}.propertyIsEnumerable;
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports) {
 
 module.exports = {};
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5360,7 +5380,7 @@ Button.defaultProps = defaultProps;
 /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_10__utils_bootstrapUtils__["bsClass"]('btn', __WEBPACK_IMPORTED_MODULE_10__utils_bootstrapUtils__["bsSizes"]([__WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__["c" /* Size */].LARGE, __WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__["c" /* Size */].SMALL, __WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__["c" /* Size */].XSMALL], __WEBPACK_IMPORTED_MODULE_10__utils_bootstrapUtils__["bsStyles"]([].concat(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_values___default.a(__WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__["d" /* State */]), [__WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__["e" /* Style */].DEFAULT, __WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__["e" /* Style */].PRIMARY, __WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__["e" /* Style */].LINK]), __WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__["e" /* Style */].DEFAULT, Button))));
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5397,7 +5417,7 @@ exports.default = (0, _createUncontrollable2.default)(mixin, set);
 module.exports = exports['default'];
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5429,7 +5449,7 @@ module.exports = canDefineProperty;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5455,7 +5475,7 @@ module.exports = emptyObject;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5714,7 +5734,7 @@ module.exports = EventPluginRegistry;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5948,7 +5968,7 @@ module.exports = TransactionImpl;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 69 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5964,10 +5984,10 @@ module.exports = TransactionImpl;
 
 
 
-var SyntheticUIEvent = __webpack_require__(56);
+var SyntheticUIEvent = __webpack_require__(57);
 var ViewportMetrics = __webpack_require__(148);
 
-var getEventModifierState = __webpack_require__(95);
+var getEventModifierState = __webpack_require__(96);
 
 /**
  * @interface MouseEvent
@@ -6025,7 +6045,7 @@ SyntheticUIEvent.augmentClass(SyntheticMouseEvent, MouseEventInterface);
 module.exports = SyntheticMouseEvent;
 
 /***/ }),
-/* 70 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6042,12 +6062,12 @@ module.exports = SyntheticMouseEvent;
 
 
 var ExecutionEnvironment = __webpack_require__(17);
-var DOMNamespaces = __webpack_require__(97);
+var DOMNamespaces = __webpack_require__(98);
 
 var WHITESPACE_TEST = /^[ \r\n\t\f]/;
 var NONVISIBLE_TEST = /<(!--|link|noscript|meta|script|style)[ \r\n\t\f\/>]/;
 
-var createMicrosoftUnsafeLocalFunction = __webpack_require__(98);
+var createMicrosoftUnsafeLocalFunction = __webpack_require__(99);
 
 // SVG temp container for IE lacking innerHTML
 var reusableSVGContainer;
@@ -6128,7 +6148,7 @@ if (ExecutionEnvironment.canUseDOM) {
 module.exports = setInnerHTML;
 
 /***/ }),
-/* 71 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6255,7 +6275,7 @@ function escapeTextContentForBrowser(text) {
 module.exports = escapeTextContentForBrowser;
 
 /***/ }),
-/* 72 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6273,12 +6293,12 @@ module.exports = escapeTextContentForBrowser;
 
 var _assign = __webpack_require__(14);
 
-var EventPluginRegistry = __webpack_require__(67);
+var EventPluginRegistry = __webpack_require__(68);
 var ReactEventEmitterMixin = __webpack_require__(264);
 var ViewportMetrics = __webpack_require__(148);
 
 var getVendorPrefixedEventName = __webpack_require__(265);
-var isEventSupported = __webpack_require__(94);
+var isEventSupported = __webpack_require__(95);
 
 /**
  * Summary of `ReactBrowserEventEmitter` event handling:
@@ -6584,7 +6604,7 @@ var ReactBrowserEventEmitter = _assign({}, ReactEventEmitterMixin, {
 module.exports = ReactBrowserEventEmitter;
 
 /***/ }),
-/* 73 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6608,7 +6628,7 @@ exports.cloneAndExtend = function (targetObject) {
 
 
 /***/ }),
-/* 74 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6627,7 +6647,7 @@ exports.default = ScoreType;
 
 
 /***/ }),
-/* 75 */
+/* 76 */
 /***/ (function(module, exports) {
 
 var id = 0
@@ -6637,7 +6657,7 @@ module.exports = function(key){
 };
 
 /***/ }),
-/* 76 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6696,7 +6716,7 @@ module.exports = invariant;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 77 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6745,7 +6765,7 @@ function createChainableTypeChecker(validate) {
 module.exports = exports['default'];
 
 /***/ }),
-/* 78 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6756,7 +6776,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = all;
 
-var _createChainableTypeChecker = __webpack_require__(77);
+var _createChainableTypeChecker = __webpack_require__(78);
 
 var _createChainableTypeChecker2 = _interopRequireDefault(_createChainableTypeChecker);
 
@@ -6793,7 +6813,7 @@ function all() {
 module.exports = exports['default'];
 
 /***/ }),
-/* 79 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6861,7 +6881,7 @@ function style(node, property, value) {
 module.exports = exports['default'];
 
 /***/ }),
-/* 80 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6898,7 +6918,7 @@ exports.default = on;
 module.exports = exports['default'];
 
 /***/ }),
-/* 81 */
+/* 82 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6918,7 +6938,7 @@ module.exports = exports['default'];
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_dom_helpers_activeElement___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_dom_helpers_activeElement__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_dom_helpers_query_contains__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_dom_helpers_query_contains___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_dom_helpers_query_contains__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_keycode__ = __webpack_require__(128);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_keycode__ = __webpack_require__(129);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_keycode___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_keycode__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_react__);
@@ -6926,17 +6946,17 @@ module.exports = exports['default'];
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_react_dom__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_prop_types_extra_lib_all__ = __webpack_require__(78);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_prop_types_extra_lib_all__ = __webpack_require__(79);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_prop_types_extra_lib_all___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12_prop_types_extra_lib_all__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_prop_types_extra_lib_elementType__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_prop_types_extra_lib_elementType___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13_prop_types_extra_lib_elementType__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_prop_types_extra_lib_isRequiredForA11y__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_prop_types_extra_lib_isRequiredForA11y__ = __webpack_require__(83);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_prop_types_extra_lib_isRequiredForA11y___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14_prop_types_extra_lib_isRequiredForA11y__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_uncontrollable__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_uncontrollable__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_uncontrollable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15_uncontrollable__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_warning__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__ButtonGroup__ = __webpack_require__(125);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__ButtonGroup__ = __webpack_require__(126);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__DropdownMenu__ = __webpack_require__(408);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__DropdownToggle__ = __webpack_require__(192);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__utils_bootstrapUtils__ = __webpack_require__(9);
@@ -7294,7 +7314,7 @@ UncontrolledDropdown.Menu = __WEBPACK_IMPORTED_MODULE_18__DropdownMenu__["a" /* 
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
 /***/ }),
-/* 82 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7323,7 +7343,7 @@ function isRequiredForA11y(validator) {
 module.exports = exports['default'];
 
 /***/ }),
-/* 83 */
+/* 84 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7352,7 +7372,7 @@ function splitComponentProps(props, Component) {
 }
 
 /***/ }),
-/* 84 */
+/* 85 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7470,7 +7490,7 @@ Fade.defaultProps = defaultProps;
 /* harmony default export */ __webpack_exports__["a"] = (Fade);
 
 /***/ }),
-/* 85 */
+/* 86 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7564,7 +7584,7 @@ Media.ListItem = __WEBPACK_IMPORTED_MODULE_12__MediaListItem__["a" /* default */
 /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_14__utils_bootstrapUtils__["bsClass"]('media', Media));
 
 /***/ }),
-/* 86 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7580,7 +7600,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _createChainableTypeChecker = __webpack_require__(77);
+var _createChainableTypeChecker = __webpack_require__(78);
 
 var _createChainableTypeChecker2 = _interopRequireDefault(_createChainableTypeChecker);
 
@@ -7605,7 +7625,7 @@ exports.default = (0, _createChainableTypeChecker2.default)(validate);
 module.exports = exports['default'];
 
 /***/ }),
-/* 87 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7621,7 +7641,7 @@ function getWindow(node) {
 module.exports = exports["default"];
 
 /***/ }),
-/* 88 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7643,7 +7663,7 @@ function getContainer(container, defaultContainer) {
 module.exports = exports['default'];
 
 /***/ }),
-/* 89 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7714,7 +7734,7 @@ module.exports = lowPriorityWarning;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 90 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7735,7 +7755,7 @@ module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
-/* 91 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7753,7 +7773,7 @@ module.exports = ReactPropTypesSecret;
 
 var _prodInvariant = __webpack_require__(12);
 
-var ReactErrorUtils = __webpack_require__(92);
+var ReactErrorUtils = __webpack_require__(93);
 
 var invariant = __webpack_require__(10);
 var warning = __webpack_require__(11);
@@ -7967,7 +7987,7 @@ module.exports = EventPluginUtils;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 92 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8049,7 +8069,7 @@ module.exports = ReactErrorUtils;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 93 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8089,7 +8109,7 @@ function getEventTarget(nativeEvent) {
 module.exports = getEventTarget;
 
 /***/ }),
-/* 94 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8154,7 +8174,7 @@ function isEventSupported(eventNameSuffix, capture) {
 module.exports = isEventSupported;
 
 /***/ }),
-/* 95 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8202,7 +8222,7 @@ function getEventModifierState(nativeEvent) {
 module.exports = getEventModifierState;
 
 /***/ }),
-/* 96 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8223,8 +8243,8 @@ var Danger = __webpack_require__(249);
 var ReactDOMComponentTree = __webpack_require__(15);
 var ReactInstrumentation = __webpack_require__(25);
 
-var createMicrosoftUnsafeLocalFunction = __webpack_require__(98);
-var setInnerHTML = __webpack_require__(70);
+var createMicrosoftUnsafeLocalFunction = __webpack_require__(99);
+var setInnerHTML = __webpack_require__(71);
 var setTextContent = __webpack_require__(149);
 
 function getNodeAfter(parentNode, node) {
@@ -8434,7 +8454,7 @@ module.exports = DOMChildrenOperations;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 97 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8459,7 +8479,7 @@ var DOMNamespaces = {
 module.exports = DOMNamespaces;
 
 /***/ }),
-/* 98 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8496,7 +8516,7 @@ var createMicrosoftUnsafeLocalFunction = function (func) {
 module.exports = createMicrosoftUnsafeLocalFunction;
 
 /***/ }),
-/* 99 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8640,7 +8660,7 @@ module.exports = LinkedValueUtils;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 100 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8690,7 +8710,7 @@ module.exports = ReactComponentEnvironment;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 101 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8763,7 +8783,7 @@ function shallowEqual(objA, objB) {
 module.exports = shallowEqual;
 
 /***/ }),
-/* 102 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8810,7 +8830,7 @@ function shouldUpdateReactComponent(prevElement, nextElement) {
 module.exports = shouldUpdateReactComponent;
 
 /***/ }),
-/* 103 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8874,7 +8894,7 @@ var KeyEscapeUtils = {
 module.exports = KeyEscapeUtils;
 
 /***/ }),
-/* 104 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8893,7 +8913,7 @@ module.exports = KeyEscapeUtils;
 var _prodInvariant = __webpack_require__(12);
 
 var ReactCurrentOwner = __webpack_require__(27);
-var ReactInstanceMap = __webpack_require__(57);
+var ReactInstanceMap = __webpack_require__(58);
 var ReactInstrumentation = __webpack_require__(25);
 var ReactUpdates = __webpack_require__(28);
 
@@ -9114,7 +9134,7 @@ module.exports = ReactUpdateQueue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 105 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9491,7 +9511,7 @@ module.exports = validateDOMNesting;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 106 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9546,7 +9566,7 @@ function getEventCharCode(nativeEvent) {
 module.exports = getEventCharCode;
 
 /***/ }),
-/* 107 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9563,7 +9583,7 @@ exports.default = Gender;
 
 
 /***/ }),
-/* 108 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // optional / simple context binding
@@ -9588,11 +9608,11 @@ module.exports = function(fn, that, length){
 };
 
 /***/ }),
-/* 109 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.1 ToPrimitive(input [, PreferredType])
-var isObject = __webpack_require__(58);
+var isObject = __webpack_require__(59);
 // instead of the ES6 spec version, we didn't implement @@toPrimitive case
 // and the second argument - flag - preferred type is a string
 module.exports = function(it, S){
@@ -9605,7 +9625,7 @@ module.exports = function(it, S){
 };
 
 /***/ }),
-/* 110 */
+/* 111 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -9615,7 +9635,7 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 111 */
+/* 112 */
 /***/ (function(module, exports) {
 
 // 7.2.1 RequireObjectCoercible(argument)
@@ -9625,7 +9645,7 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 112 */
+/* 113 */
 /***/ (function(module, exports) {
 
 // 7.1.4 ToInteger
@@ -9636,17 +9656,17 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 113 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var shared = __webpack_require__(114)('keys')
-  , uid    = __webpack_require__(75);
+var shared = __webpack_require__(115)('keys')
+  , uid    = __webpack_require__(76);
 module.exports = function(key){
   return shared[key] || (shared[key] = uid(key));
 };
 
 /***/ }),
-/* 114 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(35)
@@ -9657,7 +9677,7 @@ module.exports = function(key){
 };
 
 /***/ }),
-/* 115 */
+/* 116 */
 /***/ (function(module, exports) {
 
 // IE 8- don't enum bug keys
@@ -9666,23 +9686,23 @@ module.exports = (
 ).split(',');
 
 /***/ }),
-/* 116 */
+/* 117 */
 /***/ (function(module, exports) {
 
 exports.f = Object.getOwnPropertySymbols;
 
 /***/ }),
-/* 117 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.13 ToObject(argument)
-var defined = __webpack_require__(111);
+var defined = __webpack_require__(112);
 module.exports = function(it){
   return Object(defined(it));
 };
 
 /***/ }),
-/* 118 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9709,20 +9729,20 @@ exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.d
 };
 
 /***/ }),
-/* 119 */
+/* 120 */
 /***/ (function(module, exports) {
 
 module.exports = true;
 
 /***/ }),
-/* 120 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 var anObject    = __webpack_require__(47)
   , dPs         = __webpack_require__(359)
-  , enumBugKeys = __webpack_require__(115)
-  , IE_PROTO    = __webpack_require__(113)('IE_PROTO')
+  , enumBugKeys = __webpack_require__(116)
+  , IE_PROTO    = __webpack_require__(114)('IE_PROTO')
   , Empty       = function(){ /* empty */ }
   , PROTOTYPE   = 'prototype';
 
@@ -9762,7 +9782,7 @@ module.exports = Object.create || function create(O, Properties){
 
 
 /***/ }),
-/* 121 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var def = __webpack_require__(40).f
@@ -9774,19 +9794,19 @@ module.exports = function(it, tag, stat){
 };
 
 /***/ }),
-/* 122 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports.f = __webpack_require__(30);
 
 /***/ }),
-/* 123 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global         = __webpack_require__(35)
   , core           = __webpack_require__(29)
-  , LIBRARY        = __webpack_require__(119)
-  , wksExt         = __webpack_require__(122)
+  , LIBRARY        = __webpack_require__(120)
+  , wksExt         = __webpack_require__(123)
   , defineProperty = __webpack_require__(40).f;
 module.exports = function(name){
   var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
@@ -9794,7 +9814,7 @@ module.exports = function(name){
 };
 
 /***/ }),
-/* 124 */
+/* 125 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9866,7 +9886,7 @@ CloseButton.defaultProps = defaultProps;
 /* harmony default export */ __webpack_exports__["a"] = (CloseButton);
 
 /***/ }),
-/* 125 */
+/* 126 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9886,9 +9906,9 @@ CloseButton.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_all__ = __webpack_require__(78);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_all__ = __webpack_require__(79);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_all___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_all__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Button__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Button__ = __webpack_require__(64);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_bootstrapUtils__ = __webpack_require__(9);
 
 
@@ -9963,7 +9983,7 @@ ButtonGroup.defaultProps = defaultProps;
 /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_10__utils_bootstrapUtils__["bsClass"]('btn-group', ButtonGroup));
 
 /***/ }),
-/* 126 */
+/* 127 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10038,7 +10058,7 @@ Glyphicon.propTypes = propTypes;
 /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_8__utils_bootstrapUtils__["bsClass"]('glyphicon', Glyphicon));
 
 /***/ }),
-/* 127 */
+/* 128 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10054,7 +10074,7 @@ Glyphicon.propTypes = propTypes;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_classnames__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_classnames__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_dom_helpers_style__ = __webpack_require__(79);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_dom_helpers_style__ = __webpack_require__(80);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_dom_helpers_style___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_dom_helpers_style__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_react__);
@@ -10291,7 +10311,7 @@ Collapse.defaultProps = defaultProps;
 /* harmony default export */ __webpack_exports__["a"] = (Collapse);
 
 /***/ }),
-/* 128 */
+/* 129 */
 /***/ (function(module, exports) {
 
 // Source: http://jsfiddle.net/vWx8V/
@@ -10443,7 +10463,7 @@ for (var alias in aliases) {
 
 
 /***/ }),
-/* 129 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10474,7 +10494,7 @@ exports.default = off;
 module.exports = exports['default'];
 
 /***/ }),
-/* 130 */
+/* 131 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10490,7 +10510,7 @@ module.exports = exports['default'];
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_uncontrollable__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_uncontrollable__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_uncontrollable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_uncontrollable__);
 
 
@@ -10622,7 +10642,7 @@ TabContainer.childContextTypes = childContextTypes;
 /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_6_uncontrollable___default.a(TabContainer, { activeKey: 'onSelect' }));
 
 /***/ }),
-/* 131 */
+/* 132 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10832,26 +10852,6 @@ TabContent.childContextTypes = childContextTypes;
 /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_9__utils_bootstrapUtils__["bsClass"]('tab', TabContent));
 
 /***/ }),
-/* 132 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var SuccessChance;
-(function (SuccessChance) {
-    SuccessChance[SuccessChance["CERTAIN"] = 0] = "CERTAIN";
-    SuccessChance[SuccessChance["LIKELY"] = 1] = "LIKELY";
-    SuccessChance[SuccessChance["UNCERTAIN"] = 2] = "UNCERTAIN";
-    SuccessChance[SuccessChance["UNLIKELY"] = 3] = "UNLIKELY";
-    SuccessChance[SuccessChance["NONE"] = 4] = "NONE";
-    SuccessChance[SuccessChance["NOTIMPLEMENTED"] = 5] = "NOTIMPLEMENTED";
-})(SuccessChance || (SuccessChance = {}));
-;
-exports.default = SuccessChance;
-
-
-/***/ }),
 /* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10873,10 +10873,10 @@ var _prodInvariant = __webpack_require__(43),
 
 var ReactNoopUpdateQueue = __webpack_require__(134);
 
-var canDefineProperty = __webpack_require__(65);
-var emptyObject = __webpack_require__(66);
+var canDefineProperty = __webpack_require__(66);
+var emptyObject = __webpack_require__(67);
 var invariant = __webpack_require__(10);
-var lowPriorityWarning = __webpack_require__(89);
+var lowPriorityWarning = __webpack_require__(90);
 
 /**
  * Base class helpers for the updating state of a component.
@@ -11202,10 +11202,10 @@ var ReactElement = __webpack_require__(38);
 
 var checkReactTypeSpec = __webpack_require__(221);
 
-var canDefineProperty = __webpack_require__(65);
+var canDefineProperty = __webpack_require__(66);
 var getIteratorFn = __webpack_require__(136);
 var warning = __webpack_require__(11);
-var lowPriorityWarning = __webpack_require__(89);
+var lowPriorityWarning = __webpack_require__(90);
 
 function getDeclarationErrorAddendum() {
   if (ReactCurrentOwner.current) {
@@ -11481,7 +11481,7 @@ var emptyFunction = __webpack_require__(24);
 var invariant = __webpack_require__(10);
 var warning = __webpack_require__(11);
 
-var ReactPropTypesSecret = __webpack_require__(90);
+var ReactPropTypesSecret = __webpack_require__(91);
 var checkPropTypes = __webpack_require__(225);
 
 module.exports = function(isValidElement, throwOnDirectAccess) {
@@ -12526,8 +12526,8 @@ module.exports = ViewportMetrics;
 
 
 var ExecutionEnvironment = __webpack_require__(17);
-var escapeTextContentForBrowser = __webpack_require__(71);
-var setInnerHTML = __webpack_require__(70);
+var escapeTextContentForBrowser = __webpack_require__(72);
+var setInnerHTML = __webpack_require__(71);
 
 /**
  * Set the textContent property of a node, ensuring that whitespace is preserved
@@ -13038,7 +13038,7 @@ module.exports = ReactPropTypesSecret;
 
 var _assign = __webpack_require__(14);
 
-var LinkedValueUtils = __webpack_require__(99);
+var LinkedValueUtils = __webpack_require__(100);
 var ReactDOMComponentTree = __webpack_require__(15);
 var ReactUpdates = __webpack_require__(28);
 
@@ -13539,7 +13539,7 @@ var REACT_ELEMENT_TYPE = __webpack_require__(275);
 
 var getIteratorFn = __webpack_require__(276);
 var invariant = __webpack_require__(10);
-var KeyEscapeUtils = __webpack_require__(103);
+var KeyEscapeUtils = __webpack_require__(104);
 var warning = __webpack_require__(11);
 
 var SEPARATOR = '.';
@@ -13981,24 +13981,24 @@ var _prodInvariant = __webpack_require__(12);
 var DOMLazyTree = __webpack_require__(45);
 var DOMProperty = __webpack_require__(33);
 var React = __webpack_require__(42);
-var ReactBrowserEventEmitter = __webpack_require__(72);
+var ReactBrowserEventEmitter = __webpack_require__(73);
 var ReactCurrentOwner = __webpack_require__(27);
 var ReactDOMComponentTree = __webpack_require__(15);
 var ReactDOMContainerInfo = __webpack_require__(305);
 var ReactDOMFeatureFlags = __webpack_require__(306);
 var ReactFeatureFlags = __webpack_require__(145);
-var ReactInstanceMap = __webpack_require__(57);
+var ReactInstanceMap = __webpack_require__(58);
 var ReactInstrumentation = __webpack_require__(25);
 var ReactMarkupChecksum = __webpack_require__(307);
 var ReactReconciler = __webpack_require__(44);
-var ReactUpdateQueue = __webpack_require__(104);
+var ReactUpdateQueue = __webpack_require__(105);
 var ReactUpdates = __webpack_require__(28);
 
-var emptyObject = __webpack_require__(66);
+var emptyObject = __webpack_require__(67);
 var instantiateReactComponent = __webpack_require__(155);
 var invariant = __webpack_require__(10);
-var setInnerHTML = __webpack_require__(70);
-var shouldUpdateReactComponent = __webpack_require__(102);
+var setInnerHTML = __webpack_require__(71);
+var shouldUpdateReactComponent = __webpack_require__(103);
 var warning = __webpack_require__(11);
 
 var ATTR_NAME = DOMProperty.ID_ATTRIBUTE_NAME;
@@ -14571,7 +14571,7 @@ exports.default = Box;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var score_type_1 = __webpack_require__(74);
+var score_type_1 = __webpack_require__(75);
 exports.GradeConvertErrors = {
     BadScoreType: new Error("Incorrect ScoreType passed to GradeConvert method"),
     BadScore: new Error("Bad score passed to GradeConvert method"),
@@ -14684,8 +14684,8 @@ exports.toLetterGrade = function (grade) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var score_type_1 = __webpack_require__(74);
-var clone_1 = __webpack_require__(73);
+var score_type_1 = __webpack_require__(75);
+var clone_1 = __webpack_require__(74);
 exports.getAveragePercentileDifference = function (args) {
     var differences = [];
     for (var scoreType in score_type_1.default) {
@@ -14770,7 +14770,7 @@ module.exports = { "default": __webpack_require__(349), __esModule: true };
 /* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = !__webpack_require__(48) && !__webpack_require__(59)(function(){
+module.exports = !__webpack_require__(48) && !__webpack_require__(60)(function(){
   return Object.defineProperty(__webpack_require__(171)('div'), 'a', {get: function(){ return 7; }}).a != 7;
 });
 
@@ -14778,7 +14778,7 @@ module.exports = !__webpack_require__(48) && !__webpack_require__(59)(function()
 /* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(58)
+var isObject = __webpack_require__(59)
   , document = __webpack_require__(35).document
   // in old IE typeof document.createElement is 'object'
   , is = isObject(document) && isObject(document.createElement);
@@ -14793,7 +14793,7 @@ module.exports = function(it){
 var has          = __webpack_require__(41)
   , toIObject    = __webpack_require__(36)
   , arrayIndexOf = __webpack_require__(353)(false)
-  , IE_PROTO     = __webpack_require__(113)('IE_PROTO');
+  , IE_PROTO     = __webpack_require__(114)('IE_PROTO');
 
 module.exports = function(object, names){
   var O      = toIObject(object)
@@ -14813,7 +14813,7 @@ module.exports = function(object, names){
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
-var cof = __webpack_require__(110);
+var cof = __webpack_require__(111);
 module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
   return cof(it) == 'String' ? it.split('') : Object(it);
 };
@@ -14823,7 +14823,7 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.15 ToLength
-var toInteger = __webpack_require__(112)
+var toInteger = __webpack_require__(113)
   , min       = Math.min;
 module.exports = function(it){
   return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
@@ -14858,14 +14858,14 @@ __webpack_require__(176)(String, 'String', function(iterated){
 
 "use strict";
 
-var LIBRARY        = __webpack_require__(119)
+var LIBRARY        = __webpack_require__(120)
   , $export        = __webpack_require__(34)
   , redefine       = __webpack_require__(177)
   , hide           = __webpack_require__(46)
   , has            = __webpack_require__(41)
-  , Iterators      = __webpack_require__(62)
+  , Iterators      = __webpack_require__(63)
   , $iterCreate    = __webpack_require__(358)
-  , setToStringTag = __webpack_require__(121)
+  , setToStringTag = __webpack_require__(122)
   , getPrototypeOf = __webpack_require__(361)
   , ITERATOR       = __webpack_require__(30)('iterator')
   , BUGGY          = !([].keys && 'next' in [].keys()) // Safari has buggy iterators w/o `next`
@@ -14940,7 +14940,7 @@ module.exports = __webpack_require__(46);
 
 // 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
 var $keys      = __webpack_require__(172)
-  , hiddenKeys = __webpack_require__(115).concat('length', 'prototype');
+  , hiddenKeys = __webpack_require__(116).concat('length', 'prototype');
 
 exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O){
   return $keys(O, hiddenKeys);
@@ -14950,10 +14950,10 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O){
 /* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var pIE            = __webpack_require__(61)
-  , createDesc     = __webpack_require__(60)
+var pIE            = __webpack_require__(62)
+  , createDesc     = __webpack_require__(61)
   , toIObject      = __webpack_require__(36)
-  , toPrimitive    = __webpack_require__(109)
+  , toPrimitive    = __webpack_require__(110)
   , has            = __webpack_require__(41)
   , IE8_DOM_DEFINE = __webpack_require__(170)
   , gOPD           = Object.getOwnPropertyDescriptor;
@@ -15118,7 +15118,7 @@ module.exports = { "default": __webpack_require__(385), __esModule: true };
 
 var getKeys   = __webpack_require__(49)
   , toIObject = __webpack_require__(36)
-  , isEnum    = __webpack_require__(61).f;
+  , isEnum    = __webpack_require__(62).f;
 module.exports = function(isEntries){
   return function(it){
     var O      = toIObject(it)
@@ -15553,7 +15553,7 @@ var _classnames = __webpack_require__(7);
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _on = __webpack_require__(80);
+var _on = __webpack_require__(81);
 
 var _on2 = _interopRequireDefault(_on);
 
@@ -16094,11 +16094,11 @@ exports.default = function (node, event, handler, capture) {
   };
 };
 
-var _on = __webpack_require__(80);
+var _on = __webpack_require__(81);
 
 var _on2 = _interopRequireDefault(_on);
 
-var _off = __webpack_require__(129);
+var _off = __webpack_require__(130);
 
 var _off2 = _interopRequireDefault(_off);
 
@@ -16127,7 +16127,7 @@ module.exports = exports['default'];
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_classnames__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_classnames__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Button__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Button__ = __webpack_require__(64);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__SafeAnchor__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_bootstrapUtils__ = __webpack_require__(9);
 
@@ -16501,7 +16501,7 @@ module.exports = exports["default"];
 exports.__esModule = true;
 exports.default = isOverflowing;
 
-var _isWindow = __webpack_require__(87);
+var _isWindow = __webpack_require__(88);
 
 var _isWindow2 = _interopRequireDefault(_isWindow);
 
@@ -16549,7 +16549,7 @@ var _propTypes = __webpack_require__(8);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _componentOrElement = __webpack_require__(86);
+var _componentOrElement = __webpack_require__(87);
 
 var _componentOrElement2 = _interopRequireDefault(_componentOrElement);
 
@@ -16561,7 +16561,7 @@ var _reactDom = __webpack_require__(19);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _getContainer = __webpack_require__(88);
+var _getContainer = __webpack_require__(89);
 
 var _getContainer2 = _interopRequireDefault(_getContainer);
 
@@ -16815,7 +16815,7 @@ ModalFooter.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils_bootstrapUtils__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_createChainedFunction__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__CloseButton__ = __webpack_require__(124);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__CloseButton__ = __webpack_require__(125);
 
 
 
@@ -17003,7 +17003,7 @@ ModalTitle.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_classnames__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_classnames__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_keycode__ = __webpack_require__(128);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_keycode__ = __webpack_require__(129);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_keycode___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_keycode__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_react__);
@@ -17011,7 +17011,7 @@ ModalTitle.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_react_dom__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_prop_types_extra_lib_all__ = __webpack_require__(78);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_prop_types_extra_lib_all__ = __webpack_require__(79);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_prop_types_extra_lib_all___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_prop_types_extra_lib_all__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_warning__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11_warning__);
@@ -17595,7 +17595,7 @@ NavItem.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_react_overlays_lib_Overlay___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_react_overlays_lib_Overlay__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_prop_types_extra_lib_elementType__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_prop_types_extra_lib_elementType___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_prop_types_extra_lib_elementType__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Fade__ = __webpack_require__(84);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Fade__ = __webpack_require__(85);
 
 
 
@@ -17733,7 +17733,7 @@ var _contains = __webpack_require__(52);
 
 var _contains2 = _interopRequireDefault(_contains);
 
-var _isWindow = __webpack_require__(87);
+var _isWindow = __webpack_require__(88);
 
 var _isWindow2 = _interopRequireDefault(_isWindow);
 
@@ -17780,7 +17780,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = scrollTop;
 
-var _isWindow = __webpack_require__(87);
+var _isWindow = __webpack_require__(88);
 
 var _isWindow2 = _interopRequireDefault(_isWindow);
 
@@ -18062,7 +18062,7 @@ PaginationButton.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_warning__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_bootstrapUtils__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__utils_createChainedFunction__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__Fade__ = __webpack_require__(84);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__Fade__ = __webpack_require__(85);
 
 
 
@@ -18364,7 +18364,7 @@ TabPane.childContextTypes = childContextTypes;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Button__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Button__ = __webpack_require__(64);
 
 
 
@@ -18502,16 +18502,3489 @@ var groupByProgramType = function (allPrograms) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var hs_req_fns_ts_1 = __webpack_require__(510);
-var getReqFn = function (id) {
-    try {
-        return hs_req_fns_ts_1.default[id].fn;
-    }
-    catch (e) {
-        console.log(id);
+var gender_1 = __webpack_require__(108);
+var success_chance_ts_1 = __webpack_require__(54);
+var hs_calc_utils_1 = __webpack_require__(512);
+var seCutoffTable = {
+    "609726": {
+        rank: { avg: 834.15, min: 799, max: 897 },
+        tier1: { avg: 700.76, min: 652, max: 796 },
+        tier2: { avg: 740.36, min: 687, max: 795 },
+        tier3: { avg: 768.40, min: 750, max: 792 },
+        tier4: { avg: 761.50, min: 723, max: 797 },
+    },
+    "609694": {
+        rank: { avg: 823.92, min: 794, max: 880 },
+        tier1: { avg: 706.40, min: 664, max: 791 },
+        tier2: { avg: 757.68, min: 736, max: 790 },
+        tier3: { avg: 772.69, min: 753, max: 791 },
+        tier4: { avg: 740.63, min: 672, max: 792 },
+    },
+    "609678": {
+        rank: { avg: 893.81, min: 889, max: 900 },
+        tier1: { avg: 816.86, min: 771, max: 887 },
+        tier2: { avg: 851.57, min: 823, max: 889 },
+        tier3: { avg: 874.12, min: 861, max: 889 },
+        tier4: { avg: 886.69, min: 883, max: 889 },
+    },
+    "609751": {
+        rank: { avg: 735.59, min: 682, max: 859 },
+        tier1: { avg: 632.20, min: 600, max: 680 },
+        tier2: { avg: 635.16, min: 601, max: 679 },
+        tier3: { avg: 645.55, min: 608, max: 682 },
+        tier4: { avg: 634.43, min: 600, max: 674 },
+    },
+    "609720": {
+        rank: { avg: 878.11, min: 866, max: 900 },
+        tier1: { avg: 738.79, min: 692, max: 863 },
+        tier2: { avg: 808.46, min: 777, max: 865 },
+        tier3: { avg: 839.69, min: 818, max: 866 },
+        tier4: { avg: 855.13, min: 843, max: 865 },
+    },
+    "610391": {
+        rank: { avg: 813.87, min: 774, max: 895 },
+        tier1: { avg: 692.14, min: 655, max: 771 },
+        tier2: { avg: 732.82, min: 700, max: 774 },
+        tier3: { avg: 743.98, min: 720, max: 774 },
+        tier4: { avg: 717.92, min: 672, max: 773 },
+    },
+    "609749": {
+        rank: { avg: 898.85, min: 896, max: 900 },
+        tier1: { avg: 820.31, min: 757, max: 892 },
+        tier2: { avg: 867.55, min: 843, max: 895 },
+        tier3: { avg: 889.04, min: 880, max: 895 },
+        tier4: { avg: 893.92, min: 891, max: 896 },
+    },
+    "609680": {
+        rank: { avg: 899.03, min: 898, max: 900 },
+        tier1: { avg: 837.66, min: 771, max: 897 },
+        tier2: { avg: 875.60, min: 846, max: 897 },
+        tier3: { avg: 886.97, min: 875, max: 898 },
+        tier4: { avg: 895.59, min: 894, max: 898 },
+    },
+    "610547": {
+        rank: { avg: 725.28, min: 678, max: 837 },
+        tier1: { avg: 621.10, min: 601, max: 674 },
+        tier2: { avg: 637.17, min: 600, max: 677 },
+        tier3: { avg: 632.43, min: 601, max: 677 },
+        tier4: { avg: 634.77, min: 603, max: 672 },
+    },
+    "609693": {
+        rank: { avg: 799.38, min: 766, max: 883 },
+        tier1: { avg: 706.44, min: 667, max: 760 },
+        tier2: { avg: 733.79, min: 708, max: 765 },
+        tier3: { avg: 730.68, min: 695, max: 765 },
+        tier4: { avg: 691.26, min: 618, max: 766 },
+    },
+    "609755": {
+        rank: { avg: 890.34, min: 882, max: 900 },
+        tier1: { avg: 823.25, min: 780, max: 880 },
+        tier2: { avg: 846.26, min: 821, max: 880 },
+        tier3: { avg: 860.88, min: 849, max: 882 },
+        tier4: { avg: 877.46, min: 874, max: 882 },
     }
 };
-exports.default = getReqFn;
+var ibCutoffTable = {
+    "609695": { min: 600 },
+    "610563": { min: 609 },
+    "609698": { min: 350 },
+    "610381": { min: 450 },
+    "609759": { min: 490 },
+    "609756": { min: 650 },
+    "609704": { min: 350 },
+    "609741": { min: 600 },
+    "609713": { min: 375 },
+    "609764": { min: 500 },
+    "609715": { min: 650 },
+    "609718": { min: 600 },
+    "609738": { min: 819 },
+    "609725": { min: 500 },
+    "610529": { min: 520 },
+    "609679": { min: 600 },
+    "609729": { min: 360 },
+    "609730": { min: 575 },
+    "610547": { min: 427 },
+    "609732": { min: 450 },
+    "609734": { min: 836 },
+    "609739": { min: 640 },
+};
+var getSECutoff = function (student, school) {
+    var cutoff = seCutoffTable[school.School_ID];
+    if (cutoff === undefined) {
+        throw new Error("School " + school.Long_Name + " not found in SE Cutoff scores");
+    }
+    switch (student.tier) {
+        case '1':
+            return cutoff.tier1;
+        case '2':
+            return cutoff.tier2;
+        case '3':
+            return cutoff.tier3;
+        case '4':
+            return cutoff.tier4;
+    }
+};
+var getIBCutoff = function (student, school) {
+    var cutoff = ibCutoffTable[school.School_ID];
+    if (cutoff === undefined) {
+        throw new Error("School " + school.Long_Name + " not found in IB Cutoff scores");
+    }
+    return cutoff;
+};
+var getPointsFromCutoff = function (score, cutoff) {
+    var diff = cutoff - score;
+    if (diff <= 0) {
+        return 0;
+    }
+    else {
+        return diff;
+    }
+};
+var average = function () {
+    var nums = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        nums[_i] = arguments[_i];
+    }
+    var count = nums.length;
+    var sum = nums.reduce(function (a, b) { return a + b; });
+    return sum / count;
+};
+var norm = function (value, max, min) {
+    return ((value - min) / (max - min)) * 100;
+};
+var inAttendanceBound = function (student, school) {
+    var ATTEND_RADIUS_MI = 2.5;
+    var tryParseFloat = function (str) {
+        var num = parseFloat(str);
+        if (isNaN(num)) {
+            throw new Error("inAttendanceBound: Cannot parse '" + str + "' as float");
+        }
+        return num;
+    };
+    var studentLat = student.geolocation.latitude;
+    var studentLong = student.geolocation.longitude;
+    var schoolLat = tryParseFloat(school.School_Latitude);
+    var schoolLong = tryParseFloat(school.School_Longitude);
+    var studentLatRad = Math.PI * studentLat / 180;
+    var schoolLatRad = Math.PI * schoolLat / 180;
+    var theta = studentLong - schoolLong;
+    var thetaRad = Math.PI * theta / 180;
+    var dist = Math.sin(studentLatRad) * Math.sin(schoolLatRad) * Math.cos(studentLatRad) * Math.cos(schoolLatRad) * Math.cos(thetaRad);
+    dist = Math.acos(dist);
+    dist = dist * 180 / Math.PI;
+    dist = dist * 60 * 1.1515;
+    var isInBound = dist < ATTEND_RADIUS_MI;
+    return isInBound;
+};
+var hasSiblingInProgram = function (student, program) {
+    var siblingAttends = student.siblingHSPrograms.indexOf(program.ID) !== -1;
+    if (siblingAttends) {
+        return true;
+    }
+    else {
+        return false;
+    }
+};
+var HSReqFns = {
+    "6adf97f83acf6453d4a6a4b1070f3754": {
+        "desc": "None",
+        "programs": [
+            "NOBLE - JOHNSON HS - General Education - Application",
+            "FOUNDATIONS - General Education - Application",
+            "NOBLE - PRITZKER HS - General Education - Application",
+            "PERSPECTIVES - TECH HS - General Education - Application",
+            "FARRAGUT HS - General Education - Application",
+            "URBAN PREP - WEST HS - General Education - Application",
+            "AUSTIN CCA HS - General Education - Application",
+            "CHICAGO VIRTUAL - Charter - Application",
+            "NOBLE - MANSUETO HS - General Education - Application",
+            "ACERO - SOTO HS - General Education - Application",
+            "CICS - LONGWOOD - Charter - Application",
+            "NOBLE - NOBLE HS - General Education - Application",
+            "ACERO - GARCIA HS - General Education - Application",
+            "ASPIRA - EARLY COLLEGE HS - General Education - Application",
+            "NOBLE - UIC HS - General Education - Application",
+            "WELLS HS - Pre-Law - Application",
+            "NOBLE - COMER - General Education - Application",
+            "SCHURZ HS - Accounting & Entrepreneurship - Application",
+            "WASHINGTON HS - General Education - Application",
+            "SCHURZ HS - General Education - Application",
+            "JUAREZ HS - General Education - Application",
+            "CHICAGO VOCATIONAL HS - Agricultural Sciences - Application",
+            "RICHARDS HS - General Education - Application",
+            "BOGAN HS - Entrepreneurship - Application",
+            "DOUGLASS HS - General Education - Application",
+            "LAKE VIEW HS - General Education - Application",
+            "ROOSEVELT HS - Game Programming - Application",
+            "ROOSEVELT HS - Medical & Health Careers - Application",
+            "NORTH-GRAND HS - Culinary Arts - Application",
+            "FOREMAN HS - Digital Media - Application",
+            "PHILLIPS HS - Digital Media - Application",
+            "ALCOTT HS - Pre-Engineering - Application",
+            "CURIE HS - Game Programming & Web Design - Application",
+            "CHICAGO MATH & SCIENCE HS - General Education - Application",
+            "BOWEN HS - Manufacturing - Application",
+            "JUAREZ HS - Culinary Arts - Application",
+            "SULLIVAN HS - Medical & Health Careers - Application",
+            "HUBBARD HS - General Education - Application",
+            "CHICAGO VOCATIONAL HS - Culinary Arts - Application",
+            "CICS - NORTHTOWN HS - General Education - Application",
+            "JULIAN HS - General Education - Application",
+            "SCHURZ HS - Automotive Technology - Application",
+            "CICS - CHICAGOQUEST HS - General Education - Application",
+            "COLLINS HS - Game Programming - Application",
+            "SULLIVAN HS - Accounting - Application",
+            "CHICAGO VIRTUAL - General Education - Application",
+            "SPRY HS - General Education - Application",
+            "FARRAGUT HS - Pre-Law - Application",
+            "NOBLE - BAKER HS - General Education - Application",
+            "CLEMENTE HS - Broadcast Technology - Application",
+            "SOUTH SHORE INTL HS - Medical & Health Careers - Application",
+            "CURIE HS - Accounting - Application",
+            "ROOSEVELT HS - Early Childhood - Application",
+            "PERSPECTIVES - MATH & SCI HS - General Education - Application",
+            "KENNEDY HS - General Education - Application",
+            "KELLY HS - General Education - Application",
+            "FARRAGUT HS - Automotive Technology - Application",
+            "JULIAN HS - Entrepreneurship - Application",
+            "CHICAGO VOCATIONAL HS - Carpentry - Application",
+            "CICS - ELLISON HS - General Education - Application",
+            "NOBLE - BULLS HS - General Education - Application",
+            "JULIAN HS - Allied Health - Application",
+            "ROOSEVELT HS - General Education - Application",
+            "URBAN PREP - ENGLEWOOD HS - General Education - Application",
+            "HYDE PARK HS - Broadcast Technology - Application",
+            "NORTH-GRAND HS - General Education - Application",
+            "GAGE PARK HS - General Education - Application",
+            "UPLIFT HS - General Education - Application",
+            "JUAREZ HS - Automotive Technology - Application",
+            "U OF C - WOODLAWN HS - General Education - Application",
+            "TILDEN HS - General Education - Application",
+            "BOWEN HS - General Education - Application",
+            "DUNBAR HS - Chicago Builds - Application",
+            "TAFT HS - General Education - Application",
+            "MORGAN PARK HS - General Education - Application",
+            "JULIAN HS - Broadcast Technology - Application",
+            "CURIE HS - Early Childhood & Teaching - Application",
+            "CLEMENTE HS - Culinary Arts - Application",
+            "BOGAN HS - Accounting - Application",
+            "NORTH-GRAND HS - Pre-Engineering - Application",
+            "CURIE HS - Automotive Technology - Application",
+            "JUAREZ HS - Medical & Health Careers - Application",
+            "JULIAN HS - Game Programming - Application",
+            "NORTH-GRAND HS - Allied Health - Application",
+            "JUAREZ HS - Architecture - Application",
+            "TILDEN HS - Culinary Arts - Application",
+            "INTRINSIC HS - General Education - Application",
+            "NOBLE - RAUNER HS - General Education - Application",
+            "SCHURZ HS - Digital Media - Application",
+            "FOREMAN HS - Web Design - Application",
+            "PERSPECTIVES - LEADERSHIP HS - General Education - Application",
+            "HYDE PARK HS - Digital Media - Application",
+            "CICS - LONGWOOD - General Education - Application",
+            "CORLISS HS - Early College STEM - Application",
+            "BOWEN HS - Pre-Engineering - Application",
+            "HYDE PARK HS - General Education - Application",
+            "ROOSEVELT HS - Culinary Arts - Application",
+            "FOREMAN HS - General Education - Application",
+            "NOBLE - ROWE CLARK HS - General Education - Application",
+            "CURIE HS - Broadcast Technology - Application",
+            "NOBLE - MUCHIN HS - General Education - Application",
+            "ALCOTT HS - General Education - Application",
+            "RICHARDS HS - Culinary Arts - Application",
+            "FENGER HS - Culinary Arts - Application",
+            "SCHURZ HS - Allied Health - Application",
+            "RABY HS - Culinary Arts - Application",
+            "RABY HS - Pre-Law - Application",
+            "FENGER HS - General Education - Application",
+            "HARPER HS - Culinary Arts - Application",
+            "NOBLE - DRW HS - General Education - Application",
+            "AMUNDSEN HS - General Education - Application",
+            "WILLIAMS HS - Medical & Health Careers - Application",
+            "NOBLE - GOLDER HS - General Education - Application",
+            "RABY HS - Broadcast Technology - Application",
+            "HIRSCH HS - General Education - Application",
+            "STEINMETZ HS - Digital Media - Application",
+            "JULIAN HS - Digital Media - Application",
+            "AUSTIN CCA HS - Manufacturing - Application",
+            "HARPER HS - Digital Media - Application",
+            "DYETT ARTS HS - General Education - Application",
+            "MATHER HS - Pre-Law - Application",
+            "AMUNDSEN HS - Game Programming & Web Design - Application",
+            "SOLORIO HS - General Education - Application",
+            "PERSPECTIVES - JOSLIN HS - General Education - Application",
+            "RICHARDS HS - Accounting - Application",
+            "MATHER HS - Game Programming & Web Design - Application",
+            "EPIC HS - General Education - Application",
+            "BOGAN HS - General Education - Application",
+            "CHICAGO COLLEGIATE - General Education - Application",
+            "CURIE HS - Culinary Arts - Application",
+            "RABY HS - Entrepreneurship - Application",
+            "CLEMENTE HS - Allied Health - Application",
+            "DYETT ARTS HS - Digital Media - Application",
+            "DUNBAR HS - Allied Health - Application",
+            "CHICAGO VOCATIONAL HS - Early College STEM - Application",
+            "HARLAN HS - Digital Media - Application",
+            "DUNBAR HS - Career Academy - Application",
+            "MANLEY HS - Culinary Arts - Application",
+            "CHICAGO VOCATIONAL HS - Diesel Technology - Application",
+            "CURIE HS - Fine Arts & Technology - NEIGHBORHOOD - Application",
+            "CHICAGO VOCATIONAL HS - General Education - Application",
+            "STEINMETZ HS - General Education - Application",
+            "SENN HS - General Education - Application",
+            "WELLS HS - Game Programming - Application",
+            "NOBLE - HANSBERRY HS - General Education - Application",
+            "ROBESON HS - General Education - Application",
+            "CHICAGO VOCATIONAL HS - Medical Assisting - Application",
+            "LAKE VIEW HS - Early College STEM - Application",
+            "CHICAGO VOCATIONAL HS - Cosmetology - Application",
+            "FENGER HS - Carpentry - Application",
+            "HARLAN HS - Web Design - Application",
+            "CURIE HS - Digital Media - Application",
+            "URBAN PREP - BRONZEVILLE HS - General Education - Application",
+            "CURIE HS - Architecture - Application",
+            "KENWOOD HS - General Education - Application",
+            "MATHER HS - General Education - Application",
+            "AUSTIN CCA HS - Pre-Engineering - Application",
+            "ORR HS - General Education - Application",
+            "SULLIVAN HS - General Education - Application",
+            "MANLEY HS - General Education - Application",
+            "HOPE HS - General Education - Application",
+            "NORTH LAWNDALE - CHRISTIANA HS - General Education - Application",
+            "NORTH LAWNDALE - COLLINS HS - General Education - Application",
+            "UPLIFT HS - Teaching - Application",
+            "SCHURZ HS - Pre-Engineering - Application",
+            "ACE TECH HS - General Education - Application",
+            "LEGAL PREP HS - General Education - Application",
+            "ASPIRA - BUSINESS & FINANCE HS - General Education - Application",
+            "JUAREZ HS - Game Programming & Web Design - Application",
+            "PROSSER HS - Career Academy - Application",
+            "HARPER HS - General Education - Application",
+            "INSTITUTO - HEALTH - General Education - Application",
+            "ROOSEVELT HS - Cisco Networking - Application",
+            "INFINITY HS - Science/Technology/Engineering/Math - Application",
+            "CHICAGO TECH HS - Science/Technology/Engineering/Math - Application",
+            "NOBLE - ITW SPEER HS - General Education - Application",
+            "NOBLE - BUTLER HS - General Education - Application",
+            "NOBLE - ACADEMY HS - General Education - Application",
+            "MARSHALL HS - General Education - Application",
+            "MARSHALL HS - Agricultural Sciences - Application",
+            "MARSHALL HS - Culinary Arts - Application"
+        ],
+        "fn": function noReq(studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.CERTAIN };
+        }
+    },
+    "f1a0a3737e921ccaf4617c5eafab5f53": {
+        "desc": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
+        "programs": [
+            "NOBLE - JOHNSON HS - General Education - Selection",
+            "NOBLE - PRITZKER HS - General Education - Selection",
+            "PERSPECTIVES - TECH HS - General Education - Selection",
+            "URBAN PREP - WEST HS - General Education - Selection",
+            "NOBLE - MANSUETO HS - General Education - Selection",
+            "ACERO - SOTO HS - General Education - Selection",
+            "NOBLE - NOBLE HS - General Education - Selection",
+            "ACERO - GARCIA HS - General Education - Selection",
+            "ASPIRA - EARLY COLLEGE HS - General Education - Selection",
+            "NOBLE - UIC HS - General Education - Selection",
+            "NOBLE - COMER - General Education - Selection",
+            "CICS - NORTHTOWN HS - General Education - Selection",
+            "NOBLE - BAKER HS - General Education - Selection",
+            "PERSPECTIVES - MATH & SCI HS - General Education - Selection",
+            "CICS - ELLISON HS - General Education - Selection",
+            "NOBLE - BULLS HS - General Education - Selection",
+            "URBAN PREP - ENGLEWOOD HS - General Education - Selection",
+            "NOBLE - RAUNER HS - General Education - Selection",
+            "PERSPECTIVES - LEADERSHIP HS - General Education - Selection",
+            "CICS - LONGWOOD - General Education - Selection",
+            "NOBLE - ROWE CLARK HS - General Education - Selection",
+            "NOBLE - MUCHIN HS - General Education - Selection",
+            "NOBLE - DRW HS - General Education - Selection",
+            "NOBLE - GOLDER HS - General Education - Selection",
+            "PERSPECTIVES - JOSLIN HS - General Education - Selection",
+            "EPIC HS - General Education - Selection",
+            "NOBLE - HANSBERRY HS - General Education - Selection",
+            "URBAN PREP - BRONZEVILLE HS - General Education - Selection",
+            "ASPIRA - BUSINESS & FINANCE HS - General Education - Selection",
+            "NOBLE - ITW SPEER HS - General Education - Selection",
+            "NOBLE - BUTLER HS - General Education - Selection",
+            "NOBLE - ACADEMY HS - General Education - Selection"
+        ],
+        "fn": function random(studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "ea7a8ea4de4f5cdcc8bc6e7aab6a7962": {
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled at Foundations College Prep, isibling, general.",
+        "programs": [
+            "FOUNDATIONS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (hasSiblingInProgram(student, school)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "783216956d119ad64639725fa9f4d44b": {
+        "desc": "Students who live within the school's attendance boundary can be admitted automatically. This program only accepts students who live within the school's attendance boundary.",
+        "programs": [
+            "FARRAGUT HS - General Education - Selection",
+            "WASHINGTON HS - General Education - Selection",
+            "HUBBARD HS - General Education - Selection",
+            "KENNEDY HS - General Education - Selection",
+            "KELLY HS - General Education - Selection",
+            "ROOSEVELT HS - General Education - Selection",
+            "BOGAN HS - General Education - Selection",
+            "CURIE HS - Fine Arts & Technology - NEIGHBORHOOD - Selection",
+            "SENN HS - General Education - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "240970c398eb1cf1d65952b71e811d58": {
+        "desc": "If the school receives more applications than there are seats available, students are randomly selected through a computerized lottery.  Priority is given to students currently enrolled in the school and to siblings of students enrolled in the campus.",
+        "programs": [
+            "CHICAGO VIRTUAL - Charter - Selection"
+        ],
+        "fn": function (student, school) {
+            if (hasSiblingInProgram(student, school)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "01a561f658ea66df980a6e77eae83235": {
+        "desc": "If the school receives more applications than there are seats available, students are randomly selected through a computerized lottery.  Priority is given to students currently enrolled in the school who wish to continue and to siblings of students enrolled in the campus.",
+        "programs": [
+            "CICS - LONGWOOD - Charter - Selection"
+        ],
+        "fn": function (student, school) {
+            if (hasSiblingInProgram(student, school)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "8c431d51587c33009ee9b67a566c042e": {
+        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+        "programs": [
+            "AUSTIN CCA HS - General Education - Selection",
+            "JULIAN HS - General Education - Selection",
+            "NORTH-GRAND HS - General Education - Selection",
+            "GAGE PARK HS - General Education - Selection",
+            "BOWEN HS - General Education - Selection",
+            "FOREMAN HS - General Education - Selection",
+            "FENGER HS - General Education - Selection",
+            "HIRSCH HS - General Education - Selection",
+            "CHICAGO VOCATIONAL HS - General Education - Selection",
+            "ROBESON HS - General Education - Selection",
+            "ORR HS - General Education - Selection",
+            "MANLEY HS - General Education - Selection",
+            "HOPE HS - General Education - Selection",
+            "HARPER HS - General Education - Selection",
+            "INFINITY HS - Science/Technology/Engineering/Math - Selection",
+            "MARSHALL HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (hasSiblingInProgram(student, school)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "6fddb8b397a12770dbed5afff360213b": {
+        "desc": "Minimum percentile of 75 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.",
+        "programs": [
+            "SOLORIO HS - Double Honors/Scholars - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            var NWEA_MATH_CUTOFF = 75;
+            var NWEA_READ_CUTOFF = 75;
+            var ATTEND_CUTOFF = 95;
+            var progress = {
+                threshold_certain: 100,
+                value: 100 - average(getPointsFromCutoff(studentData.scores.nweaPercentileMath, NWEA_MATH_CUTOFF), getPointsFromCutoff(studentData.scores.nweaPercentileRead, NWEA_READ_CUTOFF), getPointsFromCutoff(studentData.attendancePercentage, ATTEND_CUTOFF)),
+            };
+            if (studentData.scores.nweaPercentileMath >= NWEA_MATH_CUTOFF &&
+                studentData.scores.nweaPercentileRead >= NWEA_READ_CUTOFF &&
+                studentData.attendancePercentage >= ATTEND_CUTOFF) {
+                return { outcome: success_chance_ts_1.default.CERTAIN, progress: progress };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE, progress: progress };
+            }
+        }
+    },
+    "218f3d334a0ceaa37bb7ce57bec10e96": {
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, students enrolled in AUSL schools, general.",
+        "programs": [
+            "SOLORIO HS - Double Honors/Scholars - Selection",
+            "CHICAGO ACADEMY HS - Scholars - Selection",
+            "CHICAGO ACADEMY HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school) ||
+                hasSiblingInProgram(student, school)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "3086b8e507b2f64e53b85b8ad808e66d": {
+        "desc": "Minimum 2.0 GPA in 7th grade and minimum attendance percentage of 85.",
+        "programs": [
+            "FARRAGUT HS - JROTC - Application",
+            "SCHURZ HS - AVID - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            var GPA_CUTOFF = 2.0;
+            var ATTEND_CUTOFF = 85;
+            var progress = {
+                threshold_certain: 100,
+                value: average(norm(getPointsFromCutoff(studentData.gpa, GPA_CUTOFF), 4.0, 0.0), getPointsFromCutoff(studentData.attendancePercentage, ATTEND_CUTOFF))
+            };
+            if (studentData.gpa >= GPA_CUTOFF && studentData.attendancePercentage >= ATTEND_CUTOFF) {
+                return { outcome: success_chance_ts_1.default.CERTAIN, progress: progress };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE, progress: progress };
+            }
+        }
+    },
+    "d3ddea21fb0e360b470bf095ce6bdfef": {
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: proximity, general.",
+        "programs": [
+            "FARRAGUT HS - JROTC - Selection",
+            "ROBESON HS - Allied Health - Selection",
+            "DUNBAR HS - Chicago Builds - Selection",
+            "SCHURZ HS - AVID - Selection",
+            "PROSSER HS - Career Academy - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "618315c228cf8e591d1909fc8ca41206": {
+        "desc": "Students are selected on a point system. Points are based on 7th grade final GPA and NWEA MAP scores. The school determines the minimum cutoff score for selections.",
+        "programs": [
+            "WELLS HS - Pre-Law - Selection",
+            "ALCOTT HS - Pre-Engineering - Selection",
+            "SULLIVAN HS - Medical & Health Careers - Selection",
+            "FARRAGUT HS - Pre-Law - Selection",
+            "SOUTH SHORE INTL HS - Medical & Health Careers - Selection",
+            "JULIAN HS - Allied Health - Selection",
+            "JUAREZ HS - Medical & Health Careers - Selection",
+            "BOWEN HS - Pre-Engineering - Selection",
+            "WILLIAMS HS - Medical & Health Careers - Selection",
+            "CLEMENTE HS - Allied Health - Selection",
+            "DUNBAR HS - Allied Health - Selection",
+            "CHICAGO VOCATIONAL HS - Medical Assisting - Selection",
+            "SCHURZ HS - Pre-Engineering - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "f661cdb969617a4f2a3923f5c80c190c": {
+        "desc": "General Education and 504 Plan students: Minimum percentile of 50 in both reading and math on NWEA MAP, minimum 2.7 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 50 in reading and math on NWEA MAP.  An Interview is required for all eligible applicants.",
+        "programs": [
+            "DYETT ARTS HS - Music - Application",
+            "DYETT ARTS HS - Visual Arts - Application",
+            "DYETT ARTS HS - Dance - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if (studentData.scores.nweaPercentileMath >= 50 &&
+                    studentData.scores.nweaPercentileRead >= 50 &&
+                    studentData.gpa >= 2.7 &&
+                    studentData.attendancePercentage >= 97) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead >= 50) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "3d86881707e468c9fe2a0ce0f5eeac4f": {
+        "name": "",
+        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the interview.",
+        "programs": [
+            "DYETT ARTS HS - Music - Selection",
+            "DYETT ARTS HS - Visual Arts - Selection",
+            "DYETT ARTS HS - Dance - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "7672890f5b16cd8f5c0cae20d58d1888": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+        "programs": [
+            "SCHURZ HS - Accounting & Entrepreneurship - Selection",
+            "KELLY HS - Digital Media - Selection",
+            "CHICAGO VOCATIONAL HS - Agricultural Sciences - Selection",
+            "BOGAN HS - Entrepreneurship - Selection",
+            "ROOSEVELT HS - Game Programming - Selection",
+            "NORTH-GRAND HS - Culinary Arts - Selection",
+            "FOREMAN HS - Digital Media - Selection",
+            "PHILLIPS HS - Digital Media - Selection",
+            "CURIE HS - Game Programming & Web Design - Selection",
+            "BOWEN HS - Manufacturing - Selection",
+            "JUAREZ HS - Culinary Arts - Selection",
+            "CHICAGO VOCATIONAL HS - Culinary Arts - Selection",
+            "SCHURZ HS - Automotive Technology - Selection",
+            "COLLINS HS - Game Programming - Selection",
+            "CLEMENTE HS - Broadcast Technology - Selection",
+            "CURIE HS - Accounting - Selection",
+            "ROOSEVELT HS - Early Childhood - Selection",
+            "FARRAGUT HS - Automotive Technology - Selection",
+            "JULIAN HS - Entrepreneurship - Selection",
+            "CHICAGO VOCATIONAL HS - Carpentry - Selection",
+            "HYDE PARK HS - Broadcast Technology - Selection",
+            "JUAREZ HS - Automotive Technology - Selection",
+            "JULIAN HS - Broadcast Technology - Selection",
+            "CURIE HS - Early Childhood & Teaching - Selection",
+            "CLEMENTE HS - Culinary Arts - Selection",
+            "CURIE HS - Automotive Technology - Selection",
+            "JULIAN HS - Game Programming - Selection",
+            "JUAREZ HS - Architecture - Selection",
+            "TILDEN HS - Culinary Arts - Selection",
+            "SCHURZ HS - Digital Media - Selection",
+            "FOREMAN HS - Web Design - Selection",
+            "HYDE PARK HS - Digital Media - Selection",
+            "ROOSEVELT HS - Culinary Arts - Selection",
+            "CURIE HS - Broadcast Technology - Selection",
+            "RICHARDS HS - Culinary Arts - Selection",
+            "FENGER HS - Culinary Arts - Selection",
+            "RABY HS - Culinary Arts - Selection",
+            "HARPER HS - Culinary Arts - Selection",
+            "RABY HS - Broadcast Technology - Selection",
+            "STEINMETZ HS - Digital Media - Selection",
+            "JULIAN HS - Digital Media - Selection",
+            "AUSTIN CCA HS - Manufacturing - Selection",
+            "HARPER HS - Digital Media - Selection",
+            "AMUNDSEN HS - Game Programming & Web Design - Selection",
+            "RICHARDS HS - Accounting - Selection",
+            "MATHER HS - Game Programming & Web Design - Selection",
+            "CURIE HS - Culinary Arts - Selection",
+            "RABY HS - Entrepreneurship - Selection",
+            "CHICAGO VOCATIONAL HS - Early College STEM - Selection",
+            "HARLAN HS - Digital Media - Selection",
+            "MANLEY HS - Culinary Arts - Selection",
+            "CHICAGO VOCATIONAL HS - Diesel Technology - Selection",
+            "WELLS HS - Game Programming - Selection",
+            "FENGER HS - Carpentry - Selection",
+            "HARLAN HS - Web Design - Selection",
+            "CURIE HS - Digital Media - Selection",
+            "CURIE HS - Architecture - Selection",
+            "UPLIFT HS - Teaching - Selection",
+            "JUAREZ HS - Game Programming & Web Design - Selection",
+            "MARSHALL HS - Agricultural Sciences - Selection",
+            "MARSHALL HS - Culinary Arts - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 &&
+                    studentData.scores.nweaPercentileRead >= 24) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+        }
+    },
+    "4ab864cc8934557f435c392c96e5cfc1": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery.\u00a0The lottery is conducted in the following order: sibling, general.",
+        "programs": [
+            "SCHURZ HS - General Education - Selection",
+            "STEINMETZ HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else if (hasSiblingInProgram(student, school)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "ae1af40b734a31b447b1ed50f6e4bc17": {
+        "name": "",
+        "desc": "Minimum combined percentile of 48 in reading and math on NWEA MAP. Attendance at an Information Session is required for eligible applicants.",
+        "programs": [
+            "AIR FORCE HS - Service Learning Academies (Military) - Application",
+            "MARINE LEADERSHIP AT AMES HS - Service Learning Academies (Military) - Application",
+            "RICKOVER MILITARY HS - Service Learning Academies (Military) - Application",
+            "PHOENIX MILITARY HS - Service Learning Academies (Military) - Application",
+            "CARVER MILITARY HS - Service Learning Academies (Military) - Application",
+            "CHICAGO MILITARY HS - Service Learning Academies (Military) - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead >= 48) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+        }
+    },
+    "9a6d8103474c5e8b4988360767a186de": {
+        "name": "",
+        "desc": "During the Information Session, students will sign a Commitment Agreement, complete a Motivation and Perseverance Assessment and write a brief essay. Selections are based on a point system with a maximum of 500 points, derived from 7th grade final (cumulative) grades (100 points), 7th grade NWEA MAP scores (150 points), the two-part assessment (50 for each part), and the essay (100 points).",
+        "programs": [
+            "AIR FORCE HS - Service Learning Academies (Military) - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "459b0b1aaa6e44d897f0a720ba82369e": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary will be randomly selected by computerized lottery. The lottery will be conducted in the following order: sibling, general.",
+        "programs": [
+            "JUAREZ HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else if (hasSiblingInProgram(student, school)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "d41d8cd98f00b204e9800998ecf8427e": {
+        "name": "",
+        "desc": "",
+        "programs": [
+            "KELLY HS - Digital Media - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "2317c60e8a1eec08ab495a14ccfd9c64": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery.",
+        "programs": [
+            "RICHARDS HS - General Education - Selection",
+            "TILDEN HS - General Education - Selection",
+            "DYETT ARTS HS - General Education - Selection",
+            "SOLORIO HS - General Education - Selection",
+            "MATHER HS - General Education - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "c32c0804dc719ba6c4c00322e7a69be2": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 45 in both reading and math on NWEA MAP.  IEP and EL students: Minimum NWEA MAP percentile of 50 in one subject (reading or math) and minimum NWEA MAP percentile of 40 in the other subject (reading or math).  Testing is required for all eligible applicants.",
+        "programs": [
+            "BROOKS HS - Academic Center - Application",
+            "TAFT HS - Academic Center - Application",
+            "LANE TECH HS - Academic Center - Application",
+            "MORGAN PARK HS - Academic Center - Application",
+            "KENWOOD HS - Academic Center - Application",
+            "LINDBLOM HS - Academic Center - Application",
+            "YOUNG HS - Academic Center - Application"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "224ce8807abceb6ca72e650988637629": {
+        "name": "",
+        "desc": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for prior year final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
+        "programs": [
+            "BROOKS HS - Academic Center - Selection",
+            "TAFT HS - Academic Center - Selection",
+            "LANE TECH HS - Academic Center - Selection",
+            "MORGAN PARK HS - Academic Center - Selection",
+            "KENWOOD HS - Academic Center - Selection",
+            "LINDBLOM HS - Academic Center - Selection",
+            "YOUNG HS - Academic Center - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "03010a12030cab563c3f5d9115e7aabe": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 45 in both reading and math on NWEA MAP and minimum 2.0 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 90 in reading and math on NWEA MAP, and minimum 2.0 GPA in 7th grade.",
+        "programs": [
+            "STEINMETZ HS - JROTC - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if (studentData.scores.nweaPercentileMath >= 45 &&
+                    studentData.scores.nweaPercentileRead >= 45 &&
+                    studentData.gpa > 2.0) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 90 &&
+                    studentData.gpa > 2.0) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "5096cc5a97943badb78efd427ee13eb6": {
+        "name": "",
+        "desc": "Eligible students are randomly selected by computerized lottery.",
+        "programs": [
+            "STEINMETZ HS - JROTC - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "f6b1cadaa52f894d87ad4246bd4c9b0a": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, general.",
+        "programs": [
+            "DOUGLASS HS - General Education - Selection",
+            "WILLIAMS HS - General Education - Selection",
+            "SENN HS - Digital Journalism - Selection",
+            "NORTH LAWNDALE - CHRISTIANA HS - General Education - Selection",
+            "NORTH LAWNDALE - COLLINS HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school) ||
+                hasSiblingInProgram(student, school)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "77620df9b5c4a530f21c30267af843ce": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP. An audition/portfolio review is required.",
+        "programs": [
+            "CURIE HS - Dance - Application",
+            "CURIE HS - Music - Application",
+            "CURIE HS - Visual Arts - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 &&
+                    studentData.scores.nweaPercentileRead >= 24) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+        }
+    },
+    "7e51568fc748dec3fd5aa79aae428009": {
+        "name": "",
+        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade final (cumulative) grades, and the audition.",
+        "programs": [
+            "CURIE HS - Dance - Selection",
+            "SENN HS - Dance - Selection",
+            "CURIE HS - Music - Selection",
+            "SENN HS - Music - Selection",
+            "SENN HS - Theatre - Selection",
+            "CURIE HS - Visual Arts - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "0514de51e21823dae4f43b085538f9e6": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.",
+        "programs": [
+            "WESTINGHOUSE HS - Career Academy - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
+                    studentData.gpa >= 3.0 &&
+                    studentData.attendancePercentage >= 95) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 &&
+                    studentData.scores.nweaPercentileRead >= 24 &&
+                    studentData.gpa >= 3.0 &&
+                    studentData.attendancePercentage >= 95) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "d76c385b612c2ef53c62501b074b6134": {
+        "name": "",
+        "desc": "Students are randomly selected by compterized lottery. The lottery is conducted in the following order: proximity, general.",
+        "programs": [
+            "WESTINGHOUSE HS - Career Academy - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "5ee7cff3803c80e025f483be28b57f06": {
+        "name": "",
+        "desc": "This program only accepts students who live within the school's attendance boundary or who attend a Grow Community School (Audubon, Bell, Blaine, Budlong, Burley, Chappell, Coonley, Greeley, Hamilton, Hawthorne, Inter-American, Jahn, Jamieson, McPherson, Nettelhorst, Ravenswood, or Waters). Students are randomly selected by computerized lottery.",
+        "programs": [
+            "LAKE VIEW HS - General Education - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "930c01733b718c40bc1f2af23839e14a": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants.",
+        "programs": [
+            "KELLY HS - International Baccalaureate (IB) - Application",
+            "SOUTH SHORE INTL HS - International Baccalaureate (IB) - Application",
+            "BACK OF THE YARDS HS - International Baccalaureate (IB) - Application",
+            "PROSSER HS - International Baccalaureate (IB) - Application",
+            "STEINMETZ HS - International Baccalaureate (IB) - Application",
+            "MORGAN PARK HS - International Baccalaureate (IB) - Application",
+            "TAFT HS - International Baccalaureate (IB) - Application",
+            "BOGAN HS - International Baccalaureate (IB) - Application",
+            "JUAREZ HS - International Baccalaureate (IB) - Application",
+            "OGDEN HS - International Baccalaureate (IB) - Application",
+            "KENNEDY HS - International Baccalaureate (IB) - Application",
+            "AMUNDSEN HS - International Baccalaureate (IB) - Application",
+            "WASHINGTON HS - International Baccalaureate (IB) - Application",
+            "SCHURZ HS - International Baccalaureate (IB) - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
+                    studentData.gpa >= 2.5) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 &&
+                    studentData.scores.nweaPercentileRead >= 24 &&
+                    studentData.gpa >= 2.5) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "11bdd4bc6af64732a32d73a850bc78a4": {
+        "name": "",
+        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points.The school determines the minimum cutoff score for selections.",
+        "programs": [
+            "KELLY HS - International Baccalaureate (IB) - Selection",
+            "BACK OF THE YARDS HS - International Baccalaureate (IB) - Selection",
+            "JUAREZ HS - International Baccalaureate (IB) - Selection"
+        ],
+        "fn": function (student, school) {
+            var score = hs_calc_utils_1.calculateIBPoints(student);
+            var cutoff = getIBCutoff(student, school).min;
+            if (inAttendanceBound(student, school)) {
+                var bonusPoints = 50;
+                var adjustedCutoff = cutoff + bonusPoints;
+                if (score >= adjustedCutoff) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (score >= cutoff) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "f79604e9d7984cc9b43fa3c69abe428d": {
+        "name": "",
+        "desc": "During the Information Session, students will sign a Commitment Agreement, complete a Motivation and Perseverance Assessment and write a brief essay. Selections will be based on a point system with a maximum of 500 points, derived from 7th grade final (cumulative) grades (100 points), 7th grade NWEA MAP scores (150 points), the two-part assessment (50 for each part), and the essay (100 points).",
+        "programs": [
+            "MARINE LEADERSHIP AT AMES HS - Service Learning Academies (Military) - Selection",
+            "RICKOVER MILITARY HS - Service Learning Academies (Military) - Selection",
+            "PHOENIX MILITARY HS - Service Learning Academies (Military) - Selection",
+            "CARVER MILITARY HS - Service Learning Academies (Military) - Selection",
+            "CHICAGO MILITARY HS - Service Learning Academies (Military) - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "4cb799c1cf8b41a3baf1e8d9176463d8": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.",
+        "programs": [
+            "JONES HS - Pre-Engineering - Application",
+            "CRANE MEDICAL HS - Health Sciences - Application",
+            "CHICAGO AGRICULTURE HS - Agricultural Sciences - Application",
+            "HANCOCK HS - Pre-Law - Application",
+            "HANCOCK HS - Pre-Engineering - Application",
+            "JONES HS - Pre-Law - Application",
+            "VON STEUBEN HS - Science - Application",
+            "CLARK HS - Early College STEM - Application",
+            "DISNEY II HS - Fine Arts & Technology - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 &&
+                    studentData.scores.nweaPercentileRead >= 24) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+        }
+    },
+    "0fe94ad9490cc5fe33139f705336bf3d": {
+        "name": "",
+        "desc": "Students are selected on a point system. Points are based on 7th grade final GPA and 7th grade stanines. Students are ranked and selected from high to low. Students residing within the attendance overlay boundary of the school are selected first.",
+        "programs": [
+            "JONES HS - Pre-Engineering - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "0fedde2a8081243a74d2c6a3be90b411": {
+        "name": "",
+        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.",
+        "programs": [
+            "SOUTH SHORE INTL HS - International Baccalaureate (IB) - Selection",
+            "CLEMENTE HS - International Baccalaureate (IB) - Selection",
+            "STEINMETZ HS - International Baccalaureate (IB) - Selection",
+            "HUBBARD HS - International Baccalaureate (IB) - Selection",
+            "BOGAN HS - International Baccalaureate (IB) - Selection",
+            "KENNEDY HS - International Baccalaureate (IB) - Selection",
+            "BRONZEVILLE HS - International Baccalaureate (IB) - Selection",
+            "WASHINGTON HS - International Baccalaureate (IB) - Selection",
+            "SCHURZ HS - International Baccalaureate (IB) - Selection"
+        ],
+        "fn": function (student, school) {
+            var score = hs_calc_utils_1.calculateIBPoints(student);
+            var cutoff = getIBCutoff(student, school).min;
+            if (inAttendanceBound(student, school)) {
+                var bonusPoints = 50;
+                var adjustedCutoff = cutoff + bonusPoints;
+                if (score >= adjustedCutoff) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (score >= cutoff) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "70d67060ab98f9cd752d741b32e207ba": {
+        "name": "",
+        "desc": "Student selections are based on points. Students are assigned points for 7th grade final GPA and 7th grade stanines. Each school determines a minimum cutoff score for selections.",
+        "programs": [
+            "ROOSEVELT HS - Medical & Health Careers - Selection",
+            "NORTH-GRAND HS - Pre-Engineering - Selection",
+            "NORTH-GRAND HS - Allied Health - Selection",
+            "SCHURZ HS - Allied Health - Selection",
+            "RABY HS - Pre-Law - Selection",
+            "MATHER HS - Pre-Law - Selection",
+            "ROOSEVELT HS - Cisco Networking - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "eb6acf17c18f9a5177bcdb7a4504672a": {
+        "name": "",
+        "desc": "Minimum percentile of 40 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, LAS Links Assessment composite of 4 or STAMP Assessment at the Intermediate Level.",
+        "programs": [
+            "SCHURZ HS - Dual Language - Application",
+            "BACK OF THE YARDS HS - Dual Language - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "0640ddea233c6c9c97db5dd816b5c24a": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, students currently enrolled in a CPS elementary school with a world language or dual language program, general.",
+        "programs": [
+            "SCHURZ HS - Dual Language - Selection",
+            "BACK OF THE YARDS HS - Dual Language - Selection"
+        ],
+        "fn": function (student, school) {
+            if (hasSiblingInProgram(student, school)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "8c1dffabe7825704cbe29a12138cc4d9": {
+        "name": "",
+        "desc": "Students currently enrolled in the school's eighth grade will have a deadline to submit their intent to enroll in ninth grade. For remaining seats, students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+        "programs": [
+            "CHICAGO MATH & SCIENCE HS - General Education - Selection",
+            "CICS - CHICAGOQUEST HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (hasSiblingInProgram(student, school)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "70b7c4a5e527fb50d69ea37b000765d8": {
+        "name": "",
+        "desc": "Minimum percentile of 70 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 93.",
+        "programs": [
+            "CHICAGO ACADEMY HS - Scholars - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.scores.nweaPercentileMath >= 70 &&
+                studentData.scores.nweaPercentileRead >= 70 &&
+                studentData.gpa >= 3.0 &&
+                studentData.attendancePercentage >= 93) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "1d126a086436d78661af2cb249938c72": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum attendance percentage of 92.",
+        "programs": [
+            "MULTICULTURAL HS - Fine and Performing Arts - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                if (studentData.attendancePercentage >= 92) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "c36c294e63476a7959123bfe85a2c639": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+        "programs": [
+            "MULTICULTURAL HS - Fine and Performing Arts - Selection",
+            "CLEMENTE HS - General Education - Selection",
+            "PHILLIPS HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else if (hasSiblingInProgram(student, school)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "889af44e3306313029109d465b1c2de6": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum GPA of 2.5 in 7th grade and minimum attendance percentage of 85.",
+        "programs": [
+            "CLEMENTE HS - General Education - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                if (studentData.gpa >= 2.5 &&
+                    studentData.attendancePercentage >= 85) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "6a02d16ba52a69b937a74a43c6a82769": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance is required at an Information Session for all eligible applicants.",
+        "programs": [
+            "CLEMENTE HS - International Baccalaureate (IB) - Application",
+            "CURIE HS - International Baccalaureate (IB) - Application",
+            "FARRAGUT HS - International Baccalaureate (IB) - Application",
+            "BRONZEVILLE HS - International Baccalaureate (IB) - Application",
+            "HYDE PARK HS - International Baccalaureate (IB) - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
+                    studentData.gpa >= 2.5) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 &&
+                    studentData.scores.nweaPercentileRead >= 24 &&
+                    studentData.gpa >= 2.5) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "1a043655763ab140a0d14f5080d63a2c": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
+        "programs": [
+            "BROOKS HS - Selective Enrollment High School - Application",
+            "YOUNG HS - Selective Enrollment High School - Application",
+            "SOUTH SHORE INTL HS - Selective Enrollment High School - Application",
+            "WESTINGHOUSE HS - Selective Enrollment High School - Application",
+            "LANE TECH HS - Selective Enrollment High School - Application",
+            "HANCOCK HS - Selective Enrollment High School - Application",
+            "LINDBLOM HS - Selective Enrollment High School - Application",
+            "KING HS - Selective Enrollment High School - Application",
+            "PAYTON HS - Selective Enrollment High School - Application",
+            "JONES HS - Selective Enrollment High School - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 &&
+                    studentData.scores.nweaPercentileRead >= 24) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "bd680e7bc10c03552140e26736221cf7": {
+        "name": "",
+        "desc": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for 7th grade final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
+        "programs": [
+            "BROOKS HS - Selective Enrollment High School - Selection",
+            "YOUNG HS - Selective Enrollment High School - Selection",
+            "NORTHSIDE PREP HS - Selective Enrollment High School - Selection",
+            "SOUTH SHORE INTL HS - Selective Enrollment High School - Selection",
+            "WESTINGHOUSE HS - Selective Enrollment High School - Selection",
+            "LANE TECH HS - Selective Enrollment High School - Selection",
+            "HANCOCK HS - Selective Enrollment High School - Selection",
+            "LINDBLOM HS - Selective Enrollment High School - Selection",
+            "KING HS - Selective Enrollment High School - Selection",
+            "JONES HS - Selective Enrollment High School - Selection"
+        ],
+        "fn": function (student, school) {
+            var score = hs_calc_utils_1.calculateSEPoints(student);
+            var cutoff = getSECutoff(student, school);
+            if (score >= cutoff.max) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else if (score >= cutoff.avg) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else if (score >= cutoff.min) {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "94f10272b6ff9ee947b6c7f8e9adc98c": {
+        "name": "",
+        "desc": "Minimum percentile of 24 in both reading and math on NWEA MAP. An interview is required for applicants.",
+        "programs": [
+            "TAFT HS - NJROTC - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.scores.nweaPercentileMath >= 24 &&
+                studentData.scores.nweaPercentileRead >= 24) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "29034b3dd211fc6857c0762ea4431354": {
+        "name": "",
+        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores and the interview.",
+        "programs": [
+            "TAFT HS - NJROTC - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "7ca8e42afc3b2240bdc21e9b02a9b6ff": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 2.75 GPA in 7th grade. An audition is required for students who live outside of the school's attendance boundary.",
+        "programs": [
+            "LINCOLN PARK HS - Vocal Music - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 60 &&
+                    studentData.scores.nweaPercentileRead >= 60 &&
+                    studentData.gpa >= 2.5) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "abfbe30160c0ed3a6d925da2f6fbe7d6": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility/audition requirements and can be admitted automatically.  Students who live outside of the school's attendance boundary are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade GPA, and the audition.",
+        "programs": [
+            "LINCOLN PARK HS - Vocal Music - Selection",
+            "LINCOLN PARK HS - Instrumental Music - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+            }
+        }
+    },
+    "9653c4a2af98c756aaeeaa36980f9dc5": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 24 in reading and math on NWEA MAP, and minimum attendance percentage of 90.",
+        "programs": [
+            "PHILLIPS HS - General Education - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                if (studentData.iep || studentData.ell) {
+                    if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 24 &&
+                        studentData.attendancePercentage >= 90) {
+                        return { outcome: success_chance_ts_1.default.CERTAIN };
+                    }
+                    else {
+                        return { outcome: success_chance_ts_1.default.NONE };
+                    }
+                }
+                else {
+                    if (studentData.scores.nweaPercentileMath >= 24 &&
+                        studentData.scores.nweaPercentileRead >= 24 &&
+                        studentData.attendancePercentage >= 90) {
+                        return { outcome: success_chance_ts_1.default.CERTAIN };
+                    }
+                    else {
+                        return { outcome: success_chance_ts_1.default.NONE };
+                    }
+                }
+            }
+        }
+    },
+    "49bc52caf46148ee777e8d3534f22700": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, tiers.",
+        "programs": [
+            "CRANE MEDICAL HS - Health Sciences - Selection",
+            "CHICAGO AGRICULTURE HS - Agricultural Sciences - Selection",
+            "VON STEUBEN HS - Science - Selection",
+            "CLARK HS - Early College STEM - Selection",
+            "DISNEY II HS - Fine Arts & Technology - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school) ||
+                hasSiblingInProgram(student, school)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "61f50de703d591d18f2fb852131bbb9c": {
+        "name": "",
+        "desc": "Studentts are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+        "programs": [
+            "SULLIVAN HS - Accounting - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                if (studentData.iep || studentData.ell) {
+                    if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
+                        return { outcome: success_chance_ts_1.default.LIKELY };
+                    }
+                    else if (studentData.prevGradeLevel !== 7) {
+                        return { outcome: success_chance_ts_1.default.UNLIKELY };
+                    }
+                    else {
+                        return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                    }
+                }
+                else {
+                    if (studentData.scores.nweaPercentileMath >= 24 &&
+                        studentData.scores.nweaPercentileRead >= 24) {
+                        return { outcome: success_chance_ts_1.default.LIKELY };
+                    }
+                    else if (studentData.prevGradeLevel !== 7) {
+                        return { outcome: success_chance_ts_1.default.UNLIKELY };
+                    }
+                    else {
+                        return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                    }
+                }
+            }
+        }
+    },
+    "3c0f47771fc40565978a3a894bd96705": {
+        "name": "",
+        "desc": "Minimum percentile of 50 in both reading and math on NWEA MAP, and minimum 2.0 GPA in 7th grade.",
+        "programs": [
+            "FENGER HS - Honors - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.scores.nweaPercentileMath >= 50 &&
+                studentData.scores.nweaPercentileRead >= 50 &&
+                studentData.gpa >= 2.0) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "308d8156364219130aef9a7de30a6c8d": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery.",
+        "programs": [
+            "FENGER HS - Honors - Selection",
+            "CHICAGO VIRTUAL - General Education - Selection",
+            "KENWOOD HS - Honors - Selection",
+            "HUBBARD HS - University Scholars - Selection",
+            "DUNBAR HS - Career Academy - Selection",
+            "BRONZEVILLE HS - Honors - Selection",
+            "ACE TECH HS - General Education - Selection",
+            "MORGAN PARK HS - World Language and International Studies - Selection",
+            "CHICAGO TECH HS - Science/Technology/Engineering/Math - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "ab7e9a52b2c607977c432dd5f27c6fe9": {
+        "name": "",
+        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. Each school selects a minimum cutoff score for selections.",
+        "programs": [
+            "PROSSER HS - International Baccalaureate (IB) - Selection"
+        ],
+        "fn": function (student, school) {
+            var score = hs_calc_utils_1.calculateIBPoints(student);
+            var cutoff = getIBCutoff(student, school).min;
+            if (inAttendanceBound(student, school)) {
+                var bonusPoints = 50;
+                var adjustedCutoff = cutoff + bonusPoints;
+                if (score >= adjustedCutoff) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (score >= cutoff) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "8f4240fa22d2281a32186e7a65e75011": {
+        "name": "",
+        "desc": "Spry is a three-year, year-round school. Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+        "programs": [
+            "SPRY HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (hasSiblingInProgram(student, school)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "b4dc6bde064d3f16c8bed871ea0cee30": {
+        "name": "",
+        "desc": "Minimum percentile of 50 in reading on NWEA MAP, minimum 2.0 GPA in 7th grade, and minimum attendance percentage of 80.",
+        "programs": [
+            "KELLY HS - AVID - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.scores.nweaPercentileRead >= 50 &&
+                studentData.gpa >= 2.0 &&
+                studentData.attendancePercentage >= 80) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "4ce6d6733bff330b780bc8390660d7cf": {
+        "name": "",
+        "desc": "Students will be selected based on teacher recommendation letter(s) and an interview process.",
+        "programs": [
+            "KELLY HS - AVID - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "cb7238b523517845746779fe18ea174a": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.   IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
+        "programs": [
+            "NORTHSIDE PREP HS - Selective Enrollment High School - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 &&
+                    studentData.scores.nweaPercentileRead >= 24) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+        }
+    },
+    "14673a83b42347d3fdc6f2fa445c4d2f": {
+        "name": "",
+        "desc": "Student selections are based on points. Students are assigned points for 7th grade final GPA and 7th grade stanines. Students are ranked and selected from high to low. Students residing within the attendance overlay boundary of the school are selected first.",
+        "programs": [
+            "HANCOCK HS - Pre-Law - Selection",
+            "HANCOCK HS - Pre-Engineering - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "3d1c7a20cb38789ce4b0f651200dd9cd": {
+        "name": "",
+        "desc": "Minimum percentile of 75 in both reading and math on NWEA MAP, minimum 3.5 GPA in 7th grade, and minimum attendance percentage of 95.",
+        "programs": [
+            "KENWOOD HS - Honors - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.scores.nweaPercentileMath >= 75 &&
+                studentData.scores.nweaPercentileRead >= 75 &&
+                studentData.gpa >= 3.5 &&
+                studentData.attendancePercentage >= 95) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "027fe7b2d9fd7d9c6e55de49f723852f": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum combined percentile of 40 in reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 30 in reading and math on NWEA MAP, and minimum attendance percentage of 90.",
+        "programs": [
+            "SIMEON HS - Career Academy - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) > 30 &&
+                    studentData.attendancePercentage >= 90) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) > 40 &&
+                    studentData.gpa >= 2.5 &&
+                    studentData.attendancePercentage >= 90) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "47befdd406dee45058f2dbd64a097154": {
+        "name": "",
+        "desc": "Students are selected on a point system. Points are based on the combined NWEA MAP scores and the interview.",
+        "programs": [
+            "SIMEON HS - Career Academy - Selection",
+            "SIMEON HS - Honors - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "39fbe111b62498337fb2f7973a18e570": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 85.  IEP and EL students: Minimum combined percentile of 40 in reading and math on NWEA MAP and minimum attendance percentage of 85.",
+        "programs": [
+            "HARLAN HS - General Education - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                if (studentData.iep || studentData.ell) {
+                    if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 40 &&
+                        studentData.attendancePercentage >= 85) {
+                        return { outcome: success_chance_ts_1.default.CERTAIN };
+                    }
+                    else {
+                        return { outcome: success_chance_ts_1.default.NONE };
+                    }
+                }
+                else {
+                    if (studentData.scores.nweaPercentileMath >= 24 &&
+                        studentData.scores.nweaPercentileRead >= 24 &&
+                        studentData.attendancePercentage >= 85) {
+                        return { outcome: success_chance_ts_1.default.CERTAIN };
+                    }
+                    else {
+                        return { outcome: success_chance_ts_1.default.NONE };
+                    }
+                }
+            }
+        }
+    },
+    "3e4ad403b3a6a2e998cd7d7b7d179091": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibilty requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+        "programs": [
+            "HARLAN HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else if (hasSiblingInProgram(student, school)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "f2829bdd4c9bc67e01b90bdd3db46c07": {
+        "name": "",
+        "desc": "Minimum percentile of 50 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 90.",
+        "programs": [
+            "SIMEON HS - Honors - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.scores.nweaPercentileMath >= 50 &&
+                studentData.scores.nweaPercentileRead >= 50 &&
+                studentData.gpa >= 3.0 &&
+                studentData.attendancePercentage >= 90) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "c66032656bbf52edb1c9d6b62ca2e2eb": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum combined percentile of 135 in reading and math on NWEA MAP and minimum 3.0 GPA in 7th grade.",
+        "programs": [
+            "LINCOLN PARK HS - Honors/Double Honors - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 135 &&
+                    studentData.gpa >= 3.0) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "1558a52d4663a54c6a5f06fa10062961": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside the school's attendance boundary are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and 7th grade GPA.",
+        "programs": [
+            "LINCOLN PARK HS - Honors/Double Honors - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+            }
+        }
+    },
+    "f4491f6cf1ebf200770f01271d93ba47": {
+        "name": "",
+        "desc": "Minimum percentile of 80 in both reading and math on NWEA MAP and minimum 3.5 GPA in 7th grade.",
+        "programs": [
+            "CHICAGO AGRICULTURE HS - Scholars - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.scores.nweaPercentileMath >= 80 &&
+                studentData.scores.nweaPercentileRead >= 80 &&
+                studentData.gpa >= 3.5) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "1976701fe4ffdbf53913f7f638f61b26": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. Preference is given to students with a sibling who is currently enrolled and will be enrolled in the upcoming school year.",
+        "programs": [
+            "CHICAGO AGRICULTURE HS - Scholars - Selection",
+            "HARLAN HS - Pre-Engineering - Selection",
+            "CHICAGO AGRICULTURE HS - Honors - Selection"
+        ],
+        "fn": function (student, school) {
+            if (hasSiblingInProgram(student, school)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "736b7d124b6930cf8ae642563037eeb9": {
+        "name": "",
+        "desc": "Attendance at an Information Session is not required, but preference is given to students who attend an Information Session.",
+        "programs": [
+            "GOODE HS - Early College STEM - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "85463a98c5a7ba21313aacdaeda48cd0": {
+        "name": "",
+        "desc": "Students are randomly selcted by computerized lottery. The lottery is conducted in the following order: students who live within the school's overlay boundary and attend an Information Session; students who live within the school's network and attend an Information Session; students who live outside of the network and attend an Information Session; students who live within the school's overlay boundary and do not attend an Information Session; students who live within the school's network and do not attend an Information Session; students who live outside of the network and do not attend an Information Session.",
+        "programs": [
+            "GOODE HS - Early College STEM - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "8ccbd2eb3d4e026932b83ee576862b16": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  An audition is required for all eligible applicants.",
+        "programs": [
+            "SENN HS - Dance - Application",
+            "SENN HS - Music - Application",
+            "SENN HS - Theatre - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 &&
+                    studentData.scores.nweaPercentileRead >= 24) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+        }
+    },
+    "7e054e33cdc685f9b099a243e45f0386": {
+        "name": "",
+        "desc": "Minimum 2.5 GPA in 7th grade.",
+        "programs": [
+            "ROBESON HS - Allied Health - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.gpa >= 2.5) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "b3b514880eaa7b9a4db6d6b6308eb1f7": {
+        "name": "",
+        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school selects the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Academic Center.",
+        "programs": [
+            "MORGAN PARK HS - International Baccalaureate (IB) - Selection"
+        ],
+        "fn": function (student, school) {
+            var score = hs_calc_utils_1.calculateIBPoints(student);
+            var cutoff = getIBCutoff(student, school).min;
+            if (inAttendanceBound(student, school)) {
+                var bonusPoints = 50;
+                var adjustedCutoff = cutoff + bonusPoints;
+                if (score >= adjustedCutoff) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (score >= cutoff) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "7574e7fa48dfdf030b059dbaff5351b6": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling; students who attend Brennemann, Courtenay, or McCutcheon Elementary Schools; general.",
+        "programs": [
+            "UPLIFT HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (hasSiblingInProgram(student, school)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "f9d7148f613933f83ad7d81004715614": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled at the University of Chicago Woodlawn, sibling, proximity, general.",
+        "programs": [
+            "U OF C - WOODLAWN HS - General Education - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData) ||
+                hasSiblingInProgram(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "bc314f72be86fc565247301f6d8f99b8": {
+        "name": "",
+        "desc": "Minimum percentile of 40 in both reading and math on NWEA MAP, minimum 2.8 GPA in 7th grade, and minimum attendance percentage of 92.",
+        "programs": [
+            "COLLINS HS - Scholars - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.scores.nweaPercentileMath >= 40 &&
+                studentData.scores.nweaPercentileRead >= 40 &&
+                studentData.gpa >= 2.8 &&
+                studentData.attendancePercentage >= 92) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "685beedfccfae8bdb0649c36f03dfd7a": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in Chalmers, Dvorak, Herzl, Johnson, or Morton Elementary Schools; general.",
+        "programs": [
+            "COLLINS HS - Scholars - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "9a2a27708247d3b692481757756b5226": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum combined percentile of 40 in both reading and math on NWEA MAP, minimum 2.0 GPA in 7th grade, and minimum attendance percentage of 80.  IEP/EL students have no eligibility requirements.",
+        "programs": [
+            "TEAM HS - General Education - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 40 &&
+                    studentData.gpa >= 2.0 &&
+                    studentData.attendancePercentage >= 80) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "8f880cad92a9a0dc49dd8d6ba4209b14": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students with a 7th grade final GPA of 2.5 or higher, general.",
+        "programs": [
+            "TEAM HS - General Education - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.gpa >= 2.5) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "43cabfe5f36cbf1ccbb95a9962d90319": {
+        "name": "",
+        "desc": "Students enrolled in the Taft Academic Center or students who live within the school's attendance boundary can be admitted automatically. This program only accepts students who live within the school's attendance boundary or who attend the school's Academic Center.",
+        "programs": [
+            "TAFT HS - General Education - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "9fad1e147fb546e7a25d0fccba608035": {
+        "name": "",
+        "desc": "Students who are enrolled in the Morgan Park Academic Center and students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+        "programs": [
+            "MORGAN PARK HS - General Education - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (inAttendanceBound(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else if (hasSiblingInProgram(studentData, schoolData)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "7ef878b115498c24fd96f8891c346480": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 85.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, and minimum attendance percentage of 85.",
+        "programs": [
+            "WILLIAMS HS - General Education - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
+                    studentData.attendancePercentage >= 85) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 &&
+                    studentData.scores.nweaPercentileRead >= 24 &&
+                    studentData.attendancePercentage >= 85) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "01bb8009b315ff8fc0120dbadf71444c": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading on math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.",
+        "programs": [
+            "HUBBARD HS - University Scholars - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
+                    studentData.gpa >= 2.5 &&
+                    studentData.attendancePercentage >= 90) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 &&
+                    studentData.scores.nweaPercentileRead >= 24 &&
+                    studentData.gpa >= 2.5 &&
+                    studentData.attendancePercentage >= 90) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "86b8c5719b264aa9072aa6433644fb60": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, and minimum attendance percentage of 90.",
+        "programs": [
+            "SENN HS - Digital Journalism - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
+                    studentData.attendancePercentage >= 90) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 &&
+                    studentData.scores.nweaPercentileRead >= 24 &&
+                    studentData.gpa >= 2.5 &&
+                    studentData.attendancePercentage >= 90) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "4773ff8378c681fdc3855cec189b446d": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. General Education and 504 Plan Students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+        "programs": [
+            "BOGAN HS - Accounting - Selection"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else if (studentData.prevGradeLevel !== 7) {
+                    return { outcome: success_chance_ts_1.default.UNLIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 && studentData.scores.nweaPercentileRead >= 24) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else if (studentData.prevGradeLevel !== 7) {
+                    return { outcome: success_chance_ts_1.default.UNLIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+        }
+    },
+    "87bdb6caf5cf899ddb8041511761e58b": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+        "programs": [
+            "INTRINSIC HS - General Education - Selection",
+            "YOUNG WOMENS HS - General Education - Selection",
+            "INSTITUTO - HEALTH - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (hasSiblingInProgram(student, school)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "23e3199eb5514de5456653457f75f366": {
+        "name": "",
+        "desc": "Minimum percentile of 60 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.",
+        "programs": [
+            "KENWOOD HS - Magnet Program - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.scores.nweaPercentileMath >= 60 &&
+                student.scores.nweaPercentileRead >= 60 &&
+                student.gpa >= 3.0 &&
+                student.attendancePercentage >= 95) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "9b26cbed99b12a4c7cfca5a4713c6e17": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in the Kenwood Academic Center, general.",
+        "programs": [
+            "KENWOOD HS - Magnet Program - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "0df5dab7dc2c1e8d8947d27287872269": {
+        "name": "",
+        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibilty requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, Edwards Elementary School.",
+        "programs": [
+            "CURIE HS - International Baccalaureate (IB) - Selection"
+        ],
+        "fn": function (student, school) {
+            var score = hs_calc_utils_1.calculateIBPoints(student);
+            var cutoff = getIBCutoff(student, school).min;
+            if (inAttendanceBound(student, school)) {
+                var bonusPoints = 50;
+                var adjustedCutoff = cutoff + bonusPoints;
+                if (score >= adjustedCutoff) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (score >= cutoff) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "9e837f0a671ce67593e611ccf595306a": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the schools attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
+        "programs": [
+            "CORLISS HS - Early College STEM - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else if (hasSiblingInProgram(student, school)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "2fdf00001de412f0e493fa242647bad0": {
+        "name": "",
+        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Academic Center.",
+        "programs": [
+            "TAFT HS - International Baccalaureate (IB) - Selection"
+        ],
+        "fn": function (student, school) {
+            var score = hs_calc_utils_1.calculateIBPoints(student);
+            var cutoff = getIBCutoff(student, school).min;
+            if (inAttendanceBound(student, school)) {
+                var bonusPoints = 50;
+                var adjustedCutoff = cutoff + bonusPoints;
+                if (score >= adjustedCutoff) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (score >= cutoff) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "ba2bb65c77d8d0932634f43bb01707cc": {
+        "name": "",
+        "desc": "Students who live within the school's attendance area can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in Carnegie Elementary School, sibling, general.",
+        "programs": [
+            "HYDE PARK HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else if (hasSiblingInProgram(student, school)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "08ee4f1aa31d5eb00bbc81c21139188b": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary: None  Students who live outside of the school's attendance boundary: Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 2.75 GPA in 7th grade. An audition is required for students who live outside of the school's attendance boundary.",
+        "programs": [
+            "LINCOLN PARK HS - Instrumental Music - Application"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                if (student.scores.nweaPercentileMath >= 60 &&
+                    student.scores.nweaPercentileRead >= 60 &&
+                    student.gpa >= 2.75) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "d1b719a6ff9e6979e8f14b2c05b63352": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: Alcott Elementary School students, proximity, general.",
+        "programs": [
+            "ALCOTT HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "f5ef0c0580eb110a06888b1c15313717": {
+        "name": "",
+        "desc": "Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 2.75 GPA in 7th grade. An audition is required for all eligible applicants.",
+        "programs": [
+            "LINCOLN PARK HS - Drama - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.scores.nweaPercentileMath >= 60 &&
+                student.scores.nweaPercentileRead >= 60 &&
+                student.gpa >= 2.75) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "9f4eb5cee59306847a4fa61720f8e54d": {
+        "name": "",
+        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade GPA, and the audition.",
+        "programs": [
+            "LINCOLN PARK HS - Drama - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "625d1f6025c2e892f5573e60ab69f903": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on the NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.",
+        "programs": [
+            "HARLAN HS - Pre-Engineering - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (student.scores.nweaPercentileMath >= 24 &&
+                    student.scores.nweaPercentileRead >= 24) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "bc517a96ab40c67deddde65b6a4c07a8": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  A portfolio review is required for all eligible applicants.",
+        "programs": [
+            "SENN HS - Visual Arts - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (student.scores.nweaPercentileMath >= 24 &&
+                    student.scores.nweaPercentileRead >= 24) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "cb76bc6620a1921e5f9630e2a39fb8d8": {
+        "name": "",
+        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade final (cumulative) grades, and the portfolio review.",
+        "programs": [
+            "SENN HS - Visual Arts - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "afb0dfcaa0f2cc236b2bd07a0244385e": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary or who attend Grow Community Schools can be admitted automatically. This program only accepts students who live within the school's attendance boundary or attend a Grow Community School.",
+        "programs": [
+            "AMUNDSEN HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "78e3973b67c80b7984271b2a127e9ebf": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum 2.5 GPA in 7th grade and minimum attendance percentage of 85.",
+        "programs": [
+            "KELVYN PARK HS - General Education - Application"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                if (student.gpa >= 2.5 &&
+                    student.attendancePercentage >= 85) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "03c4df08f6e417f196f6e87415e2064f": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are selected on a point system. Points are based on NWEA MAP scores, 7th grade GPA, and the interview.",
+        "programs": [
+            "KELVYN PARK HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+            }
+        }
+    },
+    "95025d14a97b9b32f5a2c8225c4ddd6e": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance is required at an Information Session for all eliglble applicants.",
+        "programs": [
+            "HUBBARD HS - International Baccalaureate (IB) - Application"
+        ],
+        "fn": function (studentData, schoolData) {
+            if (studentData.iep || studentData.ell) {
+                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
+                    studentData.gpa >= 2.5) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (studentData.scores.nweaPercentileMath >= 24 &&
+                    studentData.scores.nweaPercentileRead >= 24 &&
+                    studentData.gpa >= 2.5) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "296d2849362aa5311f457ffc834a868b": {
+        "name": "",
+        "desc": "Students are selected on a point system. Students are assigned points for 7th grade final GPA and 7th grade stanines. Students are ranked and selected from high to low. Students residing within the attendance overlay boundary of the school are selected first.",
+        "programs": [
+            "JONES HS - Pre-Law - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "bb9e0e6f1af678dafb340a8e48ff4fbf": {
+        "name": "",
+        "desc": "Minimum percentile of 50 in both reading and math on NWEA MAP and minimum 3.0 GPA in 7th grade.",
+        "programs": [
+            "CHICAGO AGRICULTURE HS - Honors - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.scores.nweaPercentileMath >= 50 &&
+                student.scores.nweaPercentileRead >= 50 &&
+                student.gpa >= 3.0) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "26f5b02fa29f8a9c2b5bc909b844e585": {
+        "name": "",
+        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner,  Madero Middle School.",
+        "programs": [
+            "FARRAGUT HS - International Baccalaureate (IB) - Selection"
+        ],
+        "fn": function (student, school) {
+            var score = hs_calc_utils_1.calculateIBPoints(student);
+            var cutoff = getIBCutoff(student, school).min;
+            if (inAttendanceBound(student, school)) {
+                var bonusPoints = 50;
+                var adjustedCutoff = cutoff + bonusPoints;
+                if (score >= adjustedCutoff) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (score >= cutoff) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "6de001ff1207c6d38de87e65f3e11ff3": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled at Chicago Collegiate Charter School, sibling, proximity, general.",
+        "programs": [
+            "CHICAGO COLLEGIATE - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school) ||
+                hasSiblingInProgram(student, school)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "351d1f100c07b40673b51f4506b0e34e": {
+        "name": "",
+        "desc": "None. All interested students, including students who live within the overlay boundary of the school, must submit apply.",
+        "programs": [
+            "BACK OF THE YARDS HS - General Education - Application"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.CERTAIN };
+        }
+    },
+    "fd100fd06ddf9bd72e2809f6d659faf2": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students who live within the attendance boundaries of Chavez, Daley, Hamline, Hedges, Lara, or Seward Elementary Schools; general.",
+        "programs": [
+            "BACK OF THE YARDS HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "763686fddcad223e9a51aebaac42b61c": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: General Education and 504 Plan students: Minimum percentile of 60 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.  IEP/EL students have no eligibility requirements.",
+        "programs": [
+            "WELLS HS - General Education - Application"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                if (student.iep || student.ell) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    if (student.scores.nweaPercentileMath >= 60 &&
+                        student.scores.nweaPercentileRead >= 60 &&
+                        student.gpa >= 3.0 &&
+                        student.attendancePercentage >= 95) {
+                        return { outcome: success_chance_ts_1.default.CERTAIN };
+                    }
+                    else {
+                        return { outcome: success_chance_ts_1.default.NONE };
+                    }
+                }
+            }
+        }
+    },
+    "379139122b47f0c7efa0e423df956e30": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: students scoring above designated NWEA MAP percentile, sibling, general.",
+        "programs": [
+            "WELLS HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                var scoredAboveThreshold = student.scores.nweaPercentileMath >= 60 &&
+                    student.scores.nweaPercentileRead >= 60;
+                if (scoredAboveThreshold || hasSiblingInProgram(student, school)) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+        }
+    },
+    "69aef50164a2914f16a28630afa50270": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 30 in both reading and math on NWEA MAP, minimum 2.0 GPA in 7th grade and minimum attendance percentage of 85.  IEP and EL students: Minimum combined percentile of 24 in reading and math on NWEA MAP, and minimum attendance percentage of 85.",
+        "programs": [
+            "COLLINS HS - General Education - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 24 &&
+                    student.attendancePercentage >= 85) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "a105512ab5a0eb6536021215baf98ea8": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in Chalmers, Dvorak, Herzl, Johnson, or Morton Elementary Schools; sibling; general.",
+        "programs": [
+            "COLLINS HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (hasSiblingInProgram(student, school)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "47750c8ffb643412fb55f3f3d6bde14a": {
+        "name": "",
+        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school selects the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, Ogden Elementary School.",
+        "programs": [
+            "OGDEN HS - International Baccalaureate (IB) - Selection"
+        ],
+        "fn": function (student, school) {
+            var score = hs_calc_utils_1.calculateIBPoints(student);
+            var cutoff = getIBCutoff(student, school).min;
+            if (inAttendanceBound(student, school)) {
+                var bonusPoints = 50;
+                var adjustedCutoff = cutoff + bonusPoints;
+                if (score >= adjustedCutoff) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (score >= cutoff) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "965d710ce70f9e59e622f51311b5a986": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+        "programs": [
+            "DYETT ARTS HS - Digital Media - Selection"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else if (student.prevGradeLevel !== 7) {
+                    return { outcome: success_chance_ts_1.default.UNLIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+            else {
+                if (student.scores.nweaPercentileMath >= 24 &&
+                    student.scores.nweaPercentileRead >= 24) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else if (student.prevGradeLevel !== 7) {
+                    return { outcome: success_chance_ts_1.default.UNLIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+        }
+    },
+    "a6071a83f74612d54c3f659f9cb8a79c": {
+        "name": "",
+        "desc": "General Education/504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants.",
+        "programs": [
+            "SENN HS - International Baccalaureate (IB) - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
+                    student.gpa >= 2.5) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (student.scores.nweaPercentileMath >= 24 &&
+                    student.scores.nweaPercentileRead >= 24 &&
+                    student.gpa >= 2.5) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "8605454896638a4de5feec75ed536489": {
+        "name": "",
+        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, Peirce Elementary School.",
+        "programs": [
+            "SENN HS - International Baccalaureate (IB) - Selection"
+        ],
+        "fn": function (student, school) {
+            var score = hs_calc_utils_1.calculateIBPoints(student);
+            var cutoff = getIBCutoff(student, school).min;
+            if (inAttendanceBound(student, school)) {
+                var bonusPoints = 50;
+                var adjustedCutoff = cutoff + bonusPoints;
+                if (score >= adjustedCutoff) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (score >= cutoff) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "5e32e9c5ce34b2af75f2ec9e1a6c6643": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 50 in both reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade.    IEP and EL students: Minimum combined percentile of 100 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.",
+        "programs": [
+            "BRONZEVILLE HS - Honors - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 100 &&
+                    student.gpa >= 2.5) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (student.scores.nweaPercentileMath >= 50 &&
+                    student.scores.nweaPercentileRead >= 50 &&
+                    student.gpa >= 2.5) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "8a0c487746fe132f3f1925a84c56e9ee": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eliglble applicants.",
+        "programs": [
+            "LINCOLN PARK HS - International Baccalaureate (IB) - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
+                    student.gpa >= 2.5) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (student.scores.nweaPercentileMath >= 24 &&
+                    student.scores.nweaPercentileRead >= 24 &&
+                    student.gpa >= 2.5) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "8e60c325cf7da2ae7aa09dc4e543590e": {
+        "name": "",
+        "desc": "Students are selected based on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school selects the minimum cutoff score for selections.",
+        "programs": [
+            "LINCOLN PARK HS - International Baccalaureate (IB) - Selection"
+        ],
+        "fn": function (student, school) {
+            var score = hs_calc_utils_1.calculateIBPoints(student);
+            var cutoff = getIBCutoff(student, school).min;
+            if (inAttendanceBound(student, school)) {
+                var bonusPoints = 50;
+                var adjustedCutoff = cutoff + bonusPoints;
+                if (score >= adjustedCutoff) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (score >= cutoff) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "f1650d13a99b142887259980d7570270": {
+        "name": "",
+        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.  Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, McPherson Elementary School.",
+        "programs": [
+            "AMUNDSEN HS - International Baccalaureate (IB) - Selection"
+        ],
+        "fn": function (student, school) {
+            var score = hs_calc_utils_1.calculateIBPoints(student);
+            var cutoff = getIBCutoff(student, school).min;
+            if (inAttendanceBound(student, school)) {
+                var bonusPoints = 50;
+                var adjustedCutoff = cutoff + bonusPoints;
+                if (score >= adjustedCutoff) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (score >= cutoff) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "2434179e9c2fb95777cc4e0c6c998de1": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum attendance percentage of 95.",
+        "programs": [
+            "WORLD LANGUAGE HS - General Education - Application"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                if (student.attendancePercentage >= 95) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "cbc3d549cb9e0240f077ac3c87b0f671": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery.\u00a0The lottery is conducted in the following order: sibling, general.",
+        "programs": [
+            "WORLD LANGUAGE HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else if (hasSiblingInProgram(student, school)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "5cfeec40267082ca1ee0ca7e469687a7": {
+        "name": "",
+        "desc": "Contact the school for information.",
+        "programs": [
+            "LAKE VIEW HS - Early College STEM - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "01ad18923e7e8de10e8fb09bb2c6722a": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery.  General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
+        "programs": [
+            "CHICAGO VOCATIONAL HS - Cosmetology - Selection"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+            else {
+                if (student.scores.nweaPercentileMath >= 24 &&
+                    student.scores.nweaPercentileRead >= 24) {
+                    return { outcome: success_chance_ts_1.default.LIKELY };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+        }
+    },
+    "94798381edc76846cfb1ec3503fd61b0": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Essay",
+        "programs": [
+            "SOCIAL JUSTICE HS - General Education - Application"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "62c57f6f0d8cb1d35fb12bd66840819f": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Students who live outside of the school's attendance boundary are selected on a point system. The points are based on the student essay and NWEA MAP scores.",
+        "programs": [
+            "SOCIAL JUSTICE HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+            }
+        }
+    },
+    "182b0f39bdb6558622d86addc2aae6b7": {
+        "name": "",
+        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.  Preference is given to students who meet the minimum eligibilty requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, Carnegie Elementary School.",
+        "programs": [
+            "HYDE PARK HS - International Baccalaureate (IB) - Selection"
+        ],
+        "fn": function (student, school) {
+            var score = hs_calc_utils_1.calculateIBPoints(student);
+            var cutoff = getIBCutoff(student, school).min;
+            if (inAttendanceBound(student, school)) {
+                var bonusPoints = 50;
+                var adjustedCutoff = cutoff + bonusPoints;
+                if (score >= adjustedCutoff) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (score >= cutoff) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "c7ce3086f4acc55ea53e0c97f71d12aa": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary and students currently enrolled in the Kenwood Academic Center can be admitted automatically. This program only accepts students who live within the school's attendance boundary or who are enrolled in the school's Academic Center.",
+        "programs": [
+            "KENWOOD HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "65f9f712e101af2ba0f44401e01ca729": {
+        "name": "",
+        "desc": "Students are selected on a point system. Points are based on 7th grade final GPA and NWEA MAP scores. The school determines the minimum cutoff score for selections. Preference is given to students who live within the school's attendance boundary.",
+        "programs": [
+            "AUSTIN CCA HS - Pre-Engineering - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "5fbf1b80166fef3a0e0db9557d500465": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 25 in both reading and math on NWEA MAP.   IEP and EL students: Minimum combined percentile of 50 in reading and math on NWEA MAP, and minimum attendance percentage of 85.",
+        "programs": [
+            "CHICAGO ACADEMY HS - General Education - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 50 &&
+                    student.attendancePercentage >= 85) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (student.scores.nweaPercentileMath >= 25 &&
+                    student.scores.nweaPercentileRead >= 25 &&
+                    student.attendancePercentage >= 85) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "924ceb6aa82922cdb541302a265549eb": {
+        "name": "",
+        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: students attending Boone, Field, Gale, Hayt, Jordan, Kilmer, McCutcheon, McPherson, or West Ridge Elementary Schools; sibling; general.",
+        "programs": [
+            "SULLIVAN HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (inAttendanceBound(student, school) ||
+                hasSiblingInProgram(student, school)) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "46083386e3daad02ff00ac73d3987286": {
+        "name": "",
+        "desc": "Students are selected on a point system with a maximum of 900 points. Points are based on 7th grade final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
+        "programs": [
+            "PAYTON HS - Selective Enrollment High School - Selection"
+        ],
+        "fn": function (student, school) {
+            var score = hs_calc_utils_1.calculateSEPoints(student);
+            var cutoff = getSECutoff(student, school);
+            if (score >= cutoff.max) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else if (score >= cutoff.avg) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else if (score >= cutoff.min) {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "536556326f56a1875afccbeedde85fb9": {
+        "name": "",
+        "desc": "Students are randomly selected by computerized lottery. The lottery is conduced in the following order: sibling, general.",
+        "programs": [
+            "LEGAL PREP HS - General Education - Selection"
+        ],
+        "fn": function (student, school) {
+            if (hasSiblingInProgram(student, school)) {
+                return { outcome: success_chance_ts_1.default.LIKELY };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.UNCERTAIN };
+            }
+        }
+    },
+    "7cc8a6e9cd27c6a9e8d43b323a961475": {
+        "name": "",
+        "desc": "Applicants must be girls currently enrolled in eighth grade.",
+        "programs": [
+            "YOUNG WOMENS HS - General Education - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.gradeLevel === 8) {
+                if (student.gender === gender_1.default.FEMALE) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else if (student.gender === gender_1.default.OTHER ||
+                    student.gender === gender_1.default.NOANSWER) {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+                else if (student.gender === gender_1.default.MALE) {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
+                }
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "a787cb9987ca94d3c2370e2cb67d50cc": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 50 in both reading and math on the NWEA MAP and minimum 3.0 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 60 in reading and math on NWEA MAP.",
+        "programs": [
+            "MORGAN PARK HS - World Language and International Studies - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 60) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (student.scores.nweaPercentileRead >= 50 &&
+                    student.scores.nweaPercentileMath >= 50 &&
+                    student.gpa >= 3.0) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "d7e3e54b06028c21a40cf58127e2aef4": {
+        "name": "",
+        "desc": "Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 3.0 GPA in 7th grade. Eligible students must submit teacher recommendations and an essay. See www.vonsteuben.org for submission details (click 'Apply' and 'Scholars Program'). Applicants who are not eligible will automatically be included in the computerized lottery selection process for the Von Steuben Science Program.",
+        "programs": [
+            "VON STEUBEN HS - Scholars - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.scores.nweaPercentileMath >= 60 &&
+                student.scores.nweaPercentileRead >= 60 &&
+                student.gpa >= 3.0) {
+                return { outcome: success_chance_ts_1.default.CERTAIN };
+            }
+            else {
+                return { outcome: success_chance_ts_1.default.NONE };
+            }
+        }
+    },
+    "0a7d20d2cdbb736d46e6c7a37e5b7764": {
+        "name": "",
+        "desc": "Students are selected on a point system. Points are based on the teacher recommendations and the essay.",
+        "programs": [
+            "VON STEUBEN HS - Scholars - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
+        }
+    },
+    "a59652b1328b73b5acb08979a32a9db8": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum attendance percentage of 92.  An audition is required for all eligible applicants.",
+        "programs": [
+            "CHIARTS HS - Music - Vocal - Application",
+            "CHIARTS HS - Theatre - Application",
+            "CHIARTS HS - Music - Instumental - Application",
+            "CHIARTS HS - Dance - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
+                    student.attendancePercentage >= 92) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (student.scores.nweaPercentileMath >= 24 &&
+                    student.scores.nweaPercentileMath >= 24 &&
+                    student.attendancePercentage >= 92) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "500cba9f742c1244ddaa1c37070299f1": {
+        "name": "",
+        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the audition.",
+        "programs": [
+            "CHIARTS HS - Music - Vocal - Selection",
+            "CHIARTS HS - Theatre - Selection",
+            "CHIARTS HS - Music - Instumental - Selection",
+            "CHIARTS HS - Dance - Selection",
+            "CHIARTS HS - Musical Theatre - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "b89ee63f6f32c43ca9707a85d8dc98e7": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum attendance percentage of 92.   A portfolio review is required for all eligible applicants.",
+        "programs": [
+            "CHIARTS HS - Creative Writing - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
+                    student.attendancePercentage >= 92) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (student.scores.nweaPercentileMath >= 24 &&
+                    student.scores.nweaPercentileMath >= 24 &&
+                    student.attendancePercentage >= 92) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "fd2b72f8025478fc320959b283c0ff2f": {
+        "name": "",
+        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the portfolio review.",
+        "programs": [
+            "CHIARTS HS - Creative Writing - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "3f45862ca2003745fc3f4e12492abdfa": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  A portfolio review is required for all eligible applicants.",
+        "programs": [
+            "CHIARTS HS - Visual Arts - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
+                    student.attendancePercentage >= 92) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (student.scores.nweaPercentileMath >= 24 &&
+                    student.scores.nweaPercentileMath >= 24 &&
+                    student.attendancePercentage >= 92) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    },
+    "6c2d1016a23c9b0e67736b91a166b594": {
+        "name": "",
+        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP socres in reading and math and the portfolio review.",
+        "programs": [
+            "CHIARTS HS - Visual Arts - Selection"
+        ],
+        "fn": function (student, school) {
+            return { outcome: success_chance_ts_1.default.UNCERTAIN };
+        }
+    },
+    "ae43e969113d1c6b1b6fe0c0a1321c40": {
+        "name": "",
+        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum attendance percentage of 92. An audition is required for all eligible applicants.",
+        "programs": [
+            "CHIARTS HS - Musical Theatre - Application"
+        ],
+        "fn": function (student, school) {
+            if (student.iep || student.ell) {
+                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
+                    student.attendancePercentage >= 92) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+            else {
+                if (student.scores.nweaPercentileMath >= 24 &&
+                    student.scores.nweaPercentileMath >= 24 &&
+                    student.attendancePercentage >= 92) {
+                    return { outcome: success_chance_ts_1.default.CERTAIN };
+                }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
+            }
+        }
+    }
+};
+exports.default = HSReqFns;
 
 
 /***/ }),
@@ -19451,7 +22924,7 @@ module.exports = factory(isValidElement);
 if (process.env.NODE_ENV !== 'production') {
   var invariant = __webpack_require__(10);
   var warning = __webpack_require__(11);
-  var ReactPropTypesSecret = __webpack_require__(90);
+  var ReactPropTypesSecret = __webpack_require__(91);
   var loggedTypeFailures = {};
 }
 
@@ -19567,7 +23040,7 @@ module.exports = factory(Component, isValidElement, ReactNoopUpdateQueue);
 
 var _assign = __webpack_require__(14);
 
-var emptyObject = __webpack_require__(66);
+var emptyObject = __webpack_require__(67);
 var _invariant = __webpack_require__(10);
 
 if (process.env.NODE_ENV !== 'production') {
@@ -20776,7 +24249,7 @@ module.exports = ARIADOMPropertyConfig;
 
 
 
-var EventPropagators = __webpack_require__(54);
+var EventPropagators = __webpack_require__(55);
 var ExecutionEnvironment = __webpack_require__(17);
 var FallbackCompositionState = __webpack_require__(234);
 var SyntheticCompositionEvent = __webpack_require__(235);
@@ -21348,16 +24821,16 @@ module.exports = SyntheticInputEvent;
 
 
 
-var EventPluginHub = __webpack_require__(55);
-var EventPropagators = __webpack_require__(54);
+var EventPluginHub = __webpack_require__(56);
+var EventPropagators = __webpack_require__(55);
 var ExecutionEnvironment = __webpack_require__(17);
 var ReactDOMComponentTree = __webpack_require__(15);
 var ReactUpdates = __webpack_require__(28);
 var SyntheticEvent = __webpack_require__(32);
 
 var inputValueTracking = __webpack_require__(146);
-var getEventTarget = __webpack_require__(93);
-var isEventSupported = __webpack_require__(94);
+var getEventTarget = __webpack_require__(94);
+var isEventSupported = __webpack_require__(95);
 var isTextInputElement = __webpack_require__(147);
 
 var eventTypes = {
@@ -22405,9 +25878,9 @@ module.exports = DefaultEventPluginOrder;
 
 
 
-var EventPropagators = __webpack_require__(54);
+var EventPropagators = __webpack_require__(55);
 var ReactDOMComponentTree = __webpack_require__(15);
-var SyntheticMouseEvent = __webpack_require__(69);
+var SyntheticMouseEvent = __webpack_require__(70);
 
 var eventTypes = {
   mouseEnter: {
@@ -22749,7 +26222,7 @@ module.exports = HTMLDOMPropertyConfig;
 
 
 
-var DOMChildrenOperations = __webpack_require__(96);
+var DOMChildrenOperations = __webpack_require__(97);
 var ReactDOMIDOperations = __webpack_require__(253);
 
 /**
@@ -23158,7 +26631,7 @@ module.exports = getMarkupWrap;
 
 
 
-var DOMChildrenOperations = __webpack_require__(96);
+var DOMChildrenOperations = __webpack_require__(97);
 var ReactDOMComponentTree = __webpack_require__(15);
 
 /**
@@ -23204,12 +26677,12 @@ var _prodInvariant = __webpack_require__(12),
 var AutoFocusUtils = __webpack_require__(255);
 var CSSPropertyOperations = __webpack_require__(256);
 var DOMLazyTree = __webpack_require__(45);
-var DOMNamespaces = __webpack_require__(97);
+var DOMNamespaces = __webpack_require__(98);
 var DOMProperty = __webpack_require__(33);
 var DOMPropertyOperations = __webpack_require__(152);
-var EventPluginHub = __webpack_require__(55);
-var EventPluginRegistry = __webpack_require__(67);
-var ReactBrowserEventEmitter = __webpack_require__(72);
+var EventPluginHub = __webpack_require__(56);
+var EventPluginRegistry = __webpack_require__(68);
+var ReactBrowserEventEmitter = __webpack_require__(73);
 var ReactDOMComponentFlags = __webpack_require__(140);
 var ReactDOMComponentTree = __webpack_require__(15);
 var ReactDOMInput = __webpack_require__(266);
@@ -23221,12 +26694,12 @@ var ReactMultiChild = __webpack_require__(269);
 var ReactServerRenderingTransaction = __webpack_require__(278);
 
 var emptyFunction = __webpack_require__(24);
-var escapeTextContentForBrowser = __webpack_require__(71);
+var escapeTextContentForBrowser = __webpack_require__(72);
 var invariant = __webpack_require__(10);
-var isEventSupported = __webpack_require__(94);
-var shallowEqual = __webpack_require__(101);
+var isEventSupported = __webpack_require__(95);
+var shallowEqual = __webpack_require__(102);
 var inputValueTracking = __webpack_require__(146);
-var validateDOMNesting = __webpack_require__(105);
+var validateDOMNesting = __webpack_require__(106);
 var warning = __webpack_require__(11);
 
 var Flags = ReactDOMComponentFlags;
@@ -24746,7 +28219,7 @@ module.exports = memoizeStringOnly;
 
 
 
-var escapeTextContentForBrowser = __webpack_require__(71);
+var escapeTextContentForBrowser = __webpack_require__(72);
 
 /**
  * Escapes attribute value to prevent scripting attacks.
@@ -24777,7 +28250,7 @@ module.exports = quoteAttributeValueForBrowser;
 
 
 
-var EventPluginHub = __webpack_require__(55);
+var EventPluginHub = __webpack_require__(56);
 
 function runEventQueueInBatch(events) {
   EventPluginHub.enqueueEvents(events);
@@ -24924,7 +28397,7 @@ var _prodInvariant = __webpack_require__(12),
     _assign = __webpack_require__(14);
 
 var DOMPropertyOperations = __webpack_require__(152);
-var LinkedValueUtils = __webpack_require__(99);
+var LinkedValueUtils = __webpack_require__(100);
 var ReactDOMComponentTree = __webpack_require__(15);
 var ReactUpdates = __webpack_require__(28);
 
@@ -25344,7 +28817,7 @@ module.exports = ReactDOMOption;
 var _prodInvariant = __webpack_require__(12),
     _assign = __webpack_require__(14);
 
-var LinkedValueUtils = __webpack_require__(99);
+var LinkedValueUtils = __webpack_require__(100);
 var ReactDOMComponentTree = __webpack_require__(15);
 var ReactUpdates = __webpack_require__(28);
 
@@ -25509,8 +28982,8 @@ module.exports = ReactDOMTextarea;
 
 var _prodInvariant = __webpack_require__(12);
 
-var ReactComponentEnvironment = __webpack_require__(100);
-var ReactInstanceMap = __webpack_require__(57);
+var ReactComponentEnvironment = __webpack_require__(101);
+var ReactInstanceMap = __webpack_require__(58);
 var ReactInstrumentation = __webpack_require__(25);
 
 var ReactCurrentOwner = __webpack_require__(27);
@@ -25962,8 +29435,8 @@ module.exports = ReactMultiChild;
 var ReactReconciler = __webpack_require__(44);
 
 var instantiateReactComponent = __webpack_require__(155);
-var KeyEscapeUtils = __webpack_require__(103);
-var shouldUpdateReactComponent = __webpack_require__(102);
+var KeyEscapeUtils = __webpack_require__(104);
+var shouldUpdateReactComponent = __webpack_require__(103);
 var traverseAllChildren = __webpack_require__(159);
 var warning = __webpack_require__(11);
 
@@ -26122,10 +29595,10 @@ var _prodInvariant = __webpack_require__(12),
     _assign = __webpack_require__(14);
 
 var React = __webpack_require__(42);
-var ReactComponentEnvironment = __webpack_require__(100);
+var ReactComponentEnvironment = __webpack_require__(101);
 var ReactCurrentOwner = __webpack_require__(27);
-var ReactErrorUtils = __webpack_require__(92);
-var ReactInstanceMap = __webpack_require__(57);
+var ReactErrorUtils = __webpack_require__(93);
+var ReactInstanceMap = __webpack_require__(58);
 var ReactInstrumentation = __webpack_require__(25);
 var ReactNodeTypes = __webpack_require__(156);
 var ReactReconciler = __webpack_require__(44);
@@ -26134,10 +29607,10 @@ if (process.env.NODE_ENV !== 'production') {
   var checkReactTypeSpec = __webpack_require__(272);
 }
 
-var emptyObject = __webpack_require__(66);
+var emptyObject = __webpack_require__(67);
 var invariant = __webpack_require__(10);
-var shallowEqual = __webpack_require__(101);
-var shouldUpdateReactComponent = __webpack_require__(102);
+var shallowEqual = __webpack_require__(102);
+var shouldUpdateReactComponent = __webpack_require__(103);
 var warning = __webpack_require__(11);
 
 var CompositeTypes = {
@@ -27246,7 +30719,7 @@ module.exports = getIteratorFn;
 
 
 
-var KeyEscapeUtils = __webpack_require__(103);
+var KeyEscapeUtils = __webpack_require__(104);
 var traverseAllChildren = __webpack_require__(159);
 var warning = __webpack_require__(11);
 
@@ -27330,7 +30803,7 @@ module.exports = flattenChildren;
 var _assign = __webpack_require__(14);
 
 var PooledClass = __webpack_require__(39);
-var Transaction = __webpack_require__(68);
+var Transaction = __webpack_require__(69);
 var ReactInstrumentation = __webpack_require__(25);
 var ReactServerUpdateQueue = __webpack_require__(279);
 
@@ -27426,7 +30899,7 @@ module.exports = ReactServerRenderingTransaction;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var ReactUpdateQueue = __webpack_require__(104);
+var ReactUpdateQueue = __webpack_require__(105);
 
 var warning = __webpack_require__(11);
 
@@ -27778,13 +31251,13 @@ module.exports = {
 var _prodInvariant = __webpack_require__(12),
     _assign = __webpack_require__(14);
 
-var DOMChildrenOperations = __webpack_require__(96);
+var DOMChildrenOperations = __webpack_require__(97);
 var DOMLazyTree = __webpack_require__(45);
 var ReactDOMComponentTree = __webpack_require__(15);
 
-var escapeTextContentForBrowser = __webpack_require__(71);
+var escapeTextContentForBrowser = __webpack_require__(72);
 var invariant = __webpack_require__(10);
-var validateDOMNesting = __webpack_require__(105);
+var validateDOMNesting = __webpack_require__(106);
 
 /**
  * Text nodes violate a couple assumptions that React makes about components:
@@ -27946,7 +31419,7 @@ module.exports = ReactDOMTextComponent;
 var _assign = __webpack_require__(14);
 
 var ReactUpdates = __webpack_require__(28);
-var Transaction = __webpack_require__(68);
+var Transaction = __webpack_require__(69);
 
 var emptyFunction = __webpack_require__(24);
 
@@ -28024,7 +31497,7 @@ var PooledClass = __webpack_require__(39);
 var ReactDOMComponentTree = __webpack_require__(15);
 var ReactUpdates = __webpack_require__(28);
 
-var getEventTarget = __webpack_require__(93);
+var getEventTarget = __webpack_require__(94);
 var getUnboundedScrollPosition = __webpack_require__(285);
 
 /**
@@ -28221,11 +31694,11 @@ module.exports = getUnboundedScrollPosition;
 
 
 var DOMProperty = __webpack_require__(33);
-var EventPluginHub = __webpack_require__(55);
-var EventPluginUtils = __webpack_require__(91);
-var ReactComponentEnvironment = __webpack_require__(100);
+var EventPluginHub = __webpack_require__(56);
+var EventPluginUtils = __webpack_require__(92);
+var ReactComponentEnvironment = __webpack_require__(101);
 var ReactEmptyComponent = __webpack_require__(157);
-var ReactBrowserEventEmitter = __webpack_require__(72);
+var ReactBrowserEventEmitter = __webpack_require__(73);
 var ReactHostComponent = __webpack_require__(158);
 var ReactUpdates = __webpack_require__(28);
 
@@ -28263,11 +31736,11 @@ var _assign = __webpack_require__(14);
 
 var CallbackQueue = __webpack_require__(144);
 var PooledClass = __webpack_require__(39);
-var ReactBrowserEventEmitter = __webpack_require__(72);
+var ReactBrowserEventEmitter = __webpack_require__(73);
 var ReactInputSelection = __webpack_require__(161);
 var ReactInstrumentation = __webpack_require__(25);
-var Transaction = __webpack_require__(68);
-var ReactUpdateQueue = __webpack_require__(104);
+var Transaction = __webpack_require__(69);
+var ReactUpdateQueue = __webpack_require__(105);
 
 /**
  * Ensures that, when possible, the selection range (currently selected text
@@ -29151,7 +32624,7 @@ module.exports = SVGDOMPropertyConfig;
 
 
 
-var EventPropagators = __webpack_require__(54);
+var EventPropagators = __webpack_require__(55);
 var ExecutionEnvironment = __webpack_require__(17);
 var ReactDOMComponentTree = __webpack_require__(15);
 var ReactInputSelection = __webpack_require__(161);
@@ -29159,7 +32632,7 @@ var SyntheticEvent = __webpack_require__(32);
 
 var getActiveElement = __webpack_require__(162);
 var isTextInputElement = __webpack_require__(147);
-var shallowEqual = __webpack_require__(101);
+var shallowEqual = __webpack_require__(102);
 
 var skipSelectionChangeEvent = ExecutionEnvironment.canUseDOM && 'documentMode' in document && document.documentMode <= 11;
 
@@ -29348,22 +32821,22 @@ module.exports = SelectEventPlugin;
 var _prodInvariant = __webpack_require__(12);
 
 var EventListener = __webpack_require__(160);
-var EventPropagators = __webpack_require__(54);
+var EventPropagators = __webpack_require__(55);
 var ReactDOMComponentTree = __webpack_require__(15);
 var SyntheticAnimationEvent = __webpack_require__(296);
 var SyntheticClipboardEvent = __webpack_require__(297);
 var SyntheticEvent = __webpack_require__(32);
 var SyntheticFocusEvent = __webpack_require__(298);
 var SyntheticKeyboardEvent = __webpack_require__(299);
-var SyntheticMouseEvent = __webpack_require__(69);
+var SyntheticMouseEvent = __webpack_require__(70);
 var SyntheticDragEvent = __webpack_require__(301);
 var SyntheticTouchEvent = __webpack_require__(302);
 var SyntheticTransitionEvent = __webpack_require__(303);
-var SyntheticUIEvent = __webpack_require__(56);
+var SyntheticUIEvent = __webpack_require__(57);
 var SyntheticWheelEvent = __webpack_require__(304);
 
 var emptyFunction = __webpack_require__(24);
-var getEventCharCode = __webpack_require__(106);
+var getEventCharCode = __webpack_require__(107);
 var invariant = __webpack_require__(10);
 
 /**
@@ -29663,7 +33136,7 @@ module.exports = SyntheticClipboardEvent;
 
 
 
-var SyntheticUIEvent = __webpack_require__(56);
+var SyntheticUIEvent = __webpack_require__(57);
 
 /**
  * @interface FocusEvent
@@ -29704,11 +33177,11 @@ module.exports = SyntheticFocusEvent;
 
 
 
-var SyntheticUIEvent = __webpack_require__(56);
+var SyntheticUIEvent = __webpack_require__(57);
 
-var getEventCharCode = __webpack_require__(106);
+var getEventCharCode = __webpack_require__(107);
 var getEventKey = __webpack_require__(300);
-var getEventModifierState = __webpack_require__(95);
+var getEventModifierState = __webpack_require__(96);
 
 /**
  * @interface KeyboardEvent
@@ -29793,7 +33266,7 @@ module.exports = SyntheticKeyboardEvent;
 
 
 
-var getEventCharCode = __webpack_require__(106);
+var getEventCharCode = __webpack_require__(107);
 
 /**
  * Normalization of deprecated HTML5 `key` values
@@ -29910,7 +33383,7 @@ module.exports = getEventKey;
 
 
 
-var SyntheticMouseEvent = __webpack_require__(69);
+var SyntheticMouseEvent = __webpack_require__(70);
 
 /**
  * @interface DragEvent
@@ -29951,9 +33424,9 @@ module.exports = SyntheticDragEvent;
 
 
 
-var SyntheticUIEvent = __webpack_require__(56);
+var SyntheticUIEvent = __webpack_require__(57);
 
-var getEventModifierState = __webpack_require__(95);
+var getEventModifierState = __webpack_require__(96);
 
 /**
  * @interface TouchEvent
@@ -30045,7 +33518,7 @@ module.exports = SyntheticTransitionEvent;
 
 
 
-var SyntheticMouseEvent = __webpack_require__(69);
+var SyntheticMouseEvent = __webpack_require__(70);
 
 /**
  * @interface WheelEvent
@@ -30101,7 +33574,7 @@ module.exports = SyntheticWheelEvent;
 
 
 
-var validateDOMNesting = __webpack_require__(105);
+var validateDOMNesting = __webpack_require__(106);
 
 var DOC_NODE_TYPE = 9;
 
@@ -30291,7 +33764,7 @@ var _prodInvariant = __webpack_require__(12);
 
 var ReactCurrentOwner = __webpack_require__(27);
 var ReactDOMComponentTree = __webpack_require__(15);
-var ReactInstanceMap = __webpack_require__(57);
+var ReactInstanceMap = __webpack_require__(58);
 
 var getHostComponentFromComposite = __webpack_require__(164);
 var invariant = __webpack_require__(10);
@@ -30375,7 +33848,7 @@ module.exports = ReactMount.renderSubtreeIntoContainer;
 
 
 var DOMProperty = __webpack_require__(33);
-var EventPluginRegistry = __webpack_require__(67);
+var EventPluginRegistry = __webpack_require__(68);
 var ReactComponentTreeHook = __webpack_require__(23);
 
 var warning = __webpack_require__(11);
@@ -30644,7 +34117,7 @@ var React = __webpack_require__(0);
 var page_1 = __webpack_require__(316);
 var student_info_display_1 = __webpack_require__(320);
 var hs_display_1 = __webpack_require__(507);
-var hardcoded_1 = __webpack_require__(524);
+var hardcoded_1 = __webpack_require__(526);
 var data_access_ts_1 = __webpack_require__(213);
 var hsPrograms = data_access_ts_1.getHSProgramsByType();
 var score_projection_utils_1 = __webpack_require__(167);
@@ -31038,7 +34511,7 @@ exports.default = ArrowUpIcon;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var clone_1 = __webpack_require__(73);
+var clone_1 = __webpack_require__(74);
 var grade_change_selector_1 = __webpack_require__(328);
 var report_card_1 = __webpack_require__(331);
 var score_projection_utils_1 = __webpack_require__(167);
@@ -31190,8 +34663,8 @@ exports.push([module.i, ".grade-change-selector {\n  padding: 5px;\n  font-size:
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var score_field_1 = __webpack_require__(332);
-var score_type_1 = __webpack_require__(74);
-var clone_1 = __webpack_require__(73);
+var score_type_1 = __webpack_require__(75);
+var clone_1 = __webpack_require__(74);
 __webpack_require__(337);
 var ReportCard = function (props) {
     var validateScore = function (score, scoreType) {
@@ -31258,7 +34731,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var score_type_1 = __webpack_require__(74);
+var score_type_1 = __webpack_require__(75);
 var grade_convert_1 = __webpack_require__(166);
 var circled_arrow_up_icon_1 = __webpack_require__(333);
 var circled_arrow_down_icon_1 = __webpack_require__(334);
@@ -31461,9 +34934,9 @@ module.exports = __webpack_require__.p + "8939bf293e12aa837a2b92645724f327.png";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var clone_1 = __webpack_require__(73);
+var clone_1 = __webpack_require__(74);
 var validation_state_1 = __webpack_require__(341);
-var gender_1 = __webpack_require__(107);
+var gender_1 = __webpack_require__(108);
 var dropdown_input_1 = __webpack_require__(168);
 var combo_box_input_1 = __webpack_require__(342);
 var text_input_1 = __webpack_require__(343);
@@ -31840,9 +35313,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Breadcrumb", function() { return __WEBPACK_IMPORTED_MODULE_3__Breadcrumb__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__BreadcrumbItem__ = __webpack_require__(183);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "BreadcrumbItem", function() { return __WEBPACK_IMPORTED_MODULE_4__BreadcrumbItem__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Button__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Button__ = __webpack_require__(64);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Button", function() { return __WEBPACK_IMPORTED_MODULE_5__Button__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ButtonGroup__ = __webpack_require__(125);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ButtonGroup__ = __webpack_require__(126);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ButtonGroup", function() { return __WEBPACK_IMPORTED_MODULE_6__ButtonGroup__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ButtonToolbar__ = __webpack_require__(392);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ButtonToolbar", function() { return __WEBPACK_IMPORTED_MODULE_7__ButtonToolbar__["a"]; });
@@ -31854,19 +35327,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Checkbox", function() { return __WEBPACK_IMPORTED_MODULE_10__Checkbox__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__Clearfix__ = __webpack_require__(397);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Clearfix", function() { return __WEBPACK_IMPORTED_MODULE_11__Clearfix__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__CloseButton__ = __webpack_require__(124);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__CloseButton__ = __webpack_require__(125);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CloseButton", function() { return __WEBPACK_IMPORTED_MODULE_12__CloseButton__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__ControlLabel__ = __webpack_require__(398);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ControlLabel", function() { return __WEBPACK_IMPORTED_MODULE_13__ControlLabel__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__Col__ = __webpack_require__(399);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Col", function() { return __WEBPACK_IMPORTED_MODULE_14__Col__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__Collapse__ = __webpack_require__(127);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__Collapse__ = __webpack_require__(128);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Collapse", function() { return __WEBPACK_IMPORTED_MODULE_15__Collapse__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__Dropdown__ = __webpack_require__(81);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__Dropdown__ = __webpack_require__(82);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Dropdown", function() { return __WEBPACK_IMPORTED_MODULE_16__Dropdown__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__DropdownButton__ = __webpack_require__(419);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "DropdownButton", function() { return __WEBPACK_IMPORTED_MODULE_17__DropdownButton__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__Fade__ = __webpack_require__(84);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__Fade__ = __webpack_require__(85);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Fade", function() { return __WEBPACK_IMPORTED_MODULE_18__Fade__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__Form__ = __webpack_require__(420);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Form", function() { return __WEBPACK_IMPORTED_MODULE_19__Form__["a"]; });
@@ -31874,7 +35347,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "FormControl", function() { return __WEBPACK_IMPORTED_MODULE_20__FormControl__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__FormGroup__ = __webpack_require__(424);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "FormGroup", function() { return __WEBPACK_IMPORTED_MODULE_21__FormGroup__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__Glyphicon__ = __webpack_require__(126);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__Glyphicon__ = __webpack_require__(127);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Glyphicon", function() { return __WEBPACK_IMPORTED_MODULE_22__Glyphicon__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__Grid__ = __webpack_require__(193);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Grid", function() { return __WEBPACK_IMPORTED_MODULE_23__Grid__["a"]; });
@@ -31892,7 +35365,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ListGroup", function() { return __WEBPACK_IMPORTED_MODULE_29__ListGroup__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__ListGroupItem__ = __webpack_require__(194);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ListGroupItem", function() { return __WEBPACK_IMPORTED_MODULE_30__ListGroupItem__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__Media__ = __webpack_require__(85);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__Media__ = __webpack_require__(86);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Media", function() { return __WEBPACK_IMPORTED_MODULE_31__Media__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__MenuItem__ = __webpack_require__(439);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MenuItem", function() { return __WEBPACK_IMPORTED_MODULE_32__MenuItem__["a"]; });
@@ -31950,9 +35423,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "SplitButton", function() { return __WEBPACK_IMPORTED_MODULE_58__SplitButton__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_59__Tab__ = __webpack_require__(481);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Tab", function() { return __WEBPACK_IMPORTED_MODULE_59__Tab__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_60__TabContainer__ = __webpack_require__(130);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_60__TabContainer__ = __webpack_require__(131);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "TabContainer", function() { return __WEBPACK_IMPORTED_MODULE_60__TabContainer__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_61__TabContent__ = __webpack_require__(131);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_61__TabContent__ = __webpack_require__(132);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "TabContent", function() { return __WEBPACK_IMPORTED_MODULE_61__TabContent__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_62__Table__ = __webpack_require__(482);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Table", function() { return __WEBPACK_IMPORTED_MODULE_62__Table__["a"]; });
@@ -32194,14 +35667,14 @@ module.exports = function(it){
 
 // 19.1.2.1 Object.assign(target, source, ...)
 var getKeys  = __webpack_require__(49)
-  , gOPS     = __webpack_require__(116)
-  , pIE      = __webpack_require__(61)
-  , toObject = __webpack_require__(117)
+  , gOPS     = __webpack_require__(117)
+  , pIE      = __webpack_require__(62)
+  , toObject = __webpack_require__(118)
   , IObject  = __webpack_require__(173)
   , $assign  = Object.assign;
 
 // should work with symbols and should have deterministic property order (V8 bug)
-module.exports = !$assign || __webpack_require__(59)(function(){
+module.exports = !$assign || __webpack_require__(60)(function(){
   var A = {}
     , B = {}
     , S = Symbol()
@@ -32255,7 +35728,7 @@ module.exports = function(IS_INCLUDES){
 /* 354 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toInteger = __webpack_require__(112)
+var toInteger = __webpack_require__(113)
   , max       = Math.max
   , min       = Math.min;
 module.exports = function(index, length){
@@ -32275,14 +35748,14 @@ module.exports = { "default": __webpack_require__(356), __esModule: true };
 
 __webpack_require__(175);
 __webpack_require__(362);
-module.exports = __webpack_require__(122).f('iterator');
+module.exports = __webpack_require__(123).f('iterator');
 
 /***/ }),
 /* 357 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toInteger = __webpack_require__(112)
-  , defined   = __webpack_require__(111);
+var toInteger = __webpack_require__(113)
+  , defined   = __webpack_require__(112);
 // true  -> String#at
 // false -> String#codePointAt
 module.exports = function(TO_STRING){
@@ -32305,9 +35778,9 @@ module.exports = function(TO_STRING){
 
 "use strict";
 
-var create         = __webpack_require__(120)
-  , descriptor     = __webpack_require__(60)
-  , setToStringTag = __webpack_require__(121)
+var create         = __webpack_require__(121)
+  , descriptor     = __webpack_require__(61)
+  , setToStringTag = __webpack_require__(122)
   , IteratorPrototype = {};
 
 // 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
@@ -32348,8 +35821,8 @@ module.exports = __webpack_require__(35).document && document.documentElement;
 
 // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
 var has         = __webpack_require__(41)
-  , toObject    = __webpack_require__(117)
-  , IE_PROTO    = __webpack_require__(113)('IE_PROTO')
+  , toObject    = __webpack_require__(118)
+  , IE_PROTO    = __webpack_require__(114)('IE_PROTO')
   , ObjectProto = Object.prototype;
 
 module.exports = Object.getPrototypeOf || function(O){
@@ -32367,7 +35840,7 @@ module.exports = Object.getPrototypeOf || function(O){
 __webpack_require__(363);
 var global        = __webpack_require__(35)
   , hide          = __webpack_require__(46)
-  , Iterators     = __webpack_require__(62)
+  , Iterators     = __webpack_require__(63)
   , TO_STRING_TAG = __webpack_require__(30)('toStringTag');
 
 for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList', 'CSSRuleList'], i = 0; i < 5; i++){
@@ -32386,7 +35859,7 @@ for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList'
 
 var addToUnscopables = __webpack_require__(364)
   , step             = __webpack_require__(365)
-  , Iterators        = __webpack_require__(62)
+  , Iterators        = __webpack_require__(63)
   , toIObject        = __webpack_require__(36);
 
 // 22.1.3.4 Array.prototype.entries()
@@ -32461,21 +35934,21 @@ var global         = __webpack_require__(35)
   , $export        = __webpack_require__(34)
   , redefine       = __webpack_require__(177)
   , META           = __webpack_require__(369).KEY
-  , $fails         = __webpack_require__(59)
-  , shared         = __webpack_require__(114)
-  , setToStringTag = __webpack_require__(121)
-  , uid            = __webpack_require__(75)
+  , $fails         = __webpack_require__(60)
+  , shared         = __webpack_require__(115)
+  , setToStringTag = __webpack_require__(122)
+  , uid            = __webpack_require__(76)
   , wks            = __webpack_require__(30)
-  , wksExt         = __webpack_require__(122)
-  , wksDefine      = __webpack_require__(123)
+  , wksExt         = __webpack_require__(123)
+  , wksDefine      = __webpack_require__(124)
   , keyOf          = __webpack_require__(370)
   , enumKeys       = __webpack_require__(371)
   , isArray        = __webpack_require__(372)
   , anObject       = __webpack_require__(47)
   , toIObject      = __webpack_require__(36)
-  , toPrimitive    = __webpack_require__(109)
-  , createDesc     = __webpack_require__(60)
-  , _create        = __webpack_require__(120)
+  , toPrimitive    = __webpack_require__(110)
+  , createDesc     = __webpack_require__(61)
+  , _create        = __webpack_require__(121)
   , gOPNExt        = __webpack_require__(373)
   , $GOPD          = __webpack_require__(179)
   , $DP            = __webpack_require__(40)
@@ -32603,10 +36076,10 @@ if(!USE_NATIVE){
   $GOPD.f = $getOwnPropertyDescriptor;
   $DP.f   = $defineProperty;
   __webpack_require__(178).f = gOPNExt.f = $getOwnPropertyNames;
-  __webpack_require__(61).f  = $propertyIsEnumerable;
-  __webpack_require__(116).f = $getOwnPropertySymbols;
+  __webpack_require__(62).f  = $propertyIsEnumerable;
+  __webpack_require__(117).f = $getOwnPropertySymbols;
 
-  if(DESCRIPTORS && !__webpack_require__(119)){
+  if(DESCRIPTORS && !__webpack_require__(120)){
     redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
   }
 
@@ -32693,15 +36166,15 @@ setToStringTag(global.JSON, 'JSON', true);
 /* 369 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var META     = __webpack_require__(75)('meta')
-  , isObject = __webpack_require__(58)
+var META     = __webpack_require__(76)('meta')
+  , isObject = __webpack_require__(59)
   , has      = __webpack_require__(41)
   , setDesc  = __webpack_require__(40).f
   , id       = 0;
 var isExtensible = Object.isExtensible || function(){
   return true;
 };
-var FREEZE = !__webpack_require__(59)(function(){
+var FREEZE = !__webpack_require__(60)(function(){
   return isExtensible(Object.preventExtensions({}));
 });
 var setMeta = function(it){
@@ -32768,8 +36241,8 @@ module.exports = function(object, el){
 
 // all enumerable object keys, includes symbols
 var getKeys = __webpack_require__(49)
-  , gOPS    = __webpack_require__(116)
-  , pIE     = __webpack_require__(61);
+  , gOPS    = __webpack_require__(117)
+  , pIE     = __webpack_require__(62);
 module.exports = function(it){
   var result     = getKeys(it)
     , getSymbols = gOPS.f;
@@ -32787,7 +36260,7 @@ module.exports = function(it){
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.2.2 IsArray(argument)
-var cof = __webpack_require__(110);
+var cof = __webpack_require__(111);
 module.exports = Array.isArray || function isArray(arg){
   return cof(arg) == 'Array';
 };
@@ -32827,13 +36300,13 @@ module.exports.f = function getOwnPropertyNames(it){
 /* 375 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(123)('asyncIterator');
+__webpack_require__(124)('asyncIterator');
 
 /***/ }),
 /* 376 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(123)('observable');
+__webpack_require__(124)('observable');
 
 /***/ }),
 /* 377 */
@@ -32862,7 +36335,7 @@ $export($export.S, 'Object', {setPrototypeOf: __webpack_require__(380).set});
 
 // Works with __proto__ only. Old v8 can't work with null proto objects.
 /* eslint-disable no-proto */
-var isObject = __webpack_require__(58)
+var isObject = __webpack_require__(59)
   , anObject = __webpack_require__(47);
 var check = function(O, proto){
   anObject(O);
@@ -32872,7 +36345,7 @@ module.exports = {
   set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
     function(test, buggy, set){
       try {
-        set = __webpack_require__(108)(Function.call, __webpack_require__(179).f(Object.prototype, '__proto__').set, 2);
+        set = __webpack_require__(109)(Function.call, __webpack_require__(179).f(Object.prototype, '__proto__').set, 2);
         set(test, []);
         buggy = !(test instanceof Array);
       } catch(e){ buggy = true; }
@@ -32908,7 +36381,7 @@ module.exports = function create(P, D){
 
 var $export = __webpack_require__(34)
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
-$export($export.S, 'Object', {create: __webpack_require__(120)});
+$export($export.S, 'Object', {create: __webpack_require__(121)});
 
 /***/ }),
 /* 384 */
@@ -32928,7 +36401,7 @@ $export($export.S, 'Object', {create: __webpack_require__(120)});
 
 var emptyFunction = __webpack_require__(24);
 var invariant = __webpack_require__(10);
-var ReactPropTypesSecret = __webpack_require__(90);
+var ReactPropTypesSecret = __webpack_require__(91);
 
 module.exports = function() {
   function shim(props, propName, componentName, location, propFullName, secret) {
@@ -33022,7 +36495,7 @@ $export($export.S, 'Object', {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_bootstrapUtils__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_StyleConfig__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__CloseButton__ = __webpack_require__(124);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__CloseButton__ = __webpack_require__(125);
 
 
 
@@ -33368,7 +36841,7 @@ var ButtonToolbar = function (_React$Component) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__CarouselCaption__ = __webpack_require__(394);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__CarouselItem__ = __webpack_require__(184);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Glyphicon__ = __webpack_require__(126);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Glyphicon__ = __webpack_require__(127);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__SafeAnchor__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__utils_bootstrapUtils__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__utils_ValidComponentChildren__ = __webpack_require__(22);
@@ -34794,7 +38267,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _invariant = __webpack_require__(76);
+var _invariant = __webpack_require__(77);
 
 var _invariant2 = _interopRequireDefault(_invariant);
 
@@ -35002,7 +38475,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _invariant = __webpack_require__(76);
+var _invariant = __webpack_require__(77);
 
 var _invariant2 = _interopRequireDefault(_invariant);
 
@@ -35120,7 +38593,7 @@ function isReactComponent(component) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_babel_runtime_helpers_inherits__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_classnames__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_classnames__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_keycode__ = __webpack_require__(128);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_keycode__ = __webpack_require__(129);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_keycode___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_keycode__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_react__);
@@ -35313,9 +38786,9 @@ module.exports = __webpack_require__(29).Array.from;
 
 "use strict";
 
-var ctx            = __webpack_require__(108)
+var ctx            = __webpack_require__(109)
   , $export        = __webpack_require__(34)
-  , toObject       = __webpack_require__(117)
+  , toObject       = __webpack_require__(118)
   , call           = __webpack_require__(412)
   , isArrayIter    = __webpack_require__(413)
   , toLength       = __webpack_require__(174)
@@ -35373,7 +38846,7 @@ module.exports = function(iterator, fn, value, entries){
 /***/ (function(module, exports, __webpack_require__) {
 
 // check on default Array iterator
-var Iterators  = __webpack_require__(62)
+var Iterators  = __webpack_require__(63)
   , ITERATOR   = __webpack_require__(30)('iterator')
   , ArrayProto = Array.prototype;
 
@@ -35388,7 +38861,7 @@ module.exports = function(it){
 "use strict";
 
 var $defineProperty = __webpack_require__(40)
-  , createDesc      = __webpack_require__(60);
+  , createDesc      = __webpack_require__(61);
 
 module.exports = function(object, index, value){
   if(index in object)$defineProperty.f(object, index, createDesc(0, value));
@@ -35401,7 +38874,7 @@ module.exports = function(object, index, value){
 
 var classof   = __webpack_require__(416)
   , ITERATOR  = __webpack_require__(30)('iterator')
-  , Iterators = __webpack_require__(62);
+  , Iterators = __webpack_require__(63);
 module.exports = __webpack_require__(29).getIteratorMethod = function(it){
   if(it != undefined)return it[ITERATOR]
     || it['@@iterator']
@@ -35413,7 +38886,7 @@ module.exports = __webpack_require__(29).getIteratorMethod = function(it){
 /***/ (function(module, exports, __webpack_require__) {
 
 // getting tag from 19.1.3.6 Object.prototype.toString()
-var cof = __webpack_require__(110)
+var cof = __webpack_require__(111)
   , TAG = __webpack_require__(30)('toStringTag')
   // ES3 wrong here
   , ARG = cof(function(){ return arguments; }()) == 'Arguments';
@@ -35469,7 +38942,7 @@ module.exports = function(exec, skipClosing){
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["b"] = requiredRoles;
 /* harmony export (immutable) */ __webpack_exports__["a"] = exclusiveRoles;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types_extra_lib_utils_createChainableTypeChecker__ = __webpack_require__(77);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types_extra_lib_utils_createChainableTypeChecker__ = __webpack_require__(78);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types_extra_lib_utils_createChainableTypeChecker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_prop_types_extra_lib_utils_createChainableTypeChecker__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ValidComponentChildren__ = __webpack_require__(22);
 
@@ -35551,8 +39024,8 @@ function exclusiveRoles() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Dropdown__ = __webpack_require__(81);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils_splitComponentProps__ = __webpack_require__(83);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Dropdown__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils_splitComponentProps__ = __webpack_require__(84);
 
 
 
@@ -35876,7 +39349,7 @@ FormControl.Static = __WEBPACK_IMPORTED_MODULE_11__FormControlStatic__["a" /* de
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Glyphicon__ = __webpack_require__(126);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Glyphicon__ = __webpack_require__(127);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_bootstrapUtils__ = __webpack_require__(9);
 
 
@@ -36797,7 +40270,7 @@ ListGroup.propTypes = propTypes;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_elementType__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_elementType___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_elementType__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Media__ = __webpack_require__(85);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Media__ = __webpack_require__(86);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_bootstrapUtils__ = __webpack_require__(9);
 
 
@@ -36961,7 +40434,7 @@ MediaHeading.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Media__ = __webpack_require__(85);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Media__ = __webpack_require__(86);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_bootstrapUtils__ = __webpack_require__(9);
 
 
@@ -37161,7 +40634,7 @@ var MediaListItem = function (_React$Component) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Media__ = __webpack_require__(85);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Media__ = __webpack_require__(86);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_bootstrapUtils__ = __webpack_require__(9);
 
 
@@ -37241,7 +40714,7 @@ MediaRight.propTypes = propTypes;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_all__ = __webpack_require__(78);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_all__ = __webpack_require__(79);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_all___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_all__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__SafeAnchor__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_bootstrapUtils__ = __webpack_require__(9);
@@ -37444,7 +40917,7 @@ MenuItem.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_react_overlays_lib_utils_isOverflowing___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14_react_overlays_lib_utils_isOverflowing__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_prop_types_extra_lib_elementType__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_prop_types_extra_lib_elementType___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15_prop_types_extra_lib_elementType__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__Fade__ = __webpack_require__(84);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__Fade__ = __webpack_require__(85);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__ModalBody__ = __webpack_require__(199);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__ModalDialog__ = __webpack_require__(455);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__ModalFooter__ = __webpack_require__(200);
@@ -37452,7 +40925,7 @@ MenuItem.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__ModalTitle__ = __webpack_require__(202);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__utils_bootstrapUtils__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__utils_createChainedFunction__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__utils_splitComponentProps__ = __webpack_require__(83);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__utils_splitComponentProps__ = __webpack_require__(84);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__utils_StyleConfig__ = __webpack_require__(18);
 
 
@@ -37749,11 +41222,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.listen = exports.filter = exports.off = exports.on = undefined;
 
-var _on = __webpack_require__(80);
+var _on = __webpack_require__(81);
 
 var _on2 = _interopRequireDefault(_on);
 
-var _off = __webpack_require__(129);
+var _off = __webpack_require__(130);
 
 var _off2 = _interopRequireDefault(_off);
 
@@ -37862,11 +41335,11 @@ var _inDOM = __webpack_require__(37);
 
 var _inDOM2 = _interopRequireDefault(_inDOM);
 
-var _on = __webpack_require__(80);
+var _on = __webpack_require__(81);
 
 var _on2 = _interopRequireDefault(_on);
 
-var _off = __webpack_require__(129);
+var _off = __webpack_require__(130);
 
 var _off2 = _interopRequireDefault(_off);
 
@@ -37913,7 +41386,7 @@ var _propTypes = __webpack_require__(8);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _componentOrElement = __webpack_require__(86);
+var _componentOrElement = __webpack_require__(87);
 
 var _componentOrElement2 = _interopRequireDefault(_componentOrElement);
 
@@ -37957,7 +41430,7 @@ var _addFocusListener = __webpack_require__(454);
 
 var _addFocusListener2 = _interopRequireDefault(_addFocusListener);
 
-var _getContainer = __webpack_require__(88);
+var _getContainer = __webpack_require__(89);
 
 var _getContainer2 = _interopRequireDefault(_getContainer);
 
@@ -38587,7 +42060,7 @@ var _class = __webpack_require__(448);
 
 var _class2 = _interopRequireDefault(_class);
 
-var _style = __webpack_require__(79);
+var _style = __webpack_require__(80);
 
 var _style2 = _interopRequireDefault(_style);
 
@@ -38886,7 +42359,7 @@ var _propTypes = __webpack_require__(8);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _componentOrElement = __webpack_require__(86);
+var _componentOrElement = __webpack_require__(87);
 
 var _componentOrElement2 = _interopRequireDefault(_componentOrElement);
 
@@ -38898,7 +42371,7 @@ var _reactDom = __webpack_require__(19);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _getContainer = __webpack_require__(88);
+var _getContainer = __webpack_require__(89);
 
 var _getContainer2 = _interopRequireDefault(_getContainer);
 
@@ -39226,7 +42699,7 @@ ModalDialog.propTypes = propTypes;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_elementType__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_elementType___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_elementType__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_uncontrollable__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_uncontrollable__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_uncontrollable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_uncontrollable__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Grid__ = __webpack_require__(193);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__NavbarBrand__ = __webpack_require__(204);
@@ -39533,7 +43006,7 @@ UncontrollableNavbar.Link = createSimpleWrapper('a', 'link', 'NavbarLink');
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Collapse__ = __webpack_require__(127);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Collapse__ = __webpack_require__(128);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils_bootstrapUtils__ = __webpack_require__(9);
 
 
@@ -39783,8 +43256,8 @@ NavbarToggle.contextTypes = contextTypes;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Dropdown__ = __webpack_require__(81);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_splitComponentProps__ = __webpack_require__(83);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Dropdown__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_splitComponentProps__ = __webpack_require__(84);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_ValidComponentChildren__ = __webpack_require__(22);
 
 
@@ -40141,7 +43614,7 @@ var _propTypes = __webpack_require__(8);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _componentOrElement = __webpack_require__(86);
+var _componentOrElement = __webpack_require__(87);
 
 var _componentOrElement2 = _interopRequireDefault(_componentOrElement);
 
@@ -40157,7 +43630,7 @@ var _calculatePosition = __webpack_require__(463);
 
 var _calculatePosition2 = _interopRequireDefault(_calculatePosition);
 
-var _getContainer = __webpack_require__(88);
+var _getContainer = __webpack_require__(89);
 
 var _getContainer2 = _interopRequireDefault(_getContainer);
 
@@ -40490,7 +43963,7 @@ var _scrollLeft = __webpack_require__(466);
 
 var _scrollLeft2 = _interopRequireDefault(_scrollLeft);
 
-var _style = __webpack_require__(79);
+var _style = __webpack_require__(80);
 
 var _style2 = _interopRequireDefault(_style);
 
@@ -40542,7 +44015,7 @@ var _ownerDocument = __webpack_require__(51);
 
 var _ownerDocument2 = _interopRequireDefault(_ownerDocument);
 
-var _style = __webpack_require__(79);
+var _style = __webpack_require__(80);
 
 var _style2 = _interopRequireDefault(_style);
 
@@ -40576,7 +44049,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = scrollTop;
 
-var _isWindow = __webpack_require__(87);
+var _isWindow = __webpack_require__(88);
 
 var _isWindow2 = _interopRequireDefault(_isWindow);
 
@@ -41023,7 +44496,7 @@ var PageHeader = function (_React$Component) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_possibleConstructorReturn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_possibleConstructorReturn__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_inherits__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_inherits__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_typeof__ = __webpack_require__(118);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_typeof__ = __webpack_require__(119);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_typeof___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_typeof__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_warning__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_warning__);
@@ -41492,7 +44965,7 @@ Pagination.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Collapse__ = __webpack_require__(127);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Collapse__ = __webpack_require__(128);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_bootstrapUtils__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__ = __webpack_require__(18);
 
@@ -41744,7 +45217,7 @@ Panel.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_isRequiredForA11y__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_isRequiredForA11y__ = __webpack_require__(83);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_isRequiredForA11y___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_isRequiredForA11y__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_bootstrapUtils__ = __webpack_require__(9);
 
@@ -42398,10 +45871,10 @@ Row.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Button__ = __webpack_require__(63);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Dropdown__ = __webpack_require__(81);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Button__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Dropdown__ = __webpack_require__(82);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__SplitToggle__ = __webpack_require__(480);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_splitComponentProps__ = __webpack_require__(83);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_splitComponentProps__ = __webpack_require__(84);
 
 
 
@@ -42561,8 +46034,8 @@ SplitToggle.defaultProps = __WEBPACK_IMPORTED_MODULE_5__DropdownToggle__["a" /* 
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__TabContainer__ = __webpack_require__(130);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__TabContent__ = __webpack_require__(131);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__TabContainer__ = __webpack_require__(131);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__TabContent__ = __webpack_require__(132);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__TabPane__ = __webpack_require__(211);
 
 
@@ -42736,14 +46209,14 @@ Table.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types_extra_lib_isRequiredForA11y__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types_extra_lib_isRequiredForA11y__ = __webpack_require__(83);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types_extra_lib_isRequiredForA11y___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types_extra_lib_isRequiredForA11y__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_uncontrollable__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_uncontrollable__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_uncontrollable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_uncontrollable__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Nav__ = __webpack_require__(203);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__NavItem__ = __webpack_require__(205);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__TabContainer__ = __webpack_require__(130);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__TabContent__ = __webpack_require__(131);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__TabContainer__ = __webpack_require__(131);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__TabContent__ = __webpack_require__(132);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__utils_bootstrapUtils__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__utils_ValidComponentChildren__ = __webpack_require__(22);
 
@@ -43040,13 +46513,13 @@ Thumbnail.propTypes = propTypes;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_invariant__ = __webpack_require__(76);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_invariant__ = __webpack_require__(77);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_invariant__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_uncontrollable__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_uncontrollable__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_uncontrollable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_uncontrollable__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_createChainedFunction__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_ValidComponentChildren__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ButtonGroup__ = __webpack_require__(125);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ButtonGroup__ = __webpack_require__(126);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ToggleButton__ = __webpack_require__(212);
 
 
@@ -43212,7 +46685,7 @@ UncontrolledToggleButtonGroup.Button = __WEBPACK_IMPORTED_MODULE_12__ToggleButto
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_isRequiredForA11y__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_isRequiredForA11y__ = __webpack_require__(83);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_isRequiredForA11y___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_isRequiredForA11y__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_bootstrapUtils__ = __webpack_require__(9);
 
@@ -64795,7 +68268,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var box_1 = __webpack_require__(165);
 var hs_program_type_1 = __webpack_require__(508);
-var hs_program_success_chance_key_1 = __webpack_require__(523);
+var hs_program_success_chance_key_1 = __webpack_require__(525);
 ;
 var HSDisplay = function (props) {
     return (React.createElement(box_1.default, { width: "half", height: "full", responsiveBehavior: { mobile: "fullscreen" } },
@@ -64826,7 +68299,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var hs_list_1 = __webpack_require__(509);
-__webpack_require__(521);
+__webpack_require__(523);
 var HSProgramType = (function (_super) {
     __extends(HSProgramType, _super);
     function HSProgramType() {
@@ -64851,10 +68324,10 @@ exports.default = HSProgramType;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var success_chance_1 = __webpack_require__(132);
-var get_req_fn_1 = __webpack_require__(214);
-var hs_list_element_1 = __webpack_require__(512);
-__webpack_require__(519);
+var success_chance_1 = __webpack_require__(54);
+var get_combined_success_chance_1 = __webpack_require__(510);
+var hs_list_element_1 = __webpack_require__(513);
+__webpack_require__(521);
 var HSList = function (props) {
     var sortBySuccessChance = function (programs, student) {
         var certain = [];
@@ -64865,9 +68338,8 @@ var HSList = function (props) {
         var notimplemented = [];
         for (var i = 0; i < programs.length; i++) {
             var program = programs[i];
-            var selectionReqFn = get_req_fn_1.default(program.Program_Selections_Fn);
-            var res = selectionReqFn(student, program);
-            switch (res.outcome) {
+            var successChance = get_combined_success_chance_1.default(student, program);
+            switch (successChance) {
                 case success_chance_1.default.CERTAIN:
                     certain.push(program);
                     break;
@@ -64908,3493 +68380,60 @@ exports.default = HSList;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var gender_1 = __webpack_require__(107);
-var success_chance_ts_1 = __webpack_require__(132);
-var hs_calc_utils_1 = __webpack_require__(511);
-var seCutoffTable = {
-    "609726": {
-        rank: { avg: 834.15, min: 799, max: 897 },
-        tier1: { avg: 700.76, min: 652, max: 796 },
-        tier2: { avg: 740.36, min: 687, max: 795 },
-        tier3: { avg: 768.40, min: 750, max: 792 },
-        tier4: { avg: 761.50, min: 723, max: 797 },
-    },
-    "609694": {
-        rank: { avg: 823.92, min: 794, max: 880 },
-        tier1: { avg: 706.40, min: 664, max: 791 },
-        tier2: { avg: 757.68, min: 736, max: 790 },
-        tier3: { avg: 772.69, min: 753, max: 791 },
-        tier4: { avg: 740.63, min: 672, max: 792 },
-    },
-    "609678": {
-        rank: { avg: 893.81, min: 889, max: 900 },
-        tier1: { avg: 816.86, min: 771, max: 887 },
-        tier2: { avg: 851.57, min: 823, max: 889 },
-        tier3: { avg: 874.12, min: 861, max: 889 },
-        tier4: { avg: 886.69, min: 883, max: 889 },
-    },
-    "609751": {
-        rank: { avg: 735.59, min: 682, max: 859 },
-        tier1: { avg: 632.20, min: 600, max: 680 },
-        tier2: { avg: 635.16, min: 601, max: 679 },
-        tier3: { avg: 645.55, min: 608, max: 682 },
-        tier4: { avg: 634.43, min: 600, max: 674 },
-    },
-    "609720": {
-        rank: { avg: 878.11, min: 866, max: 900 },
-        tier1: { avg: 738.79, min: 692, max: 863 },
-        tier2: { avg: 808.46, min: 777, max: 865 },
-        tier3: { avg: 839.69, min: 818, max: 866 },
-        tier4: { avg: 855.13, min: 843, max: 865 },
-    },
-    "610391": {
-        rank: { avg: 813.87, min: 774, max: 895 },
-        tier1: { avg: 692.14, min: 655, max: 771 },
-        tier2: { avg: 732.82, min: 700, max: 774 },
-        tier3: { avg: 743.98, min: 720, max: 774 },
-        tier4: { avg: 717.92, min: 672, max: 773 },
-    },
-    "609749": {
-        rank: { avg: 898.85, min: 896, max: 900 },
-        tier1: { avg: 820.31, min: 757, max: 892 },
-        tier2: { avg: 867.55, min: 843, max: 895 },
-        tier3: { avg: 889.04, min: 880, max: 895 },
-        tier4: { avg: 893.92, min: 891, max: 896 },
-    },
-    "609680": {
-        rank: { avg: 899.03, min: 898, max: 900 },
-        tier1: { avg: 837.66, min: 771, max: 897 },
-        tier2: { avg: 875.60, min: 846, max: 897 },
-        tier3: { avg: 886.97, min: 875, max: 898 },
-        tier4: { avg: 895.59, min: 894, max: 898 },
-    },
-    "610547": {
-        rank: { avg: 725.28, min: 678, max: 837 },
-        tier1: { avg: 621.10, min: 601, max: 674 },
-        tier2: { avg: 637.17, min: 600, max: 677 },
-        tier3: { avg: 632.43, min: 601, max: 677 },
-        tier4: { avg: 634.77, min: 603, max: 672 },
-    },
-    "609693": {
-        rank: { avg: 799.38, min: 766, max: 883 },
-        tier1: { avg: 706.44, min: 667, max: 760 },
-        tier2: { avg: 733.79, min: 708, max: 765 },
-        tier3: { avg: 730.68, min: 695, max: 765 },
-        tier4: { avg: 691.26, min: 618, max: 766 },
-    },
-    "609755": {
-        rank: { avg: 890.34, min: 882, max: 900 },
-        tier1: { avg: 823.25, min: 780, max: 880 },
-        tier2: { avg: 846.26, min: 821, max: 880 },
-        tier3: { avg: 860.88, min: 849, max: 882 },
-        tier4: { avg: 877.46, min: 874, max: 882 },
-    }
-};
-var ibCutoffTable = {
-    "609695": { min: 600 },
-    "610563": { min: 609 },
-    "609698": { min: 350 },
-    "610381": { min: 450 },
-    "609759": { min: 490 },
-    "609756": { min: 650 },
-    "609704": { min: 350 },
-    "609741": { min: 600 },
-    "609713": { min: 375 },
-    "609764": { min: 500 },
-    "609715": { min: 650 },
-    "609718": { min: 600 },
-    "609738": { min: 819 },
-    "609725": { min: 500 },
-    "610529": { min: 520 },
-    "609679": { min: 600 },
-    "609729": { min: 360 },
-    "609730": { min: 575 },
-    "610547": { min: 427 },
-    "609732": { min: 450 },
-    "609734": { min: 836 },
-    "609739": { min: 640 },
-};
-var getSECutoff = function (student, school) {
-    var cutoff = seCutoffTable[school.School_ID];
-    if (cutoff === undefined) {
-        throw new Error("School " + school.Long_Name + " not found in SE Cutoff scores");
-    }
-    switch (student.tier) {
-        case '1':
-            return cutoff.tier1;
-        case '2':
-            return cutoff.tier2;
-        case '3':
-            return cutoff.tier3;
-        case '4':
-            return cutoff.tier4;
-    }
-};
-var getIBCutoff = function (student, school) {
-    var cutoff = ibCutoffTable[school.School_ID];
-    if (cutoff === undefined) {
-        throw new Error("School " + school.Long_Name + " not found in IB Cutoff scores");
-    }
-    return cutoff;
-};
-var getPointsFromCutoff = function (score, cutoff) {
-    var diff = cutoff - score;
-    if (diff <= 0) {
-        return 0;
+var success_chance_1 = __webpack_require__(54);
+var get_req_fns_1 = __webpack_require__(511);
+var getCombinedSuccessChance = function (student, program) {
+    var reqFns = get_req_fns_1.default(program);
+    var applicationSuccess = reqFns.application(student, program).outcome;
+    var selectionSuccess = reqFns.selection(student, program).outcome;
+    if (applicationSuccess === success_chance_1.default.CERTAIN || applicationSuccess === success_chance_1.default.LIKELY) {
+        return selectionSuccess;
     }
     else {
-        return diff;
+        return applicationSuccess;
     }
 };
-var average = function () {
-    var nums = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        nums[_i] = arguments[_i];
-    }
-    var count = nums.length;
-    var sum = nums.reduce(function (a, b) { return a + b; });
-    return sum / count;
-};
-var norm = function (value, max, min) {
-    return ((value - min) / (max - min)) * 100;
-};
-var inAttendanceBound = function (student, school) {
-    var ATTEND_RADIUS_MI = 2.5;
-    var tryParseFloat = function (str) {
-        var num = parseFloat(str);
-        if (isNaN(num)) {
-            throw new Error("inAttendanceBound: Cannot parse '" + str + "' as float");
-        }
-        return num;
-    };
-    var studentLat = student.geolocation.latitude;
-    var studentLong = student.geolocation.longitude;
-    var schoolLat = tryParseFloat(school.School_Latitude);
-    var schoolLong = tryParseFloat(school.School_Longitude);
-    var studentLatRad = Math.PI * studentLat / 180;
-    var schoolLatRad = Math.PI * schoolLat / 180;
-    var theta = studentLong - schoolLong;
-    var thetaRad = Math.PI * theta / 180;
-    var dist = Math.sin(studentLatRad) * Math.sin(schoolLatRad) * Math.cos(studentLatRad) * Math.cos(schoolLatRad) * Math.cos(thetaRad);
-    dist = Math.acos(dist);
-    dist = dist * 180 / Math.PI;
-    dist = dist * 60 * 1.1515;
-    var isInBound = dist < ATTEND_RADIUS_MI;
-    return isInBound;
-};
-var hasSiblingInProgram = function (student, program) {
-    var siblingAttends = student.siblingHSPrograms.indexOf(program.ID) !== -1;
-    if (siblingAttends) {
-        return true;
-    }
-    else {
-        return false;
-    }
-};
-var HsReqFns = {
-    "6adf97f83acf6453d4a6a4b1070f3754": {
-        "desc": "None",
-        "programs": [
-            "NOBLE - JOHNSON HS - General Education - Application",
-            "FOUNDATIONS - General Education - Application",
-            "NOBLE - PRITZKER HS - General Education - Application",
-            "PERSPECTIVES - TECH HS - General Education - Application",
-            "FARRAGUT HS - General Education - Application",
-            "URBAN PREP - WEST HS - General Education - Application",
-            "AUSTIN CCA HS - General Education - Application",
-            "CHICAGO VIRTUAL - Charter - Application",
-            "NOBLE - MANSUETO HS - General Education - Application",
-            "ACERO - SOTO HS - General Education - Application",
-            "CICS - LONGWOOD - Charter - Application",
-            "NOBLE - NOBLE HS - General Education - Application",
-            "ACERO - GARCIA HS - General Education - Application",
-            "ASPIRA - EARLY COLLEGE HS - General Education - Application",
-            "NOBLE - UIC HS - General Education - Application",
-            "WELLS HS - Pre-Law - Application",
-            "NOBLE - COMER - General Education - Application",
-            "SCHURZ HS - Accounting & Entrepreneurship - Application",
-            "WASHINGTON HS - General Education - Application",
-            "SCHURZ HS - General Education - Application",
-            "JUAREZ HS - General Education - Application",
-            "CHICAGO VOCATIONAL HS - Agricultural Sciences - Application",
-            "RICHARDS HS - General Education - Application",
-            "BOGAN HS - Entrepreneurship - Application",
-            "DOUGLASS HS - General Education - Application",
-            "LAKE VIEW HS - General Education - Application",
-            "ROOSEVELT HS - Game Programming - Application",
-            "ROOSEVELT HS - Medical & Health Careers - Application",
-            "NORTH-GRAND HS - Culinary Arts - Application",
-            "FOREMAN HS - Digital Media - Application",
-            "PHILLIPS HS - Digital Media - Application",
-            "ALCOTT HS - Pre-Engineering - Application",
-            "CURIE HS - Game Programming & Web Design - Application",
-            "CHICAGO MATH & SCIENCE HS - General Education - Application",
-            "BOWEN HS - Manufacturing - Application",
-            "JUAREZ HS - Culinary Arts - Application",
-            "SULLIVAN HS - Medical & Health Careers - Application",
-            "HUBBARD HS - General Education - Application",
-            "CHICAGO VOCATIONAL HS - Culinary Arts - Application",
-            "CICS - NORTHTOWN HS - General Education - Application",
-            "JULIAN HS - General Education - Application",
-            "SCHURZ HS - Automotive Technology - Application",
-            "CICS - CHICAGOQUEST HS - General Education - Application",
-            "COLLINS HS - Game Programming - Application",
-            "SULLIVAN HS - Accounting - Application",
-            "CHICAGO VIRTUAL - General Education - Application",
-            "SPRY HS - General Education - Application",
-            "FARRAGUT HS - Pre-Law - Application",
-            "NOBLE - BAKER HS - General Education - Application",
-            "CLEMENTE HS - Broadcast Technology - Application",
-            "SOUTH SHORE INTL HS - Medical & Health Careers - Application",
-            "CURIE HS - Accounting - Application",
-            "ROOSEVELT HS - Early Childhood - Application",
-            "PERSPECTIVES - MATH & SCI HS - General Education - Application",
-            "KENNEDY HS - General Education - Application",
-            "KELLY HS - General Education - Application",
-            "FARRAGUT HS - Automotive Technology - Application",
-            "JULIAN HS - Entrepreneurship - Application",
-            "CHICAGO VOCATIONAL HS - Carpentry - Application",
-            "CICS - ELLISON HS - General Education - Application",
-            "NOBLE - BULLS HS - General Education - Application",
-            "JULIAN HS - Allied Health - Application",
-            "ROOSEVELT HS - General Education - Application",
-            "URBAN PREP - ENGLEWOOD HS - General Education - Application",
-            "HYDE PARK HS - Broadcast Technology - Application",
-            "NORTH-GRAND HS - General Education - Application",
-            "GAGE PARK HS - General Education - Application",
-            "UPLIFT HS - General Education - Application",
-            "JUAREZ HS - Automotive Technology - Application",
-            "U OF C - WOODLAWN HS - General Education - Application",
-            "TILDEN HS - General Education - Application",
-            "BOWEN HS - General Education - Application",
-            "DUNBAR HS - Chicago Builds - Application",
-            "TAFT HS - General Education - Application",
-            "MORGAN PARK HS - General Education - Application",
-            "JULIAN HS - Broadcast Technology - Application",
-            "CURIE HS - Early Childhood & Teaching - Application",
-            "CLEMENTE HS - Culinary Arts - Application",
-            "BOGAN HS - Accounting - Application",
-            "NORTH-GRAND HS - Pre-Engineering - Application",
-            "CURIE HS - Automotive Technology - Application",
-            "JUAREZ HS - Medical & Health Careers - Application",
-            "JULIAN HS - Game Programming - Application",
-            "NORTH-GRAND HS - Allied Health - Application",
-            "JUAREZ HS - Architecture - Application",
-            "TILDEN HS - Culinary Arts - Application",
-            "INTRINSIC HS - General Education - Application",
-            "NOBLE - RAUNER HS - General Education - Application",
-            "SCHURZ HS - Digital Media - Application",
-            "FOREMAN HS - Web Design - Application",
-            "PERSPECTIVES - LEADERSHIP HS - General Education - Application",
-            "HYDE PARK HS - Digital Media - Application",
-            "CICS - LONGWOOD - General Education - Application",
-            "CORLISS HS - Early College STEM - Application",
-            "BOWEN HS - Pre-Engineering - Application",
-            "HYDE PARK HS - General Education - Application",
-            "ROOSEVELT HS - Culinary Arts - Application",
-            "FOREMAN HS - General Education - Application",
-            "NOBLE - ROWE CLARK HS - General Education - Application",
-            "CURIE HS - Broadcast Technology - Application",
-            "NOBLE - MUCHIN HS - General Education - Application",
-            "ALCOTT HS - General Education - Application",
-            "RICHARDS HS - Culinary Arts - Application",
-            "FENGER HS - Culinary Arts - Application",
-            "SCHURZ HS - Allied Health - Application",
-            "RABY HS - Culinary Arts - Application",
-            "RABY HS - Pre-Law - Application",
-            "FENGER HS - General Education - Application",
-            "HARPER HS - Culinary Arts - Application",
-            "NOBLE - DRW HS - General Education - Application",
-            "AMUNDSEN HS - General Education - Application",
-            "WILLIAMS HS - Medical & Health Careers - Application",
-            "NOBLE - GOLDER HS - General Education - Application",
-            "RABY HS - Broadcast Technology - Application",
-            "HIRSCH HS - General Education - Application",
-            "STEINMETZ HS - Digital Media - Application",
-            "JULIAN HS - Digital Media - Application",
-            "AUSTIN CCA HS - Manufacturing - Application",
-            "HARPER HS - Digital Media - Application",
-            "DYETT ARTS HS - General Education - Application",
-            "MATHER HS - Pre-Law - Application",
-            "AMUNDSEN HS - Game Programming & Web Design - Application",
-            "SOLORIO HS - General Education - Application",
-            "PERSPECTIVES - JOSLIN HS - General Education - Application",
-            "RICHARDS HS - Accounting - Application",
-            "MATHER HS - Game Programming & Web Design - Application",
-            "EPIC HS - General Education - Application",
-            "BOGAN HS - General Education - Application",
-            "CHICAGO COLLEGIATE - General Education - Application",
-            "CURIE HS - Culinary Arts - Application",
-            "RABY HS - Entrepreneurship - Application",
-            "CLEMENTE HS - Allied Health - Application",
-            "DYETT ARTS HS - Digital Media - Application",
-            "DUNBAR HS - Allied Health - Application",
-            "CHICAGO VOCATIONAL HS - Early College STEM - Application",
-            "HARLAN HS - Digital Media - Application",
-            "DUNBAR HS - Career Academy - Application",
-            "MANLEY HS - Culinary Arts - Application",
-            "CHICAGO VOCATIONAL HS - Diesel Technology - Application",
-            "CURIE HS - Fine Arts & Technology - NEIGHBORHOOD - Application",
-            "CHICAGO VOCATIONAL HS - General Education - Application",
-            "STEINMETZ HS - General Education - Application",
-            "SENN HS - General Education - Application",
-            "WELLS HS - Game Programming - Application",
-            "NOBLE - HANSBERRY HS - General Education - Application",
-            "ROBESON HS - General Education - Application",
-            "CHICAGO VOCATIONAL HS - Medical Assisting - Application",
-            "LAKE VIEW HS - Early College STEM - Application",
-            "CHICAGO VOCATIONAL HS - Cosmetology - Application",
-            "FENGER HS - Carpentry - Application",
-            "HARLAN HS - Web Design - Application",
-            "CURIE HS - Digital Media - Application",
-            "URBAN PREP - BRONZEVILLE HS - General Education - Application",
-            "CURIE HS - Architecture - Application",
-            "KENWOOD HS - General Education - Application",
-            "MATHER HS - General Education - Application",
-            "AUSTIN CCA HS - Pre-Engineering - Application",
-            "ORR HS - General Education - Application",
-            "SULLIVAN HS - General Education - Application",
-            "MANLEY HS - General Education - Application",
-            "HOPE HS - General Education - Application",
-            "NORTH LAWNDALE - CHRISTIANA HS - General Education - Application",
-            "NORTH LAWNDALE - COLLINS HS - General Education - Application",
-            "UPLIFT HS - Teaching - Application",
-            "SCHURZ HS - Pre-Engineering - Application",
-            "ACE TECH HS - General Education - Application",
-            "LEGAL PREP HS - General Education - Application",
-            "ASPIRA - BUSINESS & FINANCE HS - General Education - Application",
-            "JUAREZ HS - Game Programming & Web Design - Application",
-            "PROSSER HS - Career Academy - Application",
-            "HARPER HS - General Education - Application",
-            "INSTITUTO - HEALTH - General Education - Application",
-            "ROOSEVELT HS - Cisco Networking - Application",
-            "INFINITY HS - Science/Technology/Engineering/Math - Application",
-            "CHICAGO TECH HS - Science/Technology/Engineering/Math - Application",
-            "NOBLE - ITW SPEER HS - General Education - Application",
-            "NOBLE - BUTLER HS - General Education - Application",
-            "NOBLE - ACADEMY HS - General Education - Application",
-            "MARSHALL HS - General Education - Application",
-            "MARSHALL HS - Agricultural Sciences - Application",
-            "MARSHALL HS - Culinary Arts - Application"
-        ],
-        "fn": function noReq(studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.CERTAIN };
-        }
-    },
-    "f1a0a3737e921ccaf4617c5eafab5f53": {
-        "desc": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
-        "programs": [
-            "NOBLE - JOHNSON HS - General Education - Selection",
-            "NOBLE - PRITZKER HS - General Education - Selection",
-            "PERSPECTIVES - TECH HS - General Education - Selection",
-            "URBAN PREP - WEST HS - General Education - Selection",
-            "NOBLE - MANSUETO HS - General Education - Selection",
-            "ACERO - SOTO HS - General Education - Selection",
-            "NOBLE - NOBLE HS - General Education - Selection",
-            "ACERO - GARCIA HS - General Education - Selection",
-            "ASPIRA - EARLY COLLEGE HS - General Education - Selection",
-            "NOBLE - UIC HS - General Education - Selection",
-            "NOBLE - COMER - General Education - Selection",
-            "CICS - NORTHTOWN HS - General Education - Selection",
-            "NOBLE - BAKER HS - General Education - Selection",
-            "PERSPECTIVES - MATH & SCI HS - General Education - Selection",
-            "CICS - ELLISON HS - General Education - Selection",
-            "NOBLE - BULLS HS - General Education - Selection",
-            "URBAN PREP - ENGLEWOOD HS - General Education - Selection",
-            "NOBLE - RAUNER HS - General Education - Selection",
-            "PERSPECTIVES - LEADERSHIP HS - General Education - Selection",
-            "CICS - LONGWOOD - General Education - Selection",
-            "NOBLE - ROWE CLARK HS - General Education - Selection",
-            "NOBLE - MUCHIN HS - General Education - Selection",
-            "NOBLE - DRW HS - General Education - Selection",
-            "NOBLE - GOLDER HS - General Education - Selection",
-            "PERSPECTIVES - JOSLIN HS - General Education - Selection",
-            "EPIC HS - General Education - Selection",
-            "NOBLE - HANSBERRY HS - General Education - Selection",
-            "URBAN PREP - BRONZEVILLE HS - General Education - Selection",
-            "ASPIRA - BUSINESS & FINANCE HS - General Education - Selection",
-            "NOBLE - ITW SPEER HS - General Education - Selection",
-            "NOBLE - BUTLER HS - General Education - Selection",
-            "NOBLE - ACADEMY HS - General Education - Selection"
-        ],
-        "fn": function random(studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "ea7a8ea4de4f5cdcc8bc6e7aab6a7962": {
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled at Foundations College Prep, isibling, general.",
-        "programs": [
-            "FOUNDATIONS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "783216956d119ad64639725fa9f4d44b": {
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically. This program only accepts students who live within the school's attendance boundary.",
-        "programs": [
-            "FARRAGUT HS - General Education - Selection",
-            "WASHINGTON HS - General Education - Selection",
-            "HUBBARD HS - General Education - Selection",
-            "KENNEDY HS - General Education - Selection",
-            "KELLY HS - General Education - Selection",
-            "ROOSEVELT HS - General Education - Selection",
-            "BOGAN HS - General Education - Selection",
-            "CURIE HS - Fine Arts & Technology - NEIGHBORHOOD - Selection",
-            "SENN HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "240970c398eb1cf1d65952b71e811d58": {
-        "desc": "If the school receives more applications than there are seats available, students are randomly selected through a computerized lottery.  Priority is given to students currently enrolled in the school and to siblings of students enrolled in the campus.",
-        "programs": [
-            "CHICAGO VIRTUAL - Charter - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "01a561f658ea66df980a6e77eae83235": {
-        "desc": "If the school receives more applications than there are seats available, students are randomly selected through a computerized lottery.  Priority is given to students currently enrolled in the school who wish to continue and to siblings of students enrolled in the campus.",
-        "programs": [
-            "CICS - LONGWOOD - Charter - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "8c431d51587c33009ee9b67a566c042e": {
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "AUSTIN CCA HS - General Education - Selection",
-            "JULIAN HS - General Education - Selection",
-            "NORTH-GRAND HS - General Education - Selection",
-            "GAGE PARK HS - General Education - Selection",
-            "BOWEN HS - General Education - Selection",
-            "FOREMAN HS - General Education - Selection",
-            "FENGER HS - General Education - Selection",
-            "HIRSCH HS - General Education - Selection",
-            "CHICAGO VOCATIONAL HS - General Education - Selection",
-            "ROBESON HS - General Education - Selection",
-            "ORR HS - General Education - Selection",
-            "MANLEY HS - General Education - Selection",
-            "HOPE HS - General Education - Selection",
-            "HARPER HS - General Education - Selection",
-            "INFINITY HS - Science/Technology/Engineering/Math - Selection",
-            "MARSHALL HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "6fddb8b397a12770dbed5afff360213b": {
-        "desc": "Minimum percentile of 75 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.",
-        "programs": [
-            "SOLORIO HS - Double Honors/Scholars - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            var NWEA_MATH_CUTOFF = 75;
-            var NWEA_READ_CUTOFF = 75;
-            var ATTEND_CUTOFF = 95;
-            var progress = {
-                threshold_certain: 100,
-                value: 100 - average(getPointsFromCutoff(studentData.scores.nweaPercentileMath, NWEA_MATH_CUTOFF), getPointsFromCutoff(studentData.scores.nweaPercentileRead, NWEA_READ_CUTOFF), getPointsFromCutoff(studentData.attendancePercentage, ATTEND_CUTOFF)),
-            };
-            if (studentData.scores.nweaPercentileMath >= NWEA_MATH_CUTOFF &&
-                studentData.scores.nweaPercentileRead >= NWEA_READ_CUTOFF &&
-                studentData.attendancePercentage >= ATTEND_CUTOFF) {
-                return { outcome: success_chance_ts_1.default.CERTAIN, progress: progress };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE, progress: progress };
-            }
-        }
-    },
-    "218f3d334a0ceaa37bb7ce57bec10e96": {
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, students enrolled in AUSL schools, general.",
-        "programs": [
-            "SOLORIO HS - Double Honors/Scholars - Selection",
-            "CHICAGO ACADEMY HS - Scholars - Selection",
-            "CHICAGO ACADEMY HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school) ||
-                hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "3086b8e507b2f64e53b85b8ad808e66d": {
-        "desc": "Minimum 2.0 GPA in 7th grade and minimum attendance percentage of 85.",
-        "programs": [
-            "FARRAGUT HS - JROTC - Application",
-            "SCHURZ HS - AVID - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            var GPA_CUTOFF = 2.0;
-            var ATTEND_CUTOFF = 85;
-            var progress = {
-                threshold_certain: 100,
-                value: average(norm(getPointsFromCutoff(studentData.gpa, GPA_CUTOFF), 4.0, 0.0), getPointsFromCutoff(studentData.attendancePercentage, ATTEND_CUTOFF))
-            };
-            if (studentData.gpa >= GPA_CUTOFF && studentData.attendancePercentage >= ATTEND_CUTOFF) {
-                return { outcome: success_chance_ts_1.default.CERTAIN, progress: progress };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE, progress: progress };
-            }
-        }
-    },
-    "d3ddea21fb0e360b470bf095ce6bdfef": {
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: proximity, general.",
-        "programs": [
-            "FARRAGUT HS - JROTC - Selection",
-            "ROBESON HS - Allied Health - Selection",
-            "DUNBAR HS - Chicago Builds - Selection",
-            "SCHURZ HS - AVID - Selection",
-            "PROSSER HS - Career Academy - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "618315c228cf8e591d1909fc8ca41206": {
-        "desc": "Students are selected on a point system. Points are based on 7th grade final GPA and NWEA MAP scores. The school determines the minimum cutoff score for selections.",
-        "programs": [
-            "WELLS HS - Pre-Law - Selection",
-            "ALCOTT HS - Pre-Engineering - Selection",
-            "SULLIVAN HS - Medical & Health Careers - Selection",
-            "FARRAGUT HS - Pre-Law - Selection",
-            "SOUTH SHORE INTL HS - Medical & Health Careers - Selection",
-            "JULIAN HS - Allied Health - Selection",
-            "JUAREZ HS - Medical & Health Careers - Selection",
-            "BOWEN HS - Pre-Engineering - Selection",
-            "WILLIAMS HS - Medical & Health Careers - Selection",
-            "CLEMENTE HS - Allied Health - Selection",
-            "DUNBAR HS - Allied Health - Selection",
-            "CHICAGO VOCATIONAL HS - Medical Assisting - Selection",
-            "SCHURZ HS - Pre-Engineering - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "f661cdb969617a4f2a3923f5c80c190c": {
-        "desc": "General Education and 504 Plan students: Minimum percentile of 50 in both reading and math on NWEA MAP, minimum 2.7 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 50 in reading and math on NWEA MAP.  An Interview is required for all eligible applicants.",
-        "programs": [
-            "DYETT ARTS HS - Music - Application",
-            "DYETT ARTS HS - Visual Arts - Application",
-            "DYETT ARTS HS - Dance - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if (studentData.scores.nweaPercentileMath >= 50 &&
-                    studentData.scores.nweaPercentileRead >= 50 &&
-                    studentData.gpa >= 2.7 &&
-                    studentData.attendancePercentage >= 97) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead >= 50) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "3d86881707e468c9fe2a0ce0f5eeac4f": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the interview.",
-        "programs": [
-            "DYETT ARTS HS - Music - Selection",
-            "DYETT ARTS HS - Visual Arts - Selection",
-            "DYETT ARTS HS - Dance - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "7672890f5b16cd8f5c0cae20d58d1888": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
-        "programs": [
-            "SCHURZ HS - Accounting & Entrepreneurship - Selection",
-            "KELLY HS - Digital Media - Selection",
-            "CHICAGO VOCATIONAL HS - Agricultural Sciences - Selection",
-            "BOGAN HS - Entrepreneurship - Selection",
-            "ROOSEVELT HS - Game Programming - Selection",
-            "NORTH-GRAND HS - Culinary Arts - Selection",
-            "FOREMAN HS - Digital Media - Selection",
-            "PHILLIPS HS - Digital Media - Selection",
-            "CURIE HS - Game Programming & Web Design - Selection",
-            "BOWEN HS - Manufacturing - Selection",
-            "JUAREZ HS - Culinary Arts - Selection",
-            "CHICAGO VOCATIONAL HS - Culinary Arts - Selection",
-            "SCHURZ HS - Automotive Technology - Selection",
-            "COLLINS HS - Game Programming - Selection",
-            "CLEMENTE HS - Broadcast Technology - Selection",
-            "CURIE HS - Accounting - Selection",
-            "ROOSEVELT HS - Early Childhood - Selection",
-            "FARRAGUT HS - Automotive Technology - Selection",
-            "JULIAN HS - Entrepreneurship - Selection",
-            "CHICAGO VOCATIONAL HS - Carpentry - Selection",
-            "HYDE PARK HS - Broadcast Technology - Selection",
-            "JUAREZ HS - Automotive Technology - Selection",
-            "JULIAN HS - Broadcast Technology - Selection",
-            "CURIE HS - Early Childhood & Teaching - Selection",
-            "CLEMENTE HS - Culinary Arts - Selection",
-            "CURIE HS - Automotive Technology - Selection",
-            "JULIAN HS - Game Programming - Selection",
-            "JUAREZ HS - Architecture - Selection",
-            "TILDEN HS - Culinary Arts - Selection",
-            "SCHURZ HS - Digital Media - Selection",
-            "FOREMAN HS - Web Design - Selection",
-            "HYDE PARK HS - Digital Media - Selection",
-            "ROOSEVELT HS - Culinary Arts - Selection",
-            "CURIE HS - Broadcast Technology - Selection",
-            "RICHARDS HS - Culinary Arts - Selection",
-            "FENGER HS - Culinary Arts - Selection",
-            "RABY HS - Culinary Arts - Selection",
-            "HARPER HS - Culinary Arts - Selection",
-            "RABY HS - Broadcast Technology - Selection",
-            "STEINMETZ HS - Digital Media - Selection",
-            "JULIAN HS - Digital Media - Selection",
-            "AUSTIN CCA HS - Manufacturing - Selection",
-            "HARPER HS - Digital Media - Selection",
-            "AMUNDSEN HS - Game Programming & Web Design - Selection",
-            "RICHARDS HS - Accounting - Selection",
-            "MATHER HS - Game Programming & Web Design - Selection",
-            "CURIE HS - Culinary Arts - Selection",
-            "RABY HS - Entrepreneurship - Selection",
-            "CHICAGO VOCATIONAL HS - Early College STEM - Selection",
-            "HARLAN HS - Digital Media - Selection",
-            "MANLEY HS - Culinary Arts - Selection",
-            "CHICAGO VOCATIONAL HS - Diesel Technology - Selection",
-            "WELLS HS - Game Programming - Selection",
-            "FENGER HS - Carpentry - Selection",
-            "HARLAN HS - Web Design - Selection",
-            "CURIE HS - Digital Media - Selection",
-            "CURIE HS - Architecture - Selection",
-            "UPLIFT HS - Teaching - Selection",
-            "JUAREZ HS - Game Programming & Web Design - Selection",
-            "MARSHALL HS - Agricultural Sciences - Selection",
-            "MARSHALL HS - Culinary Arts - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 &&
-                    studentData.scores.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "4ab864cc8934557f435c392c96e5cfc1": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery.\u00a0The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "SCHURZ HS - General Education - Selection",
-            "STEINMETZ HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "ae1af40b734a31b447b1ed50f6e4bc17": {
-        "name": "",
-        "desc": "Minimum combined percentile of 48 in reading and math on NWEA MAP. Attendance at an Information Session is required for eligible applicants.",
-        "programs": [
-            "AIR FORCE HS - Service Learning Academies (Military) - Application",
-            "MARINE LEADERSHIP AT AMES HS - Service Learning Academies (Military) - Application",
-            "RICKOVER MILITARY HS - Service Learning Academies (Military) - Application",
-            "PHOENIX MILITARY HS - Service Learning Academies (Military) - Application",
-            "CARVER MILITARY HS - Service Learning Academies (Military) - Application",
-            "CHICAGO MILITARY HS - Service Learning Academies (Military) - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead >= 48) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-        }
-    },
-    "9a6d8103474c5e8b4988360767a186de": {
-        "name": "",
-        "desc": "During the Information Session, students will sign a Commitment Agreement, complete a Motivation and Perseverance Assessment and write a brief essay. Selections are based on a point system with a maximum of 500 points, derived from 7th grade final (cumulative) grades (100 points), 7th grade NWEA MAP scores (150 points), the two-part assessment (50 for each part), and the essay (100 points).",
-        "programs": [
-            "AIR FORCE HS - Service Learning Academies (Military) - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "459b0b1aaa6e44d897f0a720ba82369e": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary will be randomly selected by computerized lottery. The lottery will be conducted in the following order: sibling, general.",
-        "programs": [
-            "JUAREZ HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "d41d8cd98f00b204e9800998ecf8427e": {
-        "name": "",
-        "desc": "",
-        "programs": [
-            "KELLY HS - Digital Media - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "2317c60e8a1eec08ab495a14ccfd9c64": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery.",
-        "programs": [
-            "RICHARDS HS - General Education - Selection",
-            "TILDEN HS - General Education - Selection",
-            "DYETT ARTS HS - General Education - Selection",
-            "SOLORIO HS - General Education - Selection",
-            "MATHER HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "c32c0804dc719ba6c4c00322e7a69be2": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 45 in both reading and math on NWEA MAP.  IEP and EL students: Minimum NWEA MAP percentile of 50 in one subject (reading or math) and minimum NWEA MAP percentile of 40 in the other subject (reading or math).  Testing is required for all eligible applicants.",
-        "programs": [
-            "BROOKS HS - Academic Center - Application",
-            "TAFT HS - Academic Center - Application",
-            "LANE TECH HS - Academic Center - Application",
-            "MORGAN PARK HS - Academic Center - Application",
-            "KENWOOD HS - Academic Center - Application",
-            "LINDBLOM HS - Academic Center - Application",
-            "YOUNG HS - Academic Center - Application"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "224ce8807abceb6ca72e650988637629": {
-        "name": "",
-        "desc": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for prior year final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
-        "programs": [
-            "BROOKS HS - Academic Center - Selection",
-            "TAFT HS - Academic Center - Selection",
-            "LANE TECH HS - Academic Center - Selection",
-            "MORGAN PARK HS - Academic Center - Selection",
-            "KENWOOD HS - Academic Center - Selection",
-            "LINDBLOM HS - Academic Center - Selection",
-            "YOUNG HS - Academic Center - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "03010a12030cab563c3f5d9115e7aabe": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 45 in both reading and math on NWEA MAP and minimum 2.0 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 90 in reading and math on NWEA MAP, and minimum 2.0 GPA in 7th grade.",
-        "programs": [
-            "STEINMETZ HS - JROTC - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if (studentData.scores.nweaPercentileMath >= 45 &&
-                    studentData.scores.nweaPercentileRead >= 45 &&
-                    studentData.gpa > 2.0) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 90 &&
-                    studentData.gpa > 2.0) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "5096cc5a97943badb78efd427ee13eb6": {
-        "name": "",
-        "desc": "Eligible students are randomly selected by computerized lottery.",
-        "programs": [
-            "STEINMETZ HS - JROTC - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "f6b1cadaa52f894d87ad4246bd4c9b0a": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, general.",
-        "programs": [
-            "DOUGLASS HS - General Education - Selection",
-            "WILLIAMS HS - General Education - Selection",
-            "SENN HS - Digital Journalism - Selection",
-            "NORTH LAWNDALE - CHRISTIANA HS - General Education - Selection",
-            "NORTH LAWNDALE - COLLINS HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school) ||
-                hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "77620df9b5c4a530f21c30267af843ce": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP. An audition/portfolio review is required.",
-        "programs": [
-            "CURIE HS - Dance - Application",
-            "CURIE HS - Music - Application",
-            "CURIE HS - Visual Arts - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 &&
-                    studentData.scores.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "7e51568fc748dec3fd5aa79aae428009": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade final (cumulative) grades, and the audition.",
-        "programs": [
-            "CURIE HS - Dance - Selection",
-            "SENN HS - Dance - Selection",
-            "CURIE HS - Music - Selection",
-            "SENN HS - Music - Selection",
-            "SENN HS - Theatre - Selection",
-            "CURIE HS - Visual Arts - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "0514de51e21823dae4f43b085538f9e6": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.",
-        "programs": [
-            "WESTINGHOUSE HS - Career Academy - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
-                    studentData.gpa >= 3.0 &&
-                    studentData.attendancePercentage >= 95) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 &&
-                    studentData.scores.nweaPercentileRead >= 24 &&
-                    studentData.gpa >= 3.0 &&
-                    studentData.attendancePercentage >= 95) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "d76c385b612c2ef53c62501b074b6134": {
-        "name": "",
-        "desc": "Students are randomly selected by compterized lottery. The lottery is conducted in the following order: proximity, general.",
-        "programs": [
-            "WESTINGHOUSE HS - Career Academy - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "5ee7cff3803c80e025f483be28b57f06": {
-        "name": "",
-        "desc": "This program only accepts students who live within the school's attendance boundary or who attend a Grow Community School (Audubon, Bell, Blaine, Budlong, Burley, Chappell, Coonley, Greeley, Hamilton, Hawthorne, Inter-American, Jahn, Jamieson, McPherson, Nettelhorst, Ravenswood, or Waters). Students are randomly selected by computerized lottery.",
-        "programs": [
-            "LAKE VIEW HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "930c01733b718c40bc1f2af23839e14a": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants.",
-        "programs": [
-            "KELLY HS - International Baccalaureate (IB) - Application",
-            "SOUTH SHORE INTL HS - International Baccalaureate (IB) - Application",
-            "BACK OF THE YARDS HS - International Baccalaureate (IB) - Application",
-            "PROSSER HS - International Baccalaureate (IB) - Application",
-            "STEINMETZ HS - International Baccalaureate (IB) - Application",
-            "MORGAN PARK HS - International Baccalaureate (IB) - Application",
-            "TAFT HS - International Baccalaureate (IB) - Application",
-            "BOGAN HS - International Baccalaureate (IB) - Application",
-            "JUAREZ HS - International Baccalaureate (IB) - Application",
-            "OGDEN HS - International Baccalaureate (IB) - Application",
-            "KENNEDY HS - International Baccalaureate (IB) - Application",
-            "AMUNDSEN HS - International Baccalaureate (IB) - Application",
-            "WASHINGTON HS - International Baccalaureate (IB) - Application",
-            "SCHURZ HS - International Baccalaureate (IB) - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 &&
-                    studentData.scores.nweaPercentileRead >= 24 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "11bdd4bc6af64732a32d73a850bc78a4": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points.The school determines the minimum cutoff score for selections.",
-        "programs": [
-            "KELLY HS - International Baccalaureate (IB) - Selection",
-            "BACK OF THE YARDS HS - International Baccalaureate (IB) - Selection",
-            "JUAREZ HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "f79604e9d7984cc9b43fa3c69abe428d": {
-        "name": "",
-        "desc": "During the Information Session, students will sign a Commitment Agreement, complete a Motivation and Perseverance Assessment and write a brief essay. Selections will be based on a point system with a maximum of 500 points, derived from 7th grade final (cumulative) grades (100 points), 7th grade NWEA MAP scores (150 points), the two-part assessment (50 for each part), and the essay (100 points).",
-        "programs": [
-            "MARINE LEADERSHIP AT AMES HS - Service Learning Academies (Military) - Selection",
-            "RICKOVER MILITARY HS - Service Learning Academies (Military) - Selection",
-            "PHOENIX MILITARY HS - Service Learning Academies (Military) - Selection",
-            "CARVER MILITARY HS - Service Learning Academies (Military) - Selection",
-            "CHICAGO MILITARY HS - Service Learning Academies (Military) - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "4cb799c1cf8b41a3baf1e8d9176463d8": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.",
-        "programs": [
-            "JONES HS - Pre-Engineering - Application",
-            "CRANE MEDICAL HS - Health Sciences - Application",
-            "CHICAGO AGRICULTURE HS - Agricultural Sciences - Application",
-            "HANCOCK HS - Pre-Law - Application",
-            "HANCOCK HS - Pre-Engineering - Application",
-            "JONES HS - Pre-Law - Application",
-            "VON STEUBEN HS - Science - Application",
-            "CLARK HS - Early College STEM - Application",
-            "DISNEY II HS - Fine Arts & Technology - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 &&
-                    studentData.scores.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "0fe94ad9490cc5fe33139f705336bf3d": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on 7th grade final GPA and 7th grade stanines. Students are ranked and selected from high to low. Students residing within the attendance overlay boundary of the school are selected first.",
-        "programs": [
-            "JONES HS - Pre-Engineering - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "0fedde2a8081243a74d2c6a3be90b411": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.",
-        "programs": [
-            "SOUTH SHORE INTL HS - International Baccalaureate (IB) - Selection",
-            "CLEMENTE HS - International Baccalaureate (IB) - Selection",
-            "STEINMETZ HS - International Baccalaureate (IB) - Selection",
-            "HUBBARD HS - International Baccalaureate (IB) - Selection",
-            "BOGAN HS - International Baccalaureate (IB) - Selection",
-            "KENNEDY HS - International Baccalaureate (IB) - Selection",
-            "BRONZEVILLE HS - International Baccalaureate (IB) - Selection",
-            "WASHINGTON HS - International Baccalaureate (IB) - Selection",
-            "SCHURZ HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "70d67060ab98f9cd752d741b32e207ba": {
-        "name": "",
-        "desc": "Student selections are based on points. Students are assigned points for 7th grade final GPA and 7th grade stanines. Each school determines a minimum cutoff score for selections.",
-        "programs": [
-            "ROOSEVELT HS - Medical & Health Careers - Selection",
-            "NORTH-GRAND HS - Pre-Engineering - Selection",
-            "NORTH-GRAND HS - Allied Health - Selection",
-            "SCHURZ HS - Allied Health - Selection",
-            "RABY HS - Pre-Law - Selection",
-            "MATHER HS - Pre-Law - Selection",
-            "ROOSEVELT HS - Cisco Networking - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "eb6acf17c18f9a5177bcdb7a4504672a": {
-        "name": "",
-        "desc": "Minimum percentile of 40 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, LAS Links Assessment composite of 4 or STAMP Assessment at the Intermediate Level.",
-        "programs": [
-            "SCHURZ HS - Dual Language - Application",
-            "BACK OF THE YARDS HS - Dual Language - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "0640ddea233c6c9c97db5dd816b5c24a": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, students currently enrolled in a CPS elementary school with a world language or dual language program, general.",
-        "programs": [
-            "SCHURZ HS - Dual Language - Selection",
-            "BACK OF THE YARDS HS - Dual Language - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "8c1dffabe7825704cbe29a12138cc4d9": {
-        "name": "",
-        "desc": "Students currently enrolled in the school's eighth grade will have a deadline to submit their intent to enroll in ninth grade. For remaining seats, students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "CHICAGO MATH & SCIENCE HS - General Education - Selection",
-            "CICS - CHICAGOQUEST HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "70b7c4a5e527fb50d69ea37b000765d8": {
-        "name": "",
-        "desc": "Minimum percentile of 70 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 93.",
-        "programs": [
-            "CHICAGO ACADEMY HS - Scholars - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.scores.nweaPercentileMath >= 70 &&
-                studentData.scores.nweaPercentileRead >= 70 &&
-                studentData.gpa >= 3.0 &&
-                studentData.attendancePercentage >= 93) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "1d126a086436d78661af2cb249938c72": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum attendance percentage of 92.",
-        "programs": [
-            "MULTICULTURAL HS - Fine and Performing Arts - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (studentData.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "c36c294e63476a7959123bfe85a2c639": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "MULTICULTURAL HS - Fine and Performing Arts - Selection",
-            "CLEMENTE HS - General Education - Selection",
-            "PHILLIPS HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "889af44e3306313029109d465b1c2de6": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum GPA of 2.5 in 7th grade and minimum attendance percentage of 85.",
-        "programs": [
-            "CLEMENTE HS - General Education - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (studentData.gpa >= 2.5 &&
-                    studentData.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "6a02d16ba52a69b937a74a43c6a82769": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance is required at an Information Session for all eligible applicants.",
-        "programs": [
-            "CLEMENTE HS - International Baccalaureate (IB) - Application",
-            "CURIE HS - International Baccalaureate (IB) - Application",
-            "FARRAGUT HS - International Baccalaureate (IB) - Application",
-            "BRONZEVILLE HS - International Baccalaureate (IB) - Application",
-            "HYDE PARK HS - International Baccalaureate (IB) - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 &&
-                    studentData.scores.nweaPercentileRead >= 24 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "1a043655763ab140a0d14f5080d63a2c": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
-        "programs": [
-            "BROOKS HS - Selective Enrollment High School - Application",
-            "YOUNG HS - Selective Enrollment High School - Application",
-            "SOUTH SHORE INTL HS - Selective Enrollment High School - Application",
-            "WESTINGHOUSE HS - Selective Enrollment High School - Application",
-            "LANE TECH HS - Selective Enrollment High School - Application",
-            "HANCOCK HS - Selective Enrollment High School - Application",
-            "LINDBLOM HS - Selective Enrollment High School - Application",
-            "KING HS - Selective Enrollment High School - Application",
-            "PAYTON HS - Selective Enrollment High School - Application",
-            "JONES HS - Selective Enrollment High School - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 &&
-                    studentData.scores.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "bd680e7bc10c03552140e26736221cf7": {
-        "name": "",
-        "desc": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for 7th grade final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
-        "programs": [
-            "BROOKS HS - Selective Enrollment High School - Selection",
-            "YOUNG HS - Selective Enrollment High School - Selection",
-            "NORTHSIDE PREP HS - Selective Enrollment High School - Selection",
-            "SOUTH SHORE INTL HS - Selective Enrollment High School - Selection",
-            "WESTINGHOUSE HS - Selective Enrollment High School - Selection",
-            "LANE TECH HS - Selective Enrollment High School - Selection",
-            "HANCOCK HS - Selective Enrollment High School - Selection",
-            "LINDBLOM HS - Selective Enrollment High School - Selection",
-            "KING HS - Selective Enrollment High School - Selection",
-            "JONES HS - Selective Enrollment High School - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateSEPoints(student);
-            var cutoff = getSECutoff(student, school);
-            if (score >= cutoff.max) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (score >= cutoff.avg) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else if (score >= cutoff.min) {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "94f10272b6ff9ee947b6c7f8e9adc98c": {
-        "name": "",
-        "desc": "Minimum percentile of 24 in both reading and math on NWEA MAP. An interview is required for applicants.",
-        "programs": [
-            "TAFT HS - NJROTC - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.scores.nweaPercentileMath >= 24 &&
-                studentData.scores.nweaPercentileRead >= 24) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "29034b3dd211fc6857c0762ea4431354": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores and the interview.",
-        "programs": [
-            "TAFT HS - NJROTC - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "7ca8e42afc3b2240bdc21e9b02a9b6ff": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 2.75 GPA in 7th grade. An audition is required for students who live outside of the school's attendance boundary.",
-        "programs": [
-            "LINCOLN PARK HS - Vocal Music - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 60 &&
-                    studentData.scores.nweaPercentileRead >= 60 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "abfbe30160c0ed3a6d925da2f6fbe7d6": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility/audition requirements and can be admitted automatically.  Students who live outside of the school's attendance boundary are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade GPA, and the audition.",
-        "programs": [
-            "LINCOLN PARK HS - Vocal Music - Selection",
-            "LINCOLN PARK HS - Instrumental Music - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-            }
-        }
-    },
-    "9653c4a2af98c756aaeeaa36980f9dc5": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 24 in reading and math on NWEA MAP, and minimum attendance percentage of 90.",
-        "programs": [
-            "PHILLIPS HS - General Education - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (studentData.iep || studentData.ell) {
-                    if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 24 &&
-                        studentData.attendancePercentage >= 90) {
-                        return { outcome: success_chance_ts_1.default.CERTAIN };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.NONE };
-                    }
-                }
-                else {
-                    if (studentData.scores.nweaPercentileMath >= 24 &&
-                        studentData.scores.nweaPercentileRead >= 24 &&
-                        studentData.attendancePercentage >= 90) {
-                        return { outcome: success_chance_ts_1.default.CERTAIN };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.NONE };
-                    }
-                }
-            }
-        }
-    },
-    "49bc52caf46148ee777e8d3534f22700": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, tiers.",
-        "programs": [
-            "CRANE MEDICAL HS - Health Sciences - Selection",
-            "CHICAGO AGRICULTURE HS - Agricultural Sciences - Selection",
-            "VON STEUBEN HS - Science - Selection",
-            "CLARK HS - Early College STEM - Selection",
-            "DISNEY II HS - Fine Arts & Technology - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school) ||
-                hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "61f50de703d591d18f2fb852131bbb9c": {
-        "name": "",
-        "desc": "Studentts are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
-        "programs": [
-            "SULLIVAN HS - Accounting - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                if (studentData.iep || studentData.ell) {
-                    if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
-                        return { outcome: success_chance_ts_1.default.LIKELY };
-                    }
-                    else if (studentData.prevGradeLevel !== 7) {
-                        return { outcome: success_chance_ts_1.default.UNLIKELY };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                    }
-                }
-                else {
-                    if (studentData.scores.nweaPercentileMath >= 24 &&
-                        studentData.scores.nweaPercentileRead >= 24) {
-                        return { outcome: success_chance_ts_1.default.LIKELY };
-                    }
-                    else if (studentData.prevGradeLevel !== 7) {
-                        return { outcome: success_chance_ts_1.default.UNLIKELY };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                    }
-                }
-            }
-        }
-    },
-    "3c0f47771fc40565978a3a894bd96705": {
-        "name": "",
-        "desc": "Minimum percentile of 50 in both reading and math on NWEA MAP, and minimum 2.0 GPA in 7th grade.",
-        "programs": [
-            "FENGER HS - Honors - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.scores.nweaPercentileMath >= 50 &&
-                studentData.scores.nweaPercentileRead >= 50 &&
-                studentData.gpa >= 2.0) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "308d8156364219130aef9a7de30a6c8d": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery.",
-        "programs": [
-            "FENGER HS - Honors - Selection",
-            "CHICAGO VIRTUAL - General Education - Selection",
-            "KENWOOD HS - Honors - Selection",
-            "HUBBARD HS - University Scholars - Selection",
-            "DUNBAR HS - Career Academy - Selection",
-            "BRONZEVILLE HS - Honors - Selection",
-            "ACE TECH HS - General Education - Selection",
-            "MORGAN PARK HS - World Language and International Studies - Selection",
-            "CHICAGO TECH HS - Science/Technology/Engineering/Math - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "ab7e9a52b2c607977c432dd5f27c6fe9": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. Each school selects a minimum cutoff score for selections.",
-        "programs": [
-            "PROSSER HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "8f4240fa22d2281a32186e7a65e75011": {
-        "name": "",
-        "desc": "Spry is a three-year, year-round school. Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "SPRY HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "b4dc6bde064d3f16c8bed871ea0cee30": {
-        "name": "",
-        "desc": "Minimum percentile of 50 in reading on NWEA MAP, minimum 2.0 GPA in 7th grade, and minimum attendance percentage of 80.",
-        "programs": [
-            "KELLY HS - AVID - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.scores.nweaPercentileRead >= 50 &&
-                studentData.gpa >= 2.0 &&
-                studentData.attendancePercentage >= 80) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "4ce6d6733bff330b780bc8390660d7cf": {
-        "name": "",
-        "desc": "Students will be selected based on teacher recommendation letter(s) and an interview process.",
-        "programs": [
-            "KELLY HS - AVID - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "cb7238b523517845746779fe18ea174a": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.   IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
-        "programs": [
-            "NORTHSIDE PREP HS - Selective Enrollment High School - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 &&
-                    studentData.scores.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "14673a83b42347d3fdc6f2fa445c4d2f": {
-        "name": "",
-        "desc": "Student selections are based on points. Students are assigned points for 7th grade final GPA and 7th grade stanines. Students are ranked and selected from high to low. Students residing within the attendance overlay boundary of the school are selected first.",
-        "programs": [
-            "HANCOCK HS - Pre-Law - Selection",
-            "HANCOCK HS - Pre-Engineering - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "3d1c7a20cb38789ce4b0f651200dd9cd": {
-        "name": "",
-        "desc": "Minimum percentile of 75 in both reading and math on NWEA MAP, minimum 3.5 GPA in 7th grade, and minimum attendance percentage of 95.",
-        "programs": [
-            "KENWOOD HS - Honors - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.scores.nweaPercentileMath >= 75 &&
-                studentData.scores.nweaPercentileRead >= 75 &&
-                studentData.gpa >= 3.5 &&
-                studentData.attendancePercentage >= 95) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "027fe7b2d9fd7d9c6e55de49f723852f": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum combined percentile of 40 in reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 30 in reading and math on NWEA MAP, and minimum attendance percentage of 90.",
-        "programs": [
-            "SIMEON HS - Career Academy - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) > 30 &&
-                    studentData.attendancePercentage >= 90) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) > 40 &&
-                    studentData.gpa >= 2.5 &&
-                    studentData.attendancePercentage >= 90) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "47befdd406dee45058f2dbd64a097154": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the combined NWEA MAP scores and the interview.",
-        "programs": [
-            "SIMEON HS - Career Academy - Selection",
-            "SIMEON HS - Honors - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "39fbe111b62498337fb2f7973a18e570": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 85.  IEP and EL students: Minimum combined percentile of 40 in reading and math on NWEA MAP and minimum attendance percentage of 85.",
-        "programs": [
-            "HARLAN HS - General Education - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (studentData.iep || studentData.ell) {
-                    if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 40 &&
-                        studentData.attendancePercentage >= 85) {
-                        return { outcome: success_chance_ts_1.default.CERTAIN };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.NONE };
-                    }
-                }
-                else {
-                    if (studentData.scores.nweaPercentileMath >= 24 &&
-                        studentData.scores.nweaPercentileRead >= 24 &&
-                        studentData.attendancePercentage >= 85) {
-                        return { outcome: success_chance_ts_1.default.CERTAIN };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.NONE };
-                    }
-                }
-            }
-        }
-    },
-    "3e4ad403b3a6a2e998cd7d7b7d179091": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibilty requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "HARLAN HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "f2829bdd4c9bc67e01b90bdd3db46c07": {
-        "name": "",
-        "desc": "Minimum percentile of 50 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 90.",
-        "programs": [
-            "SIMEON HS - Honors - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.scores.nweaPercentileMath >= 50 &&
-                studentData.scores.nweaPercentileRead >= 50 &&
-                studentData.gpa >= 3.0 &&
-                studentData.attendancePercentage >= 90) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "c66032656bbf52edb1c9d6b62ca2e2eb": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum combined percentile of 135 in reading and math on NWEA MAP and minimum 3.0 GPA in 7th grade.",
-        "programs": [
-            "LINCOLN PARK HS - Honors/Double Honors - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 135 &&
-                    studentData.gpa >= 3.0) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "1558a52d4663a54c6a5f06fa10062961": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside the school's attendance boundary are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and 7th grade GPA.",
-        "programs": [
-            "LINCOLN PARK HS - Honors/Double Honors - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-            }
-        }
-    },
-    "f4491f6cf1ebf200770f01271d93ba47": {
-        "name": "",
-        "desc": "Minimum percentile of 80 in both reading and math on NWEA MAP and minimum 3.5 GPA in 7th grade.",
-        "programs": [
-            "CHICAGO AGRICULTURE HS - Scholars - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.scores.nweaPercentileMath >= 80 &&
-                studentData.scores.nweaPercentileRead >= 80 &&
-                studentData.gpa >= 3.5) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "1976701fe4ffdbf53913f7f638f61b26": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. Preference is given to students with a sibling who is currently enrolled and will be enrolled in the upcoming school year.",
-        "programs": [
-            "CHICAGO AGRICULTURE HS - Scholars - Selection",
-            "HARLAN HS - Pre-Engineering - Selection",
-            "CHICAGO AGRICULTURE HS - Honors - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "736b7d124b6930cf8ae642563037eeb9": {
-        "name": "",
-        "desc": "Attendance at an Information Session is not required, but preference is given to students who attend an Information Session.",
-        "programs": [
-            "GOODE HS - Early College STEM - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "85463a98c5a7ba21313aacdaeda48cd0": {
-        "name": "",
-        "desc": "Students are randomly selcted by computerized lottery. The lottery is conducted in the following order: students who live within the school's overlay boundary and attend an Information Session; students who live within the school's network and attend an Information Session; students who live outside of the network and attend an Information Session; students who live within the school's overlay boundary and do not attend an Information Session; students who live within the school's network and do not attend an Information Session; students who live outside of the network and do not attend an Information Session.",
-        "programs": [
-            "GOODE HS - Early College STEM - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "8ccbd2eb3d4e026932b83ee576862b16": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  An audition is required for all eligible applicants.",
-        "programs": [
-            "SENN HS - Dance - Application",
-            "SENN HS - Music - Application",
-            "SENN HS - Theatre - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 &&
-                    studentData.scores.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "7e054e33cdc685f9b099a243e45f0386": {
-        "name": "",
-        "desc": "Minimum 2.5 GPA in 7th grade.",
-        "programs": [
-            "ROBESON HS - Allied Health - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.gpa >= 2.5) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "b3b514880eaa7b9a4db6d6b6308eb1f7": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school selects the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Academic Center.",
-        "programs": [
-            "MORGAN PARK HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "7574e7fa48dfdf030b059dbaff5351b6": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling; students who attend Brennemann, Courtenay, or McCutcheon Elementary Schools; general.",
-        "programs": [
-            "UPLIFT HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "f9d7148f613933f83ad7d81004715614": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled at the University of Chicago Woodlawn, sibling, proximity, general.",
-        "programs": [
-            "U OF C - WOODLAWN HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData) ||
-                hasSiblingInProgram(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "bc314f72be86fc565247301f6d8f99b8": {
-        "name": "",
-        "desc": "Minimum percentile of 40 in both reading and math on NWEA MAP, minimum 2.8 GPA in 7th grade, and minimum attendance percentage of 92.",
-        "programs": [
-            "COLLINS HS - Scholars - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.scores.nweaPercentileMath >= 40 &&
-                studentData.scores.nweaPercentileRead >= 40 &&
-                studentData.gpa >= 2.8 &&
-                studentData.attendancePercentage >= 92) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "685beedfccfae8bdb0649c36f03dfd7a": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in Chalmers, Dvorak, Herzl, Johnson, or Morton Elementary Schools; general.",
-        "programs": [
-            "COLLINS HS - Scholars - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "9a2a27708247d3b692481757756b5226": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum combined percentile of 40 in both reading and math on NWEA MAP, minimum 2.0 GPA in 7th grade, and minimum attendance percentage of 80.  IEP/EL students have no eligibility requirements.",
-        "programs": [
-            "TEAM HS - General Education - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 40 &&
-                    studentData.gpa >= 2.0 &&
-                    studentData.attendancePercentage >= 80) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "8f880cad92a9a0dc49dd8d6ba4209b14": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students with a 7th grade final GPA of 2.5 or higher, general.",
-        "programs": [
-            "TEAM HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.gpa >= 2.5) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "43cabfe5f36cbf1ccbb95a9962d90319": {
-        "name": "",
-        "desc": "Students enrolled in the Taft Academic Center or students who live within the school's attendance boundary can be admitted automatically. This program only accepts students who live within the school's attendance boundary or who attend the school's Academic Center.",
-        "programs": [
-            "TAFT HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "9fad1e147fb546e7a25d0fccba608035": {
-        "name": "",
-        "desc": "Students who are enrolled in the Morgan Park Academic Center and students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "MORGAN PARK HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "7ef878b115498c24fd96f8891c346480": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 85.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, and minimum attendance percentage of 85.",
-        "programs": [
-            "WILLIAMS HS - General Education - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
-                    studentData.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 &&
-                    studentData.scores.nweaPercentileRead >= 24 &&
-                    studentData.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "01bb8009b315ff8fc0120dbadf71444c": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading on math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.",
-        "programs": [
-            "HUBBARD HS - University Scholars - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
-                    studentData.gpa >= 2.5 &&
-                    studentData.attendancePercentage >= 90) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 &&
-                    studentData.scores.nweaPercentileRead >= 24 &&
-                    studentData.gpa >= 2.5 &&
-                    studentData.attendancePercentage >= 90) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "86b8c5719b264aa9072aa6433644fb60": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, and minimum attendance percentage of 90.",
-        "programs": [
-            "SENN HS - Digital Journalism - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
-                    studentData.attendancePercentage >= 90) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 &&
-                    studentData.scores.nweaPercentileRead >= 24 &&
-                    studentData.gpa >= 2.5 &&
-                    studentData.attendancePercentage >= 90) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "4773ff8378c681fdc3855cec189b446d": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. General Education and 504 Plan Students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
-        "programs": [
-            "BOGAN HS - Accounting - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else if (studentData.prevGradeLevel !== 7) {
-                    return { outcome: success_chance_ts_1.default.UNLIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 && studentData.scores.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else if (studentData.prevGradeLevel !== 7) {
-                    return { outcome: success_chance_ts_1.default.UNLIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "87bdb6caf5cf899ddb8041511761e58b": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "INTRINSIC HS - General Education - Selection",
-            "YOUNG WOMENS HS - General Education - Selection",
-            "INSTITUTO - HEALTH - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "23e3199eb5514de5456653457f75f366": {
-        "name": "",
-        "desc": "Minimum percentile of 60 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.",
-        "programs": [
-            "KENWOOD HS - Magnet Program - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.scores.nweaPercentileMath >= 60 &&
-                student.scores.nweaPercentileRead >= 60 &&
-                student.gpa >= 3.0 &&
-                student.attendancePercentage >= 95) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "9b26cbed99b12a4c7cfca5a4713c6e17": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in the Kenwood Academic Center, general.",
-        "programs": [
-            "KENWOOD HS - Magnet Program - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "0df5dab7dc2c1e8d8947d27287872269": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibilty requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, Edwards Elementary School.",
-        "programs": [
-            "CURIE HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "9e837f0a671ce67593e611ccf595306a": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the schools attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "CORLISS HS - Early College STEM - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "2fdf00001de412f0e493fa242647bad0": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Academic Center.",
-        "programs": [
-            "TAFT HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "ba2bb65c77d8d0932634f43bb01707cc": {
-        "name": "",
-        "desc": "Students who live within the school's attendance area can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in Carnegie Elementary School, sibling, general.",
-        "programs": [
-            "HYDE PARK HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "08ee4f1aa31d5eb00bbc81c21139188b": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary: None  Students who live outside of the school's attendance boundary: Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 2.75 GPA in 7th grade. An audition is required for students who live outside of the school's attendance boundary.",
-        "programs": [
-            "LINCOLN PARK HS - Instrumental Music - Application"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (student.scores.nweaPercentileMath >= 60 &&
-                    student.scores.nweaPercentileRead >= 60 &&
-                    student.gpa >= 2.75) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "d1b719a6ff9e6979e8f14b2c05b63352": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: Alcott Elementary School students, proximity, general.",
-        "programs": [
-            "ALCOTT HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "f5ef0c0580eb110a06888b1c15313717": {
-        "name": "",
-        "desc": "Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 2.75 GPA in 7th grade. An audition is required for all eligible applicants.",
-        "programs": [
-            "LINCOLN PARK HS - Drama - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.scores.nweaPercentileMath >= 60 &&
-                student.scores.nweaPercentileRead >= 60 &&
-                student.gpa >= 2.75) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "9f4eb5cee59306847a4fa61720f8e54d": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade GPA, and the audition.",
-        "programs": [
-            "LINCOLN PARK HS - Drama - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "625d1f6025c2e892f5573e60ab69f903": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on the NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.",
-        "programs": [
-            "HARLAN HS - Pre-Engineering - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.scores.nweaPercentileMath >= 24 &&
-                    student.scores.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "bc517a96ab40c67deddde65b6a4c07a8": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  A portfolio review is required for all eligible applicants.",
-        "programs": [
-            "SENN HS - Visual Arts - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.scores.nweaPercentileMath >= 24 &&
-                    student.scores.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "cb76bc6620a1921e5f9630e2a39fb8d8": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade final (cumulative) grades, and the portfolio review.",
-        "programs": [
-            "SENN HS - Visual Arts - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "afb0dfcaa0f2cc236b2bd07a0244385e": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary or who attend Grow Community Schools can be admitted automatically. This program only accepts students who live within the school's attendance boundary or attend a Grow Community School.",
-        "programs": [
-            "AMUNDSEN HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "78e3973b67c80b7984271b2a127e9ebf": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum 2.5 GPA in 7th grade and minimum attendance percentage of 85.",
-        "programs": [
-            "KELVYN PARK HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (student.gpa >= 2.5 &&
-                    student.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "03c4df08f6e417f196f6e87415e2064f": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are selected on a point system. Points are based on NWEA MAP scores, 7th grade GPA, and the interview.",
-        "programs": [
-            "KELVYN PARK HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-            }
-        }
-    },
-    "95025d14a97b9b32f5a2c8225c4ddd6e": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance is required at an Information Session for all eliglble applicants.",
-        "programs": [
-            "HUBBARD HS - International Baccalaureate (IB) - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 &&
-                    studentData.scores.nweaPercentileRead >= 24 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "296d2849362aa5311f457ffc834a868b": {
-        "name": "",
-        "desc": "Students are selected on a point system. Students are assigned points for 7th grade final GPA and 7th grade stanines. Students are ranked and selected from high to low. Students residing within the attendance overlay boundary of the school are selected first.",
-        "programs": [
-            "JONES HS - Pre-Law - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "bb9e0e6f1af678dafb340a8e48ff4fbf": {
-        "name": "",
-        "desc": "Minimum percentile of 50 in both reading and math on NWEA MAP and minimum 3.0 GPA in 7th grade.",
-        "programs": [
-            "CHICAGO AGRICULTURE HS - Honors - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.scores.nweaPercentileMath >= 50 &&
-                student.scores.nweaPercentileRead >= 50 &&
-                student.gpa >= 3.0) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "26f5b02fa29f8a9c2b5bc909b844e585": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner,  Madero Middle School.",
-        "programs": [
-            "FARRAGUT HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "6de001ff1207c6d38de87e65f3e11ff3": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled at Chicago Collegiate Charter School, sibling, proximity, general.",
-        "programs": [
-            "CHICAGO COLLEGIATE - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school) ||
-                hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "351d1f100c07b40673b51f4506b0e34e": {
-        "name": "",
-        "desc": "None. All interested students, including students who live within the overlay boundary of the school, must submit apply.",
-        "programs": [
-            "BACK OF THE YARDS HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.CERTAIN };
-        }
-    },
-    "fd100fd06ddf9bd72e2809f6d659faf2": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students who live within the attendance boundaries of Chavez, Daley, Hamline, Hedges, Lara, or Seward Elementary Schools; general.",
-        "programs": [
-            "BACK OF THE YARDS HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "763686fddcad223e9a51aebaac42b61c": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: General Education and 504 Plan students: Minimum percentile of 60 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.  IEP/EL students have no eligibility requirements.",
-        "programs": [
-            "WELLS HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (student.iep || student.ell) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    if (student.scores.nweaPercentileMath >= 60 &&
-                        student.scores.nweaPercentileRead >= 60 &&
-                        student.gpa >= 3.0 &&
-                        student.attendancePercentage >= 95) {
-                        return { outcome: success_chance_ts_1.default.CERTAIN };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.NONE };
-                    }
-                }
-            }
-        }
-    },
-    "379139122b47f0c7efa0e423df956e30": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: students scoring above designated NWEA MAP percentile, sibling, general.",
-        "programs": [
-            "WELLS HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                var scoredAboveThreshold = student.scores.nweaPercentileMath >= 60 &&
-                    student.scores.nweaPercentileRead >= 60;
-                if (scoredAboveThreshold || hasSiblingInProgram(student, school)) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "69aef50164a2914f16a28630afa50270": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 30 in both reading and math on NWEA MAP, minimum 2.0 GPA in 7th grade and minimum attendance percentage of 85.  IEP and EL students: Minimum combined percentile of 24 in reading and math on NWEA MAP, and minimum attendance percentage of 85.",
-        "programs": [
-            "COLLINS HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 24 &&
-                    student.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "a105512ab5a0eb6536021215baf98ea8": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in Chalmers, Dvorak, Herzl, Johnson, or Morton Elementary Schools; sibling; general.",
-        "programs": [
-            "COLLINS HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "47750c8ffb643412fb55f3f3d6bde14a": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school selects the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, Ogden Elementary School.",
-        "programs": [
-            "OGDEN HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "965d710ce70f9e59e622f51311b5a986": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
-        "programs": [
-            "DYETT ARTS HS - Digital Media - Selection"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else if (student.prevGradeLevel !== 7) {
-                    return { outcome: success_chance_ts_1.default.UNLIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (student.scores.nweaPercentileMath >= 24 &&
-                    student.scores.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else if (student.prevGradeLevel !== 7) {
-                    return { outcome: success_chance_ts_1.default.UNLIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "a6071a83f74612d54c3f659f9cb8a79c": {
-        "name": "",
-        "desc": "General Education/504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants.",
-        "programs": [
-            "SENN HS - International Baccalaureate (IB) - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
-                    student.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.scores.nweaPercentileMath >= 24 &&
-                    student.scores.nweaPercentileRead >= 24 &&
-                    student.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "8605454896638a4de5feec75ed536489": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, Peirce Elementary School.",
-        "programs": [
-            "SENN HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "5e32e9c5ce34b2af75f2ec9e1a6c6643": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 50 in both reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade.    IEP and EL students: Minimum combined percentile of 100 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.",
-        "programs": [
-            "BRONZEVILLE HS - Honors - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 100 &&
-                    student.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.scores.nweaPercentileMath >= 50 &&
-                    student.scores.nweaPercentileRead >= 50 &&
-                    student.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "8a0c487746fe132f3f1925a84c56e9ee": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eliglble applicants.",
-        "programs": [
-            "LINCOLN PARK HS - International Baccalaureate (IB) - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
-                    student.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.scores.nweaPercentileMath >= 24 &&
-                    student.scores.nweaPercentileRead >= 24 &&
-                    student.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "8e60c325cf7da2ae7aa09dc4e543590e": {
-        "name": "",
-        "desc": "Students are selected based on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school selects the minimum cutoff score for selections.",
-        "programs": [
-            "LINCOLN PARK HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "f1650d13a99b142887259980d7570270": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.  Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, McPherson Elementary School.",
-        "programs": [
-            "AMUNDSEN HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "2434179e9c2fb95777cc4e0c6c998de1": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum attendance percentage of 95.",
-        "programs": [
-            "WORLD LANGUAGE HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (student.attendancePercentage >= 95) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "cbc3d549cb9e0240f077ac3c87b0f671": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery.\u00a0The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "WORLD LANGUAGE HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "5cfeec40267082ca1ee0ca7e469687a7": {
-        "name": "",
-        "desc": "Contact the school for information.",
-        "programs": [
-            "LAKE VIEW HS - Early College STEM - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "01ad18923e7e8de10e8fb09bb2c6722a": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery.  General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
-        "programs": [
-            "CHICAGO VOCATIONAL HS - Cosmetology - Selection"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (student.scores.nweaPercentileMath >= 24 &&
-                    student.scores.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "94798381edc76846cfb1ec3503fd61b0": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Essay",
-        "programs": [
-            "SOCIAL JUSTICE HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "62c57f6f0d8cb1d35fb12bd66840819f": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Students who live outside of the school's attendance boundary are selected on a point system. The points are based on the student essay and NWEA MAP scores.",
-        "programs": [
-            "SOCIAL JUSTICE HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-            }
-        }
-    },
-    "182b0f39bdb6558622d86addc2aae6b7": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.  Preference is given to students who meet the minimum eligibilty requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, Carnegie Elementary School.",
-        "programs": [
-            "HYDE PARK HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "c7ce3086f4acc55ea53e0c97f71d12aa": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary and students currently enrolled in the Kenwood Academic Center can be admitted automatically. This program only accepts students who live within the school's attendance boundary or who are enrolled in the school's Academic Center.",
-        "programs": [
-            "KENWOOD HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "65f9f712e101af2ba0f44401e01ca729": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on 7th grade final GPA and NWEA MAP scores. The school determines the minimum cutoff score for selections. Preference is given to students who live within the school's attendance boundary.",
-        "programs": [
-            "AUSTIN CCA HS - Pre-Engineering - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "5fbf1b80166fef3a0e0db9557d500465": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 25 in both reading and math on NWEA MAP.   IEP and EL students: Minimum combined percentile of 50 in reading and math on NWEA MAP, and minimum attendance percentage of 85.",
-        "programs": [
-            "CHICAGO ACADEMY HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 50 &&
-                    student.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.scores.nweaPercentileMath >= 25 &&
-                    student.scores.nweaPercentileRead >= 25 &&
-                    student.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "924ceb6aa82922cdb541302a265549eb": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: students attending Boone, Field, Gale, Hayt, Jordan, Kilmer, McCutcheon, McPherson, or West Ridge Elementary Schools; sibling; general.",
-        "programs": [
-            "SULLIVAN HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school) ||
-                hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "46083386e3daad02ff00ac73d3987286": {
-        "name": "",
-        "desc": "Students are selected on a point system with a maximum of 900 points. Points are based on 7th grade final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
-        "programs": [
-            "PAYTON HS - Selective Enrollment High School - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateSEPoints(student);
-            var cutoff = getSECutoff(student, school);
-            if (score >= cutoff.max) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (score >= cutoff.avg) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else if (score >= cutoff.min) {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "536556326f56a1875afccbeedde85fb9": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conduced in the following order: sibling, general.",
-        "programs": [
-            "LEGAL PREP HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "7cc8a6e9cd27c6a9e8d43b323a961475": {
-        "name": "",
-        "desc": "Applicants must be girls currently enrolled in eighth grade.",
-        "programs": [
-            "YOUNG WOMENS HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.gradeLevel === 8) {
-                if (student.gender === gender_1.default.FEMALE) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else if (student.gender === gender_1.default.OTHER ||
-                    student.gender === gender_1.default.NOANSWER) {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-                else if (student.gender === gender_1.default.MALE) {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "a787cb9987ca94d3c2370e2cb67d50cc": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 50 in both reading and math on the NWEA MAP and minimum 3.0 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 60 in reading and math on NWEA MAP.",
-        "programs": [
-            "MORGAN PARK HS - World Language and International Studies - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 60) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.scores.nweaPercentileRead >= 50 &&
-                    student.scores.nweaPercentileMath >= 50 &&
-                    student.gpa >= 3.0) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "d7e3e54b06028c21a40cf58127e2aef4": {
-        "name": "",
-        "desc": "Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 3.0 GPA in 7th grade. Eligible students must submit teacher recommendations and an essay. See www.vonsteuben.org for submission details (click 'Apply' and 'Scholars Program'). Applicants who are not eligible will automatically be included in the computerized lottery selection process for the Von Steuben Science Program.",
-        "programs": [
-            "VON STEUBEN HS - Scholars - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.scores.nweaPercentileMath >= 60 &&
-                student.scores.nweaPercentileRead >= 60 &&
-                student.gpa >= 3.0) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "0a7d20d2cdbb736d46e6c7a37e5b7764": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the teacher recommendations and the essay.",
-        "programs": [
-            "VON STEUBEN HS - Scholars - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "a59652b1328b73b5acb08979a32a9db8": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum attendance percentage of 92.  An audition is required for all eligible applicants.",
-        "programs": [
-            "CHIARTS HS - Music - Vocal - Application",
-            "CHIARTS HS - Theatre - Application",
-            "CHIARTS HS - Music - Instumental - Application",
-            "CHIARTS HS - Dance - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.scores.nweaPercentileMath >= 24 &&
-                    student.scores.nweaPercentileMath >= 24 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "500cba9f742c1244ddaa1c37070299f1": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the audition.",
-        "programs": [
-            "CHIARTS HS - Music - Vocal - Selection",
-            "CHIARTS HS - Theatre - Selection",
-            "CHIARTS HS - Music - Instumental - Selection",
-            "CHIARTS HS - Dance - Selection",
-            "CHIARTS HS - Musical Theatre - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "b89ee63f6f32c43ca9707a85d8dc98e7": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum attendance percentage of 92.   A portfolio review is required for all eligible applicants.",
-        "programs": [
-            "CHIARTS HS - Creative Writing - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.scores.nweaPercentileMath >= 24 &&
-                    student.scores.nweaPercentileMath >= 24 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "fd2b72f8025478fc320959b283c0ff2f": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the portfolio review.",
-        "programs": [
-            "CHIARTS HS - Creative Writing - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "3f45862ca2003745fc3f4e12492abdfa": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  A portfolio review is required for all eligible applicants.",
-        "programs": [
-            "CHIARTS HS - Visual Arts - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.scores.nweaPercentileMath >= 24 &&
-                    student.scores.nweaPercentileMath >= 24 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "6c2d1016a23c9b0e67736b91a166b594": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP socres in reading and math and the portfolio review.",
-        "programs": [
-            "CHIARTS HS - Visual Arts - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "ae43e969113d1c6b1b6fe0c0a1321c40": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum attendance percentage of 92. An audition is required for all eligible applicants.",
-        "programs": [
-            "CHIARTS HS - Musical Theatre - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.scores.nweaPercentileMath >= 24 &&
-                    student.scores.nweaPercentileMath >= 24 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    }
-};
-exports.default = HsReqFns;
+exports.default = getCombinedSuccessChance;
 
 
 /***/ }),
 /* 511 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var hs_req_fns_ts_1 = __webpack_require__(214);
+var success_chance_1 = __webpack_require__(54);
+var getReqFn = function (program) {
+    var applFnID = program.Application_Requirements_Fn;
+    var selFnID = program.Program_Selections_Fn;
+    var defaultReqFn = function (student, program) {
+        return { outcome: success_chance_1.default.NOTIMPLEMENTED };
+    };
+    var applicationReqFn;
+    var selectionReqFn;
+    if (hs_req_fns_ts_1.default[applFnID]) {
+        applicationReqFn = hs_req_fns_ts_1.default[applFnID].fn;
+    }
+    else {
+        console.warn("Cannot locate application requirement for " + (program.Short_Name + " - " + program.Program_Type));
+        applicationReqFn = defaultReqFn;
+    }
+    if (hs_req_fns_ts_1.default[selFnID]) {
+        selectionReqFn = hs_req_fns_ts_1.default[selFnID].fn;
+    }
+    else {
+        console.warn("Cannot locate selection requirement for " + (program.Short_Name + " - " + program.Program_Type));
+        selectionReqFn = defaultReqFn;
+    }
+    return { application: applicationReqFn, selection: selectionReqFn };
+};
+exports.default = getReqFn;
+
+
+/***/ }),
+/* 512 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -68453,7 +68492,7 @@ exports.calculateIBPoints = function (student) {
 
 
 /***/ }),
-/* 512 */
+/* 513 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -68470,14 +68509,22 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var get_req_fn_1 = __webpack_require__(214);
-var success_chance_1 = __webpack_require__(132);
-var hs_program_info_card_1 = __webpack_require__(513);
-__webpack_require__(516);
+var get_req_fn_1 = __webpack_require__(514);
+var success_chance_1 = __webpack_require__(54);
+var hs_program_info_card_1 = __webpack_require__(515);
+__webpack_require__(518);
 var HSListElement = (function (_super) {
     __extends(HSListElement, _super);
     function HSListElement(props) {
         var _this = _super.call(this, props) || this;
+        _this.getCombinedSuccessChance = function (application, selection) {
+            if (application === success_chance_1.default.CERTAIN || application === success_chance_1.default.LIKELY) {
+                return selection;
+            }
+            else {
+                return application;
+            }
+        };
         _this.outcomeToClassName = function (outcome) {
             switch (outcome) {
                 case success_chance_1.default.CERTAIN:
@@ -68510,8 +68557,8 @@ var HSListElement = (function (_super) {
             return initials.slice(0, 3);
         };
         var hs = props.program;
-        _this.applicationReqFn = get_req_fn_1.default(props.program.Application_Requirements_Fn);
-        _this.selectionReqFn = get_req_fn_1.default(props.program.Program_Selections_Fn);
+        _this.applicationReqFn = get_req_fn_1.default(props.program).application;
+        _this.selectionReqFn = get_req_fn_1.default(props.program).selection;
         var applicationResult = _this.applicationReqFn(props.studentData, props.program);
         var selectionResult = _this.selectionReqFn(props.studentData, props.program);
         _this.state = {
@@ -68532,7 +68579,7 @@ var HSListElement = (function (_super) {
     ;
     HSListElement.prototype.render = function () {
         var _this = this;
-        return (React.createElement("div", { className: "hs-list-element" + " " + this.outcomeToClassName(this.state.selectionResult.outcome), onMouseEnter: function () { return _this.setState({ showHSPreview: true }); }, onMouseLeave: function () { return _this.setState({ showHSPreview: false }); } },
+        return (React.createElement("div", { className: "hs-list-element" + " " + this.outcomeToClassName(this.getCombinedSuccessChance(this.state.applicationResult.outcome, this.state.selectionResult.outcome)), onMouseEnter: function () { return _this.setState({ showHSPreview: true }); }, onMouseLeave: function () { return _this.setState({ showHSPreview: false }); } },
             React.createElement("span", { className: "hs-list-element-initials" }, this.toInitials(this.props.program.Long_Name)),
             React.createElement(hs_program_info_card_1.default, { visible: this.state.showHSPreview, program: this.props.program })));
     };
@@ -68543,14 +68590,50 @@ exports.default = HSListElement;
 
 
 /***/ }),
-/* 513 */
+/* 514 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var hs_req_fns_ts_1 = __webpack_require__(214);
+var success_chance_1 = __webpack_require__(54);
+var getReqFns = function (program) {
+    var applFnID = program.Application_Requirements_Fn;
+    var selFnID = program.Program_Selections_Fn;
+    var defaultReqFn = function (student, program) {
+        return { outcome: success_chance_1.default.NOTIMPLEMENTED };
+    };
+    var applicationReqFn;
+    var selectionReqFn;
+    if (hs_req_fns_ts_1.default[applFnID]) {
+        applicationReqFn = hs_req_fns_ts_1.default[applFnID].fn;
+    }
+    else {
+        console.warn("Cannot locate application requirement for " + (program.Short_Name + " - " + program.Program_Type));
+        applicationReqFn = defaultReqFn;
+    }
+    if (hs_req_fns_ts_1.default[selFnID]) {
+        selectionReqFn = hs_req_fns_ts_1.default[selFnID].fn;
+    }
+    else {
+        console.warn("Cannot locate selection requirement for " + (program.Short_Name + " - " + program.Program_Type));
+        selectionReqFn = defaultReqFn;
+    }
+    return { application: applicationReqFn, selection: selectionReqFn };
+};
+exports.default = getReqFns;
+
+
+/***/ }),
+/* 515 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-__webpack_require__(514);
+__webpack_require__(516);
 var HSProgramInfoCard = function (props) {
     var hasPreviewUrl = props.program.CPS_School_Profile !== undefined;
     if (hasPreviewUrl) {
@@ -68565,13 +68648,13 @@ exports.default = HSProgramInfoCard;
 
 
 /***/ }),
-/* 514 */
+/* 516 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(515);
+var content = __webpack_require__(517);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -68596,7 +68679,7 @@ if(false) {
 }
 
 /***/ }),
-/* 515 */
+/* 517 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(20)(undefined);
@@ -68610,13 +68693,13 @@ exports.push([module.i, ".hs-info-card {\n  display: none;\n  position: absolute
 
 
 /***/ }),
-/* 516 */
+/* 518 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(517);
+var content = __webpack_require__(519);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -68641,7 +68724,7 @@ if(false) {
 }
 
 /***/ }),
-/* 517 */
+/* 519 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(20)(undefined);
@@ -68649,25 +68732,25 @@ exports = module.exports = __webpack_require__(20)(undefined);
 
 
 // module
-exports.push([module.i, ".hs-list-element {\n  z-index: 1;\n  position: relative;\n  margin: 0.5em;\n  width: 45px;\n  height: 45px;\n  padding-top: 2px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  border: 2px solid #9e9e9e;\n  border-radius: 100%;\n  background-size: 470px 470px;\n  background: url(" + __webpack_require__(518) + ");\n  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); }\n\n.hs-list-element:hover {\n  z-index: 2; }\n\n.hs-list-element.succ-certain {\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  background-color: #7ff159;\n  border: 5px solid #5bed2a; }\n\n.hs-list-element.succ-likely {\n  background-color: #cef26f;\n  border: 3px solid #beee40; }\n\n.hs-list-element.succ-uncertain {\n  background-color: #feee7e;\n  border: 2px solid #fde74c; }\n\n.hs-list-element.succ-unlikely {\n  background-color: #f7966b;\n  border: 1px solid #f4743b; }\n\n.hs-list-element.succ-none {\n  background-color: white;\n  border: 2px dashed #eee;\n  -webkit-box-shadow: none;\n          box-shadow: none;\n  color: #9e9e9e; }\n\n.hs-list-element.succ-not-implemented {\n  color: #aaa;\n  background-color: #eee;\n  -webkit-box-shadow: none;\n          box-shadow: none;\n  border: 2px dashed #999; }\n\n.hs-list-element-initials {\n  display: none;\n  line-height: 1em; }\n", ""]);
+exports.push([module.i, ".hs-list-element {\n  z-index: 1;\n  position: relative;\n  margin: 0.5em;\n  width: 45px;\n  height: 45px;\n  padding-top: 2px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  border: 2px solid #9e9e9e;\n  border-radius: 100%;\n  background-size: 470px 470px;\n  background: url(" + __webpack_require__(520) + ");\n  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); }\n\n.hs-list-element:hover {\n  z-index: 2; }\n\n.hs-list-element.succ-certain {\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  background-color: #7ff159;\n  border: 5px solid #5bed2a; }\n\n.hs-list-element.succ-likely {\n  background-color: #cef26f;\n  border: 3px solid #beee40; }\n\n.hs-list-element.succ-uncertain {\n  background-color: #feee7e;\n  border: 2px solid #fde74c; }\n\n.hs-list-element.succ-unlikely {\n  background-color: #f7966b;\n  border: 1px solid #f4743b; }\n\n.hs-list-element.succ-none {\n  background-color: white;\n  border: 2px dashed #eee;\n  -webkit-box-shadow: none;\n          box-shadow: none;\n  color: #9e9e9e; }\n\n.hs-list-element.succ-not-implemented {\n  color: #aaa;\n  background-color: #eee;\n  -webkit-box-shadow: none;\n          box-shadow: none;\n  border: 2px dashed #999; }\n\n.hs-list-element-initials {\n  display: none;\n  line-height: 1em; }\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 518 */
+/* 520 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "f50e14b4c7654a4c10235e9ddc4b8756.svg";
 
 /***/ }),
-/* 519 */
+/* 521 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(520);
+var content = __webpack_require__(522);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -68692,7 +68775,7 @@ if(false) {
 }
 
 /***/ }),
-/* 520 */
+/* 522 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(20)(undefined);
@@ -68706,13 +68789,13 @@ exports.push([module.i, ".hs-list {\n  width: 100%;\n  min-height: 100px;\n  hei
 
 
 /***/ }),
-/* 521 */
+/* 523 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(522);
+var content = __webpack_require__(524);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -68737,7 +68820,7 @@ if(false) {
 }
 
 /***/ }),
-/* 522 */
+/* 524 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(20)(undefined);
@@ -68751,7 +68834,7 @@ exports.push([module.i, ".hs-category-container {\n  width: 100%;\n  height: aut
 
 
 /***/ }),
-/* 523 */
+/* 525 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -68780,13 +68863,13 @@ exports.default = HSProgramSuccessChanceKey;
 
 
 /***/ }),
-/* 524 */
+/* 526 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var gender_1 = __webpack_require__(107);
+var gender_1 = __webpack_require__(108);
 exports.MOCK_STUDENT_SCORES = {
     nweaPercentileMath: 50,
     nweaPercentileRead: 50,

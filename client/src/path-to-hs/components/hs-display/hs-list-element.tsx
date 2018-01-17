@@ -32,8 +32,8 @@ class HSListElement extends React.PureComponent<HSListElemProps, HSListElemState
     super(props);
     const hs = props.program;
 
-    this.applicationReqFn = getReqFn(props.program.Application_Requirements_Fn);
-    this.selectionReqFn = getReqFn(props.program.Program_Selections_Fn);
+    this.applicationReqFn = getReqFn(props.program).application;
+    this.selectionReqFn = getReqFn(props.program).selection;
 
     const applicationResult = this.applicationReqFn(props.studentData, props.program); 
     const selectionResult = this.selectionReqFn(props.studentData, props.program);
@@ -56,6 +56,14 @@ class HSListElement extends React.PureComponent<HSListElemProps, HSListElemState
       selectionResult: selectionResult
     })
   };
+  
+  private getCombinedSuccessChance = (application: SuccessChance, selection: SuccessChance) => {
+    if (application === SuccessChance.CERTAIN || application === SuccessChance.LIKELY) {
+      return selection;
+    } else {
+      return application;
+    }
+  }
 
   private outcomeToClassName = (outcome: SuccessChance) => {
     switch(outcome){
@@ -95,7 +103,7 @@ class HSListElement extends React.PureComponent<HSListElemProps, HSListElemState
   render() {
     return (
       <div 
-        className={"hs-list-element" + " " + this.outcomeToClassName(this.state.selectionResult.outcome)}
+        className={"hs-list-element" + " " + this.outcomeToClassName(this.getCombinedSuccessChance(this.state.applicationResult.outcome, this.state.selectionResult.outcome))}
         onMouseEnter={() => this.setState({showHSPreview: true})}
         onMouseLeave={() => this.setState({showHSPreview: false})}
         >

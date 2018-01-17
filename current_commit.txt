@@ -1,13 +1,21 @@
-Sort HSListElements by success chance
+Refactor HSList to include application requirements
 
-* simple/naive implentation in HSList, just
-  involves running a sort operation on list
-  of highschools passed to component. Sort
-  operation runs all requirement functions,
-  meaning each requirement function is called
-  twice with same StudentData; there's gotta be
-  a way to make that faster
+* current system does not take application requirements into
+    account when showing success state -- obviously bad
+* refactor getReqFn to be of type
+    CPSProgram => {application: HSRequirementFunction,
+                selection: HSRequirementFunction}
+* rename getReqFn -> getReqFns
 
-* add Application_Requirements_Fn and
-  Program_Selections_Fn to CPSProgram type,
-  which somehow had been missing it
+* refactor HSList and HSListElement to calculate
+    success state by this procedure:
+    is application req outcome CERTAIN or LIKELY?
+      if yes, return selection req outcome
+      otherwise, return application req outcome
+  ** add getCombinedSuccessChance util function to
+    shared/util, import it in HSList and HSListElement
+  ** TODO IN FUTURE the code is very messy. Could use
+    some rethinking.
+* rename HsReqFns -> HSReqFns for consistency with
+  rest of codebase
+

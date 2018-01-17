@@ -264,7 +264,7 @@ interface ReqFnTable {
     fn: HSRequirementFunction
   }
 }
-const HsReqFns: ReqFnTable = {
+const HSReqFns: ReqFnTable = {
     "6adf97f83acf6453d4a6a4b1070f3754": {
         "desc": "None",
         "programs": [
@@ -3537,4 +3537,4 @@ const HsReqFns: ReqFnTable = {
     }
   }
 
-export default HsReqFns;
+export default HSReqFns;
