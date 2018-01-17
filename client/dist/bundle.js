@@ -31503,6 +31503,9 @@ var StudentDataForm = function (props) {
     var isValidAttendPercentage = function (attendPct) {
         return !Number.isNaN(attendPct) && attendPct >= 0 && attendPct <= 100;
     };
+    var isValidSETestPercentile = function (pctile) {
+        return !Number.isNaN(pctile) && pctile >= 1 && pctile <= 99;
+    };
     var validateNWEAPercentile = function (pct) {
         if (isValidNweaPercentile(pct)) {
             return validation_state_1.default.VALID;
@@ -31549,14 +31552,14 @@ var StudentDataForm = function (props) {
             React.createElement("option", { value: "6" }, "6th grade"),
             React.createElement("option", { value: "7" }, "7th grade"),
             React.createElement("option", { value: "8" }, "8th grade")),
-        React.createElement(dropdown_input_1.default, { label: "Do you have an IEP?", value: props.studentData.iep ? "true" : "false", onChange: function (iep) { return updateStudentData("iep", iep === "true" ? true : false); } },
-            React.createElement("option", { value: "true" }, "Yes"),
-            React.createElement("option", { value: "false" }, "No")),
         React.createElement(dropdown_input_1.default, { label: "What's your gender?", value: props.studentData.gender.toString(), onChange: function (gender) { return updateStudentData("gender", gender); } },
             React.createElement("option", { value: gender_1.default.MALE.toString() }, "Male"),
             React.createElement("option", { value: gender_1.default.FEMALE.toString() }, "Female"),
             React.createElement("option", { value: gender_1.default.OTHER.toString() }, "Other"),
             React.createElement("option", { value: gender_1.default.NOANSWER.toString() }, "Prefer not to answer")),
+        React.createElement(dropdown_input_1.default, { label: "Do you have an IEP?", value: props.studentData.iep ? "true" : "false", onChange: function (iep) { return updateStudentData("iep", iep === "true" ? true : false); } },
+            React.createElement("option", { value: "true" }, "Yes"),
+            React.createElement("option", { value: "false" }, "No")),
         React.createElement(dropdown_input_1.default, { label: "Are you an English Language Learner?", value: props.studentData.ell ? "true" : "false", onChange: function (ell) { return updateStudentData("ell", ell === "true" ? true : false); } },
             React.createElement("option", { value: "true" }, "Yes"),
             React.createElement("option", { value: "false" }, "No")),
@@ -31597,6 +31600,11 @@ var StudentDataForm = function (props) {
         React.createElement(number_input_1.default, { label: "Your Social Studies grade", value: props.studentData.scores.subjGradeSocStudies, onChange: function (subjGradeSocStudies) {
                 if (isValidSubjGrade(subjGradeSocStudies)) {
                     updateStudentScores("subjGradeSocStudies", subjGradeSocStudies);
+                }
+            }, validationState: validateSubjGrade(props.studentData.scores.subjGradeSocStudies) }),
+        React.createElement(number_input_1.default, { label: "Your Selective Enrollment test percentile", value: props.studentData.seTestPercentile, onChange: function (seTestPercentile) {
+                if (isValidSETestPercentile(seTestPercentile)) {
+                    updateStudentData("seTestPercentile", seTestPercentile);
                 }
             }, validationState: validateSubjGrade(props.studentData.scores.subjGradeSocStudies) })));
 };

@@ -1,21 +1,4 @@
-[WIP] Refactor HSInfoCard
+Add Selective Enrollment test score to StudentDataForm
 
-* DONE drop down HSInfoCard on click rather than on hover
-* DONE fix styling error with HSInfoCard hidden after overflowing
-    parent HSListElement
-* WIP refactor HSInfoCard:
-  ** replace CPS School Profile iframe with summary view
-    showing:
-    *** DONE Program name:"${School Short_Name} - ${Program_Type} Program"
-    *** DONE Application / Selection requirement descriptions
-    *** DONE Success Chances for application and selection requirements
-    *** TODO links to CPS School Profile and HSBound website
-      **** HSBound may be difficult if they use non-standard URLs
-        for different high schools.
-    *** DONE fix auto-selecting text that occurs when HSInfoCard
-      appears
-      **** switched to Chrome. fixed
-    *** TODO style card so that overflow issues resolve
-    *** TODO resolve issue of internal 'focus' state resulting
-      in multiple open cards that need to be clicked on again
-      to close.
+* this may (probably will) be a temporary move until we 
+  can maybe put it in the HSList area.

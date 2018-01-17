@@ -46,6 +46,10 @@ const StudentDataForm = (props: StudentDataFormProps) => {
     return !Number.isNaN(attendPct) && attendPct >= 0 && attendPct <= 100;
   };
 
+  const isValidSETestPercentile = (pctile: number) => {
+    return !Number.isNaN(pctile) && pctile >= 1 && pctile <= 99;
+  }
+
   const validateNWEAPercentile = (pct: number): ValidationState => {
     if (isValidNweaPercentile(pct)) {
       return ValidationState.VALID;
@@ -110,15 +114,6 @@ const StudentDataForm = (props: StudentDataFormProps) => {
       </DropdownInput>
 
       <DropdownInput
-        label="Do you have an IEP?"
-        value={props.studentData.iep ? "true" : "false"}
-        onChange={iep => updateStudentData("iep", iep === "true" ? true : false)}
-      >
-          <option value="true">Yes</option>
-          <option value="false">No</option>
-      </DropdownInput>
-      
-      <DropdownInput
         label="What's your gender?"
         value={props.studentData.gender.toString()}
         onChange={gender => updateStudentData("gender", gender)}
@@ -127,6 +122,15 @@ const StudentDataForm = (props: StudentDataFormProps) => {
           <option value={Gender.FEMALE.toString()}>Female</option>
           <option value={Gender.OTHER.toString()}>Other</option>
           <option value={Gender.NOANSWER.toString()}>Prefer not to answer</option>
+      </DropdownInput>
+
+      <DropdownInput
+        label="Do you have an IEP?"
+        value={props.studentData.iep ? "true" : "false"}
+        onChange={iep => updateStudentData("iep", iep === "true" ? true : false)}
+      >
+          <option value="true">Yes</option>
+          <option value="false">No</option>
       </DropdownInput>
 
       <DropdownInput
@@ -245,6 +249,18 @@ const StudentDataForm = (props: StudentDataFormProps) => {
         }}                                                                                                                                    
         validationState={validateSubjGrade(props.studentData.scores.subjGradeSocStudies)}
       />
+
+      <NumberInput
+        label="Your Selective Enrollment test percentile"
+        value={props.studentData.seTestPercentile}
+        onChange={seTestPercentile => {
+          if (isValidSETestPercentile(seTestPercentile)) {
+            updateStudentData("seTestPercentile", seTestPercentile);
+          } 
+        }}                                                                                                                                    
+        validationState={validateSubjGrade(props.studentData.scores.subjGradeSocStudies)}
+      />
+
       
     </div>
   );
