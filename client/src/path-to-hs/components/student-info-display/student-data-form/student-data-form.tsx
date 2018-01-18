@@ -18,8 +18,17 @@ import NumberInput from "shared/components/ui/number-input";
 import AddressTierCalculator from "./address-tier-calculator";
 
 import {getESPrograms, getHSPrograms} from "shared/util/data-access";
-const esPrograms: Array<CPSProgram> = getESPrograms();
-const hsPrograms: Array<CPSProgram> = getHSPrograms();
+const alphaSort = (a: CPSProgram, b: CPSProgram) => {
+  if (a.Short_Name < b.Short_Name) {
+    return -1;
+  } else if (a.Short_Name === b.Short_Name) {
+    return 0;
+  } else if (a.Short_Name > b.Short_Name) {
+    return 1;
+  }
+};
+const esPrograms: Array<CPSProgram> = getESPrograms().sort( alphaSort );
+const hsPrograms: Array<CPSProgram> = getHSPrograms().sort( alphaSort );
 
 import "./student-data-form.scss";
 

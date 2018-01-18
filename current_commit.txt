@@ -1,9 +1,2 @@
-Refactor HSInfoCard -- finish styling
+Alphabetize program list dropdowns in StudentDataForm
 
-* Clean up styling so it looks presentable
-* add link to CPS Profile
-* add link to HS Bound page
-  ** TODO IN FUTURE -- move HS bound link generation
-    somewhere else -- now it's called for each opening
-    of HSInfoCard, which doesn't make sense. Also it's
-    sometimes wrong in the case of acronyms

@@ -31490,8 +31490,19 @@ var text_input_1 = __webpack_require__(343);
 var number_input_1 = __webpack_require__(344);
 var address_tier_calculator_1 = __webpack_require__(345);
 var data_access_1 = __webpack_require__(213);
-var esPrograms = data_access_1.getESPrograms();
-var hsPrograms = data_access_1.getHSPrograms();
+var alphaSort = function (a, b) {
+    if (a.Short_Name < b.Short_Name) {
+        return -1;
+    }
+    else if (a.Short_Name === b.Short_Name) {
+        return 0;
+    }
+    else if (a.Short_Name > b.Short_Name) {
+        return 1;
+    }
+};
+var esPrograms = data_access_1.getESPrograms().sort(alphaSort);
+var hsPrograms = data_access_1.getHSPrograms().sort(alphaSort);
 __webpack_require__(505);
 var StudentDataForm = function (props) {
     var isValidGradeLevel = function (gradeLevel) {
