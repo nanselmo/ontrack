@@ -1,2 +1,3 @@
-Alphabetize program list dropdowns in StudentDataForm
+Change HSListElement 'NOTIMPLEMENTED' styling
 
+* previous styling looked extremely similar to 'NONE' styling

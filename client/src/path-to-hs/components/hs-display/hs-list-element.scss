@@ -73,13 +73,13 @@ $hs-list-element-width: 45px;
   background-color: lighten($col-succ-none, 10%);
   border: 2px dashed $col-succ-none; 
   box-shadow: $box-shadow-none;
-  color: $col-app-gray;
+  //color: $col-app-gray;
 }
 
 // Not implemented
 .hs-list-element-icon.succ-not-implemented {
-  color: #aaa;
-  background-color: #eee;
+  //color: #aaa;
+  background: none;
   box-shadow: $box-shadow-none;
   border: 2px dashed #999;
 }
