@@ -39,6 +39,29 @@ const HSProgramInfoCard = (props: HSInfoCardProps) => {
     return msg;
   };
 
+  const createHSBoundLink = (name: string): string => {
+    // remove "HS" from end
+    let words = name.split(" ");
+    const lastWord = words[words.length - 1];
+    if (lastWord === "HS") {
+      words.pop();
+    }
+    const capitalizedWords = ["TEAM", "UIC", "CCA",];
+    // convert name to title case (!!!)
+    const titleCaseWords = words.map( word => {
+      if (capitalizedWords.indexOf(word) === -1) {
+        const letters = word.toLowerCase().split("");
+        letters[0] = letters[0].toUpperCase();
+        return letters.join("");
+      } else {
+        return word;
+      }
+    });
+    // replace " " with "-"
+    const schoolName = titleCaseWords.join("-");
+    return `https://hsbound.org/school/${schoolName}`;
+  };
+
   return (
     <div className={`hs-info-card-container ${props.visible ? "visible" : "" }`}>
       <div className="hs-info-card">
@@ -48,7 +71,9 @@ const HSProgramInfoCard = (props: HSInfoCardProps) => {
         <div className="hs-info-card-requirement-container">
           <div className="hs-info-card-requirement">
             <div className="hs-info-card-req-desc-container">
-              To Apply:
+              <div className="hs-info-card-req-type">
+                To Apply:
+              </div>
               <div className="hs-info-card-req-desc">
                 {props.program.Application_Requirements}
               </div>
@@ -59,7 +84,9 @@ const HSProgramInfoCard = (props: HSInfoCardProps) => {
           </div>
           <div className="hs-info-card-requirement">
             <div className="hs-info-card-req-desc-container">
-              To Be Selected:
+              <div className="hs-info-card-req-type">
+                To Be Selected:
+              </div>
               <div className="hs-info-card-req-desc">
                 {props.program.Program_Selections}
               </div>
@@ -68,6 +95,10 @@ const HSProgramInfoCard = (props: HSInfoCardProps) => {
               {toMessage(props.selectionSuccess)}
             </div>
           </div>
+        </div>
+        <div className="hs-links-container">
+          <a className="hs-link" target="_none" href={props.program.CPS_School_Profile}>School Website</a>
+          <a className="hs-link" target="_none" href={createHSBoundLink(props.program.Short_Name)}>HS Bound School Page</a>
         </div>
       </div>
     </div>

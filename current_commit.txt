@@ -1,5 +1,9 @@
-Update student's gpa on grade change
+Refactor HSInfoCard -- finish styling
 
-* add gpa updating code to 
-* NOTE somehow I missed that, and student's grades were happily
-  changing but gpa was not updating
+* Clean up styling so it looks presentable
+* add link to CPS Profile
+* add link to HS Bound page
+  ** TODO IN FUTURE -- move HS bound link generation
+    somewhere else -- now it's called for each opening
+    of HSInfoCard, which doesn't make sense. Also it's
+    sometimes wrong in the case of acronyms

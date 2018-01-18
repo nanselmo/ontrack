@@ -30665,7 +30665,7 @@ var hardcoded_1 = __webpack_require__(527);
 var data_access_ts_1 = __webpack_require__(213);
 var hsPrograms = data_access_ts_1.getHSProgramsByType();
 var score_projection_utils_1 = __webpack_require__(167);
-var calculate_gpa_1 = __webpack_require__(529);
+var calculate_gpa_1 = __webpack_require__(528);
 var PathToHS = (function (_super) {
     __extends(PathToHS, _super);
     function PathToHS(props) {
@@ -68633,20 +68633,43 @@ var HSProgramInfoCard = function (props) {
         }
         return msg;
     };
+    var createHSBoundLink = function (name) {
+        var words = name.split(" ");
+        var lastWord = words[words.length - 1];
+        if (lastWord === "HS") {
+            words.pop();
+        }
+        var capitalizedWords = ["TEAM", "UIC", "CCA",];
+        var titleCaseWords = words.map(function (word) {
+            if (capitalizedWords.indexOf(word) === -1) {
+                var letters = word.toLowerCase().split("");
+                letters[0] = letters[0].toUpperCase();
+                return letters.join("");
+            }
+            else {
+                return word;
+            }
+        });
+        var schoolName = titleCaseWords.join("-");
+        return "https://hsbound.org/school/" + schoolName;
+    };
     return (React.createElement("div", { className: "hs-info-card-container " + (props.visible ? "visible" : "") },
         React.createElement("div", { className: "hs-info-card" },
             React.createElement("div", { className: "hs-info-card-program-name" }, props.program.Short_Name + " - " + props.program.Program_Type + " Program"),
             React.createElement("div", { className: "hs-info-card-requirement-container" },
                 React.createElement("div", { className: "hs-info-card-requirement" },
                     React.createElement("div", { className: "hs-info-card-req-desc-container" },
-                        "To Apply:",
+                        React.createElement("div", { className: "hs-info-card-req-type" }, "To Apply:"),
                         React.createElement("div", { className: "hs-info-card-req-desc" }, props.program.Application_Requirements)),
                     React.createElement("div", { className: "hs-info-card-req-success" }, toMessage(props.applicationSuccess))),
                 React.createElement("div", { className: "hs-info-card-requirement" },
                     React.createElement("div", { className: "hs-info-card-req-desc-container" },
-                        "To Be Selected:",
+                        React.createElement("div", { className: "hs-info-card-req-type" }, "To Be Selected:"),
                         React.createElement("div", { className: "hs-info-card-req-desc" }, props.program.Program_Selections)),
-                    React.createElement("div", { className: "hs-info-card-req-success" }, toMessage(props.selectionSuccess)))))));
+                    React.createElement("div", { className: "hs-info-card-req-success" }, toMessage(props.selectionSuccess)))),
+            React.createElement("div", { className: "hs-links-container" },
+                React.createElement("a", { className: "hs-link", target: "_none", href: props.program.CPS_School_Profile }, "School Website"),
+                React.createElement("a", { className: "hs-link", target: "_none", href: createHSBoundLink(props.program.Short_Name) }, "HS Bound School Page")))));
 };
 exports.default = HSProgramInfoCard;
 
@@ -68691,7 +68714,7 @@ exports = module.exports = __webpack_require__(20)(undefined);
 
 
 // module
-exports.push([module.i, ".hs-info-card-container {\n  visibility: hidden;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 0px;\n  height: 0px; }\n\n.hs-info-card-container.visible {\n  visibility: visible;\n  display: block;\n  width: 300px;\n  height: 300px; }\n\n.hs-info-card {\n  width: 100%;\n  height: 100%;\n  background: #fafafd;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start; }\n\n.hs-info-card-program-name {\n  font-size: 115%;\n  font-weight: bold;\n  width: 100%;\n  text-align: center; }\n\n.hs-info-card-requirement-container {\n  width: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  border: 1px solid gray; }\n\n.hs-info-card-requirement {\n  width: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row; }\n\n.hs-info-card-req-desc-container {\n  width: 50%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row; }\n\n.hs-info-card-req-desc {\n  font-size: 80%; }\n", ""]);
+exports.push([module.i, ".hs-info-card-container {\n  visibility: hidden;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 0px;\n  height: 0px; }\n\n.hs-info-card-container.visible {\n  visibility: visible;\n  display: block;\n  width: 400px;\n  height: auto; }\n\n.hs-info-card {\n  padding: 0.5em;\n  width: 100%;\n  height: 100%;\n  background: #fafafd;\n  -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start; }\n\n.hs-info-card-program-name {\n  font-size: 115%;\n  font-weight: bold;\n  width: 100%;\n  text-align: center; }\n\n.hs-info-card-requirement-container {\n  width: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column; }\n\n.hs-info-card-requirement {\n  width: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row; }\n\n.hs-info-card-req-desc-container {\n  width: 50%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  margin-bottom: 0.5em; }\n\n.hs-info-card-req-type {\n  width: 90px;\n  margin-right: 0.5em; }\n\n.hs-info-card-req-desc {\n  width: 200px;\n  font-size: 80%;\n  padding: 0.5em;\n  background: #e8e8f6;\n  border-radius: 5px;\n  border: 1px solid #eee;\n  margin-right: 0.5em; }\n\n.hs-links-container {\n  width: 100%; }\n\n.hs-link {\n  margin: 1em;\n  padding: 0.5em;\n  color: #fafafd;\n  background-color: #4747b1;\n  border-radius: 7px;\n  -webkit-transition: background-color 200ms ease;\n  transition: background-color 200ms ease; }\n\n.hs-link:hover {\n  color: #fafafd;\n  background-color: #6868c3; }\n\n.hs-link:active {\n  color: #fafafd;\n  background-color: #38388d; }\n", ""]);
 
 // exports
 
@@ -68947,8 +68970,7 @@ exports.MOCK_STUDENT_DATA = {
 
 
 /***/ }),
-/* 528 */,
-/* 529 */
+/* 528 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
