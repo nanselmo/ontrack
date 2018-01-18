@@ -13,6 +13,7 @@ import StudentData from "shared/types/student-data";
 import StudentScores from "shared/types/student-scores";
 import {cloneAndExtend} from "shared/util/clone";
 import {projectStudentData} from "shared/util/score-projection-utils";
+import calculateGPA from "shared/util/calculate-gpa";
 
 interface PathToHSProps {
 }
@@ -40,12 +41,15 @@ class PathToHS extends React.Component<PathToHSProps, PathToHSState> {
   })
 
   private handleProjectedStudentDataChange = (newProjectedData: StudentData) => {
+    newProjectedData.gpa = calculateGPA(newProjectedData.scores);
     this.setState({
       projectedStudentData: newProjectedData
     });
   }
 
   private handleStudentDataChange = (newStudentData: StudentData) => {
+    // update gpa
+    newStudentData.gpa = calculateGPA(newStudentData.scores);
     console.log(newStudentData);
     this.setState({
       studentData: newStudentData,
