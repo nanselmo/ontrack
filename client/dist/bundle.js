@@ -67719,6 +67719,9 @@ var HSReqFns = {
                     student.attendancePercentage >= 85) {
                     return { outcome: success_chance_ts_1.default.CERTAIN };
                 }
+                else {
+                    return { outcome: success_chance_ts_1.default.NONE };
+                }
             }
             else {
                 return { outcome: success_chance_ts_1.default.NONE };
