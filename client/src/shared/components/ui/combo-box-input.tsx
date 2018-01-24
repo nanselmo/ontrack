@@ -1,6 +1,4 @@
 import * as React from "react";
-import "react-widgets/dist/css/react-widgets.css";
-import {Combobox} from "react-widgets";
 
 interface ComboBoxProps {
   label?: string
@@ -19,15 +17,11 @@ const ComboBoxInput: React.SFC<ComboBoxProps> = (props) => {
         {props.label}
       </div>
       }
-      <Combobox
-        data={props.options}
-        textField='text'
-        valueField='value'
-
-        onChange={props.onChange}
-        value={props.value}
+      <select
+        onChange={ ev => props.onChange(ev.currentTarget.value) }
        >
-      </Combobox>
+       { props.options.map( opt => <option key={opt.value} value={opt.value}>{opt.text}</option> ) }
+      </select>
     </div>
   );
 };

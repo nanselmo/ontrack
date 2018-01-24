@@ -6,6 +6,7 @@ interface DropdownInputProps {
   label?: string
   value: string
   //placeholder?: string
+  options: {value: string, text: string}[]
   onChange: (newVal: string) => void
   validationState?: ValidationState
 }
@@ -24,12 +25,10 @@ const DropdownInput: React.SFC<DropdownInputProps> = props => {
         value={props.value}
         onChange={(ev) => props.onChange(ev.currentTarget.value)}
       >
-        {props.children}
+        { props.options.map( opt => <option key={opt.value} value={opt.value}>{opt.text}</option> ) }
       </select>
     </div>
-
   )
-
 };
 
 export default DropdownInput;

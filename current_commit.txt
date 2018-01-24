@@ -1,7 +1,6 @@
-Write shared ComboBoxInput component
+Remove projected scores view
 
-* use react-widgets for combo box
-* edited webpack config for importing react-widgets dependencies
-* refactor StudentDataForm to use new api for shared ComboBox
-  component
+* delete projected scores components
+* remove ProjectedScore properties from path-to-hs
+* remove  
 
