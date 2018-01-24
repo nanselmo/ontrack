@@ -3,7 +3,6 @@ import * as React from "react";
 import ScoreType from "shared/enums/score-type";
 import StudentScore from "shared/types/student-score";
 import {scoreToString, tryParseScore} from "shared/util/grade-convert";
-import Field from "shared/components/ui/field";
 import IconButton from "shared/components/ui/icon-button";
 import CircledArrowUpIcon from "shared/components/icons/circled-arrow-up-icon";
 import CircledArrowDownIcon from "shared/components/icons/circled-arrow-down-icon";

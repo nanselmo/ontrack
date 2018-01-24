@@ -1,5 +1,7 @@
 import * as React from "react";
 
+import "icon-button.scss"
+
 import IconElement from "shared/types/icon-element";
 interface IconButtonProps {
   icon: IconElement

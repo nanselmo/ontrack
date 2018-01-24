@@ -116,47 +116,51 @@ const StudentDataForm = (props: StudentDataFormProps) => {
       <DropdownInput
         label="What grade are you in?"
         value={props.studentData.gradeLevel.toString()}
+        options={[
+          {value:"4", text: "4th grade"},
+          {value:"5", text: "5th grade"},
+          {value:"6", text: "6th grade"},
+          {value:"7", text: "7th grade"},
+          {value:"8", text: "8th grade"},
+        ]}
         onChange={grade => {
           if (isValidGradeLevel(parseInt(grade))) {
             updateStudentData("gradeLevel", grade)
           }
         } }
-      >
-          <option value="4">4th grade</option>
-          <option value="5">5th grade</option>
-          <option value="6">6th grade</option>
-          <option value="7">7th grade</option>
-          <option value="8">8th grade</option>
-      </DropdownInput>
-
+      />
       <DropdownInput
         label="What's your gender?"
         value={props.studentData.gender.toString()}
+        options={[
+          {value:Gender.MALE.toString(), text:"Boy"},
+          {value:Gender.FEMALE.toString(), text:"Girl"},
+          {value:Gender.OTHER.toString(), text:"Other"},
+          {value:Gender.NOANSWER.toString(), text:"Prefer not to answer"},
+
+        ]}
         onChange={gender => updateStudentData("gender", gender)}
-      >
-          <option value={Gender.MALE.toString()}>Male</option>
-          <option value={Gender.FEMALE.toString()}>Female</option>
-          <option value={Gender.OTHER.toString()}>Other</option>
-          <option value={Gender.NOANSWER.toString()}>Prefer not to answer</option>
-      </DropdownInput>
+      />
 
       <DropdownInput
         label="Do you have an IEP?"
         value={props.studentData.iep ? "true" : "false"}
+        options={[
+          {value:"true", text:"Yes"},
+          {value:"false", text:"No"},
+        ]}
         onChange={iep => updateStudentData("iep", iep === "true" ? true : false)}
-      >
-          <option value="true">Yes</option>
-          <option value="false">No</option>
-      </DropdownInput>
+      />
 
       <DropdownInput
         label="Are you an English Language Learner?"
         value={props.studentData.ell ? "true" : "false"}
+        options={[
+          {value:"true", text:"Yes"},
+          {value:"false", text:"No"},
+        ]}
         onChange={ell => updateStudentData("ell", ell === "true" ? true : false)}
-      >
-          <option value="true">Yes</option>
-          <option value="false">No</option>
-      </DropdownInput>
+      />
 
       <ComboBoxInput
         label="What elementary school program are you in now?"
@@ -192,12 +196,11 @@ const StudentDataForm = (props: StudentDataFormProps) => {
         label="Your 7th grade attendance percentage"
         value={props.studentData.attendancePercentage}
         onChange={attendancePercentage => {
-          if (isValidAttendPercentage(attendancePercentage)) {
-            updateStudentData("attendancePercentage", attendancePercentage);
-          }
+          updateStudentData("attendancePercentage", attendancePercentage);
         }}
       />
 
+      {/*
       <div className="student-data-form-subheader">
         Your grades
       </div>
@@ -205,10 +208,10 @@ const StudentDataForm = (props: StudentDataFormProps) => {
       <NumberInput
         label="NWEA Math percentile"
         value={props.studentData.scores.nweaPercentileMath}
+        max={1}
+        min={99}
         onChange={nweaPercentileMath => {
-          if (isValidNweaPercentile(nweaPercentileMath)) {
-            updateStudentScores("nweaPercentileMath", nweaPercentileMath);
-          }
+          updateStudentScores("nweaPercentileMath", nweaPercentileMath);
         }}
        validationState={validateNWEAPercentile(props.studentData.scores.nweaPercentileMath)}
       />
@@ -216,10 +219,10 @@ const StudentDataForm = (props: StudentDataFormProps) => {
       <NumberInput
         label="NWEA Reading percentile"
         value={props.studentData.scores.nweaPercentileRead}
+        max={1}
+        min={99}
         onChange={nweaPercentileRead => {
-          if (isValidNweaPercentile(nweaPercentileRead)) {
-            updateStudentScores("nweaPercentileRead", nweaPercentileRead);
-          } 
+          updateStudentScores("nweaPercentileRead", nweaPercentileRead);
         }}                                                                                                                                    
         validationState={validateNWEAPercentile(props.studentData.scores.nweaPercentileRead)}
       />
@@ -227,10 +230,10 @@ const StudentDataForm = (props: StudentDataFormProps) => {
       <NumberInput
         label="Your Math grade"
         value={props.studentData.scores.subjGradeMath}
+        max={0}
+        min={100}
         onChange={subjGradeMath => {
-          if (isValidSubjGrade(subjGradeMath)) {
-            updateStudentScores("subjGradeMath", subjGradeMath);
-          } 
+          updateStudentScores("subjGradeMath", subjGradeMath);
         }}                                                                                                                                    
         validationState={validateSubjGrade(props.studentData.scores.subjGradeMath)}
       />
@@ -238,10 +241,10 @@ const StudentDataForm = (props: StudentDataFormProps) => {
       <NumberInput
         label="Your Reading grade"
         value={props.studentData.scores.subjGradeRead}
+        max={0}
+        min={100}
         onChange={subjGradeRead => {
-          if (isValidSubjGrade(subjGradeRead)) {
-            updateStudentScores("subjGradeRead", subjGradeRead);
-          } 
+          updateStudentScores("subjGradeRead", subjGradeRead);
         }}                                                                                                                                    
         validationState={validateSubjGrade(props.studentData.scores.subjGradeRead)}
       />
@@ -249,10 +252,10 @@ const StudentDataForm = (props: StudentDataFormProps) => {
       <NumberInput
         label="Your Science grade"
         value={props.studentData.scores.subjGradeSci}
+        max={0}
+        min={100}
         onChange={subjGradeSci => {
-          if (isValidSubjGrade(subjGradeSci)) {
-            updateStudentScores("subjGradeSci", subjGradeSci);
-          } 
+          updateStudentScores("subjGradeSci", subjGradeSci);
         }}                                                                                                                                    
         validationState={validateSubjGrade(props.studentData.scores.subjGradeSci)}
       />
@@ -260,10 +263,10 @@ const StudentDataForm = (props: StudentDataFormProps) => {
       <NumberInput
         label="Your Social Studies grade"
         value={props.studentData.scores.subjGradeSocStudies}
+        max={0}
+        min={100}
         onChange={subjGradeSocStudies => {
-          if (isValidSubjGrade(subjGradeSocStudies)) {
-            updateStudentScores("subjGradeSocStudies", subjGradeSocStudies);
-          } 
+          updateStudentScores("subjGradeSocStudies", subjGradeSocStudies);
         }}                                                                                                                                    
         validationState={validateSubjGrade(props.studentData.scores.subjGradeSocStudies)}
       />
@@ -271,13 +274,14 @@ const StudentDataForm = (props: StudentDataFormProps) => {
       <NumberInput
         label="Your Selective Enrollment test percentile"
         value={props.studentData.seTestPercentile}
+        max={1}
+        min={99}
         onChange={seTestPercentile => {
-          if (isValidSETestPercentile(seTestPercentile)) {
-            updateStudentData("seTestPercentile", seTestPercentile);
-          } 
+          updateStudentData("seTestPercentile", seTestPercentile);
         }}                                                                                                                                    
         validationState={validateSubjGrade(props.studentData.scores.subjGradeSocStudies)}
       />
+        */}
 
       
     </div>
