@@ -91,6 +91,13 @@ const StudentDataForm = (props: StudentDataFormProps) => {
     }
   };
 
+  const toOptions = (program: CPSProgram) => {
+    return {
+      value: program.ID,
+      text: `${program.Short_Name} - ${program.Program_Type}`
+    }
+  };
+
   return (
     <div className="student-data-form">
       <div className="student-data-form-subheader"> 
@@ -154,6 +161,7 @@ const StudentDataForm = (props: StudentDataFormProps) => {
       <ComboBoxInput
         label="What elementary school program are you in now?"
         value={props.studentData.currESProgram}
+        options={esPrograms.map(toOptions)}
         onChange={currESProgram => updateStudentData("currESProgram", currESProgram)}
       > 
       { esPrograms.map( program => <option key={program.ID} value={program.ID}>{program.Short_Name + " - " + program.Program_Type}</option>)}
@@ -165,6 +173,7 @@ const StudentDataForm = (props: StudentDataFormProps) => {
       <ComboBoxInput
         label="Do you have a sibling in high school? If so, which school?"
         value={props.studentData.siblingHSPrograms[0]}
+        options={hsPrograms.map(toOptions)}
         onChange={siblingHSProgram => updateStudentData("siblingHSPrograms", [siblingHSProgram])}
       > 
       { hsPrograms.map( program => <option key={program.ID} value={program.ID}>{program.Short_Name + " - " + program.Program_Type}</option>)}

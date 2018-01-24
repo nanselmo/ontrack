@@ -1,3 +1,7 @@
-Change HSListElement 'NOTIMPLEMENTED' styling
+Write shared ComboBoxInput component
 
-* previous styling looked extremely similar to 'NONE' styling
+* use react-widgets for combo box
+* edited webpack config for importing react-widgets dependencies
+* refactor StudentDataForm to use new api for shared ComboBox
+  component
+

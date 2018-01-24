@@ -21,8 +21,13 @@ const config = {
   },
   module: {
     rules: [
+      // images
       { test: /\.png$|\.jpg$|\.gif$|\.svg$/, use: "file-loader" },
-      { test: /\.tsx?$|\.spec\.ts$/, use: "awesome-typescript-loader" },
+      // fonts
+      { test: /\.ttf$|\.eot$|\.woff2?$/, use: 'file-loader'},
+      // typescript
+      { test: /\.tsx?$|\.spec\.tsx?$/, use: "awesome-typescript-loader" },
+      // scss
       { test: /\.scss?$/,
         use: [
           { loader: "style-loader" },
@@ -40,6 +45,25 @@ const config = {
             }
           },
           { loader: "sass-loader" }
+        ]
+      },
+      // css
+      { test: /\.css?$/,
+        use: [
+          { loader: "style-loader" },
+          { loader: "css-loader" },
+          {
+            loader: "postcss-loader",
+            options: {
+              plugins: function() {
+                return [
+                  require("postcss-smart-import"),
+                  require("precss"),
+                  require("autoprefixer")
+                ];
+              }
+            }
+          }
         ]
       }
     ]
