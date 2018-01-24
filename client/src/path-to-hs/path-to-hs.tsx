@@ -20,7 +20,6 @@ interface PathToHSProps {
 
 interface PathToHSState {
   studentData: StudentData
-  projectedStudentData: StudentData
 }
 
 class PathToHS extends React.Component<PathToHSProps, PathToHSState> {
@@ -30,30 +29,14 @@ class PathToHS extends React.Component<PathToHSProps, PathToHSState> {
     const HS_APPLICATION_GRADE_LEVEL = 7;
     this.state = {
       studentData: MOCK_STUDENT_DATA,
-      projectedStudentData: this.defaultProjectStudentData(MOCK_STUDENT_DATA)
     };
   }
 
-  private defaultProjectStudentData = (data: StudentData) => projectStudentData({
-    studentData: data,
-    percentileChange: 0,
-    targetGradeLevel: 7 
-  })
-
-  private handleProjectedStudentDataChange = (newProjectedData: StudentData) => {
-    newProjectedData.gpa = calculateGPA(newProjectedData.scores);
-    this.setState({
-      projectedStudentData: newProjectedData
-    });
-  }
 
   private handleStudentDataChange = (newStudentData: StudentData) => {
-    // update gpa
     newStudentData.gpa = calculateGPA(newStudentData.scores);
-    console.log(newStudentData);
     this.setState({
       studentData: newStudentData,
-      projectedStudentData: this.defaultProjectStudentData(newStudentData)
     });
   }
 
@@ -62,14 +45,12 @@ class PathToHS extends React.Component<PathToHSProps, PathToHSState> {
       <Page>
         <StudentInfoDisplay
           studentData={this.state.studentData}
-          projectedStudentData={this.state.projectedStudentData}
           onStudentDataChange={this.handleStudentDataChange}
-          onProjectedStudentDataChange={this.handleProjectedStudentDataChange}
           />
           
         <HSDisplay
           hsData={hsPrograms}
-          studentData={this.state.projectedStudentData} 
+          studentData={this.state.studentData} 
           />
       </Page>
     )

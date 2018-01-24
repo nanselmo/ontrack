@@ -1,6 +1,5 @@
 Remove projected scores view
 
 * delete projected scores components
-* remove ProjectedScore properties from path-to-hs
-* remove  
-
+* remove ProjectedStudentData code from path-to-hs
+* delete WindowSwitcher component
