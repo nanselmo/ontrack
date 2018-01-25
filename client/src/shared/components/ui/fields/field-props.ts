@@ -4,18 +4,19 @@ import FieldValidationState from "./field-validation-state";
 interface FieldProps {
 
   // base
-  value: string
-  defaultValue: string
+  // defaultValue: string
   onChange: (newValue: string) => any
+  value: string 
 
   // extensions
-  validation?: (nextValue: string) => FieldValidationState
-  restriction?: (nextValue: string) => boolean
+  validator?: (nextValue: string) => FieldValidationState
+  restrictor?: (nextValue: string) => boolean
   label?: string
+  placeholder?: string
 
   // styling
   className?: string
-  style: React.StyleHTMLAttributes<HTMLInputElement>
+  style?: React.StyleHTMLAttributes<HTMLInputElement>
 
 }
 

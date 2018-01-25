@@ -1,8 +1,13 @@
-[WIP] refactor shared form fields component
+Refactor shared form fields component
 
-* DONE draft FieldProps interface, used as a common props interface
+* draft FieldProps interface, used as a common props interface
   across all form fields
 
-* TODO draft NumberField, TextField, ComboBoxField, DropdownField
-  ** see if we can make these work without deviating from FieldProps
+* draft DropdownField
+* draft NumberField
+* draft TextField
+* draft MOCK ComboBoxFieldi
+  ** this is a stub for the moment, because it's the hard one
+
+* include new field components in StudentDataForm
 

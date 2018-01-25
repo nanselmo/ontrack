@@ -10,10 +10,10 @@ import Gender from "shared/enums/gender";
 
 import {scoreToString, tryParseScore} from "shared/util/grade-convert";
 
-import DropdownInput from "shared/components/ui/dropdown-input";
-import ComboBoxInput from "shared/components/ui/combo-box-input";
-import TextInput from "shared/components/ui/text-input";
-import NumberInput from "shared/components/ui/number-input";
+import DropdownField from "shared/components/ui/fields/dropdown-field";
+import ComboBoxField from "shared/components/ui/fields/combo-box-field";
+import TextField from "shared/components/ui/fields/text-field";
+import NumberField from "shared/components/ui/fields/number-field";
 
 import AddressTierCalculator from "./address-tier-calculator";
 
@@ -103,85 +103,78 @@ const StudentDataForm = (props: StudentDataFormProps) => {
       <div className="student-data-form-subheader"> 
         Your student information 
       </div>
-      <TextInput
+      <TextField
         placeholder="Your first name..."
         value={props.studentData.studentFirstName}
         onChange={fname => updateStudentData("studentFirstName", fname)}
       />
-      <TextInput
+      <TextField
         placeholder="Your last name..."
         value={props.studentData.studentLastName}
         onChange={lname => updateStudentData("studentLastName", lname)}
       />
-      <DropdownInput
+      <DropdownField
         label="What grade are you in?"
         value={props.studentData.gradeLevel.toString()}
-        options={[
-          {value:"4", text: "4th grade"},
-          {value:"5", text: "5th grade"},
-          {value:"6", text: "6th grade"},
-          {value:"7", text: "7th grade"},
-          {value:"8", text: "8th grade"},
-        ]}
         onChange={grade => {
           if (isValidGradeLevel(parseInt(grade))) {
             updateStudentData("gradeLevel", grade)
           }
         } }
-      />
-      <DropdownInput
+      >
+        <option value="4">4th grade</option>
+        <option value="5">5th grade</option>
+        <option value="6">6th grade</option>
+        <option value="7">7th grade</option>
+        <option value="8">8th grade</option>
+      </DropdownField>
+      <DropdownField
         label="What's your gender?"
         value={props.studentData.gender.toString()}
-        options={[
-          {value:Gender.MALE.toString(), text:"Boy"},
-          {value:Gender.FEMALE.toString(), text:"Girl"},
-          {value:Gender.OTHER.toString(), text:"Other"},
-          {value:Gender.NOANSWER.toString(), text:"Prefer not to answer"},
-
-        ]}
         onChange={gender => updateStudentData("gender", gender)}
-      />
+      >
+        <option value={Gender.MALE.toString()}>Boy</option>
+        <option value={Gender.FEMALE.toString()}>Girl</option>
+        <option value={Gender.OTHER.toString()}>Other</option>
+        <option value={Gender.NOANSWER.toString()}>Prefer not to answer</option>
+      </DropdownField>
 
-      <DropdownInput
+      <DropdownField
         label="Do you have an IEP?"
         value={props.studentData.iep ? "true" : "false"}
-        options={[
-          {value:"true", text:"Yes"},
-          {value:"false", text:"No"},
-        ]}
         onChange={iep => updateStudentData("iep", iep === "true" ? true : false)}
-      />
+      >
+        <option value="true">Yes</option>
+        <option value="false">No</option>
+      </DropdownField>
 
-      <DropdownInput
+      <DropdownField
         label="Are you an English Language Learner?"
         value={props.studentData.ell ? "true" : "false"}
-        options={[
-          {value:"true", text:"Yes"},
-          {value:"false", text:"No"},
-        ]}
         onChange={ell => updateStudentData("ell", ell === "true" ? true : false)}
-      />
+      >
+        <option value="true">Yes</option>
+        <option value="false">No</option>
+      </DropdownField>
 
-      <ComboBoxInput
+      <ComboBoxField
         label="What elementary school program are you in now?"
         value={props.studentData.currESProgram}
-        options={esPrograms.map(toOptions)}
         onChange={currESProgram => updateStudentData("currESProgram", currESProgram)}
       > 
-      { esPrograms.map( program => <option key={program.ID} value={program.ID}>{program.Short_Name + " - " + program.Program_Type}</option>)}
-      </ComboBoxInput>
+        { esPrograms.map( program => <option key={program.ID} value={program.ID}>{program.Short_Name + " - " + program.Program_Type}</option>)}
+      </ComboBoxField>
 
-      {/* Fixme: only works for one of many possible high schoolsi
+      {/* Fixme: only works for one of many possible high schools
         * Solution: MultiSelectComboBoxInput? 
         */}
-      <ComboBoxInput
+      <ComboBoxField
         label="Do you have a sibling in high school? If so, which school?"
         value={props.studentData.siblingHSPrograms[0]}
-        options={hsPrograms.map(toOptions)}
         onChange={siblingHSProgram => updateStudentData("siblingHSPrograms", [siblingHSProgram])}
       > 
-      { hsPrograms.map( program => <option key={program.ID} value={program.ID}>{program.Short_Name + " - " + program.Program_Type}</option>)}
-      </ComboBoxInput>
+        { hsPrograms.map( program => <option key={program.ID} value={program.ID}>{program.Short_Name + " - " + program.Program_Type}</option>)}
+      </ComboBoxField>
       
       <AddressTierCalculator
         address={props.studentData.address}
@@ -192,9 +185,9 @@ const StudentDataForm = (props: StudentDataFormProps) => {
         onGeolocationChange={geolocation => updateStudentData("geolocation", geolocation)}
       />
 
-      <NumberInput
+      <NumberField
         label="Your 7th grade attendance percentage"
-        value={props.studentData.attendancePercentage}
+        value={props.studentData.attendancePercentage.toString()}
         onChange={attendancePercentage => {
           updateStudentData("attendancePercentage", attendancePercentage);
         }}
