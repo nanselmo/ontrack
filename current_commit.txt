@@ -1,5 +1,8 @@
-Remove projected scores view
+[WIP] refactor shared form fields component
 
-* delete projected scores components
-* remove ProjectedStudentData code from path-to-hs
-* delete WindowSwitcher component
+* DONE draft FieldProps interface, used as a common props interface
+  across all form fields
+
+* TODO draft NumberField, TextField, ComboBoxField, DropdownField
+  ** see if we can make these work without deviating from FieldProps
+
