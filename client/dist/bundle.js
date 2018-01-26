@@ -32377,6 +32377,7 @@ var PathToHS = (function (_super) {
         var _this = _super.call(this, props) || this;
         _this.handleStudentDataChange = function (newStudentData) {
             newStudentData.gpa = calculate_gpa_1.default(newStudentData.scores);
+            console.log(newStudentData);
             _this.setState({
                 studentData: newStudentData,
             });
@@ -32651,6 +32652,7 @@ var esPrograms = data_access_1.getESPrograms().sort(alphaSort);
 var hsPrograms = data_access_1.getHSPrograms().sort(alphaSort);
 __webpack_require__(496);
 var StudentDataForm = function (props) {
+    console.log(props.studentData.currESProgram);
     var isValidGradeLevel = function (gradeLevel) {
         return !Number.isNaN(gradeLevel) && gradeLevel >= 4 && gradeLevel <= 8;
     };
@@ -32704,6 +32706,7 @@ var StudentDataForm = function (props) {
             text: program.Short_Name + " - " + program.Program_Type
         };
     };
+    console.log(props.studentData);
     return (React.createElement("div", { className: "student-data-form" },
         React.createElement("div", { className: "student-data-form-subheader" }, "Your student information"),
         React.createElement(text_field_1.default, { placeholder: "Your first name...", value: props.studentData.studentFirstName, onChange: function (fname) { return updateStudentData("studentFirstName", fname); } }),
@@ -32730,7 +32733,7 @@ var StudentDataForm = function (props) {
             React.createElement("option", { value: "true" }, "Yes"),
             React.createElement("option", { value: "false" }, "No")),
         React.createElement(combo_box_field_1.default, { label: "What elementary school program are you in now?", value: props.studentData.currESProgram, data: esPrograms.map(function (program) { return ({ value: program.ID, text: program.Short_Name + " - " + program.Program_Type }); }), onChange: function (currESProgram) { return updateStudentData("currESProgram", currESProgram); } }),
-        React.createElement(combo_box_field_1.default, { label: "Do you have a sibling in high school? If so, which school?", value: props.studentData.siblingHSPrograms[0], data: hsPrograms.map(function (program) { return ({ value: program.ID, text: program.Short_Name + " - " + program.Program_Type }); }), onChange: function (siblingHSProgram) { return updateStudentData("siblingHSPrograms", [siblingHSProgram]); } }),
+        React.createElement(combo_box_field_1.default, { label: "Do you have a sibling in high school? If so, which school?", value: "test", data: hsPrograms.map(function (program) { return ({ value: program.ID, text: program.Short_Name + " - " + program.Program_Type }); }), onChange: function (siblingHSProgram) { return updateStudentData("siblingHSPrograms", [siblingHSProgram]); } }),
         React.createElement(address_tier_calculator_1.default, { address: props.studentData.address, tier: props.studentData.tier, geolocation: props.studentData.geolocation, onAddressChange: function (address) { return updateStudentData("address", address); }, onTierChange: function (tier) { return updateStudentData("tier", tier); }, onGeolocationChange: function (geolocation) { return updateStudentData("geolocation", geolocation); } }),
         React.createElement(number_field_1.default, { label: "Your 7th grade attendance percentage", value: props.studentData.attendancePercentage.toString(), onChange: function (attendancePercentage) {
                 updateStudentData("attendancePercentage", attendancePercentage);
@@ -34663,38 +34666,81 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var field_validation_state_1 = __webpack_require__(59);
 var field_container_1 = __webpack_require__(75);
+var styled_components_1 = __webpack_require__(167);
+var INPUT_HEIGHT = "20px";
+var ListBoxElement = function (props) {
+    return (React.createElement("li", { className: props.className, onClick: function (ev) {
+            props.onSelect(props.value);
+        } }, props.displayText));
+};
 var ListBox = function (props) {
-    var selectedStyle = {
-        borderBottom: "1px dotted gray",
-        background: "gray",
-        color: "red",
-    };
-    var unselectedStyle = {
-        borderBottom: "1px dotted gray",
-    };
-    return (React.createElement("ul", { style: { height: "100px", width: "100%", overflowY: "auto" } }, props.data.map(function (x) {
-        return (React.createElement("li", { key: x.value, style: props.selected === x.value ? selectedStyle : unselectedStyle, onClick: function (ev) { return props.selected === x.value ? props.onChange(null)
-                : props.onChange(x.value); } }, x.text));
+    var ListBoxElementStyled = (_a = ["\n    cursor: default;\n    text-decoration: none;\n    margin-left: none;\n    padding-left: none;\n\n    padding: 0.25em;\n\n    width: 100%;\n    border-bottom: 1px dotted gray;\n    background-color: white;\n    transition: background-color 100ms ease;\n    :hover {\n      background-color: gray;\n    }\n    ", "\n  "], _a.raw = ["\n    cursor: default;\n    text-decoration: none;\n    margin-left: none;\n    padding-left: none;\n\n    padding: 0.25em;\n\n    width: 100%;\n    border-bottom: 1px dotted gray;\n    background-color: white;\n    transition: background-color 100ms ease;\n    :hover {\n      background-color: gray;\n    }\n    ",
+        "\n  "], styled_components_1.default(ListBoxElement)(_a, function (props) {
+        if (props.selected) {
+            return "\n            background-color: blue;\n            color: white;\n          ";
+        }
+        else {
+            return "";
+        }
+    }));
+    return (React.createElement("ul", { style: {
+            height: "100px",
+            width: "100%",
+            overflowY: "auto",
+            visibility: props.visible ? "visible" : "hidden",
+            position: "absolute",
+            top: INPUT_HEIGHT,
+            left: 0,
+            zIndex: 9,
+            listStyle: "none",
+            margin: 0,
+            padding: 0,
+        } }, props.data.map(function (x) {
+        return (React.createElement(ListBoxElementStyled, { className: props.className, key: x.value, value: x.value, displayText: x.text, selected: props.selected === x.value, onSelect: function (ev) {
+                props.selected === x.value ? props.onChange(null)
+                    : props.onChange(x.value);
+            } }));
     })));
+    var _a;
 };
 var ComboBoxField = (function (_super) {
     __extends(ComboBoxField, _super);
     function ComboBoxField(props) {
         var _this = _super.call(this, props) || this;
+        _this.getDisplayText = function (value) {
+            if (value) {
+                for (var i = 0; i < _this.props.data.length; i++) {
+                    if (_this.props.data[i].value === value) {
+                        return _this.props.data[i].text;
+                    }
+                }
+            }
+            return "not found";
+        };
+        console.log("initialized: " + props.value);
         _this.state = {
-            listBoxOpen: false,
-            searchString: props.value
+            listBoxVisible: false,
+            searchString: _this.getDisplayText(props.value)
         };
         return _this;
     }
+    ComboBoxField.prototype.componentWillReceiveProps = function (newProps) {
+        console.log("recieved: " + newProps.value);
+        this.setState({ searchString: this.getDisplayText(this.props.value) });
+    };
     ComboBoxField.prototype.render = function () {
         var _this = this;
         var validation = this.props.validator ? this.props.validator(this.props.value)
             : field_validation_state_1.default.NEUTRAL;
         return (React.createElement(field_container_1.default, { className: this.props.className, label: this.props.label, validation: validation },
-            React.createElement("div", { className: "field-input-element" },
-                React.createElement("input", { type: "text", value: this.state.searchString }),
-                React.createElement(ListBox, { visible: this.state.listBoxOpen, data: this.props.data, selected: this.props.value, searchString: this.state.searchString, onChange: function (newValue) { return _this.props.onChange(newValue); } }))));
+            React.createElement("div", { className: "field-input-element", style: { position: "relative" } },
+                React.createElement("input", { onFocus: function () { return _this.setState({ listBoxVisible: true }); }, style: { width: "100%", height: INPUT_HEIGHT }, type: "text", value: this.state.searchString, onChange: function (ev) { return _this.setState({ searchString: ev.currentTarget.value }); } }),
+                React.createElement(ListBox, { visible: this.state.listBoxVisible, data: this.props.data, selected: this.props.value, searchString: this.state.searchString, onChange: function (newValue) {
+                        _this.setState({
+                            listBoxVisible: false,
+                        });
+                        _this.props.onChange(newValue);
+                    } }))));
     };
     return ComboBoxField;
 }(React.PureComponent));

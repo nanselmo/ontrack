@@ -33,11 +33,13 @@ const hsPrograms: Array<CPSProgram> = getHSPrograms().sort( alphaSort );
 import "./student-data-form.scss";
 
 interface StudentDataFormProps {
-  studentData: StudentData | null
+  studentData: StudentData
   onChange: (data: StudentData) => any
 }
 
 const StudentDataForm = (props: StudentDataFormProps) => {
+
+  console.log(props.studentData.currESProgram);
 
   const isValidGradeLevel = (gradeLevel: number) => {
     return !Number.isNaN(gradeLevel) && gradeLevel >= 4 && gradeLevel <= 8;
@@ -98,6 +100,7 @@ const StudentDataForm = (props: StudentDataFormProps) => {
     }
   };
 
+  console.log(props.studentData);
   return (
     <div className="student-data-form">
       <div className="student-data-form-subheader"> 
@@ -169,7 +172,7 @@ const StudentDataForm = (props: StudentDataFormProps) => {
         */}
       <ComboBoxField
         label="Do you have a sibling in high school? If so, which school?"
-        value={props.studentData.siblingHSPrograms[0]}
+        value={"test"}
         data={hsPrograms.map( program => ({value: program.ID, text: program.Short_Name + " - " + program.Program_Type}) )}
         onChange={siblingHSProgram => updateStudentData("siblingHSPrograms", [siblingHSProgram])}
       /> 

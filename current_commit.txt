@@ -1,9 +1,25 @@
 [WIP] Draft ComboBoxField component
 
-* refactor ComboBoxField and DropdownField to 
+* DONE refactor ComboBoxField and DropdownField to 
   use data prop rather than props.children to
   pass choices
 
-* write basic ListBox component
+* DONE write basic ListBox component
+
+* DONE style ComboBoxField components
+  ** TODO write shared field style
+
+* TODO get ComboBoxField component working
+  with state updates etc
+  ** I don't know if I'm tired or what but
+    I'm really not making this work right now
+  ** man I'm really feeling the pain of managing
+    state by passing it up and down the component
+    hierarchy. It makes changes very hard, and I
+    keep accidentally creating infinite loops and
+    hard-to-diagnose issues like this because I 
+    don't keep the whole model in my head. 
+    I think I really do need to switch to redux.
+
 
 
