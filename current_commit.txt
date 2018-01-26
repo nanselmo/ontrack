@@ -1,13 +1,7 @@
-Refactor shared form fields component
+[WIP] Draft ComboBoxField component
 
-* draft FieldProps interface, used as a common props interface
-  across all form fields
+* refactor ComboBoxField and DropdownField to not
+  use props.children to recieve options -- extra
+  overhead, plus it gets in the way.
 
-* draft DropdownField
-* draft NumberField
-* draft TextField
-* draft MOCK ComboBoxFieldi
-  ** this is a stub for the moment, because it's the hard one
-
-* include new field components in StudentDataForm
 

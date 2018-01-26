@@ -6,23 +6,48 @@ import createFieldChangeHandler from "./create-field-change-handler";
 
 import styled from "styled-components";
 
-const ComboBoxField: React.SFC<FieldProps> = (props) => {
 
-  const validation = props.validator ? props.validator(props.value) 
-                                     : FieldValidationState.NEUTRAL;
-
-  // TODO: write
-  const ComboBoxSelectorRaw = ({className, onChange, children}) => {
-
-  };
-
+const ListBox: React.SFC<any> = (props) => {
   return (
-    <FieldContainer className={props.className} label={props.label} validation={validation}>
-      <select className="field-input-element" onChange={createFieldChangeHandler(props)}>
-        {props.children}
-      </select>
-    </FieldContainer>
+    <ul>
+      <li></li>
+    </ul>
   );
+};
+
+
+interface CboState {
+  searchString: string 
+  listBoxOpen: boolean
+}
+
+class ComboBoxField extends React.PureComponent<FieldProps, CboState> {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      listBoxOpen: false,
+      searchString: props.value
+    };
+  }
+
+  // essentially the problem: the <select> element expects <option value="">text here</option>.
+  // But ARIA spec uses <li>value</li> for cbobox. Which hmm why?
+  // Can we use React's key? let's see
+
+  render() {
+    const validation = this.props.validator ? this.props.validator(this.props.value) 
+                                       : FieldValidationState.NEUTRAL;
+
+    return (
+      <FieldContainer className={this.props.className} label={this.props.label} validation={validation}>
+        <div className="field-input-element">
+          <input type="text" value={this.state.searchString}/>
+          <ListBox visible={this.state.listBoxOpen} options={unpack(this.props.children)} searchString={this.state.searchString} onChange={() => console.log("Implement me!")}/>
+        </div>
+      </FieldContainer>
+    );
+  }
 };
 
 export default ComboBoxField;
