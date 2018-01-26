@@ -160,10 +160,9 @@ const StudentDataForm = (props: StudentDataFormProps) => {
       <ComboBoxField
         label="What elementary school program are you in now?"
         value={props.studentData.currESProgram}
+        data={esPrograms.map( program => ({value: program.ID, text: program.Short_Name + " - " + program.Program_Type}) )}
         onChange={currESProgram => updateStudentData("currESProgram", currESProgram)}
-      > 
-        { esPrograms.map( program => <option key={program.ID} value={program.ID}>{program.Short_Name + " - " + program.Program_Type}</option>)}
-      </ComboBoxField>
+      /> 
 
       {/* Fixme: only works for one of many possible high schools
         * Solution: MultiSelectComboBoxInput? 
@@ -171,10 +170,9 @@ const StudentDataForm = (props: StudentDataFormProps) => {
       <ComboBoxField
         label="Do you have a sibling in high school? If so, which school?"
         value={props.studentData.siblingHSPrograms[0]}
+        data={hsPrograms.map( program => ({value: program.ID, text: program.Short_Name + " - " + program.Program_Type}) )}
         onChange={siblingHSProgram => updateStudentData("siblingHSPrograms", [siblingHSProgram])}
-      > 
-        { hsPrograms.map( program => <option key={program.ID} value={program.ID}>{program.Short_Name + " - " + program.Program_Type}</option>)}
-      </ComboBoxField>
+      /> 
       
       <AddressTierCalculator
         address={props.studentData.address}

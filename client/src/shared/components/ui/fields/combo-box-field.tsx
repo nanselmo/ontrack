@@ -7,21 +7,52 @@ import createFieldChangeHandler from "./create-field-change-handler";
 import styled from "styled-components";
 
 
-const ListBox: React.SFC<any> = (props) => {
+interface ListBoxProps {
+  visible: boolean
+  searchString: string
+  data: {value: string, text: string}[]
+  selected: string | null
+  onChange: (newValue: string | null) => any
+}
+
+const ListBox: React.SFC<ListBoxProps> = (props) => {
+
+  const selectedStyle = {
+    borderBottom: "1px dotted gray",
+    background: "gray",
+    color: "red",
+  };
+
+  const unselectedStyle = {
+    borderBottom: "1px dotted gray",
+  };
+
   return (
-    <ul>
-      <li></li>
+    <ul style={{height: "100px", width: "100%", overflowY: "auto"}}>
+      {props.data.map( x => {
+        return (
+        <li 
+          key={x.value} 
+          style={ props.selected === x.value ? selectedStyle : unselectedStyle }
+          onClick={ ev => props.selected === x.value ? props.onChange(null) 
+                                                  : props.onChange(x.value) }
+        >{x.text}</li>
+       ) 
+      }) }
     </ul>
   );
 };
 
+interface CboProps extends FieldProps {
+  data: {value: string, text: string}[]
+}
 
 interface CboState {
   searchString: string 
   listBoxOpen: boolean
 }
 
-class ComboBoxField extends React.PureComponent<FieldProps, CboState> {
+class ComboBoxField extends React.PureComponent<CboProps, CboState> {
 
   constructor(props) {
     super(props);
@@ -31,10 +62,6 @@ class ComboBoxField extends React.PureComponent<FieldProps, CboState> {
     };
   }
 
-  // essentially the problem: the <select> element expects <option value="">text here</option>.
-  // But ARIA spec uses <li>value</li> for cbobox. Which hmm why?
-  // Can we use React's key? let's see
-
   render() {
     const validation = this.props.validator ? this.props.validator(this.props.value) 
                                        : FieldValidationState.NEUTRAL;
@@ -43,7 +70,12 @@ class ComboBoxField extends React.PureComponent<FieldProps, CboState> {
       <FieldContainer className={this.props.className} label={this.props.label} validation={validation}>
         <div className="field-input-element">
           <input type="text" value={this.state.searchString}/>
-          <ListBox visible={this.state.listBoxOpen} options={unpack(this.props.children)} searchString={this.state.searchString} onChange={() => console.log("Implement me!")}/>
+          <ListBox 
+            visible={this.state.listBoxOpen} 
+            data={this.props.data} 
+            selected={this.props.value}
+            searchString={this.state.searchString} 
+            onChange={(newValue) => this.props.onChange(newValue)}/>
         </div>
       </FieldContainer>
     );

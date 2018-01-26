@@ -1,7 +1,9 @@
 [WIP] Draft ComboBoxField component
 
-* refactor ComboBoxField and DropdownField to not
-  use props.children to recieve options -- extra
-  overhead, plus it gets in the way.
+* refactor ComboBoxField and DropdownField to 
+  use data prop rather than props.children to
+  pass choices
+
+* write basic ListBox component
 
 
