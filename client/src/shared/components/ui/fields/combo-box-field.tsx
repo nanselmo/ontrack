@@ -3,109 +3,9 @@ import FieldProps from "./field-props";
 import FieldValidationState from "./field-validation-state";
 import FieldContainer from "./field-container";
 import createFieldChangeHandler from "./create-field-change-handler";
+import ListBox from "./list-box";
 
 import styled from "styled-components";
-
-const INPUT_HEIGHT = "20px";
-
-interface ListBoxElemProps {
-  className: string
-  value: string
-  displayText: string
-  onSelect: (value: string) => any
-  selected: boolean
-}
-
-const ListBoxElement: React.SFC<ListBoxElemProps> = (props) => {
-  return (
-    <li 
-      className={props.className}
-      onClick={ ev => {
-        props.onSelect(props.value);
-      }}
-    >
-      {props.displayText}
-    </li>
-  )
-};
-
-
-interface ListBoxProps {
-  className?: string
-  visible: boolean
-  searchString: string
-  data: {value: string, text: string}[]
-  selected: string | null
-  onChange: (newValue: string | null) => any
-}
-
-const ListBox: React.SFC<ListBoxProps> = (props) => {
-
-  const ListBoxElementStyled = styled(ListBoxElement)`
-    cursor: default;
-    text-decoration: none;
-    margin-left: none;
-    padding-left: none;
-
-    padding: 0.25em;
-
-    width: 100%;
-    border-bottom: 1px dotted gray;
-    background-color: white;
-    transition: background-color 100ms ease;
-    :hover {
-      background-color: gray;
-    }
-    ${ props => {
-        if (props.selected) {
-          return `
-            background-color: blue;
-            color: white;
-          `;
-        } else {
-          return "";
-        }
-      }
-    }
-  `;
-
-  return (
-    <ul style={
-      {
-        height: "100px", 
-        width: "100%", 
-        overflowY: "auto", 
-        visibility: props.visible ? "visible" : "hidden", 
-        position: "absolute", 
-        top: INPUT_HEIGHT, 
-        left: 0,
-        zIndex: 9,
-        listStyle: "none",
-        margin: 0,
-        padding: 0,
-      }
-    }>
-      {
-      props.data.map( x => {
-        return (
-          <ListBoxElementStyled
-            className={props.className}
-            key={x.value} 
-            value={x.value}
-            displayText={x.text}
-            selected={props.selected === x.value}
-            onSelect={ ev => {
-              props.selected === x.value ? props.onChange(null) 
-                : props.onChange(x.value);
-              }
-            }
-          />
-         ) 
-       })
-       }
-    </ul>
-  );
-};
 
 interface CboProps extends FieldProps {
   data: {value: string, text: string}[]
@@ -115,6 +15,35 @@ interface CboState {
   searchString: string 
   listBoxVisible: boolean
 }
+
+// this is rul bad
+// hm
+// ok let's see... 
+// let's make some simplifying assumptions, and then complexify
+// the situation later if we need to. Let's say the combobox has props:
+// -- data (/ options): string[] 
+// -- value (/ selected): string
+// -- onChange: string
+//
+// Then, internally, combobox allows typing any intermediate value into
+// the hmmmmmmmmmmmmmmmmmmmmmmmmmmm ok major usability concern I didn't
+// even realize: we don't want a combobox. We want a searchable dropdown.
+// The user shouldn't think that they can type any name in. Ok, so change
+// the UX -- and see if the ARIA spec has anything to say about it.
+//
+// Writing our own form field components is taking some time. Is it worth it?
+// It's taking some guaranteed amount of time in exhange for the uncertainty
+// of introducing more shitty dependencies and having to work with them. You've
+// tried some very well-respected widget libraries (material, bootstrap and react-
+// widgets) and disliked all of them so much that you ended up removing them.
+// I don't think that there's going to be a magical drop-in solution for this
+// problem.
+// Plus, you stand to gain from this, as in stand to gain experience developing
+// components that are reusable. (Which is hard and you need practice at.)
+// So make up for the fact that it's taking you longer by working at it over
+// the weekend. On Monday it would be best if all of the hard prooblems were solved
+// and all that was left was easy problems -- you're going to be running around 
+// with tech issues all day.
 
 class ComboBoxField extends React.PureComponent<CboProps, CboState> {
 
@@ -140,11 +69,6 @@ class ComboBoxField extends React.PureComponent<CboProps, CboState> {
     };
   }
 
-  componentWillReceiveProps(newProps) {
-    console.log("recieved: " + newProps.value);
-    this.setState({searchString: this.getDisplayText(this.props.value)});
-  }
-
   render() {
     const validation = this.props.validator ? this.props.validator(this.props.value) 
                                        : FieldValidationState.NEUTRAL;
@@ -154,7 +78,7 @@ class ComboBoxField extends React.PureComponent<CboProps, CboState> {
         <div className="field-input-element" style={{position: "relative"}}>
           <input 
             onFocus={ () => this.setState({listBoxVisible: true}) } 
-            style={{width: "100%", height: INPUT_HEIGHT}}
+            style={{width: "100%", height: "20px"}}
             type="text" 
             value={this.state.searchString}
             onChange={ ev => this.setState({searchString: ev.currentTarget.value}) }
@@ -167,6 +91,7 @@ class ComboBoxField extends React.PureComponent<CboProps, CboState> {
             onChange={ (newValue) => {
               this.setState({
                 listBoxVisible: false,
+                searchString: this.getDisplayText(newValue)
               });
               this.props.onChange(newValue)
             } }
