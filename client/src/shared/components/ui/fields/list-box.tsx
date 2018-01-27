@@ -1,66 +1,46 @@
 import * as React from "react";
 import styled from "styled-components";
 
-interface ListBoxElemProps {
-  className: string
-  value: string
-  displayText: string
-  onSelect: (value: string) => any
-  selected: boolean
-}
+import ListBoxElement from "./list-box-element"
 
-const ListBoxElement: React.SFC<ListBoxElemProps> = (props) => {
-  return (
-    <li 
-      className={props.className}
-      onClick={ ev => {
-        props.onSelect(props.value);
-      }}
-    >
-      {props.displayText}
-    </li>
-  )
-};
-
-
-interface ListBoxProps {
+interface ListBoxProps<T> {
   className?: string
   visible: boolean
   searchString: string
-  data: {value: string, text: string}[]
-  selected: string | null
-  onChange: (newValue: string | null) => any
+  data: {records: T[], getKey: (record: T) => string, getDisplayText: (record: T) => string}
+  selected: T | null
+  onChange: (newValue: T | null) => any
 }
 
-const ListBox: React.SFC<ListBoxProps> = (props) => {
+const ListBoxElementStyled = styled(ListBoxElement)`
+  cursor: default;
+  text-decoration: none;
+  margin-left: none;
+  padding-left: none;
 
-  const ListBoxElementStyled = styled(ListBoxElement)`
-    cursor: default;
-    text-decoration: none;
-    margin-left: none;
-    padding-left: none;
+  padding: 0.25em;
 
-    padding: 0.25em;
-
-    width: 100%;
-    border-bottom: 1px dotted gray;
-    background-color: white;
-    transition: background-color 100ms ease;
-    :hover {
-      background-color: gray;
-    }
-    ${ props => {
-        if (props.selected) {
-          return `
-            background-color: blue;
-            color: white;
-          `;
-        } else {
-          return "";
-        }
+  width: 100%;
+  border-bottom: 1px dotted gray;
+  background-color: white;
+  transition: background-color 100ms ease;
+  :hover {
+    background-color: gray;
+  }
+  ${ props => {
+      if (props.selected) {
+        return `
+          background-color: blue;
+          color: white;
+        `;
+      } else {
+        return "";
       }
     }
-  `;
+  }
+`;
+
+  const ListBox: React.SFC<ListBoxProps<any>> = (props) => {
 
   return (
     <ul style={
@@ -79,24 +59,17 @@ const ListBox: React.SFC<ListBoxProps> = (props) => {
         padding: 0,
       }
     }>
-      {
-      props.data.map( x => {
-        return (
-          <ListBoxElementStyled
+    { props.data.records.map( opt => <ListBoxElementStyled
+            key={props.data.getKey(opt)}
             className={props.className}
-            key={x.value} 
-            value={x.value}
-            displayText={x.text}
-            selected={props.selected === x.value}
-            onSelect={ ev => {
-              props.selected === x.value ? props.onChange(null) 
-                : props.onChange(x.value);
-              }
-            }
-          />
-         ) 
-       })
-       }
+            value={ props.data.getKey(opt) } 
+            selected={ props.selected === props.data.getKey(opt)}
+            onSelect={ ev => props.selected === props.data.getKey(opt) ? props.onChange(null) 
+                                                      : props.onChange(opt) }
+          >
+            {props.data.getDisplayText(opt)}
+          </ListBoxElementStyled>
+      ) }
     </ul>
   );
 };

@@ -1,25 +1,18 @@
-[WIP] Draft ComboBoxField component
+Draft ComboBoxField component
 
-* DONE refactor ComboBoxField and DropdownField to 
-  use data prop rather than props.children to
-  pass choices
+* a lil messy but it works without tight coupling
+  to data being passed to it -- on the down side,
+  it requires a somewhat complicated data passing
+  mechanism that I should look to simplify.
+  (Data is passed to combobox as object with three properties:
+  records, containing array of all data, getKey,
+  containing function taking type record and returning
+  a unique string, and getDisplayName, a function
+  taking type record and returning the name that
+  should be shown for that option. That's the most
+  flexible, but ... seems like a lot? In any case,
+  it works
 
-* DONE write basic ListBox component
-
-* DONE style ComboBoxField components
-  ** TODO write shared field style
-
-* TODO get ComboBoxField component working
-  with state updates etc
-  ** I don't know if I'm tired or what but
-    I'm really not making this work right now
-  ** man I'm really feeling the pain of managing
-    state by passing it up and down the component
-    hierarchy. It makes changes very hard, and I
-    keep accidentally creating infinite loops and
-    hard-to-diagnose issues like this because I 
-    don't keep the whole model in my head. 
-    I think I really do need to switch to redux.
-
+* TODO IN FUTURE there's some dead code in shared/ui/fields
 
 
