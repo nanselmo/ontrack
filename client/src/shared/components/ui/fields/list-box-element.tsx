@@ -1,7 +1,6 @@
 import * as React from "react";
 
 interface ListBoxElemProps {
-  className: string
   value: string
   onSelect: (value: string) => any
   selected: boolean
@@ -10,7 +9,7 @@ interface ListBoxElemProps {
 const ListBoxElement: React.SFC<ListBoxElemProps> = (props) => {
   return (
     <li 
-      className={props.className}
+      className="list-box-element"
       onClick={ ev => {
         props.onSelect(props.value);
       }}

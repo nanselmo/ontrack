@@ -1,18 +1,8 @@
-Draft ComboBoxField component
+[WIP] Style form fields
 
-* a lil messy but it works without tight coupling
-  to data being passed to it -- on the down side,
-  it requires a somewhat complicated data passing
-  mechanism that I should look to simplify.
-  (Data is passed to combobox as object with three properties:
-  records, containing array of all data, getKey,
-  containing function taking type record and returning
-  a unique string, and getDisplayName, a function
-  taking type record and returning the name that
-  should be shown for that option. That's the most
-  flexible, but ... seems like a lot? In any case,
-  it works
-
-* TODO IN FUTURE there's some dead code in shared/ui/fields
-
-
+* DONE move in-component styles to common scss file
+  ** DONE remove styled-components dependency
+* DONE add default classNames to form field components
+* TODO write rough, first-pass common form field styles
+* TODO write validation state styles and add validation-
+  state classNames to components

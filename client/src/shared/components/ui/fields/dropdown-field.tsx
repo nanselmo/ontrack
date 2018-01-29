@@ -4,8 +4,6 @@ import FieldValidationState from "./field-validation-state";
 import FieldContainer from "./field-container";
 import createFieldChangeHandler from "./create-field-change-handler";
 
-import styled from "styled-components";
-
 const DropdownField: React.SFC<FieldProps> = (props) => {
 
   const validation = props.validator ? props.validator(props.value) 

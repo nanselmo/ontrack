@@ -9,8 +9,6 @@ import ListOption from "./list-option";
 import getDisplayText from "./get-display-text";
 import getKey from "./get-key";
 
-import styled from "styled-components";
-
 interface CboProps<T> {
   value: T | null
   onChange: (newOpt: ListOption) => any
