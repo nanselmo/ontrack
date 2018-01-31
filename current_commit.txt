@@ -1,8 +1,8 @@
-[WIP] Style form fields
+Style form fields
 
-* DONE move in-component styles to common scss file
-  ** DONE remove styled-components dependency
-* DONE add default classNames to form field components
-* TODO write rough, first-pass common form field styles
-* TODO write validation state styles and add validation-
-  state classNames to components
+* move in-component styles to common scss file
+  ** remove styled-components dependency
+* add default classNames to form field components
+* write rough, first-pass common form field styles
+* write validation state styles and add validation-
+    state classNames to components
