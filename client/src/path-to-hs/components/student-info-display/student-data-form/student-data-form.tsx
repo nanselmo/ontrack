@@ -12,6 +12,7 @@ import {scoreToString, tryParseScore} from "shared/util/grade-convert";
 
 import DropdownField from "shared/components/ui/fields/dropdown-field";
 import ComboBoxField from "shared/components/ui/fields/combo-box-field";
+import MultiSelectField from "shared/components/ui/fields/multi-select-field";
 import TextField from "shared/components/ui/fields/text-field";
 import NumberField from "shared/components/ui/fields/number-field";
 
@@ -33,11 +34,13 @@ const hsPrograms: Array<CPSProgram> = getHSPrograms().sort( alphaSort );
 import "./student-data-form.scss";
 
 interface StudentDataFormProps {
-  studentData: StudentData | null
+  studentData: StudentData
   onChange: (data: StudentData) => any
 }
 
 const StudentDataForm = (props: StudentDataFormProps) => {
+
+  console.log(props.studentData.currESProgram);
 
   const isValidGradeLevel = (gradeLevel: number) => {
     return !Number.isNaN(gradeLevel) && gradeLevel >= 4 && gradeLevel <= 8;
@@ -98,6 +101,7 @@ const StudentDataForm = (props: StudentDataFormProps) => {
     }
   };
 
+  console.log(props.studentData);
   return (
     <div className="student-data-form">
       <div className="student-data-form-subheader"> 
@@ -160,21 +164,16 @@ const StudentDataForm = (props: StudentDataFormProps) => {
       <ComboBoxField
         label="What elementary school program are you in now?"
         value={props.studentData.currESProgram}
+        data={{records: esPrograms, getKey: (program) => program.ID, getDisplayText: (program) => program.Short_Name + " - " + program.Program_Type }}
         onChange={currESProgram => updateStudentData("currESProgram", currESProgram)}
-      > 
-        { esPrograms.map( program => <option key={program.ID} value={program.ID}>{program.Short_Name + " - " + program.Program_Type}</option>)}
-      </ComboBoxField>
+      /> 
 
-      {/* Fixme: only works for one of many possible high schools
-        * Solution: MultiSelectComboBoxInput? 
-        */}
-      <ComboBoxField
+      <MultiSelectField
         label="Do you have a sibling in high school? If so, which school?"
-        value={props.studentData.siblingHSPrograms[0]}
-        onChange={siblingHSProgram => updateStudentData("siblingHSPrograms", [siblingHSProgram])}
-      > 
-        { hsPrograms.map( program => <option key={program.ID} value={program.ID}>{program.Short_Name + " - " + program.Program_Type}</option>)}
-      </ComboBoxField>
+        values={props.studentData.siblingHSPrograms}
+        data={{records: hsPrograms, getKey: (program) => program.ID, getDisplayText: (program) => program.Short_Name + " - " + program.Program_Type }}
+        onChange={siblingHSPrograms => updateStudentData("siblingHSPrograms", siblingHSPrograms)}
+      /> 
       
       <AddressTierCalculator
         address={props.studentData.address}

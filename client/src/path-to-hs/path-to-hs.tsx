@@ -35,6 +35,7 @@ class PathToHS extends React.Component<PathToHSProps, PathToHSState> {
 
   private handleStudentDataChange = (newStudentData: StudentData) => {
     newStudentData.gpa = calculateGPA(newStudentData.scores);
+    console.log(newStudentData);
     this.setState({
       studentData: newStudentData,
     });

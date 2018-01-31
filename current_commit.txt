@@ -1,13 +1,15 @@
-Refactor shared form fields component
+Write MultiSelectField component
 
-* draft FieldProps interface, used as a common props interface
-  across all form fields
+* use combobox listBox filtering code
+* special input fields:
+  ** display new ComboBox input for each value in props.values
+  ** button to remove each child ComboBox
+  ** button to add new ComboBox
 
-* draft DropdownField
-* draft NumberField
-* draft TextField
-* draft MOCK ComboBoxFieldi
-  ** this is a stub for the moment, because it's the hard one
-
-* include new field components in StudentDataForm
+* TODO IN FUTURE need to solve one last annoying problem --
+  new input does not automatically refresh to empty string
+  when user makes selection and new input appears. Not
+  completely sure why! Will need to figure it out...
+  ** NOTE but I am pretty impressed with myself for figuring
+    this out so quickly. Killin' it Michael.
 

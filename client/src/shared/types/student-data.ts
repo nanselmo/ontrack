@@ -1,6 +1,7 @@
 import StudentScores from "shared/types/student-scores";
 import AdditionalRequirements from "shared/types/additional-requirements";
 import Geolocation from "shared/types/geolocation";
+import CPSProgram from "shared/types/cps-program";
 import Gender from "shared/enums/gender";
 
 type GradeLevel = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
@@ -16,14 +17,14 @@ export default interface StudentInfo {
 
   gradeLevel: GradeLevel
   prevGradeLevel: GradeLevel
-  currESProgram?: string
+  currESProgram?: CPSProgram
   ell: boolean
   iep: boolean
   attendancePercentage: number
   gpa: number
   scores: StudentScores
 
-  siblingHSPrograms: string[]
+  siblingHSPrograms: CPSProgram[]
 
   seTestPercentile?: number
 }
