@@ -1,5 +1,4 @@
 import * as React from "react";
-import FieldProps from "./field-props";
 import FieldValidationState from "./field-validation-state";
 import ListData from "./list-data";
 import FieldContainer from "./field-container";
