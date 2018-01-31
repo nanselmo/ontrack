@@ -161,13 +161,10 @@ const StudentDataForm = (props: StudentDataFormProps) => {
         <option value="false">No</option>
       </DropdownField>
 
-      {/* TODO -- rethink this whole thing... ideally, need to return key/value pair
-        without introducing tight coupling between the comboBox component and the parent
-        using it*/}
       <ComboBoxField
         label="What elementary school program are you in now?"
         value={props.studentData.currESProgram}
-        data={{records: esPrograms, getKey: (program) => program.ID, getDisplayText: (program) => program.Short_Name + program.Program_Type }}
+        data={{records: esPrograms, getKey: (program) => program.ID, getDisplayText: (program) => program.Short_Name + " - " + program.Program_Type }}
         onChange={currESProgram => updateStudentData("currESProgram", currESProgram)}
       /> 
 
@@ -177,7 +174,7 @@ const StudentDataForm = (props: StudentDataFormProps) => {
       <ComboBoxField
         label="Do you have a sibling in high school? If so, which school?"
         value={props.studentData.siblingHSPrograms[0]}
-        data={{records: hsPrograms, getKey: (program) => program.ID, getDisplayText: (program) => program.Short_Name + program.Program_Type }}
+        data={{records: hsPrograms, getKey: (program) => program.ID, getDisplayText: (program) => program.Short_Name + " - " + program.Program_Type }}
         onChange={siblingHSProgram => updateStudentData("siblingHSPrograms", [getKey(siblingHSProgram)])}
       /> 
       

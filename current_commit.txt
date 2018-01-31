@@ -1,8 +1,10 @@
-Style form fields
+Finish ComboBoxField component
 
-* move in-component styles to common scss file
-  ** remove styled-components dependency
-* add default classNames to form field components
-* write rough, first-pass common form field styles
-* write validation state styles and add validation-
-    state classNames to components
+* show listBox on focus
+* reduce listBox entries based on searchString
+* NOTE may run into perf problems due to display name
+  and key access methods. Architecture rethinky time
+  can come later, and there are much bigger fish to
+  fry in the performance area.
+
+

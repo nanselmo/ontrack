@@ -9,10 +9,16 @@ import ListOption from "./list-option";
 import getDisplayText from "./get-display-text";
 import getKey from "./get-key";
 
+interface ListData<T> {
+  records: T[]
+  getKey: (record: T) => string
+  getDisplayText: (recort: T) => string
+}
+
 interface CboProps<T> {
   value: T | null
   onChange: (newOpt: ListOption) => any
-  data: {records: T[], getKey: (record: T) => string, getDisplayText: (recort: T) => string};
+  data: ListData<T>
 
   label?: string
   placeholder?: string
@@ -33,9 +39,25 @@ class ComboBoxField extends React.PureComponent<CboProps<any>, CboState> {
   constructor(props) {
     super(props);
     this.state = {
-      searchString: props.value ? getDisplayText(props.value) : " ",
+      searchString: props.value ? getDisplayText(props.value) : "",
       listBoxVisible: false
     }
+  }
+
+  private filter = (data: ListData<any>, filterString: string) => {
+
+    const filteredRecords = data.records.filter( x => {
+      const displayText = data.getDisplayText(x);
+      const re = new RegExp(filterString, "i");
+      const containsSearchString = re.test(displayText);
+      return containsSearchString;
+    });
+
+    return {
+      records: filteredRecords,
+      getKey: data.getKey,
+      getDisplayText: data.getDisplayText,
+    };
   }
 
   render() {
@@ -49,17 +71,25 @@ class ComboBoxField extends React.PureComponent<CboProps<any>, CboState> {
         validation={validation}
       >
       
-        <div className="field-input-element" style={{position: "relative"}}>
+      <div 
+        className="field-input-element" 
+        style={{position: "relative"}}
+        >
           <input 
-            onFocus={ () => this.setState({listBoxVisible: true}) } 
             style={{width: "100%", height: "20px"}}
             type="text" 
-            value={this.state.searchString || " "}
+            value={this.state.searchString}
             onChange={ ev => this.setState({searchString: ev.currentTarget.value}) }
+            onFocus={ () => {
+              this.setState({listBoxVisible: true});
+            } } 
+            onBlur={ () => {
+              this.setState({listBoxVisible: false});
+            } }
           />
           <ListBox 
             visible={this.state.listBoxVisible} 
-            data={this.props.data} 
+            data={this.filter(this.props.data, this.state.searchString)} 
             selected={this.props.value}
             searchString={this.state.searchString} 
             onChange={ (opt: any) => {
