@@ -14576,19 +14576,7 @@ exports.default = Box;
 
 
 /***/ }),
-/* 167 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var isKeyedListOption = function (opt) {
-    return typeof opt !== "string";
-};
-exports.default = isKeyedListOption;
-
-
-/***/ }),
+/* 167 */,
 /* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31029,12 +31017,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var field_validation_state_1 = __webpack_require__(74);
 var field_container_1 = __webpack_require__(75);
-var create_field_change_handler_1 = __webpack_require__(109);
 var DropdownField = function (props) {
     var validation = props.validator ? props.validator(props.value)
         : field_validation_state_1.default.NEUTRAL;
+    var createFieldChangeHandler = function (props) {
+        return function (ev) {
+            var newValue = ev.currentTarget.value;
+            var shouldUpdate = props.restrictor ? props.restrictor(newValue)
+                : true;
+            if (shouldUpdate) {
+                props.onChange(newValue);
+            }
+        };
+    };
     return (React.createElement(field_container_1.default, { className: props.className, label: props.label, validation: validation },
-        React.createElement("select", { className: "field-input-element", onChange: create_field_change_handler_1.default(props) }, props.children)));
+        React.createElement("select", { className: "field-input-element", onChange: createFieldChangeHandler(props) }, props.children)));
 };
 exports.default = DropdownField;
 
@@ -31117,7 +31114,6 @@ var React = __webpack_require__(0);
 var field_validation_state_1 = __webpack_require__(74);
 var field_container_1 = __webpack_require__(75);
 var list_box_1 = __webpack_require__(331);
-var get_display_text_1 = __webpack_require__(333);
 var ComboBoxField = (function (_super) {
     __extends(ComboBoxField, _super);
     function ComboBoxField(props) {
@@ -31136,7 +31132,7 @@ var ComboBoxField = (function (_super) {
             };
         };
         _this.state = {
-            searchString: props.value ? get_display_text_1.default(props.value) : "",
+            searchString: props.value ? props.data.getDisplayText(props.value) : "",
             listBoxVisible: false
         };
         return _this;
@@ -31152,12 +31148,12 @@ var ComboBoxField = (function (_super) {
                     }, onBlur: function () {
                         _this.setState({ listBoxVisible: false });
                     } }),
-                React.createElement(list_box_1.default, { visible: this.state.listBoxVisible, data: this.filter(this.props.data, this.state.searchString), selected: this.props.value, searchString: this.state.searchString, onChange: function (opt) {
+                React.createElement(list_box_1.default, { visible: this.state.listBoxVisible, data: this.filter(this.props.data, this.state.searchString), selected: this.props.value, searchString: this.state.searchString, onChange: function (record) {
                         _this.setState({
                             listBoxVisible: false,
-                            searchString: _this.props.data.getDisplayText(opt)
+                            searchString: _this.props.data.getDisplayText(record)
                         });
-                        _this.props.onChange(opt);
+                        _this.props.onChange(record);
                     } }))));
     };
     return ComboBoxField;
@@ -31203,42 +31199,11 @@ exports.default = ListBoxElement;
 
 
 /***/ }),
-/* 333 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var is_keyed_list_option_1 = __webpack_require__(167);
-var getDisplayText = function (opt) {
-    if (is_keyed_list_option_1.default(opt)) {
-        return opt.displayText;
-    }
-    else {
-        return opt;
-    }
-};
-exports.default = getDisplayText;
-
-
-/***/ }),
+/* 333 */,
 /* 334 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var is_keyed_list_option_1 = __webpack_require__(167);
-var getKey = function (opt) {
-    if (is_keyed_list_option_1.default(opt)) {
-        return opt.key;
-    }
-    else {
-        return opt;
-    }
-};
-exports.default = getKey;
-
+throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/home/michael/code/ontrack/client/src/shared/components/ui/fields/get-key.ts'");
 
 /***/ }),
 /* 335 */

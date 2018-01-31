@@ -1,5 +1,3 @@
-import KeyedListOption from "./keyed-list-option";
-
-type ListOption = string | KeyedListOption;
+type ListOption = {key: string, displayText: string};
 
 export default ListOption;
