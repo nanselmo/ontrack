@@ -1,23 +1,14 @@
 import * as React from "react";
 import FieldProps from "./field-props";
 import FieldValidationState from "./field-validation-state";
+import ListData from "./list-data";
 import FieldContainer from "./field-container";
-import createFieldChangeHandler from "./create-field-change-handler";
 
 import ListBox from "./list-box";
-import ListOption from "./list-option";
-import getDisplayText from "./get-display-text";
-import getKey from "./get-key";
-
-interface ListData<T> {
-  records: T[]
-  getKey: (record: T) => string
-  getDisplayText: (recort: T) => string
-}
 
 interface CboProps<T> {
   value: T | null
-  onChange: (newOpt: ListOption) => any
+  onChange: (newValue: T) => any
   data: ListData<T>
 
   label?: string
@@ -39,9 +30,16 @@ class ComboBoxField extends React.PureComponent<CboProps<any>, CboState> {
   constructor(props) {
     super(props);
     this.state = {
-      searchString: props.value ? getDisplayText(props.value) : "",
+      searchString: props.value ? props.data.getDisplayText(props.value) : "",
       listBoxVisible: false
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // replace state.searchString with new value if passed in
+    this.setState({
+      searchString: nextProps.value ? nextProps.data.getDisplayText(nextProps.value) : "",
+    });
   }
 
   private filter = (data: ListData<any>, filterString: string) => {
@@ -72,10 +70,10 @@ class ComboBoxField extends React.PureComponent<CboProps<any>, CboState> {
       >
       
       <div 
-        className="field-input-element" 
         style={{position: "relative"}}
         >
           <input 
+            className="field-input-element" 
             style={{width: "100%", height: "20px"}}
             type="text" 
             value={this.state.searchString}
@@ -92,12 +90,12 @@ class ComboBoxField extends React.PureComponent<CboProps<any>, CboState> {
             data={this.filter(this.props.data, this.state.searchString)} 
             selected={this.props.value}
             searchString={this.state.searchString} 
-            onChange={ (opt: any) => {
+            onChange={ (record: any) => {
               this.setState({
                 listBoxVisible: false,
-                searchString: this.props.data.getDisplayText(opt)
+                searchString: this.props.data.getDisplayText(record)
               });
-              this.props.onChange(opt)
+              this.props.onChange(record)
             } }
             />
         </div>

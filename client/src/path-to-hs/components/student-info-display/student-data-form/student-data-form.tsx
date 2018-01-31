@@ -12,7 +12,7 @@ import {scoreToString, tryParseScore} from "shared/util/grade-convert";
 
 import DropdownField from "shared/components/ui/fields/dropdown-field";
 import ComboBoxField from "shared/components/ui/fields/combo-box-field";
-import getKey from "shared/components/ui/fields/get-key";
+import MultiSelectField from "shared/components/ui/fields/multi-select-field";
 import TextField from "shared/components/ui/fields/text-field";
 import NumberField from "shared/components/ui/fields/number-field";
 
@@ -168,14 +168,11 @@ const StudentDataForm = (props: StudentDataFormProps) => {
         onChange={currESProgram => updateStudentData("currESProgram", currESProgram)}
       /> 
 
-      {/* Fixme: only works for one of many possible high schools
-        * Solution: MultiSelectComboBoxInput? 
-        */}
-      <ComboBoxField
+      <MultiSelectField
         label="Do you have a sibling in high school? If so, which school?"
-        value={props.studentData.siblingHSPrograms[0]}
+        values={props.studentData.siblingHSPrograms}
         data={{records: hsPrograms, getKey: (program) => program.ID, getDisplayText: (program) => program.Short_Name + " - " + program.Program_Type }}
-        onChange={siblingHSProgram => updateStudentData("siblingHSPrograms", [getKey(siblingHSProgram)])}
+        onChange={siblingHSPrograms => updateStudentData("siblingHSPrograms", siblingHSPrograms)}
       /> 
       
       <AddressTierCalculator

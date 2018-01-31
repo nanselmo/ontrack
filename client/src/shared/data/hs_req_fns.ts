@@ -248,7 +248,7 @@ const inAttendanceBound = (student: StudentData, school: CPSProgram): boolean =>
 };
 
 const hasSiblingInProgram = (student: StudentData, program: CPSProgram) => {
-  const siblingAttends = student.siblingHSPrograms.indexOf(program.ID) !== -1;
+  const siblingAttends = student.siblingHSPrograms.some( siblingProgram => siblingProgram.ID === program.ID );
   if (siblingAttends) {
     return true;
   } else {
