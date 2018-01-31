@@ -7,8 +7,8 @@ import Gender from "shared/enums/gender";
 type GradeLevel = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 
 export default interface StudentInfo {
-  studentFirstName: string
-  studentLastName: string
+  studentFirstName?: string
+  studentLastName?: string
   gender: Gender
 
   address: string

@@ -1,7 +1,6 @@
 @import "../../../../shared/styles/variables";
 
 .address-tier-calculator {
-  width: 500px;
   margin-top: $margin-sm;
   display: flex;
   flex-direction: row;
@@ -20,9 +19,15 @@
 
 .address-status-message {
   position: absolute;
-  bottom: -25;
   color: $col-app-gray;
   font-size: 90%;
   font-style: italic;
 }
 
+.tier-display {
+  padding: 6px 10px;
+  border: 1px dotted $col-app-gray;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 125%;
+}

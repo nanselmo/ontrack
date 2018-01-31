@@ -1,12 +1,13 @@
 import * as React from "react";
 
 import Timeout from "shared/util/timeout";
-import {Form, FormGroup, FormControl, ControlLabel} from "react-bootstrap";
-import TierDisplay from "./tier-display";
 
+import TextField from "shared/components/ui/fields/text-field";
+import FieldValidationState from "shared/components/ui/fields/field-validation-state";
 import {getTier, GetTierError} from "shared/util/get-tier";
 
 import "./address-tier-calculator.scss";
+import "./spinning-load-icon.scss";
 
 type Geolocation = {latitude: number, longitude: number};
 interface AddressInfo {
@@ -31,7 +32,7 @@ interface AddrTierCalcState {
   request?: Promise<string> 
   timeoutInstance?: Timeout | null
   requestInProgress: boolean
-  addressValidationState: null | "success" | "warning" | "error"
+  addressValidationState: FieldValidationState
 }
 
 export default class AddressTierCalculator extends React.Component<AddrTierCalcProps, AddrTierCalcState> {
@@ -44,7 +45,7 @@ export default class AddressTierCalculator extends React.Component<AddrTierCalcP
       geo: props.geolocation ? props.geolocation : {latitude: 0, longitude: 0},
       timeoutInstance: null,
       requestInProgress: false,
-      addressValidationState: null
+      addressValidationState: FieldValidationState.NEUTRAL
     };
   } 
 
@@ -60,18 +61,16 @@ export default class AddressTierCalculator extends React.Component<AddrTierCalcP
     }
   }
 
-  private handleAddressChange = (event: React.ChangeEvent<any>): void => {
-    const address: string = event.target.value;
+  private handleAddressChange = (address: string): void => {
     const TIMEOUT_DELAY = 1000; // ms
 
     this.setState({
       address: address,
-      addressValidationState: null,
+      addressValidationState: FieldValidationState.NEUTRAL,
       tier: null
     });
 
     const validate = (address: string) => {
-      // TODO: extend
       return address && address.length > 5;
     };
 
@@ -88,7 +87,7 @@ export default class AddressTierCalculator extends React.Component<AddrTierCalcP
           this.setState({
             tier: tier,
             geo: geo,
-            addressValidationState: "success"
+            addressValidationState: FieldValidationState.SUCCESS
           });
           this.setRequestInProgress(false);
           this.props.onAddressChange(address.trim());
@@ -98,17 +97,17 @@ export default class AddressTierCalculator extends React.Component<AddrTierCalcP
         }).catch( err => {
           if (err === GetTierError.InvalidAddressErr) {
             this.setState({
-              addressValidationState: "error"
+              addressValidationState: FieldValidationState.FAILURE
             });
             this.setRequestInProgress(false);
           } else if (err === GetTierError.NoTierFoundErr) {
             this.setState({
-              addressValidationState: "warning"
+              addressValidationState: FieldValidationState.WARNING
             });
             this.setRequestInProgress(false);
           } else if (err === GetTierError.RequestFailedErr) {
             this.setState({
-              addressValidationState: "warning"
+              addressValidationState: FieldValidationState.WARNING
             });
             this.setRequestInProgress(false);
           }
@@ -142,40 +141,24 @@ export default class AddressTierCalculator extends React.Component<AddrTierCalcP
   }
 
   render() {
-    return (
-    <div className="address-tier-calculator">
-      <div className="address-field-wrapper">
-        <Form>
-          <FormGroup 
-            controlId="address"
-            validationState={this.state.addressValidationState} >
-            <ControlLabel>Your street address</ControlLabel>
-            <FormControl
-              type="text"
-              value={this.state.address ? this.state.address : " " }
-              onChange={this.handleAddressChange}
-            />
-            <FormControl.Feedback/>
-          </FormGroup>
-        </Form>
-        { this.state.addressValidationState &&
-            this.state.addressValidationState !== "success" &&
-            <div className="address-status-message">
-              {this.displayStatusMessage(this.state.addressValidationState)}
-            </div>
+    return <div className="address-tier-calculator">
+      <TextField
+        label="Your street address"
+        value={this.state.address ? this.state.address : " " }
+        onChange={this.handleAddressChange}
+      />
+      <div className="tier-display">
+        { this.state.requestInProgress 
+              ? <div className="spinning-load-icon">Loading...</div>
+              : (this.state.tier ? this.state.tier : "")
         }
       </div>
-      <div className="tier-display-wrapper">
-        <FormGroup
-          controlId="tier"
-          validationState={this.state.addressValidationState}>
-          <ControlLabel>Your CPS Tier</ControlLabel>
-          <TierDisplay
-            inProgress={this.state.requestInProgress}
-            value={this.state.tier ? this.state.tier : " "}/>
-        </FormGroup>
-      </div>
+      { this.state.addressValidationState !== FieldValidationState.SUCCESS &&
+        this.state.addressValidationState !== FieldValidationState.NEUTRAL &&
+          <div className="address-status-message">
+            {this.displayStatusMessage(this.state.addressValidationState)}
+          </div>
+      }
     </div>
-    )
   }
 }

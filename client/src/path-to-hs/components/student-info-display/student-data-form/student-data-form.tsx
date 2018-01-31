@@ -40,44 +40,6 @@ interface StudentDataFormProps {
 
 const StudentDataForm = (props: StudentDataFormProps) => {
 
-  console.log(props.studentData.currESProgram);
-
-  const isValidGradeLevel = (gradeLevel: number) => {
-    return !Number.isNaN(gradeLevel) && gradeLevel >= 4 && gradeLevel <= 8;
-  };
-
-  const isValidNweaPercentile = (pctile: number) => {
-    return !Number.isNaN(pctile) && pctile >= 1 && pctile <= 99;
-  };
-
-  const isValidSubjGrade = (grade: number) => {
-    return !Number.isNaN(grade) && grade >= 0 && grade <= 100;
-  };
-
-  const isValidAttendPercentage = (attendPct: number) => {
-    return !Number.isNaN(attendPct) && attendPct >= 0 && attendPct <= 100;
-  };
-
-  const isValidSETestPercentile = (pctile: number) => {
-    return !Number.isNaN(pctile) && pctile >= 1 && pctile <= 99;
-  }
-
-  const validateNWEAPercentile = (pct: number): ValidationState => {
-    if (isValidNweaPercentile(pct)) {
-      return ValidationState.VALID;
-    } else {
-      return ValidationState.INVALID;
-    }
-  };
-
-  const validateSubjGrade = (grade: number): ValidationState => {
-    if (isValidSubjGrade(grade)) {
-      return ValidationState.VALID;
-    } else {
-      return ValidationState.INVALID;
-    }
-  };
-
   const updateStudentData = (prop: string, value: any): void => {
     console.log(`${prop}: ${value}`);
     if (props.studentData[prop] !== value) {
@@ -94,188 +56,138 @@ const StudentDataForm = (props: StudentDataFormProps) => {
     }
   };
 
-  const toOptions = (program: CPSProgram) => {
-    return {
-      value: program.ID,
-      text: `${program.Short_Name} - ${program.Program_Type}`
-    }
-  };
-
   console.log(props.studentData);
   return (
     <div className="student-data-form">
       <div className="student-data-form-subheader"> 
         Your student information 
       </div>
-      <TextField
-        placeholder="Your first name..."
-        value={props.studentData.studentFirstName}
-        onChange={fname => updateStudentData("studentFirstName", fname)}
-      />
-      <TextField
-        placeholder="Your last name..."
-        value={props.studentData.studentLastName}
-        onChange={lname => updateStudentData("studentLastName", lname)}
-      />
-      <DropdownField
-        label="What grade are you in?"
-        value={props.studentData.gradeLevel.toString()}
-        onChange={grade => {
-          if (isValidGradeLevel(parseInt(grade))) {
-            updateStudentData("gradeLevel", grade)
-          }
-        } }
-      >
-        <option value="4">4th grade</option>
-        <option value="5">5th grade</option>
-        <option value="6">6th grade</option>
-        <option value="7">7th grade</option>
-        <option value="8">8th grade</option>
-      </DropdownField>
-      <DropdownField
-        label="What's your gender?"
-        value={props.studentData.gender.toString()}
-        onChange={gender => updateStudentData("gender", gender)}
-      >
-        <option value={Gender.MALE.toString()}>Boy</option>
-        <option value={Gender.FEMALE.toString()}>Girl</option>
-        <option value={Gender.OTHER.toString()}>Other</option>
-        <option value={Gender.NOANSWER.toString()}>Prefer not to answer</option>
-      </DropdownField>
+      <div className="student-data-form-subform">
+          <DropdownField
+            label="What grade are you in?"
+            value={props.studentData.gradeLevel.toString()}
+            onChange={grade => updateStudentData("gradeLevel", grade)}
+          >
+            <option value="4">4th grade</option>
+            <option value="5">5th grade</option>
+            <option value="6">6th grade</option>
+            <option value="7">7th grade</option>
+            <option value="8">8th grade</option>
+          </DropdownField>
+          <DropdownField
+            label="What's your gender?"
+            value={props.studentData.gender.toString()}
+            onChange={gender => updateStudentData("gender", gender)}
+          >
+            <option value={Gender.MALE.toString()}>Boy</option>
+            <option value={Gender.FEMALE.toString()}>Girl</option>
+            <option value={Gender.OTHER.toString()}>Other</option>
+            <option value={Gender.NOANSWER.toString()}>Prefer not to answer</option>
+          </DropdownField>
 
-      <DropdownField
-        label="Do you have an IEP?"
-        value={props.studentData.iep ? "true" : "false"}
-        onChange={iep => updateStudentData("iep", iep === "true" ? true : false)}
-      >
-        <option value="true">Yes</option>
-        <option value="false">No</option>
-      </DropdownField>
+          <DropdownField
+            label="Do you have an IEP?"
+            value={props.studentData.iep ? "true" : "false"}
+            onChange={iep => updateStudentData("iep", iep === "true" ? true : false)}
+          >
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+          </DropdownField>
 
-      <DropdownField
-        label="Are you an English Language Learner?"
-        value={props.studentData.ell ? "true" : "false"}
-        onChange={ell => updateStudentData("ell", ell === "true" ? true : false)}
-      >
-        <option value="true">Yes</option>
-        <option value="false">No</option>
-      </DropdownField>
+          <DropdownField
+            label="Are you an English Language Learner?"
+            value={props.studentData.ell ? "true" : "false"}
+            onChange={ell => updateStudentData("ell", ell === "true" ? true : false)}
+          >
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+          </DropdownField>
 
-      <ComboBoxField
-        label="What elementary school program are you in now?"
-        value={props.studentData.currESProgram}
-        data={{records: esPrograms, getKey: (program) => program.ID, getDisplayText: (program) => program.Short_Name + " - " + program.Program_Type }}
-        onChange={currESProgram => updateStudentData("currESProgram", currESProgram)}
-      /> 
+          <ComboBoxField
+            label="What elementary school program are you in now?"
+            value={props.studentData.currESProgram}
+            data={{records: esPrograms, getKey: (program) => program.ID, getDisplayText: (program) => program.Short_Name + " - " + program.Program_Type }}
+            onChange={currESProgram => updateStudentData("currESProgram", currESProgram)}
+          /> 
 
-      <MultiSelectField
-        label="Do you have a sibling in high school? If so, which school?"
-        values={props.studentData.siblingHSPrograms}
-        data={{records: hsPrograms, getKey: (program) => program.ID, getDisplayText: (program) => program.Short_Name + " - " + program.Program_Type }}
-        onChange={siblingHSPrograms => updateStudentData("siblingHSPrograms", siblingHSPrograms)}
-      /> 
-      
-      <AddressTierCalculator
-        address={props.studentData.address}
-        tier={props.studentData.tier}
-        geolocation={props.studentData.geolocation}
-        onAddressChange={address => updateStudentData("address", address)}
-        onTierChange={tier => updateStudentData("tier", tier)}
-        onGeolocationChange={geolocation => updateStudentData("geolocation", geolocation)}
-      />
+          <MultiSelectField
+            label="Do you have a sibling in high school? If so, which school?"
+            values={props.studentData.siblingHSPrograms}
+            data={{records: hsPrograms, getKey: (program) => program.ID, getDisplayText: (program) => program.Short_Name + " - " + program.Program_Type }}
+            onChange={siblingHSPrograms => updateStudentData("siblingHSPrograms", siblingHSPrograms)}
+          /> 
+          
+          <AddressTierCalculator
+            address={props.studentData.address}
+            tier={props.studentData.tier}
+            geolocation={props.studentData.geolocation}
+            onAddressChange={ address => updateStudentData("address", address) }
+            onTierChange={ tier => updateStudentData("tier", tier) }
+            onGeolocationChange={geolocation => updateStudentData("geolocation", geolocation)}
+          />
 
-      <NumberField
-        label="Your 7th grade attendance percentage"
-        value={props.studentData.attendancePercentage.toString()}
-        onChange={attendancePercentage => {
-          updateStudentData("attendancePercentage", attendancePercentage);
-        }}
-      />
+          <NumberField
+            label="Your 7th grade attendance percentage"
+            value={props.studentData.attendancePercentage}
+            onChange={ attendancePercentage => updateStudentData("attendancePercentage", attendancePercentage) }
+            restrictor={ value => value >= 0 && value <= 99}
+          />
+      </div>
 
-      {/*
       <div className="student-data-form-subheader">
         Your grades
       </div>
+      <div className="student-data-form-subform">
 
-      <NumberInput
-        label="NWEA Math percentile"
-        value={props.studentData.scores.nweaPercentileMath}
-        max={1}
-        min={99}
-        onChange={nweaPercentileMath => {
-          updateStudentScores("nweaPercentileMath", nweaPercentileMath);
-        }}
-       validationState={validateNWEAPercentile(props.studentData.scores.nweaPercentileMath)}
-      />
+        <NumberField
+          label="NWEA Math percentile"
+          value={props.studentData.scores.nweaPercentileMath}
+          onChange={ nweaPercentileMath => updateStudentScores("nweaPercentileMath", nweaPercentileMath) }
+          restrictor={ value => value >= 1 && value <= 99}
+        />
 
-      <NumberInput
-        label="NWEA Reading percentile"
-        value={props.studentData.scores.nweaPercentileRead}
-        max={1}
-        min={99}
-        onChange={nweaPercentileRead => {
-          updateStudentScores("nweaPercentileRead", nweaPercentileRead);
-        }}                                                                                                                                    
-        validationState={validateNWEAPercentile(props.studentData.scores.nweaPercentileRead)}
-      />
+        <NumberField
+          label="NWEA Reading percentile"
+          value={props.studentData.scores.nweaPercentileRead}
+          onChange={ nweaPercentileRead => updateStudentScores("nweaPercentileRead", nweaPercentileRead) }
+          restrictor={ value => value >= 1 && value <= 99 }
+        />
 
-      <NumberInput
-        label="Your Math grade"
-        value={props.studentData.scores.subjGradeMath}
-        max={0}
-        min={100}
-        onChange={subjGradeMath => {
-          updateStudentScores("subjGradeMath", subjGradeMath);
-        }}                                                                                                                                    
-        validationState={validateSubjGrade(props.studentData.scores.subjGradeMath)}
-      />
+        <NumberField
+          label="Your Math grade"
+          value={props.studentData.scores.subjGradeMath}
+          onChange={ subjGradeMath => updateStudentScores("subjGradeMath", subjGradeMath) }
+          restrictor={ value => value >= 0 && value <= 100 }
+          />
 
-      <NumberInput
-        label="Your Reading grade"
-        value={props.studentData.scores.subjGradeRead}
-        max={0}
-        min={100}
-        onChange={subjGradeRead => {
-          updateStudentScores("subjGradeRead", subjGradeRead);
-        }}                                                                                                                                    
-        validationState={validateSubjGrade(props.studentData.scores.subjGradeRead)}
-      />
+        <NumberField
+          label="Your Reading grade"
+          value={props.studentData.scores.subjGradeRead}
+          onChange={ subjGradeRead => updateStudentScores("subjGradeRead", subjGradeRead) }
+          restrictor={ value => value >= 0 && value <= 100 }
+        />
 
-      <NumberInput
-        label="Your Science grade"
-        value={props.studentData.scores.subjGradeSci}
-        max={0}
-        min={100}
-        onChange={subjGradeSci => {
-          updateStudentScores("subjGradeSci", subjGradeSci);
-        }}                                                                                                                                    
-        validationState={validateSubjGrade(props.studentData.scores.subjGradeSci)}
-      />
+        <NumberField
+          label="Your Science grade"
+          value={props.studentData.scores.subjGradeSci}
+          onChange={ subjGradeSci => updateStudentScores("subjGradeSci", subjGradeSci) }
+          restrictor={ value => value >= 0 && value <= 100 }
+        />
 
-      <NumberInput
-        label="Your Social Studies grade"
-        value={props.studentData.scores.subjGradeSocStudies}
-        max={0}
-        min={100}
-        onChange={subjGradeSocStudies => {
-          updateStudentScores("subjGradeSocStudies", subjGradeSocStudies);
-        }}                                                                                                                                    
-        validationState={validateSubjGrade(props.studentData.scores.subjGradeSocStudies)}
-      />
+        <NumberField
+          label="Your Social Studies grade"
+          value={props.studentData.scores.subjGradeSocStudies}
+          onChange={ subjGradeSocStudies => updateStudentScores("subjGradeSocStudies", subjGradeSocStudies) }
+          restrictor={ value => value >= 0 && value <= 100 }
+        />
 
-      <NumberInput
-        label="Your Selective Enrollment test percentile"
-        value={props.studentData.seTestPercentile}
-        max={1}
-        min={99}
-        onChange={seTestPercentile => {
-          updateStudentData("seTestPercentile", seTestPercentile);
-        }}                                                                                                                                    
-        validationState={validateSubjGrade(props.studentData.scores.subjGradeSocStudies)}
-      />
-        */}
-
-      
+        <NumberField
+          label="Your Selective Enrollment test percentile"
+          value={props.studentData.seTestPercentile}
+          onChange={ seTestPercentile => updateStudentData("seTestPercentile", seTestPercentile) }
+          restrictor={ value => value >= 0 && value <= 100 }
+        />
+      </div>
     </div>
   );
 }
