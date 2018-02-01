@@ -22,8 +22,15 @@ const NumberField: React.SFC<NumberFieldProps> = (props) => {
 
   const handleChange = (ev): void => {
     const newValue = ev.currentTarget.valueAsNumber;
-    const shouldUpdate = props.restrictor ? props.restrictor(newValue)
-                                           : true;
+    let shouldUpdate: boolean = true; 
+    if (props.restrictor) {
+      // handle NaN case; allow update
+      if (Number.isNaN(newValue)) {
+        shouldUpdate = true;
+      } else {
+        shouldUpdate = props.restrictor(newValue);
+      }
+    }
 
     if (shouldUpdate) {
       props.onChange(newValue);
@@ -34,9 +41,7 @@ const NumberField: React.SFC<NumberFieldProps> = (props) => {
                                      : FieldValidationState.NEUTRAL;
   return (
     <FieldContainer className={props.className} label={props.label} validation={validation}>
-      <input type="number" className="field-input-element" onChange={handleChange}>
-        {props.children}
-      </input>
+      <input value={Number.isNaN(props.value) ? "" : props.value} type="number" className="field-input-element" onChange={handleChange}/>
     </FieldContainer>
   );
 };

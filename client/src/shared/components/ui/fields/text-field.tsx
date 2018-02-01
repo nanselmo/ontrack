@@ -25,11 +25,18 @@ const TextField: React.SFC<TextFieldProps> = (props) => {
   const validation = props.validator ? props.validator(props.value) 
                                      : FieldValidationState.NEUTRAL;
 
-
-  const handleChange = (ev): void => {
+  const handleChange = (ev) : void => {
     const newValue = ev.currentTarget.value;
-    const shouldUpdate = props.restrictor ? props.restrictor(newValue)
-                                           : true;
+
+    let shouldUpdate: boolean = true; 
+    if (props.restrictor) {
+      // handle null case; always allow update
+      if (newValue === "") {
+        shouldUpdate = true;
+      } else {
+        shouldUpdate = props.restrictor(newValue);
+      }
+    }
 
     if (shouldUpdate) {
       props.onChange(newValue);
@@ -38,7 +45,7 @@ const TextField: React.SFC<TextFieldProps> = (props) => {
 
   return (
     <FieldContainer className={props.className} label={props.label} validation={validation}>
-      <input type="text" className="field-input-element" onChange={handleChange}>
+      <input value={props.value} type="text" className="field-input-element" onChange={handleChange}>
         {props.children}
       </input>
     </FieldContainer>

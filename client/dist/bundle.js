@@ -23766,8 +23766,15 @@ var field_container_1 = __webpack_require__(29);
 var NumberField = function (props) {
     var handleChange = function (ev) {
         var newValue = ev.currentTarget.valueAsNumber;
-        var shouldUpdate = props.restrictor ? props.restrictor(newValue)
-            : true;
+        var shouldUpdate = true;
+        if (props.restrictor) {
+            if (Number.isNaN(newValue)) {
+                shouldUpdate = true;
+            }
+            else {
+                shouldUpdate = props.restrictor(newValue);
+            }
+        }
         if (shouldUpdate) {
             props.onChange(newValue);
         }
@@ -23775,7 +23782,7 @@ var NumberField = function (props) {
     var validation = props.validator ? props.validator(props.value)
         : field_validation_state_1.default.NEUTRAL;
     return (React.createElement(field_container_1.default, { className: props.className, label: props.label, validation: validation },
-        React.createElement("input", { type: "number", className: "field-input-element", onChange: handleChange }, props.children)));
+        React.createElement("input", { value: Number.isNaN(props.value) ? "" : props.value, type: "number", className: "field-input-element", onChange: handleChange })));
 };
 exports.default = NumberField;
 
@@ -23964,14 +23971,21 @@ var TextField = function (props) {
         : field_validation_state_1.default.NEUTRAL;
     var handleChange = function (ev) {
         var newValue = ev.currentTarget.value;
-        var shouldUpdate = props.restrictor ? props.restrictor(newValue)
-            : true;
+        var shouldUpdate = true;
+        if (props.restrictor) {
+            if (newValue === "") {
+                shouldUpdate = true;
+            }
+            else {
+                shouldUpdate = props.restrictor(newValue);
+            }
+        }
         if (shouldUpdate) {
             props.onChange(newValue);
         }
     };
     return (React.createElement(field_container_1.default, { className: props.className, label: props.label, validation: validation },
-        React.createElement("input", { type: "text", className: "field-input-element", onChange: handleChange }, props.children)));
+        React.createElement("input", { value: props.value, type: "text", className: "field-input-element", onChange: handleChange }, props.children)));
 };
 exports.default = TextField;
 

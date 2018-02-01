@@ -1,9 +1,10 @@
-Update and style StudentDataForm
+Refactor restrictor in shared form fields
 
-* DONE use shared form field components in AddressTierCalculator
-* DONE remove student name fields
-  ** DONE make student name fields optional in StudentData
-* DONE style StudentDataForm to handle page overflow
-* DONE group form fields to maximize space on page
-* DONE tweak form field styling to work nicely with 
-  arbitrary parent styling
+* handle null values in restrictor and field
+* convert field input components to controlled
+  from uncontrolled
+* TODO IN FUTURE consider having each form field
+  hold local state, so that restricted values (like
+  null values etc) can be entered but do not get 
+  passed to parent via onChange.
+
