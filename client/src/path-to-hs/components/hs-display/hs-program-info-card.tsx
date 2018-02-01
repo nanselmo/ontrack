@@ -10,6 +10,7 @@ interface HSInfoCardProps {
   visible: boolean
   applicationSuccess: SuccessChance
   selectionSuccess: SuccessChance
+  style: Object
 }
 
 const HSProgramInfoCard = (props: HSInfoCardProps) => {
@@ -63,7 +64,7 @@ const HSProgramInfoCard = (props: HSInfoCardProps) => {
   };
 
   return (
-    <div className={`hs-info-card-container ${props.visible ? "visible" : "" }`}>
+    <div style={props.style} className={`hs-info-card-container ${props.visible ? "visible" : "" }`}>
       <div className="hs-info-card">
         <div className="hs-info-card-program-name">
           {`${props.program.Short_Name} - ${props.program.Program_Type} Program`}

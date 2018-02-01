@@ -13,11 +13,22 @@ interface HSListProps {
   studentData: StudentData
 }
 
+interface HSListState {
+  selectedProgram: CPSProgram | null
+}
+
 import "./hs-list.scss";
 
-const HSList: React.SFC<HSListProps> = (props) => {
+class HSList extends React.PureComponent<HSListProps, HSListState> {
 
-  const sortBySuccessChance = (programs: CPSProgram[], student: StudentData): CPSProgram[] => {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedProgram: null
+    };
+  }
+
+  private sortBySuccessChance = (programs: CPSProgram[], student: StudentData): CPSProgram[] => {
     let certain = [];
     let likely = [];
     let uncertain = [];
@@ -60,19 +71,25 @@ const HSList: React.SFC<HSListProps> = (props) => {
 
   };
 
-  const sortedHighschools: CPSProgram[] = sortBySuccessChance(props.highschools, props.studentData);
+  render() {
+    const sortedHighschools: CPSProgram[] = this.sortBySuccessChance(this.props.highschools, this.props.studentData);
 
-  return (
-    <div className="hs-list">
-      { 
-        sortedHighschools.map( (hs: CPSProgram) => <HSListElement key={hs.Long_Name} 
-                              program={hs} 
-                              studentData={props.studentData} 
-                              /> )
-      }
-    </div>
-  )
-
+    console.log(this.state.selectedProgram);
+    return (
+      <div 
+        className="hs-list"
+      >
+        { 
+          sortedHighschools.map( (hs: CPSProgram) => <HSListElement key={hs.Long_Name} 
+                                program={hs} 
+                                studentData={this.props.studentData} 
+                                selected={ this.state.selectedProgram && hs.ID === this.state.selectedProgram.ID }
+                                onSelect={ program => this.setState({selectedProgram: program}) }
+                                /> )
+        }
+      </div>
+    )
+  }
 };
 
 export default HSList;

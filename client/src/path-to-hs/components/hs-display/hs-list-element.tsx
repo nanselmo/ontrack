@@ -16,12 +16,15 @@ import HSProgramInfoCard from "./hs-program-info-card";
 interface HSListElemProps {
   program: CPSProgram
   studentData: StudentData
+  selected: boolean
+  onSelect: (program: CPSProgram) => any
 }
 
 interface HSListElemState {
   showHSPreview: boolean
   applicationResult: HSReqFnResponse
   selectionResult: HSReqFnResponse
+  pxFromTop: number
 }
 
 import "./hs-list-element.scss";
@@ -40,21 +43,23 @@ class HSListElement extends React.PureComponent<HSListElemProps, HSListElemState
     const selectionResult = this.selectionReqFn(props.studentData, props.program);
 
     this.state = { 
-      showHSPreview: false,
+      showHSPreview: this.props.selected,
       applicationResult: applicationResult,
-      selectionResult: selectionResult
+      selectionResult: selectionResult,
+      pxFromTop: 0
     };
   }
 
   private applicationReqFn: HSRequirementFunction;
   private selectionReqFn: HSRequirementFunction;
 
-  componentWillReceiveProps(props) {
-    const applicationResult = this.applicationReqFn(props.studentData, props.program); 
-    const selectionResult = this.selectionReqFn(props.studentData, props.program);
+  componentWillReceiveProps(nextProps) {
+    const applicationResult = this.applicationReqFn(nextProps.studentData, nextProps.program); 
+    const selectionResult = this.selectionReqFn(nextProps.studentData, nextProps.program);
     this.setState({
       applicationResult: applicationResult,
-      selectionResult: selectionResult
+      selectionResult: selectionResult,
+      showHSPreview: nextProps.selected
     })
   };
   
@@ -87,22 +92,31 @@ class HSListElement extends React.PureComponent<HSListElemProps, HSListElemState
 
   render() {
     return (
-    <div className="hs-list-element">
       <div 
-        className={"hs-list-element-icon " + (this.state.showHSPreview ? "focus " : "") + this.outcomeToClassName(this.getCombinedSuccessChance(this.state.applicationResult.outcome, this.state.selectionResult.outcome))}
-        onClick={() => this.setState({showHSPreview: !this.state.showHSPreview})}
-        >
+        className="hs-list-element"
+        ref={ ref => {
+          if (ref) { 
+            this.setState({pxFromTop: ref.offsetTop + 50 });
+          }
+        } }
+      >
+        <button 
+          className={"hs-list-element-icon " + (this.state.showHSPreview ? "focus " : "") + this.outcomeToClassName(this.getCombinedSuccessChance(this.state.applicationResult.outcome, this.state.selectionResult.outcome))}
+          onClick={() => {
+            this.props.onSelect(this.props.program)
+          } }
+        />
+        <div className="hs-list-element-shortname">
+          {this.props.program.Short_Name}
+        </div>
         <HSProgramInfoCard 
           visible={this.state.showHSPreview} 
           program={this.props.program}
           applicationSuccess={this.state.applicationResult.outcome}
           selectionSuccess={this.state.selectionResult.outcome}
+          style={{top: this.state.pxFromTop}}
         />
       </div>
-      <div className="hs-list-element-shortname">
-        {this.props.program.Short_Name}
-      </div>
-    </div>
     )
   }
 

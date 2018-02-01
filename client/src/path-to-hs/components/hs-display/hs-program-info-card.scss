@@ -1,20 +1,19 @@
 @import "../../../shared/styles/variables";
 
 .hs-info-card-container {
-  visibility: hidden;
+  display: none;
+
   position: absolute;
   top: 0;
   left: 0;
-
-  width: 0px;
-  height: 0px;
+  width: 100%;
+  height: auto;
+  
+  z-index: 99;
 }
 
 .hs-info-card-container.visible {
-  visibility: visible;
   display: block;
-  width: 400px;
-  height: auto;
 }
 
 .hs-info-card {

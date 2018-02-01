@@ -45365,54 +45365,78 @@ exports.default = HSProgramType;
 
 "use strict";
 
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(4);
 var success_chance_1 = __webpack_require__(24);
 var get_combined_success_chance_1 = __webpack_require__(234);
 var hs_list_element_1 = __webpack_require__(238);
 __webpack_require__(245);
-var HSList = function (props) {
-    var sortBySuccessChance = function (programs, student) {
-        var certain = [];
-        var likely = [];
-        var uncertain = [];
-        var unlikely = [];
-        var none = [];
-        var notimplemented = [];
-        for (var i = 0; i < programs.length; i++) {
-            var program = programs[i];
-            var successChance = get_combined_success_chance_1.default(student, program);
-            switch (successChance) {
-                case success_chance_1.default.CERTAIN:
-                    certain.push(program);
-                    break;
-                case success_chance_1.default.LIKELY:
-                    likely.push(program);
-                    break;
-                case success_chance_1.default.UNCERTAIN:
-                    uncertain.push(program);
-                    break;
-                case success_chance_1.default.UNLIKELY:
-                    unlikely.push(program);
-                    break;
-                case success_chance_1.default.NONE:
-                    none.push(program);
-                    break;
-                case success_chance_1.default.NOTIMPLEMENTED:
-                    notimplemented.push(program);
-                    break;
+var HSList = (function (_super) {
+    __extends(HSList, _super);
+    function HSList(props) {
+        var _this = _super.call(this, props) || this;
+        _this.sortBySuccessChance = function (programs, student) {
+            var certain = [];
+            var likely = [];
+            var uncertain = [];
+            var unlikely = [];
+            var none = [];
+            var notimplemented = [];
+            for (var i = 0; i < programs.length; i++) {
+                var program = programs[i];
+                var successChance = get_combined_success_chance_1.default(student, program);
+                switch (successChance) {
+                    case success_chance_1.default.CERTAIN:
+                        certain.push(program);
+                        break;
+                    case success_chance_1.default.LIKELY:
+                        likely.push(program);
+                        break;
+                    case success_chance_1.default.UNCERTAIN:
+                        uncertain.push(program);
+                        break;
+                    case success_chance_1.default.UNLIKELY:
+                        unlikely.push(program);
+                        break;
+                    case success_chance_1.default.NONE:
+                        none.push(program);
+                        break;
+                    case success_chance_1.default.NOTIMPLEMENTED:
+                        notimplemented.push(program);
+                        break;
+                }
             }
-        }
-        var sortedPrograms = certain.concat(likely)
-            .concat(uncertain)
-            .concat(unlikely)
-            .concat(none)
-            .concat(notimplemented);
-        return sortedPrograms;
+            var sortedPrograms = certain.concat(likely)
+                .concat(uncertain)
+                .concat(unlikely)
+                .concat(none)
+                .concat(notimplemented);
+            return sortedPrograms;
+        };
+        _this.state = {
+            selectedProgram: null
+        };
+        return _this;
+    }
+    HSList.prototype.render = function () {
+        var _this = this;
+        var sortedHighschools = this.sortBySuccessChance(this.props.highschools, this.props.studentData);
+        console.log(this.state.selectedProgram);
+        return (React.createElement("div", { className: "hs-list" }, sortedHighschools.map(function (hs) { return React.createElement(hs_list_element_1.default, { key: hs.Long_Name, program: hs, studentData: _this.props.studentData, selected: _this.state.selectedProgram && hs.ID === _this.state.selectedProgram.ID, onSelect: function (program) { return _this.setState({ selectedProgram: program }); } }); })));
     };
-    var sortedHighschools = sortBySuccessChance(props.highschools, props.studentData);
-    return (React.createElement("div", { className: "hs-list" }, sortedHighschools.map(function (hs) { return React.createElement(hs_list_element_1.default, { key: hs.Long_Name, program: hs, studentData: props.studentData }); })));
-};
+    return HSList;
+}(React.PureComponent));
+;
 exports.default = HSList;
 
 
@@ -49077,27 +49101,35 @@ var HSListElement = (function (_super) {
         var applicationResult = _this.applicationReqFn(props.studentData, props.program);
         var selectionResult = _this.selectionReqFn(props.studentData, props.program);
         _this.state = {
-            showHSPreview: false,
+            showHSPreview: _this.props.selected,
             applicationResult: applicationResult,
-            selectionResult: selectionResult
+            selectionResult: selectionResult,
+            pxFromTop: 0
         };
         return _this;
     }
-    HSListElement.prototype.componentWillReceiveProps = function (props) {
-        var applicationResult = this.applicationReqFn(props.studentData, props.program);
-        var selectionResult = this.selectionReqFn(props.studentData, props.program);
+    HSListElement.prototype.componentWillReceiveProps = function (nextProps) {
+        var applicationResult = this.applicationReqFn(nextProps.studentData, nextProps.program);
+        var selectionResult = this.selectionReqFn(nextProps.studentData, nextProps.program);
         this.setState({
             applicationResult: applicationResult,
-            selectionResult: selectionResult
+            selectionResult: selectionResult,
+            showHSPreview: nextProps.selected
         });
     };
     ;
     HSListElement.prototype.render = function () {
         var _this = this;
-        return (React.createElement("div", { className: "hs-list-element" },
-            React.createElement("div", { className: "hs-list-element-icon " + (this.state.showHSPreview ? "focus " : "") + this.outcomeToClassName(this.getCombinedSuccessChance(this.state.applicationResult.outcome, this.state.selectionResult.outcome)), onClick: function () { return _this.setState({ showHSPreview: !_this.state.showHSPreview }); } },
-                React.createElement(hs_program_info_card_1.default, { visible: this.state.showHSPreview, program: this.props.program, applicationSuccess: this.state.applicationResult.outcome, selectionSuccess: this.state.selectionResult.outcome })),
-            React.createElement("div", { className: "hs-list-element-shortname" }, this.props.program.Short_Name)));
+        return (React.createElement("div", { className: "hs-list-element", ref: function (ref) {
+                if (ref) {
+                    _this.setState({ pxFromTop: ref.offsetTop + 50 });
+                }
+            } },
+            React.createElement("button", { className: "hs-list-element-icon " + (this.state.showHSPreview ? "focus " : "") + this.outcomeToClassName(this.getCombinedSuccessChance(this.state.applicationResult.outcome, this.state.selectionResult.outcome)), onClick: function () {
+                    _this.props.onSelect(_this.props.program);
+                } }),
+            React.createElement("div", { className: "hs-list-element-shortname" }, this.props.program.Short_Name),
+            React.createElement(hs_program_info_card_1.default, { visible: this.state.showHSPreview, program: this.props.program, applicationSuccess: this.state.applicationResult.outcome, selectionSuccess: this.state.selectionResult.outcome, style: { top: this.state.pxFromTop } })));
     };
     return HSListElement;
 }(React.PureComponent));
@@ -49160,7 +49192,7 @@ var HSProgramInfoCard = function (props) {
         var schoolName = titleCaseWords.join("-");
         return "https://hsbound.org/school/" + schoolName;
     };
-    return (React.createElement("div", { className: "hs-info-card-container " + (props.visible ? "visible" : "") },
+    return (React.createElement("div", { style: props.style, className: "hs-info-card-container " + (props.visible ? "visible" : "") },
         React.createElement("div", { className: "hs-info-card" },
             React.createElement("div", { className: "hs-info-card-program-name" }, props.program.Short_Name + " - " + props.program.Program_Type + " Program"),
             React.createElement("div", { className: "hs-info-card-requirement-container" },
@@ -49221,7 +49253,7 @@ exports = module.exports = __webpack_require__(11)(undefined);
 
 
 // module
-exports.push([module.i, ".hs-info-card-container {\n  visibility: hidden;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 0px;\n  height: 0px; }\n\n.hs-info-card-container.visible {\n  visibility: visible;\n  display: block;\n  width: 400px;\n  height: auto; }\n\n.hs-info-card {\n  padding: 0.5em;\n  width: 100%;\n  height: 100%;\n  background: #fafafd;\n  -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start; }\n\n.hs-info-card-program-name {\n  font-size: 115%;\n  font-weight: bold;\n  width: 100%;\n  text-align: center; }\n\n.hs-info-card-requirement-container {\n  width: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column; }\n\n.hs-info-card-requirement {\n  width: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row; }\n\n.hs-info-card-req-desc-container {\n  width: 50%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  margin-bottom: 0.5em; }\n\n.hs-info-card-req-type {\n  width: 90px;\n  margin-right: 0.5em; }\n\n.hs-info-card-req-desc {\n  width: 200px;\n  font-size: 80%;\n  padding: 0.5em;\n  background: #e8e8f6;\n  border-radius: 5px;\n  border: 1px solid #eee;\n  margin-right: 0.5em; }\n\n.hs-links-container {\n  width: 100%; }\n\n.hs-link {\n  margin: 1em;\n  padding: 0.5em;\n  color: #fafafd;\n  background-color: #4747b1;\n  border-radius: 7px;\n  -webkit-transition: background-color 200ms ease;\n  transition: background-color 200ms ease; }\n\n.hs-link:hover {\n  color: #fafafd;\n  background-color: #6868c3; }\n\n.hs-link:active {\n  color: #fafafd;\n  background-color: #38388d; }\n", ""]);
+exports.push([module.i, ".hs-info-card-container {\n  display: none;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: auto;\n  z-index: 99; }\n\n.hs-info-card-container.visible {\n  display: block; }\n\n.hs-info-card {\n  padding: 0.5em;\n  width: 100%;\n  height: 100%;\n  background: #fafafd;\n  -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start; }\n\n.hs-info-card-program-name {\n  font-size: 115%;\n  font-weight: bold;\n  width: 100%;\n  text-align: center; }\n\n.hs-info-card-requirement-container {\n  width: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column; }\n\n.hs-info-card-requirement {\n  width: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row; }\n\n.hs-info-card-req-desc-container {\n  width: 50%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  margin-bottom: 0.5em; }\n\n.hs-info-card-req-type {\n  width: 90px;\n  margin-right: 0.5em; }\n\n.hs-info-card-req-desc {\n  width: 200px;\n  font-size: 80%;\n  padding: 0.5em;\n  background: #e8e8f6;\n  border-radius: 5px;\n  border: 1px solid #eee;\n  margin-right: 0.5em; }\n\n.hs-links-container {\n  width: 100%; }\n\n.hs-link {\n  margin: 1em;\n  padding: 0.5em;\n  color: #fafafd;\n  background-color: #4747b1;\n  border-radius: 7px;\n  -webkit-transition: background-color 200ms ease;\n  transition: background-color 200ms ease; }\n\n.hs-link:hover {\n  color: #fafafd;\n  background-color: #6868c3; }\n\n.hs-link:active {\n  color: #fafafd;\n  background-color: #38388d; }\n", ""]);
 
 // exports
 
@@ -49266,7 +49298,7 @@ exports = module.exports = __webpack_require__(11)(undefined);
 
 
 // module
-exports.push([module.i, ".hs-list-element {\n  width: 45px;\n  height: 80px;\n  margin: 0 0.5em; }\n\n.hs-list-element-icon {\n  z-index: 1;\n  position: relative;\n  width: 45px;\n  height: 45px;\n  padding-top: 2px;\n  margin-bottom: 5px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  border: 2px solid #9e9e9e;\n  border-radius: 100%;\n  background-size: 470px 470px;\n  background: url(" + __webpack_require__(244) + ");\n  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); }\n\n.hs-list-element-icon.focus {\n  z-index: 2; }\n\n.hs-list-element-icon.succ-certain {\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  background-color: #7ff159;\n  border: 5px solid #5bed2a; }\n\n.hs-list-element-icon.succ-likely {\n  background-color: #cef26f;\n  border: 3px solid #beee40; }\n\n.hs-list-element-icon.succ-uncertain {\n  background-color: #feee7e;\n  border: 2px solid #fde74c; }\n\n.hs-list-element-icon.succ-unlikely {\n  background-color: #f7966b;\n  border: 1px solid #f4743b; }\n\n.hs-list-element-icon.succ-none {\n  background-color: white;\n  border: 2px dashed #eee;\n  -webkit-box-shadow: none;\n          box-shadow: none; }\n\n.hs-list-element-icon.succ-not-implemented {\n  background: none;\n  -webkit-box-shadow: none;\n          box-shadow: none;\n  border: 2px dashed #999; }\n\n.hs-list-element-shortname {\n  width: 45px;\n  height: 30px;\n  font-size: 70%;\n  text-align: center;\n  word-wrap: normal;\n  overflow: hidden;\n  text-overflow: ellipsis; }\n", ""]);
+exports.push([module.i, ".hs-list-element {\n  width: 45px;\n  height: 80px;\n  margin: 0 0.5em; }\n\n.hs-list-element-icon {\n  position: relative;\n  width: 45px;\n  height: 45px;\n  padding-top: 2px;\n  margin-bottom: 5px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  border: 2px solid #9e9e9e;\n  border-radius: 100%;\n  background-size: 470px 470px;\n  background: url(" + __webpack_require__(244) + ");\n  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n  z-index: 1;\n  -webkit-transition: -webkit-transform 200ms ease;\n  transition: -webkit-transform 200ms ease;\n  transition: transform 200ms ease;\n  transition: transform 200ms ease, -webkit-transform 200ms ease;\n  -webkit-transform-style: preserve-3d;\n          transform-style: preserve-3d;\n  -webkit-transform: scale(1);\n          transform: scale(1); }\n\n.hs-list-element-icon.focus {\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1); }\n\n.hs-list-element-icon.focus:before {\n  -webkit-transform: translateZ(-1em);\n          transform: translateZ(-1em);\n  position: absolute;\n  content: \"\";\n  z-index: -1;\n  width: 60px;\n  height: 60px;\n  border: 1px solid #adadad;\n  border-radius: 20px 20px 0px 0;\n  background-color: #fafafd; }\n\n.hs-list-element-icon.succ-certain {\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  background-color: #7ff159;\n  border: 5px solid #5bed2a; }\n\n.hs-list-element-icon.succ-likely {\n  background-color: #cef26f;\n  border: 3px solid #beee40; }\n\n.hs-list-element-icon.succ-uncertain {\n  background-color: #feee7e;\n  border: 2px solid #fde74c; }\n\n.hs-list-element-icon.succ-unlikely {\n  background-color: #f7966b;\n  border: 1px solid #f4743b; }\n\n.hs-list-element-icon.succ-none {\n  background-color: white;\n  border: 2px dashed #eee;\n  -webkit-box-shadow: none;\n          box-shadow: none; }\n\n.hs-list-element-icon.succ-not-implemented {\n  background: none;\n  -webkit-box-shadow: none;\n          box-shadow: none;\n  border: 2px dashed #999; }\n\n.hs-list-element-shortname {\n  width: 45px;\n  height: 30px;\n  font-size: 70%;\n  text-align: center;\n  word-wrap: normal;\n  overflow: hidden;\n  text-overflow: ellipsis; }\n", ""]);
 
 // exports
 

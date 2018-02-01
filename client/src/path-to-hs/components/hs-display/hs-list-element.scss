@@ -17,7 +17,7 @@ $hs-list-element-width: 45px;
 }
 
 .hs-list-element-icon {
-  z-index: 1;
+
   position: relative;
 
   width: 45px;
@@ -37,10 +37,27 @@ $hs-list-element-width: 45px;
   background: url("../../../shared/images/school.svg");
 
   box-shadow: $box-shadow-z1;
+
+  z-index: 1;
+  transition: transform 200ms ease;
+  transform-style: preserve-3d;
+  transform: scale(1);
 }
 
 .hs-list-element-icon.focus {
-  z-index: 2;
+  transform: scale(1.1);
+}
+
+.hs-list-element-icon.focus:before {
+  transform: translateZ(-1em);
+  position: absolute;
+  content: "";
+  z-index: -1;
+  width: 60px;
+  height: 60px;
+  border: 1px solid #adadad;
+  border-radius: 20px 20px 0px 0;
+  background-color: $col-app-neutral;
 }
 
 // Certain success
