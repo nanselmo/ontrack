@@ -74,7 +74,6 @@ class HSList extends React.PureComponent<HSListProps, HSListState> {
   render() {
     const sortedHighschools: CPSProgram[] = this.sortBySuccessChance(this.props.highschools, this.props.studentData);
 
-    console.log(this.state.selectedProgram);
     return (
       <div 
         className="hs-list"

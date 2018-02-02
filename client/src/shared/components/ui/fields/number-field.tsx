@@ -1,49 +1,81 @@
 import * as React from "react";
 import FieldValidationState from "./field-validation-state";
 import FieldContainer from "./field-container";
+import Limiter from "./limiter";
+
+// TODO remove dependency
+import debounce from "shared/util/debounce";
 
 interface NumberFieldProps {
   onChange: (newValue: number) => any
-  value: number
+  value: number | null
 
-  // extensions
-  validator?: (nextValue: number) => FieldValidationState
-  restrictor?: (nextValue: number) => boolean
   label?: string
   placeholder?: string
 
-  // styling
+  validator?: (nextValue: number) => FieldValidationState
+  limiter?: Limiter<number>
+
+  debounceTime?: number
+
   className?: string
   style?: React.StyleHTMLAttributes<HTMLInputElement>
 }
 
+interface NumberFieldState {
+  localValue: number | ""
+}
 
-const NumberField: React.SFC<NumberFieldProps> = (props) => {
+class NumberField extends React.PureComponent<NumberFieldProps, NumberFieldState> {
 
-  const handleChange = (ev): void => {
-    const newValue = ev.currentTarget.valueAsNumber;
-    let shouldUpdate: boolean = true; 
-    if (props.restrictor) {
-      // handle NaN case; allow update
-      if (Number.isNaN(newValue)) {
-        shouldUpdate = true;
+  constructor(props) {
+    super(props);
+    this.state = {
+      localValue: props.value ? props.value : ""
+    }
+    this.onChange = props.debounceTime ? debounce(props.onChange, props.debounceTime) : props.onChange
+  }
+
+  private onChange: Function;
+
+  componentWillReceiveProps(nextProps) {
+    if (this.state.localValue !== "") {
+      this.setState({localValue: nextProps.value ? nextProps.value : ""});
+    }
+  }
+
+  render() {
+    const handleChange = (ev): boolean => {
+      // special case: if input is blank, show
+      // blank input but do not pass value up to parent
+      if (ev.currentTarget.value === "") {
+        this.setState({localValue: ""});
+        return false;
       } else {
-        shouldUpdate = props.restrictor(newValue);
+        const currValue = this.props.value;
+        const nextValue = ev.currentTarget.valueAsNumber;
+        console.log("Numberfield curr: " + currValue);
+        console.log("Numberfield next: " + nextValue);
+        this.setState({localValue: nextValue});
+        if (this.props.limiter) {
+          this.onChange(this.props.limiter(currValue, nextValue));
+        } else {
+          this.onChange(nextValue);
+        }
+        return true;
       }
-    }
+    };
 
-    if (shouldUpdate) {
-      props.onChange(newValue);
-    }
-  };
+    const validation = this.props.validator && this.state.localValue !== "" ? this.props.validator(this.state.localValue) 
+                                       : FieldValidationState.NEUTRAL;
 
-  const validation = props.validator ? props.validator(props.value) 
-                                     : FieldValidationState.NEUTRAL;
-  return (
-    <FieldContainer className={props.className} label={props.label} validation={validation}>
-      <input value={Number.isNaN(props.value) ? "" : props.value} type="number" className="field-input-element" onChange={handleChange}/>
-    </FieldContainer>
-  );
+    console.log("localvalue: " + this.state.localValue);
+    return (
+      <FieldContainer className={this.props.className} label={this.props.label} validation={validation}>
+        <input value={this.state.localValue} type="number" className="field-input-element" onChange={handleChange}/>
+      </FieldContainer>
+    );
+  }
 };
 
 export default NumberField;

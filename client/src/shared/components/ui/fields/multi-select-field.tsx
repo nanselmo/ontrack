@@ -6,6 +6,8 @@ import ListData from "./list-data";
 import FieldContainer from "./field-container";
 import ComboBoxField from "./combo-box-field";
 
+// TODO remove dependency
+import debounce from "shared/util/debounce";
 
 interface MultiSelectProps<T> {
   values: T[] | null
@@ -18,10 +20,13 @@ interface MultiSelectProps<T> {
   validator?: (nextOpt: T) => FieldValidationState
   restrictor?: (nextOpt: T) => boolean
 
+  debounceTime?: number
+
   className?: string
 }
 
 const MultiSelectField: React.SFC<MultiSelectProps<any>> = (props) => {
+
 
   const createOnChangeHandler = (index: number): (newValue: any) => void => {
     return (newValue: any) => {
@@ -70,6 +75,7 @@ const MultiSelectField: React.SFC<MultiSelectProps<any>> = (props) => {
               value={value}
               onChange={createOnChangeHandler(i)}
               data={data}
+              debounceTime={props.debounceTime}
             />
             <button 
               style={{width: "32px", height: "32px", backgroundColor: "#dfdfdf", border: "1px solid #acacac", borderRadius: "100%", margin: "0 1em", boxShadow: "0px 2px 2px #999" }} 
@@ -90,6 +96,7 @@ const MultiSelectField: React.SFC<MultiSelectProps<any>> = (props) => {
           props.onChange(newValues);
         } }
         data={data}
+        debounceTime={props.debounceTime}
       />
     </FieldContainer>
   );

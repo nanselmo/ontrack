@@ -1,9 +1,12 @@
 import * as React from "react";
+
 import FieldValidationState from "./field-validation-state";
 import ListData from "./list-data";
 import FieldContainer from "./field-container";
-
 import ListBox from "./list-box";
+
+// TODO remove dependency
+import debounce from "shared/util/debounce";
 
 interface CboProps<T> {
   value: T | null
@@ -15,6 +18,8 @@ interface CboProps<T> {
 
   validator?: (nextOpt: T) => FieldValidationState
   restrictor?: (nextOpt: T) => boolean
+
+  debounceTime?: number
 
   className?: string
 }
@@ -32,7 +37,10 @@ class ComboBoxField extends React.PureComponent<CboProps<any>, CboState> {
       searchString: props.value ? props.data.getDisplayText(props.value) : "",
       listBoxVisible: false
     }
+    this.onChange = props.debounceTime ? debounce(props.onChange, props.debounceTime) : props.onChange;
   }
+
+  private onChange: Function;
 
   componentWillReceiveProps(nextProps) {
     // replace state.searchString with new value if passed in
@@ -94,7 +102,7 @@ class ComboBoxField extends React.PureComponent<CboProps<any>, CboState> {
                 listBoxVisible: false,
                 searchString: this.props.data.getDisplayText(record)
               });
-              this.props.onChange(record)
+              this.onChange(record)
             } }
             />
         </div>
