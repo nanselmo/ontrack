@@ -4,14 +4,9 @@ import StudentData from "shared/types/student-data";
 
 import Box from "shared/components/layout/box";
 
-import StudentDataForm from "./student-data-form/student-data-form";
+import StudentDataForm from "./student-data-form";
 
-interface StudentInfoDisplayProps {
-  studentData: StudentData
-  onStudentDataChange: (newData: StudentData) => any
-}
-
-const StudentInfoDisplay = (props: StudentInfoDisplayProps) => {
+const StudentInfoDisplay: React.SFC<any> = (props) => {
 
   return (
     <Box 
@@ -21,12 +16,9 @@ const StudentInfoDisplay = (props: StudentInfoDisplayProps) => {
         flexDirection: "column", 
         justifyContent: "center",
         alignItems: "center"}}
-      responsiveBehavior={{mobile: "fullscreen"}}>
-
-      <StudentDataForm
-        studentData={props.studentData}
-        onChange={props.onStudentDataChange}
-      />
+      responsiveBehavior={{mobile: "fullscreen"}}
+    >
+      <StudentDataForm/>
     </Box>
   )
 };

@@ -1,15 +1,20 @@
-Add debouncing to shared form fields
+[WIP] Replace root application state with redux
 
-* DONE replace field props restrictor with limiter
-  ** instead of returning bool, limiter returns a valid value
-* DONE extend field props with optional debounceTime prop,
-  which if passed debounces field input by the vlaue of debounceTime
-  miliseconds
-* DONE add Limiter<T> function signature to shared form fields folder
-* DONE add debounce function implementation in shared/util
-* DONE remove lodash debounce dependency from package.json
-* DONE convert shared form fields to stateful components so
-  that ui state is updated even though onChange call is not
-  fired.
+* DONE make PathToHS stateless functional component
+* TODO make StudentInfoDisplay and HSDisplay react aware
+  ** prediction: if I did things right for the rest of development,
+    I shoudn't need to refactor any of the child components
+    for this to work. I should be able to cut the head off the state
+    tree and replace it with redux, without cutting off the flow
+    of state to any of the roots. (I got I think 4? hours of sleep last
+    night? This is going to be a long day.)
+* TODO simplify component tree of HSDisplay
+  ** combine HSProgramType and HSList into HSList
+  ** make HSDisplay true container for HSList
+* DONE remove hardcoded default student data
+* DONE draft redux actions in shared/actions
+* TODO draft redux reducers in shared/reducers
 
-* NOTE done for ui latency reasons
+* DONE move StudentDataForm child components up into src/components/
+    student-info-display
+* TODO move spinning-load-icon.scss into shared/styles
