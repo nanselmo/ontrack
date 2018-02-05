@@ -1,13 +1,12 @@
 import * as React from "react";
 
-import StudentData from "shared/types/student-data";
-
 import Box from "shared/components/layout/box";
 
 import StudentDataForm from "./student-data-form";
 
+// TODO mapstatetoProps
+// TODO mapdispatchtostate
 const StudentInfoDisplay: React.SFC<any> = (props) => {
-
   return (
     <Box 
       width="half" 

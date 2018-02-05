@@ -174,7 +174,7 @@ const getSECutoff = (student: StudentData, school: CPSProgram): SECutoff => {
   if (cutoff === undefined) {
     throw new Error(`School ${school.Long_Name} not found in SE Cutoff scores`); 
   }
-  switch(student.tier) {
+  switch(student.location.tier) {
     case '1':
       return cutoff.tier1; 
     case '2':
@@ -227,8 +227,8 @@ const inAttendanceBound = (student: StudentData, school: CPSProgram): boolean =>
     return num;
   };
 
-  const studentLat = student.geolocation.latitude;
-  const studentLong = student.geolocation.longitude;
+  const studentLat = student.location.geo.latitude;
+  const studentLong = student.location.geo.longitude;
   const schoolLat = tryParseFloat(school.School_Latitude);
   const schoolLong = tryParseFloat(school.School_Longitude);
 
@@ -248,7 +248,7 @@ const inAttendanceBound = (student: StudentData, school: CPSProgram): boolean =>
 };
 
 const hasSiblingInProgram = (student: StudentData, program: CPSProgram) => {
-  const siblingAttends = student.siblingHSPrograms.some( siblingProgram => siblingProgram.ID === program.ID );
+  const siblingAttends = student.siblingHSProgramIDs.some( siblingProgramID => siblingProgramID === program.ID );
   if (siblingAttends) {
     return true;
   } else {
@@ -600,14 +600,14 @@ const HSReqFns: ReqFnTable = {
             // value is the threshold minus the  average distance from the 
             // cutoff scores for nwea scores and attend percentile
             value: 100 - average(
-              getPointsFromCutoff(studentData.scores.nweaPercentileMath, NWEA_MATH_CUTOFF),
-              getPointsFromCutoff(studentData.scores.nweaPercentileRead, NWEA_READ_CUTOFF),
+              getPointsFromCutoff(studentData.nweaPercentileMath, NWEA_MATH_CUTOFF),
+              getPointsFromCutoff(studentData.nweaPercentileRead, NWEA_READ_CUTOFF),
               getPointsFromCutoff(studentData.attendancePercentage, ATTEND_CUTOFF)
             ),
           };
 
-          if (studentData.scores.nweaPercentileMath >= NWEA_MATH_CUTOFF &&
-                      studentData.scores.nweaPercentileRead >= NWEA_READ_CUTOFF &&
+          if (studentData.nweaPercentileMath >= NWEA_MATH_CUTOFF &&
+                      studentData.nweaPercentileRead >= NWEA_READ_CUTOFF &&
                       studentData.attendancePercentage >= ATTEND_CUTOFF) {
             return {outcome: SuccessChance.CERTAIN, progress: progress}
           } else {
@@ -708,8 +708,8 @@ const HSReqFns: ReqFnTable = {
         "fn": (studentData, schoolData) => {
           // TODO: add progress
             if (studentData.iep || studentData.ell) {
-                  if(studentData.scores.nweaPercentileMath >= 50 && 
-                        studentData.scores.nweaPercentileRead >= 50 &&
+                  if(studentData.nweaPercentileMath >= 50 && 
+                        studentData.nweaPercentileRead >= 50 &&
                         studentData.gpa >= 2.7 &&
                         studentData.attendancePercentage >= 97) {
 
@@ -718,7 +718,7 @@ const HSReqFns: ReqFnTable = {
                     return {outcome: SuccessChance.NONE};
                   }
             } else {
-                  if(studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead >= 50) {
+                  if(studentData.nweaPercentileMath + studentData.nweaPercentileRead >= 50) {
                     return {outcome: SuccessChance.CERTAIN};
                   } else {
                     return {outcome: SuccessChance.NONE};
@@ -807,14 +807,14 @@ const HSReqFns: ReqFnTable = {
         ],
         "fn": (studentData, schoolData) => {
           if (studentData.iep || studentData.ell) {
-            if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
+            if ( (studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48) {
               return {outcome: SuccessChance.LIKELY};
             } else {
               return {outcome: SuccessChance.UNCERTAIN};
             }
           } else {
-            if (studentData.scores.nweaPercentileMath >= 24 &&
-              studentData.scores.nweaPercentileRead >= 24) {
+            if (studentData.nweaPercentileMath >= 24 &&
+              studentData.nweaPercentileRead >= 24) {
 
               return {outcome: SuccessChance.LIKELY};
             } else {
@@ -852,7 +852,7 @@ const HSReqFns: ReqFnTable = {
             "CHICAGO MILITARY HS - Service Learning Academies (Military) - Application"
         ],
         "fn": (studentData, schoolData) => {
-            if (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead >= 48) {
+            if (studentData.nweaPercentileMath + studentData.nweaPercentileRead >= 48) {
               return {outcome: SuccessChance.CERTAIN};
             }
         }
@@ -929,12 +929,12 @@ const HSReqFns: ReqFnTable = {
           //  if (student.iep || student.ell) {
           //    let higher;
           //    let lower;
-          //    if (student.scores.nweaPercentileMath > student.scores.nweaPercentileRead) {
-          //      higher = student.scores.nweaPercentileMath;
-          //      lower = student.scores.nweaPercentileRead;
+          //    if (student.nweaPercentileMath > student.nweaPercentileRead) {
+          //      higher = student.nweaPercentileMath;
+          //      lower = student.nweaPercentileRead;
           //    } else {
-          //      higher = student.scores.nweaPercentileRead;
-          //      lower = student.scores.nweaPercentileMath;
+          //      higher = student.nweaPercentileRead;
+          //      lower = student.nweaPercentileMath;
           //    }
           //    
           //    if (higher >= 50 && lower >= 40) {
@@ -944,7 +944,7 @@ const HSReqFns: ReqFnTable = {
           //    }
           //    
           //  } else {
-          //    if (student.scores.nweaPercentileMath >= 45 && student.scores.nweaPercentileRead >= 45) {
+          //    if (student.nweaPercentileMath >= 45 && student.nweaPercentileRead >= 45) {
           //      return {outcome: SuccessChance.CERTAIN};
           //    } else {
           //      return {outcome: SuccessChance.NONE};
@@ -995,15 +995,15 @@ const HSReqFns: ReqFnTable = {
         ],
         "fn": (studentData, schoolData) => {
             if (studentData.iep || studentData.ell) {
-                  if (studentData.scores.nweaPercentileMath >= 45 &&
-                      studentData.scores.nweaPercentileRead >= 45 &&
+                  if (studentData.nweaPercentileMath >= 45 &&
+                      studentData.nweaPercentileRead >= 45 &&
                       studentData.gpa > 2.0) {
                      return {outcome: SuccessChance.CERTAIN};
                   } else {
                     return {outcome: SuccessChance.NONE};
                   }
             } else {
-                  if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 90 &&
+                  if ( (studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 90 &&
                       studentData.gpa > 2.0) {
                     return {outcome: SuccessChance.CERTAIN};
                   } else {
@@ -1052,14 +1052,14 @@ const HSReqFns: ReqFnTable = {
         ],
       "fn": (studentData, schoolData) => {
           if (studentData.iep || studentData.ell) {
-            if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
+            if ( (studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48) {
               return {outcome: SuccessChance.LIKELY};
             } else {
               return {outcome: SuccessChance.UNCERTAIN};
             }
           } else {
-            if (studentData.scores.nweaPercentileMath >= 24 &&
-              studentData.scores.nweaPercentileRead >= 24) {
+            if (studentData.nweaPercentileMath >= 24 &&
+              studentData.nweaPercentileRead >= 24) {
 
               return {outcome: SuccessChance.LIKELY};
             } else {
@@ -1092,7 +1092,7 @@ const HSReqFns: ReqFnTable = {
         ],
       "fn": (studentData, schoolData) => {
         if (studentData.iep || studentData.ell) {
-          if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
+          if ( (studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48 &&
             studentData.gpa >= 3.0 &&
             studentData.attendancePercentage >= 95) {
 
@@ -1102,8 +1102,8 @@ const HSReqFns: ReqFnTable = {
           }
 
         } else {
-          if ( studentData.scores.nweaPercentileMath >= 24 &&
-            studentData.scores.nweaPercentileRead >= 24 &&
+          if ( studentData.nweaPercentileMath >= 24 &&
+            studentData.nweaPercentileRead >= 24 &&
             studentData.gpa >= 3.0 &&
             studentData.attendancePercentage >= 95 ) {
 
@@ -1164,7 +1164,7 @@ const HSReqFns: ReqFnTable = {
         ],
       "fn": (studentData, schoolData) => {
         if (studentData.iep || studentData.ell) {
-          if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
+          if ( (studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48 &&
             studentData.gpa >= 2.5) {
             
             return {outcome: SuccessChance.CERTAIN};
@@ -1173,8 +1173,8 @@ const HSReqFns: ReqFnTable = {
           }            
 
         } else {
-          if (studentData.scores.nweaPercentileMath >= 24 &&
-            studentData.scores.nweaPercentileRead >= 24 &&
+          if (studentData.nweaPercentileMath >= 24 &&
+            studentData.nweaPercentileRead >= 24 &&
             studentData.gpa >= 2.5) {
 
             return {outcome: SuccessChance.CERTAIN};
@@ -1243,14 +1243,14 @@ const HSReqFns: ReqFnTable = {
         ],
       "fn": (studentData, schoolData) => {
           if (studentData.iep || studentData.ell) {
-            if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
+            if ( (studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48) {
               return {outcome: SuccessChance.LIKELY};
             } else {
               return {outcome: SuccessChance.UNCERTAIN};
             }
           } else {
-            if (studentData.scores.nweaPercentileMath >= 24 &&
-              studentData.scores.nweaPercentileRead >= 24) {
+            if (studentData.nweaPercentileMath >= 24 &&
+              studentData.nweaPercentileRead >= 24) {
 
               return {outcome: SuccessChance.LIKELY};
             } else {
@@ -1372,8 +1372,8 @@ const HSReqFns: ReqFnTable = {
             "CHICAGO ACADEMY HS - Scholars - Application"
         ],
       "fn": (studentData, schoolData) => {
-        if ( studentData.scores.nweaPercentileMath >= 70 &&
-          studentData.scores.nweaPercentileRead >= 70 &&
+        if ( studentData.nweaPercentileMath >= 70 &&
+          studentData.nweaPercentileRead >= 70 &&
           studentData.gpa >= 3.0 &&
           studentData.attendancePercentage >= 93 ) {
 
@@ -1451,7 +1451,7 @@ const HSReqFns: ReqFnTable = {
         ],
       "fn": (studentData, schoolData) => {
         if (studentData.iep || studentData.ell) {
-          if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
+          if ( (studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48 &&
             studentData.gpa >= 2.5 ) {
 
             return {outcome: SuccessChance.CERTAIN};
@@ -1460,8 +1460,8 @@ const HSReqFns: ReqFnTable = {
           }
 
         } else {
-          if ( studentData.scores.nweaPercentileMath >= 24 &&
-            studentData.scores.nweaPercentileRead >= 24 &&
+          if ( studentData.nweaPercentileMath >= 24 &&
+            studentData.nweaPercentileRead >= 24 &&
             studentData.gpa >= 2.5 ) {
 
             return {outcome: SuccessChance.CERTAIN};
@@ -1488,7 +1488,7 @@ const HSReqFns: ReqFnTable = {
         ],
       "fn": (studentData, schoolData) => {
         if (studentData.iep || studentData.ell) {
-          if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 ) {
+          if ( (studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48 ) {
 
             return {outcome: SuccessChance.CERTAIN};
           } else {
@@ -1496,8 +1496,8 @@ const HSReqFns: ReqFnTable = {
           }
 
         } else {
-          if ( studentData.scores.nweaPercentileMath >= 24 &&
-            studentData.scores.nweaPercentileRead >= 24 ) {
+          if ( studentData.nweaPercentileMath >= 24 &&
+            studentData.nweaPercentileRead >= 24 ) {
 
             return {outcome: SuccessChance.CERTAIN};
           } else {
@@ -1545,8 +1545,8 @@ const HSReqFns: ReqFnTable = {
             "TAFT HS - NJROTC - Application"
         ],
       "fn": (studentData, schoolData) => {
-        if (studentData.scores.nweaPercentileMath >= 24 &&
-          studentData.scores.nweaPercentileRead >= 24 ) {
+        if (studentData.nweaPercentileMath >= 24 &&
+          studentData.nweaPercentileRead >= 24 ) {
 
           return {outcome: SuccessChance.CERTAIN};
         } else {
@@ -1575,8 +1575,8 @@ const HSReqFns: ReqFnTable = {
         if (inAttendanceBound(studentData, schoolData)) {
           return {outcome: SuccessChance.CERTAIN};
         } else {
-          if ( studentData.scores.nweaPercentileMath >= 60 &&
-            studentData.scores.nweaPercentileRead >= 60 &&
+          if ( studentData.nweaPercentileMath >= 60 &&
+            studentData.nweaPercentileRead >= 60 &&
             studentData.gpa >= 2.5 ) {
 
             return {outcome: SuccessChance.CERTAIN};
@@ -1615,7 +1615,7 @@ const HSReqFns: ReqFnTable = {
         } else {
           if (studentData.iep || studentData.ell) {
             // TODO: is this a typo??
-            if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 24 &&
+            if ( (studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 24 &&
               studentData.attendancePercentage >= 90 ) {
 
               return {outcome: SuccessChance.CERTAIN};
@@ -1624,8 +1624,8 @@ const HSReqFns: ReqFnTable = {
             }
 
           } else {
-            if ( studentData.scores.nweaPercentileMath >= 24 &&
-              studentData.scores.nweaPercentileRead >= 24 &&
+            if ( studentData.nweaPercentileMath >= 24 &&
+              studentData.nweaPercentileRead >= 24 &&
               studentData.attendancePercentage >= 90 ) {
 
               return {outcome: SuccessChance.CERTAIN};
@@ -1671,7 +1671,7 @@ const HSReqFns: ReqFnTable = {
 
         } else {
           if (studentData.iep || studentData.ell) {
-            if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 ) {
+            if ( (studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48 ) {
               return {outcome: SuccessChance.LIKELY};
             } else if (studentData.prevGradeLevel !== 7) {
               return {outcome: SuccessChance.UNLIKELY};
@@ -1679,8 +1679,8 @@ const HSReqFns: ReqFnTable = {
               return {outcome: SuccessChance.UNCERTAIN};
             }
           } else {
-            if ( studentData.scores.nweaPercentileMath >= 24 &&
-              studentData.scores.nweaPercentileRead >= 24 ) {
+            if ( studentData.nweaPercentileMath >= 24 &&
+              studentData.nweaPercentileRead >= 24 ) {
 
               return {outcome: SuccessChance.LIKELY};
             } else if (studentData.prevGradeLevel !== 7) {
@@ -1699,8 +1699,8 @@ const HSReqFns: ReqFnTable = {
             "FENGER HS - Honors - Application"
         ],
       "fn": (studentData, schoolData) => {
-        if ( studentData.scores.nweaPercentileMath >= 50 &&
-          studentData.scores.nweaPercentileRead >= 50 &&
+        if ( studentData.nweaPercentileMath >= 50 &&
+          studentData.nweaPercentileRead >= 50 &&
           studentData.gpa >= 2.0 ) {
 
           return {outcome: SuccessChance.CERTAIN};
@@ -1774,7 +1774,7 @@ const HSReqFns: ReqFnTable = {
             "KELLY HS - AVID - Application"
         ],
       "fn": (studentData, schoolData) => {
-        if ( studentData.scores.nweaPercentileRead >= 50 &&
+        if ( studentData.nweaPercentileRead >= 50 &&
           studentData.gpa >= 2.0 &&
           studentData.attendancePercentage >= 80 ) {
 
@@ -1802,14 +1802,14 @@ const HSReqFns: ReqFnTable = {
         ],
       "fn": (studentData, schoolData) => {
           if (studentData.iep || studentData.ell) {
-            if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
+            if ( (studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48) {
               return {outcome: SuccessChance.LIKELY};
             } else {
               return {outcome: SuccessChance.UNCERTAIN};
             }
           } else {
-            if (studentData.scores.nweaPercentileMath >= 24 &&
-              studentData.scores.nweaPercentileRead >= 24) {
+            if (studentData.nweaPercentileMath >= 24 &&
+              studentData.nweaPercentileRead >= 24) {
 
               return {outcome: SuccessChance.LIKELY};
             } else {
@@ -1837,8 +1837,8 @@ const HSReqFns: ReqFnTable = {
             "KENWOOD HS - Honors - Application"
         ],
       "fn": (studentData, schoolData) => {
-        if ( studentData.scores.nweaPercentileMath >= 75 &&
-          studentData.scores.nweaPercentileRead >= 75 &&
+        if ( studentData.nweaPercentileMath >= 75 &&
+          studentData.nweaPercentileRead >= 75 &&
           studentData.gpa >= 3.5 &&
           studentData.attendancePercentage >= 95 ) {
 
@@ -1857,7 +1857,7 @@ const HSReqFns: ReqFnTable = {
         ],
       "fn": (studentData, schoolData) => {
         if (studentData.iep || studentData.ell) {
-          if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) > 30 &&
+          if ( (studentData.nweaPercentileMath + studentData.nweaPercentileRead) > 30 &&
             studentData.attendancePercentage >= 90 ) {
 
             return {outcome: SuccessChance.CERTAIN};
@@ -1865,7 +1865,7 @@ const HSReqFns: ReqFnTable = {
             return {outcome: SuccessChance.NONE};
           }
         } else {
-          if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) > 40 &&
+          if ( (studentData.nweaPercentileMath + studentData.nweaPercentileRead) > 40 &&
             studentData.gpa >= 2.5 &&
             studentData.attendancePercentage >= 90 ) {
 
@@ -1899,7 +1899,7 @@ const HSReqFns: ReqFnTable = {
           return {outcome: SuccessChance.CERTAIN};
         } else {
           if (studentData.iep || studentData.ell) {
-            if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 40 &&
+            if ( (studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 40 &&
               studentData.attendancePercentage >= 85 ) {
 
               return {outcome: SuccessChance.CERTAIN};
@@ -1907,8 +1907,8 @@ const HSReqFns: ReqFnTable = {
               return {outcome: SuccessChance.NONE};
             }
           } else {
-            if ( studentData.scores.nweaPercentileMath >= 24 &&
-              studentData.scores.nweaPercentileRead >= 24 &&
+            if ( studentData.nweaPercentileMath >= 24 &&
+              studentData.nweaPercentileRead >= 24 &&
               studentData.attendancePercentage >= 85 ) {
 
               return {outcome: SuccessChance.CERTAIN};
@@ -1942,8 +1942,8 @@ const HSReqFns: ReqFnTable = {
             "SIMEON HS - Honors - Application"
         ],
       "fn": (studentData, schoolData) => {
-        if ( studentData.scores.nweaPercentileMath >= 50 &&
-          studentData.scores.nweaPercentileRead >= 50 &&
+        if ( studentData.nweaPercentileMath >= 50 &&
+          studentData.nweaPercentileRead >= 50 &&
           studentData.gpa >= 3.0 &&
           studentData.attendancePercentage >= 90 ) {
           
@@ -1963,7 +1963,7 @@ const HSReqFns: ReqFnTable = {
         if (inAttendanceBound(studentData, schoolData)) {
           return {outcome: SuccessChance.CERTAIN};
         } else {
-          if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 135 &&
+          if ( (studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 135 &&
             studentData.gpa >= 3.0 ) {
 
             return {outcome: SuccessChance.CERTAIN};
@@ -1995,8 +1995,8 @@ const HSReqFns: ReqFnTable = {
             "CHICAGO AGRICULTURE HS - Scholars - Application"
         ],
       "fn": (studentData, schoolData) => {
-        if (studentData.scores.nweaPercentileMath >= 80 &&
-          studentData.scores.nweaPercentileRead >= 80 &&
+        if (studentData.nweaPercentileMath >= 80 &&
+          studentData.nweaPercentileRead >= 80 &&
           studentData.gpa >= 3.5 ) {
 
           return {outcome: SuccessChance.CERTAIN};
@@ -2057,14 +2057,14 @@ const HSReqFns: ReqFnTable = {
         ],
       "fn": (studentData, schoolData) => {
           if (studentData.iep || studentData.ell) {
-            if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
+            if ( (studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48) {
               return {outcome: SuccessChance.LIKELY};
             } else {
               return {outcome: SuccessChance.UNCERTAIN};
             }
           } else {
-            if (studentData.scores.nweaPercentileMath >= 24 &&
-              studentData.scores.nweaPercentileRead >= 24) {
+            if (studentData.nweaPercentileMath >= 24 &&
+              studentData.nweaPercentileRead >= 24) {
 
               return {outcome: SuccessChance.LIKELY};
             } else {
@@ -2153,8 +2153,8 @@ const HSReqFns: ReqFnTable = {
             "COLLINS HS - Scholars - Application"
         ],
       "fn": (studentData, schoolData) => {
-        if ( studentData.scores.nweaPercentileMath >= 40 &&
-          studentData.scores.nweaPercentileRead >= 40 &&
+        if ( studentData.nweaPercentileMath >= 40 &&
+          studentData.nweaPercentileRead >= 40 &&
           studentData.gpa >= 2.8 &&
           studentData.attendancePercentage >= 92 ) {
 
@@ -2185,7 +2185,7 @@ const HSReqFns: ReqFnTable = {
         if (studentData.iep || studentData.ell) {
           return {outcome: SuccessChance.CERTAIN};
         } else {
-          if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 40 &&
+          if ( (studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 40 &&
             studentData.gpa >= 2.0 &&
             studentData.attendancePercentage >= 80 ) {
 
@@ -2249,7 +2249,7 @@ const HSReqFns: ReqFnTable = {
         ],
       "fn": (studentData, schoolData) => {
         if (studentData.iep || studentData.ell) {
-          if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
+          if ( (studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48 &&
             studentData.attendancePercentage >= 85 ) {
 
             return {outcome: SuccessChance.CERTAIN};
@@ -2257,8 +2257,8 @@ const HSReqFns: ReqFnTable = {
             return {outcome: SuccessChance.NONE};
           }
         } else {
-          if ( studentData.scores.nweaPercentileMath >= 24 &&
-            studentData.scores.nweaPercentileRead >= 24 &&
+          if ( studentData.nweaPercentileMath >= 24 &&
+            studentData.nweaPercentileRead >= 24 &&
             studentData.attendancePercentage >= 85 ) {
 
             return {outcome: SuccessChance.CERTAIN};
@@ -2276,7 +2276,7 @@ const HSReqFns: ReqFnTable = {
         ],
       "fn": (studentData, schoolData) => {
         if (studentData.iep || studentData.ell) {
-          if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
+          if ( (studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48 &&
             studentData.gpa >= 2.5 &&
             studentData.attendancePercentage >= 90 ) {
 
@@ -2285,8 +2285,8 @@ const HSReqFns: ReqFnTable = {
             return {outcome: SuccessChance.NONE};
           }
         } else {
-          if ( studentData.scores.nweaPercentileMath >= 24 &&
-            studentData.scores.nweaPercentileRead >= 24 &&
+          if ( studentData.nweaPercentileMath >= 24 &&
+            studentData.nweaPercentileRead >= 24 &&
             studentData.gpa >= 2.5 &&
             studentData.attendancePercentage >= 90 ) {
 
@@ -2305,7 +2305,7 @@ const HSReqFns: ReqFnTable = {
         ],
       "fn": (studentData, schoolData) => {
         if (studentData.iep || studentData.ell) {
-          if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
+          if ( (studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48 &&
             studentData.attendancePercentage >= 90 ) {
 
             return {outcome: SuccessChance.CERTAIN};
@@ -2313,8 +2313,8 @@ const HSReqFns: ReqFnTable = {
             return {outcome: SuccessChance.NONE};
           }
         } else {
-          if ( studentData.scores.nweaPercentileMath >= 24 &&
-            studentData.scores.nweaPercentileRead >= 24 &&
+          if ( studentData.nweaPercentileMath >= 24 &&
+            studentData.nweaPercentileRead >= 24 &&
             studentData.gpa >= 2.5 &&
             studentData.attendancePercentage >= 90 ) {
 
@@ -2333,7 +2333,7 @@ const HSReqFns: ReqFnTable = {
         ],
       "fn": (studentData, schoolData) => {
         if (studentData.iep || studentData.ell) {
-          if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 ) {
+          if ( (studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48 ) {
             return {outcome: SuccessChance.LIKELY};
           } else if (studentData.prevGradeLevel !== 7) {
             return {outcome: SuccessChance.UNLIKELY};
@@ -2341,7 +2341,7 @@ const HSReqFns: ReqFnTable = {
             return {outcome: SuccessChance.UNCERTAIN};
           }
         } else {
-          if ( studentData.scores.nweaPercentileMath >= 24 && studentData.scores.nweaPercentileRead >= 24 ) {
+          if ( studentData.nweaPercentileMath >= 24 && studentData.nweaPercentileRead >= 24 ) {
             return {outcome: SuccessChance.LIKELY};
           } else if (studentData.prevGradeLevel !== 7) {
             return {outcome: SuccessChance.UNLIKELY};
@@ -2374,8 +2374,8 @@ const HSReqFns: ReqFnTable = {
             "KENWOOD HS - Magnet Program - Application"
         ],
       "fn": (student, school) => {
-        if (student.scores.nweaPercentileMath >= 60 &&
-          student.scores.nweaPercentileRead >= 60 &&
+        if (student.nweaPercentileMath >= 60 &&
+          student.nweaPercentileRead >= 60 &&
           student.gpa >= 3.0 &&
           student.attendancePercentage >= 95 ) {
 
@@ -2494,8 +2494,8 @@ const HSReqFns: ReqFnTable = {
           if ( inAttendanceBound(student, school)) {
             return {outcome: SuccessChance.CERTAIN};
           } else {
-            if ( student.scores.nweaPercentileMath >= 60 &&
-              student.scores.nweaPercentileRead >= 60 && 
+            if ( student.nweaPercentileMath >= 60 &&
+              student.nweaPercentileRead >= 60 && 
               student.gpa >= 2.75 ) {
 
               return {outcome: SuccessChance.CERTAIN};
@@ -2527,8 +2527,8 @@ const HSReqFns: ReqFnTable = {
             "LINCOLN PARK HS - Drama - Application"
         ],
         "fn": (student, school) => {
-            if ( student.scores.nweaPercentileMath >= 60 &&
-              student.scores.nweaPercentileRead >= 60 && 
+            if ( student.nweaPercentileMath >= 60 &&
+              student.nweaPercentileRead >= 60 && 
               student.gpa >= 2.75 ) {
 
               return {outcome: SuccessChance.CERTAIN};
@@ -2556,14 +2556,14 @@ const HSReqFns: ReqFnTable = {
         ],
         "fn": (student, school) => {
           if (student.iep || student.ell) {
-            if ( (student.scores.nweaPercentileMath + student.scores.nweaPercentileRead ) >= 48 ) {
+            if ( (student.nweaPercentileMath + student.nweaPercentileRead ) >= 48 ) {
               return {outcome: SuccessChance.CERTAIN};
             } else {
               return {outcome: SuccessChance.NONE};
             }
           } else {
-            if ( student.scores.nweaPercentileMath >= 24 &&
-              student.scores.nweaPercentileRead >= 24 ) {
+            if ( student.nweaPercentileMath >= 24 &&
+              student.nweaPercentileRead >= 24 ) {
 
               return {outcome: SuccessChance.CERTAIN};
             } else {
@@ -2580,14 +2580,14 @@ const HSReqFns: ReqFnTable = {
         ],
         "fn": (student, school) => {
           if (student.iep || student.ell) {
-            if ( (student.scores.nweaPercentileMath + student.scores.nweaPercentileRead ) >= 48 ) {
+            if ( (student.nweaPercentileMath + student.nweaPercentileRead ) >= 48 ) {
               return {outcome: SuccessChance.CERTAIN};
             } else {
               return {outcome: SuccessChance.NONE};
             }
           } else {
-            if ( student.scores.nweaPercentileMath >= 24 &&
-              student.scores.nweaPercentileRead >= 24 ) {
+            if ( student.nweaPercentileMath >= 24 &&
+              student.nweaPercentileRead >= 24 ) {
 
               return {outcome: SuccessChance.CERTAIN};
             } else {
@@ -2666,7 +2666,7 @@ const HSReqFns: ReqFnTable = {
         ],
         "fn": (studentData, schoolData) => {
           if (studentData.iep || studentData.ell) {
-            if ( (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
+            if ( (studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48 &&
               studentData.gpa >= 2.5 ) {
 
               return {outcome: SuccessChance.CERTAIN};
@@ -2675,8 +2675,8 @@ const HSReqFns: ReqFnTable = {
             }
 
           } else {
-            if ( studentData.scores.nweaPercentileMath >= 24 &&
-              studentData.scores.nweaPercentileRead >= 24 &&
+            if ( studentData.nweaPercentileMath >= 24 &&
+              studentData.nweaPercentileRead >= 24 &&
               studentData.gpa >= 2.5 ) {
 
               return {outcome: SuccessChance.CERTAIN};
@@ -2705,8 +2705,8 @@ const HSReqFns: ReqFnTable = {
             "CHICAGO AGRICULTURE HS - Honors - Application"
         ],
         "fn": (student, school) => {
-          if (student.scores.nweaPercentileMath >= 50 &&
-            student.scores.nweaPercentileRead >= 50 &&
+          if (student.nweaPercentileMath >= 50 &&
+            student.nweaPercentileRead >= 50 &&
             student.gpa >= 3.0 ) {
 
             return {outcome: SuccessChance.CERTAIN};
@@ -2793,8 +2793,8 @@ const HSReqFns: ReqFnTable = {
           if (student.iep || student.ell) {
             return {outcome: SuccessChance.CERTAIN};
           } else {
-            if ( student.scores.nweaPercentileMath >= 60 &&
-              student.scores.nweaPercentileRead >= 60 &&
+            if ( student.nweaPercentileMath >= 60 &&
+              student.nweaPercentileRead >= 60 &&
               student.gpa >= 3.0 &&
               student.attendancePercentage >= 95 ) {
 
@@ -2816,8 +2816,8 @@ const HSReqFns: ReqFnTable = {
         if (inAttendanceBound(student, school)) {
           return {outcome: SuccessChance.CERTAIN};
         } else {
-          const scoredAboveThreshold = student.scores.nweaPercentileMath >= 60 &&
-            student.scores.nweaPercentileRead >= 60;
+          const scoredAboveThreshold = student.nweaPercentileMath >= 60 &&
+            student.nweaPercentileRead >= 60;
 
           if ( scoredAboveThreshold || hasSiblingInProgram(student, school)) {
             return {outcome: SuccessChance.LIKELY};
@@ -2835,7 +2835,7 @@ const HSReqFns: ReqFnTable = {
         ],
       "fn": (student, school) => {
         if (student.iep || student.ell) {
-          if ( (student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 24 &&
+          if ( (student.nweaPercentileMath + student.nweaPercentileRead) >= 24 &&
             student.attendancePercentage >= 85 ) {
 
             return {outcome: SuccessChance.CERTAIN};
@@ -2897,7 +2897,7 @@ const HSReqFns: ReqFnTable = {
         ],
       "fn": (student, school) => {
         if (student.iep || student.ell) {
-          if ( (student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 ) {
+          if ( (student.nweaPercentileMath + student.nweaPercentileRead) >= 48 ) {
             return {outcome: SuccessChance.LIKELY};
           } else if (student.prevGradeLevel !== 7) {
             return {outcome: SuccessChance.UNLIKELY};
@@ -2905,8 +2905,8 @@ const HSReqFns: ReqFnTable = {
             return {outcome: SuccessChance.UNCERTAIN};
           }
         } else {
-          if ( student.scores.nweaPercentileMath >= 24 &&
-            student.scores.nweaPercentileRead >= 24 ) {
+          if ( student.nweaPercentileMath >= 24 &&
+            student.nweaPercentileRead >= 24 ) {
 
             return {outcome: SuccessChance.LIKELY};
           } else if (student.prevGradeLevel !== 7) {
@@ -2925,7 +2925,7 @@ const HSReqFns: ReqFnTable = {
         ],
       "fn": (student, school) => {
         if (student.iep || student.ell) {
-          if ( (student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
+          if ( (student.nweaPercentileMath + student.nweaPercentileRead) >= 48 &&
             student.gpa >= 2.5 ) {
 
             return {outcome: SuccessChance.CERTAIN};
@@ -2933,8 +2933,8 @@ const HSReqFns: ReqFnTable = {
             return {outcome: SuccessChance.NONE};
           }
         } else {
-          if ( student.scores.nweaPercentileMath >= 24 &&
-            student.scores.nweaPercentileRead >= 24 &&
+          if ( student.nweaPercentileMath >= 24 &&
+            student.nweaPercentileRead >= 24 &&
             student.gpa >= 2.5 ) {
 
             return {outcome: SuccessChance.CERTAIN};
@@ -2979,7 +2979,7 @@ const HSReqFns: ReqFnTable = {
         ],
       "fn": (student, school) => {
         if (student.iep || student.ell) {
-          if ( (student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 100 &&
+          if ( (student.nweaPercentileMath + student.nweaPercentileRead) >= 100 &&
             student.gpa >= 2.5 ) {
 
             return {outcome: SuccessChance.CERTAIN};
@@ -2987,8 +2987,8 @@ const HSReqFns: ReqFnTable = {
             return {outcome: SuccessChance.NONE};
           }
         } else {
-          if ( student.scores.nweaPercentileMath >= 50 &&
-            student.scores.nweaPercentileRead >= 50 &&
+          if ( student.nweaPercentileMath >= 50 &&
+            student.nweaPercentileRead >= 50 &&
             student.gpa >= 2.5 ) {
 
             return {outcome: SuccessChance.CERTAIN};
@@ -3006,7 +3006,7 @@ const HSReqFns: ReqFnTable = {
         ],
       "fn": (student, school) => {
         if (student.iep || student.ell) {
-          if ( (student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
+          if ( (student.nweaPercentileMath + student.nweaPercentileRead) >= 48 &&
             student.gpa >= 2.5 ) {
 
             return {outcome: SuccessChance.CERTAIN};
@@ -3014,8 +3014,8 @@ const HSReqFns: ReqFnTable = {
             return {outcome: SuccessChance.NONE};
           }
         } else {
-          if ( student.scores.nweaPercentileMath >= 24 &&
-            student.scores.nweaPercentileRead >= 24 &&
+          if ( student.nweaPercentileMath >= 24 &&
+            student.nweaPercentileRead >= 24 &&
             student.gpa >= 2.5 ) {
 
             return {outcome: SuccessChance.CERTAIN};
@@ -3132,14 +3132,14 @@ const HSReqFns: ReqFnTable = {
       "fn": (student, school) => {
         // TODO add prev grade to StudentData
         if (student.iep || student.ell) {
-          if ( (student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48) {
+          if ( (student.nweaPercentileMath + student.nweaPercentileRead) >= 48) {
             return {outcome: SuccessChance.LIKELY};
           } else {
             return {outcome: SuccessChance.UNCERTAIN};
           }
         } else {
-          if ( student.scores.nweaPercentileMath >= 24 &&
-            student.scores.nweaPercentileRead >= 24 ) {
+          if ( student.nweaPercentileMath >= 24 &&
+            student.nweaPercentileRead >= 24 ) {
 
             return {outcome: SuccessChance.LIKELY};
           } else {
@@ -3238,7 +3238,7 @@ const HSReqFns: ReqFnTable = {
         ],
         "fn": (student, school) => {
           if (student.iep || student.ell) {
-            if ( (student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 50 &&
+            if ( (student.nweaPercentileMath + student.nweaPercentileRead) >= 50 &&
               student.attendancePercentage >= 85 ) {
 
               return {outcome: SuccessChance.CERTAIN};
@@ -3246,8 +3246,8 @@ const HSReqFns: ReqFnTable = {
               return {outcome: SuccessChance.NONE};
             }
           } else {
-            if ( student.scores.nweaPercentileMath >= 25 &&
-              student.scores.nweaPercentileRead >= 25 &&
+            if ( student.nweaPercentileMath >= 25 &&
+              student.nweaPercentileRead >= 25 &&
               student.attendancePercentage >= 85 ) {
 
               return {outcome: SuccessChance.CERTAIN};
@@ -3346,14 +3346,14 @@ const HSReqFns: ReqFnTable = {
         ],
         "fn": (student, school) => {
           if (student.iep || student.ell) {
-            if ( (student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 60 ) {
+            if ( (student.nweaPercentileMath + student.nweaPercentileRead) >= 60 ) {
               return {outcome: SuccessChance.CERTAIN};
             } else {
               return {outcome: SuccessChance.NONE};
             }
           } else {
-            if ( student.scores.nweaPercentileRead >= 50 &&
-              student.scores.nweaPercentileMath >= 50 &&
+            if ( student.nweaPercentileRead >= 50 &&
+              student.nweaPercentileMath >= 50 &&
               student.gpa >= 3.0 ) {
 
               return {outcome: SuccessChance.CERTAIN};
@@ -3371,8 +3371,8 @@ const HSReqFns: ReqFnTable = {
         ],
         "fn": (student, school) => {
           // TODO add non eligible applicants still apply to science program
-          if ( student.scores.nweaPercentileMath >= 60 &&
-            student.scores.nweaPercentileRead >= 60 &&
+          if ( student.nweaPercentileMath >= 60 &&
+            student.nweaPercentileRead >= 60 &&
             student.gpa >= 3.0 ) {
 
             return {outcome: SuccessChance.CERTAIN};
@@ -3403,7 +3403,7 @@ const HSReqFns: ReqFnTable = {
         ],
         "fn": (student, school) => {
           if (student.iep || student.ell) {
-            if ( (student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
+            if ( (student.nweaPercentileMath + student.nweaPercentileRead) >= 48 &&
               student.attendancePercentage >= 92 ) {
 
               return {outcome: SuccessChance.CERTAIN};
@@ -3411,8 +3411,8 @@ const HSReqFns: ReqFnTable = {
               return {outcome: SuccessChance.NONE};
             }
           } else {
-            if ( student.scores.nweaPercentileMath >= 24 &&
-              student.scores.nweaPercentileMath >= 24 &&
+            if ( student.nweaPercentileMath >= 24 &&
+              student.nweaPercentileMath >= 24 &&
               student.attendancePercentage >= 92 ) {
 
               return {outcome: SuccessChance.CERTAIN};
@@ -3444,7 +3444,7 @@ const HSReqFns: ReqFnTable = {
         ],
         "fn": (student, school) => {
           if (student.iep || student.ell) {
-            if ( (student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
+            if ( (student.nweaPercentileMath + student.nweaPercentileRead) >= 48 &&
               student.attendancePercentage >= 92 ) {
 
               return {outcome: SuccessChance.CERTAIN};
@@ -3452,8 +3452,8 @@ const HSReqFns: ReqFnTable = {
               return {outcome: SuccessChance.NONE};
             }
           } else {
-            if ( student.scores.nweaPercentileMath >= 24 &&
-              student.scores.nweaPercentileMath >= 24 &&
+            if ( student.nweaPercentileMath >= 24 &&
+              student.nweaPercentileMath >= 24 &&
               student.attendancePercentage >= 92 ) {
 
               return {outcome: SuccessChance.CERTAIN};
@@ -3481,7 +3481,7 @@ const HSReqFns: ReqFnTable = {
         ],
         "fn": (student, school) => {
           if (student.iep || student.ell) {
-            if ( (student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
+            if ( (student.nweaPercentileMath + student.nweaPercentileRead) >= 48 &&
               student.attendancePercentage >= 92 ) {
 
               return {outcome: SuccessChance.CERTAIN};
@@ -3489,8 +3489,8 @@ const HSReqFns: ReqFnTable = {
               return {outcome: SuccessChance.NONE};
             }
           } else {
-            if ( student.scores.nweaPercentileMath >= 24 &&
-              student.scores.nweaPercentileMath >= 24 &&
+            if ( student.nweaPercentileMath >= 24 &&
+              student.nweaPercentileMath >= 24 &&
               student.attendancePercentage >= 92 ) {
 
               return {outcome: SuccessChance.CERTAIN};
@@ -3518,7 +3518,7 @@ const HSReqFns: ReqFnTable = {
         ],
         "fn": (student, school) => {
           if (student.iep || student.ell) {
-            if ( (student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
+            if ( (student.nweaPercentileMath + student.nweaPercentileRead) >= 48 &&
               student.attendancePercentage >= 92 ) {
 
               return {outcome: SuccessChance.CERTAIN};
@@ -3526,8 +3526,8 @@ const HSReqFns: ReqFnTable = {
               return {outcome: SuccessChance.NONE};
             }
           } else {
-            if ( student.scores.nweaPercentileMath >= 24 &&
-              student.scores.nweaPercentileMath >= 24 &&
+            if ( student.nweaPercentileMath >= 24 &&
+              student.nweaPercentileMath >= 24 &&
               student.attendancePercentage >= 92 ) {
 
               return {outcome: SuccessChance.CERTAIN};

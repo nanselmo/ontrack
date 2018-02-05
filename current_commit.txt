@@ -1,5 +1,9 @@
-[WIP] Replace root application state with redux
+[WIP] Refactor app, implement redux
 
+* DONE flatten StudentData.scores into StudentData
+* DONE remove unused score-projection-utils
+* DONE refactor StudentDataForm to expose onChange
+    handlers for each field independently
 * DONE make PathToHS stateless functional component
 * TODO make StudentInfoDisplay and HSDisplay react aware
   ** prediction: if I did things right for the rest of development,
@@ -17,4 +21,5 @@
 
 * DONE move StudentDataForm child components up into src/components/
     student-info-display
-* TODO move spinning-load-icon.scss into shared/styles
+* DONE move spinning-load-icon.scss into shared/styles
+*

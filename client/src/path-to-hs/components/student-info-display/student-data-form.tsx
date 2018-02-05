@@ -3,9 +3,6 @@ import * as React from "react"
 import StudentData from "shared/types/student-data";
 import CPSProgram from "shared/types/cps-program";
 import {StudentDataFormStrings as strings} from "shared/l10n/strings";
-import {cloneAndExtend} from "shared/util/clone";
-import ScoreType from "shared/enums/score-type";
-import ValidationState from "shared/enums/validation-state";
 import Gender from "shared/enums/gender";
 
 import {scoreToString, tryParseScore} from "shared/util/grade-convert";
@@ -34,32 +31,39 @@ const hsPrograms: Array<CPSProgram> = getHSPrograms().sort( alphaSort );
 
 import "./student-data-form.scss";
 
+interface StudentLocation {
+  address: string
+  tier: string
+  geo: {latitude: number, longitude: number}
+}
+
 interface StudentDataFormProps {
   studentData: StudentData
-  onChange: (data: StudentData) => any
+
+  onGenderChange: (gender: Gender) => any
+  onLocationChange: (loc: StudentLocation) => any
+  onGradeLevelChange: (gradeLevel: number) => any
+  onPrevGradeLevelChange: (prevGradeLevel: number) => any
+  onCurrESProgramChange: (currESProgramID: string) => any
+  onSiblingHSProgramsChange: (siblingHSProgramIDs: string[]) => any
+  onELLChange: (ellStatus: boolean) => any
+  onIEPChange: (iepStatus: boolean) => any
+  onAttendPercentageChange: (attendPercentage: number) => any
+
+  onNWEAPercentileMathChange: (pctile: number) => any
+  onNWEAPercentileReadChange: (pctile: number) => any
+  onSubjGradeMathChange: (grade: number) => any
+  onSubjGradeReadChange: (grade: number) => any
+  onSubjGradeSciChange: (grade: number) => any
+  onSubjGradeSocStudiesChange: (grade: number) => any
+
+  onSETestPercentileChange: (pctile: number) => any
 }
 
 
 const StudentDataForm = (props: StudentDataFormProps) => {
 
   const INPUT_DEBOUNCE_TIME = 250; // ms
-
-  const updateStudentData = (prop: string, value: any): void => {
-    console.log(`${prop}: ${value}`);
-    if (props.studentData[prop] !== value) {
-      const newStudentData = cloneAndExtend(props.studentData, {[prop]: value});
-      props.onChange(newStudentData);
-    }
-  };
-
-  const updateStudentScores = (prop: string, value: number): void => {
-    if (props.studentData.scores[prop] !== value) {
-      const newStudentScores = cloneAndExtend(props.studentData.scores, {[prop]: value}); 
-      const newStudentData = cloneAndExtend(props.studentData, {scores: newStudentScores});
-      props.onChange(newStudentData);
-    }
-  };
-
 
   const between = (min: number, max: number): Limiter<number> => {
     return (curr: number, next: number): number => {
@@ -84,7 +88,7 @@ const StudentDataForm = (props: StudentDataFormProps) => {
           <DropdownField
             label="What grade are you in?"
             value={props.studentData.gradeLevel.toString()}
-            onChange={grade => updateStudentData("gradeLevel", grade)}
+            onChange={(gradeStr: string) => props.onGradeLevelChange(parseInt(gradeStr)) }
             debounceTime={INPUT_DEBOUNCE_TIME}
           >
             <option value="4">4th grade</option>
@@ -96,19 +100,37 @@ const StudentDataForm = (props: StudentDataFormProps) => {
           <DropdownField
             label="What's your gender?"
             value={props.studentData.gender.toString()}
-            onChange={gender => updateStudentData("gender", gender)}
+            onChange={ (gender: string) => {
+              switch(gender) {
+                case "male":
+                  props.onGenderChange(Gender.MALE);
+                  break;
+                case "female":
+                  props.onGenderChange(Gender.MALE);
+                  break;
+                case "other":
+                  props.onGenderChange(Gender.MALE);
+                  break;
+                case "noanswer":
+                  props.onGenderChange(Gender.MALE);
+                  break;
+                default:
+                  console.warn(`unrecognized gender: ${gender}`);
+                  break;
+              }
+            } }
             debounceTime={INPUT_DEBOUNCE_TIME}
           >
-            <option value={Gender.MALE.toString()}>Boy</option>
-            <option value={Gender.FEMALE.toString()}>Girl</option>
-            <option value={Gender.OTHER.toString()}>Other</option>
-            <option value={Gender.NOANSWER.toString()}>Prefer not to answer</option>
+            <option value={"male"}>Boy</option>
+            <option value={"female"}>Girl</option>
+            <option value={"other"}>Other</option>
+            <option value={"noanswer"}>Prefer not to answer</option>
           </DropdownField>
 
           <DropdownField
             label="Do you have an IEP?"
             value={props.studentData.iep ? "true" : "false"}
-            onChange={iep => updateStudentData("iep", iep === "true" ? true : false)}
+            onChange={ iep => props.onIEPChange(iep === "true" ? true : false) }
             debounceTime={INPUT_DEBOUNCE_TIME}
           >
             <option value="true">Yes</option>
@@ -118,7 +140,7 @@ const StudentDataForm = (props: StudentDataFormProps) => {
           <DropdownField
             label="Are you an English Language Learner?"
             value={props.studentData.ell ? "true" : "false"}
-            onChange={ell => updateStudentData("ell", ell === "true" ? true : false)}
+            onChange={ ell => props.onELLChange(ell === "true" ? true : false) }
             debounceTime={INPUT_DEBOUNCE_TIME}
           >
             <option value="true">Yes</option>
@@ -127,33 +149,29 @@ const StudentDataForm = (props: StudentDataFormProps) => {
 
           <ComboBoxField
             label="What elementary school program are you in now?"
-            value={props.studentData.currESProgram}
+            value={props.studentData.currESProgramID}
             data={{records: esPrograms, getKey: (program) => program.ID, getDisplayText: (program) => program.Short_Name + " - " + program.Program_Type }}
-            onChange={currESProgram => updateStudentData("currESProgram", currESProgram)}
+            onChange={ (program: CPSProgram) => props.onCurrESProgramChange(program.ID)}
             debounceTime={INPUT_DEBOUNCE_TIME}
           /> 
 
           <MultiSelectField
             label="Do you have a sibling in high school? If so, which school?"
-            values={props.studentData.siblingHSPrograms}
+            values={props.studentData.siblingHSProgramIDs}
             data={{records: hsPrograms, getKey: (program) => program.ID, getDisplayText: (program) => program.Short_Name + " - " + program.Program_Type }}
-            onChange={siblingHSPrograms => updateStudentData("siblingHSPrograms", siblingHSPrograms)}
+            onChange={ (programs: CPSProgram[]) => props.onSiblingHSProgramsChange(programs.map( program => program.ID ) )}
             debounceTime={INPUT_DEBOUNCE_TIME}
           /> 
           
           <AddressTierCalculator
-            address={props.studentData.address}
-            tier={props.studentData.tier}
-            geolocation={props.studentData.geolocation}
-            onAddressChange={ address => updateStudentData("address", address) }
-            onTierChange={ tier => updateStudentData("tier", tier) }
-            onGeolocationChange={geolocation => updateStudentData("geolocation", geolocation)}
+            location={props.studentData.location}
+            onLocationChange={props.onLocationChange}
           />
 
           <NumberField
             label="Your 7th grade attendance percentage"
             value={props.studentData.attendancePercentage}
-            onChange={ attendancePercentage => updateStudentData("attendancePercentage", attendancePercentage) }
+            onChange={props.onAttendPercentageChange}
             limiter={between(0, 100)}
             debounceTime={INPUT_DEBOUNCE_TIME}
           />
@@ -166,48 +184,48 @@ const StudentDataForm = (props: StudentDataFormProps) => {
 
         <NumberField
           label="NWEA Math percentile"
-          value={props.studentData.scores.nweaPercentileMath}
-          onChange={ nweaPercentileMath => updateStudentScores("nweaPercentileMath", nweaPercentileMath) }
+          value={props.studentData.nweaPercentileMath}
+          onChange={props.onNWEAPercentileMathChange}
           limiter={between(1, 99)}
           debounceTime={INPUT_DEBOUNCE_TIME}
         />
 
         <NumberField
           label="NWEA Reading percentile"
-          value={props.studentData.scores.nweaPercentileRead}
-          onChange={ nweaPercentileRead => updateStudentScores("nweaPercentileRead", nweaPercentileRead) }
+          value={props.studentData.nweaPercentileRead}
+          onChange={props.onNWEAPercentileReadChange}
           limiter={between(1, 99)}
           debounceTime={INPUT_DEBOUNCE_TIME}
         />
 
         <NumberField
           label="Your Math grade"
-          value={props.studentData.scores.subjGradeMath}
-          onChange={ subjGradeMath => updateStudentScores("subjGradeMath", subjGradeMath) }
+          value={props.studentData.subjGradeMath}
+          onChange={props.onSubjGradeMathChange}
           limiter={between(0, 100)}
           debounceTime={INPUT_DEBOUNCE_TIME}
         />
 
         <NumberField
           label="Your Reading grade"
-          value={props.studentData.scores.subjGradeRead}
-          onChange={ subjGradeRead => updateStudentScores("subjGradeRead", subjGradeRead) }
+          value={props.studentData.subjGradeRead}
+          onChange={props.onSubjGradeReadChange}
           limiter={between(0, 100)}
           debounceTime={INPUT_DEBOUNCE_TIME}
         />
 
         <NumberField
           label="Your Science grade"
-          value={props.studentData.scores.subjGradeSci}
-          onChange={ subjGradeSci => updateStudentScores("subjGradeSci", subjGradeSci) }
+          value={props.studentData.subjGradeSci}
+          onChange={props.onSubjGradeSciChange}
           limiter={between(0, 100)}
           debounceTime={INPUT_DEBOUNCE_TIME}
         />
 
         <NumberField
           label="Your Social Studies grade"
-          value={props.studentData.scores.subjGradeSocStudies}
-          onChange={ subjGradeSocStudies => updateStudentScores("subjGradeSocStudies", subjGradeSocStudies) }
+          value={props.studentData.subjGradeSocStudies}
+          onChange={props.onSubjGradeSocStudiesChange}
           limiter={between(0, 100)}
           debounceTime={INPUT_DEBOUNCE_TIME}
         />
@@ -215,7 +233,7 @@ const StudentDataForm = (props: StudentDataFormProps) => {
         <NumberField
           label="Your Selective Enrollment test percentile"
           value={props.studentData.seTestPercentile}
-          onChange={ seTestPercentile => updateStudentData("seTestPercentile", seTestPercentile) }
+          onChange={props.onSETestPercentileChange}
           limiter={between(1, 99)}
           debounceTime={INPUT_DEBOUNCE_TIME}
         />

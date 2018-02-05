@@ -1,4 +1,4 @@
-import Action from "shared/enum/action";
+import Action from "shared/enums/action";
 
 const selectHSProgram = (newValue: string) => {
   return {

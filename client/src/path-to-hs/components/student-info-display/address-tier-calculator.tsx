@@ -1,34 +1,22 @@
 import * as React from "react";
 
 import Timeout from "shared/util/timeout";
-
+import StudentLocation from "shared/types/student-location";
 import TextField from "shared/components/ui/fields/text-field";
 import FieldValidationState from "shared/components/ui/fields/field-validation-state";
 import {getTier, GetTierError} from "shared/util/get-tier";
 
 import "./address-tier-calculator.scss";
-import "./spinning-load-icon.scss";
-
-type Geolocation = {latitude: number, longitude: number};
-interface AddressInfo {
-  address: string
-  tier: string
-  geolocation: Geolocation
-}
 
 interface AddrTierCalcProps {
-  address: string | null
-  tier: string | null
-  geolocation: Geolocation | null
-  onAddressChange: (newAddress: string) => any
-  onTierChange: (newTier: string) => any
-  onGeolocationChange: (newGeo: Geolocation) => any
+  location: StudentLocation
+  onLocationChange: (loc: StudentLocation) => any
 }
 
 interface AddrTierCalcState {
   address: string
   tier: string
-  geo: Geolocation
+  geo: {latitude: number, longitude: number}
   request?: Promise<string> 
   timeoutInstance?: Timeout | null
   requestInProgress: boolean
@@ -90,10 +78,11 @@ export default class AddressTierCalculator extends React.Component<AddrTierCalcP
             addressValidationState: FieldValidationState.SUCCESS
           });
           this.setRequestInProgress(false);
-          this.props.onAddressChange(address.trim());
-          this.props.onTierChange(tier);
-          this.props.onGeolocationChange(geo);
-
+          this.props.onLocationChange({
+            address: address.trim(),
+            tier: tier,
+            geo: geo
+          });
         }).catch( err => {
           if (err === GetTierError.InvalidAddressErr) {
             this.setState({
@@ -123,11 +112,6 @@ export default class AddressTierCalculator extends React.Component<AddrTierCalcP
     this.setState({
       timeoutInstance: newTimeout 
     });
-  }
-
-  private handleTierChange(event: React.FormEvent<any>) {
-    const newTier: string = event.currentTarget.value;
-    this.props.onTierChange(newTier);
   }
 
   private displayStatusMessage(state: string): string {

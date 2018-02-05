@@ -1,18 +1,23 @@
 enum Action {
   UpdateStudentGender,
   UpdateStudentLocation,
+
   UpdateStudentGradeLevel,
   UpdateStudentPrevGradeLevel,
-  UpdateStudentCurrESProgram,
   UpdateStudentELLStatus,
   UpdateStudentIEPStatus,
   UpdateStudentAttendPercentage,
+  UpdateStudentCurrESProgram,
+  UpdateStudentSiblingHSPrograms,
+
+  UpdateStudentNWEAPercentileMath,
+  UpdateStudentNWEAPercentileRead,
+
   UpdateStudentSubjGradeMath,
   UpdateStudentSubjGradeRead,
   UpdateStudentSubjGradeSci,
   UpdateStudentSubjGradeSocStudies,
-  UpdateStudentNWEAPercentileMath,
-  UpdateStudentNWEAPercentileRead,
+
   UpdateStudentSETestScore,
 
   SelectHSProgram
