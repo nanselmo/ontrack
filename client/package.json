@@ -8,7 +8,8 @@
     "move-index": "cp src/index.html dist/index.html",
     "build": "npm run move-index && webpack --config webpack.config.js",
     "start": "npm run move-index && concurrently \"webpack\" \"browser-sync start -s 'dist' --files 'dist' \"",
-    "start:windows": "concurrently \"webpack\" \"browser-sync start -s dist --files dist \""
+    "start:windows": "concurrently \"webpack\" \"browser-sync start -s dist --files dist \"",
+    "sync-aws": "aws s3 sync dist/ s3://path-to-hs"
   },
   "repository": {
     "type": "git",
