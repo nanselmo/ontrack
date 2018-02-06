@@ -1,5 +1,22 @@
 [WIP] Refactor app, implement redux
 
+* TODO debug 
+* TODO test new perf (!)
+* TODO sort hs elements in HSGroup
+
+* TODO write redux reducers in shared/reducers
+
+* DONE connect HSDisplay to redux store
+* DONE drastically refactor component tree of HSDisplay
+  ** renamed HSDisplay -> HSProgramsContainer
+* DONE move app data (hs lists, hs req fns) to redux
+  ** DONE import hs req fns into redux
+  ** DONE import hs outcomes into redux
+    *** DONE write helper methods for calculating
+      hs outcomes with studentData
+  ** DONE write helper functions for updating
+  ** DONE import hs lists into redux
+  ** DONE build index of hs categories
 * DONE flatten StudentData.scores into StudentData
 * DONE remove unused score-projection-utils
 * DONE refactor StudentDataForm to expose onChange
@@ -16,12 +33,3 @@
     student-info-display
 * DONE move spinning-load-icon.scss into shared/styles
 
-* TODO connect HSDisplay to redux store
-* TODO refactor high school data indexing; consider
-    beginning of refactor of move to indexedDB
-* TODO simplify component tree of HSDisplay
-  ** combine HSProgramType and HSList into HSList
-  ** make HSDisplay true container for HSList
-* TODO draft redux reducers in shared/reducers
-
-*

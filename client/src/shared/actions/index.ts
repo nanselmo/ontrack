@@ -1,115 +1,115 @@
-import Action from "shared/enums/action";
+import ActionType from "shared/enums/action-type";
 import Gender from "shared/enums/gender";
 import StudentLocation from "shared/types/student-location";
 
 export const selectHSProgram = (newValue: string) => {
   return {
-    type: Action.SelectHSProgram,
+    type: ActionType.SelectHSProgram,
     payload: newValue
   };
 };
 
 export const updateStudentAttendPercentage = (newValue: number) => {
   return {
-    type: Action.UpdateStudentAttendPercentage,
+    type: ActionType.UpdateStudentAttendPercentage,
     payload: newValue
   }
 };
 
 export const updateStudentELLStatus = (newValue: boolean) => {
   return {
-    type: Action.UpdateStudentELLStatus,
+    type: ActionType.UpdateStudentELLStatus,
     payload: newValue
   }
 };
 
 export const updateStudentGender = (newValue: Gender) => {
   return {
-    type: Action.UpdateStudentGender,
+    type: ActionType.UpdateStudentGender,
     payload: newValue
   }
 };
 
 export const updateStudentGradeLevel = (newValue: number) => {
   return {
-    type: Action.UpdateStudentGradeLevel,
+    type: ActionType.UpdateStudentGradeLevel,
     payload: newValue
   }
 };
 
 export const updateStudentPrevGradeLevel = (newValue: number) => {
   return {
-    type: Action.UpdateStudentPrevGradeLevel,
+    type: ActionType.UpdateStudentPrevGradeLevel,
     payload: newValue
   }
 };
 
 export const updateStudentIEPStatus = (newValue: boolean) => {
   return {
-    type: Action.UpdateStudentIEPStatus,
+    type: ActionType.UpdateStudentIEPStatus,
     payload: newValue
   }
 };
 
 export const updateStudentLocation = (location: StudentLocation) => {
   return {
-    type: Action.UpdateStudentLocation,
+    type: ActionType.UpdateStudentLocation,
     payload: location
   }
 };
 
 export const updateStudentCurrESProgram = (newValue: string) => {
   return {
-    type: Action.UpdateStudentCurrESProgram,
+    type: ActionType.UpdateStudentCurrESProgram,
     payload: newValue 
   }
 };
 
 export const updateStudentSiblingHSPrograms = (newValues: string[]) => {
   return {
-    type: Action.UpdateStudentSiblingHSPrograms,
+    type: ActionType.UpdateStudentSiblingHSPrograms,
     payload: newValues
   }
 };
 
 export const updateStudentNWEAPercentileMath = (newValue: number) => {
   return {
-    type: Action.UpdateStudentNWEAPercentileMath,
+    type: ActionType.UpdateStudentNWEAPercentileMath,
     payload: newValue
   };
 };
 
 export const updateStudentNWEAPercentileRead = (newValue: number) => {
   return {
-    type: Action.UpdateStudentNWEAPercentileRead,
+    type: ActionType.UpdateStudentNWEAPercentileRead,
     payload: newValue
   };
 };
 
 export const updateStudentSubjGradeMath = (newValue: number) => {
   return {
-    type: Action.UpdateStudentSubjGradeRead,
+    type: ActionType.UpdateStudentSubjGradeRead,
     payload: newValue
   };
 };
 
 export const updateStudentSubjGradeRead = (newValue: number) => {
   return {
-    type: Action.UpdateStudentSubjGradeRead,
+    type: ActionType.UpdateStudentSubjGradeRead,
     payload: newValue
   };
 };
 
 export const updateStudentSubjGradeSci = (newValue: number) => {
   return {
-    type: Action.UpdateStudentSubjGradeSci,
+    type: ActionType.UpdateStudentSubjGradeSci,
     payload: newValue
   };
 };
 
 export const updateStudentSubjGradeSocStudies = (newValue: number) => {
   return {
-    type: Action.UpdateStudentSubjGradeSocStudies,
+    type: ActionType.UpdateStudentSubjGradeSocStudies,
     payload: newValue
   };
 };

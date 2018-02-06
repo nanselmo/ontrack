@@ -1,4 +1,4 @@
-enum Action {
+enum ActionType {
   UpdateStudentGender,
   UpdateStudentLocation,
 
@@ -23,4 +23,4 @@ enum Action {
   SelectHSProgram
 }
 
-export default Action;
+export default ActionType;

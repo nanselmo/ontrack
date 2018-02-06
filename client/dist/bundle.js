@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 108);
+/******/ 	return __webpack_require__(__webpack_require__.s = 106);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -558,8 +558,8 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
 var _prodInvariant = __webpack_require__(3);
 
-var DOMProperty = __webpack_require__(16);
-var ReactDOMComponentFlags = __webpack_require__(67);
+var DOMProperty = __webpack_require__(14);
+var ReactDOMComponentFlags = __webpack_require__(66);
 
 var invariant = __webpack_require__(1);
 
@@ -1233,7 +1233,7 @@ module.exports = emptyFunction;
 var debugTool = null;
 
 if (process.env.NODE_ENV !== 'production') {
-  var ReactDebugTool = __webpack_require__(134);
+  var ReactDebugTool = __webpack_require__(132);
   debugTool = ReactDebugTool;
 }
 
@@ -1294,11 +1294,11 @@ module.exports = ReactCurrentOwner;
 var _prodInvariant = __webpack_require__(3),
     _assign = __webpack_require__(5);
 
-var CallbackQueue = __webpack_require__(71);
+var CallbackQueue = __webpack_require__(70);
 var PooledClass = __webpack_require__(18);
-var ReactFeatureFlags = __webpack_require__(72);
+var ReactFeatureFlags = __webpack_require__(71);
 var ReactReconciler = __webpack_require__(21);
-var Transaction = __webpack_require__(33);
+var Transaction = __webpack_require__(32);
 
 var invariant = __webpack_require__(1);
 
@@ -1533,6 +1533,493 @@ module.exports = ReactUpdates;
 
 /***/ }),
 /* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright 2013-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ */
+
+
+
+var _assign = __webpack_require__(5);
+
+var PooledClass = __webpack_require__(18);
+
+var emptyFunction = __webpack_require__(9);
+var warning = __webpack_require__(2);
+
+var didWarnForAddedNewProperty = false;
+var isProxySupported = typeof Proxy === 'function';
+
+var shouldBeReleasedProperties = ['dispatchConfig', '_targetInst', 'nativeEvent', 'isDefaultPrevented', 'isPropagationStopped', '_dispatchListeners', '_dispatchInstances'];
+
+/**
+ * @interface Event
+ * @see http://www.w3.org/TR/DOM-Level-3-Events/
+ */
+var EventInterface = {
+  type: null,
+  target: null,
+  // currentTarget is set when dispatching; no use in copying it here
+  currentTarget: emptyFunction.thatReturnsNull,
+  eventPhase: null,
+  bubbles: null,
+  cancelable: null,
+  timeStamp: function (event) {
+    return event.timeStamp || Date.now();
+  },
+  defaultPrevented: null,
+  isTrusted: null
+};
+
+/**
+ * Synthetic events are dispatched by event plugins, typically in response to a
+ * top-level event delegation handler.
+ *
+ * These systems should generally use pooling to reduce the frequency of garbage
+ * collection. The system should check `isPersistent` to determine whether the
+ * event should be released into the pool after being dispatched. Users that
+ * need a persisted event should invoke `persist`.
+ *
+ * Synthetic events (and subclasses) implement the DOM Level 3 Events API by
+ * normalizing browser quirks. Subclasses do not necessarily have to implement a
+ * DOM interface; custom application-specific events can also subclass this.
+ *
+ * @param {object} dispatchConfig Configuration used to dispatch this event.
+ * @param {*} targetInst Marker identifying the event target.
+ * @param {object} nativeEvent Native browser event.
+ * @param {DOMEventTarget} nativeEventTarget Target node.
+ */
+function SyntheticEvent(dispatchConfig, targetInst, nativeEvent, nativeEventTarget) {
+  if (process.env.NODE_ENV !== 'production') {
+    // these have a getter/setter for warnings
+    delete this.nativeEvent;
+    delete this.preventDefault;
+    delete this.stopPropagation;
+  }
+
+  this.dispatchConfig = dispatchConfig;
+  this._targetInst = targetInst;
+  this.nativeEvent = nativeEvent;
+
+  var Interface = this.constructor.Interface;
+  for (var propName in Interface) {
+    if (!Interface.hasOwnProperty(propName)) {
+      continue;
+    }
+    if (process.env.NODE_ENV !== 'production') {
+      delete this[propName]; // this has a getter/setter for warnings
+    }
+    var normalize = Interface[propName];
+    if (normalize) {
+      this[propName] = normalize(nativeEvent);
+    } else {
+      if (propName === 'target') {
+        this.target = nativeEventTarget;
+      } else {
+        this[propName] = nativeEvent[propName];
+      }
+    }
+  }
+
+  var defaultPrevented = nativeEvent.defaultPrevented != null ? nativeEvent.defaultPrevented : nativeEvent.returnValue === false;
+  if (defaultPrevented) {
+    this.isDefaultPrevented = emptyFunction.thatReturnsTrue;
+  } else {
+    this.isDefaultPrevented = emptyFunction.thatReturnsFalse;
+  }
+  this.isPropagationStopped = emptyFunction.thatReturnsFalse;
+  return this;
+}
+
+_assign(SyntheticEvent.prototype, {
+  preventDefault: function () {
+    this.defaultPrevented = true;
+    var event = this.nativeEvent;
+    if (!event) {
+      return;
+    }
+
+    if (event.preventDefault) {
+      event.preventDefault();
+      // eslint-disable-next-line valid-typeof
+    } else if (typeof event.returnValue !== 'unknown') {
+      event.returnValue = false;
+    }
+    this.isDefaultPrevented = emptyFunction.thatReturnsTrue;
+  },
+
+  stopPropagation: function () {
+    var event = this.nativeEvent;
+    if (!event) {
+      return;
+    }
+
+    if (event.stopPropagation) {
+      event.stopPropagation();
+      // eslint-disable-next-line valid-typeof
+    } else if (typeof event.cancelBubble !== 'unknown') {
+      // The ChangeEventPlugin registers a "propertychange" event for
+      // IE. This event does not support bubbling or cancelling, and
+      // any references to cancelBubble throw "Member not found".  A
+      // typeof check of "unknown" circumvents this issue (and is also
+      // IE specific).
+      event.cancelBubble = true;
+    }
+
+    this.isPropagationStopped = emptyFunction.thatReturnsTrue;
+  },
+
+  /**
+   * We release all dispatched `SyntheticEvent`s after each event loop, adding
+   * them back into the pool. This allows a way to hold onto a reference that
+   * won't be added back into the pool.
+   */
+  persist: function () {
+    this.isPersistent = emptyFunction.thatReturnsTrue;
+  },
+
+  /**
+   * Checks if this event should be released back into the pool.
+   *
+   * @return {boolean} True if this should not be released, false otherwise.
+   */
+  isPersistent: emptyFunction.thatReturnsFalse,
+
+  /**
+   * `PooledClass` looks for `destructor` on each instance it releases.
+   */
+  destructor: function () {
+    var Interface = this.constructor.Interface;
+    for (var propName in Interface) {
+      if (process.env.NODE_ENV !== 'production') {
+        Object.defineProperty(this, propName, getPooledWarningPropertyDefinition(propName, Interface[propName]));
+      } else {
+        this[propName] = null;
+      }
+    }
+    for (var i = 0; i < shouldBeReleasedProperties.length; i++) {
+      this[shouldBeReleasedProperties[i]] = null;
+    }
+    if (process.env.NODE_ENV !== 'production') {
+      Object.defineProperty(this, 'nativeEvent', getPooledWarningPropertyDefinition('nativeEvent', null));
+      Object.defineProperty(this, 'preventDefault', getPooledWarningPropertyDefinition('preventDefault', emptyFunction));
+      Object.defineProperty(this, 'stopPropagation', getPooledWarningPropertyDefinition('stopPropagation', emptyFunction));
+    }
+  }
+});
+
+SyntheticEvent.Interface = EventInterface;
+
+if (process.env.NODE_ENV !== 'production') {
+  if (isProxySupported) {
+    /*eslint-disable no-func-assign */
+    SyntheticEvent = new Proxy(SyntheticEvent, {
+      construct: function (target, args) {
+        return this.apply(target, Object.create(target.prototype), args);
+      },
+      apply: function (constructor, that, args) {
+        return new Proxy(constructor.apply(that, args), {
+          set: function (target, prop, value) {
+            if (prop !== 'isPersistent' && !target.constructor.Interface.hasOwnProperty(prop) && shouldBeReleasedProperties.indexOf(prop) === -1) {
+              process.env.NODE_ENV !== 'production' ? warning(didWarnForAddedNewProperty || target.isPersistent(), "This synthetic event is reused for performance reasons. If you're " + "seeing this, you're adding a new property in the synthetic event object. " + 'The property is never released. See ' + 'https://fb.me/react-event-pooling for more information.') : void 0;
+              didWarnForAddedNewProperty = true;
+            }
+            target[prop] = value;
+            return true;
+          }
+        });
+      }
+    });
+    /*eslint-enable no-func-assign */
+  }
+}
+/**
+ * Helper to reduce boilerplate when creating subclasses.
+ *
+ * @param {function} Class
+ * @param {?object} Interface
+ */
+SyntheticEvent.augmentClass = function (Class, Interface) {
+  var Super = this;
+
+  var E = function () {};
+  E.prototype = Super.prototype;
+  var prototype = new E();
+
+  _assign(prototype, Class.prototype);
+  Class.prototype = prototype;
+  Class.prototype.constructor = Class;
+
+  Class.Interface = _assign({}, Super.Interface, Interface);
+  Class.augmentClass = Super.augmentClass;
+
+  PooledClass.addPoolingTo(Class, PooledClass.fourArgumentPooler);
+};
+
+PooledClass.addPoolingTo(SyntheticEvent, PooledClass.fourArgumentPooler);
+
+module.exports = SyntheticEvent;
+
+/**
+  * Helper to nullify syntheticEvent instance properties when destructing
+  *
+  * @param {object} SyntheticEvent
+  * @param {String} propName
+  * @return {object} defineProperty object
+  */
+function getPooledWarningPropertyDefinition(propName, getVal) {
+  var isFunction = typeof getVal === 'function';
+  return {
+    configurable: true,
+    set: set,
+    get: get
+  };
+
+  function set(val) {
+    var action = isFunction ? 'setting the method' : 'setting the property';
+    warn(action, 'This is effectively a no-op');
+    return val;
+  }
+
+  function get() {
+    var action = isFunction ? 'accessing the method' : 'accessing the property';
+    var result = isFunction ? 'This is a no-op function' : 'This is set to null';
+    warn(action, result);
+    return getVal;
+  }
+
+  function warn(action, result) {
+    var warningCondition = false;
+    process.env.NODE_ENV !== 'production' ? warning(warningCondition, "This synthetic event is reused for performance reasons. If you're seeing this, " + "you're %s `%s` on a released/nullified synthetic event. %s. " + 'If you must keep the original synthetic event around, use event.persist(). ' + 'See https://fb.me/react-event-pooling for more information.', action, propName, result) : void 0;
+  }
+}
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright 2013-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ */
+
+
+
+var _prodInvariant = __webpack_require__(3);
+
+var invariant = __webpack_require__(1);
+
+function checkMask(value, bitmask) {
+  return (value & bitmask) === bitmask;
+}
+
+var DOMPropertyInjection = {
+  /**
+   * Mapping from normalized, camelcased property names to a configuration that
+   * specifies how the associated DOM property should be accessed or rendered.
+   */
+  MUST_USE_PROPERTY: 0x1,
+  HAS_BOOLEAN_VALUE: 0x4,
+  HAS_NUMERIC_VALUE: 0x8,
+  HAS_POSITIVE_NUMERIC_VALUE: 0x10 | 0x8,
+  HAS_OVERLOADED_BOOLEAN_VALUE: 0x20,
+
+  /**
+   * Inject some specialized knowledge about the DOM. This takes a config object
+   * with the following properties:
+   *
+   * isCustomAttribute: function that given an attribute name will return true
+   * if it can be inserted into the DOM verbatim. Useful for data-* or aria-*
+   * attributes where it's impossible to enumerate all of the possible
+   * attribute names,
+   *
+   * Properties: object mapping DOM property name to one of the
+   * DOMPropertyInjection constants or null. If your attribute isn't in here,
+   * it won't get written to the DOM.
+   *
+   * DOMAttributeNames: object mapping React attribute name to the DOM
+   * attribute name. Attribute names not specified use the **lowercase**
+   * normalized name.
+   *
+   * DOMAttributeNamespaces: object mapping React attribute name to the DOM
+   * attribute namespace URL. (Attribute names not specified use no namespace.)
+   *
+   * DOMPropertyNames: similar to DOMAttributeNames but for DOM properties.
+   * Property names not specified use the normalized name.
+   *
+   * DOMMutationMethods: Properties that require special mutation methods. If
+   * `value` is undefined, the mutation method should unset the property.
+   *
+   * @param {object} domPropertyConfig the config as described above.
+   */
+  injectDOMPropertyConfig: function (domPropertyConfig) {
+    var Injection = DOMPropertyInjection;
+    var Properties = domPropertyConfig.Properties || {};
+    var DOMAttributeNamespaces = domPropertyConfig.DOMAttributeNamespaces || {};
+    var DOMAttributeNames = domPropertyConfig.DOMAttributeNames || {};
+    var DOMPropertyNames = domPropertyConfig.DOMPropertyNames || {};
+    var DOMMutationMethods = domPropertyConfig.DOMMutationMethods || {};
+
+    if (domPropertyConfig.isCustomAttribute) {
+      DOMProperty._isCustomAttributeFunctions.push(domPropertyConfig.isCustomAttribute);
+    }
+
+    for (var propName in Properties) {
+      !!DOMProperty.properties.hasOwnProperty(propName) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'injectDOMPropertyConfig(...): You\'re trying to inject DOM property \'%s\' which has already been injected. You may be accidentally injecting the same DOM property config twice, or you may be injecting two configs that have conflicting property names.', propName) : _prodInvariant('48', propName) : void 0;
+
+      var lowerCased = propName.toLowerCase();
+      var propConfig = Properties[propName];
+
+      var propertyInfo = {
+        attributeName: lowerCased,
+        attributeNamespace: null,
+        propertyName: propName,
+        mutationMethod: null,
+
+        mustUseProperty: checkMask(propConfig, Injection.MUST_USE_PROPERTY),
+        hasBooleanValue: checkMask(propConfig, Injection.HAS_BOOLEAN_VALUE),
+        hasNumericValue: checkMask(propConfig, Injection.HAS_NUMERIC_VALUE),
+        hasPositiveNumericValue: checkMask(propConfig, Injection.HAS_POSITIVE_NUMERIC_VALUE),
+        hasOverloadedBooleanValue: checkMask(propConfig, Injection.HAS_OVERLOADED_BOOLEAN_VALUE)
+      };
+      !(propertyInfo.hasBooleanValue + propertyInfo.hasNumericValue + propertyInfo.hasOverloadedBooleanValue <= 1) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'DOMProperty: Value can be one of boolean, overloaded boolean, or numeric value, but not a combination: %s', propName) : _prodInvariant('50', propName) : void 0;
+
+      if (process.env.NODE_ENV !== 'production') {
+        DOMProperty.getPossibleStandardName[lowerCased] = propName;
+      }
+
+      if (DOMAttributeNames.hasOwnProperty(propName)) {
+        var attributeName = DOMAttributeNames[propName];
+        propertyInfo.attributeName = attributeName;
+        if (process.env.NODE_ENV !== 'production') {
+          DOMProperty.getPossibleStandardName[attributeName] = propName;
+        }
+      }
+
+      if (DOMAttributeNamespaces.hasOwnProperty(propName)) {
+        propertyInfo.attributeNamespace = DOMAttributeNamespaces[propName];
+      }
+
+      if (DOMPropertyNames.hasOwnProperty(propName)) {
+        propertyInfo.propertyName = DOMPropertyNames[propName];
+      }
+
+      if (DOMMutationMethods.hasOwnProperty(propName)) {
+        propertyInfo.mutationMethod = DOMMutationMethods[propName];
+      }
+
+      DOMProperty.properties[propName] = propertyInfo;
+    }
+  }
+};
+
+/* eslint-disable max-len */
+var ATTRIBUTE_NAME_START_CHAR = ':A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD';
+/* eslint-enable max-len */
+
+/**
+ * DOMProperty exports lookup objects that can be used like functions:
+ *
+ *   > DOMProperty.isValid['id']
+ *   true
+ *   > DOMProperty.isValid['foobar']
+ *   undefined
+ *
+ * Although this may be confusing, it performs better in general.
+ *
+ * @see http://jsperf.com/key-exists
+ * @see http://jsperf.com/key-missing
+ */
+var DOMProperty = {
+  ID_ATTRIBUTE_NAME: 'data-reactid',
+  ROOT_ATTRIBUTE_NAME: 'data-reactroot',
+
+  ATTRIBUTE_NAME_START_CHAR: ATTRIBUTE_NAME_START_CHAR,
+  ATTRIBUTE_NAME_CHAR: ATTRIBUTE_NAME_START_CHAR + '\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040',
+
+  /**
+   * Map from property "standard name" to an object with info about how to set
+   * the property in the DOM. Each object contains:
+   *
+   * attributeName:
+   *   Used when rendering markup or with `*Attribute()`.
+   * attributeNamespace
+   * propertyName:
+   *   Used on DOM node instances. (This includes properties that mutate due to
+   *   external factors.)
+   * mutationMethod:
+   *   If non-null, used instead of the property or `setAttribute()` after
+   *   initial render.
+   * mustUseProperty:
+   *   Whether the property must be accessed and mutated as an object property.
+   * hasBooleanValue:
+   *   Whether the property should be removed when set to a falsey value.
+   * hasNumericValue:
+   *   Whether the property must be numeric or parse as a numeric and should be
+   *   removed when set to a falsey value.
+   * hasPositiveNumericValue:
+   *   Whether the property must be positive numeric or parse as a positive
+   *   numeric and should be removed when set to a falsey value.
+   * hasOverloadedBooleanValue:
+   *   Whether the property can be used as a flag as well as with a value.
+   *   Removed when strictly equal to false; present without a value when
+   *   strictly equal to true; present with a value otherwise.
+   */
+  properties: {},
+
+  /**
+   * Mapping from lowercase property names to the properly cased version, used
+   * to warn in the case of missing properties. Available only in __DEV__.
+   *
+   * autofocus is predefined, because adding it to the property whitelist
+   * causes unintended side effects.
+   *
+   * @type {Object}
+   */
+  getPossibleStandardName: process.env.NODE_ENV !== 'production' ? { autofocus: 'autoFocus' } : null,
+
+  /**
+   * All of the isCustomAttribute() functions that have been injected.
+   */
+  _isCustomAttributeFunctions: [],
+
+  /**
+   * Checks whether a property name is a custom attribute.
+   * @method
+   */
+  isCustomAttribute: function (attributeName) {
+    for (var i = 0; i < DOMProperty._isCustomAttributeFunctions.length; i++) {
+      var isCustomAttributeFn = DOMProperty._isCustomAttributeFunctions[i];
+      if (isCustomAttributeFn(attributeName)) {
+        return true;
+      }
+    }
+    return false;
+  },
+
+  injection: DOMPropertyInjection
+};
+
+module.exports = DOMProperty;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 15 */
 /***/ (function(module, exports) {
 
 /*
@@ -1614,7 +2101,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 14 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -1660,7 +2147,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(240);
+var	fixUrls = __webpack_require__(242);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -1973,493 +2460,6 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright 2013-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- */
-
-
-
-var _assign = __webpack_require__(5);
-
-var PooledClass = __webpack_require__(18);
-
-var emptyFunction = __webpack_require__(9);
-var warning = __webpack_require__(2);
-
-var didWarnForAddedNewProperty = false;
-var isProxySupported = typeof Proxy === 'function';
-
-var shouldBeReleasedProperties = ['dispatchConfig', '_targetInst', 'nativeEvent', 'isDefaultPrevented', 'isPropagationStopped', '_dispatchListeners', '_dispatchInstances'];
-
-/**
- * @interface Event
- * @see http://www.w3.org/TR/DOM-Level-3-Events/
- */
-var EventInterface = {
-  type: null,
-  target: null,
-  // currentTarget is set when dispatching; no use in copying it here
-  currentTarget: emptyFunction.thatReturnsNull,
-  eventPhase: null,
-  bubbles: null,
-  cancelable: null,
-  timeStamp: function (event) {
-    return event.timeStamp || Date.now();
-  },
-  defaultPrevented: null,
-  isTrusted: null
-};
-
-/**
- * Synthetic events are dispatched by event plugins, typically in response to a
- * top-level event delegation handler.
- *
- * These systems should generally use pooling to reduce the frequency of garbage
- * collection. The system should check `isPersistent` to determine whether the
- * event should be released into the pool after being dispatched. Users that
- * need a persisted event should invoke `persist`.
- *
- * Synthetic events (and subclasses) implement the DOM Level 3 Events API by
- * normalizing browser quirks. Subclasses do not necessarily have to implement a
- * DOM interface; custom application-specific events can also subclass this.
- *
- * @param {object} dispatchConfig Configuration used to dispatch this event.
- * @param {*} targetInst Marker identifying the event target.
- * @param {object} nativeEvent Native browser event.
- * @param {DOMEventTarget} nativeEventTarget Target node.
- */
-function SyntheticEvent(dispatchConfig, targetInst, nativeEvent, nativeEventTarget) {
-  if (process.env.NODE_ENV !== 'production') {
-    // these have a getter/setter for warnings
-    delete this.nativeEvent;
-    delete this.preventDefault;
-    delete this.stopPropagation;
-  }
-
-  this.dispatchConfig = dispatchConfig;
-  this._targetInst = targetInst;
-  this.nativeEvent = nativeEvent;
-
-  var Interface = this.constructor.Interface;
-  for (var propName in Interface) {
-    if (!Interface.hasOwnProperty(propName)) {
-      continue;
-    }
-    if (process.env.NODE_ENV !== 'production') {
-      delete this[propName]; // this has a getter/setter for warnings
-    }
-    var normalize = Interface[propName];
-    if (normalize) {
-      this[propName] = normalize(nativeEvent);
-    } else {
-      if (propName === 'target') {
-        this.target = nativeEventTarget;
-      } else {
-        this[propName] = nativeEvent[propName];
-      }
-    }
-  }
-
-  var defaultPrevented = nativeEvent.defaultPrevented != null ? nativeEvent.defaultPrevented : nativeEvent.returnValue === false;
-  if (defaultPrevented) {
-    this.isDefaultPrevented = emptyFunction.thatReturnsTrue;
-  } else {
-    this.isDefaultPrevented = emptyFunction.thatReturnsFalse;
-  }
-  this.isPropagationStopped = emptyFunction.thatReturnsFalse;
-  return this;
-}
-
-_assign(SyntheticEvent.prototype, {
-  preventDefault: function () {
-    this.defaultPrevented = true;
-    var event = this.nativeEvent;
-    if (!event) {
-      return;
-    }
-
-    if (event.preventDefault) {
-      event.preventDefault();
-      // eslint-disable-next-line valid-typeof
-    } else if (typeof event.returnValue !== 'unknown') {
-      event.returnValue = false;
-    }
-    this.isDefaultPrevented = emptyFunction.thatReturnsTrue;
-  },
-
-  stopPropagation: function () {
-    var event = this.nativeEvent;
-    if (!event) {
-      return;
-    }
-
-    if (event.stopPropagation) {
-      event.stopPropagation();
-      // eslint-disable-next-line valid-typeof
-    } else if (typeof event.cancelBubble !== 'unknown') {
-      // The ChangeEventPlugin registers a "propertychange" event for
-      // IE. This event does not support bubbling or cancelling, and
-      // any references to cancelBubble throw "Member not found".  A
-      // typeof check of "unknown" circumvents this issue (and is also
-      // IE specific).
-      event.cancelBubble = true;
-    }
-
-    this.isPropagationStopped = emptyFunction.thatReturnsTrue;
-  },
-
-  /**
-   * We release all dispatched `SyntheticEvent`s after each event loop, adding
-   * them back into the pool. This allows a way to hold onto a reference that
-   * won't be added back into the pool.
-   */
-  persist: function () {
-    this.isPersistent = emptyFunction.thatReturnsTrue;
-  },
-
-  /**
-   * Checks if this event should be released back into the pool.
-   *
-   * @return {boolean} True if this should not be released, false otherwise.
-   */
-  isPersistent: emptyFunction.thatReturnsFalse,
-
-  /**
-   * `PooledClass` looks for `destructor` on each instance it releases.
-   */
-  destructor: function () {
-    var Interface = this.constructor.Interface;
-    for (var propName in Interface) {
-      if (process.env.NODE_ENV !== 'production') {
-        Object.defineProperty(this, propName, getPooledWarningPropertyDefinition(propName, Interface[propName]));
-      } else {
-        this[propName] = null;
-      }
-    }
-    for (var i = 0; i < shouldBeReleasedProperties.length; i++) {
-      this[shouldBeReleasedProperties[i]] = null;
-    }
-    if (process.env.NODE_ENV !== 'production') {
-      Object.defineProperty(this, 'nativeEvent', getPooledWarningPropertyDefinition('nativeEvent', null));
-      Object.defineProperty(this, 'preventDefault', getPooledWarningPropertyDefinition('preventDefault', emptyFunction));
-      Object.defineProperty(this, 'stopPropagation', getPooledWarningPropertyDefinition('stopPropagation', emptyFunction));
-    }
-  }
-});
-
-SyntheticEvent.Interface = EventInterface;
-
-if (process.env.NODE_ENV !== 'production') {
-  if (isProxySupported) {
-    /*eslint-disable no-func-assign */
-    SyntheticEvent = new Proxy(SyntheticEvent, {
-      construct: function (target, args) {
-        return this.apply(target, Object.create(target.prototype), args);
-      },
-      apply: function (constructor, that, args) {
-        return new Proxy(constructor.apply(that, args), {
-          set: function (target, prop, value) {
-            if (prop !== 'isPersistent' && !target.constructor.Interface.hasOwnProperty(prop) && shouldBeReleasedProperties.indexOf(prop) === -1) {
-              process.env.NODE_ENV !== 'production' ? warning(didWarnForAddedNewProperty || target.isPersistent(), "This synthetic event is reused for performance reasons. If you're " + "seeing this, you're adding a new property in the synthetic event object. " + 'The property is never released. See ' + 'https://fb.me/react-event-pooling for more information.') : void 0;
-              didWarnForAddedNewProperty = true;
-            }
-            target[prop] = value;
-            return true;
-          }
-        });
-      }
-    });
-    /*eslint-enable no-func-assign */
-  }
-}
-/**
- * Helper to reduce boilerplate when creating subclasses.
- *
- * @param {function} Class
- * @param {?object} Interface
- */
-SyntheticEvent.augmentClass = function (Class, Interface) {
-  var Super = this;
-
-  var E = function () {};
-  E.prototype = Super.prototype;
-  var prototype = new E();
-
-  _assign(prototype, Class.prototype);
-  Class.prototype = prototype;
-  Class.prototype.constructor = Class;
-
-  Class.Interface = _assign({}, Super.Interface, Interface);
-  Class.augmentClass = Super.augmentClass;
-
-  PooledClass.addPoolingTo(Class, PooledClass.fourArgumentPooler);
-};
-
-PooledClass.addPoolingTo(SyntheticEvent, PooledClass.fourArgumentPooler);
-
-module.exports = SyntheticEvent;
-
-/**
-  * Helper to nullify syntheticEvent instance properties when destructing
-  *
-  * @param {object} SyntheticEvent
-  * @param {String} propName
-  * @return {object} defineProperty object
-  */
-function getPooledWarningPropertyDefinition(propName, getVal) {
-  var isFunction = typeof getVal === 'function';
-  return {
-    configurable: true,
-    set: set,
-    get: get
-  };
-
-  function set(val) {
-    var action = isFunction ? 'setting the method' : 'setting the property';
-    warn(action, 'This is effectively a no-op');
-    return val;
-  }
-
-  function get() {
-    var action = isFunction ? 'accessing the method' : 'accessing the property';
-    var result = isFunction ? 'This is a no-op function' : 'This is set to null';
-    warn(action, result);
-    return getVal;
-  }
-
-  function warn(action, result) {
-    var warningCondition = false;
-    process.env.NODE_ENV !== 'production' ? warning(warningCondition, "This synthetic event is reused for performance reasons. If you're seeing this, " + "you're %s `%s` on a released/nullified synthetic event. %s. " + 'If you must keep the original synthetic event around, use event.persist(). ' + 'See https://fb.me/react-event-pooling for more information.', action, propName, result) : void 0;
-  }
-}
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright 2013-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- */
-
-
-
-var _prodInvariant = __webpack_require__(3);
-
-var invariant = __webpack_require__(1);
-
-function checkMask(value, bitmask) {
-  return (value & bitmask) === bitmask;
-}
-
-var DOMPropertyInjection = {
-  /**
-   * Mapping from normalized, camelcased property names to a configuration that
-   * specifies how the associated DOM property should be accessed or rendered.
-   */
-  MUST_USE_PROPERTY: 0x1,
-  HAS_BOOLEAN_VALUE: 0x4,
-  HAS_NUMERIC_VALUE: 0x8,
-  HAS_POSITIVE_NUMERIC_VALUE: 0x10 | 0x8,
-  HAS_OVERLOADED_BOOLEAN_VALUE: 0x20,
-
-  /**
-   * Inject some specialized knowledge about the DOM. This takes a config object
-   * with the following properties:
-   *
-   * isCustomAttribute: function that given an attribute name will return true
-   * if it can be inserted into the DOM verbatim. Useful for data-* or aria-*
-   * attributes where it's impossible to enumerate all of the possible
-   * attribute names,
-   *
-   * Properties: object mapping DOM property name to one of the
-   * DOMPropertyInjection constants or null. If your attribute isn't in here,
-   * it won't get written to the DOM.
-   *
-   * DOMAttributeNames: object mapping React attribute name to the DOM
-   * attribute name. Attribute names not specified use the **lowercase**
-   * normalized name.
-   *
-   * DOMAttributeNamespaces: object mapping React attribute name to the DOM
-   * attribute namespace URL. (Attribute names not specified use no namespace.)
-   *
-   * DOMPropertyNames: similar to DOMAttributeNames but for DOM properties.
-   * Property names not specified use the normalized name.
-   *
-   * DOMMutationMethods: Properties that require special mutation methods. If
-   * `value` is undefined, the mutation method should unset the property.
-   *
-   * @param {object} domPropertyConfig the config as described above.
-   */
-  injectDOMPropertyConfig: function (domPropertyConfig) {
-    var Injection = DOMPropertyInjection;
-    var Properties = domPropertyConfig.Properties || {};
-    var DOMAttributeNamespaces = domPropertyConfig.DOMAttributeNamespaces || {};
-    var DOMAttributeNames = domPropertyConfig.DOMAttributeNames || {};
-    var DOMPropertyNames = domPropertyConfig.DOMPropertyNames || {};
-    var DOMMutationMethods = domPropertyConfig.DOMMutationMethods || {};
-
-    if (domPropertyConfig.isCustomAttribute) {
-      DOMProperty._isCustomAttributeFunctions.push(domPropertyConfig.isCustomAttribute);
-    }
-
-    for (var propName in Properties) {
-      !!DOMProperty.properties.hasOwnProperty(propName) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'injectDOMPropertyConfig(...): You\'re trying to inject DOM property \'%s\' which has already been injected. You may be accidentally injecting the same DOM property config twice, or you may be injecting two configs that have conflicting property names.', propName) : _prodInvariant('48', propName) : void 0;
-
-      var lowerCased = propName.toLowerCase();
-      var propConfig = Properties[propName];
-
-      var propertyInfo = {
-        attributeName: lowerCased,
-        attributeNamespace: null,
-        propertyName: propName,
-        mutationMethod: null,
-
-        mustUseProperty: checkMask(propConfig, Injection.MUST_USE_PROPERTY),
-        hasBooleanValue: checkMask(propConfig, Injection.HAS_BOOLEAN_VALUE),
-        hasNumericValue: checkMask(propConfig, Injection.HAS_NUMERIC_VALUE),
-        hasPositiveNumericValue: checkMask(propConfig, Injection.HAS_POSITIVE_NUMERIC_VALUE),
-        hasOverloadedBooleanValue: checkMask(propConfig, Injection.HAS_OVERLOADED_BOOLEAN_VALUE)
-      };
-      !(propertyInfo.hasBooleanValue + propertyInfo.hasNumericValue + propertyInfo.hasOverloadedBooleanValue <= 1) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'DOMProperty: Value can be one of boolean, overloaded boolean, or numeric value, but not a combination: %s', propName) : _prodInvariant('50', propName) : void 0;
-
-      if (process.env.NODE_ENV !== 'production') {
-        DOMProperty.getPossibleStandardName[lowerCased] = propName;
-      }
-
-      if (DOMAttributeNames.hasOwnProperty(propName)) {
-        var attributeName = DOMAttributeNames[propName];
-        propertyInfo.attributeName = attributeName;
-        if (process.env.NODE_ENV !== 'production') {
-          DOMProperty.getPossibleStandardName[attributeName] = propName;
-        }
-      }
-
-      if (DOMAttributeNamespaces.hasOwnProperty(propName)) {
-        propertyInfo.attributeNamespace = DOMAttributeNamespaces[propName];
-      }
-
-      if (DOMPropertyNames.hasOwnProperty(propName)) {
-        propertyInfo.propertyName = DOMPropertyNames[propName];
-      }
-
-      if (DOMMutationMethods.hasOwnProperty(propName)) {
-        propertyInfo.mutationMethod = DOMMutationMethods[propName];
-      }
-
-      DOMProperty.properties[propName] = propertyInfo;
-    }
-  }
-};
-
-/* eslint-disable max-len */
-var ATTRIBUTE_NAME_START_CHAR = ':A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD';
-/* eslint-enable max-len */
-
-/**
- * DOMProperty exports lookup objects that can be used like functions:
- *
- *   > DOMProperty.isValid['id']
- *   true
- *   > DOMProperty.isValid['foobar']
- *   undefined
- *
- * Although this may be confusing, it performs better in general.
- *
- * @see http://jsperf.com/key-exists
- * @see http://jsperf.com/key-missing
- */
-var DOMProperty = {
-  ID_ATTRIBUTE_NAME: 'data-reactid',
-  ROOT_ATTRIBUTE_NAME: 'data-reactroot',
-
-  ATTRIBUTE_NAME_START_CHAR: ATTRIBUTE_NAME_START_CHAR,
-  ATTRIBUTE_NAME_CHAR: ATTRIBUTE_NAME_START_CHAR + '\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040',
-
-  /**
-   * Map from property "standard name" to an object with info about how to set
-   * the property in the DOM. Each object contains:
-   *
-   * attributeName:
-   *   Used when rendering markup or with `*Attribute()`.
-   * attributeNamespace
-   * propertyName:
-   *   Used on DOM node instances. (This includes properties that mutate due to
-   *   external factors.)
-   * mutationMethod:
-   *   If non-null, used instead of the property or `setAttribute()` after
-   *   initial render.
-   * mustUseProperty:
-   *   Whether the property must be accessed and mutated as an object property.
-   * hasBooleanValue:
-   *   Whether the property should be removed when set to a falsey value.
-   * hasNumericValue:
-   *   Whether the property must be numeric or parse as a numeric and should be
-   *   removed when set to a falsey value.
-   * hasPositiveNumericValue:
-   *   Whether the property must be positive numeric or parse as a positive
-   *   numeric and should be removed when set to a falsey value.
-   * hasOverloadedBooleanValue:
-   *   Whether the property can be used as a flag as well as with a value.
-   *   Removed when strictly equal to false; present without a value when
-   *   strictly equal to true; present with a value otherwise.
-   */
-  properties: {},
-
-  /**
-   * Mapping from lowercase property names to the properly cased version, used
-   * to warn in the case of missing properties. Available only in __DEV__.
-   *
-   * autofocus is predefined, because adding it to the property whitelist
-   * causes unintended side effects.
-   *
-   * @type {Object}
-   */
-  getPossibleStandardName: process.env.NODE_ENV !== 'production' ? { autofocus: 'autoFocus' } : null,
-
-  /**
-   * All of the isCustomAttribute() functions that have been injected.
-   */
-  _isCustomAttributeFunctions: [],
-
-  /**
-   * Checks whether a property name is a custom attribute.
-   * @method
-   */
-  isCustomAttribute: function (attributeName) {
-    for (var i = 0; i < DOMProperty._isCustomAttributeFunctions.length; i++) {
-      var isCustomAttributeFn = DOMProperty._isCustomAttributeFunctions[i];
-      if (isCustomAttributeFn(attributeName)) {
-        return true;
-      }
-    }
-    return false;
-  },
-
-  injection: DOMPropertyInjection
-};
-
-module.exports = DOMProperty;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
 /* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2481,10 +2481,10 @@ var _assign = __webpack_require__(5);
 var ReactCurrentOwner = __webpack_require__(11);
 
 var warning = __webpack_require__(2);
-var canDefineProperty = __webpack_require__(30);
+var canDefineProperty = __webpack_require__(29);
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 
-var REACT_ELEMENT_TYPE = __webpack_require__(62);
+var REACT_ELEMENT_TYPE = __webpack_require__(61);
 
 var RESERVED_PROPS = {
   key: true,
@@ -2943,24 +2943,24 @@ module.exports = PooledClass;
 
 var _assign = __webpack_require__(5);
 
-var ReactBaseClasses = __webpack_require__(60);
-var ReactChildren = __webpack_require__(109);
-var ReactDOMFactories = __webpack_require__(113);
+var ReactBaseClasses = __webpack_require__(59);
+var ReactChildren = __webpack_require__(107);
+var ReactDOMFactories = __webpack_require__(111);
 var ReactElement = __webpack_require__(17);
-var ReactPropTypes = __webpack_require__(117);
-var ReactVersion = __webpack_require__(119);
+var ReactPropTypes = __webpack_require__(115);
+var ReactVersion = __webpack_require__(117);
 
-var createReactClass = __webpack_require__(120);
-var onlyChild = __webpack_require__(122);
+var createReactClass = __webpack_require__(118);
+var onlyChild = __webpack_require__(120);
 
 var createElement = ReactElement.createElement;
 var createFactory = ReactElement.createFactory;
 var cloneElement = ReactElement.cloneElement;
 
 if (process.env.NODE_ENV !== 'production') {
-  var lowPriorityWarning = __webpack_require__(39);
-  var canDefineProperty = __webpack_require__(30);
-  var ReactElementValidator = __webpack_require__(64);
+  var lowPriorityWarning = __webpack_require__(38);
+  var canDefineProperty = __webpack_require__(29);
+  var ReactElementValidator = __webpack_require__(63);
   var didWarnPropTypesDeprecated = false;
   createElement = ReactElementValidator.createElement;
   createFactory = ReactElementValidator.createFactory;
@@ -3123,7 +3123,7 @@ module.exports = reactProdInvariant;
 
 
 
-var ReactRef = __webpack_require__(132);
+var ReactRef = __webpack_require__(130);
 var ReactInstrumentation = __webpack_require__(10);
 
 var warning = __webpack_require__(2);
@@ -3295,11 +3295,11 @@ module.exports = ReactReconciler;
 
 
 
-var DOMNamespaces = __webpack_require__(47);
-var setInnerHTML = __webpack_require__(35);
+var DOMNamespaces = __webpack_require__(46);
+var setInnerHTML = __webpack_require__(34);
 
-var createMicrosoftUnsafeLocalFunction = __webpack_require__(48);
-var setTextContent = __webpack_require__(76);
+var createMicrosoftUnsafeLocalFunction = __webpack_require__(47);
+var setTextContent = __webpack_require__(75);
 
 var ELEMENT_NODE_TYPE = 1;
 var DOCUMENT_FRAGMENT_NODE_TYPE = 11;
@@ -3423,26 +3423,6 @@ exports.default = FieldValidationState;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var SuccessChance;
-(function (SuccessChance) {
-    SuccessChance[SuccessChance["CERTAIN"] = 0] = "CERTAIN";
-    SuccessChance[SuccessChance["LIKELY"] = 1] = "LIKELY";
-    SuccessChance[SuccessChance["UNCERTAIN"] = 2] = "UNCERTAIN";
-    SuccessChance[SuccessChance["UNLIKELY"] = 3] = "UNLIKELY";
-    SuccessChance[SuccessChance["NONE"] = 4] = "NONE";
-    SuccessChance[SuccessChance["NOTIMPLEMENTED"] = 5] = "NOTIMPLEMENTED";
-})(SuccessChance || (SuccessChance = {}));
-;
-exports.default = SuccessChance;
-
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -3455,11 +3435,11 @@ exports.default = SuccessChance;
 
 
 
-var EventPluginHub = __webpack_require__(26);
-var EventPluginUtils = __webpack_require__(41);
+var EventPluginHub = __webpack_require__(25);
+var EventPluginUtils = __webpack_require__(40);
 
-var accumulateInto = __webpack_require__(68);
-var forEachAccumulated = __webpack_require__(69);
+var accumulateInto = __webpack_require__(67);
+var forEachAccumulated = __webpack_require__(68);
 var warning = __webpack_require__(2);
 
 var getListener = EventPluginHub.getListener;
@@ -3579,7 +3559,7 @@ module.exports = EventPropagators;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3597,12 +3577,12 @@ module.exports = EventPropagators;
 
 var _prodInvariant = __webpack_require__(3);
 
-var EventPluginRegistry = __webpack_require__(32);
-var EventPluginUtils = __webpack_require__(41);
-var ReactErrorUtils = __webpack_require__(42);
+var EventPluginRegistry = __webpack_require__(31);
+var EventPluginUtils = __webpack_require__(40);
+var ReactErrorUtils = __webpack_require__(41);
 
-var accumulateInto = __webpack_require__(68);
-var forEachAccumulated = __webpack_require__(69);
+var accumulateInto = __webpack_require__(67);
+var forEachAccumulated = __webpack_require__(68);
 var invariant = __webpack_require__(1);
 
 /**
@@ -3859,7 +3839,7 @@ module.exports = EventPluginHub;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 27 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3875,9 +3855,9 @@ module.exports = EventPluginHub;
 
 
 
-var SyntheticEvent = __webpack_require__(15);
+var SyntheticEvent = __webpack_require__(13);
 
-var getEventTarget = __webpack_require__(43);
+var getEventTarget = __webpack_require__(42);
 
 /**
  * @interface UIEvent
@@ -3923,7 +3903,7 @@ SyntheticEvent.augmentClass(SyntheticUIEvent, UIEventInterface);
 module.exports = SyntheticUIEvent;
 
 /***/ }),
-/* 28 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3974,15 +3954,15 @@ var ReactInstanceMap = {
 module.exports = ReactInstanceMap;
 
 /***/ }),
-/* 29 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(4);
-__webpack_require__(246);
-var field_label_1 = __webpack_require__(248);
+__webpack_require__(249);
+var field_label_1 = __webpack_require__(251);
 var FieldContainer = function (props) { return (React.createElement("div", { className: "field-container" + " " + props.className },
     props.label &&
         React.createElement(field_label_1.default, null, props.label),
@@ -3991,7 +3971,7 @@ exports.default = FieldContainer;
 
 
 /***/ }),
-/* 30 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4023,7 +4003,7 @@ module.exports = canDefineProperty;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 31 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4049,7 +4029,7 @@ module.exports = emptyObject;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 32 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4308,7 +4288,7 @@ module.exports = EventPluginRegistry;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 33 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4542,7 +4522,7 @@ module.exports = TransactionImpl;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 34 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4558,10 +4538,10 @@ module.exports = TransactionImpl;
 
 
 
-var SyntheticUIEvent = __webpack_require__(27);
-var ViewportMetrics = __webpack_require__(75);
+var SyntheticUIEvent = __webpack_require__(26);
+var ViewportMetrics = __webpack_require__(74);
 
-var getEventModifierState = __webpack_require__(45);
+var getEventModifierState = __webpack_require__(44);
 
 /**
  * @interface MouseEvent
@@ -4619,7 +4599,7 @@ SyntheticUIEvent.augmentClass(SyntheticMouseEvent, MouseEventInterface);
 module.exports = SyntheticMouseEvent;
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4636,12 +4616,12 @@ module.exports = SyntheticMouseEvent;
 
 
 var ExecutionEnvironment = __webpack_require__(7);
-var DOMNamespaces = __webpack_require__(47);
+var DOMNamespaces = __webpack_require__(46);
 
 var WHITESPACE_TEST = /^[ \r\n\t\f]/;
 var NONVISIBLE_TEST = /<(!--|link|noscript|meta|script|style)[ \r\n\t\f\/>]/;
 
-var createMicrosoftUnsafeLocalFunction = __webpack_require__(48);
+var createMicrosoftUnsafeLocalFunction = __webpack_require__(47);
 
 // SVG temp container for IE lacking innerHTML
 var reusableSVGContainer;
@@ -4722,7 +4702,7 @@ if (ExecutionEnvironment.canUseDOM) {
 module.exports = setInnerHTML;
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4849,7 +4829,7 @@ function escapeTextContentForBrowser(text) {
 module.exports = escapeTextContentForBrowser;
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4867,12 +4847,12 @@ module.exports = escapeTextContentForBrowser;
 
 var _assign = __webpack_require__(5);
 
-var EventPluginRegistry = __webpack_require__(32);
-var ReactEventEmitterMixin = __webpack_require__(158);
-var ViewportMetrics = __webpack_require__(75);
+var EventPluginRegistry = __webpack_require__(31);
+var ReactEventEmitterMixin = __webpack_require__(156);
+var ViewportMetrics = __webpack_require__(74);
 
-var getVendorPrefixedEventName = __webpack_require__(159);
-var isEventSupported = __webpack_require__(44);
+var getVendorPrefixedEventName = __webpack_require__(157);
+var isEventSupported = __webpack_require__(43);
 
 /**
  * Summary of `ReactBrowserEventEmitter` event handling:
@@ -5178,7 +5158,7 @@ var ReactBrowserEventEmitter = _assign({}, ReactEventEmitterMixin, {
 module.exports = ReactBrowserEventEmitter;
 
 /***/ }),
-/* 38 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5206,7 +5186,7 @@ exports.default = debounce;
 
 
 /***/ }),
-/* 39 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5277,7 +5257,7 @@ module.exports = lowPriorityWarning;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 40 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5298,7 +5278,7 @@ module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
-/* 41 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5316,7 +5296,7 @@ module.exports = ReactPropTypesSecret;
 
 var _prodInvariant = __webpack_require__(3);
 
-var ReactErrorUtils = __webpack_require__(42);
+var ReactErrorUtils = __webpack_require__(41);
 
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
@@ -5530,7 +5510,7 @@ module.exports = EventPluginUtils;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 42 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5612,7 +5592,7 @@ module.exports = ReactErrorUtils;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 43 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5652,7 +5632,7 @@ function getEventTarget(nativeEvent) {
 module.exports = getEventTarget;
 
 /***/ }),
-/* 44 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5717,7 +5697,7 @@ function isEventSupported(eventNameSuffix, capture) {
 module.exports = isEventSupported;
 
 /***/ }),
-/* 45 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5765,7 +5745,7 @@ function getEventModifierState(nativeEvent) {
 module.exports = getEventModifierState;
 
 /***/ }),
-/* 46 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5782,13 +5762,13 @@ module.exports = getEventModifierState;
 
 
 var DOMLazyTree = __webpack_require__(22);
-var Danger = __webpack_require__(143);
+var Danger = __webpack_require__(141);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactInstrumentation = __webpack_require__(10);
 
-var createMicrosoftUnsafeLocalFunction = __webpack_require__(48);
-var setInnerHTML = __webpack_require__(35);
-var setTextContent = __webpack_require__(76);
+var createMicrosoftUnsafeLocalFunction = __webpack_require__(47);
+var setInnerHTML = __webpack_require__(34);
+var setTextContent = __webpack_require__(75);
 
 function getNodeAfter(parentNode, node) {
   // Special case for text components, which return [open, close] comments
@@ -5997,7 +5977,7 @@ module.exports = DOMChildrenOperations;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 47 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6022,7 +6002,7 @@ var DOMNamespaces = {
 module.exports = DOMNamespaces;
 
 /***/ }),
-/* 48 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6059,7 +6039,7 @@ var createMicrosoftUnsafeLocalFunction = function (func) {
 module.exports = createMicrosoftUnsafeLocalFunction;
 
 /***/ }),
-/* 49 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6077,8 +6057,8 @@ module.exports = createMicrosoftUnsafeLocalFunction;
 
 var _prodInvariant = __webpack_require__(3);
 
-var ReactPropTypesSecret = __webpack_require__(80);
-var propTypesFactory = __webpack_require__(65);
+var ReactPropTypesSecret = __webpack_require__(79);
+var propTypesFactory = __webpack_require__(64);
 
 var React = __webpack_require__(19);
 var PropTypes = propTypesFactory(React.isValidElement);
@@ -6203,7 +6183,7 @@ module.exports = LinkedValueUtils;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 50 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6253,7 +6233,7 @@ module.exports = ReactComponentEnvironment;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 51 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6326,7 +6306,7 @@ function shallowEqual(objA, objB) {
 module.exports = shallowEqual;
 
 /***/ }),
-/* 52 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6373,7 +6353,7 @@ function shouldUpdateReactComponent(prevElement, nextElement) {
 module.exports = shouldUpdateReactComponent;
 
 /***/ }),
-/* 53 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6437,7 +6417,7 @@ var KeyEscapeUtils = {
 module.exports = KeyEscapeUtils;
 
 /***/ }),
-/* 54 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6456,7 +6436,7 @@ module.exports = KeyEscapeUtils;
 var _prodInvariant = __webpack_require__(3);
 
 var ReactCurrentOwner = __webpack_require__(11);
-var ReactInstanceMap = __webpack_require__(28);
+var ReactInstanceMap = __webpack_require__(27);
 var ReactInstrumentation = __webpack_require__(10);
 var ReactUpdates = __webpack_require__(12);
 
@@ -6677,7 +6657,7 @@ module.exports = ReactUpdateQueue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 55 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7054,7 +7034,7 @@ module.exports = validateDOMNesting;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 56 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7109,13 +7089,13 @@ function getEventCharCode(nativeEvent) {
 module.exports = getEventCharCode;
 
 /***/ }),
-/* 57 */
+/* 56 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__baseGetTag_js__ = __webpack_require__(209);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getPrototype_js__ = __webpack_require__(214);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__isObjectLike_js__ = __webpack_require__(216);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__baseGetTag_js__ = __webpack_require__(207);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getPrototype_js__ = __webpack_require__(212);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__isObjectLike_js__ = __webpack_require__(214);
 
 
 
@@ -7181,24 +7161,27 @@ function isPlainObject(value) {
 
 
 /***/ }),
-/* 58 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Gender;
-(function (Gender) {
-    Gender[Gender["MALE"] = 0] = "MALE";
-    Gender[Gender["FEMALE"] = 1] = "FEMALE";
-    Gender[Gender["OTHER"] = 2] = "OTHER";
-    Gender[Gender["NOANSWER"] = 3] = "NOANSWER";
-})(Gender || (Gender = {}));
-exports.default = Gender;
+var SuccessChance;
+(function (SuccessChance) {
+    SuccessChance[SuccessChance["CERTAIN"] = 0] = "CERTAIN";
+    SuccessChance[SuccessChance["LIKELY"] = 1] = "LIKELY";
+    SuccessChance[SuccessChance["UNCERTAIN"] = 2] = "UNCERTAIN";
+    SuccessChance[SuccessChance["UNLIKELY"] = 3] = "UNLIKELY";
+    SuccessChance[SuccessChance["NONE"] = 4] = "NONE";
+    SuccessChance[SuccessChance["NOTIMPLEMENTED"] = 5] = "NOTIMPLEMENTED";
+})(SuccessChance || (SuccessChance = {}));
+;
+exports.default = SuccessChance;
 
 
 /***/ }),
-/* 59 */
+/* 58 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7226,7 +7209,7 @@ function warning(message) {
 }
 
 /***/ }),
-/* 60 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7245,12 +7228,12 @@ function warning(message) {
 var _prodInvariant = __webpack_require__(20),
     _assign = __webpack_require__(5);
 
-var ReactNoopUpdateQueue = __webpack_require__(61);
+var ReactNoopUpdateQueue = __webpack_require__(60);
 
-var canDefineProperty = __webpack_require__(30);
-var emptyObject = __webpack_require__(31);
+var canDefineProperty = __webpack_require__(29);
+var emptyObject = __webpack_require__(30);
 var invariant = __webpack_require__(1);
-var lowPriorityWarning = __webpack_require__(39);
+var lowPriorityWarning = __webpack_require__(38);
 
 /**
  * Base class helpers for the updating state of a component.
@@ -7375,7 +7358,7 @@ module.exports = {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 61 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7476,7 +7459,7 @@ module.exports = ReactNoopUpdateQueue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 62 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7501,7 +7484,7 @@ var REACT_ELEMENT_TYPE = typeof Symbol === 'function' && Symbol['for'] && Symbol
 module.exports = REACT_ELEMENT_TYPE;
 
 /***/ }),
-/* 63 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7547,7 +7530,7 @@ function getIteratorFn(maybeIterable) {
 module.exports = getIteratorFn;
 
 /***/ }),
-/* 64 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7574,12 +7557,12 @@ var ReactCurrentOwner = __webpack_require__(11);
 var ReactComponentTreeHook = __webpack_require__(8);
 var ReactElement = __webpack_require__(17);
 
-var checkReactTypeSpec = __webpack_require__(114);
+var checkReactTypeSpec = __webpack_require__(112);
 
-var canDefineProperty = __webpack_require__(30);
-var getIteratorFn = __webpack_require__(63);
+var canDefineProperty = __webpack_require__(29);
+var getIteratorFn = __webpack_require__(62);
 var warning = __webpack_require__(2);
-var lowPriorityWarning = __webpack_require__(39);
+var lowPriorityWarning = __webpack_require__(38);
 
 function getDeclarationErrorAddendum() {
   if (ReactCurrentOwner.current) {
@@ -7808,7 +7791,7 @@ module.exports = ReactElementValidator;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 65 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7827,7 +7810,7 @@ module.exports = ReactElementValidator;
 // Therefore we re-export development-only version with all the PropTypes checks here.
 // However if one is migrating to the `prop-types` npm library, they will go through the
 // `index.js` entry point, and it will branch depending on the environment.
-var factory = __webpack_require__(66);
+var factory = __webpack_require__(65);
 module.exports = function(isValidElement) {
   // It is still allowed in 15.5.
   var throwOnDirectAccess = false;
@@ -7836,7 +7819,7 @@ module.exports = function(isValidElement) {
 
 
 /***/ }),
-/* 66 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7855,8 +7838,8 @@ var emptyFunction = __webpack_require__(9);
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
 
-var ReactPropTypesSecret = __webpack_require__(40);
-var checkPropTypes = __webpack_require__(118);
+var ReactPropTypesSecret = __webpack_require__(39);
+var checkPropTypes = __webpack_require__(116);
 
 module.exports = function(isValidElement, throwOnDirectAccess) {
   /* global Symbol */
@@ -8356,7 +8339,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 67 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8379,7 +8362,7 @@ var ReactDOMComponentFlags = {
 module.exports = ReactDOMComponentFlags;
 
 /***/ }),
-/* 68 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8443,7 +8426,7 @@ module.exports = accumulateInto;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 69 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8479,7 +8462,7 @@ function forEachAccumulated(arr, cb, scope) {
 module.exports = forEachAccumulated;
 
 /***/ }),
-/* 70 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8517,7 +8500,7 @@ function getTextContentAccessor() {
 module.exports = getTextContentAccessor;
 
 /***/ }),
-/* 71 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8642,7 +8625,7 @@ module.exports = PooledClass.addPoolingTo(CallbackQueue);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 72 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8669,7 +8652,7 @@ var ReactFeatureFlags = {
 module.exports = ReactFeatureFlags;
 
 /***/ }),
-/* 73 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8797,7 +8780,7 @@ var inputValueTracking = {
 module.exports = inputValueTracking;
 
 /***/ }),
-/* 74 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8853,7 +8836,7 @@ function isTextInputElement(elem) {
 module.exports = isTextInputElement;
 
 /***/ }),
-/* 75 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8883,7 +8866,7 @@ var ViewportMetrics = {
 module.exports = ViewportMetrics;
 
 /***/ }),
-/* 76 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8900,8 +8883,8 @@ module.exports = ViewportMetrics;
 
 
 var ExecutionEnvironment = __webpack_require__(7);
-var escapeTextContentForBrowser = __webpack_require__(36);
-var setInnerHTML = __webpack_require__(35);
+var escapeTextContentForBrowser = __webpack_require__(35);
+var setInnerHTML = __webpack_require__(34);
 
 /**
  * Set the textContent property of a node, ensuring that whitespace is preserved
@@ -8940,7 +8923,7 @@ if (ExecutionEnvironment.canUseDOM) {
 module.exports = setTextContent;
 
 /***/ }),
-/* 77 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8972,7 +8955,7 @@ function focusNode(node) {
 module.exports = focusNode;
 
 /***/ }),
-/* 78 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9131,7 +9114,7 @@ var CSSProperty = {
 module.exports = CSSProperty;
 
 /***/ }),
-/* 79 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9147,11 +9130,11 @@ module.exports = CSSProperty;
 
 
 
-var DOMProperty = __webpack_require__(16);
+var DOMProperty = __webpack_require__(14);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactInstrumentation = __webpack_require__(10);
 
-var quoteAttributeValueForBrowser = __webpack_require__(157);
+var quoteAttributeValueForBrowser = __webpack_require__(155);
 var warning = __webpack_require__(2);
 
 var VALID_ATTRIBUTE_NAME_REGEX = new RegExp('^[' + DOMProperty.ATTRIBUTE_NAME_START_CHAR + '][' + DOMProperty.ATTRIBUTE_NAME_CHAR + ']*$');
@@ -9372,7 +9355,7 @@ module.exports = DOMPropertyOperations;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 80 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9394,7 +9377,7 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 module.exports = ReactPropTypesSecret;
 
 /***/ }),
-/* 81 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9412,7 +9395,7 @@ module.exports = ReactPropTypesSecret;
 
 var _assign = __webpack_require__(5);
 
-var LinkedValueUtils = __webpack_require__(49);
+var LinkedValueUtils = __webpack_require__(48);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactUpdates = __webpack_require__(12);
 
@@ -9600,7 +9583,7 @@ module.exports = ReactDOMSelect;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 82 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9619,11 +9602,11 @@ module.exports = ReactDOMSelect;
 var _prodInvariant = __webpack_require__(3),
     _assign = __webpack_require__(5);
 
-var ReactCompositeComponent = __webpack_require__(165);
-var ReactEmptyComponent = __webpack_require__(84);
-var ReactHostComponent = __webpack_require__(85);
+var ReactCompositeComponent = __webpack_require__(163);
+var ReactEmptyComponent = __webpack_require__(83);
+var ReactHostComponent = __webpack_require__(84);
 
-var getNextDebugID = __webpack_require__(168);
+var getNextDebugID = __webpack_require__(166);
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
 
@@ -9735,7 +9718,7 @@ module.exports = instantiateReactComponent;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 83 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9781,7 +9764,7 @@ module.exports = ReactNodeTypes;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 84 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9816,7 +9799,7 @@ ReactEmptyComponent.injection = ReactEmptyComponentInjection;
 module.exports = ReactEmptyComponent;
 
 /***/ }),
-/* 85 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9890,7 +9873,7 @@ module.exports = ReactHostComponent;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 86 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9909,11 +9892,11 @@ module.exports = ReactHostComponent;
 var _prodInvariant = __webpack_require__(3);
 
 var ReactCurrentOwner = __webpack_require__(11);
-var REACT_ELEMENT_TYPE = __webpack_require__(169);
+var REACT_ELEMENT_TYPE = __webpack_require__(167);
 
-var getIteratorFn = __webpack_require__(170);
+var getIteratorFn = __webpack_require__(168);
 var invariant = __webpack_require__(1);
-var KeyEscapeUtils = __webpack_require__(53);
+var KeyEscapeUtils = __webpack_require__(52);
 var warning = __webpack_require__(2);
 
 var SEPARATOR = '.';
@@ -10072,7 +10055,7 @@ module.exports = traverseAllChildren;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 87 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10162,7 +10145,7 @@ module.exports = EventListener;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 88 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10178,11 +10161,11 @@ module.exports = EventListener;
 
 
 
-var ReactDOMSelection = __webpack_require__(182);
+var ReactDOMSelection = __webpack_require__(180);
 
-var containsNode = __webpack_require__(184);
-var focusNode = __webpack_require__(77);
-var getActiveElement = __webpack_require__(89);
+var containsNode = __webpack_require__(182);
+var focusNode = __webpack_require__(76);
+var getActiveElement = __webpack_require__(88);
 
 function isInDocument(node) {
   return containsNode(document.documentElement, node);
@@ -10290,7 +10273,7 @@ var ReactInputSelection = {
 module.exports = ReactInputSelection;
 
 /***/ }),
-/* 89 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10334,7 +10317,7 @@ function getActiveElement(doc) /*?DOMElement*/{
 module.exports = getActiveElement;
 
 /***/ }),
-/* 90 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10353,26 +10336,26 @@ module.exports = getActiveElement;
 var _prodInvariant = __webpack_require__(3);
 
 var DOMLazyTree = __webpack_require__(22);
-var DOMProperty = __webpack_require__(16);
+var DOMProperty = __webpack_require__(14);
 var React = __webpack_require__(19);
-var ReactBrowserEventEmitter = __webpack_require__(37);
+var ReactBrowserEventEmitter = __webpack_require__(36);
 var ReactCurrentOwner = __webpack_require__(11);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactDOMContainerInfo = __webpack_require__(199);
-var ReactDOMFeatureFlags = __webpack_require__(200);
-var ReactFeatureFlags = __webpack_require__(72);
-var ReactInstanceMap = __webpack_require__(28);
+var ReactDOMContainerInfo = __webpack_require__(197);
+var ReactDOMFeatureFlags = __webpack_require__(198);
+var ReactFeatureFlags = __webpack_require__(71);
+var ReactInstanceMap = __webpack_require__(27);
 var ReactInstrumentation = __webpack_require__(10);
-var ReactMarkupChecksum = __webpack_require__(201);
+var ReactMarkupChecksum = __webpack_require__(199);
 var ReactReconciler = __webpack_require__(21);
-var ReactUpdateQueue = __webpack_require__(54);
+var ReactUpdateQueue = __webpack_require__(53);
 var ReactUpdates = __webpack_require__(12);
 
-var emptyObject = __webpack_require__(31);
-var instantiateReactComponent = __webpack_require__(82);
+var emptyObject = __webpack_require__(30);
+var instantiateReactComponent = __webpack_require__(81);
 var invariant = __webpack_require__(1);
-var setInnerHTML = __webpack_require__(35);
-var shouldUpdateReactComponent = __webpack_require__(52);
+var setInnerHTML = __webpack_require__(34);
+var shouldUpdateReactComponent = __webpack_require__(51);
 var warning = __webpack_require__(2);
 
 var ATTR_NAME = DOMProperty.ID_ATTRIBUTE_NAME;
@@ -10878,7 +10861,7 @@ module.exports = ReactMount;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 91 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10894,7 +10877,7 @@ module.exports = ReactMount;
 
 
 
-var ReactNodeTypes = __webpack_require__(83);
+var ReactNodeTypes = __webpack_require__(82);
 
 function getHostComponentFromComposite(inst) {
   var type;
@@ -10913,17 +10896,17 @@ function getHostComponentFromComposite(inst) {
 module.exports = getHostComponentFromComposite;
 
 /***/ }),
-/* 92 */
+/* 91 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__createStore__ = __webpack_require__(93);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__combineReducers__ = __webpack_require__(220);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__bindActionCreators__ = __webpack_require__(221);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__applyMiddleware__ = __webpack_require__(222);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__compose__ = __webpack_require__(97);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_warning__ = __webpack_require__(96);
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__createStore__ = __webpack_require__(92);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__combineReducers__ = __webpack_require__(218);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__bindActionCreators__ = __webpack_require__(219);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__applyMiddleware__ = __webpack_require__(220);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__compose__ = __webpack_require__(96);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_warning__ = __webpack_require__(95);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createStore", function() { return __WEBPACK_IMPORTED_MODULE_0__createStore__["b"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "combineReducers", function() { return __WEBPACK_IMPORTED_MODULE_1__combineReducers__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "bindActionCreators", function() { return __WEBPACK_IMPORTED_MODULE_2__bindActionCreators__["a"]; });
@@ -10950,14 +10933,14 @@ if (process.env.NODE_ENV !== 'production' && typeof isCrushed.name === 'string' 
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
-/* 93 */
+/* 92 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ActionTypes; });
 /* harmony export (immutable) */ __webpack_exports__["b"] = createStore;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_es_isPlainObject__ = __webpack_require__(57);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_symbol_observable__ = __webpack_require__(217);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_es_isPlainObject__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_symbol_observable__ = __webpack_require__(215);
 
 
 
@@ -11208,11 +11191,11 @@ var ActionTypes = {
 }
 
 /***/ }),
-/* 94 */
+/* 93 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__root_js__ = __webpack_require__(210);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__root_js__ = __webpack_require__(208);
 
 
 /** Built-in value references. */
@@ -11222,7 +11205,7 @@ var Symbol = __WEBPACK_IMPORTED_MODULE_0__root_js__["a" /* default */].Symbol;
 
 
 /***/ }),
-/* 95 */
+/* 94 */
 /***/ (function(module, exports) {
 
 var g;
@@ -11249,7 +11232,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 96 */
+/* 95 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11277,7 +11260,7 @@ function warning(message) {
 }
 
 /***/ }),
-/* 97 */
+/* 96 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11316,33 +11299,63 @@ function compose() {
 }
 
 /***/ }),
+/* 97 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Gender;
+(function (Gender) {
+    Gender[Gender["MALE"] = 0] = "MALE";
+    Gender[Gender["FEMALE"] = 1] = "FEMALE";
+    Gender[Gender["OTHER"] = 2] = "OTHER";
+    Gender[Gender["NOANSWER"] = 3] = "NOANSWER";
+})(Gender || (Gender = {}));
+exports.default = Gender;
+
+
+/***/ }),
 /* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Action;
-(function (Action) {
-    Action[Action["UpdateStudentGender"] = 0] = "UpdateStudentGender";
-    Action[Action["UpdateStudentLocation"] = 1] = "UpdateStudentLocation";
-    Action[Action["UpdateStudentGradeLevel"] = 2] = "UpdateStudentGradeLevel";
-    Action[Action["UpdateStudentPrevGradeLevel"] = 3] = "UpdateStudentPrevGradeLevel";
-    Action[Action["UpdateStudentELLStatus"] = 4] = "UpdateStudentELLStatus";
-    Action[Action["UpdateStudentIEPStatus"] = 5] = "UpdateStudentIEPStatus";
-    Action[Action["UpdateStudentAttendPercentage"] = 6] = "UpdateStudentAttendPercentage";
-    Action[Action["UpdateStudentCurrESProgram"] = 7] = "UpdateStudentCurrESProgram";
-    Action[Action["UpdateStudentSiblingHSPrograms"] = 8] = "UpdateStudentSiblingHSPrograms";
-    Action[Action["UpdateStudentNWEAPercentileMath"] = 9] = "UpdateStudentNWEAPercentileMath";
-    Action[Action["UpdateStudentNWEAPercentileRead"] = 10] = "UpdateStudentNWEAPercentileRead";
-    Action[Action["UpdateStudentSubjGradeMath"] = 11] = "UpdateStudentSubjGradeMath";
-    Action[Action["UpdateStudentSubjGradeRead"] = 12] = "UpdateStudentSubjGradeRead";
-    Action[Action["UpdateStudentSubjGradeSci"] = 13] = "UpdateStudentSubjGradeSci";
-    Action[Action["UpdateStudentSubjGradeSocStudies"] = 14] = "UpdateStudentSubjGradeSocStudies";
-    Action[Action["UpdateStudentSETestScore"] = 15] = "UpdateStudentSETestScore";
-    Action[Action["SelectHSProgram"] = 16] = "SelectHSProgram";
-})(Action || (Action = {}));
-exports.default = Action;
+var is_es_program_1 = __webpack_require__(223);
+var is_hs_program_1 = __webpack_require__(224);
+var cpsPrograms = __webpack_require__(225);
+exports.getAllPrograms = function () {
+    return cpsPrograms;
+};
+exports.getAllProgramsByProgramType = function () {
+    var programs = groupByProgramType(cpsPrograms);
+    return programs;
+};
+exports.getHSPrograms = function () {
+    var programs = cpsPrograms.filter(is_hs_program_1.default);
+    return programs;
+};
+exports.getHSProgramsByType = function () {
+    var programs = groupByProgramType(cpsPrograms.filter(is_hs_program_1.default));
+    return programs;
+};
+exports.getESPrograms = function () {
+    var programs = cpsPrograms.filter(is_es_program_1.default);
+    return programs;
+};
+var groupByProgramType = function (allPrograms) {
+    var programs = {};
+    for (var i = 0; i < allPrograms.length; i++) {
+        var program = allPrograms[i];
+        var programType = program.Program_Type;
+        if (!programs[programType]) {
+            programs[programType] = [];
+        }
+        programs[programType].push(program);
+    }
+    return programs;
+};
 
 
 /***/ }),
@@ -11351,9 +11364,9 @@ exports.default = Action;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(224);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(226);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(102);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(229);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(231);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
@@ -11392,11 +11405,11 @@ if (process.env.NODE_ENV !== 'production') {
   // By explicitly using `prop-types` you are opting into new development behavior.
   // http://fb.me/prop-types-in-prod
   var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(66)(isValidElement, throwOnDirectAccess);
+  module.exports = __webpack_require__(65)(isValidElement, throwOnDirectAccess);
 } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(225)();
+  module.exports = __webpack_require__(227)();
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
@@ -11431,13 +11444,13 @@ var storeShape = __WEBPACK_IMPORTED_MODULE_0_prop_types___default.a.shape({
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony export (immutable) */ __webpack_exports__["a"] = connectAdvanced;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_hoist_non_react_statics__ = __webpack_require__(226);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_hoist_non_react_statics__ = __webpack_require__(228);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_hoist_non_react_statics___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_hoist_non_react_statics__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(227);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(229);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_Subscription__ = __webpack_require__(228);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_Subscription__ = __webpack_require__(230);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_PropTypes__ = __webpack_require__(101);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -11814,8 +11827,8 @@ function wrapMapToPropsFunc(mapToProps, methodName) {
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = verifyPlainObject;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_es_isPlainObject__ = __webpack_require__(57);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__warning__ = __webpack_require__(59);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_es_isPlainObject__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__warning__ = __webpack_require__(58);
 
 
 
@@ -11827,32 +11840,6 @@ function verifyPlainObject(value, displayName, methodName) {
 
 /***/ }),
 /* 105 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-__webpack_require__(241);
-var Box = function (props) {
-    var widthClass = "width-" + props.width;
-    var heightClass = "height-" + props.height;
-    var zLevelClass = "";
-    if (props.zLevel) {
-        zLevelClass = "zlevel-" + props.zLevel;
-    }
-    var responsiveMobileClass = "";
-    if (props.responsiveBehavior && props.responsiveBehavior.mobile) {
-        responsiveMobileClass = "mobile-" + props.responsiveBehavior.mobile;
-    }
-    var className = "box " + widthClass + " " + heightClass + " " + zLevelClass + " " + responsiveMobileClass;
-    return (React.createElement("div", { className: className, style: props.flex }, props.children));
-};
-exports.default = Box;
-
-
-/***/ }),
-/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11870,9 +11857,9 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(4);
 var field_validation_state_1 = __webpack_require__(23);
-var field_container_1 = __webpack_require__(29);
-var list_box_1 = __webpack_require__(249);
-var debounce_1 = __webpack_require__(38);
+var field_container_1 = __webpack_require__(28);
+var list_box_1 = __webpack_require__(252);
+var debounce_1 = __webpack_require__(37);
 var ComboBoxField = (function (_super) {
     __extends(ComboBoxField, _super);
     function ComboBoxField(props) {
@@ -11928,60 +11915,24 @@ exports.default = ComboBoxField;
 
 
 /***/ }),
-/* 107 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var hs_req_fns_ts_1 = __webpack_require__(275);
-var success_chance_1 = __webpack_require__(24);
-var getReqFn = function (program) {
-    var applFnID = program.Application_Requirements_Fn;
-    var selFnID = program.Program_Selections_Fn;
-    var defaultReqFn = function (student, program) {
-        return { outcome: success_chance_1.default.NOTIMPLEMENTED };
-    };
-    var applicationReqFn;
-    var selectionReqFn;
-    if (hs_req_fns_ts_1.default[applFnID]) {
-        applicationReqFn = hs_req_fns_ts_1.default[applFnID].fn;
-    }
-    else {
-        console.warn("Cannot locate application requirement for " + (program.Short_Name + " - " + program.Program_Type));
-        applicationReqFn = defaultReqFn;
-    }
-    if (hs_req_fns_ts_1.default[selFnID]) {
-        selectionReqFn = hs_req_fns_ts_1.default[selFnID].fn;
-    }
-    else {
-        console.warn("Cannot locate selection requirement for " + (program.Short_Name + " - " + program.Program_Type));
-        selectionReqFn = defaultReqFn;
-    }
-    return { application: applicationReqFn, selection: selectionReqFn };
-};
-exports.default = getReqFn;
-
-
-/***/ }),
-/* 108 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(4);
-var react_dom_1 = __webpack_require__(123);
-var redux_1 = __webpack_require__(92);
-var reducers_1 = __webpack_require__(223);
+var react_dom_1 = __webpack_require__(121);
+var redux_1 = __webpack_require__(91);
+var reducers_1 = __webpack_require__(221);
 var react_redux_1 = __webpack_require__(99);
-var path_to_hs_1 = __webpack_require__(236);
+var path_to_hs_1 = __webpack_require__(238);
 react_dom_1.render((React.createElement(react_redux_1.Provider, { store: redux_1.createStore(reducers_1.default) },
     React.createElement(path_to_hs_1.default, null))), document.getElementById("root"));
 
 
 /***/ }),
-/* 109 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11997,11 +11948,11 @@ react_dom_1.render((React.createElement(react_redux_1.Provider, { store: redux_1
 
 
 
-var PooledClass = __webpack_require__(110);
+var PooledClass = __webpack_require__(108);
 var ReactElement = __webpack_require__(17);
 
 var emptyFunction = __webpack_require__(9);
-var traverseAllChildren = __webpack_require__(111);
+var traverseAllChildren = __webpack_require__(109);
 
 var twoArgumentPooler = PooledClass.twoArgumentPooler;
 var fourArgumentPooler = PooledClass.fourArgumentPooler;
@@ -12177,7 +12128,7 @@ var ReactChildren = {
 module.exports = ReactChildren;
 
 /***/ }),
-/* 110 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12295,7 +12246,7 @@ module.exports = PooledClass;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 111 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12314,11 +12265,11 @@ module.exports = PooledClass;
 var _prodInvariant = __webpack_require__(20);
 
 var ReactCurrentOwner = __webpack_require__(11);
-var REACT_ELEMENT_TYPE = __webpack_require__(62);
+var REACT_ELEMENT_TYPE = __webpack_require__(61);
 
-var getIteratorFn = __webpack_require__(63);
+var getIteratorFn = __webpack_require__(62);
 var invariant = __webpack_require__(1);
-var KeyEscapeUtils = __webpack_require__(112);
+var KeyEscapeUtils = __webpack_require__(110);
 var warning = __webpack_require__(2);
 
 var SEPARATOR = '.';
@@ -12477,7 +12428,7 @@ module.exports = traverseAllChildren;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 112 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12541,7 +12492,7 @@ var KeyEscapeUtils = {
 module.exports = KeyEscapeUtils;
 
 /***/ }),
-/* 113 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12566,7 +12517,7 @@ var ReactElement = __webpack_require__(17);
  */
 var createDOMFactory = ReactElement.createFactory;
 if (process.env.NODE_ENV !== 'production') {
-  var ReactElementValidator = __webpack_require__(64);
+  var ReactElementValidator = __webpack_require__(63);
   createDOMFactory = ReactElementValidator.createFactory;
 }
 
@@ -12716,7 +12667,7 @@ module.exports = ReactDOMFactories;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 114 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12734,8 +12685,8 @@ module.exports = ReactDOMFactories;
 
 var _prodInvariant = __webpack_require__(20);
 
-var ReactPropTypeLocationNames = __webpack_require__(115);
-var ReactPropTypesSecret = __webpack_require__(116);
+var ReactPropTypeLocationNames = __webpack_require__(113);
+var ReactPropTypesSecret = __webpack_require__(114);
 
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
@@ -12809,7 +12760,7 @@ module.exports = checkReactTypeSpec;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 115 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12840,7 +12791,7 @@ module.exports = ReactPropTypeLocationNames;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 116 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12862,7 +12813,7 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 module.exports = ReactPropTypesSecret;
 
 /***/ }),
-/* 117 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12881,12 +12832,12 @@ module.exports = ReactPropTypesSecret;
 var _require = __webpack_require__(17),
     isValidElement = _require.isValidElement;
 
-var factory = __webpack_require__(65);
+var factory = __webpack_require__(64);
 
 module.exports = factory(isValidElement);
 
 /***/ }),
-/* 118 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12904,7 +12855,7 @@ module.exports = factory(isValidElement);
 if (process.env.NODE_ENV !== 'production') {
   var invariant = __webpack_require__(1);
   var warning = __webpack_require__(2);
-  var ReactPropTypesSecret = __webpack_require__(40);
+  var ReactPropTypesSecret = __webpack_require__(39);
   var loggedTypeFailures = {};
 }
 
@@ -12955,7 +12906,7 @@ module.exports = checkPropTypes;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 119 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12974,7 +12925,7 @@ module.exports = checkPropTypes;
 module.exports = '15.6.1';
 
 /***/ }),
-/* 120 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12990,19 +12941,19 @@ module.exports = '15.6.1';
 
 
 
-var _require = __webpack_require__(60),
+var _require = __webpack_require__(59),
     Component = _require.Component;
 
 var _require2 = __webpack_require__(17),
     isValidElement = _require2.isValidElement;
 
-var ReactNoopUpdateQueue = __webpack_require__(61);
-var factory = __webpack_require__(121);
+var ReactNoopUpdateQueue = __webpack_require__(60);
+var factory = __webpack_require__(119);
 
 module.exports = factory(Component, isValidElement, ReactNoopUpdateQueue);
 
 /***/ }),
-/* 121 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13020,7 +12971,7 @@ module.exports = factory(Component, isValidElement, ReactNoopUpdateQueue);
 
 var _assign = __webpack_require__(5);
 
-var emptyObject = __webpack_require__(31);
+var emptyObject = __webpack_require__(30);
 var _invariant = __webpack_require__(1);
 
 if (process.env.NODE_ENV !== 'production') {
@@ -13882,7 +13833,7 @@ module.exports = factory;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 122 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13926,17 +13877,17 @@ module.exports = onlyChild;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 123 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(124);
+module.exports = __webpack_require__(122);
 
 
 /***/ }),
-/* 124 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13955,15 +13906,15 @@ module.exports = __webpack_require__(124);
 
 
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactDefaultInjection = __webpack_require__(125);
-var ReactMount = __webpack_require__(90);
+var ReactDefaultInjection = __webpack_require__(123);
+var ReactMount = __webpack_require__(89);
 var ReactReconciler = __webpack_require__(21);
 var ReactUpdates = __webpack_require__(12);
-var ReactVersion = __webpack_require__(203);
+var ReactVersion = __webpack_require__(201);
 
-var findDOMNode = __webpack_require__(204);
-var getHostComponentFromComposite = __webpack_require__(91);
-var renderSubtreeIntoContainer = __webpack_require__(205);
+var findDOMNode = __webpack_require__(202);
+var getHostComponentFromComposite = __webpack_require__(90);
+var renderSubtreeIntoContainer = __webpack_require__(203);
 var warning = __webpack_require__(2);
 
 ReactDefaultInjection.inject();
@@ -14040,9 +13991,9 @@ if (process.env.NODE_ENV !== 'production') {
 
 if (process.env.NODE_ENV !== 'production') {
   var ReactInstrumentation = __webpack_require__(10);
-  var ReactDOMUnknownPropertyHook = __webpack_require__(206);
-  var ReactDOMNullInputValuePropHook = __webpack_require__(207);
-  var ReactDOMInvalidARIAHook = __webpack_require__(208);
+  var ReactDOMUnknownPropertyHook = __webpack_require__(204);
+  var ReactDOMNullInputValuePropHook = __webpack_require__(205);
+  var ReactDOMInvalidARIAHook = __webpack_require__(206);
 
   ReactInstrumentation.debugTool.addHook(ReactDOMUnknownPropertyHook);
   ReactInstrumentation.debugTool.addHook(ReactDOMNullInputValuePropHook);
@@ -14053,7 +14004,7 @@ module.exports = ReactDOM;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 125 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14069,25 +14020,25 @@ module.exports = ReactDOM;
 
 
 
-var ARIADOMPropertyConfig = __webpack_require__(126);
-var BeforeInputEventPlugin = __webpack_require__(127);
-var ChangeEventPlugin = __webpack_require__(131);
-var DefaultEventPluginOrder = __webpack_require__(139);
-var EnterLeaveEventPlugin = __webpack_require__(140);
-var HTMLDOMPropertyConfig = __webpack_require__(141);
-var ReactComponentBrowserEnvironment = __webpack_require__(142);
-var ReactDOMComponent = __webpack_require__(148);
+var ARIADOMPropertyConfig = __webpack_require__(124);
+var BeforeInputEventPlugin = __webpack_require__(125);
+var ChangeEventPlugin = __webpack_require__(129);
+var DefaultEventPluginOrder = __webpack_require__(137);
+var EnterLeaveEventPlugin = __webpack_require__(138);
+var HTMLDOMPropertyConfig = __webpack_require__(139);
+var ReactComponentBrowserEnvironment = __webpack_require__(140);
+var ReactDOMComponent = __webpack_require__(146);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactDOMEmptyComponent = __webpack_require__(174);
-var ReactDOMTreeTraversal = __webpack_require__(175);
-var ReactDOMTextComponent = __webpack_require__(176);
-var ReactDefaultBatchingStrategy = __webpack_require__(177);
-var ReactEventListener = __webpack_require__(178);
-var ReactInjection = __webpack_require__(180);
-var ReactReconcileTransaction = __webpack_require__(181);
-var SVGDOMPropertyConfig = __webpack_require__(187);
-var SelectEventPlugin = __webpack_require__(188);
-var SimpleEventPlugin = __webpack_require__(189);
+var ReactDOMEmptyComponent = __webpack_require__(172);
+var ReactDOMTreeTraversal = __webpack_require__(173);
+var ReactDOMTextComponent = __webpack_require__(174);
+var ReactDefaultBatchingStrategy = __webpack_require__(175);
+var ReactEventListener = __webpack_require__(176);
+var ReactInjection = __webpack_require__(178);
+var ReactReconcileTransaction = __webpack_require__(179);
+var SVGDOMPropertyConfig = __webpack_require__(185);
+var SelectEventPlugin = __webpack_require__(186);
+var SimpleEventPlugin = __webpack_require__(187);
 
 var alreadyInjected = false;
 
@@ -14144,7 +14095,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 126 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14223,7 +14174,7 @@ var ARIADOMPropertyConfig = {
 module.exports = ARIADOMPropertyConfig;
 
 /***/ }),
-/* 127 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14239,11 +14190,11 @@ module.exports = ARIADOMPropertyConfig;
 
 
 
-var EventPropagators = __webpack_require__(25);
+var EventPropagators = __webpack_require__(24);
 var ExecutionEnvironment = __webpack_require__(7);
-var FallbackCompositionState = __webpack_require__(128);
-var SyntheticCompositionEvent = __webpack_require__(129);
-var SyntheticInputEvent = __webpack_require__(130);
+var FallbackCompositionState = __webpack_require__(126);
+var SyntheticCompositionEvent = __webpack_require__(127);
+var SyntheticInputEvent = __webpack_require__(128);
 
 var END_KEYCODES = [9, 13, 27, 32]; // Tab, Return, Esc, Space
 var START_KEYCODE = 229;
@@ -14612,7 +14563,7 @@ var BeforeInputEventPlugin = {
 module.exports = BeforeInputEventPlugin;
 
 /***/ }),
-/* 128 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14632,7 +14583,7 @@ var _assign = __webpack_require__(5);
 
 var PooledClass = __webpack_require__(18);
 
-var getTextContentAccessor = __webpack_require__(70);
+var getTextContentAccessor = __webpack_require__(69);
 
 /**
  * This helper class stores information about text content of a target node,
@@ -14712,7 +14663,7 @@ PooledClass.addPoolingTo(FallbackCompositionState);
 module.exports = FallbackCompositionState;
 
 /***/ }),
-/* 129 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14728,7 +14679,7 @@ module.exports = FallbackCompositionState;
 
 
 
-var SyntheticEvent = __webpack_require__(15);
+var SyntheticEvent = __webpack_require__(13);
 
 /**
  * @interface Event
@@ -14753,7 +14704,7 @@ SyntheticEvent.augmentClass(SyntheticCompositionEvent, CompositionEventInterface
 module.exports = SyntheticCompositionEvent;
 
 /***/ }),
-/* 130 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14769,7 +14720,7 @@ module.exports = SyntheticCompositionEvent;
 
 
 
-var SyntheticEvent = __webpack_require__(15);
+var SyntheticEvent = __webpack_require__(13);
 
 /**
  * @interface Event
@@ -14795,7 +14746,7 @@ SyntheticEvent.augmentClass(SyntheticInputEvent, InputEventInterface);
 module.exports = SyntheticInputEvent;
 
 /***/ }),
-/* 131 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14811,17 +14762,17 @@ module.exports = SyntheticInputEvent;
 
 
 
-var EventPluginHub = __webpack_require__(26);
-var EventPropagators = __webpack_require__(25);
+var EventPluginHub = __webpack_require__(25);
+var EventPropagators = __webpack_require__(24);
 var ExecutionEnvironment = __webpack_require__(7);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactUpdates = __webpack_require__(12);
-var SyntheticEvent = __webpack_require__(15);
+var SyntheticEvent = __webpack_require__(13);
 
-var inputValueTracking = __webpack_require__(73);
-var getEventTarget = __webpack_require__(43);
-var isEventSupported = __webpack_require__(44);
-var isTextInputElement = __webpack_require__(74);
+var inputValueTracking = __webpack_require__(72);
+var getEventTarget = __webpack_require__(42);
+var isEventSupported = __webpack_require__(43);
+var isTextInputElement = __webpack_require__(73);
 
 var eventTypes = {
   change: {
@@ -15112,7 +15063,7 @@ var ChangeEventPlugin = {
 module.exports = ChangeEventPlugin;
 
 /***/ }),
-/* 132 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15129,7 +15080,7 @@ module.exports = ChangeEventPlugin;
 
 
 
-var ReactOwner = __webpack_require__(133);
+var ReactOwner = __webpack_require__(131);
 
 var ReactRef = {};
 
@@ -15206,7 +15157,7 @@ ReactRef.detachRefs = function (instance, element) {
 module.exports = ReactRef;
 
 /***/ }),
-/* 133 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15305,7 +15256,7 @@ module.exports = ReactOwner;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 134 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15322,12 +15273,12 @@ module.exports = ReactOwner;
 
 
 
-var ReactInvalidSetStateWarningHook = __webpack_require__(135);
-var ReactHostOperationHistoryHook = __webpack_require__(136);
+var ReactInvalidSetStateWarningHook = __webpack_require__(133);
+var ReactHostOperationHistoryHook = __webpack_require__(134);
 var ReactComponentTreeHook = __webpack_require__(8);
 var ExecutionEnvironment = __webpack_require__(7);
 
-var performanceNow = __webpack_require__(137);
+var performanceNow = __webpack_require__(135);
 var warning = __webpack_require__(2);
 
 var hooks = [];
@@ -15672,7 +15623,7 @@ module.exports = ReactDebugTool;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 135 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15715,7 +15666,7 @@ module.exports = ReactInvalidSetStateWarningHook;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 136 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15754,7 +15705,7 @@ var ReactHostOperationHistoryHook = {
 module.exports = ReactHostOperationHistoryHook;
 
 /***/ }),
-/* 137 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15771,7 +15722,7 @@ module.exports = ReactHostOperationHistoryHook;
  * @typechecks
  */
 
-var performance = __webpack_require__(138);
+var performance = __webpack_require__(136);
 
 var performanceNow;
 
@@ -15793,7 +15744,7 @@ if (performance.now) {
 module.exports = performanceNow;
 
 /***/ }),
-/* 138 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15821,7 +15772,7 @@ if (ExecutionEnvironment.canUseDOM) {
 module.exports = performance || {};
 
 /***/ }),
-/* 139 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15852,7 +15803,7 @@ var DefaultEventPluginOrder = ['ResponderEventPlugin', 'SimpleEventPlugin', 'Tap
 module.exports = DefaultEventPluginOrder;
 
 /***/ }),
-/* 140 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15868,9 +15819,9 @@ module.exports = DefaultEventPluginOrder;
 
 
 
-var EventPropagators = __webpack_require__(25);
+var EventPropagators = __webpack_require__(24);
 var ReactDOMComponentTree = __webpack_require__(6);
-var SyntheticMouseEvent = __webpack_require__(34);
+var SyntheticMouseEvent = __webpack_require__(33);
 
 var eventTypes = {
   mouseEnter: {
@@ -15955,7 +15906,7 @@ var EnterLeaveEventPlugin = {
 module.exports = EnterLeaveEventPlugin;
 
 /***/ }),
-/* 141 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15971,7 +15922,7 @@ module.exports = EnterLeaveEventPlugin;
 
 
 
-var DOMProperty = __webpack_require__(16);
+var DOMProperty = __webpack_require__(14);
 
 var MUST_USE_PROPERTY = DOMProperty.injection.MUST_USE_PROPERTY;
 var HAS_BOOLEAN_VALUE = DOMProperty.injection.HAS_BOOLEAN_VALUE;
@@ -16196,7 +16147,7 @@ var HTMLDOMPropertyConfig = {
 module.exports = HTMLDOMPropertyConfig;
 
 /***/ }),
-/* 142 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16212,8 +16163,8 @@ module.exports = HTMLDOMPropertyConfig;
 
 
 
-var DOMChildrenOperations = __webpack_require__(46);
-var ReactDOMIDOperations = __webpack_require__(147);
+var DOMChildrenOperations = __webpack_require__(45);
+var ReactDOMIDOperations = __webpack_require__(145);
 
 /**
  * Abstracts away all functionality of the reconciler that requires knowledge of
@@ -16229,7 +16180,7 @@ var ReactComponentBrowserEnvironment = {
 module.exports = ReactComponentBrowserEnvironment;
 
 /***/ }),
-/* 143 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16250,7 +16201,7 @@ var _prodInvariant = __webpack_require__(3);
 var DOMLazyTree = __webpack_require__(22);
 var ExecutionEnvironment = __webpack_require__(7);
 
-var createNodesFromMarkup = __webpack_require__(144);
+var createNodesFromMarkup = __webpack_require__(142);
 var emptyFunction = __webpack_require__(9);
 var invariant = __webpack_require__(1);
 
@@ -16281,7 +16232,7 @@ module.exports = Danger;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 144 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16302,8 +16253,8 @@ module.exports = Danger;
 
 var ExecutionEnvironment = __webpack_require__(7);
 
-var createArrayFromMixed = __webpack_require__(145);
-var getMarkupWrap = __webpack_require__(146);
+var createArrayFromMixed = __webpack_require__(143);
+var getMarkupWrap = __webpack_require__(144);
 var invariant = __webpack_require__(1);
 
 /**
@@ -16371,7 +16322,7 @@ module.exports = createNodesFromMarkup;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 145 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16504,7 +16455,7 @@ module.exports = createArrayFromMixed;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 146 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16605,7 +16556,7 @@ module.exports = getMarkupWrap;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 147 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16621,7 +16572,7 @@ module.exports = getMarkupWrap;
 
 
 
-var DOMChildrenOperations = __webpack_require__(46);
+var DOMChildrenOperations = __webpack_require__(45);
 var ReactDOMComponentTree = __webpack_require__(6);
 
 /**
@@ -16643,7 +16594,7 @@ var ReactDOMIDOperations = {
 module.exports = ReactDOMIDOperations;
 
 /***/ }),
-/* 148 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16664,32 +16615,32 @@ module.exports = ReactDOMIDOperations;
 var _prodInvariant = __webpack_require__(3),
     _assign = __webpack_require__(5);
 
-var AutoFocusUtils = __webpack_require__(149);
-var CSSPropertyOperations = __webpack_require__(150);
+var AutoFocusUtils = __webpack_require__(147);
+var CSSPropertyOperations = __webpack_require__(148);
 var DOMLazyTree = __webpack_require__(22);
-var DOMNamespaces = __webpack_require__(47);
-var DOMProperty = __webpack_require__(16);
-var DOMPropertyOperations = __webpack_require__(79);
-var EventPluginHub = __webpack_require__(26);
-var EventPluginRegistry = __webpack_require__(32);
-var ReactBrowserEventEmitter = __webpack_require__(37);
-var ReactDOMComponentFlags = __webpack_require__(67);
+var DOMNamespaces = __webpack_require__(46);
+var DOMProperty = __webpack_require__(14);
+var DOMPropertyOperations = __webpack_require__(78);
+var EventPluginHub = __webpack_require__(25);
+var EventPluginRegistry = __webpack_require__(31);
+var ReactBrowserEventEmitter = __webpack_require__(36);
+var ReactDOMComponentFlags = __webpack_require__(66);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactDOMInput = __webpack_require__(160);
-var ReactDOMOption = __webpack_require__(161);
-var ReactDOMSelect = __webpack_require__(81);
-var ReactDOMTextarea = __webpack_require__(162);
+var ReactDOMInput = __webpack_require__(158);
+var ReactDOMOption = __webpack_require__(159);
+var ReactDOMSelect = __webpack_require__(80);
+var ReactDOMTextarea = __webpack_require__(160);
 var ReactInstrumentation = __webpack_require__(10);
-var ReactMultiChild = __webpack_require__(163);
-var ReactServerRenderingTransaction = __webpack_require__(172);
+var ReactMultiChild = __webpack_require__(161);
+var ReactServerRenderingTransaction = __webpack_require__(170);
 
 var emptyFunction = __webpack_require__(9);
-var escapeTextContentForBrowser = __webpack_require__(36);
+var escapeTextContentForBrowser = __webpack_require__(35);
 var invariant = __webpack_require__(1);
-var isEventSupported = __webpack_require__(44);
-var shallowEqual = __webpack_require__(51);
-var inputValueTracking = __webpack_require__(73);
-var validateDOMNesting = __webpack_require__(55);
+var isEventSupported = __webpack_require__(43);
+var shallowEqual = __webpack_require__(50);
+var inputValueTracking = __webpack_require__(72);
+var validateDOMNesting = __webpack_require__(54);
 var warning = __webpack_require__(2);
 
 var Flags = ReactDOMComponentFlags;
@@ -17659,7 +17610,7 @@ module.exports = ReactDOMComponent;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 149 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17677,7 +17628,7 @@ module.exports = ReactDOMComponent;
 
 var ReactDOMComponentTree = __webpack_require__(6);
 
-var focusNode = __webpack_require__(77);
+var focusNode = __webpack_require__(76);
 
 var AutoFocusUtils = {
   focusDOMComponent: function () {
@@ -17688,7 +17639,7 @@ var AutoFocusUtils = {
 module.exports = AutoFocusUtils;
 
 /***/ }),
-/* 150 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17704,14 +17655,14 @@ module.exports = AutoFocusUtils;
 
 
 
-var CSSProperty = __webpack_require__(78);
+var CSSProperty = __webpack_require__(77);
 var ExecutionEnvironment = __webpack_require__(7);
 var ReactInstrumentation = __webpack_require__(10);
 
-var camelizeStyleName = __webpack_require__(151);
-var dangerousStyleValue = __webpack_require__(153);
-var hyphenateStyleName = __webpack_require__(154);
-var memoizeStringOnly = __webpack_require__(156);
+var camelizeStyleName = __webpack_require__(149);
+var dangerousStyleValue = __webpack_require__(151);
+var hyphenateStyleName = __webpack_require__(152);
+var memoizeStringOnly = __webpack_require__(154);
 var warning = __webpack_require__(2);
 
 var processStyleName = memoizeStringOnly(function (styleName) {
@@ -17909,7 +17860,7 @@ module.exports = CSSPropertyOperations;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 151 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17926,7 +17877,7 @@ module.exports = CSSPropertyOperations;
 
 
 
-var camelize = __webpack_require__(152);
+var camelize = __webpack_require__(150);
 
 var msPattern = /^-ms-/;
 
@@ -17954,7 +17905,7 @@ function camelizeStyleName(string) {
 module.exports = camelizeStyleName;
 
 /***/ }),
-/* 152 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17991,7 +17942,7 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 153 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18007,7 +17958,7 @@ module.exports = camelize;
 
 
 
-var CSSProperty = __webpack_require__(78);
+var CSSProperty = __webpack_require__(77);
 var warning = __webpack_require__(2);
 
 var isUnitlessNumber = CSSProperty.isUnitlessNumber;
@@ -18076,7 +18027,7 @@ module.exports = dangerousStyleValue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 154 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18093,7 +18044,7 @@ module.exports = dangerousStyleValue;
 
 
 
-var hyphenate = __webpack_require__(155);
+var hyphenate = __webpack_require__(153);
 
 var msPattern = /^ms-/;
 
@@ -18120,7 +18071,7 @@ function hyphenateStyleName(string) {
 module.exports = hyphenateStyleName;
 
 /***/ }),
-/* 155 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18158,7 +18109,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 156 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18193,7 +18144,7 @@ function memoizeStringOnly(callback) {
 module.exports = memoizeStringOnly;
 
 /***/ }),
-/* 157 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18209,7 +18160,7 @@ module.exports = memoizeStringOnly;
 
 
 
-var escapeTextContentForBrowser = __webpack_require__(36);
+var escapeTextContentForBrowser = __webpack_require__(35);
 
 /**
  * Escapes attribute value to prevent scripting attacks.
@@ -18224,7 +18175,7 @@ function quoteAttributeValueForBrowser(value) {
 module.exports = quoteAttributeValueForBrowser;
 
 /***/ }),
-/* 158 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18240,7 +18191,7 @@ module.exports = quoteAttributeValueForBrowser;
 
 
 
-var EventPluginHub = __webpack_require__(26);
+var EventPluginHub = __webpack_require__(25);
 
 function runEventQueueInBatch(events) {
   EventPluginHub.enqueueEvents(events);
@@ -18261,7 +18212,7 @@ var ReactEventEmitterMixin = {
 module.exports = ReactEventEmitterMixin;
 
 /***/ }),
-/* 159 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18367,7 +18318,7 @@ function getVendorPrefixedEventName(eventName) {
 module.exports = getVendorPrefixedEventName;
 
 /***/ }),
-/* 160 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18386,8 +18337,8 @@ module.exports = getVendorPrefixedEventName;
 var _prodInvariant = __webpack_require__(3),
     _assign = __webpack_require__(5);
 
-var DOMPropertyOperations = __webpack_require__(79);
-var LinkedValueUtils = __webpack_require__(49);
+var DOMPropertyOperations = __webpack_require__(78);
+var LinkedValueUtils = __webpack_require__(48);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactUpdates = __webpack_require__(12);
 
@@ -18660,7 +18611,7 @@ module.exports = ReactDOMInput;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 161 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18680,7 +18631,7 @@ var _assign = __webpack_require__(5);
 
 var React = __webpack_require__(19);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactDOMSelect = __webpack_require__(81);
+var ReactDOMSelect = __webpack_require__(80);
 
 var warning = __webpack_require__(2);
 var didWarnInvalidOptionChildren = false;
@@ -18788,7 +18739,7 @@ module.exports = ReactDOMOption;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 162 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18807,7 +18758,7 @@ module.exports = ReactDOMOption;
 var _prodInvariant = __webpack_require__(3),
     _assign = __webpack_require__(5);
 
-var LinkedValueUtils = __webpack_require__(49);
+var LinkedValueUtils = __webpack_require__(48);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactUpdates = __webpack_require__(12);
 
@@ -18954,7 +18905,7 @@ module.exports = ReactDOMTextarea;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 163 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18972,16 +18923,16 @@ module.exports = ReactDOMTextarea;
 
 var _prodInvariant = __webpack_require__(3);
 
-var ReactComponentEnvironment = __webpack_require__(50);
-var ReactInstanceMap = __webpack_require__(28);
+var ReactComponentEnvironment = __webpack_require__(49);
+var ReactInstanceMap = __webpack_require__(27);
 var ReactInstrumentation = __webpack_require__(10);
 
 var ReactCurrentOwner = __webpack_require__(11);
 var ReactReconciler = __webpack_require__(21);
-var ReactChildReconciler = __webpack_require__(164);
+var ReactChildReconciler = __webpack_require__(162);
 
 var emptyFunction = __webpack_require__(9);
-var flattenChildren = __webpack_require__(171);
+var flattenChildren = __webpack_require__(169);
 var invariant = __webpack_require__(1);
 
 /**
@@ -19406,7 +19357,7 @@ module.exports = ReactMultiChild;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 164 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19424,10 +19375,10 @@ module.exports = ReactMultiChild;
 
 var ReactReconciler = __webpack_require__(21);
 
-var instantiateReactComponent = __webpack_require__(82);
-var KeyEscapeUtils = __webpack_require__(53);
-var shouldUpdateReactComponent = __webpack_require__(52);
-var traverseAllChildren = __webpack_require__(86);
+var instantiateReactComponent = __webpack_require__(81);
+var KeyEscapeUtils = __webpack_require__(52);
+var shouldUpdateReactComponent = __webpack_require__(51);
+var traverseAllChildren = __webpack_require__(85);
 var warning = __webpack_require__(2);
 
 var ReactComponentTreeHook;
@@ -19565,7 +19516,7 @@ module.exports = ReactChildReconciler;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 165 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19585,22 +19536,22 @@ var _prodInvariant = __webpack_require__(3),
     _assign = __webpack_require__(5);
 
 var React = __webpack_require__(19);
-var ReactComponentEnvironment = __webpack_require__(50);
+var ReactComponentEnvironment = __webpack_require__(49);
 var ReactCurrentOwner = __webpack_require__(11);
-var ReactErrorUtils = __webpack_require__(42);
-var ReactInstanceMap = __webpack_require__(28);
+var ReactErrorUtils = __webpack_require__(41);
+var ReactInstanceMap = __webpack_require__(27);
 var ReactInstrumentation = __webpack_require__(10);
-var ReactNodeTypes = __webpack_require__(83);
+var ReactNodeTypes = __webpack_require__(82);
 var ReactReconciler = __webpack_require__(21);
 
 if (process.env.NODE_ENV !== 'production') {
-  var checkReactTypeSpec = __webpack_require__(166);
+  var checkReactTypeSpec = __webpack_require__(164);
 }
 
-var emptyObject = __webpack_require__(31);
+var emptyObject = __webpack_require__(30);
 var invariant = __webpack_require__(1);
-var shallowEqual = __webpack_require__(51);
-var shouldUpdateReactComponent = __webpack_require__(52);
+var shallowEqual = __webpack_require__(50);
+var shouldUpdateReactComponent = __webpack_require__(51);
 var warning = __webpack_require__(2);
 
 var CompositeTypes = {
@@ -20471,7 +20422,7 @@ module.exports = ReactCompositeComponent;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 166 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20489,8 +20440,8 @@ module.exports = ReactCompositeComponent;
 
 var _prodInvariant = __webpack_require__(3);
 
-var ReactPropTypeLocationNames = __webpack_require__(167);
-var ReactPropTypesSecret = __webpack_require__(80);
+var ReactPropTypeLocationNames = __webpack_require__(165);
+var ReactPropTypesSecret = __webpack_require__(79);
 
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
@@ -20564,7 +20515,7 @@ module.exports = checkReactTypeSpec;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 167 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20595,7 +20546,7 @@ module.exports = ReactPropTypeLocationNames;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 168 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20621,7 +20572,7 @@ function getNextDebugID() {
 module.exports = getNextDebugID;
 
 /***/ }),
-/* 169 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20646,7 +20597,7 @@ var REACT_ELEMENT_TYPE = typeof Symbol === 'function' && Symbol['for'] && Symbol
 module.exports = REACT_ELEMENT_TYPE;
 
 /***/ }),
-/* 170 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20692,7 +20643,7 @@ function getIteratorFn(maybeIterable) {
 module.exports = getIteratorFn;
 
 /***/ }),
-/* 171 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20709,8 +20660,8 @@ module.exports = getIteratorFn;
 
 
 
-var KeyEscapeUtils = __webpack_require__(53);
-var traverseAllChildren = __webpack_require__(86);
+var KeyEscapeUtils = __webpack_require__(52);
+var traverseAllChildren = __webpack_require__(85);
 var warning = __webpack_require__(2);
 
 var ReactComponentTreeHook;
@@ -20774,7 +20725,7 @@ module.exports = flattenChildren;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 172 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20793,9 +20744,9 @@ module.exports = flattenChildren;
 var _assign = __webpack_require__(5);
 
 var PooledClass = __webpack_require__(18);
-var Transaction = __webpack_require__(33);
+var Transaction = __webpack_require__(32);
 var ReactInstrumentation = __webpack_require__(10);
-var ReactServerUpdateQueue = __webpack_require__(173);
+var ReactServerUpdateQueue = __webpack_require__(171);
 
 /**
  * Executed within the scope of the `Transaction` instance. Consider these as
@@ -20870,7 +20821,7 @@ module.exports = ReactServerRenderingTransaction;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 173 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20889,7 +20840,7 @@ module.exports = ReactServerRenderingTransaction;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var ReactUpdateQueue = __webpack_require__(54);
+var ReactUpdateQueue = __webpack_require__(53);
 
 var warning = __webpack_require__(2);
 
@@ -21015,7 +20966,7 @@ module.exports = ReactServerUpdateQueue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 174 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21080,7 +21031,7 @@ _assign(ReactDOMEmptyComponent.prototype, {
 module.exports = ReactDOMEmptyComponent;
 
 /***/ }),
-/* 175 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21222,7 +21173,7 @@ module.exports = {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 176 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21241,13 +21192,13 @@ module.exports = {
 var _prodInvariant = __webpack_require__(3),
     _assign = __webpack_require__(5);
 
-var DOMChildrenOperations = __webpack_require__(46);
+var DOMChildrenOperations = __webpack_require__(45);
 var DOMLazyTree = __webpack_require__(22);
 var ReactDOMComponentTree = __webpack_require__(6);
 
-var escapeTextContentForBrowser = __webpack_require__(36);
+var escapeTextContentForBrowser = __webpack_require__(35);
 var invariant = __webpack_require__(1);
-var validateDOMNesting = __webpack_require__(55);
+var validateDOMNesting = __webpack_require__(54);
 
 /**
  * Text nodes violate a couple assumptions that React makes about components:
@@ -21390,7 +21341,7 @@ module.exports = ReactDOMTextComponent;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 177 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21409,7 +21360,7 @@ module.exports = ReactDOMTextComponent;
 var _assign = __webpack_require__(5);
 
 var ReactUpdates = __webpack_require__(12);
-var Transaction = __webpack_require__(33);
+var Transaction = __webpack_require__(32);
 
 var emptyFunction = __webpack_require__(9);
 
@@ -21463,7 +21414,7 @@ var ReactDefaultBatchingStrategy = {
 module.exports = ReactDefaultBatchingStrategy;
 
 /***/ }),
-/* 178 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21481,14 +21432,14 @@ module.exports = ReactDefaultBatchingStrategy;
 
 var _assign = __webpack_require__(5);
 
-var EventListener = __webpack_require__(87);
+var EventListener = __webpack_require__(86);
 var ExecutionEnvironment = __webpack_require__(7);
 var PooledClass = __webpack_require__(18);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactUpdates = __webpack_require__(12);
 
-var getEventTarget = __webpack_require__(43);
-var getUnboundedScrollPosition = __webpack_require__(179);
+var getEventTarget = __webpack_require__(42);
+var getUnboundedScrollPosition = __webpack_require__(177);
 
 /**
  * Find the deepest React component completely containing the root of the
@@ -21623,7 +21574,7 @@ var ReactEventListener = {
 module.exports = ReactEventListener;
 
 /***/ }),
-/* 179 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21667,7 +21618,7 @@ function getUnboundedScrollPosition(scrollable) {
 module.exports = getUnboundedScrollPosition;
 
 /***/ }),
-/* 180 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21683,13 +21634,13 @@ module.exports = getUnboundedScrollPosition;
 
 
 
-var DOMProperty = __webpack_require__(16);
-var EventPluginHub = __webpack_require__(26);
-var EventPluginUtils = __webpack_require__(41);
-var ReactComponentEnvironment = __webpack_require__(50);
-var ReactEmptyComponent = __webpack_require__(84);
-var ReactBrowserEventEmitter = __webpack_require__(37);
-var ReactHostComponent = __webpack_require__(85);
+var DOMProperty = __webpack_require__(14);
+var EventPluginHub = __webpack_require__(25);
+var EventPluginUtils = __webpack_require__(40);
+var ReactComponentEnvironment = __webpack_require__(49);
+var ReactEmptyComponent = __webpack_require__(83);
+var ReactBrowserEventEmitter = __webpack_require__(36);
+var ReactHostComponent = __webpack_require__(84);
 var ReactUpdates = __webpack_require__(12);
 
 var ReactInjection = {
@@ -21706,7 +21657,7 @@ var ReactInjection = {
 module.exports = ReactInjection;
 
 /***/ }),
-/* 181 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21724,13 +21675,13 @@ module.exports = ReactInjection;
 
 var _assign = __webpack_require__(5);
 
-var CallbackQueue = __webpack_require__(71);
+var CallbackQueue = __webpack_require__(70);
 var PooledClass = __webpack_require__(18);
-var ReactBrowserEventEmitter = __webpack_require__(37);
-var ReactInputSelection = __webpack_require__(88);
+var ReactBrowserEventEmitter = __webpack_require__(36);
+var ReactInputSelection = __webpack_require__(87);
 var ReactInstrumentation = __webpack_require__(10);
-var Transaction = __webpack_require__(33);
-var ReactUpdateQueue = __webpack_require__(54);
+var Transaction = __webpack_require__(32);
+var ReactUpdateQueue = __webpack_require__(53);
 
 /**
  * Ensures that, when possible, the selection range (currently selected text
@@ -21890,7 +21841,7 @@ module.exports = ReactReconcileTransaction;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 182 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21908,8 +21859,8 @@ module.exports = ReactReconcileTransaction;
 
 var ExecutionEnvironment = __webpack_require__(7);
 
-var getNodeForCharacterOffset = __webpack_require__(183);
-var getTextContentAccessor = __webpack_require__(70);
+var getNodeForCharacterOffset = __webpack_require__(181);
+var getTextContentAccessor = __webpack_require__(69);
 
 /**
  * While `isCollapsed` is available on the Selection object and `collapsed`
@@ -22107,7 +22058,7 @@ var ReactDOMSelection = {
 module.exports = ReactDOMSelection;
 
 /***/ }),
-/* 183 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22186,7 +22137,7 @@ function getNodeForCharacterOffset(root, offset) {
 module.exports = getNodeForCharacterOffset;
 
 /***/ }),
-/* 184 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22203,7 +22154,7 @@ module.exports = getNodeForCharacterOffset;
  * 
  */
 
-var isTextNode = __webpack_require__(185);
+var isTextNode = __webpack_require__(183);
 
 /*eslint-disable no-bitwise */
 
@@ -22231,7 +22182,7 @@ function containsNode(outerNode, innerNode) {
 module.exports = containsNode;
 
 /***/ }),
-/* 185 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22248,7 +22199,7 @@ module.exports = containsNode;
  * @typechecks
  */
 
-var isNode = __webpack_require__(186);
+var isNode = __webpack_require__(184);
 
 /**
  * @param {*} object The object to check.
@@ -22261,7 +22212,7 @@ function isTextNode(object) {
 module.exports = isTextNode;
 
 /***/ }),
-/* 186 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22291,7 +22242,7 @@ function isNode(object) {
 module.exports = isNode;
 
 /***/ }),
-/* 187 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22598,7 +22549,7 @@ Object.keys(ATTRS).forEach(function (key) {
 module.exports = SVGDOMPropertyConfig;
 
 /***/ }),
-/* 188 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22614,15 +22565,15 @@ module.exports = SVGDOMPropertyConfig;
 
 
 
-var EventPropagators = __webpack_require__(25);
+var EventPropagators = __webpack_require__(24);
 var ExecutionEnvironment = __webpack_require__(7);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactInputSelection = __webpack_require__(88);
-var SyntheticEvent = __webpack_require__(15);
+var ReactInputSelection = __webpack_require__(87);
+var SyntheticEvent = __webpack_require__(13);
 
-var getActiveElement = __webpack_require__(89);
-var isTextInputElement = __webpack_require__(74);
-var shallowEqual = __webpack_require__(51);
+var getActiveElement = __webpack_require__(88);
+var isTextInputElement = __webpack_require__(73);
+var shallowEqual = __webpack_require__(50);
 
 var skipSelectionChangeEvent = ExecutionEnvironment.canUseDOM && 'documentMode' in document && document.documentMode <= 11;
 
@@ -22791,7 +22742,7 @@ var SelectEventPlugin = {
 module.exports = SelectEventPlugin;
 
 /***/ }),
-/* 189 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22810,23 +22761,23 @@ module.exports = SelectEventPlugin;
 
 var _prodInvariant = __webpack_require__(3);
 
-var EventListener = __webpack_require__(87);
-var EventPropagators = __webpack_require__(25);
+var EventListener = __webpack_require__(86);
+var EventPropagators = __webpack_require__(24);
 var ReactDOMComponentTree = __webpack_require__(6);
-var SyntheticAnimationEvent = __webpack_require__(190);
-var SyntheticClipboardEvent = __webpack_require__(191);
-var SyntheticEvent = __webpack_require__(15);
-var SyntheticFocusEvent = __webpack_require__(192);
-var SyntheticKeyboardEvent = __webpack_require__(193);
-var SyntheticMouseEvent = __webpack_require__(34);
-var SyntheticDragEvent = __webpack_require__(195);
-var SyntheticTouchEvent = __webpack_require__(196);
-var SyntheticTransitionEvent = __webpack_require__(197);
-var SyntheticUIEvent = __webpack_require__(27);
-var SyntheticWheelEvent = __webpack_require__(198);
+var SyntheticAnimationEvent = __webpack_require__(188);
+var SyntheticClipboardEvent = __webpack_require__(189);
+var SyntheticEvent = __webpack_require__(13);
+var SyntheticFocusEvent = __webpack_require__(190);
+var SyntheticKeyboardEvent = __webpack_require__(191);
+var SyntheticMouseEvent = __webpack_require__(33);
+var SyntheticDragEvent = __webpack_require__(193);
+var SyntheticTouchEvent = __webpack_require__(194);
+var SyntheticTransitionEvent = __webpack_require__(195);
+var SyntheticUIEvent = __webpack_require__(26);
+var SyntheticWheelEvent = __webpack_require__(196);
 
 var emptyFunction = __webpack_require__(9);
-var getEventCharCode = __webpack_require__(56);
+var getEventCharCode = __webpack_require__(55);
 var invariant = __webpack_require__(1);
 
 /**
@@ -23023,7 +22974,7 @@ module.exports = SimpleEventPlugin;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 190 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23039,7 +22990,7 @@ module.exports = SimpleEventPlugin;
 
 
 
-var SyntheticEvent = __webpack_require__(15);
+var SyntheticEvent = __webpack_require__(13);
 
 /**
  * @interface Event
@@ -23067,7 +23018,7 @@ SyntheticEvent.augmentClass(SyntheticAnimationEvent, AnimationEventInterface);
 module.exports = SyntheticAnimationEvent;
 
 /***/ }),
-/* 191 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23083,7 +23034,7 @@ module.exports = SyntheticAnimationEvent;
 
 
 
-var SyntheticEvent = __webpack_require__(15);
+var SyntheticEvent = __webpack_require__(13);
 
 /**
  * @interface Event
@@ -23110,7 +23061,7 @@ SyntheticEvent.augmentClass(SyntheticClipboardEvent, ClipboardEventInterface);
 module.exports = SyntheticClipboardEvent;
 
 /***/ }),
-/* 192 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23126,7 +23077,7 @@ module.exports = SyntheticClipboardEvent;
 
 
 
-var SyntheticUIEvent = __webpack_require__(27);
+var SyntheticUIEvent = __webpack_require__(26);
 
 /**
  * @interface FocusEvent
@@ -23151,7 +23102,7 @@ SyntheticUIEvent.augmentClass(SyntheticFocusEvent, FocusEventInterface);
 module.exports = SyntheticFocusEvent;
 
 /***/ }),
-/* 193 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23167,11 +23118,11 @@ module.exports = SyntheticFocusEvent;
 
 
 
-var SyntheticUIEvent = __webpack_require__(27);
+var SyntheticUIEvent = __webpack_require__(26);
 
-var getEventCharCode = __webpack_require__(56);
-var getEventKey = __webpack_require__(194);
-var getEventModifierState = __webpack_require__(45);
+var getEventCharCode = __webpack_require__(55);
+var getEventKey = __webpack_require__(192);
+var getEventModifierState = __webpack_require__(44);
 
 /**
  * @interface KeyboardEvent
@@ -23240,7 +23191,7 @@ SyntheticUIEvent.augmentClass(SyntheticKeyboardEvent, KeyboardEventInterface);
 module.exports = SyntheticKeyboardEvent;
 
 /***/ }),
-/* 194 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23256,7 +23207,7 @@ module.exports = SyntheticKeyboardEvent;
 
 
 
-var getEventCharCode = __webpack_require__(56);
+var getEventCharCode = __webpack_require__(55);
 
 /**
  * Normalization of deprecated HTML5 `key` values
@@ -23357,7 +23308,7 @@ function getEventKey(nativeEvent) {
 module.exports = getEventKey;
 
 /***/ }),
-/* 195 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23373,7 +23324,7 @@ module.exports = getEventKey;
 
 
 
-var SyntheticMouseEvent = __webpack_require__(34);
+var SyntheticMouseEvent = __webpack_require__(33);
 
 /**
  * @interface DragEvent
@@ -23398,7 +23349,7 @@ SyntheticMouseEvent.augmentClass(SyntheticDragEvent, DragEventInterface);
 module.exports = SyntheticDragEvent;
 
 /***/ }),
-/* 196 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23414,9 +23365,9 @@ module.exports = SyntheticDragEvent;
 
 
 
-var SyntheticUIEvent = __webpack_require__(27);
+var SyntheticUIEvent = __webpack_require__(26);
 
-var getEventModifierState = __webpack_require__(45);
+var getEventModifierState = __webpack_require__(44);
 
 /**
  * @interface TouchEvent
@@ -23448,7 +23399,7 @@ SyntheticUIEvent.augmentClass(SyntheticTouchEvent, TouchEventInterface);
 module.exports = SyntheticTouchEvent;
 
 /***/ }),
-/* 197 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23464,7 +23415,7 @@ module.exports = SyntheticTouchEvent;
 
 
 
-var SyntheticEvent = __webpack_require__(15);
+var SyntheticEvent = __webpack_require__(13);
 
 /**
  * @interface Event
@@ -23492,7 +23443,7 @@ SyntheticEvent.augmentClass(SyntheticTransitionEvent, TransitionEventInterface);
 module.exports = SyntheticTransitionEvent;
 
 /***/ }),
-/* 198 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23508,7 +23459,7 @@ module.exports = SyntheticTransitionEvent;
 
 
 
-var SyntheticMouseEvent = __webpack_require__(34);
+var SyntheticMouseEvent = __webpack_require__(33);
 
 /**
  * @interface WheelEvent
@@ -23548,7 +23499,7 @@ SyntheticMouseEvent.augmentClass(SyntheticWheelEvent, WheelEventInterface);
 module.exports = SyntheticWheelEvent;
 
 /***/ }),
-/* 199 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23564,7 +23515,7 @@ module.exports = SyntheticWheelEvent;
 
 
 
-var validateDOMNesting = __webpack_require__(55);
+var validateDOMNesting = __webpack_require__(54);
 
 var DOC_NODE_TYPE = 9;
 
@@ -23587,7 +23538,7 @@ module.exports = ReactDOMContainerInfo;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 200 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23611,7 +23562,7 @@ var ReactDOMFeatureFlags = {
 module.exports = ReactDOMFeatureFlags;
 
 /***/ }),
-/* 201 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23627,7 +23578,7 @@ module.exports = ReactDOMFeatureFlags;
 
 
 
-var adler32 = __webpack_require__(202);
+var adler32 = __webpack_require__(200);
 
 var TAG_END = /\/?>/;
 var COMMENT_START = /^<\!\-\-/;
@@ -23666,7 +23617,7 @@ var ReactMarkupChecksum = {
 module.exports = ReactMarkupChecksum;
 
 /***/ }),
-/* 202 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23715,7 +23666,7 @@ function adler32(data) {
 module.exports = adler32;
 
 /***/ }),
-/* 203 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23734,7 +23685,7 @@ module.exports = adler32;
 module.exports = '15.6.1';
 
 /***/ }),
-/* 204 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23754,9 +23705,9 @@ var _prodInvariant = __webpack_require__(3);
 
 var ReactCurrentOwner = __webpack_require__(11);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactInstanceMap = __webpack_require__(28);
+var ReactInstanceMap = __webpack_require__(27);
 
-var getHostComponentFromComposite = __webpack_require__(91);
+var getHostComponentFromComposite = __webpack_require__(90);
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
 
@@ -23800,7 +23751,7 @@ module.exports = findDOMNode;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 205 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23816,12 +23767,12 @@ module.exports = findDOMNode;
 
 
 
-var ReactMount = __webpack_require__(90);
+var ReactMount = __webpack_require__(89);
 
 module.exports = ReactMount.renderSubtreeIntoContainer;
 
 /***/ }),
-/* 206 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23837,8 +23788,8 @@ module.exports = ReactMount.renderSubtreeIntoContainer;
 
 
 
-var DOMProperty = __webpack_require__(16);
-var EventPluginRegistry = __webpack_require__(32);
+var DOMProperty = __webpack_require__(14);
+var EventPluginRegistry = __webpack_require__(31);
 var ReactComponentTreeHook = __webpack_require__(8);
 
 var warning = __webpack_require__(2);
@@ -23939,7 +23890,7 @@ module.exports = ReactDOMUnknownPropertyHook;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 207 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23988,7 +23939,7 @@ module.exports = ReactDOMNullInputValuePropHook;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 208 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24004,7 +23955,7 @@ module.exports = ReactDOMNullInputValuePropHook;
 
 
 
-var DOMProperty = __webpack_require__(16);
+var DOMProperty = __webpack_require__(14);
 var ReactComponentTreeHook = __webpack_require__(8);
 
 var warning = __webpack_require__(2);
@@ -24087,13 +24038,13 @@ module.exports = ReactDOMInvalidARIAHook;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 209 */
+/* 207 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Symbol_js__ = __webpack_require__(94);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getRawTag_js__ = __webpack_require__(212);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__objectToString_js__ = __webpack_require__(213);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Symbol_js__ = __webpack_require__(93);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getRawTag_js__ = __webpack_require__(210);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__objectToString_js__ = __webpack_require__(211);
 
 
 
@@ -24125,11 +24076,11 @@ function baseGetTag(value) {
 
 
 /***/ }),
-/* 210 */
+/* 208 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__freeGlobal_js__ = __webpack_require__(211);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__freeGlobal_js__ = __webpack_require__(209);
 
 
 /** Detect free variable `self`. */
@@ -24142,7 +24093,7 @@ var root = __WEBPACK_IMPORTED_MODULE_0__freeGlobal_js__["a" /* default */] || fr
 
 
 /***/ }),
-/* 211 */
+/* 209 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -24151,14 +24102,14 @@ var freeGlobal = typeof global == 'object' && global && global.Object === Object
 
 /* harmony default export */ __webpack_exports__["a"] = (freeGlobal);
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(95)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(94)))
 
 /***/ }),
-/* 212 */
+/* 210 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Symbol_js__ = __webpack_require__(94);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Symbol_js__ = __webpack_require__(93);
 
 
 /** Used for built-in method references. */
@@ -24208,7 +24159,7 @@ function getRawTag(value) {
 
 
 /***/ }),
-/* 213 */
+/* 211 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -24237,11 +24188,11 @@ function objectToString(value) {
 
 
 /***/ }),
-/* 214 */
+/* 212 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__overArg_js__ = __webpack_require__(215);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__overArg_js__ = __webpack_require__(213);
 
 
 /** Built-in value references. */
@@ -24251,7 +24202,7 @@ var getPrototype = __WEBPACK_IMPORTED_MODULE_0__overArg_js__["a" /* default */](
 
 
 /***/ }),
-/* 215 */
+/* 213 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -24273,7 +24224,7 @@ function overArg(func, transform) {
 
 
 /***/ }),
-/* 216 */
+/* 214 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -24309,11 +24260,11 @@ function isObjectLike(value) {
 
 
 /***/ }),
-/* 217 */
+/* 215 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(global, module) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ponyfill_js__ = __webpack_require__(219);
+/* WEBPACK VAR INJECTION */(function(global, module) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ponyfill_js__ = __webpack_require__(217);
 /* global window */
 
 
@@ -24334,10 +24285,10 @@ if (typeof self !== 'undefined') {
 var result = __WEBPACK_IMPORTED_MODULE_0__ponyfill_js__["a" /* default */](root);
 /* harmony default export */ __webpack_exports__["a"] = (result);
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(95), __webpack_require__(218)(module)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(94), __webpack_require__(216)(module)))
 
 /***/ }),
-/* 218 */
+/* 216 */
 /***/ (function(module, exports) {
 
 module.exports = function(originalModule) {
@@ -24367,7 +24318,7 @@ module.exports = function(originalModule) {
 
 
 /***/ }),
-/* 219 */
+/* 217 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -24392,14 +24343,14 @@ function symbolObservablePonyfill(root) {
 
 
 /***/ }),
-/* 220 */
+/* 218 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony export (immutable) */ __webpack_exports__["a"] = combineReducers;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__createStore__ = __webpack_require__(93);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash_es_isPlainObject__ = __webpack_require__(57);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_warning__ = __webpack_require__(96);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__createStore__ = __webpack_require__(92);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash_es_isPlainObject__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_warning__ = __webpack_require__(95);
 
 
 
@@ -24533,7 +24484,7 @@ function combineReducers(reducers) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
-/* 221 */
+/* 219 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -24587,12 +24538,12 @@ function bindActionCreators(actionCreators, dispatch) {
 }
 
 /***/ }),
-/* 222 */
+/* 220 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = applyMiddleware;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__compose__ = __webpack_require__(97);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__compose__ = __webpack_require__(96);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 
@@ -24643,14 +24594,82 @@ function applyMiddleware() {
 }
 
 /***/ }),
-/* 223 */
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var gender_1 = __webpack_require__(58);
-var action_1 = __webpack_require__(98);
+var action_type_1 = __webpack_require__(222);
+var gender_1 = __webpack_require__(97);
+var success_chance_1 = __webpack_require__(57);
+var data_access_1 = __webpack_require__(98);
+var allPrograms = data_access_1.getAllPrograms();
+var createIndexByID = function (programs) {
+    var idx = {};
+    for (var i = 0; i < programs.length; i++) {
+        var program = programs[i];
+        idx[program.ID] = i;
+    }
+    return idx;
+};
+var lookup = function (program_id, programs, index) {
+    return programs[index[program_id]];
+};
+var getHSProgramIDs = function (programs) {
+    return programs.filter(function (program) { return program.Primary_Category === "HS"; }).map(function (program) { return program.ID; });
+};
+var getESProgramIDs = function (programs) {
+    return programs.filter(function (program) { return program.Primary_Category === "ES"; }).map(function (program) { return program.ID; });
+};
+var getHSProgramIDsByType = function (programs) {
+    var index = createIndexByID(programs);
+    var hsProgramIDs = getHSProgramIDs(programs);
+    var hsProgramIDsByType = {};
+    for (var i = 0; i < hsProgramIDs.length; i++) {
+        var id = hsProgramIDs[i];
+        var program = lookup(id, programs, index);
+        var type = program.Program_Type;
+        if (!hsProgramIDsByType[type]) {
+            hsProgramIDsByType[type] = [];
+        }
+        hsProgramIDsByType[type].push(program);
+    }
+    return hsProgramIDsByType;
+};
+var initializeOutcomes = function (programs) {
+    var outcomes = {};
+    for (var i = 0; i < programs.length; i++) {
+        var program = programs[i];
+        var id = program.ID;
+        outcomes[id] = {
+            application: success_chance_1.default.NOTIMPLEMENTED,
+            selection: success_chance_1.default.NOTIMPLEMENTED
+        };
+    }
+    return outcomes;
+};
+var calculateOutcomes = function (programs, studentData, reqFnLookup) {
+    var outcomes = {};
+    for (var i = 0; i < programs.length; i++) {
+        var program = programs[i];
+        var id = program.ID;
+        var reqFns = reqFnLookup(program);
+        outcomes[id] = {
+            application: reqFns.application(studentData, program).outcome,
+            selection: reqFns.selection(studentData, program).outcome
+        };
+    }
+    return outcomes;
+};
 var initialState = {
     studentData: {
         gender: gender_1.default.NOANSWER,
@@ -24675,43 +24694,53 @@ var initialState = {
         subjGradeSci: 0,
         subjGradeSocStudies: 0,
     },
-    selectedHSProgramID: null
+    selectedHSProgramID: null,
+    hsData: {
+        programs: allPrograms,
+        index: createIndexByID(allPrograms),
+        hsProgramIDs: getHSProgramIDs(allPrograms),
+        esProgramIDs: getESProgramIDs(allPrograms),
+        hsProgramIDsByType: getHSProgramIDsByType(allPrograms),
+        outcomes: initializeOutcomes(allPrograms)
+    }
 };
 var locationReducer = function (state, action) {
+    var newLocation = action.payload;
+    var newState = Object.assign({}, __assign({}, state), { location: newLocation });
     return state;
 };
 var rootReducer = function (state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
-        case action_1.default.UpdateStudentGender:
+        case action_type_1.default.UpdateStudentGender:
             break;
-        case action_1.default.UpdateStudentLocation:
+        case action_type_1.default.UpdateStudentLocation:
             break;
-        case action_1.default.UpdateStudentGradeLevel:
+        case action_type_1.default.UpdateStudentGradeLevel:
             break;
-        case action_1.default.UpdateStudentPrevGradeLevel:
+        case action_type_1.default.UpdateStudentPrevGradeLevel:
             break;
-        case action_1.default.UpdateStudentCurrESProgram:
+        case action_type_1.default.UpdateStudentCurrESProgram:
             break;
-        case action_1.default.UpdateStudentIEPStatus:
+        case action_type_1.default.UpdateStudentIEPStatus:
             break;
-        case action_1.default.UpdateStudentELLStatus:
+        case action_type_1.default.UpdateStudentELLStatus:
             break;
-        case action_1.default.UpdateStudentNWEAPercentileMath:
+        case action_type_1.default.UpdateStudentNWEAPercentileMath:
             break;
-        case action_1.default.UpdateStudentNWEAPercentileRead:
+        case action_type_1.default.UpdateStudentNWEAPercentileRead:
             break;
-        case action_1.default.UpdateStudentSubjGradeMath:
+        case action_type_1.default.UpdateStudentSubjGradeMath:
             break;
-        case action_1.default.UpdateStudentSubjGradeRead:
+        case action_type_1.default.UpdateStudentSubjGradeRead:
             break;
-        case action_1.default.UpdateStudentSubjGradeSci:
+        case action_type_1.default.UpdateStudentSubjGradeSci:
             break;
-        case action_1.default.UpdateStudentSubjGradeSocStudies:
+        case action_type_1.default.UpdateStudentSubjGradeSocStudies:
             break;
-        case action_1.default.UpdateStudentSETestScore:
+        case action_type_1.default.UpdateStudentSETestScore:
             break;
-        case action_1.default.SelectHSProgram:
+        case action_type_1.default.SelectHSProgram:
             break;
         default:
             return state;
@@ -24721,1986 +24750,37 @@ exports.default = rootReducer;
 
 
 /***/ }),
-/* 224 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony export (immutable) */ __webpack_exports__["a"] = createProvider;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(100);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_PropTypes__ = __webpack_require__(101);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_warning__ = __webpack_require__(59);
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-
-
-var didWarnAboutReceivingStore = false;
-function warnAboutReceivingStore() {
-  if (didWarnAboutReceivingStore) {
-    return;
-  }
-  didWarnAboutReceivingStore = true;
-
-  __WEBPACK_IMPORTED_MODULE_3__utils_warning__["a" /* default */]('<Provider> does not support changing `store` on the fly. ' + 'It is most likely that you see this error because you updated to ' + 'Redux 2.x and React Redux 2.x which no longer hot reload reducers ' + 'automatically. See https://github.com/reactjs/react-redux/releases/' + 'tag/v2.0.0 for the migration instructions.');
-}
-
-function createProvider() {
-  var _Provider$childContex;
-
-  var storeKey = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'store';
-  var subKey = arguments[1];
-
-  var subscriptionKey = subKey || storeKey + 'Subscription';
-
-  var Provider = function (_Component) {
-    _inherits(Provider, _Component);
-
-    Provider.prototype.getChildContext = function getChildContext() {
-      var _ref;
-
-      return _ref = {}, _ref[storeKey] = this[storeKey], _ref[subscriptionKey] = null, _ref;
-    };
-
-    function Provider(props, context) {
-      _classCallCheck(this, Provider);
-
-      var _this = _possibleConstructorReturn(this, _Component.call(this, props, context));
-
-      _this[storeKey] = props.store;
-      return _this;
-    }
-
-    Provider.prototype.render = function render() {
-      return __WEBPACK_IMPORTED_MODULE_0_react__["Children"].only(this.props.children);
-    };
-
-    return Provider;
-  }(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-  if (process.env.NODE_ENV !== 'production') {
-    Provider.prototype.componentWillReceiveProps = function (nextProps) {
-      if (this[storeKey] !== nextProps.store) {
-        warnAboutReceivingStore();
-      }
-    };
-  }
-
-  Provider.propTypes = {
-    store: __WEBPACK_IMPORTED_MODULE_2__utils_PropTypes__["a" /* storeShape */].isRequired,
-    children: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.element.isRequired
-  };
-  Provider.childContextTypes = (_Provider$childContex = {}, _Provider$childContex[storeKey] = __WEBPACK_IMPORTED_MODULE_2__utils_PropTypes__["a" /* storeShape */].isRequired, _Provider$childContex[subscriptionKey] = __WEBPACK_IMPORTED_MODULE_2__utils_PropTypes__["b" /* subscriptionShape */], _Provider$childContex);
-
-  return Provider;
-}
-
-/* harmony default export */ __webpack_exports__["b"] = (createProvider());
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
-
-/***/ }),
-/* 225 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/**
- * Copyright 2013-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
-
-
-
-var emptyFunction = __webpack_require__(9);
-var invariant = __webpack_require__(1);
-var ReactPropTypesSecret = __webpack_require__(40);
-
-module.exports = function() {
-  function shim(props, propName, componentName, location, propFullName, secret) {
-    if (secret === ReactPropTypesSecret) {
-      // It is still safe when called from React.
-      return;
-    }
-    invariant(
-      false,
-      'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
-      'Use PropTypes.checkPropTypes() to call them. ' +
-      'Read more at http://fb.me/use-check-prop-types'
-    );
-  };
-  shim.isRequired = shim;
-  function getShim() {
-    return shim;
-  };
-  // Important!
-  // Keep this list in sync with production version in `./factoryWithTypeCheckers.js`.
-  var ReactPropTypes = {
-    array: shim,
-    bool: shim,
-    func: shim,
-    number: shim,
-    object: shim,
-    string: shim,
-    symbol: shim,
-
-    any: shim,
-    arrayOf: getShim,
-    element: shim,
-    instanceOf: getShim,
-    node: shim,
-    objectOf: getShim,
-    oneOf: getShim,
-    oneOfType: getShim,
-    shape: getShim
-  };
-
-  ReactPropTypes.checkPropTypes = emptyFunction;
-  ReactPropTypes.PropTypes = ReactPropTypes;
-
-  return ReactPropTypes;
-};
-
-
-/***/ }),
-/* 226 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/**
- * Copyright 2015, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-
-
-var REACT_STATICS = {
-    childContextTypes: true,
-    contextTypes: true,
-    defaultProps: true,
-    displayName: true,
-    getDefaultProps: true,
-    mixins: true,
-    propTypes: true,
-    type: true
-};
-
-var KNOWN_STATICS = {
-  name: true,
-  length: true,
-  prototype: true,
-  caller: true,
-  callee: true,
-  arguments: true,
-  arity: true
-};
-
-var defineProperty = Object.defineProperty;
-var getOwnPropertyNames = Object.getOwnPropertyNames;
-var getOwnPropertySymbols = Object.getOwnPropertySymbols;
-var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
-var getPrototypeOf = Object.getPrototypeOf;
-var objectPrototype = getPrototypeOf && getPrototypeOf(Object);
-
-module.exports = function hoistNonReactStatics(targetComponent, sourceComponent, blacklist) {
-    if (typeof sourceComponent !== 'string') { // don't hoist over string (html) components
-
-        if (objectPrototype) {
-            var inheritedComponent = getPrototypeOf(sourceComponent);
-            if (inheritedComponent && inheritedComponent !== objectPrototype) {
-                hoistNonReactStatics(targetComponent, inheritedComponent, blacklist);
-            }
-        }
-
-        var keys = getOwnPropertyNames(sourceComponent);
-
-        if (getOwnPropertySymbols) {
-            keys = keys.concat(getOwnPropertySymbols(sourceComponent));
-        }
-
-        for (var i = 0; i < keys.length; ++i) {
-            var key = keys[i];
-            if (!REACT_STATICS[key] && !KNOWN_STATICS[key] && (!blacklist || !blacklist[key])) {
-                var descriptor = getOwnPropertyDescriptor(sourceComponent, key);
-                try { // Avoid failures from read-only properties
-                    defineProperty(targetComponent, key, descriptor);
-                } catch (e) {}
-            }
-        }
-
-        return targetComponent;
-    }
-
-    return targetComponent;
-};
-
-
-/***/ }),
-/* 227 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright 2013-2015, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
-
-
-
-/**
- * Use invariant() to assert state which your program assumes to be true.
- *
- * Provide sprintf-style format (only %s is supported) and arguments
- * to provide information about what broke and what you were
- * expecting.
- *
- * The invariant message will be stripped in production, but the invariant
- * will remain to ensure logic does not differ in production.
- */
-
-var invariant = function(condition, format, a, b, c, d, e, f) {
-  if (process.env.NODE_ENV !== 'production') {
-    if (format === undefined) {
-      throw new Error('invariant requires an error message argument');
-    }
-  }
-
-  if (!condition) {
-    var error;
-    if (format === undefined) {
-      error = new Error(
-        'Minified exception occurred; use the non-minified dev environment ' +
-        'for the full error message and additional helpful warnings.'
-      );
-    } else {
-      var args = [a, b, c, d, e, f];
-      var argIndex = 0;
-      error = new Error(
-        format.replace(/%s/g, function() { return args[argIndex++]; })
-      );
-      error.name = 'Invariant Violation';
-    }
-
-    error.framesToPop = 1; // we don't care about invariant's own frame
-    throw error;
-  }
-};
-
-module.exports = invariant;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 228 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Subscription; });
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-// encapsulates the subscription logic for connecting a component to the redux store, as
-// well as nesting subscriptions of descendant components, so that we can ensure the
-// ancestor components re-render before descendants
-
-var CLEARED = null;
-var nullListeners = {
-  notify: function notify() {}
-};
-
-function createListenerCollection() {
-  // the current/next pattern is copied from redux's createStore code.
-  // TODO: refactor+expose that code to be reusable here?
-  var current = [];
-  var next = [];
-
-  return {
-    clear: function clear() {
-      next = CLEARED;
-      current = CLEARED;
-    },
-    notify: function notify() {
-      var listeners = current = next;
-      for (var i = 0; i < listeners.length; i++) {
-        listeners[i]();
-      }
-    },
-    get: function get() {
-      return next;
-    },
-    subscribe: function subscribe(listener) {
-      var isSubscribed = true;
-      if (next === current) next = current.slice();
-      next.push(listener);
-
-      return function unsubscribe() {
-        if (!isSubscribed || current === CLEARED) return;
-        isSubscribed = false;
-
-        if (next === current) next = current.slice();
-        next.splice(next.indexOf(listener), 1);
-      };
-    }
-  };
-}
-
-var Subscription = function () {
-  function Subscription(store, parentSub, onStateChange) {
-    _classCallCheck(this, Subscription);
-
-    this.store = store;
-    this.parentSub = parentSub;
-    this.onStateChange = onStateChange;
-    this.unsubscribe = null;
-    this.listeners = nullListeners;
-  }
-
-  Subscription.prototype.addNestedSub = function addNestedSub(listener) {
-    this.trySubscribe();
-    return this.listeners.subscribe(listener);
-  };
-
-  Subscription.prototype.notifyNestedSubs = function notifyNestedSubs() {
-    this.listeners.notify();
-  };
-
-  Subscription.prototype.isSubscribed = function isSubscribed() {
-    return Boolean(this.unsubscribe);
-  };
-
-  Subscription.prototype.trySubscribe = function trySubscribe() {
-    if (!this.unsubscribe) {
-      this.unsubscribe = this.parentSub ? this.parentSub.addNestedSub(this.onStateChange) : this.store.subscribe(this.onStateChange);
-
-      this.listeners = createListenerCollection();
-    }
-  };
-
-  Subscription.prototype.tryUnsubscribe = function tryUnsubscribe() {
-    if (this.unsubscribe) {
-      this.unsubscribe();
-      this.unsubscribe = null;
-      this.listeners.clear();
-      this.listeners = nullListeners;
-    }
-  };
-
-  return Subscription;
-}();
-
-
-
-/***/ }),
-/* 229 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export createConnect */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_connectAdvanced__ = __webpack_require__(102);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_shallowEqual__ = __webpack_require__(230);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mapDispatchToProps__ = __webpack_require__(231);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mapStateToProps__ = __webpack_require__(232);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mergeProps__ = __webpack_require__(233);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__selectorFactory__ = __webpack_require__(234);
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-
-
-
-
-
-
-
-/*
-  connect is a facade over connectAdvanced. It turns its args into a compatible
-  selectorFactory, which has the signature:
-
-    (dispatch, options) => (nextState, nextOwnProps) => nextFinalProps
-  
-  connect passes its args to connectAdvanced as options, which will in turn pass them to
-  selectorFactory each time a Connect component instance is instantiated or hot reloaded.
-
-  selectorFactory returns a final props selector from its mapStateToProps,
-  mapStateToPropsFactories, mapDispatchToProps, mapDispatchToPropsFactories, mergeProps,
-  mergePropsFactories, and pure args.
-
-  The resulting final props selector is called by the Connect component instance whenever
-  it receives new props or store state.
- */
-
-function match(arg, factories, name) {
-  for (var i = factories.length - 1; i >= 0; i--) {
-    var result = factories[i](arg);
-    if (result) return result;
-  }
-
-  return function (dispatch, options) {
-    throw new Error('Invalid value of type ' + typeof arg + ' for ' + name + ' argument when connecting component ' + options.wrappedComponentName + '.');
-  };
-}
-
-function strictEqual(a, b) {
-  return a === b;
-}
-
-// createConnect with default args builds the 'official' connect behavior. Calling it with
-// different options opens up some testing and extensibility scenarios
-function createConnect() {
-  var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      _ref$connectHOC = _ref.connectHOC,
-      connectHOC = _ref$connectHOC === undefined ? __WEBPACK_IMPORTED_MODULE_0__components_connectAdvanced__["a" /* default */] : _ref$connectHOC,
-      _ref$mapStateToPropsF = _ref.mapStateToPropsFactories,
-      mapStateToPropsFactories = _ref$mapStateToPropsF === undefined ? __WEBPACK_IMPORTED_MODULE_3__mapStateToProps__["a" /* default */] : _ref$mapStateToPropsF,
-      _ref$mapDispatchToPro = _ref.mapDispatchToPropsFactories,
-      mapDispatchToPropsFactories = _ref$mapDispatchToPro === undefined ? __WEBPACK_IMPORTED_MODULE_2__mapDispatchToProps__["a" /* default */] : _ref$mapDispatchToPro,
-      _ref$mergePropsFactor = _ref.mergePropsFactories,
-      mergePropsFactories = _ref$mergePropsFactor === undefined ? __WEBPACK_IMPORTED_MODULE_4__mergeProps__["a" /* default */] : _ref$mergePropsFactor,
-      _ref$selectorFactory = _ref.selectorFactory,
-      selectorFactory = _ref$selectorFactory === undefined ? __WEBPACK_IMPORTED_MODULE_5__selectorFactory__["a" /* default */] : _ref$selectorFactory;
-
-  return function connect(mapStateToProps, mapDispatchToProps, mergeProps) {
-    var _ref2 = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {},
-        _ref2$pure = _ref2.pure,
-        pure = _ref2$pure === undefined ? true : _ref2$pure,
-        _ref2$areStatesEqual = _ref2.areStatesEqual,
-        areStatesEqual = _ref2$areStatesEqual === undefined ? strictEqual : _ref2$areStatesEqual,
-        _ref2$areOwnPropsEqua = _ref2.areOwnPropsEqual,
-        areOwnPropsEqual = _ref2$areOwnPropsEqua === undefined ? __WEBPACK_IMPORTED_MODULE_1__utils_shallowEqual__["a" /* default */] : _ref2$areOwnPropsEqua,
-        _ref2$areStatePropsEq = _ref2.areStatePropsEqual,
-        areStatePropsEqual = _ref2$areStatePropsEq === undefined ? __WEBPACK_IMPORTED_MODULE_1__utils_shallowEqual__["a" /* default */] : _ref2$areStatePropsEq,
-        _ref2$areMergedPropsE = _ref2.areMergedPropsEqual,
-        areMergedPropsEqual = _ref2$areMergedPropsE === undefined ? __WEBPACK_IMPORTED_MODULE_1__utils_shallowEqual__["a" /* default */] : _ref2$areMergedPropsE,
-        extraOptions = _objectWithoutProperties(_ref2, ['pure', 'areStatesEqual', 'areOwnPropsEqual', 'areStatePropsEqual', 'areMergedPropsEqual']);
-
-    var initMapStateToProps = match(mapStateToProps, mapStateToPropsFactories, 'mapStateToProps');
-    var initMapDispatchToProps = match(mapDispatchToProps, mapDispatchToPropsFactories, 'mapDispatchToProps');
-    var initMergeProps = match(mergeProps, mergePropsFactories, 'mergeProps');
-
-    return connectHOC(selectorFactory, _extends({
-      // used in error messages
-      methodName: 'connect',
-
-      // used to compute Connect's displayName from the wrapped component's displayName.
-      getDisplayName: function getDisplayName(name) {
-        return 'Connect(' + name + ')';
-      },
-
-      // if mapStateToProps is falsy, the Connect component doesn't subscribe to store state changes
-      shouldHandleStateChanges: Boolean(mapStateToProps),
-
-      // passed through to selectorFactory
-      initMapStateToProps: initMapStateToProps,
-      initMapDispatchToProps: initMapDispatchToProps,
-      initMergeProps: initMergeProps,
-      pure: pure,
-      areStatesEqual: areStatesEqual,
-      areOwnPropsEqual: areOwnPropsEqual,
-      areStatePropsEqual: areStatePropsEqual,
-      areMergedPropsEqual: areMergedPropsEqual
-
-    }, extraOptions));
-  };
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (createConnect());
-
-/***/ }),
-/* 230 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = shallowEqual;
-var hasOwn = Object.prototype.hasOwnProperty;
-
-function is(x, y) {
-  if (x === y) {
-    return x !== 0 || y !== 0 || 1 / x === 1 / y;
-  } else {
-    return x !== x && y !== y;
-  }
-}
-
-function shallowEqual(objA, objB) {
-  if (is(objA, objB)) return true;
-
-  if (typeof objA !== 'object' || objA === null || typeof objB !== 'object' || objB === null) {
-    return false;
-  }
-
-  var keysA = Object.keys(objA);
-  var keysB = Object.keys(objB);
-
-  if (keysA.length !== keysB.length) return false;
-
-  for (var i = 0; i < keysA.length; i++) {
-    if (!hasOwn.call(objB, keysA[i]) || !is(objA[keysA[i]], objB[keysA[i]])) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-/***/ }),
-/* 231 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export whenMapDispatchToPropsIsFunction */
-/* unused harmony export whenMapDispatchToPropsIsMissing */
-/* unused harmony export whenMapDispatchToPropsIsObject */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_redux__ = __webpack_require__(92);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__wrapMapToProps__ = __webpack_require__(103);
-
-
-
-function whenMapDispatchToPropsIsFunction(mapDispatchToProps) {
-  return typeof mapDispatchToProps === 'function' ? __WEBPACK_IMPORTED_MODULE_1__wrapMapToProps__["b" /* wrapMapToPropsFunc */](mapDispatchToProps, 'mapDispatchToProps') : undefined;
-}
-
-function whenMapDispatchToPropsIsMissing(mapDispatchToProps) {
-  return !mapDispatchToProps ? __WEBPACK_IMPORTED_MODULE_1__wrapMapToProps__["a" /* wrapMapToPropsConstant */](function (dispatch) {
-    return { dispatch: dispatch };
-  }) : undefined;
-}
-
-function whenMapDispatchToPropsIsObject(mapDispatchToProps) {
-  return mapDispatchToProps && typeof mapDispatchToProps === 'object' ? __WEBPACK_IMPORTED_MODULE_1__wrapMapToProps__["a" /* wrapMapToPropsConstant */](function (dispatch) {
-    return __WEBPACK_IMPORTED_MODULE_0_redux__["bindActionCreators"](mapDispatchToProps, dispatch);
-  }) : undefined;
-}
-
-/* harmony default export */ __webpack_exports__["a"] = ([whenMapDispatchToPropsIsFunction, whenMapDispatchToPropsIsMissing, whenMapDispatchToPropsIsObject]);
-
-/***/ }),
-/* 232 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export whenMapStateToPropsIsFunction */
-/* unused harmony export whenMapStateToPropsIsMissing */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__wrapMapToProps__ = __webpack_require__(103);
-
-
-function whenMapStateToPropsIsFunction(mapStateToProps) {
-  return typeof mapStateToProps === 'function' ? __WEBPACK_IMPORTED_MODULE_0__wrapMapToProps__["b" /* wrapMapToPropsFunc */](mapStateToProps, 'mapStateToProps') : undefined;
-}
-
-function whenMapStateToPropsIsMissing(mapStateToProps) {
-  return !mapStateToProps ? __WEBPACK_IMPORTED_MODULE_0__wrapMapToProps__["a" /* wrapMapToPropsConstant */](function () {
-    return {};
-  }) : undefined;
-}
-
-/* harmony default export */ __webpack_exports__["a"] = ([whenMapStateToPropsIsFunction, whenMapStateToPropsIsMissing]);
-
-/***/ }),
-/* 233 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/* unused harmony export defaultMergeProps */
-/* unused harmony export wrapMergePropsFunc */
-/* unused harmony export whenMergePropsIsFunction */
-/* unused harmony export whenMergePropsIsOmitted */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_verifyPlainObject__ = __webpack_require__(104);
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-
-
-function defaultMergeProps(stateProps, dispatchProps, ownProps) {
-  return _extends({}, ownProps, stateProps, dispatchProps);
-}
-
-function wrapMergePropsFunc(mergeProps) {
-  return function initMergePropsProxy(dispatch, _ref) {
-    var displayName = _ref.displayName,
-        pure = _ref.pure,
-        areMergedPropsEqual = _ref.areMergedPropsEqual;
-
-    var hasRunOnce = false;
-    var mergedProps = void 0;
-
-    return function mergePropsProxy(stateProps, dispatchProps, ownProps) {
-      var nextMergedProps = mergeProps(stateProps, dispatchProps, ownProps);
-
-      if (hasRunOnce) {
-        if (!pure || !areMergedPropsEqual(nextMergedProps, mergedProps)) mergedProps = nextMergedProps;
-      } else {
-        hasRunOnce = true;
-        mergedProps = nextMergedProps;
-
-        if (process.env.NODE_ENV !== 'production') __WEBPACK_IMPORTED_MODULE_0__utils_verifyPlainObject__["a" /* default */](mergedProps, displayName, 'mergeProps');
-      }
-
-      return mergedProps;
-    };
-  };
-}
-
-function whenMergePropsIsFunction(mergeProps) {
-  return typeof mergeProps === 'function' ? wrapMergePropsFunc(mergeProps) : undefined;
-}
-
-function whenMergePropsIsOmitted(mergeProps) {
-  return !mergeProps ? function () {
-    return defaultMergeProps;
-  } : undefined;
-}
-
-/* harmony default export */ __webpack_exports__["a"] = ([whenMergePropsIsFunction, whenMergePropsIsOmitted]);
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
-
-/***/ }),
-/* 234 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/* unused harmony export impureFinalPropsSelectorFactory */
-/* unused harmony export pureFinalPropsSelectorFactory */
-/* harmony export (immutable) */ __webpack_exports__["a"] = finalPropsSelectorFactory;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__verifySubselectors__ = __webpack_require__(235);
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-
-
-function impureFinalPropsSelectorFactory(mapStateToProps, mapDispatchToProps, mergeProps, dispatch) {
-  return function impureFinalPropsSelector(state, ownProps) {
-    return mergeProps(mapStateToProps(state, ownProps), mapDispatchToProps(dispatch, ownProps), ownProps);
-  };
-}
-
-function pureFinalPropsSelectorFactory(mapStateToProps, mapDispatchToProps, mergeProps, dispatch, _ref) {
-  var areStatesEqual = _ref.areStatesEqual,
-      areOwnPropsEqual = _ref.areOwnPropsEqual,
-      areStatePropsEqual = _ref.areStatePropsEqual;
-
-  var hasRunAtLeastOnce = false;
-  var state = void 0;
-  var ownProps = void 0;
-  var stateProps = void 0;
-  var dispatchProps = void 0;
-  var mergedProps = void 0;
-
-  function handleFirstCall(firstState, firstOwnProps) {
-    state = firstState;
-    ownProps = firstOwnProps;
-    stateProps = mapStateToProps(state, ownProps);
-    dispatchProps = mapDispatchToProps(dispatch, ownProps);
-    mergedProps = mergeProps(stateProps, dispatchProps, ownProps);
-    hasRunAtLeastOnce = true;
-    return mergedProps;
-  }
-
-  function handleNewPropsAndNewState() {
-    stateProps = mapStateToProps(state, ownProps);
-
-    if (mapDispatchToProps.dependsOnOwnProps) dispatchProps = mapDispatchToProps(dispatch, ownProps);
-
-    mergedProps = mergeProps(stateProps, dispatchProps, ownProps);
-    return mergedProps;
-  }
-
-  function handleNewProps() {
-    if (mapStateToProps.dependsOnOwnProps) stateProps = mapStateToProps(state, ownProps);
-
-    if (mapDispatchToProps.dependsOnOwnProps) dispatchProps = mapDispatchToProps(dispatch, ownProps);
-
-    mergedProps = mergeProps(stateProps, dispatchProps, ownProps);
-    return mergedProps;
-  }
-
-  function handleNewState() {
-    var nextStateProps = mapStateToProps(state, ownProps);
-    var statePropsChanged = !areStatePropsEqual(nextStateProps, stateProps);
-    stateProps = nextStateProps;
-
-    if (statePropsChanged) mergedProps = mergeProps(stateProps, dispatchProps, ownProps);
-
-    return mergedProps;
-  }
-
-  function handleSubsequentCalls(nextState, nextOwnProps) {
-    var propsChanged = !areOwnPropsEqual(nextOwnProps, ownProps);
-    var stateChanged = !areStatesEqual(nextState, state);
-    state = nextState;
-    ownProps = nextOwnProps;
-
-    if (propsChanged && stateChanged) return handleNewPropsAndNewState();
-    if (propsChanged) return handleNewProps();
-    if (stateChanged) return handleNewState();
-    return mergedProps;
-  }
-
-  return function pureFinalPropsSelector(nextState, nextOwnProps) {
-    return hasRunAtLeastOnce ? handleSubsequentCalls(nextState, nextOwnProps) : handleFirstCall(nextState, nextOwnProps);
-  };
-}
-
-// TODO: Add more comments
-
-// If pure is true, the selector returned by selectorFactory will memoize its results,
-// allowing connectAdvanced's shouldComponentUpdate to return false if final
-// props have not changed. If false, the selector will always return a new
-// object and shouldComponentUpdate will always return true.
-
-function finalPropsSelectorFactory(dispatch, _ref2) {
-  var initMapStateToProps = _ref2.initMapStateToProps,
-      initMapDispatchToProps = _ref2.initMapDispatchToProps,
-      initMergeProps = _ref2.initMergeProps,
-      options = _objectWithoutProperties(_ref2, ['initMapStateToProps', 'initMapDispatchToProps', 'initMergeProps']);
-
-  var mapStateToProps = initMapStateToProps(dispatch, options);
-  var mapDispatchToProps = initMapDispatchToProps(dispatch, options);
-  var mergeProps = initMergeProps(dispatch, options);
-
-  if (process.env.NODE_ENV !== 'production') {
-    __WEBPACK_IMPORTED_MODULE_0__verifySubselectors__["a" /* default */](mapStateToProps, mapDispatchToProps, mergeProps, options.displayName);
-  }
-
-  var selectorFactory = options.pure ? pureFinalPropsSelectorFactory : impureFinalPropsSelectorFactory;
-
-  return selectorFactory(mapStateToProps, mapDispatchToProps, mergeProps, dispatch, options);
-}
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
-
-/***/ }),
-/* 235 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = verifySubselectors;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_warning__ = __webpack_require__(59);
-
-
-function verify(selector, methodName, displayName) {
-  if (!selector) {
-    throw new Error('Unexpected value for ' + methodName + ' in ' + displayName + '.');
-  } else if (methodName === 'mapStateToProps' || methodName === 'mapDispatchToProps') {
-    if (!selector.hasOwnProperty('dependsOnOwnProps')) {
-      __WEBPACK_IMPORTED_MODULE_0__utils_warning__["a" /* default */]('The selector for ' + methodName + ' of ' + displayName + ' did not specify a value for dependsOnOwnProps.');
-    }
-  }
-}
-
-function verifySubselectors(mapStateToProps, mapDispatchToProps, mergeProps, displayName) {
-  verify(mapStateToProps, 'mapStateToProps', displayName);
-  verify(mapDispatchToProps, 'mapDispatchToProps', displayName);
-  verify(mergeProps, 'mergeProps', displayName);
-}
-
-/***/ }),
-/* 236 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var page_1 = __webpack_require__(237);
-var box_1 = __webpack_require__(105);
-var student_data_container_1 = __webpack_require__(293);
-var hs_display_1 = __webpack_require__(271);
-var PathToHS = function (props) {
-    return (React.createElement(page_1.default, null,
-        React.createElement(box_1.default, { width: "half", height: "full", flex: {
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center"
-            }, responsiveBehavior: { mobile: "fullscreen" } },
-            React.createElement(student_data_container_1.default, null)),
-        React.createElement(hs_display_1.default, null)));
-};
-exports.default = PathToHS;
+var ActionType;
+(function (ActionType) {
+    ActionType[ActionType["UpdateStudentGender"] = 0] = "UpdateStudentGender";
+    ActionType[ActionType["UpdateStudentLocation"] = 1] = "UpdateStudentLocation";
+    ActionType[ActionType["UpdateStudentGradeLevel"] = 2] = "UpdateStudentGradeLevel";
+    ActionType[ActionType["UpdateStudentPrevGradeLevel"] = 3] = "UpdateStudentPrevGradeLevel";
+    ActionType[ActionType["UpdateStudentELLStatus"] = 4] = "UpdateStudentELLStatus";
+    ActionType[ActionType["UpdateStudentIEPStatus"] = 5] = "UpdateStudentIEPStatus";
+    ActionType[ActionType["UpdateStudentAttendPercentage"] = 6] = "UpdateStudentAttendPercentage";
+    ActionType[ActionType["UpdateStudentCurrESProgram"] = 7] = "UpdateStudentCurrESProgram";
+    ActionType[ActionType["UpdateStudentSiblingHSPrograms"] = 8] = "UpdateStudentSiblingHSPrograms";
+    ActionType[ActionType["UpdateStudentNWEAPercentileMath"] = 9] = "UpdateStudentNWEAPercentileMath";
+    ActionType[ActionType["UpdateStudentNWEAPercentileRead"] = 10] = "UpdateStudentNWEAPercentileRead";
+    ActionType[ActionType["UpdateStudentSubjGradeMath"] = 11] = "UpdateStudentSubjGradeMath";
+    ActionType[ActionType["UpdateStudentSubjGradeRead"] = 12] = "UpdateStudentSubjGradeRead";
+    ActionType[ActionType["UpdateStudentSubjGradeSci"] = 13] = "UpdateStudentSubjGradeSci";
+    ActionType[ActionType["UpdateStudentSubjGradeSocStudies"] = 14] = "UpdateStudentSubjGradeSocStudies";
+    ActionType[ActionType["UpdateStudentSETestScore"] = 15] = "UpdateStudentSETestScore";
+    ActionType[ActionType["SelectHSProgram"] = 16] = "SelectHSProgram";
+})(ActionType || (ActionType = {}));
+exports.default = ActionType;
 
 
 /***/ }),
-/* 237 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-__webpack_require__(238);
-var Page = function (props) {
-    return (React.createElement("div", { className: "page" }, props.children));
-};
-exports.default = Page;
-
-
-/***/ }),
-/* 238 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(239);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(14)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./page.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./page.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 239 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(13)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".page {\n  height: 100vh;\n  width: 100vw;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 240 */
-/***/ (function(module, exports) {
-
-
-/**
- * When source maps are enabled, `style-loader` uses a link element with a data-uri to
- * embed the css on the page. This breaks all relative urls because now they are relative to a
- * bundle instead of the current page.
- *
- * One solution is to only use full urls, but that may be impossible.
- *
- * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
- *
- * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
- *
- */
-
-module.exports = function (css) {
-  // get current location
-  var location = typeof window !== "undefined" && window.location;
-
-  if (!location) {
-    throw new Error("fixUrls requires window.location");
-  }
-
-	// blank or null?
-	if (!css || typeof css !== "string") {
-	  return css;
-  }
-
-  var baseUrl = location.protocol + "//" + location.host;
-  var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
-
-	// convert each url(...)
-	/*
-	This regular expression is just a way to recursively match brackets within
-	a string.
-
-	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
-	   (  = Start a capturing group
-	     (?:  = Start a non-capturing group
-	         [^)(]  = Match anything that isn't a parentheses
-	         |  = OR
-	         \(  = Match a start parentheses
-	             (?:  = Start another non-capturing groups
-	                 [^)(]+  = Match anything that isn't a parentheses
-	                 |  = OR
-	                 \(  = Match a start parentheses
-	                     [^)(]*  = Match anything that isn't a parentheses
-	                 \)  = Match a end parentheses
-	             )  = End Group
-              *\) = Match anything and then a close parens
-          )  = Close non-capturing group
-          *  = Match anything
-       )  = Close capturing group
-	 \)  = Match a close parens
-
-	 /gi  = Get all matches, not the first.  Be case insensitive.
-	 */
-	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function(fullMatch, origUrl) {
-		// strip quotes (if they exist)
-		var unquotedOrigUrl = origUrl
-			.trim()
-			.replace(/^"(.*)"$/, function(o, $1){ return $1; })
-			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
-
-		// already a full url? no change
-		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/)/i.test(unquotedOrigUrl)) {
-		  return fullMatch;
-		}
-
-		// convert the url to a full url
-		var newUrl;
-
-		if (unquotedOrigUrl.indexOf("//") === 0) {
-		  	//TODO: should we add protocol?
-			newUrl = unquotedOrigUrl;
-		} else if (unquotedOrigUrl.indexOf("/") === 0) {
-			// path should be relative to the base url
-			newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
-		} else {
-			// path should be relative to current directory
-			newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
-		}
-
-		// send back the fixed url(...)
-		return "url(" + JSON.stringify(newUrl) + ")";
-	});
-
-	// send back the fixed css
-	return fixedCss;
-};
-
-
-/***/ }),
-/* 241 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(242);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(14)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./box.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./box.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 242 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(13)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".box {\n  border: 2px solid #9e9e9e;\n  padding: 0.25em 0.5em;\n  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n  position: relative;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n  -webkit-box-align: stretch;\n      -ms-flex-align: stretch;\n          align-items: stretch; }\n\n.box.width-quarter {\n  width: 25%;\n  -ms-flex-preferred-size: 25%;\n      flex-basis: 25%; }\n\n.box.width-half {\n  width: 50%;\n  -ms-flex-preferred-size: 50%;\n      flex-basis: 50%; }\n\n.box.width-full {\n  width: 100%;\n  -ms-flex-preferred-size: 100%;\n      flex-basis: 100%; }\n\n.box.height-quarter {\n  height: 25%; }\n\n.box.height-half {\n  height: 50%; }\n\n.box.height-full {\n  height: 100%; }\n\n.box.zlevel-1 {\n  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); }\n\n.box.zlevel-2 {\n  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); }\n\n.box.zlevel-3 {\n  -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); }\n\n.box.zlevel-4 {\n  -webkit-box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);\n          box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); }\n\n.box.zlevel-5 {\n  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);\n          box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22); }\n\n@media (max-width: 450px) {\n  .box {\n    margin: 0;\n    padding: 10px 5px; }\n  .box.mobile-disappear {\n    display: none; }\n  .box.mobile-fullscreen {\n    width: 100%;\n    -ms-flex-preferred-size: 100%;\n        flex-basis: 100%; } }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 243 */,
-/* 244 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var gender_1 = __webpack_require__(58);
-var dropdown_field_1 = __webpack_require__(245);
-var combo_box_field_1 = __webpack_require__(106);
-var multi_select_field_1 = __webpack_require__(251);
-var number_field_1 = __webpack_require__(252);
-var address_tier_calculator_1 = __webpack_require__(253);
-var data_access_1 = __webpack_require__(264);
-var alphaSort = function (a, b) {
-    if (a.Short_Name < b.Short_Name) {
-        return -1;
-    }
-    else if (a.Short_Name === b.Short_Name) {
-        return 0;
-    }
-    else if (a.Short_Name > b.Short_Name) {
-        return 1;
-    }
-};
-var esPrograms = data_access_1.getESPrograms().sort(alphaSort);
-var hsPrograms = data_access_1.getHSPrograms().sort(alphaSort);
-__webpack_require__(268);
-var StudentDataForm = function (props) {
-    var INPUT_DEBOUNCE_TIME = 250;
-    var between = function (min, max) {
-        return function (curr, next) {
-            if (Number.isNaN(next)) {
-                return curr;
-            }
-            else if (next < min) {
-                return min;
-            }
-            else if (next > max) {
-                return max;
-            }
-            else {
-                return next;
-            }
-        };
-    };
-    return (React.createElement("div", { className: "student-data-form" },
-        React.createElement("div", { className: "student-data-form-subheader" }, "Your student information"),
-        React.createElement("div", { className: "student-data-form-subform" },
-            React.createElement(dropdown_field_1.default, { label: "What grade are you in?", value: props.studentData.gradeLevel.toString(), onChange: function (gradeStr) { return props.onGradeLevelChange(parseInt(gradeStr)); }, debounceTime: INPUT_DEBOUNCE_TIME },
-                React.createElement("option", { value: "4" }, "4th grade"),
-                React.createElement("option", { value: "5" }, "5th grade"),
-                React.createElement("option", { value: "6" }, "6th grade"),
-                React.createElement("option", { value: "7" }, "7th grade"),
-                React.createElement("option", { value: "8" }, "8th grade")),
-            React.createElement(dropdown_field_1.default, { label: "What's your gender?", value: props.studentData.gender.toString(), onChange: function (gender) {
-                    switch (gender) {
-                        case "male":
-                            props.onGenderChange(gender_1.default.MALE);
-                            break;
-                        case "female":
-                            props.onGenderChange(gender_1.default.MALE);
-                            break;
-                        case "other":
-                            props.onGenderChange(gender_1.default.MALE);
-                            break;
-                        case "noanswer":
-                            props.onGenderChange(gender_1.default.MALE);
-                            break;
-                        default:
-                            console.warn("unrecognized gender: " + gender);
-                            break;
-                    }
-                }, debounceTime: INPUT_DEBOUNCE_TIME },
-                React.createElement("option", { value: "male" }, "Boy"),
-                React.createElement("option", { value: "female" }, "Girl"),
-                React.createElement("option", { value: "other" }, "Other"),
-                React.createElement("option", { value: "noanswer" }, "Prefer not to answer")),
-            React.createElement(dropdown_field_1.default, { label: "Do you have an IEP?", value: props.studentData.iep ? "true" : "false", onChange: function (iep) { return props.onIEPChange(iep === "true" ? true : false); }, debounceTime: INPUT_DEBOUNCE_TIME },
-                React.createElement("option", { value: "true" }, "Yes"),
-                React.createElement("option", { value: "false" }, "No")),
-            React.createElement(dropdown_field_1.default, { label: "Are you an English Language Learner?", value: props.studentData.ell ? "true" : "false", onChange: function (ell) { return props.onELLChange(ell === "true" ? true : false); }, debounceTime: INPUT_DEBOUNCE_TIME },
-                React.createElement("option", { value: "true" }, "Yes"),
-                React.createElement("option", { value: "false" }, "No")),
-            React.createElement(combo_box_field_1.default, { label: "What elementary school program are you in now?", value: props.studentData.currESProgramID, data: { records: esPrograms, getKey: function (program) { return program.ID; }, getDisplayText: function (program) { return program.Short_Name + " - " + program.Program_Type; } }, onChange: function (program) { return props.onCurrESProgramChange(program.ID); }, debounceTime: INPUT_DEBOUNCE_TIME }),
-            React.createElement(multi_select_field_1.default, { label: "Do you have a sibling in high school? If so, which school?", values: props.studentData.siblingHSProgramIDs, data: { records: hsPrograms, getKey: function (program) { return program.ID; }, getDisplayText: function (program) { return program.Short_Name + " - " + program.Program_Type; } }, onChange: function (programs) { return props.onSiblingHSProgramsChange(programs.map(function (program) { return program.ID; })); }, debounceTime: INPUT_DEBOUNCE_TIME }),
-            React.createElement(address_tier_calculator_1.default, { location: props.studentData.location, onLocationChange: props.onLocationChange }),
-            React.createElement(number_field_1.default, { label: "Your 7th grade attendance percentage", value: props.studentData.attendancePercentage, onChange: props.onAttendPercentageChange, limiter: between(0, 100), debounceTime: INPUT_DEBOUNCE_TIME })),
-        React.createElement("div", { className: "student-data-form-subheader" }, "Your grades"),
-        React.createElement("div", { className: "student-data-form-subform" },
-            React.createElement(number_field_1.default, { label: "NWEA Math percentile", value: props.studentData.nweaPercentileMath, onChange: props.onNWEAPercentileMathChange, limiter: between(1, 99), debounceTime: INPUT_DEBOUNCE_TIME }),
-            React.createElement(number_field_1.default, { label: "NWEA Reading percentile", value: props.studentData.nweaPercentileRead, onChange: props.onNWEAPercentileReadChange, limiter: between(1, 99), debounceTime: INPUT_DEBOUNCE_TIME }),
-            React.createElement(number_field_1.default, { label: "Your Math grade", value: props.studentData.subjGradeMath, onChange: props.onSubjGradeMathChange, limiter: between(0, 100), debounceTime: INPUT_DEBOUNCE_TIME }),
-            React.createElement(number_field_1.default, { label: "Your Reading grade", value: props.studentData.subjGradeRead, onChange: props.onSubjGradeReadChange, limiter: between(0, 100), debounceTime: INPUT_DEBOUNCE_TIME }),
-            React.createElement(number_field_1.default, { label: "Your Science grade", value: props.studentData.subjGradeSci, onChange: props.onSubjGradeSciChange, limiter: between(0, 100), debounceTime: INPUT_DEBOUNCE_TIME }),
-            React.createElement(number_field_1.default, { label: "Your Social Studies grade", value: props.studentData.subjGradeSocStudies, onChange: props.onSubjGradeSocStudiesChange, limiter: between(0, 100), debounceTime: INPUT_DEBOUNCE_TIME }),
-            React.createElement(number_field_1.default, { label: "Your Selective Enrollment test percentile", value: props.studentData.seTestPercentile, onChange: props.onSETestPercentileChange, limiter: between(1, 99), debounceTime: INPUT_DEBOUNCE_TIME }))));
-};
-exports.default = StudentDataForm;
-
-
-/***/ }),
-/* 245 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var field_validation_state_1 = __webpack_require__(23);
-var field_container_1 = __webpack_require__(29);
-var debounce_1 = __webpack_require__(38);
-var DropdownField = (function (_super) {
-    __extends(DropdownField, _super);
-    function DropdownField(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {
-            localValue: props.value ? props.value : ""
-        };
-        _this.onChange = props.debounceTime ? debounce_1.default(props.onChange, props.debounceTime) : props.onChange;
-        return _this;
-    }
-    DropdownField.prototype.componentWillReceiveProps = function (nextProps) {
-        this.setState({ localValue: nextProps.value });
-    };
-    DropdownField.prototype.render = function () {
-        var _this = this;
-        var validation = this.props.validator ? this.props.validator(this.state.localValue)
-            : field_validation_state_1.default.NEUTRAL;
-        var handleChange = function (ev) {
-            var newValue = ev.currentTarget.value;
-            var shouldUpdate = _this.props.restrictor ? _this.props.restrictor(newValue)
-                : true;
-            if (shouldUpdate) {
-                _this.onChange(newValue);
-            }
-        };
-        return (React.createElement(field_container_1.default, { className: this.props.className, label: this.props.label, validation: validation },
-            React.createElement("select", { className: "field-input-element", onChange: handleChange }, this.props.children)));
-    };
-    return DropdownField;
-}(React.PureComponent));
-exports.default = DropdownField;
-
-
-/***/ }),
-/* 246 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(247);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(14)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../../node_modules/sass-loader/lib/loader.js!./main.scss", function() {
-			var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../../node_modules/sass-loader/lib/loader.js!./main.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 247 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(13)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, "/* ----------------------------------------------------------------------------------------------------\n\nSuper Form Reset\n\nA couple of things to watch out for:\n\n- IE8: If a text input doesn't have padding on all sides or none the text won't be centered.\n- The default border sizes on text inputs in all UAs seem to be slightly different. You're better off using custom borders.\n- You NEED to set the font-size and family on all form elements\n- Search inputs need to have their appearance reset and the box-sizing set to content-box to match other UAs\n- You can style the upload button in webkit using ::-webkit-file-upload-button\n- ::-webkit-file-upload-button selectors can't be used in the same selector as normal ones. FF and IE freak out.\n- IE: You don't need to fake inline-block with labels and form controls in IE. They function as inline-block.\n- By turning off ::-webkit-search-decoration, it removes the extra whitespace on the left on search inputs\n\n----------------------------------------------------------------------------------------------------*/\ninput, label, select, button, textarea {\n  margin: 0;\n  border: 0;\n  padding: 0;\n  display: inline-block;\n  vertical-align: middle;\n  white-space: normal;\n  background: none;\n  line-height: 1;\n  /* Browsers have different default form fonts */\n  font-size: 13px;\n  font-family: Arial; }\n/* Remove the stupid outer glow in Webkit */\ninput:focus {\n  outline: 0; }\n/* Box Sizing Reset\n-----------------------------------------------*/\n/* All of our custom controls should be what we expect them to be */\ninput, textarea {\n  -webkit-box-sizing: content-box;\n  box-sizing: content-box; }\n/* These elements are usually rendered a certain way by the browser */\nbutton, input[type=reset], input[type=button], input[type=submit], input[type=checkbox], input[type=radio], select {\n  -webkit-box-sizing: border-box;\n  box-sizing: border-box; }\n/* Text Inputs\n-----------------------------------------------*/\n/* Button Controls\n-----------------------------------------------*/\ninput[type=checkbox], input[type=radio] {\n  width: 13px;\n  height: 13px; }\n/* File Uploads\n-----------------------------------------------*/\n/* Search Input\n-----------------------------------------------*/\n/* Make webkit render the search input like a normal text field */\ninput[type=search] {\n  -webkit-appearance: textfield;\n  -webkit-box-sizing: content-box; }\n/* Turn off the recent search for webkit. It adds about 15px padding on the left */\n::-webkit-search-decoration {\n  display: none; }\n/* Buttons\n-----------------------------------------------*/\nbutton, input[type=\"reset\"], input[type=\"button\"], input[type=\"submit\"] {\n  /* Fix IE7 display bug */\n  overflow: visible;\n  width: auto; }\n/* IE8 and FF freak out if this rule is within another selector */\n::-webkit-file-upload-button {\n  padding: 0;\n  border: 0;\n  background: none; }\n/* Textarea\n-----------------------------------------------*/\ntextarea {\n  /* Move the label to the top */\n  vertical-align: top;\n  /* Turn off scroll bars in IE unless needed */\n  overflow: auto; }\n/* Selects\n-----------------------------------------------*/\nselect[multiple] {\n  /* Move the label to the top */\n  vertical-align: top; }\n.field-container {\n  max-width: 100%;\n  padding: 0.5em;\n  margin: 0.25em; }\n.field-container.field-validation-success > .field-label {\n  color: green; }\n.field-container.field-validation-success > .field-input-element {\n  border: 2px solid green;\n  -webkit-box-shadow: 0px 0px 3px green;\n          box-shadow: 0px 0px 3px green; }\n.field-container.field-validation-warning > .field-label {\n  color: yellow; }\n.field-container.field-validation-warning > .field-input-element {\n  border: 2px solid yellow;\n  -webkit-box-shadow: 0px 0px 3px yellow;\n          box-shadow: 0px 0px 3px yellow; }\n.field-container.field-validation-failure > .field-label {\n  color: red; }\n.field-container.field-validation-failure > .field-input-element {\n  border: 2px solid red;\n  -webkit-box-shadow: 0px 0px 3px red;\n          box-shadow: 0px 0px 3px red; }\n.field-label {\n  font-size: 90%;\n  color: #444; }\n.field-input-element {\n  font-size: 100%;\n  padding: 5px;\n  border: 1px solid #ddd;\n  border-radius: 2px; }\n.list-box {\n  visibility: hidden;\n  height: 100px;\n  width: 100%;\n  overflow-y: auto;\n  position: absolute;\n  top: 20px;\n  left: 0;\n  z-index: 9;\n  list-style: none;\n  margin: 0;\n  padding: 0; }\n.list-box.visible {\n  visibility: visible; }\n.list-box-element {\n  cursor: default;\n  text-decoration: none;\n  margin-left: 0;\n  padding-left: 0;\n  padding: 0.25em;\n  width: 100%;\n  border-bottom: 1px dotted gray;\n  background-color: white;\n  -webkit-transition: background-color 100ms ease;\n  transition: background-color 100ms ease; }\n.list-box-element:hover {\n  background-color: gray; }\n.list-box-element.selected {\n  background-color: blue;\n  color: white; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 248 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var FieldLabel = function (props) { return React.createElement("div", { className: "field-label" }, props.children); };
-exports.default = FieldLabel;
-
-
-/***/ }),
-/* 249 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var list_box_element_1 = __webpack_require__(250);
-var ListBox = function (props) {
-    var className = "list-box " + (props.visible ? "visible" : "");
-    return (React.createElement("ul", { className: className }, props.data.records.map(function (opt) { return React.createElement(list_box_element_1.default, { key: props.data.getKey(opt), value: props.data.getKey(opt), selected: props.selected === props.data.getKey(opt), onSelect: function (ev) {
-            props.selected === props.data.getKey(opt) ? props.onChange(null)
-                : props.onChange(opt);
-        } }, props.data.getDisplayText(opt)); })));
-};
-exports.default = ListBox;
-
-
-/***/ }),
-/* 250 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var ListBoxElement = function (props) {
-    return (React.createElement("li", { className: "list-box-element", onMouseDown: function (ev) {
-            ev.stopPropagation();
-            props.onSelect(ev);
-        } }, props.children));
-};
-exports.default = ListBoxElement;
-
-
-/***/ }),
-/* 251 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var field_validation_state_1 = __webpack_require__(23);
-var field_container_1 = __webpack_require__(29);
-var combo_box_field_1 = __webpack_require__(106);
-var MultiSelectField = function (props) {
-    var createOnChangeHandler = function (index) {
-        return function (newValue) {
-            var leftHalf = props.values.slice(0, index);
-            var rightHalf = props.values.slice(index);
-            var newValues = leftHalf.concat(newValue, rightHalf);
-            props.onChange(newValues);
-        };
-    };
-    var removeFromListData = function (data, elementsToRemove) {
-        var keysToRemove = elementsToRemove.map(data.getKey);
-        var isNotElementToRemove = function (elem) { return keysToRemove.indexOf(data.getKey(elem)) === -1; };
-        var newRecords = data.records.filter(isNotElementToRemove);
-        return {
-            records: newRecords,
-            getDisplayText: data.getDisplayText,
-            getKey: data.getKey,
-        };
-    };
-    var data = removeFromListData(props.data, props.values);
-    var removeElemAtIndex = function (arr, i) {
-        if (arr.length === 0) {
-            return [];
-        }
-        else if (arr.length === 1) {
-            return [];
-        }
-        else {
-            return arr.slice(0, i).concat(arr.slice(i));
-        }
-    };
-    return (React.createElement(field_container_1.default, { label: props.label, validation: field_validation_state_1.default.NEUTRAL },
-        props.values && props.values.map(function (value, i) {
-            return (React.createElement("div", { key: props.data.getKey(value), style: { width: "100%", display: "flex", flexDirection: "row", alignItems: "center" } },
-                React.createElement(combo_box_field_1.default, { value: value, onChange: createOnChangeHandler(i), data: data, debounceTime: props.debounceTime }),
-                React.createElement("button", { style: { width: "32px", height: "32px", backgroundColor: "#dfdfdf", border: "1px solid #acacac", borderRadius: "100%", margin: "0 1em", boxShadow: "0px 2px 2px #999" }, onClick: function () { return props.onChange(removeElemAtIndex(props.values, i)); } }, "X")));
-        }),
-        React.createElement(combo_box_field_1.default, { value: null, onChange: function (newValue) {
-                var newValues = props.values ? props.values.concat(newValue)
-                    : [newValue];
-                console.log(newValues);
-                props.onChange(newValues);
-            }, data: data, debounceTime: props.debounceTime })));
-};
-exports.default = MultiSelectField;
-
-
-/***/ }),
-/* 252 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var field_validation_state_1 = __webpack_require__(23);
-var field_container_1 = __webpack_require__(29);
-var debounce_1 = __webpack_require__(38);
-var NumberField = (function (_super) {
-    __extends(NumberField, _super);
-    function NumberField(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {
-            localValue: props.value ? props.value : ""
-        };
-        _this.onChange = props.debounceTime ? debounce_1.default(props.onChange, props.debounceTime) : props.onChange;
-        return _this;
-    }
-    NumberField.prototype.componentWillReceiveProps = function (nextProps) {
-        if (this.state.localValue !== "") {
-            this.setState({ localValue: nextProps.value ? nextProps.value : "" });
-        }
-    };
-    NumberField.prototype.render = function () {
-        var _this = this;
-        var handleChange = function (ev) {
-            if (ev.currentTarget.value === "") {
-                _this.setState({ localValue: "" });
-                return false;
-            }
-            else {
-                var currValue = _this.props.value;
-                var nextValue = ev.currentTarget.valueAsNumber;
-                console.log("Numberfield curr: " + currValue);
-                console.log("Numberfield next: " + nextValue);
-                _this.setState({ localValue: nextValue });
-                if (_this.props.limiter) {
-                    _this.onChange(_this.props.limiter(currValue, nextValue));
-                }
-                else {
-                    _this.onChange(nextValue);
-                }
-                return true;
-            }
-        };
-        var validation = this.props.validator && this.state.localValue !== "" ? this.props.validator(this.state.localValue)
-            : field_validation_state_1.default.NEUTRAL;
-        console.log("localvalue: " + this.state.localValue);
-        return (React.createElement(field_container_1.default, { className: this.props.className, label: this.props.label, validation: validation },
-            React.createElement("input", { value: this.state.localValue, type: "number", className: "field-input-element", onChange: handleChange })));
-    };
-    return NumberField;
-}(React.PureComponent));
-;
-exports.default = NumberField;
-
-
-/***/ }),
-/* 253 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var timeout_1 = __webpack_require__(254);
-var text_field_1 = __webpack_require__(255);
-var field_validation_state_1 = __webpack_require__(23);
-var get_tier_1 = __webpack_require__(256);
-__webpack_require__(262);
-var AddressTierCalculator = (function (_super) {
-    __extends(AddressTierCalculator, _super);
-    function AddressTierCalculator(props) {
-        var _this = _super.call(this, props) || this;
-        _this.setRequestInProgress = function (isInProgress) {
-            if (isInProgress !== _this.state.requestInProgress) {
-                _this.setState({
-                    requestInProgress: isInProgress
-                });
-            }
-        };
-        _this.handleAddressChange = function (address) {
-            var TIMEOUT_DELAY = 1000;
-            _this.setState({
-                address: address,
-                addressValidationState: field_validation_state_1.default.NEUTRAL,
-                tier: null
-            });
-            var validate = function (address) {
-                return address && address.length > 5;
-            };
-            var newTimeout = new timeout_1.default(function () {
-                _this.setRequestInProgress(true);
-                if (validate(address)) {
-                    get_tier_1.getTier(address).then(function (_a) {
-                        var tier = _a.tier, geo = _a.geo;
-                        _this.setState({
-                            tier: tier,
-                            geo: geo,
-                            addressValidationState: field_validation_state_1.default.SUCCESS
-                        });
-                        _this.setRequestInProgress(false);
-                        _this.props.onLocationChange({
-                            address: address.trim(),
-                            tier: tier,
-                            geo: geo
-                        });
-                    }).catch(function (err) {
-                        if (err === get_tier_1.GetTierError.InvalidAddressErr) {
-                            _this.setState({
-                                addressValidationState: field_validation_state_1.default.FAILURE
-                            });
-                            _this.setRequestInProgress(false);
-                        }
-                        else if (err === get_tier_1.GetTierError.NoTierFoundErr) {
-                            _this.setState({
-                                addressValidationState: field_validation_state_1.default.WARNING
-                            });
-                            _this.setRequestInProgress(false);
-                        }
-                        else if (err === get_tier_1.GetTierError.RequestFailedErr) {
-                            _this.setState({
-                                addressValidationState: field_validation_state_1.default.WARNING
-                            });
-                            _this.setRequestInProgress(false);
-                        }
-                    });
-                }
-            }, TIMEOUT_DELAY);
-            if (_this.state.timeoutInstance !== null) {
-                _this.state.timeoutInstance.cancel();
-            }
-            newTimeout.start();
-            _this.setState({
-                timeoutInstance: newTimeout
-            });
-        };
-        _this.state = {
-            address: props.address ? props.address : "",
-            tier: props.tier ? props.tier : "",
-            geo: props.geolocation ? props.geolocation : { latitude: 0, longitude: 0 },
-            timeoutInstance: null,
-            requestInProgress: false,
-            addressValidationState: field_validation_state_1.default.NEUTRAL
-        };
-        return _this;
-    }
-    AddressTierCalculator.prototype.now = function () {
-        return new Date().valueOf();
-    };
-    AddressTierCalculator.prototype.displayStatusMessage = function (state) {
-        if (state === "warning") {
-            return "Your address is right, but it doesn't seem to be in the Chicago Public Schools boundary. Are you sure you used the right address?";
-        }
-        else if (state === "error") {
-            return "We can't find your address -- are you sure you entered it correctly?";
-        }
-        else {
-            return "No errors";
-        }
-    };
-    AddressTierCalculator.prototype.render = function () {
-        return React.createElement("div", { className: "address-tier-calculator" },
-            React.createElement(text_field_1.default, { label: "Your street address", value: this.state.address ? this.state.address : " ", onChange: this.handleAddressChange }),
-            React.createElement("div", { className: "tier-display" }, this.state.requestInProgress
-                ? React.createElement("div", { className: "spinning-load-icon" }, "Loading...")
-                : (this.state.tier ? this.state.tier : "")),
-            this.state.addressValidationState !== field_validation_state_1.default.SUCCESS &&
-                this.state.addressValidationState !== field_validation_state_1.default.NEUTRAL &&
-                React.createElement("div", { className: "address-status-message" }, this.displayStatusMessage(this.state.addressValidationState)));
-    };
-    return AddressTierCalculator;
-}(React.Component));
-exports.default = AddressTierCalculator;
-
-
-/***/ }),
-/* 254 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var Timeout = (function () {
-    function Timeout(callback, delay) {
-        var _this = this;
-        this.timerInstance = null;
-        this.callbackExecuted = false;
-        this.callback = function () {
-            _this.callbackExecuted = true;
-            callback();
-        };
-        this.delay = delay;
-    }
-    Timeout.prototype.start = function () {
-        this.timerInstance = setTimeout(this.callback, this.delay);
-    };
-    Timeout.prototype.cancel = function () {
-        if (this.hasStarted()) {
-            clearTimeout(this.timerInstance);
-        }
-    };
-    Timeout.prototype.hasStarted = function () {
-        return this.timerInstance !== null;
-    };
-    Timeout.prototype.hasFinished = function () {
-        return this.callbackExecuted;
-    };
-    return Timeout;
-}());
-exports.default = Timeout;
-
-
-/***/ }),
-/* 255 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var field_validation_state_1 = __webpack_require__(23);
-var field_container_1 = __webpack_require__(29);
-var debounce_1 = __webpack_require__(38);
-var TextField = (function (_super) {
-    __extends(TextField, _super);
-    function TextField(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {
-            localValue: props.value ? props.value : ""
-        };
-        _this.onChange = props.debounceTime ? debounce_1.default(props.onChange, props.debounceTime) : props.onChange;
-        return _this;
-    }
-    TextField.prototype.componentWillReceiveProps = function (nextProps) {
-        if (this.state.localValue !== "") {
-            this.setState({ localValue: nextProps.value ? nextProps.value : "" });
-        }
-    };
-    TextField.prototype.render = function () {
-        var _this = this;
-        var validation = this.props.validator ? this.props.validator(this.state.localValue)
-            : field_validation_state_1.default.NEUTRAL;
-        var handleChange = function (ev) {
-            if (ev.currentTarget.value === "") {
-                _this.setState({ localValue: "" });
-                return false;
-            }
-            else {
-                var currValue = _this.props.value;
-                var nextValue = ev.currentTarget.value;
-                _this.setState({ localValue: nextValue });
-                if (_this.props.limiter) {
-                    _this.onChange(_this.props.limiter(currValue, nextValue));
-                }
-                else {
-                    _this.onChange(nextValue);
-                }
-                return true;
-            }
-        };
-        return (React.createElement(field_container_1.default, { className: this.props.className, label: this.props.label, validation: validation },
-            React.createElement("input", { value: this.state.localValue, type: "text", className: "field-input-element", onChange: handleChange })));
-    };
-    return TextField;
-}(React.PureComponent));
-exports.default = TextField;
-
-
-/***/ }),
-/* 256 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var tract_tier_table_1 = __webpack_require__(257);
-var JSONP = __webpack_require__(258);
-exports.GetTierError = {
-    InvalidAddressErr: new Error("Invalid address"),
-    NoTierFoundErr: new Error("No CPS tier found for this address"),
-    RequestFailedErr: new Error("Request Failed"),
-};
-;
-exports.getTier = function (address) {
-    return new Promise(function (resolve, reject) {
-        getTractAndGeo(address).then(function (_a) {
-            var tract = _a.tract, geo = _a.geo;
-            lookupTierFromTract(tract).then(function (tier) {
-                resolve({ tier: tier, geo: geo });
-            }).catch(function (err) { return reject(exports.GetTierError.NoTierFoundErr); });
-        }).catch(function (err) {
-            if (err === exports.GetTierError.RequestFailedErr) {
-                reject(exports.GetTierError.RequestFailedErr);
-            }
-            else {
-                reject(exports.GetTierError.InvalidAddressErr);
-            }
-        });
-    });
-};
-;
-var getTractAndGeo = function (address) {
-    var API_BASE_URL = "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress";
-    var apiParams = {
-        address: address,
-        format: "jsonp",
-        benchmark: "Public_AR_Current",
-        vintage: "Current_Current",
-        layers: "Census Tracts",
-    };
-    var sendRequest = function (baseUrl, params) {
-        return new Promise(function (resolve, reject) {
-            JSONP({
-                url: baseUrl,
-                data: params,
-                success: function (data) { return resolve(data); },
-                error: function (err) {
-                    reject(exports.GetTierError.RequestFailedErr);
-                }
-            });
-        });
-    };
-    var extractTract = function (response) {
-        return response.result.addressMatches[0].geographies["Census Tracts"][0].BASENAME;
-    };
-    var extractGeo = function (response) {
-        var coords = response.result.addressMatches[0].coordinates;
-        return { latitude: coords.y, longitude: coords.x };
-    };
-    return new Promise(function (resolve, reject) {
-        sendRequest(API_BASE_URL, apiParams).then(function (res) {
-            var tract = extractTract(res);
-            var geo = extractGeo(res);
-            resolve({ tract: tract, geo: geo });
-        }).catch(function (e) { return reject(e); });
-    });
-};
-var lookupTierFromTract = function (tract) {
-    return new Promise(function (resolve, reject) {
-        var tier = tract_tier_table_1.default[tract];
-        if (tier === undefined) {
-            reject(exports.GetTierError.NoTierFoundErr);
-        }
-        else {
-            resolve(tier);
-        }
-    });
-};
-
-
-/***/ }),
-/* 257 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var TractTierTable = { "101": "2", "102.01": "3", "102.02": "2", "103": "2", "104": "3", "105.01": "3", "105.02": "2", "105.03": "2", "106": "3", "107.01": "3", "107.02": "2", "201": "3", "202": "4", "203.01": "4", "203.02": "4", "204": "4", "205": "3", "206.01": "3", "206.02": "3", "207.01": "4", "207.02": "3", "208.01": "3", "208.02": "3", "209.01": "3", "209.02": "4", "301.01": "3", "301.02": "4", "301.03": "3", "301.04": "3", "302": "4", "303": "3", "304": "3", "305": "4", "306.01": "3", "306.03": "2", "306.04": "3", "307.01": "3", "307.02": "4", "307.03": "3", "307.06": "4", "308": "4", "309": "4", "310": "4", "311": "3", "312": "3", "313": "3", "314": "4", "315.01": "3", "315.02": "2", "317": "3", "318": "4", "319": "4", "321": "3", "401": "4", "402.01": "4", "402.02": "3", "403": "4", "404.01": "4", "404.02": "3", "406": "4", "407": "4", "408": "4", "409": "4", "501": "4", "502": "4", "503": "4", "505": "4", "506": "4", "507": "4", "508": "4", "509": "4", "510": "4", "511": "4", "512": "4", "513": "4", "514": "4", "601": "4", "602": "4", "603": "4", "604": "4", "605": "4", "608": "4", "609": "4", "610": "4", "611": "4", "612": "4", "615": "4", "618": "3", "619.01": "4", "619.02": "4", "620": "4", "621": "4", "622": "4", "623": "4", "624": "4", "625": "4", "626": "4", "627": "4", "628": "4", "629": "4", "630": "4", "631": "4", "632": "4", "633.01": "4", "633.02": "4", "633.03": "4", "634": "4", "701.01": "4", "701.02": "4", "701.03": "4", "702": "4", "703": "4", "704": "4", "705": "4", "706": "4", "707": "4", "710": "4", "711": "4", "712": "4", "713": "4", "714": "4", "715": "4", "716": "4", "717": "4", "718": "4", "801": "4", "802.01": "4", "802.02": "4", "803": "4", "804": "2", "810": "3", "811": "4", "812.01": "4", "812.02": "4", "813": "4", "814.01": "4", "814.02": "4", "814.03": "4", "815": "4", "816": "4", "817": "4", "818": "4", "819": "3", "901": "4", "902": "4", "903": "4", "1001": "4", "1002": "4", "1003": "4", "1004": "4", "1005": "4", "1006": "4", "1007": "4", "1101": "4", "1102": "3", "1103": "4", "1104": "4", "1105.01": "4", "1105.02": "4", "1201": "4", "1202": "4", "1203": "4", "1204": "4", "1301": "4", "1302": "4", "1303": "4", "1401": "1", "1402": "2", "1403.01": "2", "1403.02": "3", "1404": "4", "1405": "3", "1406.01": "2", "1406.02": "2", "1407.01": "3", "1407.02": "2", "1408": "4", "1502": "3", "1503": "3", "1504.01": "4", "1504.02": "3", "1505.01": "4", "1505.02": "3", "1506": "4", "1507": "3", "1508": "3", "1510.01": "2", "1510.02": "2", "1511": "3", "1512": "3", "1601": "3", "1602": "4", "1603": "3", "1604": "3", "1605.01": "3", "1605.02": "3", "1606.01": "3", "1606.02": "3", "1607": "3", "1608": "3", "1609": "4", "1610": "4", "1611": "4", "1612": "3", "1613": "2", "1701": "4", "1702": "4", "1703": "4", "1704": "4", "1705": "4", "1706": "4", "1707": "4", "1708": "4", "1709": "4", "1710": "4", "1711": "3", "1801": "3", "1901": "1", "1902": "2", "1903": "2", "1904.01": "3", "1904.02": "2", "1906.01": "2", "1906.02": "2", "1907.01": "2", "1907.02": "1", "1908": "2", "1909": "2", "1910": "2", "1911": "2", "1912": "2", "1913.01": "2", "1913.02": "2", "2001": "2", "2002": "1", "2003": "1", "2004.01": "1", "2004.02": "1", "2101": "4", "2104": "2", "2105.01": "2", "2105.02": "2", "2106.01": "3", "2106.02": "2", "2107": "3", "2108": "3", "2109": "3", "2203": "4", "2204": "4", "2205": "3", "2206.01": "3", "2206.02": "3", "2207.01": "2", "2207.02": "2", "2209.01": "1", "2209.02": "2", "2210": "2", "2211": "2", "2212": "3", "2213": "3", "2214": "3", "2215": "3", "2216": "4", "2222": "4", "2225": "2", "2226": "2", "2227": "2", "2228": "1", "2229": "2", "2301": "2", "2302": "1", "2303": "1", "2304": "2", "2305": "1", "2306": "1", "2307": "1", "2308": "3", "2309": "1", "2311": "3", "2312": "1", "2315": "1", "2402": "4", "2403": "4", "2405": "4", "2406": "4", "2407": "3", "2408": "2", "2409": "3", "2410": "1", "2411": "2", "2412": "3", "2413": "3", "2414": "4", "2415": "4", "2416": "4", "2420": "3", "2421": "4", "2422": "4", "2423": "4", "2424": "3", "2425": "2", "2426": "3", "2427": "1", "2428": "3", "2429": "4", "2430": "4", "2431": "3", "2432": "4", "2433": "3", "2434": "3", "2435": "4", "2502": "2", "2503": "1", "2504": "2", "2505": "4", "2506": "3", "2507": "1", "2508": "2", "2510": "1", "2511": "1", "2512": "2", "2513": "2", "2514": "2", "2515": "1", "2516": "2", "2517": "2", "2518": "1", "2519": "1", "2520": "1", "2521.01": "1", "2521.02": "1", "2522.01": "2", "2522.02": "1", "2601": "1", "2602": "1", "2603": "1", "2604": "1", "2605": "2", "2606": "3", "2607": "1", "2608": "1", "2609": "1", "2610": "2", "2705": "1", "2712": "2", "2713": "2", "2714": "2", "2715": "2", "2718": "1", "2801": "4", "2804": "1", "2808": "2", "2809": "1", "2819": "4", "2827": "2", "2828": "4", "2831": "2", "2832": "3", "2838": "3", "2909": "1", "2912": "1", "2916": "1", "2922": "1", "2924": "2", "2925": "2", "3005": "1", "3006": "2", "3007": "1", "3008": "1", "3009": "1", "3011": "1", "3012": "1", "3016": "1", "3017.01": "1", "3017.02": "1", "3018.01": "2", "3018.02": "1", "3018.03": "1", "3102": "3", "3103": "2", "3104": "2", "3105": "1", "3106": "2", "3107": "1", "3108": "1", "3109": "1", "3201": "4", "3204": "4", "3206": "4", "3301": "4", "3302": "4", "3403": "3", "3404": "3", "3405": "3", "3406": "1", "3501": "2", "3504": "1", "3510": "2", "3511": "1", "3514": "1", "3515": "2", "3602": "1", "3801": "2", "3802": "2", "3805": "1", "3807": "2", "3812": "2", "3814": "2", "3815": "2", "3818": "1", "3819": "2", "3901": "3", "3902": "3", "3903": "1", "3904": "1", "3905": "3", "3906": "4", "3907": "4", "4003": "2", "4004": "1", "4005": "1", "4008": "1", "4101": "3", "4102": "3", "4105": "3", "4106": "3", "4107": "3", "4108": "3", "4109": "4", "4110": "4", "4111": "4", "4112": "4", "4201": "2", "4202": "2", "4203": "2", "4204": "2", "4205": "1", "4206": "1", "4207": "1", "4208": "1", "4212": "2", "4301.01": "2", "4301.02": "2", "4302": "2", "4303": "2", "4304": "2", "4305": "2", "4306": "3", "4307": "1", "4308": "3", "4309": "2", "4312": "3", "4313.01": "1", "4313.02": "1", "4314": "1", "4401.01": "1", "4401.02": "1", "4402.01": "3", "4402.02": "3", "4403": "3", "4406": "4", "4407": "3", "4408": "1", "4409": "3", "4503": "3", "4601": "2", "4602": "1", "4603.01": "2", "4603.02": "1", "4604": "3", "4605": "3", "4606": "1", "4607": "1", "4610": "1", "4701": "2", "4801": "4", "4802": "3", "4803": "3", "4804": "4", "4805": "3", "4903": "4", "4904": "4", "4905": "3", "4906": "4", "4907": "3", "4908": "3", "4909.01": "3", "4909.02": "4", "4910": "2", "4911": "4", "4912": "3", "4913": "2", "4914": "2", "5001": "3", "5002": "2", "5003": "2", "5101": "2", "5102": "3", "5103": "3", "5201": "2", "5202": "1", "5203": "3", "5204": "3", "5205": "4", "5206": "3", "5301": "1", "5302": "2", "5303": "4", "5304": "3", "5305.01": "3", "5305.02": "3", "5305.03": "3", "5306": "2", "5401.01": "1", "5401.02": "1", "5501": "3", "5502": "4", "5601": "2", "5602": "3", "5603": "3", "5604": "3", "5607": "3", "5608": "4", "5609": "4", "5610": "4", "5611": "4", "5701": "3", "5702": "3", "5703": "2", "5704": "2", "5705": "2", "5801": "3", "5802": "2", "5803": "1", "5804": "2", "5805.01": "1", "5805.02": "2", "5806": "1", "5807": "2", "5808": "1", "5905": "3", "5906": "3", "5907": "2", "6004": "2", "6006": "2", "6007": "3", "6009": "3", "6103": "1", "6104": "1", "6108": "4", "6110": "1", "6111": "1", "6112": "1", "6113": "1", "6114": "1", "6115": "1", "6116": "1", "6117": "1", "6118": "1", "6119": "1", "6120": "1", "6121": "2", "6201": "3", "6202": "2", "6203": "3", "6204": "3", "6301": "1", "6302": "2", "6303": "2", "6304": "1", "6305": "2", "6308": "2", "6309": "2", "6401": "3", "6403": "4", "6404": "4", "6405": "4", "6406": "3", "6407": "4", "6408": "3", "6501": "2", "6502": "3", "6503.01": "3", "6503.02": "3", "6504": "3", "6505": "3", "6603.01": "1", "6603.02": "2", "6604": "2", "6605": "2", "6606": "1", "6607": "2", "6608": "1", "6609": "1", "6610": "2", "6611": "3", "6701": "1", "6702": "1", "6703": "2", "6704": "2", "6705": "2", "6706": "1", "6707": "1", "6708": "1", "6709": "2", "6711": "1", "6712": "1", "6713": "2", "6714": "2", "6715": "1", "6716": "1", "6718": "1", "6719": "2", "6720": "2", "6805": "1", "6806": "1", "6809": "1", "6810": "1", "6811": "1", "6812": "1", "6813": "1", "6814": "1", "6903": "1", "6904": "1", "6905": "2", "6909": "2", "6910": "3", "6911": "1", "6912": "1", "6913": "3", "6914": "2", "6915": "1", "7001": "3", "7002": "3", "7003.01": "3", "7003.02": "4", "7004.01": "4", "7004.02": "4", "7005.01": "4", "7005.02": "4", "7101": "1", "7102": "1", "7103": "1", "7104": "3", "7105": "2", "7106": "2", "7107": "2", "7108": "2", "7109": "2", "7110": "2", "7111": "3", "7112": "3", "7113": "3", "7114": "2", "7115": "3", "7201": "4", "7202": "4", "7203": "4", "7204": "4", "7205": "4", "7206": "4", "7207": "4", "7301": "3", "7302.01": "2", "7302.02": "3", "7303": "3", "7304": "4", "7305": "4", "7306": "3", "7307": "3", "7401": "4", "7402": "4", "7403": "4", "7404": "4", "7501": "3", "7502": "4", "7503": "4", "7504": "4", "7505": "3", "7506": "4", "7608.01": "3", "7608.02": "4", "7608.03": "4", "7709.02": "4", "8104": "4", "8214.02": "3", "8233.04": "3", "8305": "2", "8306": "3", "8307": "3", "8308": "4", "8309": "4", "8310": "4", "8311": "3", "8312": "1", "8313": "1", "8314": "2", "8315": "3", "8316": "3", "8317": "3", "8318": "4", "8319": "4", "8320": "4", "8321": "3", "8322": "4", "8323": "4", "8324": "4", "8325": "4", "8326": "4", "8329": "3", "8330": "4", "8331": "4", "8333": "3", "8339": "1", "8340": "2", "8342": "2", "8343": "3", "8344": "3", "8345": "1", "8346": "2", "8347": "1", "8348": "1", "8349": "1", "8350": "1", "8351": "2", "8352": "3", "8355": "2", "8356": "2", "8358": "2", "8359": "1", "8360": "3", "8361": "1", "8362": "4", "8363": "3", "8364": "2", "8365": "1", "8366": "2", "8367": "1", "8368": "1", "8369": "2", "8370": "1", "8371": "2", "8373": "2", "8374": "2", "8378": "2", "8380": "2", "8381": "2", "8382": "3", "8383": "2", "8386": "1", "8387": "1", "8388": "1", "8390": "4", "8391": "4", "8392": "2", "8395": "3", "8396": "3", "8397": "3", "8398": "4", "8399": "4", "8400": "4", "8401": "3", "8402": "3", "8403": "2", "8404": "3", "8407": "1", "8408": "1", "8410": "3", "8411": "2", "8412": "1", "8413": "1", "8414": "1", "8415": "1", "8416": "1", "8417": "1", "8418": "2", "8419": "4", "8420": "4", "8421": "1", "8422": "3", "8423": "4", "8424": "3", "8425": "1", "8426": "3", "8428": "2", "8429": "1", "8430": "1", "8431": "2", "8432": "1", "8433": "1", "8434": "2", "8435": "1", "8436": "2", "8437": "4", "8438": "2", "8439": "2", "9801": "0", "3817": "0", "8357": "0", };
-exports.default = TractTierTable;
-
-
-/***/ }),
-/* 258 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(module) {var __WEBPACK_AMD_DEFINE_RESULT__;(function() {
-  var JSONP, computedUrl, createElement, encode, noop, objectToURI, random, randomString;
-
-  createElement = function(tag) {
-    return window.document.createElement(tag);
-  };
-
-  encode = window.encodeURIComponent;
-
-  random = Math.random;
-
-  JSONP = function(options) {
-    var callback, callbackFunc, callbackName, done, head, params, script;
-    if (options == null) {
-      options = {};
-    }
-    params = {
-      data: options.data || {},
-      error: options.error || noop,
-      success: options.success || noop,
-      beforeSend: options.beforeSend || noop,
-      complete: options.complete || noop,
-      url: options.url || ''
-    };
-    params.computedUrl = computedUrl(params);
-    if (params.url.length === 0) {
-      throw new Error('MissingUrl');
-    }
-    done = false;
-    if (params.beforeSend({}, params) !== false) {
-      callbackName = options.callbackName || 'callback';
-      callbackFunc = options.callbackFunc || 'jsonp_' + randomString(15);
-      callback = params.data[callbackName] = callbackFunc;
-      window[callback] = function(data) {
-        window[callback] = null;
-        params.success(data, params);
-        return params.complete(data, params);
-      };
-      script = createElement('script');
-      script.src = computedUrl(params);
-      script.async = true;
-      script.onerror = function(evt) {
-        params.error({
-          url: script.src,
-          event: evt
-        });
-        return params.complete({
-          url: script.src,
-          event: evt
-        }, params);
-      };
-      script.onload = script.onreadystatechange = function() {
-        var ref, ref1;
-        if (done || ((ref = this.readyState) !== 'loaded' && ref !== 'complete')) {
-          return;
-        }
-        done = true;
-        if (script) {
-          script.onload = script.onreadystatechange = null;
-          if ((ref1 = script.parentNode) != null) {
-            ref1.removeChild(script);
-          }
-          return script = null;
-        }
-      };
-      head = window.document.getElementsByTagName('head')[0] || window.document.documentElement;
-      head.insertBefore(script, head.firstChild);
-    }
-    return {
-      abort: function() {
-        window[callback] = function() {
-          return window[callback] = null;
-        };
-        done = true;
-        if (script != null ? script.parentNode : void 0) {
-          script.onload = script.onreadystatechange = null;
-          script.parentNode.removeChild(script);
-          return script = null;
-        }
-      }
-    };
-  };
-
-  noop = function() {
-    return void 0;
-  };
-
-  computedUrl = function(params) {
-    var url;
-    url = params.url;
-    url += params.url.indexOf('?') < 0 ? '?' : '&';
-    url += objectToURI(params.data);
-    return url;
-  };
-
-  randomString = function(length) {
-    var str;
-    str = '';
-    while (str.length < length) {
-      str += random().toString(36).slice(2, 3);
-    }
-    return str;
-  };
-
-  objectToURI = function(obj) {
-    var data, key, value;
-    data = (function() {
-      var results;
-      results = [];
-      for (key in obj) {
-        value = obj[key];
-        results.push(encode(key) + '=' + encode(value));
-      }
-      return results;
-    })();
-    return data.join('&');
-  };
-
-  if ("function" !== "undefined" && __webpack_require__(260) !== null ? __webpack_require__(261) : void 0) {
-    !(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
-      return JSONP;
-    }.call(exports, __webpack_require__, exports, module),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-  } else if (typeof module !== "undefined" && module !== null ? module.exports : void 0) {
-    module.exports = JSONP;
-  } else {
-    this.JSONP = JSONP;
-  }
-
-}).call(this);
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(259)(module)))
-
-/***/ }),
-/* 259 */
-/***/ (function(module, exports) {
-
-module.exports = function(module) {
-	if(!module.webpackPolyfill) {
-		module.deprecate = function() {};
-		module.paths = [];
-		// module.parent = undefined by default
-		if(!module.children) module.children = [];
-		Object.defineProperty(module, "loaded", {
-			enumerable: true,
-			get: function() {
-				return module.l;
-			}
-		});
-		Object.defineProperty(module, "id", {
-			enumerable: true,
-			get: function() {
-				return module.i;
-			}
-		});
-		module.webpackPolyfill = 1;
-	}
-	return module;
-};
-
-
-/***/ }),
-/* 260 */
-/***/ (function(module, exports) {
-
-module.exports = function() {
-	throw new Error("define cannot be used indirect");
-};
-
-
-/***/ }),
-/* 261 */
-/***/ (function(module, exports) {
-
-/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
-module.exports = __webpack_amd_options__;
-
-/* WEBPACK VAR INJECTION */}.call(exports, {}))
-
-/***/ }),
-/* 262 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(263);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(14)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./address-tier-calculator.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./address-tier-calculator.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 263 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(13)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".address-tier-calculator {\n  margin-top: 10px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: baseline;\n      -ms-flex-align: baseline;\n          align-items: baseline; }\n\n.address-field-wrapper {\n  -webkit-box-flex: 3;\n      -ms-flex: 3 0 auto;\n          flex: 3 0 auto;\n  position: relative; }\n\n.tier-display-wrapper {\n  -webkit-box-flex: 1;\n      -ms-flex: 1 0 auto;\n          flex: 1 0 auto; }\n\n.address-status-message {\n  position: absolute;\n  color: #9e9e9e;\n  font-size: 90%;\n  font-style: italic; }\n\n.tier-display {\n  padding: 6px 10px;\n  border: 1px dotted #9e9e9e;\n  border-radius: 6px;\n  text-align: center;\n  font-size: 125%; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 264 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var is_es_program_1 = __webpack_require__(265);
-var is_hs_program_1 = __webpack_require__(266);
-var cpsPrograms = __webpack_require__(267);
-exports.getAllProgramsByProgramType = function () {
-    var programs = groupByProgramType(cpsPrograms);
-    return programs;
-};
-exports.getHSPrograms = function () {
-    var programs = cpsPrograms.filter(is_hs_program_1.default);
-    return programs;
-};
-exports.getHSProgramsByType = function () {
-    var programs = groupByProgramType(cpsPrograms.filter(is_hs_program_1.default));
-    return programs;
-};
-exports.getESPrograms = function () {
-    var programs = cpsPrograms.filter(is_es_program_1.default);
-    return programs;
-};
-var groupByProgramType = function (allPrograms) {
-    var programs = {};
-    for (var i = 0; i < allPrograms.length; i++) {
-        var program = allPrograms[i];
-        var programType = program.Program_Type;
-        if (!programs[programType]) {
-            programs[programType] = [];
-        }
-        programs[programType].push(program);
-    }
-    return programs;
-};
-
-
-/***/ }),
-/* 265 */
+/* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26726,7 +24806,7 @@ exports.default = isESProgram;
 
 
 /***/ }),
-/* 266 */
+/* 224 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26749,7 +24829,7 @@ exports.default = isHSProgram;
 
 
 /***/ }),
-/* 267 */
+/* 225 */
 /***/ (function(module, exports) {
 
 module.exports = [
@@ -47600,13 +45680,839 @@ module.exports = [
 ];
 
 /***/ }),
-/* 268 */
+/* 226 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony export (immutable) */ __webpack_exports__["a"] = createProvider;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(100);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_PropTypes__ = __webpack_require__(101);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_warning__ = __webpack_require__(58);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+var didWarnAboutReceivingStore = false;
+function warnAboutReceivingStore() {
+  if (didWarnAboutReceivingStore) {
+    return;
+  }
+  didWarnAboutReceivingStore = true;
+
+  __WEBPACK_IMPORTED_MODULE_3__utils_warning__["a" /* default */]('<Provider> does not support changing `store` on the fly. ' + 'It is most likely that you see this error because you updated to ' + 'Redux 2.x and React Redux 2.x which no longer hot reload reducers ' + 'automatically. See https://github.com/reactjs/react-redux/releases/' + 'tag/v2.0.0 for the migration instructions.');
+}
+
+function createProvider() {
+  var _Provider$childContex;
+
+  var storeKey = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'store';
+  var subKey = arguments[1];
+
+  var subscriptionKey = subKey || storeKey + 'Subscription';
+
+  var Provider = function (_Component) {
+    _inherits(Provider, _Component);
+
+    Provider.prototype.getChildContext = function getChildContext() {
+      var _ref;
+
+      return _ref = {}, _ref[storeKey] = this[storeKey], _ref[subscriptionKey] = null, _ref;
+    };
+
+    function Provider(props, context) {
+      _classCallCheck(this, Provider);
+
+      var _this = _possibleConstructorReturn(this, _Component.call(this, props, context));
+
+      _this[storeKey] = props.store;
+      return _this;
+    }
+
+    Provider.prototype.render = function render() {
+      return __WEBPACK_IMPORTED_MODULE_0_react__["Children"].only(this.props.children);
+    };
+
+    return Provider;
+  }(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+  if (process.env.NODE_ENV !== 'production') {
+    Provider.prototype.componentWillReceiveProps = function (nextProps) {
+      if (this[storeKey] !== nextProps.store) {
+        warnAboutReceivingStore();
+      }
+    };
+  }
+
+  Provider.propTypes = {
+    store: __WEBPACK_IMPORTED_MODULE_2__utils_PropTypes__["a" /* storeShape */].isRequired,
+    children: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.element.isRequired
+  };
+  Provider.childContextTypes = (_Provider$childContex = {}, _Provider$childContex[storeKey] = __WEBPACK_IMPORTED_MODULE_2__utils_PropTypes__["a" /* storeShape */].isRequired, _Provider$childContex[subscriptionKey] = __WEBPACK_IMPORTED_MODULE_2__utils_PropTypes__["b" /* subscriptionShape */], _Provider$childContex);
+
+  return Provider;
+}
+
+/* harmony default export */ __webpack_exports__["b"] = (createProvider());
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
+
+/***/ }),
+/* 227 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright 2013-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
+
+
+
+var emptyFunction = __webpack_require__(9);
+var invariant = __webpack_require__(1);
+var ReactPropTypesSecret = __webpack_require__(39);
+
+module.exports = function() {
+  function shim(props, propName, componentName, location, propFullName, secret) {
+    if (secret === ReactPropTypesSecret) {
+      // It is still safe when called from React.
+      return;
+    }
+    invariant(
+      false,
+      'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
+      'Use PropTypes.checkPropTypes() to call them. ' +
+      'Read more at http://fb.me/use-check-prop-types'
+    );
+  };
+  shim.isRequired = shim;
+  function getShim() {
+    return shim;
+  };
+  // Important!
+  // Keep this list in sync with production version in `./factoryWithTypeCheckers.js`.
+  var ReactPropTypes = {
+    array: shim,
+    bool: shim,
+    func: shim,
+    number: shim,
+    object: shim,
+    string: shim,
+    symbol: shim,
+
+    any: shim,
+    arrayOf: getShim,
+    element: shim,
+    instanceOf: getShim,
+    node: shim,
+    objectOf: getShim,
+    oneOf: getShim,
+    oneOfType: getShim,
+    shape: getShim
+  };
+
+  ReactPropTypes.checkPropTypes = emptyFunction;
+  ReactPropTypes.PropTypes = ReactPropTypes;
+
+  return ReactPropTypes;
+};
+
+
+/***/ }),
+/* 228 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright 2015, Yahoo! Inc.
+ * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
+ */
+
+
+var REACT_STATICS = {
+    childContextTypes: true,
+    contextTypes: true,
+    defaultProps: true,
+    displayName: true,
+    getDefaultProps: true,
+    mixins: true,
+    propTypes: true,
+    type: true
+};
+
+var KNOWN_STATICS = {
+  name: true,
+  length: true,
+  prototype: true,
+  caller: true,
+  callee: true,
+  arguments: true,
+  arity: true
+};
+
+var defineProperty = Object.defineProperty;
+var getOwnPropertyNames = Object.getOwnPropertyNames;
+var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+var getPrototypeOf = Object.getPrototypeOf;
+var objectPrototype = getPrototypeOf && getPrototypeOf(Object);
+
+module.exports = function hoistNonReactStatics(targetComponent, sourceComponent, blacklist) {
+    if (typeof sourceComponent !== 'string') { // don't hoist over string (html) components
+
+        if (objectPrototype) {
+            var inheritedComponent = getPrototypeOf(sourceComponent);
+            if (inheritedComponent && inheritedComponent !== objectPrototype) {
+                hoistNonReactStatics(targetComponent, inheritedComponent, blacklist);
+            }
+        }
+
+        var keys = getOwnPropertyNames(sourceComponent);
+
+        if (getOwnPropertySymbols) {
+            keys = keys.concat(getOwnPropertySymbols(sourceComponent));
+        }
+
+        for (var i = 0; i < keys.length; ++i) {
+            var key = keys[i];
+            if (!REACT_STATICS[key] && !KNOWN_STATICS[key] && (!blacklist || !blacklist[key])) {
+                var descriptor = getOwnPropertyDescriptor(sourceComponent, key);
+                try { // Avoid failures from read-only properties
+                    defineProperty(targetComponent, key, descriptor);
+                } catch (e) {}
+            }
+        }
+
+        return targetComponent;
+    }
+
+    return targetComponent;
+};
+
+
+/***/ }),
+/* 229 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
+
+
+
+/**
+ * Use invariant() to assert state which your program assumes to be true.
+ *
+ * Provide sprintf-style format (only %s is supported) and arguments
+ * to provide information about what broke and what you were
+ * expecting.
+ *
+ * The invariant message will be stripped in production, but the invariant
+ * will remain to ensure logic does not differ in production.
+ */
+
+var invariant = function(condition, format, a, b, c, d, e, f) {
+  if (process.env.NODE_ENV !== 'production') {
+    if (format === undefined) {
+      throw new Error('invariant requires an error message argument');
+    }
+  }
+
+  if (!condition) {
+    var error;
+    if (format === undefined) {
+      error = new Error(
+        'Minified exception occurred; use the non-minified dev environment ' +
+        'for the full error message and additional helpful warnings.'
+      );
+    } else {
+      var args = [a, b, c, d, e, f];
+      var argIndex = 0;
+      error = new Error(
+        format.replace(/%s/g, function() { return args[argIndex++]; })
+      );
+      error.name = 'Invariant Violation';
+    }
+
+    error.framesToPop = 1; // we don't care about invariant's own frame
+    throw error;
+  }
+};
+
+module.exports = invariant;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 230 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Subscription; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+// encapsulates the subscription logic for connecting a component to the redux store, as
+// well as nesting subscriptions of descendant components, so that we can ensure the
+// ancestor components re-render before descendants
+
+var CLEARED = null;
+var nullListeners = {
+  notify: function notify() {}
+};
+
+function createListenerCollection() {
+  // the current/next pattern is copied from redux's createStore code.
+  // TODO: refactor+expose that code to be reusable here?
+  var current = [];
+  var next = [];
+
+  return {
+    clear: function clear() {
+      next = CLEARED;
+      current = CLEARED;
+    },
+    notify: function notify() {
+      var listeners = current = next;
+      for (var i = 0; i < listeners.length; i++) {
+        listeners[i]();
+      }
+    },
+    get: function get() {
+      return next;
+    },
+    subscribe: function subscribe(listener) {
+      var isSubscribed = true;
+      if (next === current) next = current.slice();
+      next.push(listener);
+
+      return function unsubscribe() {
+        if (!isSubscribed || current === CLEARED) return;
+        isSubscribed = false;
+
+        if (next === current) next = current.slice();
+        next.splice(next.indexOf(listener), 1);
+      };
+    }
+  };
+}
+
+var Subscription = function () {
+  function Subscription(store, parentSub, onStateChange) {
+    _classCallCheck(this, Subscription);
+
+    this.store = store;
+    this.parentSub = parentSub;
+    this.onStateChange = onStateChange;
+    this.unsubscribe = null;
+    this.listeners = nullListeners;
+  }
+
+  Subscription.prototype.addNestedSub = function addNestedSub(listener) {
+    this.trySubscribe();
+    return this.listeners.subscribe(listener);
+  };
+
+  Subscription.prototype.notifyNestedSubs = function notifyNestedSubs() {
+    this.listeners.notify();
+  };
+
+  Subscription.prototype.isSubscribed = function isSubscribed() {
+    return Boolean(this.unsubscribe);
+  };
+
+  Subscription.prototype.trySubscribe = function trySubscribe() {
+    if (!this.unsubscribe) {
+      this.unsubscribe = this.parentSub ? this.parentSub.addNestedSub(this.onStateChange) : this.store.subscribe(this.onStateChange);
+
+      this.listeners = createListenerCollection();
+    }
+  };
+
+  Subscription.prototype.tryUnsubscribe = function tryUnsubscribe() {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+      this.unsubscribe = null;
+      this.listeners.clear();
+      this.listeners = nullListeners;
+    }
+  };
+
+  return Subscription;
+}();
+
+
+
+/***/ }),
+/* 231 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export createConnect */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_connectAdvanced__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_shallowEqual__ = __webpack_require__(232);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mapDispatchToProps__ = __webpack_require__(233);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mapStateToProps__ = __webpack_require__(234);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mergeProps__ = __webpack_require__(235);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__selectorFactory__ = __webpack_require__(236);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+
+
+
+
+
+
+
+/*
+  connect is a facade over connectAdvanced. It turns its args into a compatible
+  selectorFactory, which has the signature:
+
+    (dispatch, options) => (nextState, nextOwnProps) => nextFinalProps
+  
+  connect passes its args to connectAdvanced as options, which will in turn pass them to
+  selectorFactory each time a Connect component instance is instantiated or hot reloaded.
+
+  selectorFactory returns a final props selector from its mapStateToProps,
+  mapStateToPropsFactories, mapDispatchToProps, mapDispatchToPropsFactories, mergeProps,
+  mergePropsFactories, and pure args.
+
+  The resulting final props selector is called by the Connect component instance whenever
+  it receives new props or store state.
+ */
+
+function match(arg, factories, name) {
+  for (var i = factories.length - 1; i >= 0; i--) {
+    var result = factories[i](arg);
+    if (result) return result;
+  }
+
+  return function (dispatch, options) {
+    throw new Error('Invalid value of type ' + typeof arg + ' for ' + name + ' argument when connecting component ' + options.wrappedComponentName + '.');
+  };
+}
+
+function strictEqual(a, b) {
+  return a === b;
+}
+
+// createConnect with default args builds the 'official' connect behavior. Calling it with
+// different options opens up some testing and extensibility scenarios
+function createConnect() {
+  var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      _ref$connectHOC = _ref.connectHOC,
+      connectHOC = _ref$connectHOC === undefined ? __WEBPACK_IMPORTED_MODULE_0__components_connectAdvanced__["a" /* default */] : _ref$connectHOC,
+      _ref$mapStateToPropsF = _ref.mapStateToPropsFactories,
+      mapStateToPropsFactories = _ref$mapStateToPropsF === undefined ? __WEBPACK_IMPORTED_MODULE_3__mapStateToProps__["a" /* default */] : _ref$mapStateToPropsF,
+      _ref$mapDispatchToPro = _ref.mapDispatchToPropsFactories,
+      mapDispatchToPropsFactories = _ref$mapDispatchToPro === undefined ? __WEBPACK_IMPORTED_MODULE_2__mapDispatchToProps__["a" /* default */] : _ref$mapDispatchToPro,
+      _ref$mergePropsFactor = _ref.mergePropsFactories,
+      mergePropsFactories = _ref$mergePropsFactor === undefined ? __WEBPACK_IMPORTED_MODULE_4__mergeProps__["a" /* default */] : _ref$mergePropsFactor,
+      _ref$selectorFactory = _ref.selectorFactory,
+      selectorFactory = _ref$selectorFactory === undefined ? __WEBPACK_IMPORTED_MODULE_5__selectorFactory__["a" /* default */] : _ref$selectorFactory;
+
+  return function connect(mapStateToProps, mapDispatchToProps, mergeProps) {
+    var _ref2 = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {},
+        _ref2$pure = _ref2.pure,
+        pure = _ref2$pure === undefined ? true : _ref2$pure,
+        _ref2$areStatesEqual = _ref2.areStatesEqual,
+        areStatesEqual = _ref2$areStatesEqual === undefined ? strictEqual : _ref2$areStatesEqual,
+        _ref2$areOwnPropsEqua = _ref2.areOwnPropsEqual,
+        areOwnPropsEqual = _ref2$areOwnPropsEqua === undefined ? __WEBPACK_IMPORTED_MODULE_1__utils_shallowEqual__["a" /* default */] : _ref2$areOwnPropsEqua,
+        _ref2$areStatePropsEq = _ref2.areStatePropsEqual,
+        areStatePropsEqual = _ref2$areStatePropsEq === undefined ? __WEBPACK_IMPORTED_MODULE_1__utils_shallowEqual__["a" /* default */] : _ref2$areStatePropsEq,
+        _ref2$areMergedPropsE = _ref2.areMergedPropsEqual,
+        areMergedPropsEqual = _ref2$areMergedPropsE === undefined ? __WEBPACK_IMPORTED_MODULE_1__utils_shallowEqual__["a" /* default */] : _ref2$areMergedPropsE,
+        extraOptions = _objectWithoutProperties(_ref2, ['pure', 'areStatesEqual', 'areOwnPropsEqual', 'areStatePropsEqual', 'areMergedPropsEqual']);
+
+    var initMapStateToProps = match(mapStateToProps, mapStateToPropsFactories, 'mapStateToProps');
+    var initMapDispatchToProps = match(mapDispatchToProps, mapDispatchToPropsFactories, 'mapDispatchToProps');
+    var initMergeProps = match(mergeProps, mergePropsFactories, 'mergeProps');
+
+    return connectHOC(selectorFactory, _extends({
+      // used in error messages
+      methodName: 'connect',
+
+      // used to compute Connect's displayName from the wrapped component's displayName.
+      getDisplayName: function getDisplayName(name) {
+        return 'Connect(' + name + ')';
+      },
+
+      // if mapStateToProps is falsy, the Connect component doesn't subscribe to store state changes
+      shouldHandleStateChanges: Boolean(mapStateToProps),
+
+      // passed through to selectorFactory
+      initMapStateToProps: initMapStateToProps,
+      initMapDispatchToProps: initMapDispatchToProps,
+      initMergeProps: initMergeProps,
+      pure: pure,
+      areStatesEqual: areStatesEqual,
+      areOwnPropsEqual: areOwnPropsEqual,
+      areStatePropsEqual: areStatePropsEqual,
+      areMergedPropsEqual: areMergedPropsEqual
+
+    }, extraOptions));
+  };
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (createConnect());
+
+/***/ }),
+/* 232 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = shallowEqual;
+var hasOwn = Object.prototype.hasOwnProperty;
+
+function is(x, y) {
+  if (x === y) {
+    return x !== 0 || y !== 0 || 1 / x === 1 / y;
+  } else {
+    return x !== x && y !== y;
+  }
+}
+
+function shallowEqual(objA, objB) {
+  if (is(objA, objB)) return true;
+
+  if (typeof objA !== 'object' || objA === null || typeof objB !== 'object' || objB === null) {
+    return false;
+  }
+
+  var keysA = Object.keys(objA);
+  var keysB = Object.keys(objB);
+
+  if (keysA.length !== keysB.length) return false;
+
+  for (var i = 0; i < keysA.length; i++) {
+    if (!hasOwn.call(objB, keysA[i]) || !is(objA[keysA[i]], objB[keysA[i]])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+/***/ }),
+/* 233 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export whenMapDispatchToPropsIsFunction */
+/* unused harmony export whenMapDispatchToPropsIsMissing */
+/* unused harmony export whenMapDispatchToPropsIsObject */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_redux__ = __webpack_require__(91);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__wrapMapToProps__ = __webpack_require__(103);
+
+
+
+function whenMapDispatchToPropsIsFunction(mapDispatchToProps) {
+  return typeof mapDispatchToProps === 'function' ? __WEBPACK_IMPORTED_MODULE_1__wrapMapToProps__["b" /* wrapMapToPropsFunc */](mapDispatchToProps, 'mapDispatchToProps') : undefined;
+}
+
+function whenMapDispatchToPropsIsMissing(mapDispatchToProps) {
+  return !mapDispatchToProps ? __WEBPACK_IMPORTED_MODULE_1__wrapMapToProps__["a" /* wrapMapToPropsConstant */](function (dispatch) {
+    return { dispatch: dispatch };
+  }) : undefined;
+}
+
+function whenMapDispatchToPropsIsObject(mapDispatchToProps) {
+  return mapDispatchToProps && typeof mapDispatchToProps === 'object' ? __WEBPACK_IMPORTED_MODULE_1__wrapMapToProps__["a" /* wrapMapToPropsConstant */](function (dispatch) {
+    return __WEBPACK_IMPORTED_MODULE_0_redux__["bindActionCreators"](mapDispatchToProps, dispatch);
+  }) : undefined;
+}
+
+/* harmony default export */ __webpack_exports__["a"] = ([whenMapDispatchToPropsIsFunction, whenMapDispatchToPropsIsMissing, whenMapDispatchToPropsIsObject]);
+
+/***/ }),
+/* 234 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export whenMapStateToPropsIsFunction */
+/* unused harmony export whenMapStateToPropsIsMissing */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__wrapMapToProps__ = __webpack_require__(103);
+
+
+function whenMapStateToPropsIsFunction(mapStateToProps) {
+  return typeof mapStateToProps === 'function' ? __WEBPACK_IMPORTED_MODULE_0__wrapMapToProps__["b" /* wrapMapToPropsFunc */](mapStateToProps, 'mapStateToProps') : undefined;
+}
+
+function whenMapStateToPropsIsMissing(mapStateToProps) {
+  return !mapStateToProps ? __WEBPACK_IMPORTED_MODULE_0__wrapMapToProps__["a" /* wrapMapToPropsConstant */](function () {
+    return {};
+  }) : undefined;
+}
+
+/* harmony default export */ __webpack_exports__["a"] = ([whenMapStateToPropsIsFunction, whenMapStateToPropsIsMissing]);
+
+/***/ }),
+/* 235 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/* unused harmony export defaultMergeProps */
+/* unused harmony export wrapMergePropsFunc */
+/* unused harmony export whenMergePropsIsFunction */
+/* unused harmony export whenMergePropsIsOmitted */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_verifyPlainObject__ = __webpack_require__(104);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
+
+function defaultMergeProps(stateProps, dispatchProps, ownProps) {
+  return _extends({}, ownProps, stateProps, dispatchProps);
+}
+
+function wrapMergePropsFunc(mergeProps) {
+  return function initMergePropsProxy(dispatch, _ref) {
+    var displayName = _ref.displayName,
+        pure = _ref.pure,
+        areMergedPropsEqual = _ref.areMergedPropsEqual;
+
+    var hasRunOnce = false;
+    var mergedProps = void 0;
+
+    return function mergePropsProxy(stateProps, dispatchProps, ownProps) {
+      var nextMergedProps = mergeProps(stateProps, dispatchProps, ownProps);
+
+      if (hasRunOnce) {
+        if (!pure || !areMergedPropsEqual(nextMergedProps, mergedProps)) mergedProps = nextMergedProps;
+      } else {
+        hasRunOnce = true;
+        mergedProps = nextMergedProps;
+
+        if (process.env.NODE_ENV !== 'production') __WEBPACK_IMPORTED_MODULE_0__utils_verifyPlainObject__["a" /* default */](mergedProps, displayName, 'mergeProps');
+      }
+
+      return mergedProps;
+    };
+  };
+}
+
+function whenMergePropsIsFunction(mergeProps) {
+  return typeof mergeProps === 'function' ? wrapMergePropsFunc(mergeProps) : undefined;
+}
+
+function whenMergePropsIsOmitted(mergeProps) {
+  return !mergeProps ? function () {
+    return defaultMergeProps;
+  } : undefined;
+}
+
+/* harmony default export */ __webpack_exports__["a"] = ([whenMergePropsIsFunction, whenMergePropsIsOmitted]);
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
+
+/***/ }),
+/* 236 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/* unused harmony export impureFinalPropsSelectorFactory */
+/* unused harmony export pureFinalPropsSelectorFactory */
+/* harmony export (immutable) */ __webpack_exports__["a"] = finalPropsSelectorFactory;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__verifySubselectors__ = __webpack_require__(237);
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+
+
+function impureFinalPropsSelectorFactory(mapStateToProps, mapDispatchToProps, mergeProps, dispatch) {
+  return function impureFinalPropsSelector(state, ownProps) {
+    return mergeProps(mapStateToProps(state, ownProps), mapDispatchToProps(dispatch, ownProps), ownProps);
+  };
+}
+
+function pureFinalPropsSelectorFactory(mapStateToProps, mapDispatchToProps, mergeProps, dispatch, _ref) {
+  var areStatesEqual = _ref.areStatesEqual,
+      areOwnPropsEqual = _ref.areOwnPropsEqual,
+      areStatePropsEqual = _ref.areStatePropsEqual;
+
+  var hasRunAtLeastOnce = false;
+  var state = void 0;
+  var ownProps = void 0;
+  var stateProps = void 0;
+  var dispatchProps = void 0;
+  var mergedProps = void 0;
+
+  function handleFirstCall(firstState, firstOwnProps) {
+    state = firstState;
+    ownProps = firstOwnProps;
+    stateProps = mapStateToProps(state, ownProps);
+    dispatchProps = mapDispatchToProps(dispatch, ownProps);
+    mergedProps = mergeProps(stateProps, dispatchProps, ownProps);
+    hasRunAtLeastOnce = true;
+    return mergedProps;
+  }
+
+  function handleNewPropsAndNewState() {
+    stateProps = mapStateToProps(state, ownProps);
+
+    if (mapDispatchToProps.dependsOnOwnProps) dispatchProps = mapDispatchToProps(dispatch, ownProps);
+
+    mergedProps = mergeProps(stateProps, dispatchProps, ownProps);
+    return mergedProps;
+  }
+
+  function handleNewProps() {
+    if (mapStateToProps.dependsOnOwnProps) stateProps = mapStateToProps(state, ownProps);
+
+    if (mapDispatchToProps.dependsOnOwnProps) dispatchProps = mapDispatchToProps(dispatch, ownProps);
+
+    mergedProps = mergeProps(stateProps, dispatchProps, ownProps);
+    return mergedProps;
+  }
+
+  function handleNewState() {
+    var nextStateProps = mapStateToProps(state, ownProps);
+    var statePropsChanged = !areStatePropsEqual(nextStateProps, stateProps);
+    stateProps = nextStateProps;
+
+    if (statePropsChanged) mergedProps = mergeProps(stateProps, dispatchProps, ownProps);
+
+    return mergedProps;
+  }
+
+  function handleSubsequentCalls(nextState, nextOwnProps) {
+    var propsChanged = !areOwnPropsEqual(nextOwnProps, ownProps);
+    var stateChanged = !areStatesEqual(nextState, state);
+    state = nextState;
+    ownProps = nextOwnProps;
+
+    if (propsChanged && stateChanged) return handleNewPropsAndNewState();
+    if (propsChanged) return handleNewProps();
+    if (stateChanged) return handleNewState();
+    return mergedProps;
+  }
+
+  return function pureFinalPropsSelector(nextState, nextOwnProps) {
+    return hasRunAtLeastOnce ? handleSubsequentCalls(nextState, nextOwnProps) : handleFirstCall(nextState, nextOwnProps);
+  };
+}
+
+// TODO: Add more comments
+
+// If pure is true, the selector returned by selectorFactory will memoize its results,
+// allowing connectAdvanced's shouldComponentUpdate to return false if final
+// props have not changed. If false, the selector will always return a new
+// object and shouldComponentUpdate will always return true.
+
+function finalPropsSelectorFactory(dispatch, _ref2) {
+  var initMapStateToProps = _ref2.initMapStateToProps,
+      initMapDispatchToProps = _ref2.initMapDispatchToProps,
+      initMergeProps = _ref2.initMergeProps,
+      options = _objectWithoutProperties(_ref2, ['initMapStateToProps', 'initMapDispatchToProps', 'initMergeProps']);
+
+  var mapStateToProps = initMapStateToProps(dispatch, options);
+  var mapDispatchToProps = initMapDispatchToProps(dispatch, options);
+  var mergeProps = initMergeProps(dispatch, options);
+
+  if (process.env.NODE_ENV !== 'production') {
+    __WEBPACK_IMPORTED_MODULE_0__verifySubselectors__["a" /* default */](mapStateToProps, mapDispatchToProps, mergeProps, options.displayName);
+  }
+
+  var selectorFactory = options.pure ? pureFinalPropsSelectorFactory : impureFinalPropsSelectorFactory;
+
+  return selectorFactory(mapStateToProps, mapDispatchToProps, mergeProps, dispatch, options);
+}
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
+
+/***/ }),
+/* 237 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = verifySubselectors;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_warning__ = __webpack_require__(58);
+
+
+function verify(selector, methodName, displayName) {
+  if (!selector) {
+    throw new Error('Unexpected value for ' + methodName + ' in ' + displayName + '.');
+  } else if (methodName === 'mapStateToProps' || methodName === 'mapDispatchToProps') {
+    if (!selector.hasOwnProperty('dependsOnOwnProps')) {
+      __WEBPACK_IMPORTED_MODULE_0__utils_warning__["a" /* default */]('The selector for ' + methodName + ' of ' + displayName + ' did not specify a value for dependsOnOwnProps.');
+    }
+  }
+}
+
+function verifySubselectors(mapStateToProps, mapDispatchToProps, mergeProps, displayName) {
+  verify(mapStateToProps, 'mapStateToProps', displayName);
+  verify(mapDispatchToProps, 'mapDispatchToProps', displayName);
+  verify(mergeProps, 'mergeProps', displayName);
+}
+
+/***/ }),
+/* 238 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(4);
+var page_1 = __webpack_require__(239);
+var box_1 = __webpack_require__(243);
+var student_data_container_1 = __webpack_require__(246);
+var hs_program_success_chance_key_1 = __webpack_require__(270);
+var hs_program_list_1 = __webpack_require__(273);
+var PathToHS = function (props) {
+    return (React.createElement(page_1.default, null,
+        React.createElement(box_1.default, { width: "half", height: "full", flex: {
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center"
+            }, responsiveBehavior: { mobile: "fullscreen" } },
+            React.createElement(student_data_container_1.default, null)),
+        React.createElement(box_1.default, { width: "half", height: "full", responsiveBehavior: { mobile: "fullscreen" } },
+            React.createElement(hs_program_success_chance_key_1.default, null),
+            React.createElement(hs_program_list_1.default, null))));
+};
+exports.default = PathToHS;
+
+
+/***/ }),
+/* 239 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(4);
+__webpack_require__(240);
+var Page = function (props) {
+    return (React.createElement("div", { className: "page" }, props.children));
+};
+exports.default = Page;
+
+
+/***/ }),
+/* 240 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(269);
+var content = __webpack_require__(241);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -47614,7 +46520,1184 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(14)(content, options);
+var update = __webpack_require__(16)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./page.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./page.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 241 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(15)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".page {\n  height: 100vh;\n  width: 100vw;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 242 */
+/***/ (function(module, exports) {
+
+
+/**
+ * When source maps are enabled, `style-loader` uses a link element with a data-uri to
+ * embed the css on the page. This breaks all relative urls because now they are relative to a
+ * bundle instead of the current page.
+ *
+ * One solution is to only use full urls, but that may be impossible.
+ *
+ * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
+ *
+ * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
+ *
+ */
+
+module.exports = function (css) {
+  // get current location
+  var location = typeof window !== "undefined" && window.location;
+
+  if (!location) {
+    throw new Error("fixUrls requires window.location");
+  }
+
+	// blank or null?
+	if (!css || typeof css !== "string") {
+	  return css;
+  }
+
+  var baseUrl = location.protocol + "//" + location.host;
+  var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
+
+	// convert each url(...)
+	/*
+	This regular expression is just a way to recursively match brackets within
+	a string.
+
+	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
+	   (  = Start a capturing group
+	     (?:  = Start a non-capturing group
+	         [^)(]  = Match anything that isn't a parentheses
+	         |  = OR
+	         \(  = Match a start parentheses
+	             (?:  = Start another non-capturing groups
+	                 [^)(]+  = Match anything that isn't a parentheses
+	                 |  = OR
+	                 \(  = Match a start parentheses
+	                     [^)(]*  = Match anything that isn't a parentheses
+	                 \)  = Match a end parentheses
+	             )  = End Group
+              *\) = Match anything and then a close parens
+          )  = Close non-capturing group
+          *  = Match anything
+       )  = Close capturing group
+	 \)  = Match a close parens
+
+	 /gi  = Get all matches, not the first.  Be case insensitive.
+	 */
+	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function(fullMatch, origUrl) {
+		// strip quotes (if they exist)
+		var unquotedOrigUrl = origUrl
+			.trim()
+			.replace(/^"(.*)"$/, function(o, $1){ return $1; })
+			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
+
+		// already a full url? no change
+		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/)/i.test(unquotedOrigUrl)) {
+		  return fullMatch;
+		}
+
+		// convert the url to a full url
+		var newUrl;
+
+		if (unquotedOrigUrl.indexOf("//") === 0) {
+		  	//TODO: should we add protocol?
+			newUrl = unquotedOrigUrl;
+		} else if (unquotedOrigUrl.indexOf("/") === 0) {
+			// path should be relative to the base url
+			newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
+		} else {
+			// path should be relative to current directory
+			newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
+		}
+
+		// send back the fixed url(...)
+		return "url(" + JSON.stringify(newUrl) + ")";
+	});
+
+	// send back the fixed css
+	return fixedCss;
+};
+
+
+/***/ }),
+/* 243 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(4);
+__webpack_require__(244);
+var Box = function (props) {
+    var widthClass = "width-" + props.width;
+    var heightClass = "height-" + props.height;
+    var zLevelClass = "";
+    if (props.zLevel) {
+        zLevelClass = "zlevel-" + props.zLevel;
+    }
+    var responsiveMobileClass = "";
+    if (props.responsiveBehavior && props.responsiveBehavior.mobile) {
+        responsiveMobileClass = "mobile-" + props.responsiveBehavior.mobile;
+    }
+    var className = "box " + widthClass + " " + heightClass + " " + zLevelClass + " " + responsiveMobileClass;
+    return (React.createElement("div", { className: className, style: props.flex }, props.children));
+};
+exports.default = Box;
+
+
+/***/ }),
+/* 244 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(245);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(16)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./box.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./box.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 245 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(15)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".box {\n  border: 2px solid #9e9e9e;\n  padding: 0.25em 0.5em;\n  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n  position: relative;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n  -webkit-box-align: stretch;\n      -ms-flex-align: stretch;\n          align-items: stretch; }\n\n.box.width-quarter {\n  width: 25%;\n  -ms-flex-preferred-size: 25%;\n      flex-basis: 25%; }\n\n.box.width-half {\n  width: 50%;\n  -ms-flex-preferred-size: 50%;\n      flex-basis: 50%; }\n\n.box.width-full {\n  width: 100%;\n  -ms-flex-preferred-size: 100%;\n      flex-basis: 100%; }\n\n.box.height-quarter {\n  height: 25%; }\n\n.box.height-half {\n  height: 50%; }\n\n.box.height-full {\n  height: 100%; }\n\n.box.zlevel-1 {\n  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); }\n\n.box.zlevel-2 {\n  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); }\n\n.box.zlevel-3 {\n  -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); }\n\n.box.zlevel-4 {\n  -webkit-box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);\n          box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); }\n\n.box.zlevel-5 {\n  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);\n          box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22); }\n\n@media (max-width: 450px) {\n  .box {\n    margin: 0;\n    padding: 10px 5px; }\n  .box.mobile-disappear {\n    display: none; }\n  .box.mobile-fullscreen {\n    width: 100%;\n    -ms-flex-preferred-size: 100%;\n        flex-basis: 100%; } }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 246 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var react_redux_1 = __webpack_require__(99);
+var student_data_form_1 = __webpack_require__(247);
+var actions_1 = __webpack_require__(269);
+var mapStateToProps = function (state) {
+    return { studentData: state.studentData };
+};
+var mapDispatchToProps = function (dispatch) {
+    return {
+        onGenderChange: function (gender) { return dispatch(actions_1.updateStudentGender(gender)); },
+        onLocationChange: function (location) { return dispatch(actions_1.updateStudentGender(location)); },
+        onGradeLevelChange: function (gradeLevel) { return dispatch(actions_1.updateStudentGradeLevel(gradeLevel)); },
+        onPrevGradeLevelChange: function (gradeLevel) { return dispatch(actions_1.updateStudentPrevGradeLevel(gradeLevel)); },
+        onCurrESProgramChange: function (programID) { return dispatch(actions_1.updateStudentCurrESProgram(programID)); },
+        onSiblingHSProgramsChange: function (programIDs) { return dispatch(actions_1.updateStudentSiblingHSPrograms(programIDs)); },
+        onELLChange: function (ellStatus) { return dispatch(actions_1.updateStudentELLStatus(ellStatus)); },
+        onIEPChange: function (iepStatus) { return dispatch(actions_1.updateStudentIEPStatus(iepStatus)); },
+        onAttendPercentageChange: function (attendPct) { return dispatch(actions_1.updateStudentAttendPercentage(attendPct)); },
+        onNWEAPercentileMathChange: function (pctile) { return dispatch(actions_1.updateStudentNWEAPercentileMath(pctile)); },
+        onNWEAPercentileReadChange: function (pctile) { return dispatch(actions_1.updateStudentNWEAPercentileRead(pctile)); },
+        onSubjGradeMathChange: function (grade) { return dispatch(actions_1.updateStudentSubjGradeMath(grade)); },
+        onSubjGradeReadChange: function (grade) { return dispatch(actions_1.updateStudentSubjGradeRead(grade)); },
+        onSubjGradeSciChange: function (grade) { return dispatch(actions_1.updateStudentSubjGradeSci(grade)); },
+        onSubjGradeSocStudiesChange: function (grade) { return dispatch(actions_1.updateStudentSubjGradeSocStudies(grade)); }
+    };
+};
+var StudentDataContainer = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(student_data_form_1.default);
+exports.default = StudentDataContainer;
+
+
+/***/ }),
+/* 247 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(4);
+var gender_1 = __webpack_require__(97);
+var dropdown_field_1 = __webpack_require__(248);
+var combo_box_field_1 = __webpack_require__(105);
+var multi_select_field_1 = __webpack_require__(254);
+var number_field_1 = __webpack_require__(255);
+var address_tier_calculator_1 = __webpack_require__(256);
+var data_access_1 = __webpack_require__(98);
+var alphaSort = function (a, b) {
+    if (a.Short_Name < b.Short_Name) {
+        return -1;
+    }
+    else if (a.Short_Name === b.Short_Name) {
+        return 0;
+    }
+    else if (a.Short_Name > b.Short_Name) {
+        return 1;
+    }
+};
+var esPrograms = data_access_1.getESPrograms().sort(alphaSort);
+var hsPrograms = data_access_1.getHSPrograms().sort(alphaSort);
+__webpack_require__(267);
+var StudentDataForm = function (props) {
+    var INPUT_DEBOUNCE_TIME = 250;
+    var between = function (min, max) {
+        return function (curr, next) {
+            if (Number.isNaN(next)) {
+                return curr;
+            }
+            else if (next < min) {
+                return min;
+            }
+            else if (next > max) {
+                return max;
+            }
+            else {
+                return next;
+            }
+        };
+    };
+    return (React.createElement("div", { className: "student-data-form" },
+        React.createElement("div", { className: "student-data-form-subheader" }, "Your student information"),
+        React.createElement("div", { className: "student-data-form-subform" },
+            React.createElement(dropdown_field_1.default, { label: "What grade are you in?", value: props.studentData.gradeLevel.toString(), onChange: function (gradeStr) { return props.onGradeLevelChange(parseInt(gradeStr)); }, debounceTime: INPUT_DEBOUNCE_TIME },
+                React.createElement("option", { value: "4" }, "4th grade"),
+                React.createElement("option", { value: "5" }, "5th grade"),
+                React.createElement("option", { value: "6" }, "6th grade"),
+                React.createElement("option", { value: "7" }, "7th grade"),
+                React.createElement("option", { value: "8" }, "8th grade")),
+            React.createElement(dropdown_field_1.default, { label: "What's your gender?", value: props.studentData.gender.toString(), onChange: function (gender) {
+                    switch (gender) {
+                        case "male":
+                            props.onGenderChange(gender_1.default.MALE);
+                            break;
+                        case "female":
+                            props.onGenderChange(gender_1.default.MALE);
+                            break;
+                        case "other":
+                            props.onGenderChange(gender_1.default.MALE);
+                            break;
+                        case "noanswer":
+                            props.onGenderChange(gender_1.default.MALE);
+                            break;
+                        default:
+                            console.warn("unrecognized gender: " + gender);
+                            break;
+                    }
+                }, debounceTime: INPUT_DEBOUNCE_TIME },
+                React.createElement("option", { value: "male" }, "Boy"),
+                React.createElement("option", { value: "female" }, "Girl"),
+                React.createElement("option", { value: "other" }, "Other"),
+                React.createElement("option", { value: "noanswer" }, "Prefer not to answer")),
+            React.createElement(dropdown_field_1.default, { label: "Do you have an IEP?", value: props.studentData.iep ? "true" : "false", onChange: function (iep) { return props.onIEPChange(iep === "true" ? true : false); }, debounceTime: INPUT_DEBOUNCE_TIME },
+                React.createElement("option", { value: "true" }, "Yes"),
+                React.createElement("option", { value: "false" }, "No")),
+            React.createElement(dropdown_field_1.default, { label: "Are you an English Language Learner?", value: props.studentData.ell ? "true" : "false", onChange: function (ell) { return props.onELLChange(ell === "true" ? true : false); }, debounceTime: INPUT_DEBOUNCE_TIME },
+                React.createElement("option", { value: "true" }, "Yes"),
+                React.createElement("option", { value: "false" }, "No")),
+            React.createElement(combo_box_field_1.default, { label: "What elementary school program are you in now?", value: props.studentData.currESProgramID, data: { records: esPrograms, getKey: function (program) { return program.ID; }, getDisplayText: function (program) { return program.Short_Name + " - " + program.Program_Type; } }, onChange: function (program) { return props.onCurrESProgramChange(program.ID); }, debounceTime: INPUT_DEBOUNCE_TIME }),
+            React.createElement(multi_select_field_1.default, { label: "Do you have a sibling in high school? If so, which school?", values: props.studentData.siblingHSProgramIDs, data: { records: hsPrograms, getKey: function (program) { return program.ID; }, getDisplayText: function (program) { return program.Short_Name + " - " + program.Program_Type; } }, onChange: function (programs) { return props.onSiblingHSProgramsChange(programs.map(function (program) { return program.ID; })); }, debounceTime: INPUT_DEBOUNCE_TIME }),
+            React.createElement(address_tier_calculator_1.default, { location: props.studentData.location, onLocationChange: props.onLocationChange }),
+            React.createElement(number_field_1.default, { label: "Your 7th grade attendance percentage", value: props.studentData.attendancePercentage, onChange: props.onAttendPercentageChange, limiter: between(0, 100), debounceTime: INPUT_DEBOUNCE_TIME })),
+        React.createElement("div", { className: "student-data-form-subheader" }, "Your grades"),
+        React.createElement("div", { className: "student-data-form-subform" },
+            React.createElement(number_field_1.default, { label: "NWEA Math percentile", value: props.studentData.nweaPercentileMath, onChange: props.onNWEAPercentileMathChange, limiter: between(1, 99), debounceTime: INPUT_DEBOUNCE_TIME }),
+            React.createElement(number_field_1.default, { label: "NWEA Reading percentile", value: props.studentData.nweaPercentileRead, onChange: props.onNWEAPercentileReadChange, limiter: between(1, 99), debounceTime: INPUT_DEBOUNCE_TIME }),
+            React.createElement(number_field_1.default, { label: "Your Math grade", value: props.studentData.subjGradeMath, onChange: props.onSubjGradeMathChange, limiter: between(0, 100), debounceTime: INPUT_DEBOUNCE_TIME }),
+            React.createElement(number_field_1.default, { label: "Your Reading grade", value: props.studentData.subjGradeRead, onChange: props.onSubjGradeReadChange, limiter: between(0, 100), debounceTime: INPUT_DEBOUNCE_TIME }),
+            React.createElement(number_field_1.default, { label: "Your Science grade", value: props.studentData.subjGradeSci, onChange: props.onSubjGradeSciChange, limiter: between(0, 100), debounceTime: INPUT_DEBOUNCE_TIME }),
+            React.createElement(number_field_1.default, { label: "Your Social Studies grade", value: props.studentData.subjGradeSocStudies, onChange: props.onSubjGradeSocStudiesChange, limiter: between(0, 100), debounceTime: INPUT_DEBOUNCE_TIME }),
+            React.createElement(number_field_1.default, { label: "Your Selective Enrollment test percentile", value: props.studentData.seTestPercentile, onChange: props.onSETestPercentileChange, limiter: between(1, 99), debounceTime: INPUT_DEBOUNCE_TIME }))));
+};
+exports.default = StudentDataForm;
+
+
+/***/ }),
+/* 248 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(4);
+var field_validation_state_1 = __webpack_require__(23);
+var field_container_1 = __webpack_require__(28);
+var debounce_1 = __webpack_require__(37);
+var DropdownField = (function (_super) {
+    __extends(DropdownField, _super);
+    function DropdownField(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = {
+            localValue: props.value ? props.value : ""
+        };
+        _this.onChange = props.debounceTime ? debounce_1.default(props.onChange, props.debounceTime) : props.onChange;
+        return _this;
+    }
+    DropdownField.prototype.componentWillReceiveProps = function (nextProps) {
+        this.setState({ localValue: nextProps.value });
+    };
+    DropdownField.prototype.render = function () {
+        var _this = this;
+        var validation = this.props.validator ? this.props.validator(this.state.localValue)
+            : field_validation_state_1.default.NEUTRAL;
+        var handleChange = function (ev) {
+            var newValue = ev.currentTarget.value;
+            var shouldUpdate = _this.props.restrictor ? _this.props.restrictor(newValue)
+                : true;
+            if (shouldUpdate) {
+                _this.onChange(newValue);
+            }
+        };
+        return (React.createElement(field_container_1.default, { className: this.props.className, label: this.props.label, validation: validation },
+            React.createElement("select", { className: "field-input-element", onChange: handleChange }, this.props.children)));
+    };
+    return DropdownField;
+}(React.PureComponent));
+exports.default = DropdownField;
+
+
+/***/ }),
+/* 249 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(250);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(16)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../../node_modules/sass-loader/lib/loader.js!./main.scss", function() {
+			var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../../node_modules/sass-loader/lib/loader.js!./main.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 250 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(15)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "/* ----------------------------------------------------------------------------------------------------\n\nSuper Form Reset\n\nA couple of things to watch out for:\n\n- IE8: If a text input doesn't have padding on all sides or none the text won't be centered.\n- The default border sizes on text inputs in all UAs seem to be slightly different. You're better off using custom borders.\n- You NEED to set the font-size and family on all form elements\n- Search inputs need to have their appearance reset and the box-sizing set to content-box to match other UAs\n- You can style the upload button in webkit using ::-webkit-file-upload-button\n- ::-webkit-file-upload-button selectors can't be used in the same selector as normal ones. FF and IE freak out.\n- IE: You don't need to fake inline-block with labels and form controls in IE. They function as inline-block.\n- By turning off ::-webkit-search-decoration, it removes the extra whitespace on the left on search inputs\n\n----------------------------------------------------------------------------------------------------*/\ninput, label, select, button, textarea {\n  margin: 0;\n  border: 0;\n  padding: 0;\n  display: inline-block;\n  vertical-align: middle;\n  white-space: normal;\n  background: none;\n  line-height: 1;\n  /* Browsers have different default form fonts */\n  font-size: 13px;\n  font-family: Arial; }\n/* Remove the stupid outer glow in Webkit */\ninput:focus {\n  outline: 0; }\n/* Box Sizing Reset\n-----------------------------------------------*/\n/* All of our custom controls should be what we expect them to be */\ninput, textarea {\n  -webkit-box-sizing: content-box;\n  box-sizing: content-box; }\n/* These elements are usually rendered a certain way by the browser */\nbutton, input[type=reset], input[type=button], input[type=submit], input[type=checkbox], input[type=radio], select {\n  -webkit-box-sizing: border-box;\n  box-sizing: border-box; }\n/* Text Inputs\n-----------------------------------------------*/\n/* Button Controls\n-----------------------------------------------*/\ninput[type=checkbox], input[type=radio] {\n  width: 13px;\n  height: 13px; }\n/* File Uploads\n-----------------------------------------------*/\n/* Search Input\n-----------------------------------------------*/\n/* Make webkit render the search input like a normal text field */\ninput[type=search] {\n  -webkit-appearance: textfield;\n  -webkit-box-sizing: content-box; }\n/* Turn off the recent search for webkit. It adds about 15px padding on the left */\n::-webkit-search-decoration {\n  display: none; }\n/* Buttons\n-----------------------------------------------*/\nbutton, input[type=\"reset\"], input[type=\"button\"], input[type=\"submit\"] {\n  /* Fix IE7 display bug */\n  overflow: visible;\n  width: auto; }\n/* IE8 and FF freak out if this rule is within another selector */\n::-webkit-file-upload-button {\n  padding: 0;\n  border: 0;\n  background: none; }\n/* Textarea\n-----------------------------------------------*/\ntextarea {\n  /* Move the label to the top */\n  vertical-align: top;\n  /* Turn off scroll bars in IE unless needed */\n  overflow: auto; }\n/* Selects\n-----------------------------------------------*/\nselect[multiple] {\n  /* Move the label to the top */\n  vertical-align: top; }\n.field-container {\n  max-width: 100%;\n  padding: 0.5em;\n  margin: 0.25em; }\n.field-container.field-validation-success > .field-label {\n  color: green; }\n.field-container.field-validation-success > .field-input-element {\n  border: 2px solid green;\n  -webkit-box-shadow: 0px 0px 3px green;\n          box-shadow: 0px 0px 3px green; }\n.field-container.field-validation-warning > .field-label {\n  color: yellow; }\n.field-container.field-validation-warning > .field-input-element {\n  border: 2px solid yellow;\n  -webkit-box-shadow: 0px 0px 3px yellow;\n          box-shadow: 0px 0px 3px yellow; }\n.field-container.field-validation-failure > .field-label {\n  color: red; }\n.field-container.field-validation-failure > .field-input-element {\n  border: 2px solid red;\n  -webkit-box-shadow: 0px 0px 3px red;\n          box-shadow: 0px 0px 3px red; }\n.field-label {\n  font-size: 90%;\n  color: #444; }\n.field-input-element {\n  font-size: 100%;\n  padding: 5px;\n  border: 1px solid #ddd;\n  border-radius: 2px; }\n.list-box {\n  visibility: hidden;\n  height: 100px;\n  width: 100%;\n  overflow-y: auto;\n  position: absolute;\n  top: 20px;\n  left: 0;\n  z-index: 9;\n  list-style: none;\n  margin: 0;\n  padding: 0; }\n.list-box.visible {\n  visibility: visible; }\n.list-box-element {\n  cursor: default;\n  text-decoration: none;\n  margin-left: 0;\n  padding-left: 0;\n  padding: 0.25em;\n  width: 100%;\n  border-bottom: 1px dotted gray;\n  background-color: white;\n  -webkit-transition: background-color 100ms ease;\n  transition: background-color 100ms ease; }\n.list-box-element:hover {\n  background-color: gray; }\n.list-box-element.selected {\n  background-color: blue;\n  color: white; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 251 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(4);
+var FieldLabel = function (props) { return React.createElement("div", { className: "field-label" }, props.children); };
+exports.default = FieldLabel;
+
+
+/***/ }),
+/* 252 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(4);
+var list_box_element_1 = __webpack_require__(253);
+var ListBox = function (props) {
+    var className = "list-box " + (props.visible ? "visible" : "");
+    return (React.createElement("ul", { className: className }, props.data.records.map(function (opt) { return React.createElement(list_box_element_1.default, { key: props.data.getKey(opt), value: props.data.getKey(opt), selected: props.selected === props.data.getKey(opt), onSelect: function (ev) {
+            props.selected === props.data.getKey(opt) ? props.onChange(null)
+                : props.onChange(opt);
+        } }, props.data.getDisplayText(opt)); })));
+};
+exports.default = ListBox;
+
+
+/***/ }),
+/* 253 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(4);
+var ListBoxElement = function (props) {
+    return (React.createElement("li", { className: "list-box-element", onMouseDown: function (ev) {
+            ev.stopPropagation();
+            props.onSelect(ev);
+        } }, props.children));
+};
+exports.default = ListBoxElement;
+
+
+/***/ }),
+/* 254 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(4);
+var field_validation_state_1 = __webpack_require__(23);
+var field_container_1 = __webpack_require__(28);
+var combo_box_field_1 = __webpack_require__(105);
+var MultiSelectField = function (props) {
+    var createOnChangeHandler = function (index) {
+        return function (newValue) {
+            var leftHalf = props.values.slice(0, index);
+            var rightHalf = props.values.slice(index);
+            var newValues = leftHalf.concat(newValue, rightHalf);
+            props.onChange(newValues);
+        };
+    };
+    var removeFromListData = function (data, elementsToRemove) {
+        var keysToRemove = elementsToRemove.map(data.getKey);
+        var isNotElementToRemove = function (elem) { return keysToRemove.indexOf(data.getKey(elem)) === -1; };
+        var newRecords = data.records.filter(isNotElementToRemove);
+        return {
+            records: newRecords,
+            getDisplayText: data.getDisplayText,
+            getKey: data.getKey,
+        };
+    };
+    var data = removeFromListData(props.data, props.values);
+    var removeElemAtIndex = function (arr, i) {
+        if (arr.length === 0) {
+            return [];
+        }
+        else if (arr.length === 1) {
+            return [];
+        }
+        else {
+            return arr.slice(0, i).concat(arr.slice(i));
+        }
+    };
+    return (React.createElement(field_container_1.default, { label: props.label, validation: field_validation_state_1.default.NEUTRAL },
+        props.values && props.values.map(function (value, i) {
+            return (React.createElement("div", { key: props.data.getKey(value), style: { width: "100%", display: "flex", flexDirection: "row", alignItems: "center" } },
+                React.createElement(combo_box_field_1.default, { value: value, onChange: createOnChangeHandler(i), data: data, debounceTime: props.debounceTime }),
+                React.createElement("button", { style: { width: "32px", height: "32px", backgroundColor: "#dfdfdf", border: "1px solid #acacac", borderRadius: "100%", margin: "0 1em", boxShadow: "0px 2px 2px #999" }, onClick: function () { return props.onChange(removeElemAtIndex(props.values, i)); } }, "X")));
+        }),
+        React.createElement(combo_box_field_1.default, { value: null, onChange: function (newValue) {
+                var newValues = props.values ? props.values.concat(newValue)
+                    : [newValue];
+                console.log(newValues);
+                props.onChange(newValues);
+            }, data: data, debounceTime: props.debounceTime })));
+};
+exports.default = MultiSelectField;
+
+
+/***/ }),
+/* 255 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(4);
+var field_validation_state_1 = __webpack_require__(23);
+var field_container_1 = __webpack_require__(28);
+var debounce_1 = __webpack_require__(37);
+var NumberField = (function (_super) {
+    __extends(NumberField, _super);
+    function NumberField(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = {
+            localValue: props.value ? props.value : ""
+        };
+        _this.onChange = props.debounceTime ? debounce_1.default(props.onChange, props.debounceTime) : props.onChange;
+        return _this;
+    }
+    NumberField.prototype.componentWillReceiveProps = function (nextProps) {
+        if (this.state.localValue !== "") {
+            this.setState({ localValue: nextProps.value ? nextProps.value : "" });
+        }
+    };
+    NumberField.prototype.render = function () {
+        var _this = this;
+        var handleChange = function (ev) {
+            if (ev.currentTarget.value === "") {
+                _this.setState({ localValue: "" });
+                return false;
+            }
+            else {
+                var currValue = _this.props.value;
+                var nextValue = ev.currentTarget.valueAsNumber;
+                console.log("Numberfield curr: " + currValue);
+                console.log("Numberfield next: " + nextValue);
+                _this.setState({ localValue: nextValue });
+                if (_this.props.limiter) {
+                    _this.onChange(_this.props.limiter(currValue, nextValue));
+                }
+                else {
+                    _this.onChange(nextValue);
+                }
+                return true;
+            }
+        };
+        var validation = this.props.validator && this.state.localValue !== "" ? this.props.validator(this.state.localValue)
+            : field_validation_state_1.default.NEUTRAL;
+        console.log("localvalue: " + this.state.localValue);
+        return (React.createElement(field_container_1.default, { className: this.props.className, label: this.props.label, validation: validation },
+            React.createElement("input", { value: this.state.localValue, type: "number", className: "field-input-element", onChange: handleChange })));
+    };
+    return NumberField;
+}(React.PureComponent));
+;
+exports.default = NumberField;
+
+
+/***/ }),
+/* 256 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(4);
+var timeout_1 = __webpack_require__(257);
+var text_field_1 = __webpack_require__(258);
+var field_validation_state_1 = __webpack_require__(23);
+var get_tier_1 = __webpack_require__(259);
+__webpack_require__(265);
+var AddressTierCalculator = (function (_super) {
+    __extends(AddressTierCalculator, _super);
+    function AddressTierCalculator(props) {
+        var _this = _super.call(this, props) || this;
+        _this.setRequestInProgress = function (isInProgress) {
+            if (isInProgress !== _this.state.requestInProgress) {
+                _this.setState({
+                    requestInProgress: isInProgress
+                });
+            }
+        };
+        _this.handleAddressChange = function (address) {
+            var TIMEOUT_DELAY = 1000;
+            _this.setState({
+                address: address,
+                addressValidationState: field_validation_state_1.default.NEUTRAL,
+                tier: null
+            });
+            var validate = function (address) {
+                return address && address.length > 5;
+            };
+            var newTimeout = new timeout_1.default(function () {
+                _this.setRequestInProgress(true);
+                if (validate(address)) {
+                    get_tier_1.getTier(address).then(function (_a) {
+                        var tier = _a.tier, geo = _a.geo;
+                        _this.setState({
+                            tier: tier,
+                            geo: geo,
+                            addressValidationState: field_validation_state_1.default.SUCCESS
+                        });
+                        _this.setRequestInProgress(false);
+                        _this.props.onLocationChange({
+                            address: address.trim(),
+                            tier: tier,
+                            geo: geo
+                        });
+                    }).catch(function (err) {
+                        if (err === get_tier_1.GetTierError.InvalidAddressErr) {
+                            _this.setState({
+                                addressValidationState: field_validation_state_1.default.FAILURE
+                            });
+                            _this.setRequestInProgress(false);
+                        }
+                        else if (err === get_tier_1.GetTierError.NoTierFoundErr) {
+                            _this.setState({
+                                addressValidationState: field_validation_state_1.default.WARNING
+                            });
+                            _this.setRequestInProgress(false);
+                        }
+                        else if (err === get_tier_1.GetTierError.RequestFailedErr) {
+                            _this.setState({
+                                addressValidationState: field_validation_state_1.default.WARNING
+                            });
+                            _this.setRequestInProgress(false);
+                        }
+                    });
+                }
+            }, TIMEOUT_DELAY);
+            if (_this.state.timeoutInstance !== null) {
+                _this.state.timeoutInstance.cancel();
+            }
+            newTimeout.start();
+            _this.setState({
+                timeoutInstance: newTimeout
+            });
+        };
+        _this.state = {
+            address: props.address ? props.address : "",
+            tier: props.tier ? props.tier : "",
+            geo: props.geolocation ? props.geolocation : { latitude: 0, longitude: 0 },
+            timeoutInstance: null,
+            requestInProgress: false,
+            addressValidationState: field_validation_state_1.default.NEUTRAL
+        };
+        return _this;
+    }
+    AddressTierCalculator.prototype.now = function () {
+        return new Date().valueOf();
+    };
+    AddressTierCalculator.prototype.displayStatusMessage = function (state) {
+        if (state === "warning") {
+            return "Your address is right, but it doesn't seem to be in the Chicago Public Schools boundary. Are you sure you used the right address?";
+        }
+        else if (state === "error") {
+            return "We can't find your address -- are you sure you entered it correctly?";
+        }
+        else {
+            return "No errors";
+        }
+    };
+    AddressTierCalculator.prototype.render = function () {
+        return React.createElement("div", { className: "address-tier-calculator" },
+            React.createElement(text_field_1.default, { label: "Your street address", value: this.state.address ? this.state.address : " ", onChange: this.handleAddressChange }),
+            React.createElement("div", { className: "tier-display" }, this.state.requestInProgress
+                ? React.createElement("div", { className: "spinning-load-icon" }, "Loading...")
+                : (this.state.tier ? this.state.tier : "")),
+            this.state.addressValidationState !== field_validation_state_1.default.SUCCESS &&
+                this.state.addressValidationState !== field_validation_state_1.default.NEUTRAL &&
+                React.createElement("div", { className: "address-status-message" }, this.displayStatusMessage(this.state.addressValidationState)));
+    };
+    return AddressTierCalculator;
+}(React.Component));
+exports.default = AddressTierCalculator;
+
+
+/***/ }),
+/* 257 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Timeout = (function () {
+    function Timeout(callback, delay) {
+        var _this = this;
+        this.timerInstance = null;
+        this.callbackExecuted = false;
+        this.callback = function () {
+            _this.callbackExecuted = true;
+            callback();
+        };
+        this.delay = delay;
+    }
+    Timeout.prototype.start = function () {
+        this.timerInstance = setTimeout(this.callback, this.delay);
+    };
+    Timeout.prototype.cancel = function () {
+        if (this.hasStarted()) {
+            clearTimeout(this.timerInstance);
+        }
+    };
+    Timeout.prototype.hasStarted = function () {
+        return this.timerInstance !== null;
+    };
+    Timeout.prototype.hasFinished = function () {
+        return this.callbackExecuted;
+    };
+    return Timeout;
+}());
+exports.default = Timeout;
+
+
+/***/ }),
+/* 258 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(4);
+var field_validation_state_1 = __webpack_require__(23);
+var field_container_1 = __webpack_require__(28);
+var debounce_1 = __webpack_require__(37);
+var TextField = (function (_super) {
+    __extends(TextField, _super);
+    function TextField(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = {
+            localValue: props.value ? props.value : ""
+        };
+        _this.onChange = props.debounceTime ? debounce_1.default(props.onChange, props.debounceTime) : props.onChange;
+        return _this;
+    }
+    TextField.prototype.componentWillReceiveProps = function (nextProps) {
+        if (this.state.localValue !== "") {
+            this.setState({ localValue: nextProps.value ? nextProps.value : "" });
+        }
+    };
+    TextField.prototype.render = function () {
+        var _this = this;
+        var validation = this.props.validator ? this.props.validator(this.state.localValue)
+            : field_validation_state_1.default.NEUTRAL;
+        var handleChange = function (ev) {
+            if (ev.currentTarget.value === "") {
+                _this.setState({ localValue: "" });
+                return false;
+            }
+            else {
+                var currValue = _this.props.value;
+                var nextValue = ev.currentTarget.value;
+                _this.setState({ localValue: nextValue });
+                if (_this.props.limiter) {
+                    _this.onChange(_this.props.limiter(currValue, nextValue));
+                }
+                else {
+                    _this.onChange(nextValue);
+                }
+                return true;
+            }
+        };
+        return (React.createElement(field_container_1.default, { className: this.props.className, label: this.props.label, validation: validation },
+            React.createElement("input", { value: this.state.localValue, type: "text", className: "field-input-element", onChange: handleChange })));
+    };
+    return TextField;
+}(React.PureComponent));
+exports.default = TextField;
+
+
+/***/ }),
+/* 259 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var tract_tier_table_1 = __webpack_require__(260);
+var JSONP = __webpack_require__(261);
+exports.GetTierError = {
+    InvalidAddressErr: new Error("Invalid address"),
+    NoTierFoundErr: new Error("No CPS tier found for this address"),
+    RequestFailedErr: new Error("Request Failed"),
+};
+;
+exports.getTier = function (address) {
+    return new Promise(function (resolve, reject) {
+        getTractAndGeo(address).then(function (_a) {
+            var tract = _a.tract, geo = _a.geo;
+            lookupTierFromTract(tract).then(function (tier) {
+                resolve({ tier: tier, geo: geo });
+            }).catch(function (err) { return reject(exports.GetTierError.NoTierFoundErr); });
+        }).catch(function (err) {
+            if (err === exports.GetTierError.RequestFailedErr) {
+                reject(exports.GetTierError.RequestFailedErr);
+            }
+            else {
+                reject(exports.GetTierError.InvalidAddressErr);
+            }
+        });
+    });
+};
+;
+var getTractAndGeo = function (address) {
+    var API_BASE_URL = "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress";
+    var apiParams = {
+        address: address,
+        format: "jsonp",
+        benchmark: "Public_AR_Current",
+        vintage: "Current_Current",
+        layers: "Census Tracts",
+    };
+    var sendRequest = function (baseUrl, params) {
+        return new Promise(function (resolve, reject) {
+            JSONP({
+                url: baseUrl,
+                data: params,
+                success: function (data) { return resolve(data); },
+                error: function (err) {
+                    reject(exports.GetTierError.RequestFailedErr);
+                }
+            });
+        });
+    };
+    var extractTract = function (response) {
+        return response.result.addressMatches[0].geographies["Census Tracts"][0].BASENAME;
+    };
+    var extractGeo = function (response) {
+        var coords = response.result.addressMatches[0].coordinates;
+        return { latitude: coords.y, longitude: coords.x };
+    };
+    return new Promise(function (resolve, reject) {
+        sendRequest(API_BASE_URL, apiParams).then(function (res) {
+            var tract = extractTract(res);
+            var geo = extractGeo(res);
+            resolve({ tract: tract, geo: geo });
+        }).catch(function (e) { return reject(e); });
+    });
+};
+var lookupTierFromTract = function (tract) {
+    return new Promise(function (resolve, reject) {
+        var tier = tract_tier_table_1.default[tract];
+        if (tier === undefined) {
+            reject(exports.GetTierError.NoTierFoundErr);
+        }
+        else {
+            resolve(tier);
+        }
+    });
+};
+
+
+/***/ }),
+/* 260 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var TractTierTable = { "101": "2", "102.01": "3", "102.02": "2", "103": "2", "104": "3", "105.01": "3", "105.02": "2", "105.03": "2", "106": "3", "107.01": "3", "107.02": "2", "201": "3", "202": "4", "203.01": "4", "203.02": "4", "204": "4", "205": "3", "206.01": "3", "206.02": "3", "207.01": "4", "207.02": "3", "208.01": "3", "208.02": "3", "209.01": "3", "209.02": "4", "301.01": "3", "301.02": "4", "301.03": "3", "301.04": "3", "302": "4", "303": "3", "304": "3", "305": "4", "306.01": "3", "306.03": "2", "306.04": "3", "307.01": "3", "307.02": "4", "307.03": "3", "307.06": "4", "308": "4", "309": "4", "310": "4", "311": "3", "312": "3", "313": "3", "314": "4", "315.01": "3", "315.02": "2", "317": "3", "318": "4", "319": "4", "321": "3", "401": "4", "402.01": "4", "402.02": "3", "403": "4", "404.01": "4", "404.02": "3", "406": "4", "407": "4", "408": "4", "409": "4", "501": "4", "502": "4", "503": "4", "505": "4", "506": "4", "507": "4", "508": "4", "509": "4", "510": "4", "511": "4", "512": "4", "513": "4", "514": "4", "601": "4", "602": "4", "603": "4", "604": "4", "605": "4", "608": "4", "609": "4", "610": "4", "611": "4", "612": "4", "615": "4", "618": "3", "619.01": "4", "619.02": "4", "620": "4", "621": "4", "622": "4", "623": "4", "624": "4", "625": "4", "626": "4", "627": "4", "628": "4", "629": "4", "630": "4", "631": "4", "632": "4", "633.01": "4", "633.02": "4", "633.03": "4", "634": "4", "701.01": "4", "701.02": "4", "701.03": "4", "702": "4", "703": "4", "704": "4", "705": "4", "706": "4", "707": "4", "710": "4", "711": "4", "712": "4", "713": "4", "714": "4", "715": "4", "716": "4", "717": "4", "718": "4", "801": "4", "802.01": "4", "802.02": "4", "803": "4", "804": "2", "810": "3", "811": "4", "812.01": "4", "812.02": "4", "813": "4", "814.01": "4", "814.02": "4", "814.03": "4", "815": "4", "816": "4", "817": "4", "818": "4", "819": "3", "901": "4", "902": "4", "903": "4", "1001": "4", "1002": "4", "1003": "4", "1004": "4", "1005": "4", "1006": "4", "1007": "4", "1101": "4", "1102": "3", "1103": "4", "1104": "4", "1105.01": "4", "1105.02": "4", "1201": "4", "1202": "4", "1203": "4", "1204": "4", "1301": "4", "1302": "4", "1303": "4", "1401": "1", "1402": "2", "1403.01": "2", "1403.02": "3", "1404": "4", "1405": "3", "1406.01": "2", "1406.02": "2", "1407.01": "3", "1407.02": "2", "1408": "4", "1502": "3", "1503": "3", "1504.01": "4", "1504.02": "3", "1505.01": "4", "1505.02": "3", "1506": "4", "1507": "3", "1508": "3", "1510.01": "2", "1510.02": "2", "1511": "3", "1512": "3", "1601": "3", "1602": "4", "1603": "3", "1604": "3", "1605.01": "3", "1605.02": "3", "1606.01": "3", "1606.02": "3", "1607": "3", "1608": "3", "1609": "4", "1610": "4", "1611": "4", "1612": "3", "1613": "2", "1701": "4", "1702": "4", "1703": "4", "1704": "4", "1705": "4", "1706": "4", "1707": "4", "1708": "4", "1709": "4", "1710": "4", "1711": "3", "1801": "3", "1901": "1", "1902": "2", "1903": "2", "1904.01": "3", "1904.02": "2", "1906.01": "2", "1906.02": "2", "1907.01": "2", "1907.02": "1", "1908": "2", "1909": "2", "1910": "2", "1911": "2", "1912": "2", "1913.01": "2", "1913.02": "2", "2001": "2", "2002": "1", "2003": "1", "2004.01": "1", "2004.02": "1", "2101": "4", "2104": "2", "2105.01": "2", "2105.02": "2", "2106.01": "3", "2106.02": "2", "2107": "3", "2108": "3", "2109": "3", "2203": "4", "2204": "4", "2205": "3", "2206.01": "3", "2206.02": "3", "2207.01": "2", "2207.02": "2", "2209.01": "1", "2209.02": "2", "2210": "2", "2211": "2", "2212": "3", "2213": "3", "2214": "3", "2215": "3", "2216": "4", "2222": "4", "2225": "2", "2226": "2", "2227": "2", "2228": "1", "2229": "2", "2301": "2", "2302": "1", "2303": "1", "2304": "2", "2305": "1", "2306": "1", "2307": "1", "2308": "3", "2309": "1", "2311": "3", "2312": "1", "2315": "1", "2402": "4", "2403": "4", "2405": "4", "2406": "4", "2407": "3", "2408": "2", "2409": "3", "2410": "1", "2411": "2", "2412": "3", "2413": "3", "2414": "4", "2415": "4", "2416": "4", "2420": "3", "2421": "4", "2422": "4", "2423": "4", "2424": "3", "2425": "2", "2426": "3", "2427": "1", "2428": "3", "2429": "4", "2430": "4", "2431": "3", "2432": "4", "2433": "3", "2434": "3", "2435": "4", "2502": "2", "2503": "1", "2504": "2", "2505": "4", "2506": "3", "2507": "1", "2508": "2", "2510": "1", "2511": "1", "2512": "2", "2513": "2", "2514": "2", "2515": "1", "2516": "2", "2517": "2", "2518": "1", "2519": "1", "2520": "1", "2521.01": "1", "2521.02": "1", "2522.01": "2", "2522.02": "1", "2601": "1", "2602": "1", "2603": "1", "2604": "1", "2605": "2", "2606": "3", "2607": "1", "2608": "1", "2609": "1", "2610": "2", "2705": "1", "2712": "2", "2713": "2", "2714": "2", "2715": "2", "2718": "1", "2801": "4", "2804": "1", "2808": "2", "2809": "1", "2819": "4", "2827": "2", "2828": "4", "2831": "2", "2832": "3", "2838": "3", "2909": "1", "2912": "1", "2916": "1", "2922": "1", "2924": "2", "2925": "2", "3005": "1", "3006": "2", "3007": "1", "3008": "1", "3009": "1", "3011": "1", "3012": "1", "3016": "1", "3017.01": "1", "3017.02": "1", "3018.01": "2", "3018.02": "1", "3018.03": "1", "3102": "3", "3103": "2", "3104": "2", "3105": "1", "3106": "2", "3107": "1", "3108": "1", "3109": "1", "3201": "4", "3204": "4", "3206": "4", "3301": "4", "3302": "4", "3403": "3", "3404": "3", "3405": "3", "3406": "1", "3501": "2", "3504": "1", "3510": "2", "3511": "1", "3514": "1", "3515": "2", "3602": "1", "3801": "2", "3802": "2", "3805": "1", "3807": "2", "3812": "2", "3814": "2", "3815": "2", "3818": "1", "3819": "2", "3901": "3", "3902": "3", "3903": "1", "3904": "1", "3905": "3", "3906": "4", "3907": "4", "4003": "2", "4004": "1", "4005": "1", "4008": "1", "4101": "3", "4102": "3", "4105": "3", "4106": "3", "4107": "3", "4108": "3", "4109": "4", "4110": "4", "4111": "4", "4112": "4", "4201": "2", "4202": "2", "4203": "2", "4204": "2", "4205": "1", "4206": "1", "4207": "1", "4208": "1", "4212": "2", "4301.01": "2", "4301.02": "2", "4302": "2", "4303": "2", "4304": "2", "4305": "2", "4306": "3", "4307": "1", "4308": "3", "4309": "2", "4312": "3", "4313.01": "1", "4313.02": "1", "4314": "1", "4401.01": "1", "4401.02": "1", "4402.01": "3", "4402.02": "3", "4403": "3", "4406": "4", "4407": "3", "4408": "1", "4409": "3", "4503": "3", "4601": "2", "4602": "1", "4603.01": "2", "4603.02": "1", "4604": "3", "4605": "3", "4606": "1", "4607": "1", "4610": "1", "4701": "2", "4801": "4", "4802": "3", "4803": "3", "4804": "4", "4805": "3", "4903": "4", "4904": "4", "4905": "3", "4906": "4", "4907": "3", "4908": "3", "4909.01": "3", "4909.02": "4", "4910": "2", "4911": "4", "4912": "3", "4913": "2", "4914": "2", "5001": "3", "5002": "2", "5003": "2", "5101": "2", "5102": "3", "5103": "3", "5201": "2", "5202": "1", "5203": "3", "5204": "3", "5205": "4", "5206": "3", "5301": "1", "5302": "2", "5303": "4", "5304": "3", "5305.01": "3", "5305.02": "3", "5305.03": "3", "5306": "2", "5401.01": "1", "5401.02": "1", "5501": "3", "5502": "4", "5601": "2", "5602": "3", "5603": "3", "5604": "3", "5607": "3", "5608": "4", "5609": "4", "5610": "4", "5611": "4", "5701": "3", "5702": "3", "5703": "2", "5704": "2", "5705": "2", "5801": "3", "5802": "2", "5803": "1", "5804": "2", "5805.01": "1", "5805.02": "2", "5806": "1", "5807": "2", "5808": "1", "5905": "3", "5906": "3", "5907": "2", "6004": "2", "6006": "2", "6007": "3", "6009": "3", "6103": "1", "6104": "1", "6108": "4", "6110": "1", "6111": "1", "6112": "1", "6113": "1", "6114": "1", "6115": "1", "6116": "1", "6117": "1", "6118": "1", "6119": "1", "6120": "1", "6121": "2", "6201": "3", "6202": "2", "6203": "3", "6204": "3", "6301": "1", "6302": "2", "6303": "2", "6304": "1", "6305": "2", "6308": "2", "6309": "2", "6401": "3", "6403": "4", "6404": "4", "6405": "4", "6406": "3", "6407": "4", "6408": "3", "6501": "2", "6502": "3", "6503.01": "3", "6503.02": "3", "6504": "3", "6505": "3", "6603.01": "1", "6603.02": "2", "6604": "2", "6605": "2", "6606": "1", "6607": "2", "6608": "1", "6609": "1", "6610": "2", "6611": "3", "6701": "1", "6702": "1", "6703": "2", "6704": "2", "6705": "2", "6706": "1", "6707": "1", "6708": "1", "6709": "2", "6711": "1", "6712": "1", "6713": "2", "6714": "2", "6715": "1", "6716": "1", "6718": "1", "6719": "2", "6720": "2", "6805": "1", "6806": "1", "6809": "1", "6810": "1", "6811": "1", "6812": "1", "6813": "1", "6814": "1", "6903": "1", "6904": "1", "6905": "2", "6909": "2", "6910": "3", "6911": "1", "6912": "1", "6913": "3", "6914": "2", "6915": "1", "7001": "3", "7002": "3", "7003.01": "3", "7003.02": "4", "7004.01": "4", "7004.02": "4", "7005.01": "4", "7005.02": "4", "7101": "1", "7102": "1", "7103": "1", "7104": "3", "7105": "2", "7106": "2", "7107": "2", "7108": "2", "7109": "2", "7110": "2", "7111": "3", "7112": "3", "7113": "3", "7114": "2", "7115": "3", "7201": "4", "7202": "4", "7203": "4", "7204": "4", "7205": "4", "7206": "4", "7207": "4", "7301": "3", "7302.01": "2", "7302.02": "3", "7303": "3", "7304": "4", "7305": "4", "7306": "3", "7307": "3", "7401": "4", "7402": "4", "7403": "4", "7404": "4", "7501": "3", "7502": "4", "7503": "4", "7504": "4", "7505": "3", "7506": "4", "7608.01": "3", "7608.02": "4", "7608.03": "4", "7709.02": "4", "8104": "4", "8214.02": "3", "8233.04": "3", "8305": "2", "8306": "3", "8307": "3", "8308": "4", "8309": "4", "8310": "4", "8311": "3", "8312": "1", "8313": "1", "8314": "2", "8315": "3", "8316": "3", "8317": "3", "8318": "4", "8319": "4", "8320": "4", "8321": "3", "8322": "4", "8323": "4", "8324": "4", "8325": "4", "8326": "4", "8329": "3", "8330": "4", "8331": "4", "8333": "3", "8339": "1", "8340": "2", "8342": "2", "8343": "3", "8344": "3", "8345": "1", "8346": "2", "8347": "1", "8348": "1", "8349": "1", "8350": "1", "8351": "2", "8352": "3", "8355": "2", "8356": "2", "8358": "2", "8359": "1", "8360": "3", "8361": "1", "8362": "4", "8363": "3", "8364": "2", "8365": "1", "8366": "2", "8367": "1", "8368": "1", "8369": "2", "8370": "1", "8371": "2", "8373": "2", "8374": "2", "8378": "2", "8380": "2", "8381": "2", "8382": "3", "8383": "2", "8386": "1", "8387": "1", "8388": "1", "8390": "4", "8391": "4", "8392": "2", "8395": "3", "8396": "3", "8397": "3", "8398": "4", "8399": "4", "8400": "4", "8401": "3", "8402": "3", "8403": "2", "8404": "3", "8407": "1", "8408": "1", "8410": "3", "8411": "2", "8412": "1", "8413": "1", "8414": "1", "8415": "1", "8416": "1", "8417": "1", "8418": "2", "8419": "4", "8420": "4", "8421": "1", "8422": "3", "8423": "4", "8424": "3", "8425": "1", "8426": "3", "8428": "2", "8429": "1", "8430": "1", "8431": "2", "8432": "1", "8433": "1", "8434": "2", "8435": "1", "8436": "2", "8437": "4", "8438": "2", "8439": "2", "9801": "0", "3817": "0", "8357": "0", };
+exports.default = TractTierTable;
+
+
+/***/ }),
+/* 261 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(module) {var __WEBPACK_AMD_DEFINE_RESULT__;(function() {
+  var JSONP, computedUrl, createElement, encode, noop, objectToURI, random, randomString;
+
+  createElement = function(tag) {
+    return window.document.createElement(tag);
+  };
+
+  encode = window.encodeURIComponent;
+
+  random = Math.random;
+
+  JSONP = function(options) {
+    var callback, callbackFunc, callbackName, done, head, params, script;
+    if (options == null) {
+      options = {};
+    }
+    params = {
+      data: options.data || {},
+      error: options.error || noop,
+      success: options.success || noop,
+      beforeSend: options.beforeSend || noop,
+      complete: options.complete || noop,
+      url: options.url || ''
+    };
+    params.computedUrl = computedUrl(params);
+    if (params.url.length === 0) {
+      throw new Error('MissingUrl');
+    }
+    done = false;
+    if (params.beforeSend({}, params) !== false) {
+      callbackName = options.callbackName || 'callback';
+      callbackFunc = options.callbackFunc || 'jsonp_' + randomString(15);
+      callback = params.data[callbackName] = callbackFunc;
+      window[callback] = function(data) {
+        window[callback] = null;
+        params.success(data, params);
+        return params.complete(data, params);
+      };
+      script = createElement('script');
+      script.src = computedUrl(params);
+      script.async = true;
+      script.onerror = function(evt) {
+        params.error({
+          url: script.src,
+          event: evt
+        });
+        return params.complete({
+          url: script.src,
+          event: evt
+        }, params);
+      };
+      script.onload = script.onreadystatechange = function() {
+        var ref, ref1;
+        if (done || ((ref = this.readyState) !== 'loaded' && ref !== 'complete')) {
+          return;
+        }
+        done = true;
+        if (script) {
+          script.onload = script.onreadystatechange = null;
+          if ((ref1 = script.parentNode) != null) {
+            ref1.removeChild(script);
+          }
+          return script = null;
+        }
+      };
+      head = window.document.getElementsByTagName('head')[0] || window.document.documentElement;
+      head.insertBefore(script, head.firstChild);
+    }
+    return {
+      abort: function() {
+        window[callback] = function() {
+          return window[callback] = null;
+        };
+        done = true;
+        if (script != null ? script.parentNode : void 0) {
+          script.onload = script.onreadystatechange = null;
+          script.parentNode.removeChild(script);
+          return script = null;
+        }
+      }
+    };
+  };
+
+  noop = function() {
+    return void 0;
+  };
+
+  computedUrl = function(params) {
+    var url;
+    url = params.url;
+    url += params.url.indexOf('?') < 0 ? '?' : '&';
+    url += objectToURI(params.data);
+    return url;
+  };
+
+  randomString = function(length) {
+    var str;
+    str = '';
+    while (str.length < length) {
+      str += random().toString(36).slice(2, 3);
+    }
+    return str;
+  };
+
+  objectToURI = function(obj) {
+    var data, key, value;
+    data = (function() {
+      var results;
+      results = [];
+      for (key in obj) {
+        value = obj[key];
+        results.push(encode(key) + '=' + encode(value));
+      }
+      return results;
+    })();
+    return data.join('&');
+  };
+
+  if ("function" !== "undefined" && __webpack_require__(263) !== null ? __webpack_require__(264) : void 0) {
+    !(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
+      return JSONP;
+    }.call(exports, __webpack_require__, exports, module),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else if (typeof module !== "undefined" && module !== null ? module.exports : void 0) {
+    module.exports = JSONP;
+  } else {
+    this.JSONP = JSONP;
+  }
+
+}).call(this);
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(262)(module)))
+
+/***/ }),
+/* 262 */
+/***/ (function(module, exports) {
+
+module.exports = function(module) {
+	if(!module.webpackPolyfill) {
+		module.deprecate = function() {};
+		module.paths = [];
+		// module.parent = undefined by default
+		if(!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function() {
+				return module.i;
+			}
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
+
+
+/***/ }),
+/* 263 */
+/***/ (function(module, exports) {
+
+module.exports = function() {
+	throw new Error("define cannot be used indirect");
+};
+
+
+/***/ }),
+/* 264 */
+/***/ (function(module, exports) {
+
+/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
+module.exports = __webpack_amd_options__;
+
+/* WEBPACK VAR INJECTION */}.call(exports, {}))
+
+/***/ }),
+/* 265 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(266);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(16)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./address-tier-calculator.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./address-tier-calculator.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 266 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(15)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".address-tier-calculator {\n  margin-top: 10px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: baseline;\n      -ms-flex-align: baseline;\n          align-items: baseline; }\n\n.address-field-wrapper {\n  -webkit-box-flex: 3;\n      -ms-flex: 3 0 auto;\n          flex: 3 0 auto;\n  position: relative; }\n\n.tier-display-wrapper {\n  -webkit-box-flex: 1;\n      -ms-flex: 1 0 auto;\n          flex: 1 0 auto; }\n\n.address-status-message {\n  position: absolute;\n  color: #9e9e9e;\n  font-size: 90%;\n  font-style: italic; }\n\n.tier-display {\n  padding: 6px 10px;\n  border: 1px dotted #9e9e9e;\n  border-radius: 6px;\n  text-align: center;\n  font-size: 125%; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 267 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(268);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(16)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -47631,10 +47714,10 @@ if(false) {
 }
 
 /***/ }),
-/* 269 */
+/* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(13)(undefined);
+exports = module.exports = __webpack_require__(15)(undefined);
 // imports
 
 
@@ -47645,166 +47728,184 @@ exports.push([module.i, ".spinning-load-icon, .spinning-load-icon:after {\n  bor
 
 
 /***/ }),
+/* 269 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var action_type_1 = __webpack_require__(222);
+exports.selectHSProgram = function (newValue) {
+    return {
+        type: action_type_1.default.SelectHSProgram,
+        payload: newValue
+    };
+};
+exports.updateStudentAttendPercentage = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentAttendPercentage,
+        payload: newValue
+    };
+};
+exports.updateStudentELLStatus = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentELLStatus,
+        payload: newValue
+    };
+};
+exports.updateStudentGender = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentGender,
+        payload: newValue
+    };
+};
+exports.updateStudentGradeLevel = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentGradeLevel,
+        payload: newValue
+    };
+};
+exports.updateStudentPrevGradeLevel = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentPrevGradeLevel,
+        payload: newValue
+    };
+};
+exports.updateStudentIEPStatus = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentIEPStatus,
+        payload: newValue
+    };
+};
+exports.updateStudentLocation = function (location) {
+    return {
+        type: action_type_1.default.UpdateStudentLocation,
+        payload: location
+    };
+};
+exports.updateStudentCurrESProgram = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentCurrESProgram,
+        payload: newValue
+    };
+};
+exports.updateStudentSiblingHSPrograms = function (newValues) {
+    return {
+        type: action_type_1.default.UpdateStudentSiblingHSPrograms,
+        payload: newValues
+    };
+};
+exports.updateStudentNWEAPercentileMath = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentNWEAPercentileMath,
+        payload: newValue
+    };
+};
+exports.updateStudentNWEAPercentileRead = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentNWEAPercentileRead,
+        payload: newValue
+    };
+};
+exports.updateStudentSubjGradeMath = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentSubjGradeRead,
+        payload: newValue
+    };
+};
+exports.updateStudentSubjGradeRead = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentSubjGradeRead,
+        payload: newValue
+    };
+};
+exports.updateStudentSubjGradeSci = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentSubjGradeSci,
+        payload: newValue
+    };
+};
+exports.updateStudentSubjGradeSocStudies = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentSubjGradeSocStudies,
+        payload: newValue
+    };
+};
+
+
+/***/ }),
 /* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var action_1 = __webpack_require__(98);
-exports.selectHSProgram = function (newValue) {
-    return {
-        type: action_1.default.SelectHSProgram,
-        payload: newValue
-    };
+var React = __webpack_require__(4);
+__webpack_require__(271);
+var HSProgramSuccessChanceKey = function (props) {
+    return (React.createElement("div", { className: "hs-program-success-chance-key" },
+        React.createElement("div", { className: "hs-program-success-chance-example" },
+            "You will almost certainly be accepted.",
+            React.createElement("div", { className: "hs-list-element-icon succ-certain" })),
+        React.createElement("div", { className: "hs-program-success-chance-example" },
+            "You're more likely to be accepted than other students.",
+            React.createElement("div", { className: "hs-list-element-icon succ-likely" })),
+        React.createElement("div", { className: "hs-program-success-chance-example" },
+            "You're about as likely to be accepted as other students.",
+            React.createElement("div", { className: "hs-list-element-icon succ-uncertain" })),
+        React.createElement("div", { className: "hs-program-success-chance-example" },
+            "You're less likely to be accepted than other students.",
+            React.createElement("div", { className: "hs-list-element-icon succ-unlikely" })),
+        React.createElement("div", { className: "hs-program-success-chance-example" },
+            "You probably won't be accepted.",
+            React.createElement("div", { className: "hs-list-element-icon succ-none" }))));
 };
-exports.updateStudentAttendPercentage = function (newValue) {
-    return {
-        type: action_1.default.UpdateStudentAttendPercentage,
-        payload: newValue
-    };
-};
-exports.updateStudentELLStatus = function (newValue) {
-    return {
-        type: action_1.default.UpdateStudentELLStatus,
-        payload: newValue
-    };
-};
-exports.updateStudentGender = function (newValue) {
-    return {
-        type: action_1.default.UpdateStudentGender,
-        payload: newValue
-    };
-};
-exports.updateStudentGradeLevel = function (newValue) {
-    return {
-        type: action_1.default.UpdateStudentGradeLevel,
-        payload: newValue
-    };
-};
-exports.updateStudentPrevGradeLevel = function (newValue) {
-    return {
-        type: action_1.default.UpdateStudentPrevGradeLevel,
-        payload: newValue
-    };
-};
-exports.updateStudentIEPStatus = function (newValue) {
-    return {
-        type: action_1.default.UpdateStudentIEPStatus,
-        payload: newValue
-    };
-};
-exports.updateStudentLocation = function (location) {
-    return {
-        type: action_1.default.UpdateStudentLocation,
-        payload: location
-    };
-};
-exports.updateStudentCurrESProgram = function (newValue) {
-    return {
-        type: action_1.default.UpdateStudentCurrESProgram,
-        payload: newValue
-    };
-};
-exports.updateStudentSiblingHSPrograms = function (newValues) {
-    return {
-        type: action_1.default.UpdateStudentSiblingHSPrograms,
-        payload: newValues
-    };
-};
-exports.updateStudentNWEAPercentileMath = function (newValue) {
-    return {
-        type: action_1.default.UpdateStudentNWEAPercentileMath,
-        payload: newValue
-    };
-};
-exports.updateStudentNWEAPercentileRead = function (newValue) {
-    return {
-        type: action_1.default.UpdateStudentNWEAPercentileRead,
-        payload: newValue
-    };
-};
-exports.updateStudentSubjGradeMath = function (newValue) {
-    return {
-        type: action_1.default.UpdateStudentSubjGradeRead,
-        payload: newValue
-    };
-};
-exports.updateStudentSubjGradeRead = function (newValue) {
-    return {
-        type: action_1.default.UpdateStudentSubjGradeRead,
-        payload: newValue
-    };
-};
-exports.updateStudentSubjGradeSci = function (newValue) {
-    return {
-        type: action_1.default.UpdateStudentSubjGradeSci,
-        payload: newValue
-    };
-};
-exports.updateStudentSubjGradeSocStudies = function (newValue) {
-    return {
-        type: action_1.default.UpdateStudentSubjGradeSocStudies,
-        payload: newValue
-    };
-};
+exports.default = HSProgramSuccessChanceKey;
 
 
 /***/ }),
 /* 271 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+// style-loader: Adds some css to the DOM by adding a <style> tag
 
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var box_1 = __webpack_require__(105);
-var hs_program_type_1 = __webpack_require__(272);
-var hs_program_success_chance_key_1 = __webpack_require__(290);
-var mapStateToProps = function (state) {
-};
-var HSDisplay = function (props) {
-    return (React.createElement(box_1.default, { width: "half", height: "full", responsiveBehavior: { mobile: "fullscreen" } },
-        React.createElement(hs_program_success_chance_key_1.default, null),
-        React.createElement("div", { style: { width: "100%", height: "100%", overflowY: "auto", overflowX: "hidden" } }, Object.keys(props.hsData).map(function (programType) { return React.createElement(hs_program_type_1.default, { programType: programType, programs: props.hsData[programType], studentData: props.studentData, key: programType }); }))));
-};
-exports.default = HSDisplay;
+// load the styles
+var content = __webpack_require__(272);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
 
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(16)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-success-chance-key.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-success-chance-key.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
 
 /***/ }),
 /* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+exports = module.exports = __webpack_require__(15)(undefined);
+// imports
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var hs_list_1 = __webpack_require__(273);
-__webpack_require__(288);
-var HSProgramType = (function (_super) {
-    __extends(HSProgramType, _super);
-    function HSProgramType() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    HSProgramType.prototype.render = function () {
-        return (React.createElement("div", { className: "hs-category-container" },
-            React.createElement("div", { className: "hs-category-title" }, this.props.programType),
-            React.createElement(hs_list_1.default, { highschools: this.props.programs, studentData: this.props.studentData })));
-    };
-    return HSProgramType;
-}(React.PureComponent));
-;
-exports.default = HSProgramType;
+
+// module
+exports.push([module.i, ".hs-program-success-chance-key {\n  width: 100%;\n  height: 150px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  margin-left: -0.5em;\n  padding-bottom: 0.5em;\n  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n  text-align: center; }\n\n.hs-program-success-chance-example {\n  -webkit-transform: scale(0.85);\n          transform: scale(0.85); }\n\n.hs-program-success-chance-example > .hs-list-element-icon {\n  margin: 0 auto; }\n", ""]);
+
+// exports
 
 
 /***/ }),
@@ -47813,78 +47914,16 @@ exports.default = HSProgramType;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(4);
-var success_chance_1 = __webpack_require__(24);
-var get_combined_success_chance_1 = __webpack_require__(274);
-var hs_list_element_1 = __webpack_require__(279);
-__webpack_require__(286);
-var HSList = (function (_super) {
-    __extends(HSList, _super);
-    function HSList(props) {
-        var _this = _super.call(this, props) || this;
-        _this.sortBySuccessChance = function (programs, student) {
-            var certain = [];
-            var likely = [];
-            var uncertain = [];
-            var unlikely = [];
-            var none = [];
-            var notimplemented = [];
-            for (var i = 0; i < programs.length; i++) {
-                var program = programs[i];
-                var successChance = get_combined_success_chance_1.default(student, program);
-                switch (successChance) {
-                    case success_chance_1.default.CERTAIN:
-                        certain.push(program);
-                        break;
-                    case success_chance_1.default.LIKELY:
-                        likely.push(program);
-                        break;
-                    case success_chance_1.default.UNCERTAIN:
-                        uncertain.push(program);
-                        break;
-                    case success_chance_1.default.UNLIKELY:
-                        unlikely.push(program);
-                        break;
-                    case success_chance_1.default.NONE:
-                        none.push(program);
-                        break;
-                    case success_chance_1.default.NOTIMPLEMENTED:
-                        notimplemented.push(program);
-                        break;
-                }
-            }
-            var sortedPrograms = certain.concat(likely)
-                .concat(uncertain)
-                .concat(unlikely)
-                .concat(none)
-                .concat(notimplemented);
-            return sortedPrograms;
-        };
-        _this.state = {
-            selectedProgram: null
-        };
-        return _this;
-    }
-    HSList.prototype.render = function () {
-        var _this = this;
-        var sortedHighschools = this.sortBySuccessChance(this.props.highschools, this.props.studentData);
-        return (React.createElement("div", { className: "hs-list" }, sortedHighschools.map(function (hs) { return React.createElement(hs_list_element_1.default, { key: hs.Long_Name, program: hs, studentData: _this.props.studentData, selected: _this.state.selectedProgram && hs.ID === _this.state.selectedProgram.ID, onSelect: function (program) { return _this.setState({ selectedProgram: program }); } }); })));
-    };
-    return HSList;
-}(React.PureComponent));
-;
-exports.default = HSList;
+var hs_group_1 = __webpack_require__(274);
+var HSProgramList = function (props) {
+    return (React.createElement("div", { style: { width: "100%", height: "100%", overflowY: "auto", overflowX: "hidden" } }, Object.keys(props.hsProgramsByType).map(function (programType) {
+        var programs = props.hsProgramsByType[programType];
+        return (React.createElement(hs_group_1.default, { title: programType, programs: programs, selectedProgramID: props.selectedProgramID, onSelectedProgramIDChange: function (id) { return props.onSelectedProgramIDChange(id); } }));
+    })));
+};
+exports.default = HSProgramList;
 
 
 /***/ }),
@@ -47893,3717 +47932,23 @@ exports.default = HSList;
 
 "use strict";
 
+var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
-var success_chance_1 = __webpack_require__(24);
-var get_req_fns_1 = __webpack_require__(107);
-var getCombinedSuccessChance = function (student, program) {
-    try {
-        var reqFns = get_req_fns_1.default(program);
-        var applicationSuccess = reqFns.application(student, program).outcome;
-        var selectionSuccess = reqFns.selection(student, program).outcome;
-        if (applicationSuccess === success_chance_1.default.CERTAIN || applicationSuccess === success_chance_1.default.LIKELY) {
-            return selectionSuccess;
-        }
-        else {
-            return applicationSuccess;
-        }
-    }
-    catch (e) {
-        console.log(e);
-        console.log(program);
-    }
+var React = __webpack_require__(4);
+var hs_program_element_1 = __webpack_require__(275);
+__webpack_require__(279);
+var HSGroup = function (props) {
+    return (React.createElement("div", { className: "hs-category-container" },
+        React.createElement("div", { className: "hs-category-title" }, _this.props.title),
+        React.createElement("div", { className: "hs-list" }, props.programs.map(function (hs) {
+            return (React.createElement(hs_program_element_1.default, { key: hs.id, program: hs, selected: hs.id === props.selectedProgramID, onSelect: function (newID) { return props.onSelectedProgramIDChange(newID); } }));
+        }))));
 };
-exports.default = getCombinedSuccessChance;
+exports.default = HSGroup;
 
 
 /***/ }),
 /* 275 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var gender_1 = __webpack_require__(58);
-var success_chance_ts_1 = __webpack_require__(24);
-var hs_calc_utils_1 = __webpack_require__(276);
-var seCutoffTable = {
-    "609726": {
-        rank: { avg: 834.15, min: 799, max: 897 },
-        tier1: { avg: 700.76, min: 652, max: 796 },
-        tier2: { avg: 740.36, min: 687, max: 795 },
-        tier3: { avg: 768.40, min: 750, max: 792 },
-        tier4: { avg: 761.50, min: 723, max: 797 },
-    },
-    "609694": {
-        rank: { avg: 823.92, min: 794, max: 880 },
-        tier1: { avg: 706.40, min: 664, max: 791 },
-        tier2: { avg: 757.68, min: 736, max: 790 },
-        tier3: { avg: 772.69, min: 753, max: 791 },
-        tier4: { avg: 740.63, min: 672, max: 792 },
-    },
-    "609678": {
-        rank: { avg: 893.81, min: 889, max: 900 },
-        tier1: { avg: 816.86, min: 771, max: 887 },
-        tier2: { avg: 851.57, min: 823, max: 889 },
-        tier3: { avg: 874.12, min: 861, max: 889 },
-        tier4: { avg: 886.69, min: 883, max: 889 },
-    },
-    "609751": {
-        rank: { avg: 735.59, min: 682, max: 859 },
-        tier1: { avg: 632.20, min: 600, max: 680 },
-        tier2: { avg: 635.16, min: 601, max: 679 },
-        tier3: { avg: 645.55, min: 608, max: 682 },
-        tier4: { avg: 634.43, min: 600, max: 674 },
-    },
-    "609720": {
-        rank: { avg: 878.11, min: 866, max: 900 },
-        tier1: { avg: 738.79, min: 692, max: 863 },
-        tier2: { avg: 808.46, min: 777, max: 865 },
-        tier3: { avg: 839.69, min: 818, max: 866 },
-        tier4: { avg: 855.13, min: 843, max: 865 },
-    },
-    "610391": {
-        rank: { avg: 813.87, min: 774, max: 895 },
-        tier1: { avg: 692.14, min: 655, max: 771 },
-        tier2: { avg: 732.82, min: 700, max: 774 },
-        tier3: { avg: 743.98, min: 720, max: 774 },
-        tier4: { avg: 717.92, min: 672, max: 773 },
-    },
-    "609749": {
-        rank: { avg: 898.85, min: 896, max: 900 },
-        tier1: { avg: 820.31, min: 757, max: 892 },
-        tier2: { avg: 867.55, min: 843, max: 895 },
-        tier3: { avg: 889.04, min: 880, max: 895 },
-        tier4: { avg: 893.92, min: 891, max: 896 },
-    },
-    "609680": {
-        rank: { avg: 899.03, min: 898, max: 900 },
-        tier1: { avg: 837.66, min: 771, max: 897 },
-        tier2: { avg: 875.60, min: 846, max: 897 },
-        tier3: { avg: 886.97, min: 875, max: 898 },
-        tier4: { avg: 895.59, min: 894, max: 898 },
-    },
-    "610547": {
-        rank: { avg: 725.28, min: 678, max: 837 },
-        tier1: { avg: 621.10, min: 601, max: 674 },
-        tier2: { avg: 637.17, min: 600, max: 677 },
-        tier3: { avg: 632.43, min: 601, max: 677 },
-        tier4: { avg: 634.77, min: 603, max: 672 },
-    },
-    "609693": {
-        rank: { avg: 799.38, min: 766, max: 883 },
-        tier1: { avg: 706.44, min: 667, max: 760 },
-        tier2: { avg: 733.79, min: 708, max: 765 },
-        tier3: { avg: 730.68, min: 695, max: 765 },
-        tier4: { avg: 691.26, min: 618, max: 766 },
-    },
-    "609755": {
-        rank: { avg: 890.34, min: 882, max: 900 },
-        tier1: { avg: 823.25, min: 780, max: 880 },
-        tier2: { avg: 846.26, min: 821, max: 880 },
-        tier3: { avg: 860.88, min: 849, max: 882 },
-        tier4: { avg: 877.46, min: 874, max: 882 },
-    }
-};
-var ibCutoffTable = {
-    "609695": { min: 600 },
-    "610563": { min: 609 },
-    "609698": { min: 350 },
-    "610381": { min: 450 },
-    "609759": { min: 490 },
-    "609756": { min: 650 },
-    "609704": { min: 350 },
-    "609741": { min: 600 },
-    "609713": { min: 375 },
-    "609764": { min: 500 },
-    "609715": { min: 650 },
-    "609718": { min: 600 },
-    "609738": { min: 819 },
-    "609725": { min: 500 },
-    "610529": { min: 520 },
-    "609679": { min: 600 },
-    "609729": { min: 360 },
-    "609730": { min: 575 },
-    "610547": { min: 427 },
-    "609732": { min: 450 },
-    "609734": { min: 836 },
-    "609739": { min: 640 },
-};
-var getSECutoff = function (student, school) {
-    var cutoff = seCutoffTable[school.School_ID];
-    if (cutoff === undefined) {
-        throw new Error("School " + school.Long_Name + " not found in SE Cutoff scores");
-    }
-    switch (student.location.tier) {
-        case '1':
-            return cutoff.tier1;
-        case '2':
-            return cutoff.tier2;
-        case '3':
-            return cutoff.tier3;
-        case '4':
-            return cutoff.tier4;
-    }
-};
-var getIBCutoff = function (student, school) {
-    var cutoff = ibCutoffTable[school.School_ID];
-    if (cutoff === undefined) {
-        throw new Error("School " + school.Long_Name + " not found in IB Cutoff scores");
-    }
-    return cutoff;
-};
-var getPointsFromCutoff = function (score, cutoff) {
-    var diff = cutoff - score;
-    if (diff <= 0) {
-        return 0;
-    }
-    else {
-        return diff;
-    }
-};
-var average = function () {
-    var nums = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        nums[_i] = arguments[_i];
-    }
-    var count = nums.length;
-    var sum = nums.reduce(function (a, b) { return a + b; });
-    return sum / count;
-};
-var norm = function (value, max, min) {
-    return ((value - min) / (max - min)) * 100;
-};
-var inAttendanceBound = function (student, school) {
-    var ATTEND_RADIUS_MI = 2.5;
-    var tryParseFloat = function (str) {
-        var num = parseFloat(str);
-        if (isNaN(num)) {
-            throw new Error("inAttendanceBound: Cannot parse '" + str + "' as float");
-        }
-        return num;
-    };
-    var studentLat = student.location.geo.latitude;
-    var studentLong = student.location.geo.longitude;
-    var schoolLat = tryParseFloat(school.School_Latitude);
-    var schoolLong = tryParseFloat(school.School_Longitude);
-    var studentLatRad = Math.PI * studentLat / 180;
-    var schoolLatRad = Math.PI * schoolLat / 180;
-    var theta = studentLong - schoolLong;
-    var thetaRad = Math.PI * theta / 180;
-    var dist = Math.sin(studentLatRad) * Math.sin(schoolLatRad) * Math.cos(studentLatRad) * Math.cos(schoolLatRad) * Math.cos(thetaRad);
-    dist = Math.acos(dist);
-    dist = dist * 180 / Math.PI;
-    dist = dist * 60 * 1.1515;
-    var isInBound = dist < ATTEND_RADIUS_MI;
-    return isInBound;
-};
-var hasSiblingInProgram = function (student, program) {
-    var siblingAttends = student.siblingHSProgramIDs.some(function (siblingProgramID) { return siblingProgramID === program.ID; });
-    if (siblingAttends) {
-        return true;
-    }
-    else {
-        return false;
-    }
-};
-var HSReqFns = {
-    "6adf97f83acf6453d4a6a4b1070f3754": {
-        "desc": "None",
-        "programs": [
-            "NOBLE - JOHNSON HS - General Education - Application",
-            "FOUNDATIONS - General Education - Application",
-            "NOBLE - PRITZKER HS - General Education - Application",
-            "PERSPECTIVES - TECH HS - General Education - Application",
-            "FARRAGUT HS - General Education - Application",
-            "URBAN PREP - WEST HS - General Education - Application",
-            "AUSTIN CCA HS - General Education - Application",
-            "CHICAGO VIRTUAL - Charter - Application",
-            "NOBLE - MANSUETO HS - General Education - Application",
-            "ACERO - SOTO HS - General Education - Application",
-            "CICS - LONGWOOD - Charter - Application",
-            "NOBLE - NOBLE HS - General Education - Application",
-            "ACERO - GARCIA HS - General Education - Application",
-            "ASPIRA - EARLY COLLEGE HS - General Education - Application",
-            "NOBLE - UIC HS - General Education - Application",
-            "WELLS HS - Pre-Law - Application",
-            "NOBLE - COMER - General Education - Application",
-            "SCHURZ HS - Accounting & Entrepreneurship - Application",
-            "WASHINGTON HS - General Education - Application",
-            "SCHURZ HS - General Education - Application",
-            "JUAREZ HS - General Education - Application",
-            "CHICAGO VOCATIONAL HS - Agricultural Sciences - Application",
-            "RICHARDS HS - General Education - Application",
-            "BOGAN HS - Entrepreneurship - Application",
-            "DOUGLASS HS - General Education - Application",
-            "LAKE VIEW HS - General Education - Application",
-            "ROOSEVELT HS - Game Programming - Application",
-            "ROOSEVELT HS - Medical & Health Careers - Application",
-            "NORTH-GRAND HS - Culinary Arts - Application",
-            "FOREMAN HS - Digital Media - Application",
-            "PHILLIPS HS - Digital Media - Application",
-            "ALCOTT HS - Pre-Engineering - Application",
-            "CURIE HS - Game Programming & Web Design - Application",
-            "CHICAGO MATH & SCIENCE HS - General Education - Application",
-            "BOWEN HS - Manufacturing - Application",
-            "JUAREZ HS - Culinary Arts - Application",
-            "SULLIVAN HS - Medical & Health Careers - Application",
-            "HUBBARD HS - General Education - Application",
-            "CHICAGO VOCATIONAL HS - Culinary Arts - Application",
-            "CICS - NORTHTOWN HS - General Education - Application",
-            "JULIAN HS - General Education - Application",
-            "SCHURZ HS - Automotive Technology - Application",
-            "CICS - CHICAGOQUEST HS - General Education - Application",
-            "COLLINS HS - Game Programming - Application",
-            "SULLIVAN HS - Accounting - Application",
-            "CHICAGO VIRTUAL - General Education - Application",
-            "SPRY HS - General Education - Application",
-            "FARRAGUT HS - Pre-Law - Application",
-            "NOBLE - BAKER HS - General Education - Application",
-            "CLEMENTE HS - Broadcast Technology - Application",
-            "SOUTH SHORE INTL HS - Medical & Health Careers - Application",
-            "CURIE HS - Accounting - Application",
-            "ROOSEVELT HS - Early Childhood - Application",
-            "PERSPECTIVES - MATH & SCI HS - General Education - Application",
-            "KENNEDY HS - General Education - Application",
-            "KELLY HS - General Education - Application",
-            "FARRAGUT HS - Automotive Technology - Application",
-            "JULIAN HS - Entrepreneurship - Application",
-            "CHICAGO VOCATIONAL HS - Carpentry - Application",
-            "CICS - ELLISON HS - General Education - Application",
-            "NOBLE - BULLS HS - General Education - Application",
-            "JULIAN HS - Allied Health - Application",
-            "ROOSEVELT HS - General Education - Application",
-            "URBAN PREP - ENGLEWOOD HS - General Education - Application",
-            "HYDE PARK HS - Broadcast Technology - Application",
-            "NORTH-GRAND HS - General Education - Application",
-            "GAGE PARK HS - General Education - Application",
-            "UPLIFT HS - General Education - Application",
-            "JUAREZ HS - Automotive Technology - Application",
-            "U OF C - WOODLAWN HS - General Education - Application",
-            "TILDEN HS - General Education - Application",
-            "BOWEN HS - General Education - Application",
-            "DUNBAR HS - Chicago Builds - Application",
-            "TAFT HS - General Education - Application",
-            "MORGAN PARK HS - General Education - Application",
-            "JULIAN HS - Broadcast Technology - Application",
-            "CURIE HS - Early Childhood & Teaching - Application",
-            "CLEMENTE HS - Culinary Arts - Application",
-            "BOGAN HS - Accounting - Application",
-            "NORTH-GRAND HS - Pre-Engineering - Application",
-            "CURIE HS - Automotive Technology - Application",
-            "JUAREZ HS - Medical & Health Careers - Application",
-            "JULIAN HS - Game Programming - Application",
-            "NORTH-GRAND HS - Allied Health - Application",
-            "JUAREZ HS - Architecture - Application",
-            "TILDEN HS - Culinary Arts - Application",
-            "INTRINSIC HS - General Education - Application",
-            "NOBLE - RAUNER HS - General Education - Application",
-            "SCHURZ HS - Digital Media - Application",
-            "FOREMAN HS - Web Design - Application",
-            "PERSPECTIVES - LEADERSHIP HS - General Education - Application",
-            "HYDE PARK HS - Digital Media - Application",
-            "CICS - LONGWOOD - General Education - Application",
-            "CORLISS HS - Early College STEM - Application",
-            "BOWEN HS - Pre-Engineering - Application",
-            "HYDE PARK HS - General Education - Application",
-            "ROOSEVELT HS - Culinary Arts - Application",
-            "FOREMAN HS - General Education - Application",
-            "NOBLE - ROWE CLARK HS - General Education - Application",
-            "CURIE HS - Broadcast Technology - Application",
-            "NOBLE - MUCHIN HS - General Education - Application",
-            "ALCOTT HS - General Education - Application",
-            "RICHARDS HS - Culinary Arts - Application",
-            "FENGER HS - Culinary Arts - Application",
-            "SCHURZ HS - Allied Health - Application",
-            "RABY HS - Culinary Arts - Application",
-            "RABY HS - Pre-Law - Application",
-            "FENGER HS - General Education - Application",
-            "HARPER HS - Culinary Arts - Application",
-            "NOBLE - DRW HS - General Education - Application",
-            "AMUNDSEN HS - General Education - Application",
-            "WILLIAMS HS - Medical & Health Careers - Application",
-            "NOBLE - GOLDER HS - General Education - Application",
-            "RABY HS - Broadcast Technology - Application",
-            "HIRSCH HS - General Education - Application",
-            "STEINMETZ HS - Digital Media - Application",
-            "JULIAN HS - Digital Media - Application",
-            "AUSTIN CCA HS - Manufacturing - Application",
-            "HARPER HS - Digital Media - Application",
-            "DYETT ARTS HS - General Education - Application",
-            "MATHER HS - Pre-Law - Application",
-            "AMUNDSEN HS - Game Programming & Web Design - Application",
-            "SOLORIO HS - General Education - Application",
-            "PERSPECTIVES - JOSLIN HS - General Education - Application",
-            "RICHARDS HS - Accounting - Application",
-            "MATHER HS - Game Programming & Web Design - Application",
-            "EPIC HS - General Education - Application",
-            "BOGAN HS - General Education - Application",
-            "CHICAGO COLLEGIATE - General Education - Application",
-            "CURIE HS - Culinary Arts - Application",
-            "RABY HS - Entrepreneurship - Application",
-            "CLEMENTE HS - Allied Health - Application",
-            "DYETT ARTS HS - Digital Media - Application",
-            "DUNBAR HS - Allied Health - Application",
-            "CHICAGO VOCATIONAL HS - Early College STEM - Application",
-            "HARLAN HS - Digital Media - Application",
-            "DUNBAR HS - Career Academy - Application",
-            "MANLEY HS - Culinary Arts - Application",
-            "CHICAGO VOCATIONAL HS - Diesel Technology - Application",
-            "CURIE HS - Fine Arts & Technology - NEIGHBORHOOD - Application",
-            "CHICAGO VOCATIONAL HS - General Education - Application",
-            "STEINMETZ HS - General Education - Application",
-            "SENN HS - General Education - Application",
-            "WELLS HS - Game Programming - Application",
-            "NOBLE - HANSBERRY HS - General Education - Application",
-            "ROBESON HS - General Education - Application",
-            "CHICAGO VOCATIONAL HS - Medical Assisting - Application",
-            "LAKE VIEW HS - Early College STEM - Application",
-            "CHICAGO VOCATIONAL HS - Cosmetology - Application",
-            "FENGER HS - Carpentry - Application",
-            "HARLAN HS - Web Design - Application",
-            "CURIE HS - Digital Media - Application",
-            "URBAN PREP - BRONZEVILLE HS - General Education - Application",
-            "CURIE HS - Architecture - Application",
-            "KENWOOD HS - General Education - Application",
-            "MATHER HS - General Education - Application",
-            "AUSTIN CCA HS - Pre-Engineering - Application",
-            "ORR HS - General Education - Application",
-            "SULLIVAN HS - General Education - Application",
-            "MANLEY HS - General Education - Application",
-            "HOPE HS - General Education - Application",
-            "NORTH LAWNDALE - CHRISTIANA HS - General Education - Application",
-            "NORTH LAWNDALE - COLLINS HS - General Education - Application",
-            "UPLIFT HS - Teaching - Application",
-            "SCHURZ HS - Pre-Engineering - Application",
-            "ACE TECH HS - General Education - Application",
-            "LEGAL PREP HS - General Education - Application",
-            "ASPIRA - BUSINESS & FINANCE HS - General Education - Application",
-            "JUAREZ HS - Game Programming & Web Design - Application",
-            "PROSSER HS - Career Academy - Application",
-            "HARPER HS - General Education - Application",
-            "INSTITUTO - HEALTH - General Education - Application",
-            "ROOSEVELT HS - Cisco Networking - Application",
-            "INFINITY HS - Science/Technology/Engineering/Math - Application",
-            "CHICAGO TECH HS - Science/Technology/Engineering/Math - Application",
-            "NOBLE - ITW SPEER HS - General Education - Application",
-            "NOBLE - BUTLER HS - General Education - Application",
-            "NOBLE - ACADEMY HS - General Education - Application",
-            "MARSHALL HS - General Education - Application",
-            "MARSHALL HS - Agricultural Sciences - Application",
-            "MARSHALL HS - Culinary Arts - Application"
-        ],
-        "fn": function noReq(studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.CERTAIN };
-        }
-    },
-    "f1a0a3737e921ccaf4617c5eafab5f53": {
-        "desc": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
-        "programs": [
-            "NOBLE - JOHNSON HS - General Education - Selection",
-            "NOBLE - PRITZKER HS - General Education - Selection",
-            "PERSPECTIVES - TECH HS - General Education - Selection",
-            "URBAN PREP - WEST HS - General Education - Selection",
-            "NOBLE - MANSUETO HS - General Education - Selection",
-            "ACERO - SOTO HS - General Education - Selection",
-            "NOBLE - NOBLE HS - General Education - Selection",
-            "ACERO - GARCIA HS - General Education - Selection",
-            "ASPIRA - EARLY COLLEGE HS - General Education - Selection",
-            "NOBLE - UIC HS - General Education - Selection",
-            "NOBLE - COMER - General Education - Selection",
-            "CICS - NORTHTOWN HS - General Education - Selection",
-            "NOBLE - BAKER HS - General Education - Selection",
-            "PERSPECTIVES - MATH & SCI HS - General Education - Selection",
-            "CICS - ELLISON HS - General Education - Selection",
-            "NOBLE - BULLS HS - General Education - Selection",
-            "URBAN PREP - ENGLEWOOD HS - General Education - Selection",
-            "NOBLE - RAUNER HS - General Education - Selection",
-            "PERSPECTIVES - LEADERSHIP HS - General Education - Selection",
-            "CICS - LONGWOOD - General Education - Selection",
-            "NOBLE - ROWE CLARK HS - General Education - Selection",
-            "NOBLE - MUCHIN HS - General Education - Selection",
-            "NOBLE - DRW HS - General Education - Selection",
-            "NOBLE - GOLDER HS - General Education - Selection",
-            "PERSPECTIVES - JOSLIN HS - General Education - Selection",
-            "EPIC HS - General Education - Selection",
-            "NOBLE - HANSBERRY HS - General Education - Selection",
-            "URBAN PREP - BRONZEVILLE HS - General Education - Selection",
-            "ASPIRA - BUSINESS & FINANCE HS - General Education - Selection",
-            "NOBLE - ITW SPEER HS - General Education - Selection",
-            "NOBLE - BUTLER HS - General Education - Selection",
-            "NOBLE - ACADEMY HS - General Education - Selection"
-        ],
-        "fn": function random(studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "ea7a8ea4de4f5cdcc8bc6e7aab6a7962": {
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled at Foundations College Prep, isibling, general.",
-        "programs": [
-            "FOUNDATIONS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "783216956d119ad64639725fa9f4d44b": {
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically. This program only accepts students who live within the school's attendance boundary.",
-        "programs": [
-            "FARRAGUT HS - General Education - Selection",
-            "WASHINGTON HS - General Education - Selection",
-            "HUBBARD HS - General Education - Selection",
-            "KENNEDY HS - General Education - Selection",
-            "KELLY HS - General Education - Selection",
-            "ROOSEVELT HS - General Education - Selection",
-            "BOGAN HS - General Education - Selection",
-            "CURIE HS - Fine Arts & Technology - NEIGHBORHOOD - Selection",
-            "SENN HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "240970c398eb1cf1d65952b71e811d58": {
-        "desc": "If the school receives more applications than there are seats available, students are randomly selected through a computerized lottery.  Priority is given to students currently enrolled in the school and to siblings of students enrolled in the campus.",
-        "programs": [
-            "CHICAGO VIRTUAL - Charter - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "01a561f658ea66df980a6e77eae83235": {
-        "desc": "If the school receives more applications than there are seats available, students are randomly selected through a computerized lottery.  Priority is given to students currently enrolled in the school who wish to continue and to siblings of students enrolled in the campus.",
-        "programs": [
-            "CICS - LONGWOOD - Charter - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "8c431d51587c33009ee9b67a566c042e": {
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "AUSTIN CCA HS - General Education - Selection",
-            "JULIAN HS - General Education - Selection",
-            "NORTH-GRAND HS - General Education - Selection",
-            "GAGE PARK HS - General Education - Selection",
-            "BOWEN HS - General Education - Selection",
-            "FOREMAN HS - General Education - Selection",
-            "FENGER HS - General Education - Selection",
-            "HIRSCH HS - General Education - Selection",
-            "CHICAGO VOCATIONAL HS - General Education - Selection",
-            "ROBESON HS - General Education - Selection",
-            "ORR HS - General Education - Selection",
-            "MANLEY HS - General Education - Selection",
-            "HOPE HS - General Education - Selection",
-            "HARPER HS - General Education - Selection",
-            "INFINITY HS - Science/Technology/Engineering/Math - Selection",
-            "MARSHALL HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "6fddb8b397a12770dbed5afff360213b": {
-        "desc": "Minimum percentile of 75 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.",
-        "programs": [
-            "SOLORIO HS - Double Honors/Scholars - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            var NWEA_MATH_CUTOFF = 75;
-            var NWEA_READ_CUTOFF = 75;
-            var ATTEND_CUTOFF = 95;
-            var progress = {
-                threshold_certain: 100,
-                value: 100 - average(getPointsFromCutoff(studentData.nweaPercentileMath, NWEA_MATH_CUTOFF), getPointsFromCutoff(studentData.nweaPercentileRead, NWEA_READ_CUTOFF), getPointsFromCutoff(studentData.attendancePercentage, ATTEND_CUTOFF)),
-            };
-            if (studentData.nweaPercentileMath >= NWEA_MATH_CUTOFF &&
-                studentData.nweaPercentileRead >= NWEA_READ_CUTOFF &&
-                studentData.attendancePercentage >= ATTEND_CUTOFF) {
-                return { outcome: success_chance_ts_1.default.CERTAIN, progress: progress };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE, progress: progress };
-            }
-        }
-    },
-    "218f3d334a0ceaa37bb7ce57bec10e96": {
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, students enrolled in AUSL schools, general.",
-        "programs": [
-            "SOLORIO HS - Double Honors/Scholars - Selection",
-            "CHICAGO ACADEMY HS - Scholars - Selection",
-            "CHICAGO ACADEMY HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school) ||
-                hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "3086b8e507b2f64e53b85b8ad808e66d": {
-        "desc": "Minimum 2.0 GPA in 7th grade and minimum attendance percentage of 85.",
-        "programs": [
-            "FARRAGUT HS - JROTC - Application",
-            "SCHURZ HS - AVID - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            var GPA_CUTOFF = 2.0;
-            var ATTEND_CUTOFF = 85;
-            var progress = {
-                threshold_certain: 100,
-                value: average(norm(getPointsFromCutoff(studentData.gpa, GPA_CUTOFF), 4.0, 0.0), getPointsFromCutoff(studentData.attendancePercentage, ATTEND_CUTOFF))
-            };
-            if (studentData.gpa >= GPA_CUTOFF && studentData.attendancePercentage >= ATTEND_CUTOFF) {
-                return { outcome: success_chance_ts_1.default.CERTAIN, progress: progress };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE, progress: progress };
-            }
-        }
-    },
-    "d3ddea21fb0e360b470bf095ce6bdfef": {
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: proximity, general.",
-        "programs": [
-            "FARRAGUT HS - JROTC - Selection",
-            "ROBESON HS - Allied Health - Selection",
-            "DUNBAR HS - Chicago Builds - Selection",
-            "SCHURZ HS - AVID - Selection",
-            "PROSSER HS - Career Academy - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "618315c228cf8e591d1909fc8ca41206": {
-        "desc": "Students are selected on a point system. Points are based on 7th grade final GPA and NWEA MAP scores. The school determines the minimum cutoff score for selections.",
-        "programs": [
-            "WELLS HS - Pre-Law - Selection",
-            "ALCOTT HS - Pre-Engineering - Selection",
-            "SULLIVAN HS - Medical & Health Careers - Selection",
-            "FARRAGUT HS - Pre-Law - Selection",
-            "SOUTH SHORE INTL HS - Medical & Health Careers - Selection",
-            "JULIAN HS - Allied Health - Selection",
-            "JUAREZ HS - Medical & Health Careers - Selection",
-            "BOWEN HS - Pre-Engineering - Selection",
-            "WILLIAMS HS - Medical & Health Careers - Selection",
-            "CLEMENTE HS - Allied Health - Selection",
-            "DUNBAR HS - Allied Health - Selection",
-            "CHICAGO VOCATIONAL HS - Medical Assisting - Selection",
-            "SCHURZ HS - Pre-Engineering - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "f661cdb969617a4f2a3923f5c80c190c": {
-        "desc": "General Education and 504 Plan students: Minimum percentile of 50 in both reading and math on NWEA MAP, minimum 2.7 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 50 in reading and math on NWEA MAP.  An Interview is required for all eligible applicants.",
-        "programs": [
-            "DYETT ARTS HS - Music - Application",
-            "DYETT ARTS HS - Visual Arts - Application",
-            "DYETT ARTS HS - Dance - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if (studentData.nweaPercentileMath >= 50 &&
-                    studentData.nweaPercentileRead >= 50 &&
-                    studentData.gpa >= 2.7 &&
-                    studentData.attendancePercentage >= 97) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath + studentData.nweaPercentileRead >= 50) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "3d86881707e468c9fe2a0ce0f5eeac4f": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the interview.",
-        "programs": [
-            "DYETT ARTS HS - Music - Selection",
-            "DYETT ARTS HS - Visual Arts - Selection",
-            "DYETT ARTS HS - Dance - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "7672890f5b16cd8f5c0cae20d58d1888": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
-        "programs": [
-            "SCHURZ HS - Accounting & Entrepreneurship - Selection",
-            "KELLY HS - Digital Media - Selection",
-            "CHICAGO VOCATIONAL HS - Agricultural Sciences - Selection",
-            "BOGAN HS - Entrepreneurship - Selection",
-            "ROOSEVELT HS - Game Programming - Selection",
-            "NORTH-GRAND HS - Culinary Arts - Selection",
-            "FOREMAN HS - Digital Media - Selection",
-            "PHILLIPS HS - Digital Media - Selection",
-            "CURIE HS - Game Programming & Web Design - Selection",
-            "BOWEN HS - Manufacturing - Selection",
-            "JUAREZ HS - Culinary Arts - Selection",
-            "CHICAGO VOCATIONAL HS - Culinary Arts - Selection",
-            "SCHURZ HS - Automotive Technology - Selection",
-            "COLLINS HS - Game Programming - Selection",
-            "CLEMENTE HS - Broadcast Technology - Selection",
-            "CURIE HS - Accounting - Selection",
-            "ROOSEVELT HS - Early Childhood - Selection",
-            "FARRAGUT HS - Automotive Technology - Selection",
-            "JULIAN HS - Entrepreneurship - Selection",
-            "CHICAGO VOCATIONAL HS - Carpentry - Selection",
-            "HYDE PARK HS - Broadcast Technology - Selection",
-            "JUAREZ HS - Automotive Technology - Selection",
-            "JULIAN HS - Broadcast Technology - Selection",
-            "CURIE HS - Early Childhood & Teaching - Selection",
-            "CLEMENTE HS - Culinary Arts - Selection",
-            "CURIE HS - Automotive Technology - Selection",
-            "JULIAN HS - Game Programming - Selection",
-            "JUAREZ HS - Architecture - Selection",
-            "TILDEN HS - Culinary Arts - Selection",
-            "SCHURZ HS - Digital Media - Selection",
-            "FOREMAN HS - Web Design - Selection",
-            "HYDE PARK HS - Digital Media - Selection",
-            "ROOSEVELT HS - Culinary Arts - Selection",
-            "CURIE HS - Broadcast Technology - Selection",
-            "RICHARDS HS - Culinary Arts - Selection",
-            "FENGER HS - Culinary Arts - Selection",
-            "RABY HS - Culinary Arts - Selection",
-            "HARPER HS - Culinary Arts - Selection",
-            "RABY HS - Broadcast Technology - Selection",
-            "STEINMETZ HS - Digital Media - Selection",
-            "JULIAN HS - Digital Media - Selection",
-            "AUSTIN CCA HS - Manufacturing - Selection",
-            "HARPER HS - Digital Media - Selection",
-            "AMUNDSEN HS - Game Programming & Web Design - Selection",
-            "RICHARDS HS - Accounting - Selection",
-            "MATHER HS - Game Programming & Web Design - Selection",
-            "CURIE HS - Culinary Arts - Selection",
-            "RABY HS - Entrepreneurship - Selection",
-            "CHICAGO VOCATIONAL HS - Early College STEM - Selection",
-            "HARLAN HS - Digital Media - Selection",
-            "MANLEY HS - Culinary Arts - Selection",
-            "CHICAGO VOCATIONAL HS - Diesel Technology - Selection",
-            "WELLS HS - Game Programming - Selection",
-            "FENGER HS - Carpentry - Selection",
-            "HARLAN HS - Web Design - Selection",
-            "CURIE HS - Digital Media - Selection",
-            "CURIE HS - Architecture - Selection",
-            "UPLIFT HS - Teaching - Selection",
-            "JUAREZ HS - Game Programming & Web Design - Selection",
-            "MARSHALL HS - Agricultural Sciences - Selection",
-            "MARSHALL HS - Culinary Arts - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 &&
-                    studentData.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "4ab864cc8934557f435c392c96e5cfc1": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery.\u00a0The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "SCHURZ HS - General Education - Selection",
-            "STEINMETZ HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "ae1af40b734a31b447b1ed50f6e4bc17": {
-        "name": "",
-        "desc": "Minimum combined percentile of 48 in reading and math on NWEA MAP. Attendance at an Information Session is required for eligible applicants.",
-        "programs": [
-            "AIR FORCE HS - Service Learning Academies (Military) - Application",
-            "MARINE LEADERSHIP AT AMES HS - Service Learning Academies (Military) - Application",
-            "RICKOVER MILITARY HS - Service Learning Academies (Military) - Application",
-            "PHOENIX MILITARY HS - Service Learning Academies (Military) - Application",
-            "CARVER MILITARY HS - Service Learning Academies (Military) - Application",
-            "CHICAGO MILITARY HS - Service Learning Academies (Military) - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.nweaPercentileMath + studentData.nweaPercentileRead >= 48) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-        }
-    },
-    "9a6d8103474c5e8b4988360767a186de": {
-        "name": "",
-        "desc": "During the Information Session, students will sign a Commitment Agreement, complete a Motivation and Perseverance Assessment and write a brief essay. Selections are based on a point system with a maximum of 500 points, derived from 7th grade final (cumulative) grades (100 points), 7th grade NWEA MAP scores (150 points), the two-part assessment (50 for each part), and the essay (100 points).",
-        "programs": [
-            "AIR FORCE HS - Service Learning Academies (Military) - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "459b0b1aaa6e44d897f0a720ba82369e": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary will be randomly selected by computerized lottery. The lottery will be conducted in the following order: sibling, general.",
-        "programs": [
-            "JUAREZ HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "d41d8cd98f00b204e9800998ecf8427e": {
-        "name": "",
-        "desc": "",
-        "programs": [
-            "KELLY HS - Digital Media - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "2317c60e8a1eec08ab495a14ccfd9c64": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery.",
-        "programs": [
-            "RICHARDS HS - General Education - Selection",
-            "TILDEN HS - General Education - Selection",
-            "DYETT ARTS HS - General Education - Selection",
-            "SOLORIO HS - General Education - Selection",
-            "MATHER HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "c32c0804dc719ba6c4c00322e7a69be2": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 45 in both reading and math on NWEA MAP.  IEP and EL students: Minimum NWEA MAP percentile of 50 in one subject (reading or math) and minimum NWEA MAP percentile of 40 in the other subject (reading or math).  Testing is required for all eligible applicants.",
-        "programs": [
-            "BROOKS HS - Academic Center - Application",
-            "TAFT HS - Academic Center - Application",
-            "LANE TECH HS - Academic Center - Application",
-            "MORGAN PARK HS - Academic Center - Application",
-            "KENWOOD HS - Academic Center - Application",
-            "LINDBLOM HS - Academic Center - Application",
-            "YOUNG HS - Academic Center - Application"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "224ce8807abceb6ca72e650988637629": {
-        "name": "",
-        "desc": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for prior year final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
-        "programs": [
-            "BROOKS HS - Academic Center - Selection",
-            "TAFT HS - Academic Center - Selection",
-            "LANE TECH HS - Academic Center - Selection",
-            "MORGAN PARK HS - Academic Center - Selection",
-            "KENWOOD HS - Academic Center - Selection",
-            "LINDBLOM HS - Academic Center - Selection",
-            "YOUNG HS - Academic Center - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "03010a12030cab563c3f5d9115e7aabe": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 45 in both reading and math on NWEA MAP and minimum 2.0 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 90 in reading and math on NWEA MAP, and minimum 2.0 GPA in 7th grade.",
-        "programs": [
-            "STEINMETZ HS - JROTC - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if (studentData.nweaPercentileMath >= 45 &&
-                    studentData.nweaPercentileRead >= 45 &&
-                    studentData.gpa > 2.0) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 90 &&
-                    studentData.gpa > 2.0) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "5096cc5a97943badb78efd427ee13eb6": {
-        "name": "",
-        "desc": "Eligible students are randomly selected by computerized lottery.",
-        "programs": [
-            "STEINMETZ HS - JROTC - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "f6b1cadaa52f894d87ad4246bd4c9b0a": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, general.",
-        "programs": [
-            "DOUGLASS HS - General Education - Selection",
-            "WILLIAMS HS - General Education - Selection",
-            "SENN HS - Digital Journalism - Selection",
-            "NORTH LAWNDALE - CHRISTIANA HS - General Education - Selection",
-            "NORTH LAWNDALE - COLLINS HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school) ||
-                hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "77620df9b5c4a530f21c30267af843ce": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP. An audition/portfolio review is required.",
-        "programs": [
-            "CURIE HS - Dance - Application",
-            "CURIE HS - Music - Application",
-            "CURIE HS - Visual Arts - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 &&
-                    studentData.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "7e51568fc748dec3fd5aa79aae428009": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade final (cumulative) grades, and the audition.",
-        "programs": [
-            "CURIE HS - Dance - Selection",
-            "SENN HS - Dance - Selection",
-            "CURIE HS - Music - Selection",
-            "SENN HS - Music - Selection",
-            "SENN HS - Theatre - Selection",
-            "CURIE HS - Visual Arts - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "0514de51e21823dae4f43b085538f9e6": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.",
-        "programs": [
-            "WESTINGHOUSE HS - Career Academy - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48 &&
-                    studentData.gpa >= 3.0 &&
-                    studentData.attendancePercentage >= 95) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 &&
-                    studentData.nweaPercentileRead >= 24 &&
-                    studentData.gpa >= 3.0 &&
-                    studentData.attendancePercentage >= 95) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "d76c385b612c2ef53c62501b074b6134": {
-        "name": "",
-        "desc": "Students are randomly selected by compterized lottery. The lottery is conducted in the following order: proximity, general.",
-        "programs": [
-            "WESTINGHOUSE HS - Career Academy - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "5ee7cff3803c80e025f483be28b57f06": {
-        "name": "",
-        "desc": "This program only accepts students who live within the school's attendance boundary or who attend a Grow Community School (Audubon, Bell, Blaine, Budlong, Burley, Chappell, Coonley, Greeley, Hamilton, Hawthorne, Inter-American, Jahn, Jamieson, McPherson, Nettelhorst, Ravenswood, or Waters). Students are randomly selected by computerized lottery.",
-        "programs": [
-            "LAKE VIEW HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "930c01733b718c40bc1f2af23839e14a": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants.",
-        "programs": [
-            "KELLY HS - International Baccalaureate (IB) - Application",
-            "SOUTH SHORE INTL HS - International Baccalaureate (IB) - Application",
-            "BACK OF THE YARDS HS - International Baccalaureate (IB) - Application",
-            "PROSSER HS - International Baccalaureate (IB) - Application",
-            "STEINMETZ HS - International Baccalaureate (IB) - Application",
-            "MORGAN PARK HS - International Baccalaureate (IB) - Application",
-            "TAFT HS - International Baccalaureate (IB) - Application",
-            "BOGAN HS - International Baccalaureate (IB) - Application",
-            "JUAREZ HS - International Baccalaureate (IB) - Application",
-            "OGDEN HS - International Baccalaureate (IB) - Application",
-            "KENNEDY HS - International Baccalaureate (IB) - Application",
-            "AMUNDSEN HS - International Baccalaureate (IB) - Application",
-            "WASHINGTON HS - International Baccalaureate (IB) - Application",
-            "SCHURZ HS - International Baccalaureate (IB) - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 &&
-                    studentData.nweaPercentileRead >= 24 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "11bdd4bc6af64732a32d73a850bc78a4": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points.The school determines the minimum cutoff score for selections.",
-        "programs": [
-            "KELLY HS - International Baccalaureate (IB) - Selection",
-            "BACK OF THE YARDS HS - International Baccalaureate (IB) - Selection",
-            "JUAREZ HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "f79604e9d7984cc9b43fa3c69abe428d": {
-        "name": "",
-        "desc": "During the Information Session, students will sign a Commitment Agreement, complete a Motivation and Perseverance Assessment and write a brief essay. Selections will be based on a point system with a maximum of 500 points, derived from 7th grade final (cumulative) grades (100 points), 7th grade NWEA MAP scores (150 points), the two-part assessment (50 for each part), and the essay (100 points).",
-        "programs": [
-            "MARINE LEADERSHIP AT AMES HS - Service Learning Academies (Military) - Selection",
-            "RICKOVER MILITARY HS - Service Learning Academies (Military) - Selection",
-            "PHOENIX MILITARY HS - Service Learning Academies (Military) - Selection",
-            "CARVER MILITARY HS - Service Learning Academies (Military) - Selection",
-            "CHICAGO MILITARY HS - Service Learning Academies (Military) - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "4cb799c1cf8b41a3baf1e8d9176463d8": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.",
-        "programs": [
-            "JONES HS - Pre-Engineering - Application",
-            "CRANE MEDICAL HS - Health Sciences - Application",
-            "CHICAGO AGRICULTURE HS - Agricultural Sciences - Application",
-            "HANCOCK HS - Pre-Law - Application",
-            "HANCOCK HS - Pre-Engineering - Application",
-            "JONES HS - Pre-Law - Application",
-            "VON STEUBEN HS - Science - Application",
-            "CLARK HS - Early College STEM - Application",
-            "DISNEY II HS - Fine Arts & Technology - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 &&
-                    studentData.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "0fe94ad9490cc5fe33139f705336bf3d": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on 7th grade final GPA and 7th grade stanines. Students are ranked and selected from high to low. Students residing within the attendance overlay boundary of the school are selected first.",
-        "programs": [
-            "JONES HS - Pre-Engineering - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "0fedde2a8081243a74d2c6a3be90b411": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.",
-        "programs": [
-            "SOUTH SHORE INTL HS - International Baccalaureate (IB) - Selection",
-            "CLEMENTE HS - International Baccalaureate (IB) - Selection",
-            "STEINMETZ HS - International Baccalaureate (IB) - Selection",
-            "HUBBARD HS - International Baccalaureate (IB) - Selection",
-            "BOGAN HS - International Baccalaureate (IB) - Selection",
-            "KENNEDY HS - International Baccalaureate (IB) - Selection",
-            "BRONZEVILLE HS - International Baccalaureate (IB) - Selection",
-            "WASHINGTON HS - International Baccalaureate (IB) - Selection",
-            "SCHURZ HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "70d67060ab98f9cd752d741b32e207ba": {
-        "name": "",
-        "desc": "Student selections are based on points. Students are assigned points for 7th grade final GPA and 7th grade stanines. Each school determines a minimum cutoff score for selections.",
-        "programs": [
-            "ROOSEVELT HS - Medical & Health Careers - Selection",
-            "NORTH-GRAND HS - Pre-Engineering - Selection",
-            "NORTH-GRAND HS - Allied Health - Selection",
-            "SCHURZ HS - Allied Health - Selection",
-            "RABY HS - Pre-Law - Selection",
-            "MATHER HS - Pre-Law - Selection",
-            "ROOSEVELT HS - Cisco Networking - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "eb6acf17c18f9a5177bcdb7a4504672a": {
-        "name": "",
-        "desc": "Minimum percentile of 40 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, LAS Links Assessment composite of 4 or STAMP Assessment at the Intermediate Level.",
-        "programs": [
-            "SCHURZ HS - Dual Language - Application",
-            "BACK OF THE YARDS HS - Dual Language - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "0640ddea233c6c9c97db5dd816b5c24a": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, students currently enrolled in a CPS elementary school with a world language or dual language program, general.",
-        "programs": [
-            "SCHURZ HS - Dual Language - Selection",
-            "BACK OF THE YARDS HS - Dual Language - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "8c1dffabe7825704cbe29a12138cc4d9": {
-        "name": "",
-        "desc": "Students currently enrolled in the school's eighth grade will have a deadline to submit their intent to enroll in ninth grade. For remaining seats, students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "CHICAGO MATH & SCIENCE HS - General Education - Selection",
-            "CICS - CHICAGOQUEST HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "70b7c4a5e527fb50d69ea37b000765d8": {
-        "name": "",
-        "desc": "Minimum percentile of 70 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 93.",
-        "programs": [
-            "CHICAGO ACADEMY HS - Scholars - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.nweaPercentileMath >= 70 &&
-                studentData.nweaPercentileRead >= 70 &&
-                studentData.gpa >= 3.0 &&
-                studentData.attendancePercentage >= 93) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "1d126a086436d78661af2cb249938c72": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum attendance percentage of 92.",
-        "programs": [
-            "MULTICULTURAL HS - Fine and Performing Arts - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (studentData.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "c36c294e63476a7959123bfe85a2c639": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "MULTICULTURAL HS - Fine and Performing Arts - Selection",
-            "CLEMENTE HS - General Education - Selection",
-            "PHILLIPS HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "889af44e3306313029109d465b1c2de6": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum GPA of 2.5 in 7th grade and minimum attendance percentage of 85.",
-        "programs": [
-            "CLEMENTE HS - General Education - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (studentData.gpa >= 2.5 &&
-                    studentData.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "6a02d16ba52a69b937a74a43c6a82769": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance is required at an Information Session for all eligible applicants.",
-        "programs": [
-            "CLEMENTE HS - International Baccalaureate (IB) - Application",
-            "CURIE HS - International Baccalaureate (IB) - Application",
-            "FARRAGUT HS - International Baccalaureate (IB) - Application",
-            "BRONZEVILLE HS - International Baccalaureate (IB) - Application",
-            "HYDE PARK HS - International Baccalaureate (IB) - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 &&
-                    studentData.nweaPercentileRead >= 24 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "1a043655763ab140a0d14f5080d63a2c": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
-        "programs": [
-            "BROOKS HS - Selective Enrollment High School - Application",
-            "YOUNG HS - Selective Enrollment High School - Application",
-            "SOUTH SHORE INTL HS - Selective Enrollment High School - Application",
-            "WESTINGHOUSE HS - Selective Enrollment High School - Application",
-            "LANE TECH HS - Selective Enrollment High School - Application",
-            "HANCOCK HS - Selective Enrollment High School - Application",
-            "LINDBLOM HS - Selective Enrollment High School - Application",
-            "KING HS - Selective Enrollment High School - Application",
-            "PAYTON HS - Selective Enrollment High School - Application",
-            "JONES HS - Selective Enrollment High School - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 &&
-                    studentData.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "bd680e7bc10c03552140e26736221cf7": {
-        "name": "",
-        "desc": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for 7th grade final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
-        "programs": [
-            "BROOKS HS - Selective Enrollment High School - Selection",
-            "YOUNG HS - Selective Enrollment High School - Selection",
-            "NORTHSIDE PREP HS - Selective Enrollment High School - Selection",
-            "SOUTH SHORE INTL HS - Selective Enrollment High School - Selection",
-            "WESTINGHOUSE HS - Selective Enrollment High School - Selection",
-            "LANE TECH HS - Selective Enrollment High School - Selection",
-            "HANCOCK HS - Selective Enrollment High School - Selection",
-            "LINDBLOM HS - Selective Enrollment High School - Selection",
-            "KING HS - Selective Enrollment High School - Selection",
-            "JONES HS - Selective Enrollment High School - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateSEPoints(student);
-            var cutoff = getSECutoff(student, school);
-            if (score >= cutoff.max) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (score >= cutoff.avg) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else if (score >= cutoff.min) {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "94f10272b6ff9ee947b6c7f8e9adc98c": {
-        "name": "",
-        "desc": "Minimum percentile of 24 in both reading and math on NWEA MAP. An interview is required for applicants.",
-        "programs": [
-            "TAFT HS - NJROTC - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.nweaPercentileMath >= 24 &&
-                studentData.nweaPercentileRead >= 24) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "29034b3dd211fc6857c0762ea4431354": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores and the interview.",
-        "programs": [
-            "TAFT HS - NJROTC - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "7ca8e42afc3b2240bdc21e9b02a9b6ff": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 2.75 GPA in 7th grade. An audition is required for students who live outside of the school's attendance boundary.",
-        "programs": [
-            "LINCOLN PARK HS - Vocal Music - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 60 &&
-                    studentData.nweaPercentileRead >= 60 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "abfbe30160c0ed3a6d925da2f6fbe7d6": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility/audition requirements and can be admitted automatically.  Students who live outside of the school's attendance boundary are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade GPA, and the audition.",
-        "programs": [
-            "LINCOLN PARK HS - Vocal Music - Selection",
-            "LINCOLN PARK HS - Instrumental Music - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-            }
-        }
-    },
-    "9653c4a2af98c756aaeeaa36980f9dc5": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 24 in reading and math on NWEA MAP, and minimum attendance percentage of 90.",
-        "programs": [
-            "PHILLIPS HS - General Education - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (studentData.iep || studentData.ell) {
-                    if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 24 &&
-                        studentData.attendancePercentage >= 90) {
-                        return { outcome: success_chance_ts_1.default.CERTAIN };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.NONE };
-                    }
-                }
-                else {
-                    if (studentData.nweaPercentileMath >= 24 &&
-                        studentData.nweaPercentileRead >= 24 &&
-                        studentData.attendancePercentage >= 90) {
-                        return { outcome: success_chance_ts_1.default.CERTAIN };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.NONE };
-                    }
-                }
-            }
-        }
-    },
-    "49bc52caf46148ee777e8d3534f22700": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, tiers.",
-        "programs": [
-            "CRANE MEDICAL HS - Health Sciences - Selection",
-            "CHICAGO AGRICULTURE HS - Agricultural Sciences - Selection",
-            "VON STEUBEN HS - Science - Selection",
-            "CLARK HS - Early College STEM - Selection",
-            "DISNEY II HS - Fine Arts & Technology - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school) ||
-                hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "61f50de703d591d18f2fb852131bbb9c": {
-        "name": "",
-        "desc": "Studentts are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
-        "programs": [
-            "SULLIVAN HS - Accounting - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                if (studentData.iep || studentData.ell) {
-                    if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48) {
-                        return { outcome: success_chance_ts_1.default.LIKELY };
-                    }
-                    else if (studentData.prevGradeLevel !== 7) {
-                        return { outcome: success_chance_ts_1.default.UNLIKELY };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                    }
-                }
-                else {
-                    if (studentData.nweaPercentileMath >= 24 &&
-                        studentData.nweaPercentileRead >= 24) {
-                        return { outcome: success_chance_ts_1.default.LIKELY };
-                    }
-                    else if (studentData.prevGradeLevel !== 7) {
-                        return { outcome: success_chance_ts_1.default.UNLIKELY };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                    }
-                }
-            }
-        }
-    },
-    "3c0f47771fc40565978a3a894bd96705": {
-        "name": "",
-        "desc": "Minimum percentile of 50 in both reading and math on NWEA MAP, and minimum 2.0 GPA in 7th grade.",
-        "programs": [
-            "FENGER HS - Honors - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.nweaPercentileMath >= 50 &&
-                studentData.nweaPercentileRead >= 50 &&
-                studentData.gpa >= 2.0) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "308d8156364219130aef9a7de30a6c8d": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery.",
-        "programs": [
-            "FENGER HS - Honors - Selection",
-            "CHICAGO VIRTUAL - General Education - Selection",
-            "KENWOOD HS - Honors - Selection",
-            "HUBBARD HS - University Scholars - Selection",
-            "DUNBAR HS - Career Academy - Selection",
-            "BRONZEVILLE HS - Honors - Selection",
-            "ACE TECH HS - General Education - Selection",
-            "MORGAN PARK HS - World Language and International Studies - Selection",
-            "CHICAGO TECH HS - Science/Technology/Engineering/Math - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "ab7e9a52b2c607977c432dd5f27c6fe9": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. Each school selects a minimum cutoff score for selections.",
-        "programs": [
-            "PROSSER HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "8f4240fa22d2281a32186e7a65e75011": {
-        "name": "",
-        "desc": "Spry is a three-year, year-round school. Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "SPRY HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "b4dc6bde064d3f16c8bed871ea0cee30": {
-        "name": "",
-        "desc": "Minimum percentile of 50 in reading on NWEA MAP, minimum 2.0 GPA in 7th grade, and minimum attendance percentage of 80.",
-        "programs": [
-            "KELLY HS - AVID - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.nweaPercentileRead >= 50 &&
-                studentData.gpa >= 2.0 &&
-                studentData.attendancePercentage >= 80) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "4ce6d6733bff330b780bc8390660d7cf": {
-        "name": "",
-        "desc": "Students will be selected based on teacher recommendation letter(s) and an interview process.",
-        "programs": [
-            "KELLY HS - AVID - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "cb7238b523517845746779fe18ea174a": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.   IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
-        "programs": [
-            "NORTHSIDE PREP HS - Selective Enrollment High School - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 &&
-                    studentData.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "14673a83b42347d3fdc6f2fa445c4d2f": {
-        "name": "",
-        "desc": "Student selections are based on points. Students are assigned points for 7th grade final GPA and 7th grade stanines. Students are ranked and selected from high to low. Students residing within the attendance overlay boundary of the school are selected first.",
-        "programs": [
-            "HANCOCK HS - Pre-Law - Selection",
-            "HANCOCK HS - Pre-Engineering - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "3d1c7a20cb38789ce4b0f651200dd9cd": {
-        "name": "",
-        "desc": "Minimum percentile of 75 in both reading and math on NWEA MAP, minimum 3.5 GPA in 7th grade, and minimum attendance percentage of 95.",
-        "programs": [
-            "KENWOOD HS - Honors - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.nweaPercentileMath >= 75 &&
-                studentData.nweaPercentileRead >= 75 &&
-                studentData.gpa >= 3.5 &&
-                studentData.attendancePercentage >= 95) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "027fe7b2d9fd7d9c6e55de49f723852f": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum combined percentile of 40 in reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 30 in reading and math on NWEA MAP, and minimum attendance percentage of 90.",
-        "programs": [
-            "SIMEON HS - Career Academy - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) > 30 &&
-                    studentData.attendancePercentage >= 90) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) > 40 &&
-                    studentData.gpa >= 2.5 &&
-                    studentData.attendancePercentage >= 90) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "47befdd406dee45058f2dbd64a097154": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the combined NWEA MAP scores and the interview.",
-        "programs": [
-            "SIMEON HS - Career Academy - Selection",
-            "SIMEON HS - Honors - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "39fbe111b62498337fb2f7973a18e570": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 85.  IEP and EL students: Minimum combined percentile of 40 in reading and math on NWEA MAP and minimum attendance percentage of 85.",
-        "programs": [
-            "HARLAN HS - General Education - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (studentData.iep || studentData.ell) {
-                    if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 40 &&
-                        studentData.attendancePercentage >= 85) {
-                        return { outcome: success_chance_ts_1.default.CERTAIN };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.NONE };
-                    }
-                }
-                else {
-                    if (studentData.nweaPercentileMath >= 24 &&
-                        studentData.nweaPercentileRead >= 24 &&
-                        studentData.attendancePercentage >= 85) {
-                        return { outcome: success_chance_ts_1.default.CERTAIN };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.NONE };
-                    }
-                }
-            }
-        }
-    },
-    "3e4ad403b3a6a2e998cd7d7b7d179091": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibilty requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "HARLAN HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "f2829bdd4c9bc67e01b90bdd3db46c07": {
-        "name": "",
-        "desc": "Minimum percentile of 50 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 90.",
-        "programs": [
-            "SIMEON HS - Honors - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.nweaPercentileMath >= 50 &&
-                studentData.nweaPercentileRead >= 50 &&
-                studentData.gpa >= 3.0 &&
-                studentData.attendancePercentage >= 90) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "c66032656bbf52edb1c9d6b62ca2e2eb": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum combined percentile of 135 in reading and math on NWEA MAP and minimum 3.0 GPA in 7th grade.",
-        "programs": [
-            "LINCOLN PARK HS - Honors/Double Honors - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 135 &&
-                    studentData.gpa >= 3.0) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "1558a52d4663a54c6a5f06fa10062961": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside the school's attendance boundary are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and 7th grade GPA.",
-        "programs": [
-            "LINCOLN PARK HS - Honors/Double Honors - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-            }
-        }
-    },
-    "f4491f6cf1ebf200770f01271d93ba47": {
-        "name": "",
-        "desc": "Minimum percentile of 80 in both reading and math on NWEA MAP and minimum 3.5 GPA in 7th grade.",
-        "programs": [
-            "CHICAGO AGRICULTURE HS - Scholars - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.nweaPercentileMath >= 80 &&
-                studentData.nweaPercentileRead >= 80 &&
-                studentData.gpa >= 3.5) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "1976701fe4ffdbf53913f7f638f61b26": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. Preference is given to students with a sibling who is currently enrolled and will be enrolled in the upcoming school year.",
-        "programs": [
-            "CHICAGO AGRICULTURE HS - Scholars - Selection",
-            "HARLAN HS - Pre-Engineering - Selection",
-            "CHICAGO AGRICULTURE HS - Honors - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "736b7d124b6930cf8ae642563037eeb9": {
-        "name": "",
-        "desc": "Attendance at an Information Session is not required, but preference is given to students who attend an Information Session.",
-        "programs": [
-            "GOODE HS - Early College STEM - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "85463a98c5a7ba21313aacdaeda48cd0": {
-        "name": "",
-        "desc": "Students are randomly selcted by computerized lottery. The lottery is conducted in the following order: students who live within the school's overlay boundary and attend an Information Session; students who live within the school's network and attend an Information Session; students who live outside of the network and attend an Information Session; students who live within the school's overlay boundary and do not attend an Information Session; students who live within the school's network and do not attend an Information Session; students who live outside of the network and do not attend an Information Session.",
-        "programs": [
-            "GOODE HS - Early College STEM - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "8ccbd2eb3d4e026932b83ee576862b16": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  An audition is required for all eligible applicants.",
-        "programs": [
-            "SENN HS - Dance - Application",
-            "SENN HS - Music - Application",
-            "SENN HS - Theatre - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 &&
-                    studentData.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "7e054e33cdc685f9b099a243e45f0386": {
-        "name": "",
-        "desc": "Minimum 2.5 GPA in 7th grade.",
-        "programs": [
-            "ROBESON HS - Allied Health - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.gpa >= 2.5) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "b3b514880eaa7b9a4db6d6b6308eb1f7": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school selects the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Academic Center.",
-        "programs": [
-            "MORGAN PARK HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "7574e7fa48dfdf030b059dbaff5351b6": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling; students who attend Brennemann, Courtenay, or McCutcheon Elementary Schools; general.",
-        "programs": [
-            "UPLIFT HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "f9d7148f613933f83ad7d81004715614": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled at the University of Chicago Woodlawn, sibling, proximity, general.",
-        "programs": [
-            "U OF C - WOODLAWN HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData) ||
-                hasSiblingInProgram(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "bc314f72be86fc565247301f6d8f99b8": {
-        "name": "",
-        "desc": "Minimum percentile of 40 in both reading and math on NWEA MAP, minimum 2.8 GPA in 7th grade, and minimum attendance percentage of 92.",
-        "programs": [
-            "COLLINS HS - Scholars - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.nweaPercentileMath >= 40 &&
-                studentData.nweaPercentileRead >= 40 &&
-                studentData.gpa >= 2.8 &&
-                studentData.attendancePercentage >= 92) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "685beedfccfae8bdb0649c36f03dfd7a": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in Chalmers, Dvorak, Herzl, Johnson, or Morton Elementary Schools; general.",
-        "programs": [
-            "COLLINS HS - Scholars - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "9a2a27708247d3b692481757756b5226": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum combined percentile of 40 in both reading and math on NWEA MAP, minimum 2.0 GPA in 7th grade, and minimum attendance percentage of 80.  IEP/EL students have no eligibility requirements.",
-        "programs": [
-            "TEAM HS - General Education - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 40 &&
-                    studentData.gpa >= 2.0 &&
-                    studentData.attendancePercentage >= 80) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "8f880cad92a9a0dc49dd8d6ba4209b14": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students with a 7th grade final GPA of 2.5 or higher, general.",
-        "programs": [
-            "TEAM HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.gpa >= 2.5) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "43cabfe5f36cbf1ccbb95a9962d90319": {
-        "name": "",
-        "desc": "Students enrolled in the Taft Academic Center or students who live within the school's attendance boundary can be admitted automatically. This program only accepts students who live within the school's attendance boundary or who attend the school's Academic Center.",
-        "programs": [
-            "TAFT HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "9fad1e147fb546e7a25d0fccba608035": {
-        "name": "",
-        "desc": "Students who are enrolled in the Morgan Park Academic Center and students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "MORGAN PARK HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "7ef878b115498c24fd96f8891c346480": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 85.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, and minimum attendance percentage of 85.",
-        "programs": [
-            "WILLIAMS HS - General Education - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48 &&
-                    studentData.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 &&
-                    studentData.nweaPercentileRead >= 24 &&
-                    studentData.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "01bb8009b315ff8fc0120dbadf71444c": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading on math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.",
-        "programs": [
-            "HUBBARD HS - University Scholars - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48 &&
-                    studentData.gpa >= 2.5 &&
-                    studentData.attendancePercentage >= 90) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 &&
-                    studentData.nweaPercentileRead >= 24 &&
-                    studentData.gpa >= 2.5 &&
-                    studentData.attendancePercentage >= 90) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "86b8c5719b264aa9072aa6433644fb60": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, and minimum attendance percentage of 90.",
-        "programs": [
-            "SENN HS - Digital Journalism - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48 &&
-                    studentData.attendancePercentage >= 90) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 &&
-                    studentData.nweaPercentileRead >= 24 &&
-                    studentData.gpa >= 2.5 &&
-                    studentData.attendancePercentage >= 90) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "4773ff8378c681fdc3855cec189b446d": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. General Education and 504 Plan Students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
-        "programs": [
-            "BOGAN HS - Accounting - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else if (studentData.prevGradeLevel !== 7) {
-                    return { outcome: success_chance_ts_1.default.UNLIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 && studentData.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else if (studentData.prevGradeLevel !== 7) {
-                    return { outcome: success_chance_ts_1.default.UNLIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "87bdb6caf5cf899ddb8041511761e58b": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "INTRINSIC HS - General Education - Selection",
-            "YOUNG WOMENS HS - General Education - Selection",
-            "INSTITUTO - HEALTH - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "23e3199eb5514de5456653457f75f366": {
-        "name": "",
-        "desc": "Minimum percentile of 60 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.",
-        "programs": [
-            "KENWOOD HS - Magnet Program - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.nweaPercentileMath >= 60 &&
-                student.nweaPercentileRead >= 60 &&
-                student.gpa >= 3.0 &&
-                student.attendancePercentage >= 95) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "9b26cbed99b12a4c7cfca5a4713c6e17": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in the Kenwood Academic Center, general.",
-        "programs": [
-            "KENWOOD HS - Magnet Program - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "0df5dab7dc2c1e8d8947d27287872269": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibilty requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, Edwards Elementary School.",
-        "programs": [
-            "CURIE HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "9e837f0a671ce67593e611ccf595306a": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the schools attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "CORLISS HS - Early College STEM - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "2fdf00001de412f0e493fa242647bad0": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Academic Center.",
-        "programs": [
-            "TAFT HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "ba2bb65c77d8d0932634f43bb01707cc": {
-        "name": "",
-        "desc": "Students who live within the school's attendance area can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in Carnegie Elementary School, sibling, general.",
-        "programs": [
-            "HYDE PARK HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "08ee4f1aa31d5eb00bbc81c21139188b": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary: None  Students who live outside of the school's attendance boundary: Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 2.75 GPA in 7th grade. An audition is required for students who live outside of the school's attendance boundary.",
-        "programs": [
-            "LINCOLN PARK HS - Instrumental Music - Application"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (student.nweaPercentileMath >= 60 &&
-                    student.nweaPercentileRead >= 60 &&
-                    student.gpa >= 2.75) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "d1b719a6ff9e6979e8f14b2c05b63352": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: Alcott Elementary School students, proximity, general.",
-        "programs": [
-            "ALCOTT HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "f5ef0c0580eb110a06888b1c15313717": {
-        "name": "",
-        "desc": "Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 2.75 GPA in 7th grade. An audition is required for all eligible applicants.",
-        "programs": [
-            "LINCOLN PARK HS - Drama - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.nweaPercentileMath >= 60 &&
-                student.nweaPercentileRead >= 60 &&
-                student.gpa >= 2.75) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "9f4eb5cee59306847a4fa61720f8e54d": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade GPA, and the audition.",
-        "programs": [
-            "LINCOLN PARK HS - Drama - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "625d1f6025c2e892f5573e60ab69f903": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on the NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.",
-        "programs": [
-            "HARLAN HS - Pre-Engineering - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.nweaPercentileMath >= 24 &&
-                    student.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "bc517a96ab40c67deddde65b6a4c07a8": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  A portfolio review is required for all eligible applicants.",
-        "programs": [
-            "SENN HS - Visual Arts - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.nweaPercentileMath >= 24 &&
-                    student.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "cb76bc6620a1921e5f9630e2a39fb8d8": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade final (cumulative) grades, and the portfolio review.",
-        "programs": [
-            "SENN HS - Visual Arts - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "afb0dfcaa0f2cc236b2bd07a0244385e": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary or who attend Grow Community Schools can be admitted automatically. This program only accepts students who live within the school's attendance boundary or attend a Grow Community School.",
-        "programs": [
-            "AMUNDSEN HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "78e3973b67c80b7984271b2a127e9ebf": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum 2.5 GPA in 7th grade and minimum attendance percentage of 85.",
-        "programs": [
-            "KELVYN PARK HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (student.gpa >= 2.5 &&
-                    student.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "03c4df08f6e417f196f6e87415e2064f": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are selected on a point system. Points are based on NWEA MAP scores, 7th grade GPA, and the interview.",
-        "programs": [
-            "KELVYN PARK HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-            }
-        }
-    },
-    "95025d14a97b9b32f5a2c8225c4ddd6e": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance is required at an Information Session for all eliglble applicants.",
-        "programs": [
-            "HUBBARD HS - International Baccalaureate (IB) - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 &&
-                    studentData.nweaPercentileRead >= 24 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "296d2849362aa5311f457ffc834a868b": {
-        "name": "",
-        "desc": "Students are selected on a point system. Students are assigned points for 7th grade final GPA and 7th grade stanines. Students are ranked and selected from high to low. Students residing within the attendance overlay boundary of the school are selected first.",
-        "programs": [
-            "JONES HS - Pre-Law - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "bb9e0e6f1af678dafb340a8e48ff4fbf": {
-        "name": "",
-        "desc": "Minimum percentile of 50 in both reading and math on NWEA MAP and minimum 3.0 GPA in 7th grade.",
-        "programs": [
-            "CHICAGO AGRICULTURE HS - Honors - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.nweaPercentileMath >= 50 &&
-                student.nweaPercentileRead >= 50 &&
-                student.gpa >= 3.0) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "26f5b02fa29f8a9c2b5bc909b844e585": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner,  Madero Middle School.",
-        "programs": [
-            "FARRAGUT HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "6de001ff1207c6d38de87e65f3e11ff3": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled at Chicago Collegiate Charter School, sibling, proximity, general.",
-        "programs": [
-            "CHICAGO COLLEGIATE - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school) ||
-                hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "351d1f100c07b40673b51f4506b0e34e": {
-        "name": "",
-        "desc": "None. All interested students, including students who live within the overlay boundary of the school, must submit apply.",
-        "programs": [
-            "BACK OF THE YARDS HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.CERTAIN };
-        }
-    },
-    "fd100fd06ddf9bd72e2809f6d659faf2": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students who live within the attendance boundaries of Chavez, Daley, Hamline, Hedges, Lara, or Seward Elementary Schools; general.",
-        "programs": [
-            "BACK OF THE YARDS HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "763686fddcad223e9a51aebaac42b61c": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: General Education and 504 Plan students: Minimum percentile of 60 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.  IEP/EL students have no eligibility requirements.",
-        "programs": [
-            "WELLS HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (student.iep || student.ell) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    if (student.nweaPercentileMath >= 60 &&
-                        student.nweaPercentileRead >= 60 &&
-                        student.gpa >= 3.0 &&
-                        student.attendancePercentage >= 95) {
-                        return { outcome: success_chance_ts_1.default.CERTAIN };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.NONE };
-                    }
-                }
-            }
-        }
-    },
-    "379139122b47f0c7efa0e423df956e30": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: students scoring above designated NWEA MAP percentile, sibling, general.",
-        "programs": [
-            "WELLS HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                var scoredAboveThreshold = student.nweaPercentileMath >= 60 &&
-                    student.nweaPercentileRead >= 60;
-                if (scoredAboveThreshold || hasSiblingInProgram(student, school)) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "69aef50164a2914f16a28630afa50270": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 30 in both reading and math on NWEA MAP, minimum 2.0 GPA in 7th grade and minimum attendance percentage of 85.  IEP and EL students: Minimum combined percentile of 24 in reading and math on NWEA MAP, and minimum attendance percentage of 85.",
-        "programs": [
-            "COLLINS HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 24 &&
-                    student.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "a105512ab5a0eb6536021215baf98ea8": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in Chalmers, Dvorak, Herzl, Johnson, or Morton Elementary Schools; sibling; general.",
-        "programs": [
-            "COLLINS HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "47750c8ffb643412fb55f3f3d6bde14a": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school selects the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, Ogden Elementary School.",
-        "programs": [
-            "OGDEN HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "965d710ce70f9e59e622f51311b5a986": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
-        "programs": [
-            "DYETT ARTS HS - Digital Media - Selection"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else if (student.prevGradeLevel !== 7) {
-                    return { outcome: success_chance_ts_1.default.UNLIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (student.nweaPercentileMath >= 24 &&
-                    student.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else if (student.prevGradeLevel !== 7) {
-                    return { outcome: success_chance_ts_1.default.UNLIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "a6071a83f74612d54c3f659f9cb8a79c": {
-        "name": "",
-        "desc": "General Education/504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants.",
-        "programs": [
-            "SENN HS - International Baccalaureate (IB) - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 48 &&
-                    student.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.nweaPercentileMath >= 24 &&
-                    student.nweaPercentileRead >= 24 &&
-                    student.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "8605454896638a4de5feec75ed536489": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, Peirce Elementary School.",
-        "programs": [
-            "SENN HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "5e32e9c5ce34b2af75f2ec9e1a6c6643": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 50 in both reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade.    IEP and EL students: Minimum combined percentile of 100 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.",
-        "programs": [
-            "BRONZEVILLE HS - Honors - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 100 &&
-                    student.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.nweaPercentileMath >= 50 &&
-                    student.nweaPercentileRead >= 50 &&
-                    student.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "8a0c487746fe132f3f1925a84c56e9ee": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eliglble applicants.",
-        "programs": [
-            "LINCOLN PARK HS - International Baccalaureate (IB) - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 48 &&
-                    student.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.nweaPercentileMath >= 24 &&
-                    student.nweaPercentileRead >= 24 &&
-                    student.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "8e60c325cf7da2ae7aa09dc4e543590e": {
-        "name": "",
-        "desc": "Students are selected based on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school selects the minimum cutoff score for selections.",
-        "programs": [
-            "LINCOLN PARK HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "f1650d13a99b142887259980d7570270": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.  Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, McPherson Elementary School.",
-        "programs": [
-            "AMUNDSEN HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "2434179e9c2fb95777cc4e0c6c998de1": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum attendance percentage of 95.",
-        "programs": [
-            "WORLD LANGUAGE HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (student.attendancePercentage >= 95) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "cbc3d549cb9e0240f077ac3c87b0f671": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery.\u00a0The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "WORLD LANGUAGE HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "5cfeec40267082ca1ee0ca7e469687a7": {
-        "name": "",
-        "desc": "Contact the school for information.",
-        "programs": [
-            "LAKE VIEW HS - Early College STEM - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "01ad18923e7e8de10e8fb09bb2c6722a": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery.  General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
-        "programs": [
-            "CHICAGO VOCATIONAL HS - Cosmetology - Selection"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (student.nweaPercentileMath >= 24 &&
-                    student.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "94798381edc76846cfb1ec3503fd61b0": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Essay",
-        "programs": [
-            "SOCIAL JUSTICE HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "62c57f6f0d8cb1d35fb12bd66840819f": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Students who live outside of the school's attendance boundary are selected on a point system. The points are based on the student essay and NWEA MAP scores.",
-        "programs": [
-            "SOCIAL JUSTICE HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-            }
-        }
-    },
-    "182b0f39bdb6558622d86addc2aae6b7": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.  Preference is given to students who meet the minimum eligibilty requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, Carnegie Elementary School.",
-        "programs": [
-            "HYDE PARK HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "c7ce3086f4acc55ea53e0c97f71d12aa": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary and students currently enrolled in the Kenwood Academic Center can be admitted automatically. This program only accepts students who live within the school's attendance boundary or who are enrolled in the school's Academic Center.",
-        "programs": [
-            "KENWOOD HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "65f9f712e101af2ba0f44401e01ca729": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on 7th grade final GPA and NWEA MAP scores. The school determines the minimum cutoff score for selections. Preference is given to students who live within the school's attendance boundary.",
-        "programs": [
-            "AUSTIN CCA HS - Pre-Engineering - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "5fbf1b80166fef3a0e0db9557d500465": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 25 in both reading and math on NWEA MAP.   IEP and EL students: Minimum combined percentile of 50 in reading and math on NWEA MAP, and minimum attendance percentage of 85.",
-        "programs": [
-            "CHICAGO ACADEMY HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 50 &&
-                    student.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.nweaPercentileMath >= 25 &&
-                    student.nweaPercentileRead >= 25 &&
-                    student.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "924ceb6aa82922cdb541302a265549eb": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: students attending Boone, Field, Gale, Hayt, Jordan, Kilmer, McCutcheon, McPherson, or West Ridge Elementary Schools; sibling; general.",
-        "programs": [
-            "SULLIVAN HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school) ||
-                hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "46083386e3daad02ff00ac73d3987286": {
-        "name": "",
-        "desc": "Students are selected on a point system with a maximum of 900 points. Points are based on 7th grade final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
-        "programs": [
-            "PAYTON HS - Selective Enrollment High School - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateSEPoints(student);
-            var cutoff = getSECutoff(student, school);
-            if (score >= cutoff.max) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (score >= cutoff.avg) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else if (score >= cutoff.min) {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "536556326f56a1875afccbeedde85fb9": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conduced in the following order: sibling, general.",
-        "programs": [
-            "LEGAL PREP HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "7cc8a6e9cd27c6a9e8d43b323a961475": {
-        "name": "",
-        "desc": "Applicants must be girls currently enrolled in eighth grade.",
-        "programs": [
-            "YOUNG WOMENS HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.gradeLevel === 8) {
-                if (student.gender === gender_1.default.FEMALE) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else if (student.gender === gender_1.default.OTHER ||
-                    student.gender === gender_1.default.NOANSWER) {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-                else if (student.gender === gender_1.default.MALE) {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "a787cb9987ca94d3c2370e2cb67d50cc": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 50 in both reading and math on the NWEA MAP and minimum 3.0 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 60 in reading and math on NWEA MAP.",
-        "programs": [
-            "MORGAN PARK HS - World Language and International Studies - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 60) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.nweaPercentileRead >= 50 &&
-                    student.nweaPercentileMath >= 50 &&
-                    student.gpa >= 3.0) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "d7e3e54b06028c21a40cf58127e2aef4": {
-        "name": "",
-        "desc": "Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 3.0 GPA in 7th grade. Eligible students must submit teacher recommendations and an essay. See www.vonsteuben.org for submission details (click 'Apply' and 'Scholars Program'). Applicants who are not eligible will automatically be included in the computerized lottery selection process for the Von Steuben Science Program.",
-        "programs": [
-            "VON STEUBEN HS - Scholars - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.nweaPercentileMath >= 60 &&
-                student.nweaPercentileRead >= 60 &&
-                student.gpa >= 3.0) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "0a7d20d2cdbb736d46e6c7a37e5b7764": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the teacher recommendations and the essay.",
-        "programs": [
-            "VON STEUBEN HS - Scholars - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "a59652b1328b73b5acb08979a32a9db8": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum attendance percentage of 92.  An audition is required for all eligible applicants.",
-        "programs": [
-            "CHIARTS HS - Music - Vocal - Application",
-            "CHIARTS HS - Theatre - Application",
-            "CHIARTS HS - Music - Instumental - Application",
-            "CHIARTS HS - Dance - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 48 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.nweaPercentileMath >= 24 &&
-                    student.nweaPercentileMath >= 24 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "500cba9f742c1244ddaa1c37070299f1": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the audition.",
-        "programs": [
-            "CHIARTS HS - Music - Vocal - Selection",
-            "CHIARTS HS - Theatre - Selection",
-            "CHIARTS HS - Music - Instumental - Selection",
-            "CHIARTS HS - Dance - Selection",
-            "CHIARTS HS - Musical Theatre - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "b89ee63f6f32c43ca9707a85d8dc98e7": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum attendance percentage of 92.   A portfolio review is required for all eligible applicants.",
-        "programs": [
-            "CHIARTS HS - Creative Writing - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 48 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.nweaPercentileMath >= 24 &&
-                    student.nweaPercentileMath >= 24 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "fd2b72f8025478fc320959b283c0ff2f": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the portfolio review.",
-        "programs": [
-            "CHIARTS HS - Creative Writing - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "3f45862ca2003745fc3f4e12492abdfa": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  A portfolio review is required for all eligible applicants.",
-        "programs": [
-            "CHIARTS HS - Visual Arts - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 48 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.nweaPercentileMath >= 24 &&
-                    student.nweaPercentileMath >= 24 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "6c2d1016a23c9b0e67736b91a166b594": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP socres in reading and math and the portfolio review.",
-        "programs": [
-            "CHIARTS HS - Visual Arts - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "ae43e969113d1c6b1b6fe0c0a1321c40": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum attendance percentage of 92. An audition is required for all eligible applicants.",
-        "programs": [
-            "CHIARTS HS - Musical Theatre - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 48 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.nweaPercentileMath >= 24 &&
-                    student.nweaPercentileMath >= 24 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    }
-};
-exports.default = HSReqFns;
-
-
-/***/ }),
-/* 276 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var grade_convert_1 = __webpack_require__(277);
-exports.calculateSEPoints = function (student) {
-    var NWEA_SCORE_CONSTANT = 1.515;
-    var nweaMathPoints = Math.round(student.nweaPercentileMath * NWEA_SCORE_CONSTANT);
-    var nweaReadPoints = Math.round(student.nweaPercentileRead * NWEA_SCORE_CONSTANT);
-    var gradePointsLookup = {
-        "A": 75,
-        "B": 50,
-        "C": 25,
-        "D": 0,
-        "F": 0,
-    };
-    var subjGradeMathPoints = gradePointsLookup[grade_convert_1.toLetterGrade(student.subjGradeMath)];
-    var subjGradeReadPoints = gradePointsLookup[grade_convert_1.toLetterGrade(student.subjGradeRead)];
-    var subjGradeSciPoints = gradePointsLookup[grade_convert_1.toLetterGrade(student.subjGradeSci)];
-    var subjGradeSocStudiesPoints = gradePointsLookup[grade_convert_1.toLetterGrade(student.subjGradeSocStudies)];
-    var SE_TEST_PERCENTILE_CONSTANT = 3.03;
-    var seTestPoints = Math.round(student.seTestPercentile * SE_TEST_PERCENTILE_CONSTANT);
-    var sePoints = nweaMathPoints +
-        nweaReadPoints +
-        subjGradeMathPoints +
-        subjGradeReadPoints +
-        subjGradeSciPoints +
-        subjGradeSocStudiesPoints +
-        seTestPoints;
-    return sePoints;
-};
-exports.calculateIBPoints = function (student) {
-    var NWEA_SCORE_CONSTANT = 2.2727;
-    var nweaMathPoints = Math.round(student.nweaPercentileMath * NWEA_SCORE_CONSTANT);
-    var nweaReadPoints = Math.round(student.nweaPercentileRead * NWEA_SCORE_CONSTANT);
-    var gradePointsLookup = {
-        "A": 112.5,
-        "B": 75,
-        "C": 38,
-        "D": 0,
-        "F": 0,
-    };
-    var subjGradeMathPoints = gradePointsLookup[grade_convert_1.toLetterGrade(student.subjGradeMath)];
-    var subjGradeReadPoints = gradePointsLookup[grade_convert_1.toLetterGrade(student.subjGradeRead)];
-    var subjGradeSciPoints = gradePointsLookup[grade_convert_1.toLetterGrade(student.subjGradeSci)];
-    var subjGradeSocStudiesPoints = gradePointsLookup[grade_convert_1.toLetterGrade(student.subjGradeSocStudies)];
-    var ibPoints = nweaMathPoints +
-        nweaReadPoints +
-        subjGradeMathPoints +
-        subjGradeReadPoints +
-        subjGradeSciPoints +
-        subjGradeSocStudiesPoints;
-    return ibPoints;
-};
-
-
-/***/ }),
-/* 277 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var score_type_1 = __webpack_require__(278);
-exports.GradeConvertErrors = {
-    BadScoreType: new Error("Incorrect ScoreType passed to GradeConvert method"),
-    BadScore: new Error("Bad score passed to GradeConvert method"),
-    BadPercentile: new Error("Bad percentile passed to GradeConvert method")
-};
-exports.scoreToString = function (score, scoreType) {
-    if (scoreType in score_type_1.default) {
-        return score.toString(10);
-    }
-    else {
-        throw exports.GradeConvertErrors.BadScoreType;
-    }
-};
-exports.tryParseScore = function (str, scoreType) {
-    if (scoreType in score_type_1.default) {
-        var score = Number.parseInt(str, 10);
-        if (Number.isNaN(score)) {
-            return [false, null];
-        }
-        else {
-            return [true, score];
-        }
-    }
-    else {
-        throw exports.GradeConvertErrors.BadScoreType;
-    }
-};
-exports.toGPA = function (scores) {
-    var toPoints = function (score) {
-        var letterGrade = exports.toLetterGrade(score);
-        switch (letterGrade) {
-            case "A":
-                return 4;
-            case "B":
-                return 3;
-            case "C":
-                return 2;
-            case "D":
-                return 1;
-            case "F":
-                return 0;
-        }
-    };
-    var numGrades = scores.length;
-    var gradePointSum = scores.map(toPoints).reduce(function (a, b) { return a + b; });
-    return gradePointSum / numGrades;
-};
-var letterGradeHighScores = {
-    A: 100,
-    B: 89,
-    C: 79,
-    D: 69,
-    F: 59
-};
-var isLetterGrade = function (strScore) {
-    var letterGrades = ["A", "B", "C", "D", "F"];
-    if (letterGrades.indexOf(strScore.toUpperCase()) !== -1) {
-        return true;
-    }
-    else {
-        return false;
-    }
-};
-var isNumberGrade = function (strScore) {
-    var intScore = Number.parseInt(strScore, 10);
-    var parseSuccessful = !Number.isNaN(intScore);
-    if (parseSuccessful) {
-        if (intScore >= 0 && intScore <= 100) {
-            return true;
-        }
-    }
-    else {
-        return false;
-    }
-};
-var toNumberGrade = function (strScore) {
-    if (isLetterGrade(strScore)) {
-        return Number.parseInt(strScore);
-    }
-    else if (isNumberGrade(strScore)) {
-        return letterGradeHighScores[strScore];
-    }
-    else {
-        throw new Error("toNumberGrade parse failed with " + strScore);
-    }
-};
-exports.toLetterGrade = function (grade) {
-    if (grade <= letterGradeHighScores["F"]) {
-        return "F";
-    }
-    else if (grade <= letterGradeHighScores["D"]) {
-        return "D";
-    }
-    else if (grade <= letterGradeHighScores["C"]) {
-        return "C";
-    }
-    else if (grade <= letterGradeHighScores["B"]) {
-        return "B";
-    }
-    else {
-        return "A";
-    }
-};
-
-
-/***/ }),
-/* 278 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var ScoreType;
-(function (ScoreType) {
-    ScoreType["nweaPercentileMath"] = "nweaPercentileMath";
-    ScoreType["nweaPercentileRead"] = "nweaPercentileRead";
-    ScoreType["subjGradeMath"] = "subjGradeMath";
-    ScoreType["subjGradeRead"] = "subjGradeRead";
-    ScoreType["subjGradeSci"] = "subjGradeSci";
-    ScoreType["subjGradeSocStudies"] = "subjGradeSocStudies";
-})(ScoreType || (ScoreType = {}));
-exports.default = ScoreType;
-
-
-/***/ }),
-/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51620,13 +47965,12 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(4);
-var get_req_fns_1 = __webpack_require__(107);
-var success_chance_1 = __webpack_require__(24);
-var hs_program_info_card_1 = __webpack_require__(280);
-__webpack_require__(283);
-var HSListElement = (function (_super) {
-    __extends(HSListElement, _super);
-    function HSListElement(props) {
+var success_chance_1 = __webpack_require__(57);
+var hs_program_info_card_1 = __webpack_require__(276);
+__webpack_require__(281);
+var HSProgramElement = (function (_super) {
+    __extends(HSProgramElement, _super);
+    function HSProgramElement(props) {
         var _this = _super.call(this, props) || this;
         _this.getCombinedSuccessChance = function (application, selection) {
             if (application === success_chance_1.default.CERTAIN || application === success_chance_1.default.LIKELY) {
@@ -51654,59 +47998,46 @@ var HSListElement = (function (_super) {
                     return "succ-not-implemented";
             }
         };
-        var hs = props.program;
-        var reqFns = get_req_fns_1.default(props.program);
-        _this.applicationReqFn = reqFns.application;
-        _this.selectionReqFn = reqFns.selection;
-        var applicationResult = _this.applicationReqFn(props.studentData, props.program);
-        var selectionResult = _this.selectionReqFn(props.studentData, props.program);
         _this.state = {
-            showHSPreview: _this.props.selected,
-            applicationResult: applicationResult,
-            selectionResult: selectionResult,
+            showHSPreview: props.selected,
             pxFromTop: 0
         };
         return _this;
     }
-    HSListElement.prototype.componentWillReceiveProps = function (nextProps) {
-        var applicationResult = this.applicationReqFn(nextProps.studentData, nextProps.program);
-        var selectionResult = this.selectionReqFn(nextProps.studentData, nextProps.program);
+    HSProgramElement.prototype.componentWillReceiveProps = function (nextProps) {
         this.setState({
-            applicationResult: applicationResult,
-            selectionResult: selectionResult,
             showHSPreview: nextProps.selected
         });
     };
-    ;
-    HSListElement.prototype.render = function () {
+    HSProgramElement.prototype.render = function () {
         var _this = this;
+        var className = "hs-list-element-icon " +
+            (this.state.showHSPreview ? "focus " : "") +
+            this.outcomeToClassName(this.getCombinedSuccessChance(this.props.program.applicationOutcome, this.props.program.selectionOutcome));
         return (React.createElement("div", { className: "hs-list-element", ref: function (ref) {
                 if (ref) {
                     _this.setState({ pxFromTop: ref.offsetTop + 50 });
                 }
             } },
-            React.createElement("button", { className: "hs-list-element-icon " + (this.state.showHSPreview ? "focus " : "") + this.outcomeToClassName(this.getCombinedSuccessChance(this.state.applicationResult.outcome, this.state.selectionResult.outcome)), onClick: function () {
-                    _this.props.onSelect(_this.props.program);
-                } }),
-            React.createElement("div", { className: "hs-list-element-shortname" }, this.props.program.Short_Name),
-            React.createElement(hs_program_info_card_1.default, { visible: this.state.showHSPreview, program: this.props.program, applicationSuccess: this.state.applicationResult.outcome, selectionSuccess: this.state.selectionResult.outcome, style: { top: this.state.pxFromTop } })));
+            React.createElement("button", { className: className, onClick: function () { return _this.props.onSelect(_this.props.program.id); } }),
+            React.createElement("div", { className: "hs-list-element-shortname" }, this.props.program.shortname),
+            React.createElement(hs_program_info_card_1.default, { visible: this.state.showHSPreview, program: this.props.program, style: { top: this.state.pxFromTop } })));
     };
-    return HSListElement;
+    return HSProgramElement;
 }(React.PureComponent));
-;
-exports.default = HSListElement;
+exports.default = HSProgramElement;
 
 
 /***/ }),
-/* 280 */
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(4);
-var success_chance_1 = __webpack_require__(24);
-__webpack_require__(281);
+var success_chance_1 = __webpack_require__(57);
+__webpack_require__(277);
 var HSProgramInfoCard = function (props) {
     var toMessage = function (success) {
         var msg;
@@ -51754,23 +48085,113 @@ var HSProgramInfoCard = function (props) {
     };
     return (React.createElement("div", { style: props.style, className: "hs-info-card-container " + (props.visible ? "visible" : "") },
         React.createElement("div", { className: "hs-info-card" },
-            React.createElement("div", { className: "hs-info-card-program-name" }, props.program.Short_Name + " - " + props.program.Program_Type + " Program"),
+            React.createElement("div", { className: "hs-info-card-program-name" }, props.program.shortname + " - " + props.program.programType + " Program"),
             React.createElement("div", { className: "hs-info-card-requirement-container" },
                 React.createElement("div", { className: "hs-info-card-requirement" },
                     React.createElement("div", { className: "hs-info-card-req-desc-container" },
                         React.createElement("div", { className: "hs-info-card-req-type" }, "To Apply:"),
-                        React.createElement("div", { className: "hs-info-card-req-desc" }, props.program.Application_Requirements)),
-                    React.createElement("div", { className: "hs-info-card-req-success" }, toMessage(props.applicationSuccess))),
+                        React.createElement("div", { className: "hs-info-card-req-desc" }, props.program.applicationReqDescription)),
+                    React.createElement("div", { className: "hs-info-card-req-success" }, toMessage(props.program.applicationOutcome))),
                 React.createElement("div", { className: "hs-info-card-requirement" },
                     React.createElement("div", { className: "hs-info-card-req-desc-container" },
                         React.createElement("div", { className: "hs-info-card-req-type" }, "To Be Selected:"),
-                        React.createElement("div", { className: "hs-info-card-req-desc" }, props.program.Program_Selections)),
-                    React.createElement("div", { className: "hs-info-card-req-success" }, toMessage(props.selectionSuccess)))),
+                        React.createElement("div", { className: "hs-info-card-req-desc" }, props.program.selectionReqDescription)),
+                    React.createElement("div", { className: "hs-info-card-req-success" }, toMessage(props.program.selectionOutcome)))),
             React.createElement("div", { className: "hs-links-container" },
-                React.createElement("a", { className: "hs-link", target: "_none", href: props.program.CPS_School_Profile }, "School Website"),
-                React.createElement("a", { className: "hs-link", target: "_none", href: createHSBoundLink(props.program.Short_Name) }, "HS Bound School Page")))));
+                React.createElement("a", { className: "hs-link", target: "_none", href: props.program.cpsLink }, "School Website"),
+                React.createElement("a", { className: "hs-link", target: "_none", href: createHSBoundLink(props.program.shortname) }, "HS Bound School Page")))));
 };
 exports.default = HSProgramInfoCard;
+
+
+/***/ }),
+/* 277 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(278);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(16)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-info-card.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-info-card.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 278 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(15)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".hs-info-card-container {\n  display: none;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: auto;\n  z-index: 99; }\n\n.hs-info-card-container.visible {\n  display: block; }\n\n.hs-info-card {\n  padding: 0.5em;\n  width: 100%;\n  height: 100%;\n  background: #fafafd;\n  -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start; }\n\n.hs-info-card-program-name {\n  font-size: 115%;\n  font-weight: bold;\n  width: 100%;\n  text-align: center; }\n\n.hs-info-card-requirement-container {\n  width: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column; }\n\n.hs-info-card-requirement {\n  width: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row; }\n\n.hs-info-card-req-desc-container {\n  width: 50%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  margin-bottom: 0.5em; }\n\n.hs-info-card-req-type {\n  width: 90px;\n  margin-right: 0.5em; }\n\n.hs-info-card-req-desc {\n  width: 200px;\n  font-size: 80%;\n  padding: 0.5em;\n  background: #e8e8f6;\n  border-radius: 5px;\n  border: 1px solid #eee;\n  margin-right: 0.5em; }\n\n.hs-links-container {\n  width: 100%; }\n\n.hs-link {\n  margin: 1em;\n  padding: 0.5em;\n  color: #fafafd;\n  background-color: #4747b1;\n  border-radius: 7px;\n  -webkit-transition: background-color 200ms ease;\n  transition: background-color 200ms ease; }\n\n.hs-link:hover {\n  color: #fafafd;\n  background-color: #6868c3; }\n\n.hs-link:active {\n  color: #fafafd;\n  background-color: #38388d; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 279 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(280);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(16)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-group.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-group.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 280 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(15)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".hs-category-container {\n  width: 100%;\n  height: auto;\n  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n  margin-bottom: 2em; }\n\n.hs-category-title {\n  width: 100%;\n  height: 40px;\n  line-height: 40px;\n  font-size: 130%;\n  -webkit-box-flex: 1;\n      -ms-flex: 1 0 100%;\n          flex: 1 0 100%;\n  border-bottom: 1px solid #cacaca; }\n\n.hs-list {\n  width: 100%;\n  min-height: 100px;\n  height: 100%;\n  padding: 1em 0;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center; }\n", ""]);
+
+// exports
 
 
 /***/ }),
@@ -51788,14 +48209,14 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(14)(content, options);
+var update = __webpack_require__(16)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-info-card.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-info-card.scss");
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-element.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-element.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -51808,12 +48229,12 @@ if(false) {
 /* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(13)(undefined);
+exports = module.exports = __webpack_require__(15)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, ".hs-info-card-container {\n  display: none;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: auto;\n  z-index: 99; }\n\n.hs-info-card-container.visible {\n  display: block; }\n\n.hs-info-card {\n  padding: 0.5em;\n  width: 100%;\n  height: 100%;\n  background: #fafafd;\n  -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start; }\n\n.hs-info-card-program-name {\n  font-size: 115%;\n  font-weight: bold;\n  width: 100%;\n  text-align: center; }\n\n.hs-info-card-requirement-container {\n  width: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column; }\n\n.hs-info-card-requirement {\n  width: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row; }\n\n.hs-info-card-req-desc-container {\n  width: 50%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  margin-bottom: 0.5em; }\n\n.hs-info-card-req-type {\n  width: 90px;\n  margin-right: 0.5em; }\n\n.hs-info-card-req-desc {\n  width: 200px;\n  font-size: 80%;\n  padding: 0.5em;\n  background: #e8e8f6;\n  border-radius: 5px;\n  border: 1px solid #eee;\n  margin-right: 0.5em; }\n\n.hs-links-container {\n  width: 100%; }\n\n.hs-link {\n  margin: 1em;\n  padding: 0.5em;\n  color: #fafafd;\n  background-color: #4747b1;\n  border-radius: 7px;\n  -webkit-transition: background-color 200ms ease;\n  transition: background-color 200ms ease; }\n\n.hs-link:hover {\n  color: #fafafd;\n  background-color: #6868c3; }\n\n.hs-link:active {\n  color: #fafafd;\n  background-color: #38388d; }\n", ""]);
+exports.push([module.i, ".hs-list-element {\n  width: 45px;\n  height: 80px;\n  margin: 0 0.5em; }\n\n.hs-list-element-icon {\n  position: relative;\n  width: 45px;\n  height: 45px;\n  padding-top: 2px;\n  margin-bottom: 5px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  border: 2px solid #9e9e9e;\n  border-radius: 100%;\n  background-size: 470px 470px;\n  background: url(" + __webpack_require__(283) + ");\n  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n  z-index: 1;\n  -webkit-transition: -webkit-transform 200ms ease;\n  transition: -webkit-transform 200ms ease;\n  transition: transform 200ms ease;\n  transition: transform 200ms ease, -webkit-transform 200ms ease;\n  -webkit-transform-style: preserve-3d;\n          transform-style: preserve-3d;\n  -webkit-transform: scale(1);\n          transform: scale(1); }\n\n.hs-list-element-icon.focus {\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1); }\n\n.hs-list-element-icon.focus:before {\n  -webkit-transform: translateZ(-1em);\n          transform: translateZ(-1em);\n  position: absolute;\n  content: \"\";\n  z-index: -1;\n  width: 60px;\n  height: 60px;\n  border: 1px solid #adadad;\n  border-radius: 20px 20px 0px 0;\n  background-color: #fafafd; }\n\n.hs-list-element-icon.succ-certain {\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  background-color: #7ff159;\n  border: 5px solid #5bed2a; }\n\n.hs-list-element-icon.succ-likely {\n  background-color: #cef26f;\n  border: 3px solid #beee40; }\n\n.hs-list-element-icon.succ-uncertain {\n  background-color: #feee7e;\n  border: 2px solid #fde74c; }\n\n.hs-list-element-icon.succ-unlikely {\n  background-color: #f7966b;\n  border: 1px solid #f4743b; }\n\n.hs-list-element-icon.succ-none {\n  background-color: white;\n  border: 2px dashed #eee;\n  -webkit-box-shadow: none;\n          box-shadow: none; }\n\n.hs-list-element-icon.succ-not-implemented {\n  background: none;\n  -webkit-box-shadow: none;\n          box-shadow: none;\n  border: 2px dashed #999; }\n\n.hs-list-element-shortname {\n  width: 45px;\n  height: 30px;\n  font-size: 70%;\n  text-align: center;\n  word-wrap: normal;\n  overflow: hidden;\n  text-overflow: ellipsis; }\n", ""]);
 
 // exports
 
@@ -51822,253 +48243,7 @@ exports.push([module.i, ".hs-info-card-container {\n  display: none;\n  position
 /* 283 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(284);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(14)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-list-element.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-list-element.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 284 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(13)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".hs-list-element {\n  width: 45px;\n  height: 80px;\n  margin: 0 0.5em; }\n\n.hs-list-element-icon {\n  position: relative;\n  width: 45px;\n  height: 45px;\n  padding-top: 2px;\n  margin-bottom: 5px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  border: 2px solid #9e9e9e;\n  border-radius: 100%;\n  background-size: 470px 470px;\n  background: url(" + __webpack_require__(285) + ");\n  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n  z-index: 1;\n  -webkit-transition: -webkit-transform 200ms ease;\n  transition: -webkit-transform 200ms ease;\n  transition: transform 200ms ease;\n  transition: transform 200ms ease, -webkit-transform 200ms ease;\n  -webkit-transform-style: preserve-3d;\n          transform-style: preserve-3d;\n  -webkit-transform: scale(1);\n          transform: scale(1); }\n\n.hs-list-element-icon.focus {\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1); }\n\n.hs-list-element-icon.focus:before {\n  -webkit-transform: translateZ(-1em);\n          transform: translateZ(-1em);\n  position: absolute;\n  content: \"\";\n  z-index: -1;\n  width: 60px;\n  height: 60px;\n  border: 1px solid #adadad;\n  border-radius: 20px 20px 0px 0;\n  background-color: #fafafd; }\n\n.hs-list-element-icon.succ-certain {\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  background-color: #7ff159;\n  border: 5px solid #5bed2a; }\n\n.hs-list-element-icon.succ-likely {\n  background-color: #cef26f;\n  border: 3px solid #beee40; }\n\n.hs-list-element-icon.succ-uncertain {\n  background-color: #feee7e;\n  border: 2px solid #fde74c; }\n\n.hs-list-element-icon.succ-unlikely {\n  background-color: #f7966b;\n  border: 1px solid #f4743b; }\n\n.hs-list-element-icon.succ-none {\n  background-color: white;\n  border: 2px dashed #eee;\n  -webkit-box-shadow: none;\n          box-shadow: none; }\n\n.hs-list-element-icon.succ-not-implemented {\n  background: none;\n  -webkit-box-shadow: none;\n          box-shadow: none;\n  border: 2px dashed #999; }\n\n.hs-list-element-shortname {\n  width: 45px;\n  height: 30px;\n  font-size: 70%;\n  text-align: center;\n  word-wrap: normal;\n  overflow: hidden;\n  text-overflow: ellipsis; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 285 */
-/***/ (function(module, exports, __webpack_require__) {
-
 module.exports = __webpack_require__.p + "f50e14b4c7654a4c10235e9ddc4b8756.svg";
-
-/***/ }),
-/* 286 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(287);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(14)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-list.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-list.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 287 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(13)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".hs-list {\n  width: 100%;\n  min-height: 100px;\n  height: 100%;\n  padding: 1em 0;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 288 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(289);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(14)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-type.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-type.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 289 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(13)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".hs-category-container {\n  width: 100%;\n  height: auto;\n  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n  margin-bottom: 2em; }\n\n.hs-category-title {\n  width: 100%;\n  height: 40px;\n  line-height: 40px;\n  font-size: 130%;\n  -webkit-box-flex: 1;\n      -ms-flex: 1 0 100%;\n          flex: 1 0 100%;\n  border-bottom: 1px solid #cacaca; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 290 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-__webpack_require__(291);
-var HSProgramSuccessChanceKey = function (props) {
-    return (React.createElement("div", { className: "hs-program-success-chance-key" },
-        React.createElement("div", { className: "hs-program-success-chance-example" },
-            "You will almost certainly be accepted.",
-            React.createElement("div", { className: "hs-list-element-icon succ-certain" })),
-        React.createElement("div", { className: "hs-program-success-chance-example" },
-            "You're more likely to be accepted than other students.",
-            React.createElement("div", { className: "hs-list-element-icon succ-likely" })),
-        React.createElement("div", { className: "hs-program-success-chance-example" },
-            "You're about as likely to be accepted as other students.",
-            React.createElement("div", { className: "hs-list-element-icon succ-uncertain" })),
-        React.createElement("div", { className: "hs-program-success-chance-example" },
-            "You're less likely to be accepted than other students.",
-            React.createElement("div", { className: "hs-list-element-icon succ-unlikely" })),
-        React.createElement("div", { className: "hs-program-success-chance-example" },
-            "You probably won't be accepted.",
-            React.createElement("div", { className: "hs-list-element-icon succ-none" }))));
-};
-exports.default = HSProgramSuccessChanceKey;
-
-
-/***/ }),
-/* 291 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(292);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(14)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-success-chance-key.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-success-chance-key.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 292 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(13)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".hs-program-success-chance-key {\n  width: 100%;\n  height: 150px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  margin-left: -0.5em;\n  padding-bottom: 0.5em;\n  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n  text-align: center; }\n\n.hs-program-success-chance-example {\n  -webkit-transform: scale(0.85);\n          transform: scale(0.85); }\n\n.hs-program-success-chance-example > .hs-list-element-icon {\n  margin: 0 auto; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 293 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var react_redux_1 = __webpack_require__(99);
-var student_data_form_1 = __webpack_require__(244);
-var actions_1 = __webpack_require__(270);
-var mapStateToProps = function (state) {
-    return { studentData: state.studentData };
-};
-var mapDispatchToProps = function (dispatch) {
-    return {
-        onGenderChange: function (gender) { return dispatch(actions_1.updateStudentGender(gender)); },
-        onLocationChange: function (location) { return dispatch(actions_1.updateStudentGender(location)); },
-        onGradeLevelChange: function (gradeLevel) { return dispatch(actions_1.updateStudentGradeLevel(gradeLevel)); },
-        onPrevGradeLevelChange: function (gradeLevel) { return dispatch(actions_1.updateStudentPrevGradeLevel(gradeLevel)); },
-        onCurrESProgramChange: function (programID) { return dispatch(actions_1.updateStudentCurrESProgram(programID)); },
-        onSiblingHSProgramsChange: function (programIDs) { return dispatch(actions_1.updateStudentSiblingHSPrograms(programIDs)); },
-        onELLChange: function (ellStatus) { return dispatch(actions_1.updateStudentELLStatus(ellStatus)); },
-        onIEPChange: function (iepStatus) { return dispatch(actions_1.updateStudentIEPStatus(iepStatus)); },
-        onAttendPercentageChange: function (attendPct) { return dispatch(actions_1.updateStudentAttendPercentage(attendPct)); },
-        onNWEAPercentileMathChange: function (pctile) { return dispatch(actions_1.updateStudentNWEAPercentileMath(pctile)); },
-        onNWEAPercentileReadChange: function (pctile) { return dispatch(actions_1.updateStudentNWEAPercentileRead(pctile)); },
-        onSubjGradeMathChange: function (grade) { return dispatch(actions_1.updateStudentSubjGradeMath(grade)); },
-        onSubjGradeReadChange: function (grade) { return dispatch(actions_1.updateStudentSubjGradeRead(grade)); },
-        onSubjGradeSciChange: function (grade) { return dispatch(actions_1.updateStudentSubjGradeSci(grade)); },
-        onSubjGradeSocStudiesChange: function (grade) { return dispatch(actions_1.updateStudentSubjGradeSocStudies(grade)); }
-    };
-};
-var StudentDataContainer = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(student_data_form_1.default);
-exports.default = StudentDataContainer;
-
 
 /***/ })
 /******/ ]);

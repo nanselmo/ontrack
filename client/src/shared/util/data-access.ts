@@ -6,6 +6,10 @@ import isHSProgram from "shared/util/is-hs-program";
 declare const require:any;
 const cpsPrograms: CPSProgram[] = require("../../shared/data/cps_programs.json");
 
+export const getAllPrograms = (): CPSProgram[] => {
+  return cpsPrograms;
+};
+
 // returns all programs, including elementary school programs and
 // high school programs
 export const getAllProgramsByProgramType = (): CPSPrograms => {
