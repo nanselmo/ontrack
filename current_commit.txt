@@ -5,21 +5,23 @@
 * DONE refactor StudentDataForm to expose onChange
     handlers for each field independently
 * DONE make PathToHS stateless functional component
-* TODO make StudentInfoDisplay and HSDisplay react aware
-  ** prediction: if I did things right for the rest of development,
-    I shoudn't need to refactor any of the child components
-    for this to work. I should be able to cut the head off the state
-    tree and replace it with redux, without cutting off the flow
-    of state to any of the roots. (I got I think 4? hours of sleep last
-    night? This is going to be a long day.)
-* TODO simplify component tree of HSDisplay
-  ** combine HSProgramType and HSList into HSList
-  ** make HSDisplay true container for HSList
+* DONE replace StudentInfoDisplay with StudentDataContainer,
+    move wrapper Box element in StudentInfoDisplay into
+    PathToHS component
+* DONE connect StudentDataContainer to redux store
 * DONE remove hardcoded default student data
-* DONE draft redux actions in shared/actions
-* TODO draft redux reducers in shared/reducers
+* DONE write redux actions in shared/actions
 
 * DONE move StudentDataForm child components up into src/components/
     student-info-display
 * DONE move spinning-load-icon.scss into shared/styles
+
+* TODO connect HSDisplay to redux store
+* TODO refactor high school data indexing; consider
+    beginning of refactor of move to indexedDB
+* TODO simplify component tree of HSDisplay
+  ** combine HSProgramType and HSList into HSList
+  ** make HSDisplay true container for HSList
+* TODO draft redux reducers in shared/reducers
+
 *

@@ -4,6 +4,7 @@ import StudentData from "shared/types/student-data";
 import CPSProgram from "shared/types/cps-program";
 import {StudentDataFormStrings as strings} from "shared/l10n/strings";
 import Gender from "shared/enums/gender";
+import StudentLocation from "shared/types/student-location";
 
 import {scoreToString, tryParseScore} from "shared/util/grade-convert";
 
@@ -30,12 +31,6 @@ const esPrograms: Array<CPSProgram> = getESPrograms().sort( alphaSort );
 const hsPrograms: Array<CPSProgram> = getHSPrograms().sort( alphaSort );
 
 import "./student-data-form.scss";
-
-interface StudentLocation {
-  address: string
-  tier: string
-  geo: {latitude: number, longitude: number}
-}
 
 interface StudentDataFormProps {
   studentData: StudentData
@@ -240,6 +235,6 @@ const StudentDataForm = (props: StudentDataFormProps) => {
       </div>
     </div>
   );
-}
+};
 
 export default StudentDataForm;
