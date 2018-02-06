@@ -17,7 +17,7 @@ const HSGroup: React.SFC<HSGroupProps> = (props) => {
   return (
     <div className="hs-category-container">
       <div className="hs-category-title">
-        {this.props.title}
+        {props.title}
       </div>
       <div className="hs-list">
         { 

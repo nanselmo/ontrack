@@ -1,11 +1,21 @@
 [WIP] Refactor app, implement redux
 
-* TODO debug 
 * TODO test new perf (!)
-* TODO sort hs elements in HSGroup
+* WIP debug 
+* WIP sort hs elements, once, in redux
+  ** this is triggering useless re-sorts on 
+    props change -- maybe the diff isn't so good?
+  ** plan: write the reducers first, then see if
+    you're still having that problem. Good opportunity
+    to find out what's going on.
 
-* TODO write redux reducers in shared/reducers
+* DONE write redux reducers in shared/reducers
+  ** TODO IN FUTURE they are gross. ImmutableJS?
+* TODO IN FUTURE split large reducers file into smaller
+  pieces
 
+* DONE import hs data in StudentDataForm
+  (rather than loading it thru data-access)
 * DONE connect HSDisplay to redux store
 * DONE drastically refactor component tree of HSDisplay
   ** renamed HSDisplay -> HSProgramsContainer
@@ -32,4 +42,4 @@
 * DONE move StudentDataForm child components up into src/components/
     student-info-display
 * DONE move spinning-load-icon.scss into shared/styles
-
+* DONE remove unused old form field components

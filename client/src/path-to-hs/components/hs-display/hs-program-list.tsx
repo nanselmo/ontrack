@@ -17,6 +17,7 @@ const HSProgramList: React.SFC<HSProgramListProps> = (props) => {
         Object.keys(props.hsProgramsByType).map( programType => {
           const programs = props.hsProgramsByType[programType];
           return (<HSGroup 
+            key={programType}
             title={programType}
             programs={programs}
             selectedProgramID={props.selectedProgramID}

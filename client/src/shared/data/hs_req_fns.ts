@@ -183,6 +183,8 @@ const getSECutoff = (student: StudentData, school: CPSProgram): SECutoff => {
       return cutoff.tier3;
     case '4':
       return cutoff.tier4;
+    default:
+      throw new Error("No tier");
   }
 };
 
@@ -854,6 +856,8 @@ const HSReqFns: ReqFnTable = {
         "fn": (studentData, schoolData) => {
             if (studentData.nweaPercentileMath + studentData.nweaPercentileRead >= 48) {
               return {outcome: SuccessChance.CERTAIN};
+            } else {
+              return {outcome: SuccessChance.NONE};
             }
         }
     },
@@ -1526,15 +1530,19 @@ const HSReqFns: ReqFnTable = {
           const score = calculateSEPoints(student);
           // look up cutoff scores for this school
           // for this student's tier
-          const cutoff = getSECutoff(student, school);
-          if (score >= cutoff.max) {
-            return {outcome: SuccessChance.CERTAIN};
-          } else if (score >= cutoff.avg) {
-            return {outcome: SuccessChance.LIKELY};
-          } else if (score >= cutoff.min) {
-            return {outcome: SuccessChance.UNCERTAIN}; 
-          } else {
-            return {outcome: SuccessChance.NONE};
+          try {
+            const cutoff = getSECutoff(student, school);
+            if (score >= cutoff.max) {
+              return {outcome: SuccessChance.CERTAIN};
+            } else if (score >= cutoff.avg) {
+              return {outcome: SuccessChance.LIKELY};
+            } else if (score >= cutoff.min) {
+              return {outcome: SuccessChance.UNCERTAIN}; 
+            } else {
+              return {outcome: SuccessChance.NONE};
+            }
+          } catch(e) {
+            return {outcome: SuccessChance.NOTIMPLEMENTED};
           }
         }
     },
@@ -3285,15 +3293,19 @@ const HSReqFns: ReqFnTable = {
           const score = calculateSEPoints(student);
           // look up cutoff scores for this school
           // for this student's tier
-          const cutoff = getSECutoff(student, school);
-          if (score >= cutoff.max) {
-            return {outcome: SuccessChance.CERTAIN};
-          } else if (score >= cutoff.avg) {
-            return {outcome: SuccessChance.LIKELY};
-          } else if (score >= cutoff.min) {
-            return {outcome: SuccessChance.UNCERTAIN}; 
-          } else {
-            return {outcome: SuccessChance.NONE};
+          try { 
+            const cutoff = getSECutoff(student, school);
+            if (score >= cutoff.max) {
+              return {outcome: SuccessChance.CERTAIN};
+            } else if (score >= cutoff.avg) {
+              return {outcome: SuccessChance.LIKELY};
+            } else if (score >= cutoff.min) {
+              return {outcome: SuccessChance.UNCERTAIN}; 
+            } else {
+              return {outcome: SuccessChance.NONE};
+            }
+          } catch(e) {
+            return {outcome: SuccessChance.NOTIMPLEMENTED};
           }
         }
     },

@@ -5,6 +5,7 @@ import AppState from "shared/types/app-state";
 import CPSProgram from "shared/types/cps-program";
 import HSProgram from "shared/types/hs-program";
 import SuccessChance from "shared/enums/success-chance";
+import denormalize from "shared/util/denormalize";
 
 import HSProgramList from "./hs-program-list";
 
@@ -12,9 +13,11 @@ import {selectHSProgram} from "shared/actions";
 
 interface Outcomes {
   [id: string]: {
-    application: SuccessChance,
-    selection: SuccessChance}
+    application: SuccessChance
+    selection: SuccessChance
+  }
 };
+
 
 const mapStateToProps = (state: AppState) => {
 
@@ -40,9 +43,9 @@ const mapStateToProps = (state: AppState) => {
 
   const programIDsByType = state.hsData.hsProgramIDsByType;
   Object.keys(programIDsByType).forEach( programType => {
-    const programIDs = programIDsByType[programType];
+    const programIDs: string[] = programIDsByType[programType];
     // look up programs using index
-    const programs = programIDs.map( id => state.hsData.programs[state.hsData.index[id]] );
+    const programs = programIDs.map( id => denormalize(id, state.hsData.programs, state.hsData.index));
     // transform programs from CPSProgram into HSProgram
     const hsPrograms = programs.map( program => {
       return toHSProgram(program, state.hsData.outcomes);

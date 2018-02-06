@@ -88,7 +88,7 @@ export const updateStudentNWEAPercentileRead = (newValue: number) => {
 
 export const updateStudentSubjGradeMath = (newValue: number) => {
   return {
-    type: ActionType.UpdateStudentSubjGradeRead,
+    type: ActionType.UpdateStudentSubjGradeMath,
     payload: newValue
   };
 };

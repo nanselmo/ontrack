@@ -4,7 +4,7 @@ import Page from "shared/components/layout/page";
 import Box from "shared/components/layout/box";
 import StudentDataContainer from "./components/student-info-display/student-data-container";
 import HSProgramSuccessChanceKey from "./components/hs-display/hs-program-success-chance-key";
-import HSProgramContainer from "./components/hs-display/hs-program-list";
+import HSProgramContainer from "./components/hs-display/hs-program-container";
 
 const PathToHS: React.SFC<any> = (props) => {
   return (

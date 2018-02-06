@@ -2,6 +2,8 @@ import * as React from "react";
 
 import { connect } from "react-redux";
 import AppState from "shared/types/app-state";
+import CPSProgram from "shared/types/cps-program";
+import denormalize from "shared/util/denormalize";
 
 import Box from "shared/components/layout/box";
 import StudentDataForm from "./student-data-form";
@@ -25,8 +27,13 @@ import {
 } from "shared/actions";
 
 
+
 const mapStateToProps = (state: AppState) => {
-  return {studentData: state.studentData}
+  return {
+    studentData: state.studentData,
+    hsPrograms: state.hsData.hsProgramIDs.map( id => denormalize(id, state.hsData.programs, state.hsData.index) ),
+    esPrograms: state.hsData.esProgramIDs.map( id => denormalize(id, state.hsData.programs, state.hsData.index) )
+  }
 };
 
 const mapDispatchToProps = dispatch => {
