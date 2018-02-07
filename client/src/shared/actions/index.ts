@@ -1,6 +1,8 @@
 import ActionType from "shared/enums/action-type";
 import Gender from "shared/enums/gender";
 import StudentLocation from "shared/types/student-location";
+import ScoreType from "shared/types/score-type";
+
 
 export const selectHSProgram = (newValue: string) => {
   return {
@@ -120,3 +122,35 @@ export const updateStudentSETestPercentile = (newValue: number) => {
     payload: newValue
   }
 };
+
+export const updateStudentScore = (scoreType: ScoreType, newValue: number) => {
+  let actionType;
+  switch(scoreType) {
+    case "nweaPercentileMath":
+      actionType = ActionType.UpdateStudentNWEAPercentileMath;
+      break;
+    case "nweaPercentileRead" :
+      actionType = ActionType.UpdateStudentNWEAPercentileRead;
+      break;
+    case "subjGradeMath" :
+      actionType = ActionType.UpdateStudentSubjGradeMath;
+      break;
+    case "subjGradeRead" :
+      actionType = ActionType.UpdateStudentSubjGradeRead;
+      break;
+    case "subjGradeSci" :
+      actionType = ActionType.UpdateStudentSubjGradeSci;
+      break;
+    case "subjGradeSocStudies":
+      actionType = ActionType.UpdateStudentSubjGradeSocStudies;
+      break;
+    case "seTestPercentile":
+      actionType = ActionType.UpdateStudentSETestPercentile;
+    default:
+      throw new Error(`Unrecognized ScoreType: ${scoreType}`);
+  }
+  return {
+    type: actionType,
+    payload: newValue
+  };
+}

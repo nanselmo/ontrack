@@ -39,7 +39,7 @@ const MultiSelectField: React.SFC<MultiSelectProps<any>> = (props) => {
   };
 
   const removeFromListData:(<T>(data: ListData<T>, elementsToRemove: T[]) => ListData<T>) = (data, elementsToRemove) => {
-    const keysToRemove = elementsToRemove.map(data.getKey);
+    const keysToRemove = elementsToRemove ? elementsToRemove.map(data.getKey) : [];
     const isNotElementToRemove = elem => keysToRemove.indexOf(data.getKey(elem)) === -1;
     const newRecords = data.records.filter( isNotElementToRemove );
     return {

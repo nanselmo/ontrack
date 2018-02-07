@@ -30,7 +30,7 @@ const initialState: AppState = Map({
     gpa: 0,
 
     currESProgramID: undefined,
-    siblingHSProgramIDs: [],
+    siblingHSProgramIDs: undefined,
     seTestPercentile: 0,
     nweaPercentileMath: 0,
     nweaPercentileRead: 0,

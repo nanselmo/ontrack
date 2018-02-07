@@ -1,15 +1,9 @@
-Refactor reducers using immutablejs
+[WIP] Refactor StudentDataContainer
 
-* add immutablejs dependency
-* edit AppState type to include immutablejs
-  wrapper
-  ** I'm finding this surprisingly hard
-* rewrite reducers using immutablejs
-  ** write them slowly this time
-* clean up reducers.ts; move helper
-  functions into own files
+* WIP split StudentDataForm into smaller
+  react aware field containers
 
-* TODO IN FUTURE adapt StudentDataContainer and
-  HSProgramsContainer to use immutablejs objects
-  in mapStateToProps (and mapDispatchToProps if
-  necessary)
+* TODO IN FUTURE refactor AddressTierCalculator
+  to avoid repeated state updates
+
+

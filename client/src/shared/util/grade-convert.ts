@@ -1,5 +1,3 @@
-import StudentScores from "shared/types/student-scores"; 
-import StudentScore from "shared/types/student-score";
 import ScoreType from "shared/enums/score-type";
 
 import { 
@@ -48,7 +46,7 @@ export const GradeConvertErrors = {
 //   }
 // };
 
-export const scoreToString = (score: StudentScore, scoreType: ScoreType): string => {
+export const scoreToString = (score, scoreType: ScoreType): string => {
   if (scoreType in ScoreType) {
     return score.toString(10);
   } else {
@@ -56,7 +54,7 @@ export const scoreToString = (score: StudentScore, scoreType: ScoreType): string
   }
 };
 
-export const tryParseScore = (str: string, scoreType: ScoreType): [boolean, StudentScore] => {
+export const tryParseScore = (str: string, scoreType: ScoreType): [boolean, number] => {
   if (scoreType in ScoreType) {
     const score = Number.parseInt(str, 10);
     if (Number.isNaN(score)) {
@@ -69,8 +67,8 @@ export const tryParseScore = (str: string, scoreType: ScoreType): [boolean, Stud
   }
 };
 
-export const toGPA = (scores: StudentScore[]) => {
-  const toPoints = (score: StudentScore): number => {
+export const toGPA = (scores) => {
+  const toPoints = (score): number => {
     const letterGrade = toLetterGrade(score);
     switch(letterGrade){
       case "A":
