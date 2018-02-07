@@ -11376,7 +11376,7 @@ var ActionType;
     ActionType[ActionType["UpdateStudentSubjGradeRead"] = 12] = "UpdateStudentSubjGradeRead";
     ActionType[ActionType["UpdateStudentSubjGradeSci"] = 13] = "UpdateStudentSubjGradeSci";
     ActionType[ActionType["UpdateStudentSubjGradeSocStudies"] = 14] = "UpdateStudentSubjGradeSocStudies";
-    ActionType[ActionType["UpdateStudentSETestScore"] = 15] = "UpdateStudentSETestScore";
+    ActionType[ActionType["UpdateStudentSETestPercentile"] = 15] = "UpdateStudentSETestPercentile";
     ActionType[ActionType["SelectHSProgram"] = 16] = "SelectHSProgram";
 })(ActionType || (ActionType = {}));
 exports.default = ActionType;
@@ -12069,6 +12069,12 @@ exports.updateStudentSubjGradeSci = function (newValue) {
 exports.updateStudentSubjGradeSocStudies = function (newValue) {
     return {
         type: action_type_1.default.UpdateStudentSubjGradeSocStudies,
+        payload: newValue
+    };
+};
+exports.updateStudentSETestPercentile = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentSETestPercentile,
         payload: newValue
     };
 };
@@ -24759,4019 +24765,82 @@ function applyMiddleware() {
 
 "use strict";
 
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var action_type_1 = __webpack_require__(100);
-var gender_1 = __webpack_require__(58);
-var success_chance_1 = __webpack_require__(28);
-var get_req_fns_1 = __webpack_require__(226);
-var denormalize_1 = __webpack_require__(59);
-var is_es_program_1 = __webpack_require__(101);
-var is_hs_program_1 = __webpack_require__(102);
-var data_access_1 = __webpack_require__(231);
-var allPrograms = data_access_1.getAllPrograms();
-var createIndexByID = function (programs) {
-    var idx = {};
-    for (var i = 0; i < programs.length; i++) {
-        var program = programs[i];
-        idx[program.ID] = i;
-    }
-    return idx;
-};
-var alphaSortPrograms = function (a, b) {
-    if (a.Short_Name < b.Short_Name) {
-        return -1;
-    }
-    else if (a.Short_Name === b.Short_Name) {
-        return 0;
-    }
-    else if (a.Short_Name > b.Short_Name) {
-        return 1;
-    }
-};
-var lookup = function (program_id, programs, index) {
-    return programs[index[program_id]];
-};
-var getHSProgramIDs = function (programs) {
-    return programs.filter(is_hs_program_1.default).sort(alphaSortPrograms).map(function (program) { return program.ID; });
-};
-var getESProgramIDs = function (programs) {
-    return programs.filter(is_es_program_1.default).sort(alphaSortPrograms).map(function (program) { return program.ID; });
-};
-var getHSProgramIDsByType = function (programs) {
-    var index = createIndexByID(programs);
-    var hsProgramIDs = getHSProgramIDs(programs);
-    var hsProgramIDsByType = {};
-    for (var i = 0; i < hsProgramIDs.length; i++) {
-        var id = hsProgramIDs[i];
-        var program = lookup(id, programs, index);
-        var type = program.Program_Type;
-        if (!hsProgramIDsByType[type]) {
-            hsProgramIDsByType[type] = [];
-        }
-        hsProgramIDsByType[type].push(id);
-    }
-    return hsProgramIDsByType;
-};
-var initializeOutcomes = function (programs) {
-    var outcomes = {};
-    for (var i = 0; i < programs.length; i++) {
-        var program = programs[i];
-        var id = program.ID;
-        outcomes[id] = {
-            application: success_chance_1.default.NOTIMPLEMENTED,
-            selection: success_chance_1.default.NOTIMPLEMENTED
-        };
-    }
-    return outcomes;
-};
-var calculateOutcomes = function (programs, studentData, reqFnLookup) {
-    var outcomes = {};
-    for (var i = 0; i < programs.length; i++) {
-        var program = programs[i];
-        var id = program.ID;
-        var reqFns = reqFnLookup(program);
-        try {
-            outcomes[id] = {
-                application: reqFns.application(studentData, program).outcome,
-                selection: reqFns.selection(studentData, program).outcome
-            };
-        }
-        catch (e) {
-            console.error(e);
-            console.error(program);
-            console.warn(reqFns);
-        }
-    }
-    return outcomes;
-};
-var initialState = {
-    studentData: {
-        gender: gender_1.default.NOANSWER,
-        location: {
-            address: "",
-            tier: "",
-            geo: { latitude: 0, longitude: 0 },
-        },
-        gradeLevel: 0,
-        prevGradeLevel: 0,
-        ell: false,
-        iep: false,
-        attendancePercentage: 0,
-        gpa: 0,
-        currESProgramID: undefined,
-        siblingHSProgramIDs: [],
-        seTestPercentile: 0,
-        nweaPercentileMath: 0,
-        nweaPercentileRead: 0,
-        subjGradeMath: 0,
-        subjGradeRead: 0,
-        subjGradeSci: 0,
-        subjGradeSocStudies: 0,
-    },
-    selectedHSProgramID: null,
-    hsData: {
-        programs: allPrograms,
-        index: createIndexByID(allPrograms),
-        hsProgramIDs: getHSProgramIDs(allPrograms),
-        esProgramIDs: getESProgramIDs(allPrograms),
-        hsProgramIDsByType: getHSProgramIDsByType(allPrograms),
-        outcomes: initializeOutcomes(allPrograms)
-    }
-};
-var genderReducer = function (state, action) {
-    return Object.assign({}, __assign({}, state), { gender: action.payload });
-};
-var locationReducer = function (state, action) {
-    var newLocation = action.payload;
-    var newStudentData = Object.assign({}, __assign({}, state.studentData), { location: newLocation });
-    var hsPrograms = state.hsData.hsProgramIDs.map(function (program) { return denormalize_1.default(program, state.hsData.programs, state.hsData.index); });
-    var newOutcomes = calculateOutcomes(hsPrograms, newStudentData, get_req_fns_1.default);
-    var newHSData = Object.assign({}, __assign({}, state.hsData), { outcomes: newOutcomes });
-    return Object.assign({}, state, { studentData: newStudentData }, { hsData: newHSData });
-};
-var gradeLevelReducer = function (state, action) {
-    var newStudentData = Object.assign({}, __assign({}, state.studentData), { gradeLevel: action.payload });
-    var hsPrograms = state.hsData.hsProgramIDs.map(function (program) { return denormalize_1.default(program, state.hsData.programs, state.hsData.index); });
-    var newOutcomes = calculateOutcomes(hsPrograms, newStudentData, get_req_fns_1.default);
-    var newHSData = Object.assign({}, __assign({}, state.hsData), { outcomes: newOutcomes });
-    return Object.assign({}, state, { studentData: newStudentData }, { hsData: newHSData });
-};
-var prevGradeLevelReducer = function (state, action) {
-    var newStudentData = Object.assign({}, __assign({}, state.studentData), { prevGradeLevel: action.payload });
-    var hsPrograms = state.hsData.hsProgramIDs.map(function (program) { return denormalize_1.default(program, state.hsData.programs, state.hsData.index); });
-    var newOutcomes = calculateOutcomes(hsPrograms, newStudentData, get_req_fns_1.default);
-    var newHSData = Object.assign({}, __assign({}, state.hsData), { outcomes: newOutcomes });
-    return Object.assign({}, state, { studentData: newStudentData }, { hsData: newHSData });
-};
-var currEsProgramReducer = function (state, action) {
-    var newStudentData = Object.assign({}, __assign({}, state.studentData), { currESProgramID: action.payload });
-    var hsPrograms = state.hsData.hsProgramIDs.map(function (program) { return denormalize_1.default(program, state.hsData.programs, state.hsData.index); });
-    var newOutcomes = calculateOutcomes(hsPrograms, newStudentData, get_req_fns_1.default);
-    var newHSData = Object.assign({}, __assign({}, state.hsData), { outcomes: newOutcomes });
-    return Object.assign({}, state, { studentData: newStudentData }, { hsData: newHSData });
-};
-var siblingHSProgramReducer = function (state, action) {
-    var newStudentData = Object.assign({}, __assign({}, state.studentData), { siblingHSProgramIDs: action.payload });
-    var hsPrograms = state.hsData.hsProgramIDs.map(function (program) { return denormalize_1.default(program, state.hsData.programs, state.hsData.index); });
-    var newOutcomes = calculateOutcomes(hsPrograms, newStudentData, get_req_fns_1.default);
-    var newHSData = Object.assign({}, __assign({}, state.hsData), { outcomes: newOutcomes });
-    return Object.assign({}, state, { studentData: newStudentData }, { hsData: newHSData });
-};
-var iepStatusReducer = function (state, action) {
-    var newStudentData = Object.assign({}, __assign({}, state.studentData), { iep: action.payload });
-    var hsPrograms = state.hsData.hsProgramIDs.map(function (program) { return denormalize_1.default(program, state.hsData.programs, state.hsData.index); });
-    var newOutcomes = calculateOutcomes(hsPrograms, newStudentData, get_req_fns_1.default);
-    var newHSData = Object.assign({}, __assign({}, state.hsData), { outcomes: newOutcomes });
-    return Object.assign({}, state, { studentData: newStudentData }, { hsData: newHSData });
-};
-var ellStatusReducer = function (state, action) {
-    var newStudentData = Object.assign({}, __assign({}, state.studentData), { ell: action.payload });
-    var hsPrograms = state.hsData.hsProgramIDs.map(function (program) { return denormalize_1.default(program, state.hsData.programs, state.hsData.index); });
-    var newOutcomes = calculateOutcomes(hsPrograms, newStudentData, get_req_fns_1.default);
-    var newHSData = Object.assign({}, __assign({}, state.hsData), { outcomes: newOutcomes });
-    return Object.assign({}, state, { studentData: newStudentData }, { hsData: newHSData });
-};
-var nweaPercentileMathReducer = function (state, action) {
-    var newStudentData = Object.assign({}, __assign({}, state.studentData), { nweaPercentileMath: action.payload });
-    var hsPrograms = state.hsData.hsProgramIDs.map(function (program) { return denormalize_1.default(program, state.hsData.programs, state.hsData.index); });
-    var newOutcomes = calculateOutcomes(hsPrograms, newStudentData, get_req_fns_1.default);
-    var newHSData = Object.assign({}, __assign({}, state.hsData), { outcomes: newOutcomes });
-    return Object.assign({}, state, { studentData: newStudentData }, { hsData: newHSData });
-};
-var nweaPercentileReadReducer = function (state, action) {
-    var newStudentData = Object.assign({}, __assign({}, state.studentData), { nweaPercentileRead: action.payload });
-    var hsPrograms = state.hsData.hsProgramIDs.map(function (program) { return denormalize_1.default(program, state.hsData.programs, state.hsData.index); });
-    var newOutcomes = calculateOutcomes(hsPrograms, newStudentData, get_req_fns_1.default);
-    var newHSData = Object.assign({}, __assign({}, state.hsData), { outcomes: newOutcomes });
-    return Object.assign({}, state, { studentData: newStudentData }, { hsData: newHSData });
-};
-var subjGradeMathReducer = function (state, action) {
-    var newStudentData = Object.assign({}, __assign({}, state.studentData), { subjGradeMath: action.payload });
-    var hsPrograms = state.hsData.hsProgramIDs.map(function (program) { return denormalize_1.default(program, state.hsData.programs, state.hsData.index); });
-    var newOutcomes = calculateOutcomes(hsPrograms, newStudentData, get_req_fns_1.default);
-    var newHSData = Object.assign({}, __assign({}, state.hsData), { outcomes: newOutcomes });
-    return Object.assign({}, state, { studentData: newStudentData }, { hsData: newHSData });
-};
-var subjGradeReadReducer = function (state, action) {
-    var newStudentData = Object.assign({}, __assign({}, state.studentData), { subjGradeRead: action.payload });
-    var hsPrograms = state.hsData.hsProgramIDs.map(function (program) { return denormalize_1.default(program, state.hsData.programs, state.hsData.index); });
-    var newOutcomes = calculateOutcomes(hsPrograms, newStudentData, get_req_fns_1.default);
-    var newHSData = Object.assign({}, __assign({}, state.hsData), { outcomes: newOutcomes });
-    return Object.assign({}, state, { studentData: newStudentData }, { hsData: newHSData });
-};
-var subjGradeSciReducer = function (state, action) {
-    var newStudentData = Object.assign({}, __assign({}, state.studentData), { subjGradeSci: action.payload });
-    var hsPrograms = state.hsData.hsProgramIDs.map(function (program) { return denormalize_1.default(program, state.hsData.programs, state.hsData.index); });
-    var newOutcomes = calculateOutcomes(hsPrograms, newStudentData, get_req_fns_1.default);
-    var newHSData = Object.assign({}, __assign({}, state.hsData), { outcomes: newOutcomes });
-    return Object.assign({}, state, { studentData: newStudentData }, { hsData: newHSData });
-};
-var subjGradeSocStudiesReducer = function (state, action) {
-    var newStudentData = Object.assign({}, __assign({}, state.studentData), { subjGradeSocStudies: action.payload });
-    var hsPrograms = state.hsData.hsProgramIDs.map(function (program) { return denormalize_1.default(program, state.hsData.programs, state.hsData.index); });
-    var newOutcomes = calculateOutcomes(hsPrograms, newStudentData, get_req_fns_1.default);
-    var newHSData = Object.assign({}, __assign({}, state.hsData), { outcomes: newOutcomes });
-    return Object.assign({}, state, { studentData: newStudentData }, { hsData: newHSData });
-};
-var seTestPercentileReducer = function (state, action) {
-    var newStudentData = Object.assign({}, __assign({}, state.studentData), { seTestPercentile: action.payload });
-    var hsPrograms = state.hsData.hsProgramIDs.map(function (program) { return denormalize_1.default(program, state.hsData.programs, state.hsData.index); });
-    var newOutcomes = calculateOutcomes(hsPrograms, newStudentData, get_req_fns_1.default);
-    var newHSData = Object.assign({}, __assign({}, state.hsData), { outcomes: newOutcomes });
-    return Object.assign({}, state, { studentData: newStudentData }, { hsData: newHSData });
-};
-var selectHSProgramReducer = function (state, action) {
-    return Object.assign({}, __assign({}, state), { selectedProgramID: action.payload });
+var initial_state_1 = __webpack_require__(292);
+var updateDependentProperties = function (state) {
+    return state;
 };
 var rootReducer = function (state, action) {
-    if (state === void 0) { state = initialState; }
+    if (state === void 0) { state = initial_state_1.default; }
+    var nextState;
     switch (action.type) {
         case action_type_1.default.UpdateStudentGender:
-            return genderReducer(state, action);
+            nextState = state.setIn(['studentData', 'gender'], action.payload);
+            break;
         case action_type_1.default.UpdateStudentLocation:
-            return locationReducer(state, action);
+            nextState = state.setIn(['studentData', 'location'], action.payload);
+            break;
         case action_type_1.default.UpdateStudentGradeLevel:
-            return gradeLevelReducer(state, action);
+            nextState = state.setIn(['studentData', 'gradeLevel'], action.payload);
+            break;
         case action_type_1.default.UpdateStudentPrevGradeLevel:
-            return prevGradeLevelReducer(state, action);
-        case action_type_1.default.UpdateStudentCurrESProgram:
-            return currEsProgramReducer(state, action);
-        case action_type_1.default.UpdateStudentSiblingHSPrograms:
-            return siblingHSProgramReducer(state, action);
+            nextState = state.setIn(['studentData', 'prevGradeLevel'], action.payload);
+            break;
         case action_type_1.default.UpdateStudentIEPStatus:
-            return iepStatusReducer(state, action);
+            nextState = state.setIn(['studentData', 'iep'], action.payload);
+            break;
         case action_type_1.default.UpdateStudentELLStatus:
-            return ellStatusReducer(state, action);
+            nextState = state.setIn(['studentData', 'ell'], action.payload);
+            break;
+        case action_type_1.default.UpdateStudentAttendPercentage:
+            nextState = state.setIn(['studentData', 'attendancePercentage'], action.payload);
+            break;
+        case action_type_1.default.UpdateStudentCurrESProgram:
+            nextState = state.setIn(['studentData', 'currESProgramID'], action.payload);
+            break;
+        case action_type_1.default.UpdateStudentSiblingHSPrograms:
+            nextState = state.setIn(['studentData', 'siblingHSProgramIDs'], action.payload);
+            break;
+        case action_type_1.default.UpdateStudentSETestPercentile:
+            nextState = state.setIn(['studentData', 'seTestPercentile'], action.payload);
+            break;
         case action_type_1.default.UpdateStudentNWEAPercentileMath:
-            return nweaPercentileMathReducer(state, action);
+            nextState = state.setIn(['studentData', 'nweaPercentileMath'], action.payload);
+            break;
         case action_type_1.default.UpdateStudentNWEAPercentileRead:
-            return nweaPercentileReadReducer(state, action);
+            nextState = state.setIn(['studentData', 'nweaPercentileRead'], action.payload);
+            break;
         case action_type_1.default.UpdateStudentSubjGradeMath:
-            return subjGradeMathReducer(state, action);
+            nextState = state.setIn(['studentData', 'subjGradeMath'], action.payload);
+            break;
         case action_type_1.default.UpdateStudentSubjGradeRead:
-            return subjGradeReadReducer(state, action);
+            nextState = state.setIn(['studentData', 'subjGradeRead'], action.payload);
+            break;
         case action_type_1.default.UpdateStudentSubjGradeSci:
-            return subjGradeSciReducer(state, action);
+            nextState = state.setIn(['studentData', 'subjGradeSci'], action.payload);
+            break;
         case action_type_1.default.UpdateStudentSubjGradeSocStudies:
-            return subjGradeSocStudiesReducer(state, action);
-        case action_type_1.default.UpdateStudentSETestScore:
-            return seTestPercentileReducer(state, action);
+            nextState = state.setIn(['studentData', 'subjGradeSocStudies'], action.payload);
+            break;
         case action_type_1.default.SelectHSProgram:
-            return selectHSProgramReducer(state, action);
+            nextState = state.set('selectedHSProgramID', action.payload);
+            break;
         default:
             console.warn("No reducer for actiontype " + action.type);
-            return state;
+            nextState = state;
     }
+    return updateDependentProperties(nextState);
 };
 exports.default = rootReducer;
 
 
 /***/ }),
-/* 226 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var hs_req_fns_ts_1 = __webpack_require__(227);
-var success_chance_1 = __webpack_require__(28);
-var getReqFns = function (program) {
-    var applFnID = program.Application_Requirements_Fn;
-    var selFnID = program.Program_Selections_Fn;
-    var defaultReqFn = function (student, program) {
-        return { outcome: success_chance_1.default.NOTIMPLEMENTED };
-    };
-    var applicationReqFn;
-    var selectionReqFn;
-    if (hs_req_fns_ts_1.default[applFnID]) {
-        applicationReqFn = hs_req_fns_ts_1.default[applFnID].fn;
-    }
-    else {
-        console.warn("Cannot locate application requirement for " + (program.Short_Name + " - " + program.Program_Type));
-        applicationReqFn = defaultReqFn;
-    }
-    if (hs_req_fns_ts_1.default[selFnID]) {
-        selectionReqFn = hs_req_fns_ts_1.default[selFnID].fn;
-    }
-    else {
-        console.warn("Cannot locate selection requirement for " + (program.Short_Name + " - " + program.Program_Type));
-        selectionReqFn = defaultReqFn;
-    }
-    return { application: applicationReqFn, selection: selectionReqFn };
-};
-exports.default = getReqFns;
-
-
-/***/ }),
-/* 227 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var gender_1 = __webpack_require__(58);
-var success_chance_ts_1 = __webpack_require__(28);
-var hs_calc_utils_1 = __webpack_require__(228);
-var seCutoffTable = {
-    "609726": {
-        rank: { avg: 834.15, min: 799, max: 897 },
-        tier1: { avg: 700.76, min: 652, max: 796 },
-        tier2: { avg: 740.36, min: 687, max: 795 },
-        tier3: { avg: 768.40, min: 750, max: 792 },
-        tier4: { avg: 761.50, min: 723, max: 797 },
-    },
-    "609694": {
-        rank: { avg: 823.92, min: 794, max: 880 },
-        tier1: { avg: 706.40, min: 664, max: 791 },
-        tier2: { avg: 757.68, min: 736, max: 790 },
-        tier3: { avg: 772.69, min: 753, max: 791 },
-        tier4: { avg: 740.63, min: 672, max: 792 },
-    },
-    "609678": {
-        rank: { avg: 893.81, min: 889, max: 900 },
-        tier1: { avg: 816.86, min: 771, max: 887 },
-        tier2: { avg: 851.57, min: 823, max: 889 },
-        tier3: { avg: 874.12, min: 861, max: 889 },
-        tier4: { avg: 886.69, min: 883, max: 889 },
-    },
-    "609751": {
-        rank: { avg: 735.59, min: 682, max: 859 },
-        tier1: { avg: 632.20, min: 600, max: 680 },
-        tier2: { avg: 635.16, min: 601, max: 679 },
-        tier3: { avg: 645.55, min: 608, max: 682 },
-        tier4: { avg: 634.43, min: 600, max: 674 },
-    },
-    "609720": {
-        rank: { avg: 878.11, min: 866, max: 900 },
-        tier1: { avg: 738.79, min: 692, max: 863 },
-        tier2: { avg: 808.46, min: 777, max: 865 },
-        tier3: { avg: 839.69, min: 818, max: 866 },
-        tier4: { avg: 855.13, min: 843, max: 865 },
-    },
-    "610391": {
-        rank: { avg: 813.87, min: 774, max: 895 },
-        tier1: { avg: 692.14, min: 655, max: 771 },
-        tier2: { avg: 732.82, min: 700, max: 774 },
-        tier3: { avg: 743.98, min: 720, max: 774 },
-        tier4: { avg: 717.92, min: 672, max: 773 },
-    },
-    "609749": {
-        rank: { avg: 898.85, min: 896, max: 900 },
-        tier1: { avg: 820.31, min: 757, max: 892 },
-        tier2: { avg: 867.55, min: 843, max: 895 },
-        tier3: { avg: 889.04, min: 880, max: 895 },
-        tier4: { avg: 893.92, min: 891, max: 896 },
-    },
-    "609680": {
-        rank: { avg: 899.03, min: 898, max: 900 },
-        tier1: { avg: 837.66, min: 771, max: 897 },
-        tier2: { avg: 875.60, min: 846, max: 897 },
-        tier3: { avg: 886.97, min: 875, max: 898 },
-        tier4: { avg: 895.59, min: 894, max: 898 },
-    },
-    "610547": {
-        rank: { avg: 725.28, min: 678, max: 837 },
-        tier1: { avg: 621.10, min: 601, max: 674 },
-        tier2: { avg: 637.17, min: 600, max: 677 },
-        tier3: { avg: 632.43, min: 601, max: 677 },
-        tier4: { avg: 634.77, min: 603, max: 672 },
-    },
-    "609693": {
-        rank: { avg: 799.38, min: 766, max: 883 },
-        tier1: { avg: 706.44, min: 667, max: 760 },
-        tier2: { avg: 733.79, min: 708, max: 765 },
-        tier3: { avg: 730.68, min: 695, max: 765 },
-        tier4: { avg: 691.26, min: 618, max: 766 },
-    },
-    "609755": {
-        rank: { avg: 890.34, min: 882, max: 900 },
-        tier1: { avg: 823.25, min: 780, max: 880 },
-        tier2: { avg: 846.26, min: 821, max: 880 },
-        tier3: { avg: 860.88, min: 849, max: 882 },
-        tier4: { avg: 877.46, min: 874, max: 882 },
-    }
-};
-var ibCutoffTable = {
-    "609695": { min: 600 },
-    "610563": { min: 609 },
-    "609698": { min: 350 },
-    "610381": { min: 450 },
-    "609759": { min: 490 },
-    "609756": { min: 650 },
-    "609704": { min: 350 },
-    "609741": { min: 600 },
-    "609713": { min: 375 },
-    "609764": { min: 500 },
-    "609715": { min: 650 },
-    "609718": { min: 600 },
-    "609738": { min: 819 },
-    "609725": { min: 500 },
-    "610529": { min: 520 },
-    "609679": { min: 600 },
-    "609729": { min: 360 },
-    "609730": { min: 575 },
-    "610547": { min: 427 },
-    "609732": { min: 450 },
-    "609734": { min: 836 },
-    "609739": { min: 640 },
-};
-var getSECutoff = function (student, school) {
-    var cutoff = seCutoffTable[school.School_ID];
-    if (cutoff === undefined) {
-        throw new Error("School " + school.Long_Name + " not found in SE Cutoff scores");
-    }
-    switch (student.location.tier) {
-        case '1':
-            return cutoff.tier1;
-        case '2':
-            return cutoff.tier2;
-        case '3':
-            return cutoff.tier3;
-        case '4':
-            return cutoff.tier4;
-        default:
-            throw new Error("No tier");
-    }
-};
-var getIBCutoff = function (student, school) {
-    var cutoff = ibCutoffTable[school.School_ID];
-    if (cutoff === undefined) {
-        throw new Error("School " + school.Long_Name + " not found in IB Cutoff scores");
-    }
-    return cutoff;
-};
-var getPointsFromCutoff = function (score, cutoff) {
-    var diff = cutoff - score;
-    if (diff <= 0) {
-        return 0;
-    }
-    else {
-        return diff;
-    }
-};
-var average = function () {
-    var nums = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        nums[_i] = arguments[_i];
-    }
-    var count = nums.length;
-    var sum = nums.reduce(function (a, b) { return a + b; });
-    return sum / count;
-};
-var norm = function (value, max, min) {
-    return ((value - min) / (max - min)) * 100;
-};
-var inAttendanceBound = function (student, school) {
-    var ATTEND_RADIUS_MI = 2.5;
-    var tryParseFloat = function (str) {
-        var num = parseFloat(str);
-        if (isNaN(num)) {
-            throw new Error("inAttendanceBound: Cannot parse '" + str + "' as float");
-        }
-        return num;
-    };
-    var studentLat = student.location.geo.latitude;
-    var studentLong = student.location.geo.longitude;
-    var schoolLat = tryParseFloat(school.School_Latitude);
-    var schoolLong = tryParseFloat(school.School_Longitude);
-    var studentLatRad = Math.PI * studentLat / 180;
-    var schoolLatRad = Math.PI * schoolLat / 180;
-    var theta = studentLong - schoolLong;
-    var thetaRad = Math.PI * theta / 180;
-    var dist = Math.sin(studentLatRad) * Math.sin(schoolLatRad) * Math.cos(studentLatRad) * Math.cos(schoolLatRad) * Math.cos(thetaRad);
-    dist = Math.acos(dist);
-    dist = dist * 180 / Math.PI;
-    dist = dist * 60 * 1.1515;
-    var isInBound = dist < ATTEND_RADIUS_MI;
-    return isInBound;
-};
-var hasSiblingInProgram = function (student, program) {
-    var siblingAttends = student.siblingHSProgramIDs.some(function (siblingProgramID) { return siblingProgramID === program.ID; });
-    if (siblingAttends) {
-        return true;
-    }
-    else {
-        return false;
-    }
-};
-var HSReqFns = {
-    "6adf97f83acf6453d4a6a4b1070f3754": {
-        "desc": "None",
-        "programs": [
-            "NOBLE - JOHNSON HS - General Education - Application",
-            "FOUNDATIONS - General Education - Application",
-            "NOBLE - PRITZKER HS - General Education - Application",
-            "PERSPECTIVES - TECH HS - General Education - Application",
-            "FARRAGUT HS - General Education - Application",
-            "URBAN PREP - WEST HS - General Education - Application",
-            "AUSTIN CCA HS - General Education - Application",
-            "CHICAGO VIRTUAL - Charter - Application",
-            "NOBLE - MANSUETO HS - General Education - Application",
-            "ACERO - SOTO HS - General Education - Application",
-            "CICS - LONGWOOD - Charter - Application",
-            "NOBLE - NOBLE HS - General Education - Application",
-            "ACERO - GARCIA HS - General Education - Application",
-            "ASPIRA - EARLY COLLEGE HS - General Education - Application",
-            "NOBLE - UIC HS - General Education - Application",
-            "WELLS HS - Pre-Law - Application",
-            "NOBLE - COMER - General Education - Application",
-            "SCHURZ HS - Accounting & Entrepreneurship - Application",
-            "WASHINGTON HS - General Education - Application",
-            "SCHURZ HS - General Education - Application",
-            "JUAREZ HS - General Education - Application",
-            "CHICAGO VOCATIONAL HS - Agricultural Sciences - Application",
-            "RICHARDS HS - General Education - Application",
-            "BOGAN HS - Entrepreneurship - Application",
-            "DOUGLASS HS - General Education - Application",
-            "LAKE VIEW HS - General Education - Application",
-            "ROOSEVELT HS - Game Programming - Application",
-            "ROOSEVELT HS - Medical & Health Careers - Application",
-            "NORTH-GRAND HS - Culinary Arts - Application",
-            "FOREMAN HS - Digital Media - Application",
-            "PHILLIPS HS - Digital Media - Application",
-            "ALCOTT HS - Pre-Engineering - Application",
-            "CURIE HS - Game Programming & Web Design - Application",
-            "CHICAGO MATH & SCIENCE HS - General Education - Application",
-            "BOWEN HS - Manufacturing - Application",
-            "JUAREZ HS - Culinary Arts - Application",
-            "SULLIVAN HS - Medical & Health Careers - Application",
-            "HUBBARD HS - General Education - Application",
-            "CHICAGO VOCATIONAL HS - Culinary Arts - Application",
-            "CICS - NORTHTOWN HS - General Education - Application",
-            "JULIAN HS - General Education - Application",
-            "SCHURZ HS - Automotive Technology - Application",
-            "CICS - CHICAGOQUEST HS - General Education - Application",
-            "COLLINS HS - Game Programming - Application",
-            "SULLIVAN HS - Accounting - Application",
-            "CHICAGO VIRTUAL - General Education - Application",
-            "SPRY HS - General Education - Application",
-            "FARRAGUT HS - Pre-Law - Application",
-            "NOBLE - BAKER HS - General Education - Application",
-            "CLEMENTE HS - Broadcast Technology - Application",
-            "SOUTH SHORE INTL HS - Medical & Health Careers - Application",
-            "CURIE HS - Accounting - Application",
-            "ROOSEVELT HS - Early Childhood - Application",
-            "PERSPECTIVES - MATH & SCI HS - General Education - Application",
-            "KENNEDY HS - General Education - Application",
-            "KELLY HS - General Education - Application",
-            "FARRAGUT HS - Automotive Technology - Application",
-            "JULIAN HS - Entrepreneurship - Application",
-            "CHICAGO VOCATIONAL HS - Carpentry - Application",
-            "CICS - ELLISON HS - General Education - Application",
-            "NOBLE - BULLS HS - General Education - Application",
-            "JULIAN HS - Allied Health - Application",
-            "ROOSEVELT HS - General Education - Application",
-            "URBAN PREP - ENGLEWOOD HS - General Education - Application",
-            "HYDE PARK HS - Broadcast Technology - Application",
-            "NORTH-GRAND HS - General Education - Application",
-            "GAGE PARK HS - General Education - Application",
-            "UPLIFT HS - General Education - Application",
-            "JUAREZ HS - Automotive Technology - Application",
-            "U OF C - WOODLAWN HS - General Education - Application",
-            "TILDEN HS - General Education - Application",
-            "BOWEN HS - General Education - Application",
-            "DUNBAR HS - Chicago Builds - Application",
-            "TAFT HS - General Education - Application",
-            "MORGAN PARK HS - General Education - Application",
-            "JULIAN HS - Broadcast Technology - Application",
-            "CURIE HS - Early Childhood & Teaching - Application",
-            "CLEMENTE HS - Culinary Arts - Application",
-            "BOGAN HS - Accounting - Application",
-            "NORTH-GRAND HS - Pre-Engineering - Application",
-            "CURIE HS - Automotive Technology - Application",
-            "JUAREZ HS - Medical & Health Careers - Application",
-            "JULIAN HS - Game Programming - Application",
-            "NORTH-GRAND HS - Allied Health - Application",
-            "JUAREZ HS - Architecture - Application",
-            "TILDEN HS - Culinary Arts - Application",
-            "INTRINSIC HS - General Education - Application",
-            "NOBLE - RAUNER HS - General Education - Application",
-            "SCHURZ HS - Digital Media - Application",
-            "FOREMAN HS - Web Design - Application",
-            "PERSPECTIVES - LEADERSHIP HS - General Education - Application",
-            "HYDE PARK HS - Digital Media - Application",
-            "CICS - LONGWOOD - General Education - Application",
-            "CORLISS HS - Early College STEM - Application",
-            "BOWEN HS - Pre-Engineering - Application",
-            "HYDE PARK HS - General Education - Application",
-            "ROOSEVELT HS - Culinary Arts - Application",
-            "FOREMAN HS - General Education - Application",
-            "NOBLE - ROWE CLARK HS - General Education - Application",
-            "CURIE HS - Broadcast Technology - Application",
-            "NOBLE - MUCHIN HS - General Education - Application",
-            "ALCOTT HS - General Education - Application",
-            "RICHARDS HS - Culinary Arts - Application",
-            "FENGER HS - Culinary Arts - Application",
-            "SCHURZ HS - Allied Health - Application",
-            "RABY HS - Culinary Arts - Application",
-            "RABY HS - Pre-Law - Application",
-            "FENGER HS - General Education - Application",
-            "HARPER HS - Culinary Arts - Application",
-            "NOBLE - DRW HS - General Education - Application",
-            "AMUNDSEN HS - General Education - Application",
-            "WILLIAMS HS - Medical & Health Careers - Application",
-            "NOBLE - GOLDER HS - General Education - Application",
-            "RABY HS - Broadcast Technology - Application",
-            "HIRSCH HS - General Education - Application",
-            "STEINMETZ HS - Digital Media - Application",
-            "JULIAN HS - Digital Media - Application",
-            "AUSTIN CCA HS - Manufacturing - Application",
-            "HARPER HS - Digital Media - Application",
-            "DYETT ARTS HS - General Education - Application",
-            "MATHER HS - Pre-Law - Application",
-            "AMUNDSEN HS - Game Programming & Web Design - Application",
-            "SOLORIO HS - General Education - Application",
-            "PERSPECTIVES - JOSLIN HS - General Education - Application",
-            "RICHARDS HS - Accounting - Application",
-            "MATHER HS - Game Programming & Web Design - Application",
-            "EPIC HS - General Education - Application",
-            "BOGAN HS - General Education - Application",
-            "CHICAGO COLLEGIATE - General Education - Application",
-            "CURIE HS - Culinary Arts - Application",
-            "RABY HS - Entrepreneurship - Application",
-            "CLEMENTE HS - Allied Health - Application",
-            "DYETT ARTS HS - Digital Media - Application",
-            "DUNBAR HS - Allied Health - Application",
-            "CHICAGO VOCATIONAL HS - Early College STEM - Application",
-            "HARLAN HS - Digital Media - Application",
-            "DUNBAR HS - Career Academy - Application",
-            "MANLEY HS - Culinary Arts - Application",
-            "CHICAGO VOCATIONAL HS - Diesel Technology - Application",
-            "CURIE HS - Fine Arts & Technology - NEIGHBORHOOD - Application",
-            "CHICAGO VOCATIONAL HS - General Education - Application",
-            "STEINMETZ HS - General Education - Application",
-            "SENN HS - General Education - Application",
-            "WELLS HS - Game Programming - Application",
-            "NOBLE - HANSBERRY HS - General Education - Application",
-            "ROBESON HS - General Education - Application",
-            "CHICAGO VOCATIONAL HS - Medical Assisting - Application",
-            "LAKE VIEW HS - Early College STEM - Application",
-            "CHICAGO VOCATIONAL HS - Cosmetology - Application",
-            "FENGER HS - Carpentry - Application",
-            "HARLAN HS - Web Design - Application",
-            "CURIE HS - Digital Media - Application",
-            "URBAN PREP - BRONZEVILLE HS - General Education - Application",
-            "CURIE HS - Architecture - Application",
-            "KENWOOD HS - General Education - Application",
-            "MATHER HS - General Education - Application",
-            "AUSTIN CCA HS - Pre-Engineering - Application",
-            "ORR HS - General Education - Application",
-            "SULLIVAN HS - General Education - Application",
-            "MANLEY HS - General Education - Application",
-            "HOPE HS - General Education - Application",
-            "NORTH LAWNDALE - CHRISTIANA HS - General Education - Application",
-            "NORTH LAWNDALE - COLLINS HS - General Education - Application",
-            "UPLIFT HS - Teaching - Application",
-            "SCHURZ HS - Pre-Engineering - Application",
-            "ACE TECH HS - General Education - Application",
-            "LEGAL PREP HS - General Education - Application",
-            "ASPIRA - BUSINESS & FINANCE HS - General Education - Application",
-            "JUAREZ HS - Game Programming & Web Design - Application",
-            "PROSSER HS - Career Academy - Application",
-            "HARPER HS - General Education - Application",
-            "INSTITUTO - HEALTH - General Education - Application",
-            "ROOSEVELT HS - Cisco Networking - Application",
-            "INFINITY HS - Science/Technology/Engineering/Math - Application",
-            "CHICAGO TECH HS - Science/Technology/Engineering/Math - Application",
-            "NOBLE - ITW SPEER HS - General Education - Application",
-            "NOBLE - BUTLER HS - General Education - Application",
-            "NOBLE - ACADEMY HS - General Education - Application",
-            "MARSHALL HS - General Education - Application",
-            "MARSHALL HS - Agricultural Sciences - Application",
-            "MARSHALL HS - Culinary Arts - Application"
-        ],
-        "fn": function noReq(studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.CERTAIN };
-        }
-    },
-    "f1a0a3737e921ccaf4617c5eafab5f53": {
-        "desc": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
-        "programs": [
-            "NOBLE - JOHNSON HS - General Education - Selection",
-            "NOBLE - PRITZKER HS - General Education - Selection",
-            "PERSPECTIVES - TECH HS - General Education - Selection",
-            "URBAN PREP - WEST HS - General Education - Selection",
-            "NOBLE - MANSUETO HS - General Education - Selection",
-            "ACERO - SOTO HS - General Education - Selection",
-            "NOBLE - NOBLE HS - General Education - Selection",
-            "ACERO - GARCIA HS - General Education - Selection",
-            "ASPIRA - EARLY COLLEGE HS - General Education - Selection",
-            "NOBLE - UIC HS - General Education - Selection",
-            "NOBLE - COMER - General Education - Selection",
-            "CICS - NORTHTOWN HS - General Education - Selection",
-            "NOBLE - BAKER HS - General Education - Selection",
-            "PERSPECTIVES - MATH & SCI HS - General Education - Selection",
-            "CICS - ELLISON HS - General Education - Selection",
-            "NOBLE - BULLS HS - General Education - Selection",
-            "URBAN PREP - ENGLEWOOD HS - General Education - Selection",
-            "NOBLE - RAUNER HS - General Education - Selection",
-            "PERSPECTIVES - LEADERSHIP HS - General Education - Selection",
-            "CICS - LONGWOOD - General Education - Selection",
-            "NOBLE - ROWE CLARK HS - General Education - Selection",
-            "NOBLE - MUCHIN HS - General Education - Selection",
-            "NOBLE - DRW HS - General Education - Selection",
-            "NOBLE - GOLDER HS - General Education - Selection",
-            "PERSPECTIVES - JOSLIN HS - General Education - Selection",
-            "EPIC HS - General Education - Selection",
-            "NOBLE - HANSBERRY HS - General Education - Selection",
-            "URBAN PREP - BRONZEVILLE HS - General Education - Selection",
-            "ASPIRA - BUSINESS & FINANCE HS - General Education - Selection",
-            "NOBLE - ITW SPEER HS - General Education - Selection",
-            "NOBLE - BUTLER HS - General Education - Selection",
-            "NOBLE - ACADEMY HS - General Education - Selection"
-        ],
-        "fn": function random(studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "ea7a8ea4de4f5cdcc8bc6e7aab6a7962": {
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled at Foundations College Prep, isibling, general.",
-        "programs": [
-            "FOUNDATIONS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "783216956d119ad64639725fa9f4d44b": {
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically. This program only accepts students who live within the school's attendance boundary.",
-        "programs": [
-            "FARRAGUT HS - General Education - Selection",
-            "WASHINGTON HS - General Education - Selection",
-            "HUBBARD HS - General Education - Selection",
-            "KENNEDY HS - General Education - Selection",
-            "KELLY HS - General Education - Selection",
-            "ROOSEVELT HS - General Education - Selection",
-            "BOGAN HS - General Education - Selection",
-            "CURIE HS - Fine Arts & Technology - NEIGHBORHOOD - Selection",
-            "SENN HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "240970c398eb1cf1d65952b71e811d58": {
-        "desc": "If the school receives more applications than there are seats available, students are randomly selected through a computerized lottery.  Priority is given to students currently enrolled in the school and to siblings of students enrolled in the campus.",
-        "programs": [
-            "CHICAGO VIRTUAL - Charter - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "01a561f658ea66df980a6e77eae83235": {
-        "desc": "If the school receives more applications than there are seats available, students are randomly selected through a computerized lottery.  Priority is given to students currently enrolled in the school who wish to continue and to siblings of students enrolled in the campus.",
-        "programs": [
-            "CICS - LONGWOOD - Charter - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "8c431d51587c33009ee9b67a566c042e": {
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "AUSTIN CCA HS - General Education - Selection",
-            "JULIAN HS - General Education - Selection",
-            "NORTH-GRAND HS - General Education - Selection",
-            "GAGE PARK HS - General Education - Selection",
-            "BOWEN HS - General Education - Selection",
-            "FOREMAN HS - General Education - Selection",
-            "FENGER HS - General Education - Selection",
-            "HIRSCH HS - General Education - Selection",
-            "CHICAGO VOCATIONAL HS - General Education - Selection",
-            "ROBESON HS - General Education - Selection",
-            "ORR HS - General Education - Selection",
-            "MANLEY HS - General Education - Selection",
-            "HOPE HS - General Education - Selection",
-            "HARPER HS - General Education - Selection",
-            "INFINITY HS - Science/Technology/Engineering/Math - Selection",
-            "MARSHALL HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "6fddb8b397a12770dbed5afff360213b": {
-        "desc": "Minimum percentile of 75 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.",
-        "programs": [
-            "SOLORIO HS - Double Honors/Scholars - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            var NWEA_MATH_CUTOFF = 75;
-            var NWEA_READ_CUTOFF = 75;
-            var ATTEND_CUTOFF = 95;
-            var progress = {
-                threshold_certain: 100,
-                value: 100 - average(getPointsFromCutoff(studentData.nweaPercentileMath, NWEA_MATH_CUTOFF), getPointsFromCutoff(studentData.nweaPercentileRead, NWEA_READ_CUTOFF), getPointsFromCutoff(studentData.attendancePercentage, ATTEND_CUTOFF)),
-            };
-            if (studentData.nweaPercentileMath >= NWEA_MATH_CUTOFF &&
-                studentData.nweaPercentileRead >= NWEA_READ_CUTOFF &&
-                studentData.attendancePercentage >= ATTEND_CUTOFF) {
-                return { outcome: success_chance_ts_1.default.CERTAIN, progress: progress };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE, progress: progress };
-            }
-        }
-    },
-    "218f3d334a0ceaa37bb7ce57bec10e96": {
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, students enrolled in AUSL schools, general.",
-        "programs": [
-            "SOLORIO HS - Double Honors/Scholars - Selection",
-            "CHICAGO ACADEMY HS - Scholars - Selection",
-            "CHICAGO ACADEMY HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school) ||
-                hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "3086b8e507b2f64e53b85b8ad808e66d": {
-        "desc": "Minimum 2.0 GPA in 7th grade and minimum attendance percentage of 85.",
-        "programs": [
-            "FARRAGUT HS - JROTC - Application",
-            "SCHURZ HS - AVID - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            var GPA_CUTOFF = 2.0;
-            var ATTEND_CUTOFF = 85;
-            var progress = {
-                threshold_certain: 100,
-                value: average(norm(getPointsFromCutoff(studentData.gpa, GPA_CUTOFF), 4.0, 0.0), getPointsFromCutoff(studentData.attendancePercentage, ATTEND_CUTOFF))
-            };
-            if (studentData.gpa >= GPA_CUTOFF && studentData.attendancePercentage >= ATTEND_CUTOFF) {
-                return { outcome: success_chance_ts_1.default.CERTAIN, progress: progress };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE, progress: progress };
-            }
-        }
-    },
-    "d3ddea21fb0e360b470bf095ce6bdfef": {
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: proximity, general.",
-        "programs": [
-            "FARRAGUT HS - JROTC - Selection",
-            "ROBESON HS - Allied Health - Selection",
-            "DUNBAR HS - Chicago Builds - Selection",
-            "SCHURZ HS - AVID - Selection",
-            "PROSSER HS - Career Academy - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "618315c228cf8e591d1909fc8ca41206": {
-        "desc": "Students are selected on a point system. Points are based on 7th grade final GPA and NWEA MAP scores. The school determines the minimum cutoff score for selections.",
-        "programs": [
-            "WELLS HS - Pre-Law - Selection",
-            "ALCOTT HS - Pre-Engineering - Selection",
-            "SULLIVAN HS - Medical & Health Careers - Selection",
-            "FARRAGUT HS - Pre-Law - Selection",
-            "SOUTH SHORE INTL HS - Medical & Health Careers - Selection",
-            "JULIAN HS - Allied Health - Selection",
-            "JUAREZ HS - Medical & Health Careers - Selection",
-            "BOWEN HS - Pre-Engineering - Selection",
-            "WILLIAMS HS - Medical & Health Careers - Selection",
-            "CLEMENTE HS - Allied Health - Selection",
-            "DUNBAR HS - Allied Health - Selection",
-            "CHICAGO VOCATIONAL HS - Medical Assisting - Selection",
-            "SCHURZ HS - Pre-Engineering - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "f661cdb969617a4f2a3923f5c80c190c": {
-        "desc": "General Education and 504 Plan students: Minimum percentile of 50 in both reading and math on NWEA MAP, minimum 2.7 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 50 in reading and math on NWEA MAP.  An Interview is required for all eligible applicants.",
-        "programs": [
-            "DYETT ARTS HS - Music - Application",
-            "DYETT ARTS HS - Visual Arts - Application",
-            "DYETT ARTS HS - Dance - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if (studentData.nweaPercentileMath >= 50 &&
-                    studentData.nweaPercentileRead >= 50 &&
-                    studentData.gpa >= 2.7 &&
-                    studentData.attendancePercentage >= 97) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath + studentData.nweaPercentileRead >= 50) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "3d86881707e468c9fe2a0ce0f5eeac4f": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the interview.",
-        "programs": [
-            "DYETT ARTS HS - Music - Selection",
-            "DYETT ARTS HS - Visual Arts - Selection",
-            "DYETT ARTS HS - Dance - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "7672890f5b16cd8f5c0cae20d58d1888": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
-        "programs": [
-            "SCHURZ HS - Accounting & Entrepreneurship - Selection",
-            "KELLY HS - Digital Media - Selection",
-            "CHICAGO VOCATIONAL HS - Agricultural Sciences - Selection",
-            "BOGAN HS - Entrepreneurship - Selection",
-            "ROOSEVELT HS - Game Programming - Selection",
-            "NORTH-GRAND HS - Culinary Arts - Selection",
-            "FOREMAN HS - Digital Media - Selection",
-            "PHILLIPS HS - Digital Media - Selection",
-            "CURIE HS - Game Programming & Web Design - Selection",
-            "BOWEN HS - Manufacturing - Selection",
-            "JUAREZ HS - Culinary Arts - Selection",
-            "CHICAGO VOCATIONAL HS - Culinary Arts - Selection",
-            "SCHURZ HS - Automotive Technology - Selection",
-            "COLLINS HS - Game Programming - Selection",
-            "CLEMENTE HS - Broadcast Technology - Selection",
-            "CURIE HS - Accounting - Selection",
-            "ROOSEVELT HS - Early Childhood - Selection",
-            "FARRAGUT HS - Automotive Technology - Selection",
-            "JULIAN HS - Entrepreneurship - Selection",
-            "CHICAGO VOCATIONAL HS - Carpentry - Selection",
-            "HYDE PARK HS - Broadcast Technology - Selection",
-            "JUAREZ HS - Automotive Technology - Selection",
-            "JULIAN HS - Broadcast Technology - Selection",
-            "CURIE HS - Early Childhood & Teaching - Selection",
-            "CLEMENTE HS - Culinary Arts - Selection",
-            "CURIE HS - Automotive Technology - Selection",
-            "JULIAN HS - Game Programming - Selection",
-            "JUAREZ HS - Architecture - Selection",
-            "TILDEN HS - Culinary Arts - Selection",
-            "SCHURZ HS - Digital Media - Selection",
-            "FOREMAN HS - Web Design - Selection",
-            "HYDE PARK HS - Digital Media - Selection",
-            "ROOSEVELT HS - Culinary Arts - Selection",
-            "CURIE HS - Broadcast Technology - Selection",
-            "RICHARDS HS - Culinary Arts - Selection",
-            "FENGER HS - Culinary Arts - Selection",
-            "RABY HS - Culinary Arts - Selection",
-            "HARPER HS - Culinary Arts - Selection",
-            "RABY HS - Broadcast Technology - Selection",
-            "STEINMETZ HS - Digital Media - Selection",
-            "JULIAN HS - Digital Media - Selection",
-            "AUSTIN CCA HS - Manufacturing - Selection",
-            "HARPER HS - Digital Media - Selection",
-            "AMUNDSEN HS - Game Programming & Web Design - Selection",
-            "RICHARDS HS - Accounting - Selection",
-            "MATHER HS - Game Programming & Web Design - Selection",
-            "CURIE HS - Culinary Arts - Selection",
-            "RABY HS - Entrepreneurship - Selection",
-            "CHICAGO VOCATIONAL HS - Early College STEM - Selection",
-            "HARLAN HS - Digital Media - Selection",
-            "MANLEY HS - Culinary Arts - Selection",
-            "CHICAGO VOCATIONAL HS - Diesel Technology - Selection",
-            "WELLS HS - Game Programming - Selection",
-            "FENGER HS - Carpentry - Selection",
-            "HARLAN HS - Web Design - Selection",
-            "CURIE HS - Digital Media - Selection",
-            "CURIE HS - Architecture - Selection",
-            "UPLIFT HS - Teaching - Selection",
-            "JUAREZ HS - Game Programming & Web Design - Selection",
-            "MARSHALL HS - Agricultural Sciences - Selection",
-            "MARSHALL HS - Culinary Arts - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 &&
-                    studentData.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "4ab864cc8934557f435c392c96e5cfc1": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery.\u00a0The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "SCHURZ HS - General Education - Selection",
-            "STEINMETZ HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "ae1af40b734a31b447b1ed50f6e4bc17": {
-        "name": "",
-        "desc": "Minimum combined percentile of 48 in reading and math on NWEA MAP. Attendance at an Information Session is required for eligible applicants.",
-        "programs": [
-            "AIR FORCE HS - Service Learning Academies (Military) - Application",
-            "MARINE LEADERSHIP AT AMES HS - Service Learning Academies (Military) - Application",
-            "RICKOVER MILITARY HS - Service Learning Academies (Military) - Application",
-            "PHOENIX MILITARY HS - Service Learning Academies (Military) - Application",
-            "CARVER MILITARY HS - Service Learning Academies (Military) - Application",
-            "CHICAGO MILITARY HS - Service Learning Academies (Military) - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.nweaPercentileMath + studentData.nweaPercentileRead >= 48) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "9a6d8103474c5e8b4988360767a186de": {
-        "name": "",
-        "desc": "During the Information Session, students will sign a Commitment Agreement, complete a Motivation and Perseverance Assessment and write a brief essay. Selections are based on a point system with a maximum of 500 points, derived from 7th grade final (cumulative) grades (100 points), 7th grade NWEA MAP scores (150 points), the two-part assessment (50 for each part), and the essay (100 points).",
-        "programs": [
-            "AIR FORCE HS - Service Learning Academies (Military) - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "459b0b1aaa6e44d897f0a720ba82369e": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary will be randomly selected by computerized lottery. The lottery will be conducted in the following order: sibling, general.",
-        "programs": [
-            "JUAREZ HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "d41d8cd98f00b204e9800998ecf8427e": {
-        "name": "",
-        "desc": "",
-        "programs": [
-            "KELLY HS - Digital Media - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "2317c60e8a1eec08ab495a14ccfd9c64": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery.",
-        "programs": [
-            "RICHARDS HS - General Education - Selection",
-            "TILDEN HS - General Education - Selection",
-            "DYETT ARTS HS - General Education - Selection",
-            "SOLORIO HS - General Education - Selection",
-            "MATHER HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "c32c0804dc719ba6c4c00322e7a69be2": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 45 in both reading and math on NWEA MAP.  IEP and EL students: Minimum NWEA MAP percentile of 50 in one subject (reading or math) and minimum NWEA MAP percentile of 40 in the other subject (reading or math).  Testing is required for all eligible applicants.",
-        "programs": [
-            "BROOKS HS - Academic Center - Application",
-            "TAFT HS - Academic Center - Application",
-            "LANE TECH HS - Academic Center - Application",
-            "MORGAN PARK HS - Academic Center - Application",
-            "KENWOOD HS - Academic Center - Application",
-            "LINDBLOM HS - Academic Center - Application",
-            "YOUNG HS - Academic Center - Application"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "224ce8807abceb6ca72e650988637629": {
-        "name": "",
-        "desc": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for prior year final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
-        "programs": [
-            "BROOKS HS - Academic Center - Selection",
-            "TAFT HS - Academic Center - Selection",
-            "LANE TECH HS - Academic Center - Selection",
-            "MORGAN PARK HS - Academic Center - Selection",
-            "KENWOOD HS - Academic Center - Selection",
-            "LINDBLOM HS - Academic Center - Selection",
-            "YOUNG HS - Academic Center - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "03010a12030cab563c3f5d9115e7aabe": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 45 in both reading and math on NWEA MAP and minimum 2.0 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 90 in reading and math on NWEA MAP, and minimum 2.0 GPA in 7th grade.",
-        "programs": [
-            "STEINMETZ HS - JROTC - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if (studentData.nweaPercentileMath >= 45 &&
-                    studentData.nweaPercentileRead >= 45 &&
-                    studentData.gpa > 2.0) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 90 &&
-                    studentData.gpa > 2.0) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "5096cc5a97943badb78efd427ee13eb6": {
-        "name": "",
-        "desc": "Eligible students are randomly selected by computerized lottery.",
-        "programs": [
-            "STEINMETZ HS - JROTC - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "f6b1cadaa52f894d87ad4246bd4c9b0a": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, general.",
-        "programs": [
-            "DOUGLASS HS - General Education - Selection",
-            "WILLIAMS HS - General Education - Selection",
-            "SENN HS - Digital Journalism - Selection",
-            "NORTH LAWNDALE - CHRISTIANA HS - General Education - Selection",
-            "NORTH LAWNDALE - COLLINS HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school) ||
-                hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "77620df9b5c4a530f21c30267af843ce": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP. An audition/portfolio review is required.",
-        "programs": [
-            "CURIE HS - Dance - Application",
-            "CURIE HS - Music - Application",
-            "CURIE HS - Visual Arts - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 &&
-                    studentData.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "7e51568fc748dec3fd5aa79aae428009": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade final (cumulative) grades, and the audition.",
-        "programs": [
-            "CURIE HS - Dance - Selection",
-            "SENN HS - Dance - Selection",
-            "CURIE HS - Music - Selection",
-            "SENN HS - Music - Selection",
-            "SENN HS - Theatre - Selection",
-            "CURIE HS - Visual Arts - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "0514de51e21823dae4f43b085538f9e6": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.",
-        "programs": [
-            "WESTINGHOUSE HS - Career Academy - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48 &&
-                    studentData.gpa >= 3.0 &&
-                    studentData.attendancePercentage >= 95) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 &&
-                    studentData.nweaPercentileRead >= 24 &&
-                    studentData.gpa >= 3.0 &&
-                    studentData.attendancePercentage >= 95) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "d76c385b612c2ef53c62501b074b6134": {
-        "name": "",
-        "desc": "Students are randomly selected by compterized lottery. The lottery is conducted in the following order: proximity, general.",
-        "programs": [
-            "WESTINGHOUSE HS - Career Academy - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "5ee7cff3803c80e025f483be28b57f06": {
-        "name": "",
-        "desc": "This program only accepts students who live within the school's attendance boundary or who attend a Grow Community School (Audubon, Bell, Blaine, Budlong, Burley, Chappell, Coonley, Greeley, Hamilton, Hawthorne, Inter-American, Jahn, Jamieson, McPherson, Nettelhorst, Ravenswood, or Waters). Students are randomly selected by computerized lottery.",
-        "programs": [
-            "LAKE VIEW HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "930c01733b718c40bc1f2af23839e14a": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants.",
-        "programs": [
-            "KELLY HS - International Baccalaureate (IB) - Application",
-            "SOUTH SHORE INTL HS - International Baccalaureate (IB) - Application",
-            "BACK OF THE YARDS HS - International Baccalaureate (IB) - Application",
-            "PROSSER HS - International Baccalaureate (IB) - Application",
-            "STEINMETZ HS - International Baccalaureate (IB) - Application",
-            "MORGAN PARK HS - International Baccalaureate (IB) - Application",
-            "TAFT HS - International Baccalaureate (IB) - Application",
-            "BOGAN HS - International Baccalaureate (IB) - Application",
-            "JUAREZ HS - International Baccalaureate (IB) - Application",
-            "OGDEN HS - International Baccalaureate (IB) - Application",
-            "KENNEDY HS - International Baccalaureate (IB) - Application",
-            "AMUNDSEN HS - International Baccalaureate (IB) - Application",
-            "WASHINGTON HS - International Baccalaureate (IB) - Application",
-            "SCHURZ HS - International Baccalaureate (IB) - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 &&
-                    studentData.nweaPercentileRead >= 24 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "11bdd4bc6af64732a32d73a850bc78a4": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points.The school determines the minimum cutoff score for selections.",
-        "programs": [
-            "KELLY HS - International Baccalaureate (IB) - Selection",
-            "BACK OF THE YARDS HS - International Baccalaureate (IB) - Selection",
-            "JUAREZ HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "f79604e9d7984cc9b43fa3c69abe428d": {
-        "name": "",
-        "desc": "During the Information Session, students will sign a Commitment Agreement, complete a Motivation and Perseverance Assessment and write a brief essay. Selections will be based on a point system with a maximum of 500 points, derived from 7th grade final (cumulative) grades (100 points), 7th grade NWEA MAP scores (150 points), the two-part assessment (50 for each part), and the essay (100 points).",
-        "programs": [
-            "MARINE LEADERSHIP AT AMES HS - Service Learning Academies (Military) - Selection",
-            "RICKOVER MILITARY HS - Service Learning Academies (Military) - Selection",
-            "PHOENIX MILITARY HS - Service Learning Academies (Military) - Selection",
-            "CARVER MILITARY HS - Service Learning Academies (Military) - Selection",
-            "CHICAGO MILITARY HS - Service Learning Academies (Military) - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "4cb799c1cf8b41a3baf1e8d9176463d8": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.",
-        "programs": [
-            "JONES HS - Pre-Engineering - Application",
-            "CRANE MEDICAL HS - Health Sciences - Application",
-            "CHICAGO AGRICULTURE HS - Agricultural Sciences - Application",
-            "HANCOCK HS - Pre-Law - Application",
-            "HANCOCK HS - Pre-Engineering - Application",
-            "JONES HS - Pre-Law - Application",
-            "VON STEUBEN HS - Science - Application",
-            "CLARK HS - Early College STEM - Application",
-            "DISNEY II HS - Fine Arts & Technology - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 &&
-                    studentData.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "0fe94ad9490cc5fe33139f705336bf3d": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on 7th grade final GPA and 7th grade stanines. Students are ranked and selected from high to low. Students residing within the attendance overlay boundary of the school are selected first.",
-        "programs": [
-            "JONES HS - Pre-Engineering - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "0fedde2a8081243a74d2c6a3be90b411": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.",
-        "programs": [
-            "SOUTH SHORE INTL HS - International Baccalaureate (IB) - Selection",
-            "CLEMENTE HS - International Baccalaureate (IB) - Selection",
-            "STEINMETZ HS - International Baccalaureate (IB) - Selection",
-            "HUBBARD HS - International Baccalaureate (IB) - Selection",
-            "BOGAN HS - International Baccalaureate (IB) - Selection",
-            "KENNEDY HS - International Baccalaureate (IB) - Selection",
-            "BRONZEVILLE HS - International Baccalaureate (IB) - Selection",
-            "WASHINGTON HS - International Baccalaureate (IB) - Selection",
-            "SCHURZ HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "70d67060ab98f9cd752d741b32e207ba": {
-        "name": "",
-        "desc": "Student selections are based on points. Students are assigned points for 7th grade final GPA and 7th grade stanines. Each school determines a minimum cutoff score for selections.",
-        "programs": [
-            "ROOSEVELT HS - Medical & Health Careers - Selection",
-            "NORTH-GRAND HS - Pre-Engineering - Selection",
-            "NORTH-GRAND HS - Allied Health - Selection",
-            "SCHURZ HS - Allied Health - Selection",
-            "RABY HS - Pre-Law - Selection",
-            "MATHER HS - Pre-Law - Selection",
-            "ROOSEVELT HS - Cisco Networking - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "eb6acf17c18f9a5177bcdb7a4504672a": {
-        "name": "",
-        "desc": "Minimum percentile of 40 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, LAS Links Assessment composite of 4 or STAMP Assessment at the Intermediate Level.",
-        "programs": [
-            "SCHURZ HS - Dual Language - Application",
-            "BACK OF THE YARDS HS - Dual Language - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "0640ddea233c6c9c97db5dd816b5c24a": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, students currently enrolled in a CPS elementary school with a world language or dual language program, general.",
-        "programs": [
-            "SCHURZ HS - Dual Language - Selection",
-            "BACK OF THE YARDS HS - Dual Language - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "8c1dffabe7825704cbe29a12138cc4d9": {
-        "name": "",
-        "desc": "Students currently enrolled in the school's eighth grade will have a deadline to submit their intent to enroll in ninth grade. For remaining seats, students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "CHICAGO MATH & SCIENCE HS - General Education - Selection",
-            "CICS - CHICAGOQUEST HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "70b7c4a5e527fb50d69ea37b000765d8": {
-        "name": "",
-        "desc": "Minimum percentile of 70 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 93.",
-        "programs": [
-            "CHICAGO ACADEMY HS - Scholars - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.nweaPercentileMath >= 70 &&
-                studentData.nweaPercentileRead >= 70 &&
-                studentData.gpa >= 3.0 &&
-                studentData.attendancePercentage >= 93) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "1d126a086436d78661af2cb249938c72": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum attendance percentage of 92.",
-        "programs": [
-            "MULTICULTURAL HS - Fine and Performing Arts - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (studentData.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "c36c294e63476a7959123bfe85a2c639": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "MULTICULTURAL HS - Fine and Performing Arts - Selection",
-            "CLEMENTE HS - General Education - Selection",
-            "PHILLIPS HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "889af44e3306313029109d465b1c2de6": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum GPA of 2.5 in 7th grade and minimum attendance percentage of 85.",
-        "programs": [
-            "CLEMENTE HS - General Education - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (studentData.gpa >= 2.5 &&
-                    studentData.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "6a02d16ba52a69b937a74a43c6a82769": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance is required at an Information Session for all eligible applicants.",
-        "programs": [
-            "CLEMENTE HS - International Baccalaureate (IB) - Application",
-            "CURIE HS - International Baccalaureate (IB) - Application",
-            "FARRAGUT HS - International Baccalaureate (IB) - Application",
-            "BRONZEVILLE HS - International Baccalaureate (IB) - Application",
-            "HYDE PARK HS - International Baccalaureate (IB) - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 &&
-                    studentData.nweaPercentileRead >= 24 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "1a043655763ab140a0d14f5080d63a2c": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
-        "programs": [
-            "BROOKS HS - Selective Enrollment High School - Application",
-            "YOUNG HS - Selective Enrollment High School - Application",
-            "SOUTH SHORE INTL HS - Selective Enrollment High School - Application",
-            "WESTINGHOUSE HS - Selective Enrollment High School - Application",
-            "LANE TECH HS - Selective Enrollment High School - Application",
-            "HANCOCK HS - Selective Enrollment High School - Application",
-            "LINDBLOM HS - Selective Enrollment High School - Application",
-            "KING HS - Selective Enrollment High School - Application",
-            "PAYTON HS - Selective Enrollment High School - Application",
-            "JONES HS - Selective Enrollment High School - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 &&
-                    studentData.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "bd680e7bc10c03552140e26736221cf7": {
-        "name": "",
-        "desc": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for 7th grade final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
-        "programs": [
-            "BROOKS HS - Selective Enrollment High School - Selection",
-            "YOUNG HS - Selective Enrollment High School - Selection",
-            "NORTHSIDE PREP HS - Selective Enrollment High School - Selection",
-            "SOUTH SHORE INTL HS - Selective Enrollment High School - Selection",
-            "WESTINGHOUSE HS - Selective Enrollment High School - Selection",
-            "LANE TECH HS - Selective Enrollment High School - Selection",
-            "HANCOCK HS - Selective Enrollment High School - Selection",
-            "LINDBLOM HS - Selective Enrollment High School - Selection",
-            "KING HS - Selective Enrollment High School - Selection",
-            "JONES HS - Selective Enrollment High School - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateSEPoints(student);
-            try {
-                var cutoff = getSECutoff(student, school);
-                if (score >= cutoff.max) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else if (score >= cutoff.avg) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else if (score >= cutoff.min) {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            catch (e) {
-                return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-            }
-        }
-    },
-    "94f10272b6ff9ee947b6c7f8e9adc98c": {
-        "name": "",
-        "desc": "Minimum percentile of 24 in both reading and math on NWEA MAP. An interview is required for applicants.",
-        "programs": [
-            "TAFT HS - NJROTC - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.nweaPercentileMath >= 24 &&
-                studentData.nweaPercentileRead >= 24) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "29034b3dd211fc6857c0762ea4431354": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores and the interview.",
-        "programs": [
-            "TAFT HS - NJROTC - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "7ca8e42afc3b2240bdc21e9b02a9b6ff": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 2.75 GPA in 7th grade. An audition is required for students who live outside of the school's attendance boundary.",
-        "programs": [
-            "LINCOLN PARK HS - Vocal Music - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 60 &&
-                    studentData.nweaPercentileRead >= 60 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "abfbe30160c0ed3a6d925da2f6fbe7d6": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility/audition requirements and can be admitted automatically.  Students who live outside of the school's attendance boundary are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade GPA, and the audition.",
-        "programs": [
-            "LINCOLN PARK HS - Vocal Music - Selection",
-            "LINCOLN PARK HS - Instrumental Music - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-            }
-        }
-    },
-    "9653c4a2af98c756aaeeaa36980f9dc5": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 24 in reading and math on NWEA MAP, and minimum attendance percentage of 90.",
-        "programs": [
-            "PHILLIPS HS - General Education - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (studentData.iep || studentData.ell) {
-                    if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 24 &&
-                        studentData.attendancePercentage >= 90) {
-                        return { outcome: success_chance_ts_1.default.CERTAIN };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.NONE };
-                    }
-                }
-                else {
-                    if (studentData.nweaPercentileMath >= 24 &&
-                        studentData.nweaPercentileRead >= 24 &&
-                        studentData.attendancePercentage >= 90) {
-                        return { outcome: success_chance_ts_1.default.CERTAIN };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.NONE };
-                    }
-                }
-            }
-        }
-    },
-    "49bc52caf46148ee777e8d3534f22700": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, tiers.",
-        "programs": [
-            "CRANE MEDICAL HS - Health Sciences - Selection",
-            "CHICAGO AGRICULTURE HS - Agricultural Sciences - Selection",
-            "VON STEUBEN HS - Science - Selection",
-            "CLARK HS - Early College STEM - Selection",
-            "DISNEY II HS - Fine Arts & Technology - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school) ||
-                hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "61f50de703d591d18f2fb852131bbb9c": {
-        "name": "",
-        "desc": "Studentts are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
-        "programs": [
-            "SULLIVAN HS - Accounting - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                if (studentData.iep || studentData.ell) {
-                    if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48) {
-                        return { outcome: success_chance_ts_1.default.LIKELY };
-                    }
-                    else if (studentData.prevGradeLevel !== 7) {
-                        return { outcome: success_chance_ts_1.default.UNLIKELY };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                    }
-                }
-                else {
-                    if (studentData.nweaPercentileMath >= 24 &&
-                        studentData.nweaPercentileRead >= 24) {
-                        return { outcome: success_chance_ts_1.default.LIKELY };
-                    }
-                    else if (studentData.prevGradeLevel !== 7) {
-                        return { outcome: success_chance_ts_1.default.UNLIKELY };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                    }
-                }
-            }
-        }
-    },
-    "3c0f47771fc40565978a3a894bd96705": {
-        "name": "",
-        "desc": "Minimum percentile of 50 in both reading and math on NWEA MAP, and minimum 2.0 GPA in 7th grade.",
-        "programs": [
-            "FENGER HS - Honors - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.nweaPercentileMath >= 50 &&
-                studentData.nweaPercentileRead >= 50 &&
-                studentData.gpa >= 2.0) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "308d8156364219130aef9a7de30a6c8d": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery.",
-        "programs": [
-            "FENGER HS - Honors - Selection",
-            "CHICAGO VIRTUAL - General Education - Selection",
-            "KENWOOD HS - Honors - Selection",
-            "HUBBARD HS - University Scholars - Selection",
-            "DUNBAR HS - Career Academy - Selection",
-            "BRONZEVILLE HS - Honors - Selection",
-            "ACE TECH HS - General Education - Selection",
-            "MORGAN PARK HS - World Language and International Studies - Selection",
-            "CHICAGO TECH HS - Science/Technology/Engineering/Math - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "ab7e9a52b2c607977c432dd5f27c6fe9": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. Each school selects a minimum cutoff score for selections.",
-        "programs": [
-            "PROSSER HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "8f4240fa22d2281a32186e7a65e75011": {
-        "name": "",
-        "desc": "Spry is a three-year, year-round school. Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "SPRY HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "b4dc6bde064d3f16c8bed871ea0cee30": {
-        "name": "",
-        "desc": "Minimum percentile of 50 in reading on NWEA MAP, minimum 2.0 GPA in 7th grade, and minimum attendance percentage of 80.",
-        "programs": [
-            "KELLY HS - AVID - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.nweaPercentileRead >= 50 &&
-                studentData.gpa >= 2.0 &&
-                studentData.attendancePercentage >= 80) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "4ce6d6733bff330b780bc8390660d7cf": {
-        "name": "",
-        "desc": "Students will be selected based on teacher recommendation letter(s) and an interview process.",
-        "programs": [
-            "KELLY HS - AVID - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "cb7238b523517845746779fe18ea174a": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.   IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
-        "programs": [
-            "NORTHSIDE PREP HS - Selective Enrollment High School - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 &&
-                    studentData.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "14673a83b42347d3fdc6f2fa445c4d2f": {
-        "name": "",
-        "desc": "Student selections are based on points. Students are assigned points for 7th grade final GPA and 7th grade stanines. Students are ranked and selected from high to low. Students residing within the attendance overlay boundary of the school are selected first.",
-        "programs": [
-            "HANCOCK HS - Pre-Law - Selection",
-            "HANCOCK HS - Pre-Engineering - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "3d1c7a20cb38789ce4b0f651200dd9cd": {
-        "name": "",
-        "desc": "Minimum percentile of 75 in both reading and math on NWEA MAP, minimum 3.5 GPA in 7th grade, and minimum attendance percentage of 95.",
-        "programs": [
-            "KENWOOD HS - Honors - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.nweaPercentileMath >= 75 &&
-                studentData.nweaPercentileRead >= 75 &&
-                studentData.gpa >= 3.5 &&
-                studentData.attendancePercentage >= 95) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "027fe7b2d9fd7d9c6e55de49f723852f": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum combined percentile of 40 in reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 30 in reading and math on NWEA MAP, and minimum attendance percentage of 90.",
-        "programs": [
-            "SIMEON HS - Career Academy - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) > 30 &&
-                    studentData.attendancePercentage >= 90) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) > 40 &&
-                    studentData.gpa >= 2.5 &&
-                    studentData.attendancePercentage >= 90) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "47befdd406dee45058f2dbd64a097154": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the combined NWEA MAP scores and the interview.",
-        "programs": [
-            "SIMEON HS - Career Academy - Selection",
-            "SIMEON HS - Honors - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "39fbe111b62498337fb2f7973a18e570": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 85.  IEP and EL students: Minimum combined percentile of 40 in reading and math on NWEA MAP and minimum attendance percentage of 85.",
-        "programs": [
-            "HARLAN HS - General Education - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (studentData.iep || studentData.ell) {
-                    if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 40 &&
-                        studentData.attendancePercentage >= 85) {
-                        return { outcome: success_chance_ts_1.default.CERTAIN };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.NONE };
-                    }
-                }
-                else {
-                    if (studentData.nweaPercentileMath >= 24 &&
-                        studentData.nweaPercentileRead >= 24 &&
-                        studentData.attendancePercentage >= 85) {
-                        return { outcome: success_chance_ts_1.default.CERTAIN };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.NONE };
-                    }
-                }
-            }
-        }
-    },
-    "3e4ad403b3a6a2e998cd7d7b7d179091": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibilty requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "HARLAN HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "f2829bdd4c9bc67e01b90bdd3db46c07": {
-        "name": "",
-        "desc": "Minimum percentile of 50 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 90.",
-        "programs": [
-            "SIMEON HS - Honors - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.nweaPercentileMath >= 50 &&
-                studentData.nweaPercentileRead >= 50 &&
-                studentData.gpa >= 3.0 &&
-                studentData.attendancePercentage >= 90) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "c66032656bbf52edb1c9d6b62ca2e2eb": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum combined percentile of 135 in reading and math on NWEA MAP and minimum 3.0 GPA in 7th grade.",
-        "programs": [
-            "LINCOLN PARK HS - Honors/Double Honors - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 135 &&
-                    studentData.gpa >= 3.0) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "1558a52d4663a54c6a5f06fa10062961": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside the school's attendance boundary are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and 7th grade GPA.",
-        "programs": [
-            "LINCOLN PARK HS - Honors/Double Honors - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-            }
-        }
-    },
-    "f4491f6cf1ebf200770f01271d93ba47": {
-        "name": "",
-        "desc": "Minimum percentile of 80 in both reading and math on NWEA MAP and minimum 3.5 GPA in 7th grade.",
-        "programs": [
-            "CHICAGO AGRICULTURE HS - Scholars - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.nweaPercentileMath >= 80 &&
-                studentData.nweaPercentileRead >= 80 &&
-                studentData.gpa >= 3.5) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "1976701fe4ffdbf53913f7f638f61b26": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. Preference is given to students with a sibling who is currently enrolled and will be enrolled in the upcoming school year.",
-        "programs": [
-            "CHICAGO AGRICULTURE HS - Scholars - Selection",
-            "HARLAN HS - Pre-Engineering - Selection",
-            "CHICAGO AGRICULTURE HS - Honors - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "736b7d124b6930cf8ae642563037eeb9": {
-        "name": "",
-        "desc": "Attendance at an Information Session is not required, but preference is given to students who attend an Information Session.",
-        "programs": [
-            "GOODE HS - Early College STEM - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "85463a98c5a7ba21313aacdaeda48cd0": {
-        "name": "",
-        "desc": "Students are randomly selcted by computerized lottery. The lottery is conducted in the following order: students who live within the school's overlay boundary and attend an Information Session; students who live within the school's network and attend an Information Session; students who live outside of the network and attend an Information Session; students who live within the school's overlay boundary and do not attend an Information Session; students who live within the school's network and do not attend an Information Session; students who live outside of the network and do not attend an Information Session.",
-        "programs": [
-            "GOODE HS - Early College STEM - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "8ccbd2eb3d4e026932b83ee576862b16": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  An audition is required for all eligible applicants.",
-        "programs": [
-            "SENN HS - Dance - Application",
-            "SENN HS - Music - Application",
-            "SENN HS - Theatre - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 &&
-                    studentData.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "7e054e33cdc685f9b099a243e45f0386": {
-        "name": "",
-        "desc": "Minimum 2.5 GPA in 7th grade.",
-        "programs": [
-            "ROBESON HS - Allied Health - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.gpa >= 2.5) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "b3b514880eaa7b9a4db6d6b6308eb1f7": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school selects the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Academic Center.",
-        "programs": [
-            "MORGAN PARK HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "7574e7fa48dfdf030b059dbaff5351b6": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling; students who attend Brennemann, Courtenay, or McCutcheon Elementary Schools; general.",
-        "programs": [
-            "UPLIFT HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "f9d7148f613933f83ad7d81004715614": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled at the University of Chicago Woodlawn, sibling, proximity, general.",
-        "programs": [
-            "U OF C - WOODLAWN HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData) ||
-                hasSiblingInProgram(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "bc314f72be86fc565247301f6d8f99b8": {
-        "name": "",
-        "desc": "Minimum percentile of 40 in both reading and math on NWEA MAP, minimum 2.8 GPA in 7th grade, and minimum attendance percentage of 92.",
-        "programs": [
-            "COLLINS HS - Scholars - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.nweaPercentileMath >= 40 &&
-                studentData.nweaPercentileRead >= 40 &&
-                studentData.gpa >= 2.8 &&
-                studentData.attendancePercentage >= 92) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "685beedfccfae8bdb0649c36f03dfd7a": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in Chalmers, Dvorak, Herzl, Johnson, or Morton Elementary Schools; general.",
-        "programs": [
-            "COLLINS HS - Scholars - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "9a2a27708247d3b692481757756b5226": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum combined percentile of 40 in both reading and math on NWEA MAP, minimum 2.0 GPA in 7th grade, and minimum attendance percentage of 80.  IEP/EL students have no eligibility requirements.",
-        "programs": [
-            "TEAM HS - General Education - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 40 &&
-                    studentData.gpa >= 2.0 &&
-                    studentData.attendancePercentage >= 80) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "8f880cad92a9a0dc49dd8d6ba4209b14": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students with a 7th grade final GPA of 2.5 or higher, general.",
-        "programs": [
-            "TEAM HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.gpa >= 2.5) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "43cabfe5f36cbf1ccbb95a9962d90319": {
-        "name": "",
-        "desc": "Students enrolled in the Taft Academic Center or students who live within the school's attendance boundary can be admitted automatically. This program only accepts students who live within the school's attendance boundary or who attend the school's Academic Center.",
-        "programs": [
-            "TAFT HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "9fad1e147fb546e7a25d0fccba608035": {
-        "name": "",
-        "desc": "Students who are enrolled in the Morgan Park Academic Center and students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "MORGAN PARK HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "7ef878b115498c24fd96f8891c346480": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 85.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, and minimum attendance percentage of 85.",
-        "programs": [
-            "WILLIAMS HS - General Education - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48 &&
-                    studentData.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 &&
-                    studentData.nweaPercentileRead >= 24 &&
-                    studentData.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "01bb8009b315ff8fc0120dbadf71444c": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading on math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.",
-        "programs": [
-            "HUBBARD HS - University Scholars - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48 &&
-                    studentData.gpa >= 2.5 &&
-                    studentData.attendancePercentage >= 90) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 &&
-                    studentData.nweaPercentileRead >= 24 &&
-                    studentData.gpa >= 2.5 &&
-                    studentData.attendancePercentage >= 90) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "86b8c5719b264aa9072aa6433644fb60": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, and minimum attendance percentage of 90.",
-        "programs": [
-            "SENN HS - Digital Journalism - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48 &&
-                    studentData.attendancePercentage >= 90) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 &&
-                    studentData.nweaPercentileRead >= 24 &&
-                    studentData.gpa >= 2.5 &&
-                    studentData.attendancePercentage >= 90) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "4773ff8378c681fdc3855cec189b446d": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. General Education and 504 Plan Students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
-        "programs": [
-            "BOGAN HS - Accounting - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else if (studentData.prevGradeLevel !== 7) {
-                    return { outcome: success_chance_ts_1.default.UNLIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 && studentData.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else if (studentData.prevGradeLevel !== 7) {
-                    return { outcome: success_chance_ts_1.default.UNLIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "87bdb6caf5cf899ddb8041511761e58b": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "INTRINSIC HS - General Education - Selection",
-            "YOUNG WOMENS HS - General Education - Selection",
-            "INSTITUTO - HEALTH - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "23e3199eb5514de5456653457f75f366": {
-        "name": "",
-        "desc": "Minimum percentile of 60 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.",
-        "programs": [
-            "KENWOOD HS - Magnet Program - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.nweaPercentileMath >= 60 &&
-                student.nweaPercentileRead >= 60 &&
-                student.gpa >= 3.0 &&
-                student.attendancePercentage >= 95) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "9b26cbed99b12a4c7cfca5a4713c6e17": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in the Kenwood Academic Center, general.",
-        "programs": [
-            "KENWOOD HS - Magnet Program - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "0df5dab7dc2c1e8d8947d27287872269": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibilty requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, Edwards Elementary School.",
-        "programs": [
-            "CURIE HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "9e837f0a671ce67593e611ccf595306a": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the schools attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "CORLISS HS - Early College STEM - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "2fdf00001de412f0e493fa242647bad0": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Academic Center.",
-        "programs": [
-            "TAFT HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "ba2bb65c77d8d0932634f43bb01707cc": {
-        "name": "",
-        "desc": "Students who live within the school's attendance area can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in Carnegie Elementary School, sibling, general.",
-        "programs": [
-            "HYDE PARK HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "08ee4f1aa31d5eb00bbc81c21139188b": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary: None  Students who live outside of the school's attendance boundary: Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 2.75 GPA in 7th grade. An audition is required for students who live outside of the school's attendance boundary.",
-        "programs": [
-            "LINCOLN PARK HS - Instrumental Music - Application"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (student.nweaPercentileMath >= 60 &&
-                    student.nweaPercentileRead >= 60 &&
-                    student.gpa >= 2.75) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "d1b719a6ff9e6979e8f14b2c05b63352": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: Alcott Elementary School students, proximity, general.",
-        "programs": [
-            "ALCOTT HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "f5ef0c0580eb110a06888b1c15313717": {
-        "name": "",
-        "desc": "Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 2.75 GPA in 7th grade. An audition is required for all eligible applicants.",
-        "programs": [
-            "LINCOLN PARK HS - Drama - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.nweaPercentileMath >= 60 &&
-                student.nweaPercentileRead >= 60 &&
-                student.gpa >= 2.75) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "9f4eb5cee59306847a4fa61720f8e54d": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade GPA, and the audition.",
-        "programs": [
-            "LINCOLN PARK HS - Drama - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "625d1f6025c2e892f5573e60ab69f903": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on the NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.",
-        "programs": [
-            "HARLAN HS - Pre-Engineering - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.nweaPercentileMath >= 24 &&
-                    student.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "bc517a96ab40c67deddde65b6a4c07a8": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  A portfolio review is required for all eligible applicants.",
-        "programs": [
-            "SENN HS - Visual Arts - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.nweaPercentileMath >= 24 &&
-                    student.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "cb76bc6620a1921e5f9630e2a39fb8d8": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade final (cumulative) grades, and the portfolio review.",
-        "programs": [
-            "SENN HS - Visual Arts - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "afb0dfcaa0f2cc236b2bd07a0244385e": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary or who attend Grow Community Schools can be admitted automatically. This program only accepts students who live within the school's attendance boundary or attend a Grow Community School.",
-        "programs": [
-            "AMUNDSEN HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "78e3973b67c80b7984271b2a127e9ebf": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum 2.5 GPA in 7th grade and minimum attendance percentage of 85.",
-        "programs": [
-            "KELVYN PARK HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (student.gpa >= 2.5 &&
-                    student.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "03c4df08f6e417f196f6e87415e2064f": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are selected on a point system. Points are based on NWEA MAP scores, 7th grade GPA, and the interview.",
-        "programs": [
-            "KELVYN PARK HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-            }
-        }
-    },
-    "95025d14a97b9b32f5a2c8225c4ddd6e": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance is required at an Information Session for all eliglble applicants.",
-        "programs": [
-            "HUBBARD HS - International Baccalaureate (IB) - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.nweaPercentileMath + studentData.nweaPercentileRead) >= 48 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.nweaPercentileMath >= 24 &&
-                    studentData.nweaPercentileRead >= 24 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "296d2849362aa5311f457ffc834a868b": {
-        "name": "",
-        "desc": "Students are selected on a point system. Students are assigned points for 7th grade final GPA and 7th grade stanines. Students are ranked and selected from high to low. Students residing within the attendance overlay boundary of the school are selected first.",
-        "programs": [
-            "JONES HS - Pre-Law - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "bb9e0e6f1af678dafb340a8e48ff4fbf": {
-        "name": "",
-        "desc": "Minimum percentile of 50 in both reading and math on NWEA MAP and minimum 3.0 GPA in 7th grade.",
-        "programs": [
-            "CHICAGO AGRICULTURE HS - Honors - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.nweaPercentileMath >= 50 &&
-                student.nweaPercentileRead >= 50 &&
-                student.gpa >= 3.0) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "26f5b02fa29f8a9c2b5bc909b844e585": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner,  Madero Middle School.",
-        "programs": [
-            "FARRAGUT HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "6de001ff1207c6d38de87e65f3e11ff3": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled at Chicago Collegiate Charter School, sibling, proximity, general.",
-        "programs": [
-            "CHICAGO COLLEGIATE - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school) ||
-                hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "351d1f100c07b40673b51f4506b0e34e": {
-        "name": "",
-        "desc": "None. All interested students, including students who live within the overlay boundary of the school, must submit apply.",
-        "programs": [
-            "BACK OF THE YARDS HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.CERTAIN };
-        }
-    },
-    "fd100fd06ddf9bd72e2809f6d659faf2": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students who live within the attendance boundaries of Chavez, Daley, Hamline, Hedges, Lara, or Seward Elementary Schools; general.",
-        "programs": [
-            "BACK OF THE YARDS HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "763686fddcad223e9a51aebaac42b61c": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: General Education and 504 Plan students: Minimum percentile of 60 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.  IEP/EL students have no eligibility requirements.",
-        "programs": [
-            "WELLS HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (student.iep || student.ell) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    if (student.nweaPercentileMath >= 60 &&
-                        student.nweaPercentileRead >= 60 &&
-                        student.gpa >= 3.0 &&
-                        student.attendancePercentage >= 95) {
-                        return { outcome: success_chance_ts_1.default.CERTAIN };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.NONE };
-                    }
-                }
-            }
-        }
-    },
-    "379139122b47f0c7efa0e423df956e30": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: students scoring above designated NWEA MAP percentile, sibling, general.",
-        "programs": [
-            "WELLS HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                var scoredAboveThreshold = student.nweaPercentileMath >= 60 &&
-                    student.nweaPercentileRead >= 60;
-                if (scoredAboveThreshold || hasSiblingInProgram(student, school)) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "69aef50164a2914f16a28630afa50270": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 30 in both reading and math on NWEA MAP, minimum 2.0 GPA in 7th grade and minimum attendance percentage of 85.  IEP and EL students: Minimum combined percentile of 24 in reading and math on NWEA MAP, and minimum attendance percentage of 85.",
-        "programs": [
-            "COLLINS HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 24 &&
-                    student.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "a105512ab5a0eb6536021215baf98ea8": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in Chalmers, Dvorak, Herzl, Johnson, or Morton Elementary Schools; sibling; general.",
-        "programs": [
-            "COLLINS HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "47750c8ffb643412fb55f3f3d6bde14a": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school selects the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, Ogden Elementary School.",
-        "programs": [
-            "OGDEN HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "965d710ce70f9e59e622f51311b5a986": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
-        "programs": [
-            "DYETT ARTS HS - Digital Media - Selection"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else if (student.prevGradeLevel !== 7) {
-                    return { outcome: success_chance_ts_1.default.UNLIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (student.nweaPercentileMath >= 24 &&
-                    student.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else if (student.prevGradeLevel !== 7) {
-                    return { outcome: success_chance_ts_1.default.UNLIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "a6071a83f74612d54c3f659f9cb8a79c": {
-        "name": "",
-        "desc": "General Education/504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants.",
-        "programs": [
-            "SENN HS - International Baccalaureate (IB) - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 48 &&
-                    student.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.nweaPercentileMath >= 24 &&
-                    student.nweaPercentileRead >= 24 &&
-                    student.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "8605454896638a4de5feec75ed536489": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, Peirce Elementary School.",
-        "programs": [
-            "SENN HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "5e32e9c5ce34b2af75f2ec9e1a6c6643": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 50 in both reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade.    IEP and EL students: Minimum combined percentile of 100 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.",
-        "programs": [
-            "BRONZEVILLE HS - Honors - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 100 &&
-                    student.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.nweaPercentileMath >= 50 &&
-                    student.nweaPercentileRead >= 50 &&
-                    student.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "8a0c487746fe132f3f1925a84c56e9ee": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eliglble applicants.",
-        "programs": [
-            "LINCOLN PARK HS - International Baccalaureate (IB) - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 48 &&
-                    student.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.nweaPercentileMath >= 24 &&
-                    student.nweaPercentileRead >= 24 &&
-                    student.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "8e60c325cf7da2ae7aa09dc4e543590e": {
-        "name": "",
-        "desc": "Students are selected based on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school selects the minimum cutoff score for selections.",
-        "programs": [
-            "LINCOLN PARK HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "f1650d13a99b142887259980d7570270": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.  Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, McPherson Elementary School.",
-        "programs": [
-            "AMUNDSEN HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "2434179e9c2fb95777cc4e0c6c998de1": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum attendance percentage of 95.",
-        "programs": [
-            "WORLD LANGUAGE HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (student.attendancePercentage >= 95) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "cbc3d549cb9e0240f077ac3c87b0f671": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery.\u00a0The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "WORLD LANGUAGE HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "5cfeec40267082ca1ee0ca7e469687a7": {
-        "name": "",
-        "desc": "Contact the school for information.",
-        "programs": [
-            "LAKE VIEW HS - Early College STEM - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "01ad18923e7e8de10e8fb09bb2c6722a": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery.  General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
-        "programs": [
-            "CHICAGO VOCATIONAL HS - Cosmetology - Selection"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (student.nweaPercentileMath >= 24 &&
-                    student.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "94798381edc76846cfb1ec3503fd61b0": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Essay",
-        "programs": [
-            "SOCIAL JUSTICE HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "62c57f6f0d8cb1d35fb12bd66840819f": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Students who live outside of the school's attendance boundary are selected on a point system. The points are based on the student essay and NWEA MAP scores.",
-        "programs": [
-            "SOCIAL JUSTICE HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-            }
-        }
-    },
-    "182b0f39bdb6558622d86addc2aae6b7": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.  Preference is given to students who meet the minimum eligibilty requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, Carnegie Elementary School.",
-        "programs": [
-            "HYDE PARK HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "c7ce3086f4acc55ea53e0c97f71d12aa": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary and students currently enrolled in the Kenwood Academic Center can be admitted automatically. This program only accepts students who live within the school's attendance boundary or who are enrolled in the school's Academic Center.",
-        "programs": [
-            "KENWOOD HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "65f9f712e101af2ba0f44401e01ca729": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on 7th grade final GPA and NWEA MAP scores. The school determines the minimum cutoff score for selections. Preference is given to students who live within the school's attendance boundary.",
-        "programs": [
-            "AUSTIN CCA HS - Pre-Engineering - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "5fbf1b80166fef3a0e0db9557d500465": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 25 in both reading and math on NWEA MAP.   IEP and EL students: Minimum combined percentile of 50 in reading and math on NWEA MAP, and minimum attendance percentage of 85.",
-        "programs": [
-            "CHICAGO ACADEMY HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 50 &&
-                    student.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.nweaPercentileMath >= 25 &&
-                    student.nweaPercentileRead >= 25 &&
-                    student.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "924ceb6aa82922cdb541302a265549eb": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: students attending Boone, Field, Gale, Hayt, Jordan, Kilmer, McCutcheon, McPherson, or West Ridge Elementary Schools; sibling; general.",
-        "programs": [
-            "SULLIVAN HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school) ||
-                hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "46083386e3daad02ff00ac73d3987286": {
-        "name": "",
-        "desc": "Students are selected on a point system with a maximum of 900 points. Points are based on 7th grade final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
-        "programs": [
-            "PAYTON HS - Selective Enrollment High School - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateSEPoints(student);
-            try {
-                var cutoff = getSECutoff(student, school);
-                if (score >= cutoff.max) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else if (score >= cutoff.avg) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else if (score >= cutoff.min) {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            catch (e) {
-                return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-            }
-        }
-    },
-    "536556326f56a1875afccbeedde85fb9": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conduced in the following order: sibling, general.",
-        "programs": [
-            "LEGAL PREP HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "7cc8a6e9cd27c6a9e8d43b323a961475": {
-        "name": "",
-        "desc": "Applicants must be girls currently enrolled in eighth grade.",
-        "programs": [
-            "YOUNG WOMENS HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.gradeLevel === 8) {
-                if (student.gender === gender_1.default.FEMALE) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else if (student.gender === gender_1.default.OTHER ||
-                    student.gender === gender_1.default.NOANSWER) {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-                else if (student.gender === gender_1.default.MALE) {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "a787cb9987ca94d3c2370e2cb67d50cc": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 50 in both reading and math on the NWEA MAP and minimum 3.0 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 60 in reading and math on NWEA MAP.",
-        "programs": [
-            "MORGAN PARK HS - World Language and International Studies - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 60) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.nweaPercentileRead >= 50 &&
-                    student.nweaPercentileMath >= 50 &&
-                    student.gpa >= 3.0) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "d7e3e54b06028c21a40cf58127e2aef4": {
-        "name": "",
-        "desc": "Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 3.0 GPA in 7th grade. Eligible students must submit teacher recommendations and an essay. See www.vonsteuben.org for submission details (click 'Apply' and 'Scholars Program'). Applicants who are not eligible will automatically be included in the computerized lottery selection process for the Von Steuben Science Program.",
-        "programs": [
-            "VON STEUBEN HS - Scholars - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.nweaPercentileMath >= 60 &&
-                student.nweaPercentileRead >= 60 &&
-                student.gpa >= 3.0) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "0a7d20d2cdbb736d46e6c7a37e5b7764": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the teacher recommendations and the essay.",
-        "programs": [
-            "VON STEUBEN HS - Scholars - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "a59652b1328b73b5acb08979a32a9db8": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum attendance percentage of 92.  An audition is required for all eligible applicants.",
-        "programs": [
-            "CHIARTS HS - Music - Vocal - Application",
-            "CHIARTS HS - Theatre - Application",
-            "CHIARTS HS - Music - Instumental - Application",
-            "CHIARTS HS - Dance - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 48 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.nweaPercentileMath >= 24 &&
-                    student.nweaPercentileMath >= 24 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "500cba9f742c1244ddaa1c37070299f1": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the audition.",
-        "programs": [
-            "CHIARTS HS - Music - Vocal - Selection",
-            "CHIARTS HS - Theatre - Selection",
-            "CHIARTS HS - Music - Instumental - Selection",
-            "CHIARTS HS - Dance - Selection",
-            "CHIARTS HS - Musical Theatre - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "b89ee63f6f32c43ca9707a85d8dc98e7": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum attendance percentage of 92.   A portfolio review is required for all eligible applicants.",
-        "programs": [
-            "CHIARTS HS - Creative Writing - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 48 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.nweaPercentileMath >= 24 &&
-                    student.nweaPercentileMath >= 24 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "fd2b72f8025478fc320959b283c0ff2f": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the portfolio review.",
-        "programs": [
-            "CHIARTS HS - Creative Writing - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "3f45862ca2003745fc3f4e12492abdfa": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  A portfolio review is required for all eligible applicants.",
-        "programs": [
-            "CHIARTS HS - Visual Arts - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 48 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.nweaPercentileMath >= 24 &&
-                    student.nweaPercentileMath >= 24 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "6c2d1016a23c9b0e67736b91a166b594": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP socres in reading and math and the portfolio review.",
-        "programs": [
-            "CHIARTS HS - Visual Arts - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "ae43e969113d1c6b1b6fe0c0a1321c40": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum attendance percentage of 92. An audition is required for all eligible applicants.",
-        "programs": [
-            "CHIARTS HS - Musical Theatre - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.nweaPercentileMath + student.nweaPercentileRead) >= 48 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.nweaPercentileMath >= 24 &&
-                    student.nweaPercentileMath >= 24 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    }
-};
-exports.default = HSReqFns;
-
-
-/***/ }),
-/* 228 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var grade_convert_1 = __webpack_require__(229);
-exports.calculateSEPoints = function (student) {
-    var NWEA_SCORE_CONSTANT = 1.515;
-    var nweaMathPoints = Math.round(student.nweaPercentileMath * NWEA_SCORE_CONSTANT);
-    var nweaReadPoints = Math.round(student.nweaPercentileRead * NWEA_SCORE_CONSTANT);
-    var gradePointsLookup = {
-        "A": 75,
-        "B": 50,
-        "C": 25,
-        "D": 0,
-        "F": 0,
-    };
-    var subjGradeMathPoints = gradePointsLookup[grade_convert_1.toLetterGrade(student.subjGradeMath)];
-    var subjGradeReadPoints = gradePointsLookup[grade_convert_1.toLetterGrade(student.subjGradeRead)];
-    var subjGradeSciPoints = gradePointsLookup[grade_convert_1.toLetterGrade(student.subjGradeSci)];
-    var subjGradeSocStudiesPoints = gradePointsLookup[grade_convert_1.toLetterGrade(student.subjGradeSocStudies)];
-    var SE_TEST_PERCENTILE_CONSTANT = 3.03;
-    var seTestPoints = Math.round(student.seTestPercentile * SE_TEST_PERCENTILE_CONSTANT);
-    var sePoints = nweaMathPoints +
-        nweaReadPoints +
-        subjGradeMathPoints +
-        subjGradeReadPoints +
-        subjGradeSciPoints +
-        subjGradeSocStudiesPoints +
-        seTestPoints;
-    return sePoints;
-};
-exports.calculateIBPoints = function (student) {
-    var NWEA_SCORE_CONSTANT = 2.2727;
-    var nweaMathPoints = Math.round(student.nweaPercentileMath * NWEA_SCORE_CONSTANT);
-    var nweaReadPoints = Math.round(student.nweaPercentileRead * NWEA_SCORE_CONSTANT);
-    var gradePointsLookup = {
-        "A": 112.5,
-        "B": 75,
-        "C": 38,
-        "D": 0,
-        "F": 0,
-    };
-    var subjGradeMathPoints = gradePointsLookup[grade_convert_1.toLetterGrade(student.subjGradeMath)];
-    var subjGradeReadPoints = gradePointsLookup[grade_convert_1.toLetterGrade(student.subjGradeRead)];
-    var subjGradeSciPoints = gradePointsLookup[grade_convert_1.toLetterGrade(student.subjGradeSci)];
-    var subjGradeSocStudiesPoints = gradePointsLookup[grade_convert_1.toLetterGrade(student.subjGradeSocStudies)];
-    var ibPoints = nweaMathPoints +
-        nweaReadPoints +
-        subjGradeMathPoints +
-        subjGradeReadPoints +
-        subjGradeSciPoints +
-        subjGradeSocStudiesPoints;
-    return ibPoints;
-};
-
-
-/***/ }),
-/* 229 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var score_type_1 = __webpack_require__(230);
-exports.GradeConvertErrors = {
-    BadScoreType: new Error("Incorrect ScoreType passed to GradeConvert method"),
-    BadScore: new Error("Bad score passed to GradeConvert method"),
-    BadPercentile: new Error("Bad percentile passed to GradeConvert method")
-};
-exports.scoreToString = function (score, scoreType) {
-    if (scoreType in score_type_1.default) {
-        return score.toString(10);
-    }
-    else {
-        throw exports.GradeConvertErrors.BadScoreType;
-    }
-};
-exports.tryParseScore = function (str, scoreType) {
-    if (scoreType in score_type_1.default) {
-        var score = Number.parseInt(str, 10);
-        if (Number.isNaN(score)) {
-            return [false, null];
-        }
-        else {
-            return [true, score];
-        }
-    }
-    else {
-        throw exports.GradeConvertErrors.BadScoreType;
-    }
-};
-exports.toGPA = function (scores) {
-    var toPoints = function (score) {
-        var letterGrade = exports.toLetterGrade(score);
-        switch (letterGrade) {
-            case "A":
-                return 4;
-            case "B":
-                return 3;
-            case "C":
-                return 2;
-            case "D":
-                return 1;
-            case "F":
-                return 0;
-        }
-    };
-    var numGrades = scores.length;
-    var gradePointSum = scores.map(toPoints).reduce(function (a, b) { return a + b; });
-    return gradePointSum / numGrades;
-};
-var letterGradeHighScores = {
-    A: 100,
-    B: 89,
-    C: 79,
-    D: 69,
-    F: 59
-};
-var isLetterGrade = function (strScore) {
-    var letterGrades = ["A", "B", "C", "D", "F"];
-    if (letterGrades.indexOf(strScore.toUpperCase()) !== -1) {
-        return true;
-    }
-    else {
-        return false;
-    }
-};
-var isNumberGrade = function (strScore) {
-    var intScore = Number.parseInt(strScore, 10);
-    var parseSuccessful = !Number.isNaN(intScore);
-    if (parseSuccessful) {
-        if (intScore >= 0 && intScore <= 100) {
-            return true;
-        }
-    }
-    else {
-        return false;
-    }
-};
-var toNumberGrade = function (strScore) {
-    if (isLetterGrade(strScore)) {
-        return Number.parseInt(strScore);
-    }
-    else if (isNumberGrade(strScore)) {
-        return letterGradeHighScores[strScore];
-    }
-    else {
-        throw new Error("toNumberGrade parse failed with " + strScore);
-    }
-};
-exports.toLetterGrade = function (grade) {
-    if (grade <= letterGradeHighScores["F"]) {
-        return "F";
-    }
-    else if (grade <= letterGradeHighScores["D"]) {
-        return "D";
-    }
-    else if (grade <= letterGradeHighScores["C"]) {
-        return "C";
-    }
-    else if (grade <= letterGradeHighScores["B"]) {
-        return "B";
-    }
-    else {
-        return "A";
-    }
-};
-
-
-/***/ }),
-/* 230 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var ScoreType;
-(function (ScoreType) {
-    ScoreType["nweaPercentileMath"] = "nweaPercentileMath";
-    ScoreType["nweaPercentileRead"] = "nweaPercentileRead";
-    ScoreType["subjGradeMath"] = "subjGradeMath";
-    ScoreType["subjGradeRead"] = "subjGradeRead";
-    ScoreType["subjGradeSci"] = "subjGradeSci";
-    ScoreType["subjGradeSocStudies"] = "subjGradeSocStudies";
-})(ScoreType || (ScoreType = {}));
-exports.default = ScoreType;
-
-
-/***/ }),
+/* 226 */,
+/* 227 */,
+/* 228 */,
+/* 229 */,
+/* 230 */,
 /* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -50710,20 +46779,41 @@ exports.push([module.i, ".box {\n  border: 2px solid #9e9e9e;\n  padding: 0.25em
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_redux_1 = __webpack_require__(60);
-var denormalize_1 = __webpack_require__(59);
 var student_data_form_1 = __webpack_require__(254);
+var immutable_1 = __webpack_require__(293);
 var actions_1 = __webpack_require__(109);
+var getHsPrograms = function (state) {
+    return [];
+};
+var getEsPrograms = function (state) {
+    return [];
+};
 var mapStateToProps = function (state) {
     return {
-        studentData: state.studentData,
-        hsPrograms: state.hsData.hsProgramIDs.map(function (id) { return denormalize_1.default(id, state.hsData.programs, state.hsData.index); }),
-        esPrograms: state.hsData.esProgramIDs.map(function (id) { return denormalize_1.default(id, state.hsData.programs, state.hsData.index); })
+        gender: state.getIn(['studentData', 'gender']),
+        location: state.getIn(['studentData', 'location']),
+        gradeLevel: state.getIn(['studentData', 'gradeLevel']),
+        prevGradeLevel: state.getIn(['studentData', 'prevGradeLevel']),
+        iep: state.getIn(['studentData', 'iep']),
+        ell: state.getIn(['studentData', 'ell']),
+        attendancePercentage: state.getIn(['studentData', 'attendancePercentage']),
+        currESProgramID: state.getIn(['studentData', 'currESProgramID']),
+        siblingHSProgramIDs: state.getIn(['studentData', 'siblingHSProgramIDs']),
+        seTestPercentile: state.getIn(['studentData', 'seTestPercentile']),
+        nweaPercentileMath: state.getIn(['studentData', 'nweaPercentileMath']),
+        nweaPercentileRead: state.getIn(['studentData', 'nweaPercentileRead']),
+        subjGradeMath: state.getIn(['studentData', 'subjGradeMath']),
+        subjGradeRead: state.getIn(['studentData', 'subjGradeRead']),
+        subjGradeSci: state.getIn(['studentData', 'subjGradeSci']),
+        subjGradeSocStudies: state.getIn(['studentData', 'subjGradeSocStudies']),
+        hsPrograms: getHsPrograms(state),
+        esPrograms: getEsPrograms(state)
     };
 };
 var mapDispatchToProps = function (dispatch) {
     return {
         onGenderChange: function (gender) { return dispatch(actions_1.updateStudentGender(gender)); },
-        onLocationChange: function (location) { return dispatch(actions_1.updateStudentGender(location)); },
+        onLocationChange: function (location) { return dispatch(actions_1.updateStudentGender(immutable_1.fromJS(location))); },
         onGradeLevelChange: function (gradeLevel) { return dispatch(actions_1.updateStudentGradeLevel(gradeLevel)); },
         onPrevGradeLevelChange: function (gradeLevel) { return dispatch(actions_1.updateStudentPrevGradeLevel(gradeLevel)); },
         onCurrESProgramChange: function (programID) { return dispatch(actions_1.updateStudentCurrESProgram(programID)); },
@@ -50779,13 +46869,13 @@ var StudentDataForm = function (props) {
     return (React.createElement("div", { className: "student-data-form" },
         React.createElement("div", { className: "student-data-form-subheader" }, "Your student information"),
         React.createElement("div", { className: "student-data-form-subform" },
-            React.createElement(dropdown_field_1.default, { label: "What grade are you in?", value: props.studentData.gradeLevel.toString(), onChange: function (gradeStr) { return props.onGradeLevelChange(parseInt(gradeStr)); }, debounceTime: INPUT_DEBOUNCE_TIME },
+            React.createElement(dropdown_field_1.default, { label: "What grade are you in?", value: props.gradeLevel.toString(), onChange: function (gradeStr) { return props.onGradeLevelChange(parseInt(gradeStr)); }, debounceTime: INPUT_DEBOUNCE_TIME },
                 React.createElement("option", { value: "4" }, "4th grade"),
                 React.createElement("option", { value: "5" }, "5th grade"),
                 React.createElement("option", { value: "6" }, "6th grade"),
                 React.createElement("option", { value: "7" }, "7th grade"),
                 React.createElement("option", { value: "8" }, "8th grade")),
-            React.createElement(dropdown_field_1.default, { label: "What's your gender?", value: props.studentData.gender.toString(), onChange: function (gender) {
+            React.createElement(dropdown_field_1.default, { label: "What's your gender?", value: props.gender.toString(), onChange: function (gender) {
                     switch (gender) {
                         case "male":
                             props.onGenderChange(gender_1.default.MALE);
@@ -50808,25 +46898,25 @@ var StudentDataForm = function (props) {
                 React.createElement("option", { value: "female" }, "Girl"),
                 React.createElement("option", { value: "other" }, "Other"),
                 React.createElement("option", { value: "noanswer" }, "Prefer not to answer")),
-            React.createElement(dropdown_field_1.default, { label: "Do you have an IEP?", value: props.studentData.iep ? "true" : "false", onChange: function (iep) { return props.onIEPChange(iep === "true" ? true : false); }, debounceTime: INPUT_DEBOUNCE_TIME },
+            React.createElement(dropdown_field_1.default, { label: "Do you have an IEP?", value: props.iep ? "true" : "false", onChange: function (iep) { return props.onIEPChange(iep === "true" ? true : false); }, debounceTime: INPUT_DEBOUNCE_TIME },
                 React.createElement("option", { value: "true" }, "Yes"),
                 React.createElement("option", { value: "false" }, "No")),
-            React.createElement(dropdown_field_1.default, { label: "Are you an English Language Learner?", value: props.studentData.ell ? "true" : "false", onChange: function (ell) { return props.onELLChange(ell === "true" ? true : false); }, debounceTime: INPUT_DEBOUNCE_TIME },
+            React.createElement(dropdown_field_1.default, { label: "Are you an English Language Learner?", value: props.ell ? "true" : "false", onChange: function (ell) { return props.onELLChange(ell === "true" ? true : false); }, debounceTime: INPUT_DEBOUNCE_TIME },
                 React.createElement("option", { value: "true" }, "Yes"),
                 React.createElement("option", { value: "false" }, "No")),
-            React.createElement(combo_box_field_1.default, { label: "What elementary school program are you in now?", value: props.studentData.currESProgramID, data: { records: props.esPrograms, getKey: function (program) { return program.ID; }, getDisplayText: function (program) { return program.Short_Name + " - " + program.Program_Type; } }, onChange: function (program) { return props.onCurrESProgramChange(program.ID); }, debounceTime: INPUT_DEBOUNCE_TIME }),
-            React.createElement(multi_select_field_1.default, { label: "Do you have a sibling in high school? If so, which school?", values: props.studentData.siblingHSProgramIDs, data: { records: props.hsPrograms, getKey: function (program) { return program.ID; }, getDisplayText: function (program) { return program.Short_Name + " - " + program.Program_Type; } }, onChange: function (programs) { return props.onSiblingHSProgramsChange(programs.map(function (program) { return program.ID; })); }, debounceTime: INPUT_DEBOUNCE_TIME }),
-            React.createElement(address_tier_calculator_1.default, { location: props.studentData.location, onLocationChange: props.onLocationChange }),
-            React.createElement(number_field_1.default, { label: "Your 7th grade attendance percentage", value: props.studentData.attendancePercentage, onChange: props.onAttendPercentageChange, limiter: between(0, 100), debounceTime: INPUT_DEBOUNCE_TIME })),
+            React.createElement(combo_box_field_1.default, { label: "What elementary school program are you in now?", value: props.currESProgramID, data: { records: props.esPrograms, getKey: function (program) { return program.ID; }, getDisplayText: function (program) { return program.Short_Name + " - " + program.Program_Type; } }, onChange: function (program) { return props.onCurrESProgramChange(program.ID); }, debounceTime: INPUT_DEBOUNCE_TIME }),
+            React.createElement(multi_select_field_1.default, { label: "Do you have a sibling in high school? If so, which school?", values: props.siblingHSProgramIDs, data: { records: props.hsPrograms, getKey: function (program) { return program.ID; }, getDisplayText: function (program) { return program.Short_Name + " - " + program.Program_Type; } }, onChange: function (programs) { return props.onSiblingHSProgramsChange(programs.map(function (program) { return program.ID; })); }, debounceTime: INPUT_DEBOUNCE_TIME }),
+            React.createElement(address_tier_calculator_1.default, { location: props.location, onLocationChange: props.onLocationChange }),
+            React.createElement(number_field_1.default, { label: "Your 7th grade attendance percentage", value: props.attendancePercentage, onChange: props.onAttendPercentageChange, limiter: between(0, 100), debounceTime: INPUT_DEBOUNCE_TIME })),
         React.createElement("div", { className: "student-data-form-subheader" }, "Your grades"),
         React.createElement("div", { className: "student-data-form-subform" },
-            React.createElement(number_field_1.default, { label: "NWEA Math percentile", value: props.studentData.nweaPercentileMath, onChange: props.onNWEAPercentileMathChange, limiter: between(1, 99), debounceTime: INPUT_DEBOUNCE_TIME }),
-            React.createElement(number_field_1.default, { label: "NWEA Reading percentile", value: props.studentData.nweaPercentileRead, onChange: props.onNWEAPercentileReadChange, limiter: between(1, 99), debounceTime: INPUT_DEBOUNCE_TIME }),
-            React.createElement(number_field_1.default, { label: "Your Math grade", value: props.studentData.subjGradeMath, onChange: props.onSubjGradeMathChange, limiter: between(0, 100), debounceTime: INPUT_DEBOUNCE_TIME }),
-            React.createElement(number_field_1.default, { label: "Your Reading grade", value: props.studentData.subjGradeRead, onChange: props.onSubjGradeReadChange, limiter: between(0, 100), debounceTime: INPUT_DEBOUNCE_TIME }),
-            React.createElement(number_field_1.default, { label: "Your Science grade", value: props.studentData.subjGradeSci, onChange: props.onSubjGradeSciChange, limiter: between(0, 100), debounceTime: INPUT_DEBOUNCE_TIME }),
-            React.createElement(number_field_1.default, { label: "Your Social Studies grade", value: props.studentData.subjGradeSocStudies, onChange: props.onSubjGradeSocStudiesChange, limiter: between(0, 100), debounceTime: INPUT_DEBOUNCE_TIME }),
-            React.createElement(number_field_1.default, { label: "Your Selective Enrollment test percentile", value: props.studentData.seTestPercentile, onChange: props.onSETestPercentileChange, limiter: between(1, 99), debounceTime: INPUT_DEBOUNCE_TIME }))));
+            React.createElement(number_field_1.default, { label: "NWEA Math percentile", value: props.nweaPercentileMath, onChange: props.onNWEAPercentileMathChange, limiter: between(1, 99), debounceTime: INPUT_DEBOUNCE_TIME }),
+            React.createElement(number_field_1.default, { label: "NWEA Reading percentile", value: props.nweaPercentileRead, onChange: props.onNWEAPercentileReadChange, limiter: between(1, 99), debounceTime: INPUT_DEBOUNCE_TIME }),
+            React.createElement(number_field_1.default, { label: "Your Math grade", value: props.subjGradeMath, onChange: props.onSubjGradeMathChange, limiter: between(0, 100), debounceTime: INPUT_DEBOUNCE_TIME }),
+            React.createElement(number_field_1.default, { label: "Your Reading grade", value: props.subjGradeRead, onChange: props.onSubjGradeReadChange, limiter: between(0, 100), debounceTime: INPUT_DEBOUNCE_TIME }),
+            React.createElement(number_field_1.default, { label: "Your Science grade", value: props.subjGradeSci, onChange: props.onSubjGradeSciChange, limiter: between(0, 100), debounceTime: INPUT_DEBOUNCE_TIME }),
+            React.createElement(number_field_1.default, { label: "Your Social Studies grade", value: props.subjGradeSocStudies, onChange: props.onSubjGradeSocStudiesChange, limiter: between(0, 100), debounceTime: INPUT_DEBOUNCE_TIME }),
+            React.createElement(number_field_1.default, { label: "Your Selective Enrollment test percentile", value: props.seTestPercentile, onChange: props.onSETestPercentileChange, limiter: between(1, 99), debounceTime: INPUT_DEBOUNCE_TIME }))));
 };
 exports.default = StudentDataForm;
 
@@ -52166,6 +48256,5122 @@ exports.push([module.i, ".hs-category-container {\n  width: 100%;\n  height: aut
 
 // exports
 
+
+/***/ }),
+/* 291 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var success_chance_1 = __webpack_require__(28);
+var is_hs_program_1 = __webpack_require__(102);
+var is_es_program_1 = __webpack_require__(101);
+var denormalize_1 = __webpack_require__(59);
+exports.createIndexByID = function (programs) {
+    var idx = {};
+    for (var i = 0; i < programs.length; i++) {
+        var program = programs[i];
+        idx[program.ID] = i;
+    }
+    return idx;
+};
+var alphaSortPrograms = function (a, b) {
+    if (a.Short_Name < b.Short_Name) {
+        return -1;
+    }
+    else if (a.Short_Name === b.Short_Name) {
+        return 0;
+    }
+    else if (a.Short_Name > b.Short_Name) {
+        return 1;
+    }
+};
+exports.getHSProgramIDs = function (programs) {
+    return programs.filter(is_hs_program_1.default).sort(alphaSortPrograms).map(function (program) { return program.ID; });
+};
+exports.getESProgramIDs = function (programs) {
+    return programs.filter(is_es_program_1.default).sort(alphaSortPrograms).map(function (program) { return program.ID; });
+};
+exports.getHSProgramIDsByType = function (programs) {
+    var index = exports.createIndexByID(programs);
+    var hsProgramIDs = exports.getHSProgramIDs(programs);
+    var hsProgramIDsByType = {};
+    for (var i = 0; i < hsProgramIDs.length; i++) {
+        var id = hsProgramIDs[i];
+        var program = denormalize_1.default(id, programs, index);
+        var type = program.Program_Type;
+        if (!hsProgramIDsByType[type]) {
+            hsProgramIDsByType[type] = [];
+        }
+        hsProgramIDsByType[type].push(id);
+    }
+    return hsProgramIDsByType;
+};
+exports.initializeOutcomes = function (programs) {
+    var outcomes = {};
+    for (var i = 0; i < programs.length; i++) {
+        var program = programs[i];
+        var id = program.ID;
+        outcomes[id] = {
+            application: success_chance_1.default.NOTIMPLEMENTED,
+            selection: success_chance_1.default.NOTIMPLEMENTED
+        };
+    }
+    return outcomes;
+};
+exports.calculateOutcomes = function (programs, studentData, reqFnLookup) {
+    var outcomes = {};
+    for (var i = 0; i < programs.length; i++) {
+        var program = programs[i];
+        var id = program.ID;
+        var reqFns = reqFnLookup(program);
+        try {
+            outcomes[id] = {
+                application: reqFns.application(studentData, program).outcome,
+                selection: reqFns.selection(studentData, program).outcome
+            };
+        }
+        catch (e) {
+            console.error(e);
+            console.error(program);
+            console.warn(reqFns);
+        }
+    }
+    return outcomes;
+};
+
+
+/***/ }),
+/* 292 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var gender_1 = __webpack_require__(58);
+var immutable_1 = __webpack_require__(293);
+var reducer_utils_1 = __webpack_require__(291);
+var data_access_1 = __webpack_require__(231);
+var allPrograms = data_access_1.getAllPrograms();
+var initialState = immutable_1.Map({
+    studentData: {
+        gender: gender_1.default.NOANSWER,
+        location: {
+            address: "",
+            tier: "",
+            geo: { latitude: 0, longitude: 0 },
+        },
+        gradeLevel: 0,
+        prevGradeLevel: 0,
+        iep: false,
+        ell: false,
+        attendancePercentage: 0,
+        gpa: 0,
+        currESProgramID: undefined,
+        siblingHSProgramIDs: [],
+        seTestPercentile: 0,
+        nweaPercentileMath: 0,
+        nweaPercentileRead: 0,
+        subjGradeMath: 0,
+        subjGradeRead: 0,
+        subjGradeSci: 0,
+        subjGradeSocStudies: 0,
+    },
+    selectedHSProgramID: null,
+    hsData: {
+        programs: allPrograms,
+        index: reducer_utils_1.createIndexByID(allPrograms),
+        hsProgramIDs: reducer_utils_1.getHSProgramIDs(allPrograms),
+        esProgramIDs: reducer_utils_1.getESProgramIDs(allPrograms),
+        hsProgramIDsByType: reducer_utils_1.getHSProgramIDsByType(allPrograms),
+        outcomes: reducer_utils_1.initializeOutcomes(allPrograms)
+    }
+});
+exports.default = initialState;
+
+
+/***/ }),
+/* 293 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+(function (global, factory) {
+   true ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global.Immutable = factory());
+}(this, function () { 'use strict';var SLICE$0 = Array.prototype.slice;
+
+  function createClass(ctor, superClass) {
+    if (superClass) {
+      ctor.prototype = Object.create(superClass.prototype);
+    }
+    ctor.prototype.constructor = ctor;
+  }
+
+  function Iterable(value) {
+      return isIterable(value) ? value : Seq(value);
+    }
+
+
+  createClass(KeyedIterable, Iterable);
+    function KeyedIterable(value) {
+      return isKeyed(value) ? value : KeyedSeq(value);
+    }
+
+
+  createClass(IndexedIterable, Iterable);
+    function IndexedIterable(value) {
+      return isIndexed(value) ? value : IndexedSeq(value);
+    }
+
+
+  createClass(SetIterable, Iterable);
+    function SetIterable(value) {
+      return isIterable(value) && !isAssociative(value) ? value : SetSeq(value);
+    }
+
+
+
+  function isIterable(maybeIterable) {
+    return !!(maybeIterable && maybeIterable[IS_ITERABLE_SENTINEL]);
+  }
+
+  function isKeyed(maybeKeyed) {
+    return !!(maybeKeyed && maybeKeyed[IS_KEYED_SENTINEL]);
+  }
+
+  function isIndexed(maybeIndexed) {
+    return !!(maybeIndexed && maybeIndexed[IS_INDEXED_SENTINEL]);
+  }
+
+  function isAssociative(maybeAssociative) {
+    return isKeyed(maybeAssociative) || isIndexed(maybeAssociative);
+  }
+
+  function isOrdered(maybeOrdered) {
+    return !!(maybeOrdered && maybeOrdered[IS_ORDERED_SENTINEL]);
+  }
+
+  Iterable.isIterable = isIterable;
+  Iterable.isKeyed = isKeyed;
+  Iterable.isIndexed = isIndexed;
+  Iterable.isAssociative = isAssociative;
+  Iterable.isOrdered = isOrdered;
+
+  Iterable.Keyed = KeyedIterable;
+  Iterable.Indexed = IndexedIterable;
+  Iterable.Set = SetIterable;
+
+
+  var IS_ITERABLE_SENTINEL = '@@__IMMUTABLE_ITERABLE__@@';
+  var IS_KEYED_SENTINEL = '@@__IMMUTABLE_KEYED__@@';
+  var IS_INDEXED_SENTINEL = '@@__IMMUTABLE_INDEXED__@@';
+  var IS_ORDERED_SENTINEL = '@@__IMMUTABLE_ORDERED__@@';
+
+  // Used for setting prototype methods that IE8 chokes on.
+  var DELETE = 'delete';
+
+  // Constants describing the size of trie nodes.
+  var SHIFT = 5; // Resulted in best performance after ______?
+  var SIZE = 1 << SHIFT;
+  var MASK = SIZE - 1;
+
+  // A consistent shared value representing "not set" which equals nothing other
+  // than itself, and nothing that could be provided externally.
+  var NOT_SET = {};
+
+  // Boolean references, Rough equivalent of `bool &`.
+  var CHANGE_LENGTH = { value: false };
+  var DID_ALTER = { value: false };
+
+  function MakeRef(ref) {
+    ref.value = false;
+    return ref;
+  }
+
+  function SetRef(ref) {
+    ref && (ref.value = true);
+  }
+
+  // A function which returns a value representing an "owner" for transient writes
+  // to tries. The return value will only ever equal itself, and will not equal
+  // the return of any subsequent call of this function.
+  function OwnerID() {}
+
+  // http://jsperf.com/copy-array-inline
+  function arrCopy(arr, offset) {
+    offset = offset || 0;
+    var len = Math.max(0, arr.length - offset);
+    var newArr = new Array(len);
+    for (var ii = 0; ii < len; ii++) {
+      newArr[ii] = arr[ii + offset];
+    }
+    return newArr;
+  }
+
+  function ensureSize(iter) {
+    if (iter.size === undefined) {
+      iter.size = iter.__iterate(returnTrue);
+    }
+    return iter.size;
+  }
+
+  function wrapIndex(iter, index) {
+    // This implements "is array index" which the ECMAString spec defines as:
+    //
+    //     A String property name P is an array index if and only if
+    //     ToString(ToUint32(P)) is equal to P and ToUint32(P) is not equal
+    //     to 2^32−1.
+    //
+    // http://www.ecma-international.org/ecma-262/6.0/#sec-array-exotic-objects
+    if (typeof index !== 'number') {
+      var uint32Index = index >>> 0; // N >>> 0 is shorthand for ToUint32
+      if ('' + uint32Index !== index || uint32Index === 4294967295) {
+        return NaN;
+      }
+      index = uint32Index;
+    }
+    return index < 0 ? ensureSize(iter) + index : index;
+  }
+
+  function returnTrue() {
+    return true;
+  }
+
+  function wholeSlice(begin, end, size) {
+    return (begin === 0 || (size !== undefined && begin <= -size)) &&
+      (end === undefined || (size !== undefined && end >= size));
+  }
+
+  function resolveBegin(begin, size) {
+    return resolveIndex(begin, size, 0);
+  }
+
+  function resolveEnd(end, size) {
+    return resolveIndex(end, size, size);
+  }
+
+  function resolveIndex(index, size, defaultIndex) {
+    return index === undefined ?
+      defaultIndex :
+      index < 0 ?
+        Math.max(0, size + index) :
+        size === undefined ?
+          index :
+          Math.min(size, index);
+  }
+
+  /* global Symbol */
+
+  var ITERATE_KEYS = 0;
+  var ITERATE_VALUES = 1;
+  var ITERATE_ENTRIES = 2;
+
+  var REAL_ITERATOR_SYMBOL = typeof Symbol === 'function' && Symbol.iterator;
+  var FAUX_ITERATOR_SYMBOL = '@@iterator';
+
+  var ITERATOR_SYMBOL = REAL_ITERATOR_SYMBOL || FAUX_ITERATOR_SYMBOL;
+
+
+  function Iterator(next) {
+      this.next = next;
+    }
+
+    Iterator.prototype.toString = function() {
+      return '[Iterator]';
+    };
+
+
+  Iterator.KEYS = ITERATE_KEYS;
+  Iterator.VALUES = ITERATE_VALUES;
+  Iterator.ENTRIES = ITERATE_ENTRIES;
+
+  Iterator.prototype.inspect =
+  Iterator.prototype.toSource = function () { return this.toString(); }
+  Iterator.prototype[ITERATOR_SYMBOL] = function () {
+    return this;
+  };
+
+
+  function iteratorValue(type, k, v, iteratorResult) {
+    var value = type === 0 ? k : type === 1 ? v : [k, v];
+    iteratorResult ? (iteratorResult.value = value) : (iteratorResult = {
+      value: value, done: false
+    });
+    return iteratorResult;
+  }
+
+  function iteratorDone() {
+    return { value: undefined, done: true };
+  }
+
+  function hasIterator(maybeIterable) {
+    return !!getIteratorFn(maybeIterable);
+  }
+
+  function isIterator(maybeIterator) {
+    return maybeIterator && typeof maybeIterator.next === 'function';
+  }
+
+  function getIterator(iterable) {
+    var iteratorFn = getIteratorFn(iterable);
+    return iteratorFn && iteratorFn.call(iterable);
+  }
+
+  function getIteratorFn(iterable) {
+    var iteratorFn = iterable && (
+      (REAL_ITERATOR_SYMBOL && iterable[REAL_ITERATOR_SYMBOL]) ||
+      iterable[FAUX_ITERATOR_SYMBOL]
+    );
+    if (typeof iteratorFn === 'function') {
+      return iteratorFn;
+    }
+  }
+
+  function isArrayLike(value) {
+    return value && typeof value.length === 'number';
+  }
+
+  createClass(Seq, Iterable);
+    function Seq(value) {
+      return value === null || value === undefined ? emptySequence() :
+        isIterable(value) ? value.toSeq() : seqFromValue(value);
+    }
+
+    Seq.of = function(/*...values*/) {
+      return Seq(arguments);
+    };
+
+    Seq.prototype.toSeq = function() {
+      return this;
+    };
+
+    Seq.prototype.toString = function() {
+      return this.__toString('Seq {', '}');
+    };
+
+    Seq.prototype.cacheResult = function() {
+      if (!this._cache && this.__iterateUncached) {
+        this._cache = this.entrySeq().toArray();
+        this.size = this._cache.length;
+      }
+      return this;
+    };
+
+    // abstract __iterateUncached(fn, reverse)
+
+    Seq.prototype.__iterate = function(fn, reverse) {
+      return seqIterate(this, fn, reverse, true);
+    };
+
+    // abstract __iteratorUncached(type, reverse)
+
+    Seq.prototype.__iterator = function(type, reverse) {
+      return seqIterator(this, type, reverse, true);
+    };
+
+
+
+  createClass(KeyedSeq, Seq);
+    function KeyedSeq(value) {
+      return value === null || value === undefined ?
+        emptySequence().toKeyedSeq() :
+        isIterable(value) ?
+          (isKeyed(value) ? value.toSeq() : value.fromEntrySeq()) :
+          keyedSeqFromValue(value);
+    }
+
+    KeyedSeq.prototype.toKeyedSeq = function() {
+      return this;
+    };
+
+
+
+  createClass(IndexedSeq, Seq);
+    function IndexedSeq(value) {
+      return value === null || value === undefined ? emptySequence() :
+        !isIterable(value) ? indexedSeqFromValue(value) :
+        isKeyed(value) ? value.entrySeq() : value.toIndexedSeq();
+    }
+
+    IndexedSeq.of = function(/*...values*/) {
+      return IndexedSeq(arguments);
+    };
+
+    IndexedSeq.prototype.toIndexedSeq = function() {
+      return this;
+    };
+
+    IndexedSeq.prototype.toString = function() {
+      return this.__toString('Seq [', ']');
+    };
+
+    IndexedSeq.prototype.__iterate = function(fn, reverse) {
+      return seqIterate(this, fn, reverse, false);
+    };
+
+    IndexedSeq.prototype.__iterator = function(type, reverse) {
+      return seqIterator(this, type, reverse, false);
+    };
+
+
+
+  createClass(SetSeq, Seq);
+    function SetSeq(value) {
+      return (
+        value === null || value === undefined ? emptySequence() :
+        !isIterable(value) ? indexedSeqFromValue(value) :
+        isKeyed(value) ? value.entrySeq() : value
+      ).toSetSeq();
+    }
+
+    SetSeq.of = function(/*...values*/) {
+      return SetSeq(arguments);
+    };
+
+    SetSeq.prototype.toSetSeq = function() {
+      return this;
+    };
+
+
+
+  Seq.isSeq = isSeq;
+  Seq.Keyed = KeyedSeq;
+  Seq.Set = SetSeq;
+  Seq.Indexed = IndexedSeq;
+
+  var IS_SEQ_SENTINEL = '@@__IMMUTABLE_SEQ__@@';
+
+  Seq.prototype[IS_SEQ_SENTINEL] = true;
+
+
+
+  createClass(ArraySeq, IndexedSeq);
+    function ArraySeq(array) {
+      this._array = array;
+      this.size = array.length;
+    }
+
+    ArraySeq.prototype.get = function(index, notSetValue) {
+      return this.has(index) ? this._array[wrapIndex(this, index)] : notSetValue;
+    };
+
+    ArraySeq.prototype.__iterate = function(fn, reverse) {
+      var array = this._array;
+      var maxIndex = array.length - 1;
+      for (var ii = 0; ii <= maxIndex; ii++) {
+        if (fn(array[reverse ? maxIndex - ii : ii], ii, this) === false) {
+          return ii + 1;
+        }
+      }
+      return ii;
+    };
+
+    ArraySeq.prototype.__iterator = function(type, reverse) {
+      var array = this._array;
+      var maxIndex = array.length - 1;
+      var ii = 0;
+      return new Iterator(function() 
+        {return ii > maxIndex ?
+          iteratorDone() :
+          iteratorValue(type, ii, array[reverse ? maxIndex - ii++ : ii++])}
+      );
+    };
+
+
+
+  createClass(ObjectSeq, KeyedSeq);
+    function ObjectSeq(object) {
+      var keys = Object.keys(object);
+      this._object = object;
+      this._keys = keys;
+      this.size = keys.length;
+    }
+
+    ObjectSeq.prototype.get = function(key, notSetValue) {
+      if (notSetValue !== undefined && !this.has(key)) {
+        return notSetValue;
+      }
+      return this._object[key];
+    };
+
+    ObjectSeq.prototype.has = function(key) {
+      return this._object.hasOwnProperty(key);
+    };
+
+    ObjectSeq.prototype.__iterate = function(fn, reverse) {
+      var object = this._object;
+      var keys = this._keys;
+      var maxIndex = keys.length - 1;
+      for (var ii = 0; ii <= maxIndex; ii++) {
+        var key = keys[reverse ? maxIndex - ii : ii];
+        if (fn(object[key], key, this) === false) {
+          return ii + 1;
+        }
+      }
+      return ii;
+    };
+
+    ObjectSeq.prototype.__iterator = function(type, reverse) {
+      var object = this._object;
+      var keys = this._keys;
+      var maxIndex = keys.length - 1;
+      var ii = 0;
+      return new Iterator(function()  {
+        var key = keys[reverse ? maxIndex - ii : ii];
+        return ii++ > maxIndex ?
+          iteratorDone() :
+          iteratorValue(type, key, object[key]);
+      });
+    };
+
+  ObjectSeq.prototype[IS_ORDERED_SENTINEL] = true;
+
+
+  createClass(IterableSeq, IndexedSeq);
+    function IterableSeq(iterable) {
+      this._iterable = iterable;
+      this.size = iterable.length || iterable.size;
+    }
+
+    IterableSeq.prototype.__iterateUncached = function(fn, reverse) {
+      if (reverse) {
+        return this.cacheResult().__iterate(fn, reverse);
+      }
+      var iterable = this._iterable;
+      var iterator = getIterator(iterable);
+      var iterations = 0;
+      if (isIterator(iterator)) {
+        var step;
+        while (!(step = iterator.next()).done) {
+          if (fn(step.value, iterations++, this) === false) {
+            break;
+          }
+        }
+      }
+      return iterations;
+    };
+
+    IterableSeq.prototype.__iteratorUncached = function(type, reverse) {
+      if (reverse) {
+        return this.cacheResult().__iterator(type, reverse);
+      }
+      var iterable = this._iterable;
+      var iterator = getIterator(iterable);
+      if (!isIterator(iterator)) {
+        return new Iterator(iteratorDone);
+      }
+      var iterations = 0;
+      return new Iterator(function()  {
+        var step = iterator.next();
+        return step.done ? step : iteratorValue(type, iterations++, step.value);
+      });
+    };
+
+
+
+  createClass(IteratorSeq, IndexedSeq);
+    function IteratorSeq(iterator) {
+      this._iterator = iterator;
+      this._iteratorCache = [];
+    }
+
+    IteratorSeq.prototype.__iterateUncached = function(fn, reverse) {
+      if (reverse) {
+        return this.cacheResult().__iterate(fn, reverse);
+      }
+      var iterator = this._iterator;
+      var cache = this._iteratorCache;
+      var iterations = 0;
+      while (iterations < cache.length) {
+        if (fn(cache[iterations], iterations++, this) === false) {
+          return iterations;
+        }
+      }
+      var step;
+      while (!(step = iterator.next()).done) {
+        var val = step.value;
+        cache[iterations] = val;
+        if (fn(val, iterations++, this) === false) {
+          break;
+        }
+      }
+      return iterations;
+    };
+
+    IteratorSeq.prototype.__iteratorUncached = function(type, reverse) {
+      if (reverse) {
+        return this.cacheResult().__iterator(type, reverse);
+      }
+      var iterator = this._iterator;
+      var cache = this._iteratorCache;
+      var iterations = 0;
+      return new Iterator(function()  {
+        if (iterations >= cache.length) {
+          var step = iterator.next();
+          if (step.done) {
+            return step;
+          }
+          cache[iterations] = step.value;
+        }
+        return iteratorValue(type, iterations, cache[iterations++]);
+      });
+    };
+
+
+
+
+  // # pragma Helper functions
+
+  function isSeq(maybeSeq) {
+    return !!(maybeSeq && maybeSeq[IS_SEQ_SENTINEL]);
+  }
+
+  var EMPTY_SEQ;
+
+  function emptySequence() {
+    return EMPTY_SEQ || (EMPTY_SEQ = new ArraySeq([]));
+  }
+
+  function keyedSeqFromValue(value) {
+    var seq =
+      Array.isArray(value) ? new ArraySeq(value).fromEntrySeq() :
+      isIterator(value) ? new IteratorSeq(value).fromEntrySeq() :
+      hasIterator(value) ? new IterableSeq(value).fromEntrySeq() :
+      typeof value === 'object' ? new ObjectSeq(value) :
+      undefined;
+    if (!seq) {
+      throw new TypeError(
+        'Expected Array or iterable object of [k, v] entries, '+
+        'or keyed object: ' + value
+      );
+    }
+    return seq;
+  }
+
+  function indexedSeqFromValue(value) {
+    var seq = maybeIndexedSeqFromValue(value);
+    if (!seq) {
+      throw new TypeError(
+        'Expected Array or iterable object of values: ' + value
+      );
+    }
+    return seq;
+  }
+
+  function seqFromValue(value) {
+    var seq = maybeIndexedSeqFromValue(value) ||
+      (typeof value === 'object' && new ObjectSeq(value));
+    if (!seq) {
+      throw new TypeError(
+        'Expected Array or iterable object of values, or keyed object: ' + value
+      );
+    }
+    return seq;
+  }
+
+  function maybeIndexedSeqFromValue(value) {
+    return (
+      isArrayLike(value) ? new ArraySeq(value) :
+      isIterator(value) ? new IteratorSeq(value) :
+      hasIterator(value) ? new IterableSeq(value) :
+      undefined
+    );
+  }
+
+  function seqIterate(seq, fn, reverse, useKeys) {
+    var cache = seq._cache;
+    if (cache) {
+      var maxIndex = cache.length - 1;
+      for (var ii = 0; ii <= maxIndex; ii++) {
+        var entry = cache[reverse ? maxIndex - ii : ii];
+        if (fn(entry[1], useKeys ? entry[0] : ii, seq) === false) {
+          return ii + 1;
+        }
+      }
+      return ii;
+    }
+    return seq.__iterateUncached(fn, reverse);
+  }
+
+  function seqIterator(seq, type, reverse, useKeys) {
+    var cache = seq._cache;
+    if (cache) {
+      var maxIndex = cache.length - 1;
+      var ii = 0;
+      return new Iterator(function()  {
+        var entry = cache[reverse ? maxIndex - ii : ii];
+        return ii++ > maxIndex ?
+          iteratorDone() :
+          iteratorValue(type, useKeys ? entry[0] : ii - 1, entry[1]);
+      });
+    }
+    return seq.__iteratorUncached(type, reverse);
+  }
+
+  function fromJS(json, converter) {
+    return converter ?
+      fromJSWith(converter, json, '', {'': json}) :
+      fromJSDefault(json);
+  }
+
+  function fromJSWith(converter, json, key, parentJSON) {
+    if (Array.isArray(json)) {
+      return converter.call(parentJSON, key, IndexedSeq(json).map(function(v, k)  {return fromJSWith(converter, v, k, json)}));
+    }
+    if (isPlainObj(json)) {
+      return converter.call(parentJSON, key, KeyedSeq(json).map(function(v, k)  {return fromJSWith(converter, v, k, json)}));
+    }
+    return json;
+  }
+
+  function fromJSDefault(json) {
+    if (Array.isArray(json)) {
+      return IndexedSeq(json).map(fromJSDefault).toList();
+    }
+    if (isPlainObj(json)) {
+      return KeyedSeq(json).map(fromJSDefault).toMap();
+    }
+    return json;
+  }
+
+  function isPlainObj(value) {
+    return value && (value.constructor === Object || value.constructor === undefined);
+  }
+
+  /**
+   * An extension of the "same-value" algorithm as [described for use by ES6 Map
+   * and Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map#Key_equality)
+   *
+   * NaN is considered the same as NaN, however -0 and 0 are considered the same
+   * value, which is different from the algorithm described by
+   * [`Object.is`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is).
+   *
+   * This is extended further to allow Objects to describe the values they
+   * represent, by way of `valueOf` or `equals` (and `hashCode`).
+   *
+   * Note: because of this extension, the key equality of Immutable.Map and the
+   * value equality of Immutable.Set will differ from ES6 Map and Set.
+   *
+   * ### Defining custom values
+   *
+   * The easiest way to describe the value an object represents is by implementing
+   * `valueOf`. For example, `Date` represents a value by returning a unix
+   * timestamp for `valueOf`:
+   *
+   *     var date1 = new Date(1234567890000); // Fri Feb 13 2009 ...
+   *     var date2 = new Date(1234567890000);
+   *     date1.valueOf(); // 1234567890000
+   *     assert( date1 !== date2 );
+   *     assert( Immutable.is( date1, date2 ) );
+   *
+   * Note: overriding `valueOf` may have other implications if you use this object
+   * where JavaScript expects a primitive, such as implicit string coercion.
+   *
+   * For more complex types, especially collections, implementing `valueOf` may
+   * not be performant. An alternative is to implement `equals` and `hashCode`.
+   *
+   * `equals` takes another object, presumably of similar type, and returns true
+   * if the it is equal. Equality is symmetrical, so the same result should be
+   * returned if this and the argument are flipped.
+   *
+   *     assert( a.equals(b) === b.equals(a) );
+   *
+   * `hashCode` returns a 32bit integer number representing the object which will
+   * be used to determine how to store the value object in a Map or Set. You must
+   * provide both or neither methods, one must not exist without the other.
+   *
+   * Also, an important relationship between these methods must be upheld: if two
+   * values are equal, they *must* return the same hashCode. If the values are not
+   * equal, they might have the same hashCode; this is called a hash collision,
+   * and while undesirable for performance reasons, it is acceptable.
+   *
+   *     if (a.equals(b)) {
+   *       assert( a.hashCode() === b.hashCode() );
+   *     }
+   *
+   * All Immutable collections implement `equals` and `hashCode`.
+   *
+   */
+  function is(valueA, valueB) {
+    if (valueA === valueB || (valueA !== valueA && valueB !== valueB)) {
+      return true;
+    }
+    if (!valueA || !valueB) {
+      return false;
+    }
+    if (typeof valueA.valueOf === 'function' &&
+        typeof valueB.valueOf === 'function') {
+      valueA = valueA.valueOf();
+      valueB = valueB.valueOf();
+      if (valueA === valueB || (valueA !== valueA && valueB !== valueB)) {
+        return true;
+      }
+      if (!valueA || !valueB) {
+        return false;
+      }
+    }
+    if (typeof valueA.equals === 'function' &&
+        typeof valueB.equals === 'function' &&
+        valueA.equals(valueB)) {
+      return true;
+    }
+    return false;
+  }
+
+  function deepEqual(a, b) {
+    if (a === b) {
+      return true;
+    }
+
+    if (
+      !isIterable(b) ||
+      a.size !== undefined && b.size !== undefined && a.size !== b.size ||
+      a.__hash !== undefined && b.__hash !== undefined && a.__hash !== b.__hash ||
+      isKeyed(a) !== isKeyed(b) ||
+      isIndexed(a) !== isIndexed(b) ||
+      isOrdered(a) !== isOrdered(b)
+    ) {
+      return false;
+    }
+
+    if (a.size === 0 && b.size === 0) {
+      return true;
+    }
+
+    var notAssociative = !isAssociative(a);
+
+    if (isOrdered(a)) {
+      var entries = a.entries();
+      return b.every(function(v, k)  {
+        var entry = entries.next().value;
+        return entry && is(entry[1], v) && (notAssociative || is(entry[0], k));
+      }) && entries.next().done;
+    }
+
+    var flipped = false;
+
+    if (a.size === undefined) {
+      if (b.size === undefined) {
+        if (typeof a.cacheResult === 'function') {
+          a.cacheResult();
+        }
+      } else {
+        flipped = true;
+        var _ = a;
+        a = b;
+        b = _;
+      }
+    }
+
+    var allEqual = true;
+    var bSize = b.__iterate(function(v, k)  {
+      if (notAssociative ? !a.has(v) :
+          flipped ? !is(v, a.get(k, NOT_SET)) : !is(a.get(k, NOT_SET), v)) {
+        allEqual = false;
+        return false;
+      }
+    });
+
+    return allEqual && a.size === bSize;
+  }
+
+  createClass(Repeat, IndexedSeq);
+
+    function Repeat(value, times) {
+      if (!(this instanceof Repeat)) {
+        return new Repeat(value, times);
+      }
+      this._value = value;
+      this.size = times === undefined ? Infinity : Math.max(0, times);
+      if (this.size === 0) {
+        if (EMPTY_REPEAT) {
+          return EMPTY_REPEAT;
+        }
+        EMPTY_REPEAT = this;
+      }
+    }
+
+    Repeat.prototype.toString = function() {
+      if (this.size === 0) {
+        return 'Repeat []';
+      }
+      return 'Repeat [ ' + this._value + ' ' + this.size + ' times ]';
+    };
+
+    Repeat.prototype.get = function(index, notSetValue) {
+      return this.has(index) ? this._value : notSetValue;
+    };
+
+    Repeat.prototype.includes = function(searchValue) {
+      return is(this._value, searchValue);
+    };
+
+    Repeat.prototype.slice = function(begin, end) {
+      var size = this.size;
+      return wholeSlice(begin, end, size) ? this :
+        new Repeat(this._value, resolveEnd(end, size) - resolveBegin(begin, size));
+    };
+
+    Repeat.prototype.reverse = function() {
+      return this;
+    };
+
+    Repeat.prototype.indexOf = function(searchValue) {
+      if (is(this._value, searchValue)) {
+        return 0;
+      }
+      return -1;
+    };
+
+    Repeat.prototype.lastIndexOf = function(searchValue) {
+      if (is(this._value, searchValue)) {
+        return this.size;
+      }
+      return -1;
+    };
+
+    Repeat.prototype.__iterate = function(fn, reverse) {
+      for (var ii = 0; ii < this.size; ii++) {
+        if (fn(this._value, ii, this) === false) {
+          return ii + 1;
+        }
+      }
+      return ii;
+    };
+
+    Repeat.prototype.__iterator = function(type, reverse) {var this$0 = this;
+      var ii = 0;
+      return new Iterator(function() 
+        {return ii < this$0.size ? iteratorValue(type, ii++, this$0._value) : iteratorDone()}
+      );
+    };
+
+    Repeat.prototype.equals = function(other) {
+      return other instanceof Repeat ?
+        is(this._value, other._value) :
+        deepEqual(other);
+    };
+
+
+  var EMPTY_REPEAT;
+
+  function invariant(condition, error) {
+    if (!condition) throw new Error(error);
+  }
+
+  createClass(Range, IndexedSeq);
+
+    function Range(start, end, step) {
+      if (!(this instanceof Range)) {
+        return new Range(start, end, step);
+      }
+      invariant(step !== 0, 'Cannot step a Range by 0');
+      start = start || 0;
+      if (end === undefined) {
+        end = Infinity;
+      }
+      step = step === undefined ? 1 : Math.abs(step);
+      if (end < start) {
+        step = -step;
+      }
+      this._start = start;
+      this._end = end;
+      this._step = step;
+      this.size = Math.max(0, Math.ceil((end - start) / step - 1) + 1);
+      if (this.size === 0) {
+        if (EMPTY_RANGE) {
+          return EMPTY_RANGE;
+        }
+        EMPTY_RANGE = this;
+      }
+    }
+
+    Range.prototype.toString = function() {
+      if (this.size === 0) {
+        return 'Range []';
+      }
+      return 'Range [ ' +
+        this._start + '...' + this._end +
+        (this._step !== 1 ? ' by ' + this._step : '') +
+      ' ]';
+    };
+
+    Range.prototype.get = function(index, notSetValue) {
+      return this.has(index) ?
+        this._start + wrapIndex(this, index) * this._step :
+        notSetValue;
+    };
+
+    Range.prototype.includes = function(searchValue) {
+      var possibleIndex = (searchValue - this._start) / this._step;
+      return possibleIndex >= 0 &&
+        possibleIndex < this.size &&
+        possibleIndex === Math.floor(possibleIndex);
+    };
+
+    Range.prototype.slice = function(begin, end) {
+      if (wholeSlice(begin, end, this.size)) {
+        return this;
+      }
+      begin = resolveBegin(begin, this.size);
+      end = resolveEnd(end, this.size);
+      if (end <= begin) {
+        return new Range(0, 0);
+      }
+      return new Range(this.get(begin, this._end), this.get(end, this._end), this._step);
+    };
+
+    Range.prototype.indexOf = function(searchValue) {
+      var offsetValue = searchValue - this._start;
+      if (offsetValue % this._step === 0) {
+        var index = offsetValue / this._step;
+        if (index >= 0 && index < this.size) {
+          return index
+        }
+      }
+      return -1;
+    };
+
+    Range.prototype.lastIndexOf = function(searchValue) {
+      return this.indexOf(searchValue);
+    };
+
+    Range.prototype.__iterate = function(fn, reverse) {
+      var maxIndex = this.size - 1;
+      var step = this._step;
+      var value = reverse ? this._start + maxIndex * step : this._start;
+      for (var ii = 0; ii <= maxIndex; ii++) {
+        if (fn(value, ii, this) === false) {
+          return ii + 1;
+        }
+        value += reverse ? -step : step;
+      }
+      return ii;
+    };
+
+    Range.prototype.__iterator = function(type, reverse) {
+      var maxIndex = this.size - 1;
+      var step = this._step;
+      var value = reverse ? this._start + maxIndex * step : this._start;
+      var ii = 0;
+      return new Iterator(function()  {
+        var v = value;
+        value += reverse ? -step : step;
+        return ii > maxIndex ? iteratorDone() : iteratorValue(type, ii++, v);
+      });
+    };
+
+    Range.prototype.equals = function(other) {
+      return other instanceof Range ?
+        this._start === other._start &&
+        this._end === other._end &&
+        this._step === other._step :
+        deepEqual(this, other);
+    };
+
+
+  var EMPTY_RANGE;
+
+  createClass(Collection, Iterable);
+    function Collection() {
+      throw TypeError('Abstract');
+    }
+
+
+  createClass(KeyedCollection, Collection);function KeyedCollection() {}
+
+  createClass(IndexedCollection, Collection);function IndexedCollection() {}
+
+  createClass(SetCollection, Collection);function SetCollection() {}
+
+
+  Collection.Keyed = KeyedCollection;
+  Collection.Indexed = IndexedCollection;
+  Collection.Set = SetCollection;
+
+  var imul =
+    typeof Math.imul === 'function' && Math.imul(0xffffffff, 2) === -2 ?
+    Math.imul :
+    function imul(a, b) {
+      a = a | 0; // int
+      b = b | 0; // int
+      var c = a & 0xffff;
+      var d = b & 0xffff;
+      // Shift by 0 fixes the sign on the high part.
+      return (c * d) + ((((a >>> 16) * d + c * (b >>> 16)) << 16) >>> 0) | 0; // int
+    };
+
+  // v8 has an optimization for storing 31-bit signed numbers.
+  // Values which have either 00 or 11 as the high order bits qualify.
+  // This function drops the highest order bit in a signed number, maintaining
+  // the sign bit.
+  function smi(i32) {
+    return ((i32 >>> 1) & 0x40000000) | (i32 & 0xBFFFFFFF);
+  }
+
+  function hash(o) {
+    if (o === false || o === null || o === undefined) {
+      return 0;
+    }
+    if (typeof o.valueOf === 'function') {
+      o = o.valueOf();
+      if (o === false || o === null || o === undefined) {
+        return 0;
+      }
+    }
+    if (o === true) {
+      return 1;
+    }
+    var type = typeof o;
+    if (type === 'number') {
+      if (o !== o || o === Infinity) {
+        return 0;
+      }
+      var h = o | 0;
+      if (h !== o) {
+        h ^= o * 0xFFFFFFFF;
+      }
+      while (o > 0xFFFFFFFF) {
+        o /= 0xFFFFFFFF;
+        h ^= o;
+      }
+      return smi(h);
+    }
+    if (type === 'string') {
+      return o.length > STRING_HASH_CACHE_MIN_STRLEN ? cachedHashString(o) : hashString(o);
+    }
+    if (typeof o.hashCode === 'function') {
+      return o.hashCode();
+    }
+    if (type === 'object') {
+      return hashJSObj(o);
+    }
+    if (typeof o.toString === 'function') {
+      return hashString(o.toString());
+    }
+    throw new Error('Value type ' + type + ' cannot be hashed.');
+  }
+
+  function cachedHashString(string) {
+    var hash = stringHashCache[string];
+    if (hash === undefined) {
+      hash = hashString(string);
+      if (STRING_HASH_CACHE_SIZE === STRING_HASH_CACHE_MAX_SIZE) {
+        STRING_HASH_CACHE_SIZE = 0;
+        stringHashCache = {};
+      }
+      STRING_HASH_CACHE_SIZE++;
+      stringHashCache[string] = hash;
+    }
+    return hash;
+  }
+
+  // http://jsperf.com/hashing-strings
+  function hashString(string) {
+    // This is the hash from JVM
+    // The hash code for a string is computed as
+    // s[0] * 31 ^ (n - 1) + s[1] * 31 ^ (n - 2) + ... + s[n - 1],
+    // where s[i] is the ith character of the string and n is the length of
+    // the string. We "mod" the result to make it between 0 (inclusive) and 2^31
+    // (exclusive) by dropping high bits.
+    var hash = 0;
+    for (var ii = 0; ii < string.length; ii++) {
+      hash = 31 * hash + string.charCodeAt(ii) | 0;
+    }
+    return smi(hash);
+  }
+
+  function hashJSObj(obj) {
+    var hash;
+    if (usingWeakMap) {
+      hash = weakMap.get(obj);
+      if (hash !== undefined) {
+        return hash;
+      }
+    }
+
+    hash = obj[UID_HASH_KEY];
+    if (hash !== undefined) {
+      return hash;
+    }
+
+    if (!canDefineProperty) {
+      hash = obj.propertyIsEnumerable && obj.propertyIsEnumerable[UID_HASH_KEY];
+      if (hash !== undefined) {
+        return hash;
+      }
+
+      hash = getIENodeHash(obj);
+      if (hash !== undefined) {
+        return hash;
+      }
+    }
+
+    hash = ++objHashUID;
+    if (objHashUID & 0x40000000) {
+      objHashUID = 0;
+    }
+
+    if (usingWeakMap) {
+      weakMap.set(obj, hash);
+    } else if (isExtensible !== undefined && isExtensible(obj) === false) {
+      throw new Error('Non-extensible objects are not allowed as keys.');
+    } else if (canDefineProperty) {
+      Object.defineProperty(obj, UID_HASH_KEY, {
+        'enumerable': false,
+        'configurable': false,
+        'writable': false,
+        'value': hash
+      });
+    } else if (obj.propertyIsEnumerable !== undefined &&
+               obj.propertyIsEnumerable === obj.constructor.prototype.propertyIsEnumerable) {
+      // Since we can't define a non-enumerable property on the object
+      // we'll hijack one of the less-used non-enumerable properties to
+      // save our hash on it. Since this is a function it will not show up in
+      // `JSON.stringify` which is what we want.
+      obj.propertyIsEnumerable = function() {
+        return this.constructor.prototype.propertyIsEnumerable.apply(this, arguments);
+      };
+      obj.propertyIsEnumerable[UID_HASH_KEY] = hash;
+    } else if (obj.nodeType !== undefined) {
+      // At this point we couldn't get the IE `uniqueID` to use as a hash
+      // and we couldn't use a non-enumerable property to exploit the
+      // dontEnum bug so we simply add the `UID_HASH_KEY` on the node
+      // itself.
+      obj[UID_HASH_KEY] = hash;
+    } else {
+      throw new Error('Unable to set a non-enumerable property on object.');
+    }
+
+    return hash;
+  }
+
+  // Get references to ES5 object methods.
+  var isExtensible = Object.isExtensible;
+
+  // True if Object.defineProperty works as expected. IE8 fails this test.
+  var canDefineProperty = (function() {
+    try {
+      Object.defineProperty({}, '@', {});
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }());
+
+  // IE has a `uniqueID` property on DOM nodes. We can construct the hash from it
+  // and avoid memory leaks from the IE cloneNode bug.
+  function getIENodeHash(node) {
+    if (node && node.nodeType > 0) {
+      switch (node.nodeType) {
+        case 1: // Element
+          return node.uniqueID;
+        case 9: // Document
+          return node.documentElement && node.documentElement.uniqueID;
+      }
+    }
+  }
+
+  // If possible, use a WeakMap.
+  var usingWeakMap = typeof WeakMap === 'function';
+  var weakMap;
+  if (usingWeakMap) {
+    weakMap = new WeakMap();
+  }
+
+  var objHashUID = 0;
+
+  var UID_HASH_KEY = '__immutablehash__';
+  if (typeof Symbol === 'function') {
+    UID_HASH_KEY = Symbol(UID_HASH_KEY);
+  }
+
+  var STRING_HASH_CACHE_MIN_STRLEN = 16;
+  var STRING_HASH_CACHE_MAX_SIZE = 255;
+  var STRING_HASH_CACHE_SIZE = 0;
+  var stringHashCache = {};
+
+  function assertNotInfinite(size) {
+    invariant(
+      size !== Infinity,
+      'Cannot perform this action with an infinite size.'
+    );
+  }
+
+  createClass(Map, KeyedCollection);
+
+    // @pragma Construction
+
+    function Map(value) {
+      return value === null || value === undefined ? emptyMap() :
+        isMap(value) && !isOrdered(value) ? value :
+        emptyMap().withMutations(function(map ) {
+          var iter = KeyedIterable(value);
+          assertNotInfinite(iter.size);
+          iter.forEach(function(v, k)  {return map.set(k, v)});
+        });
+    }
+
+    Map.of = function() {var keyValues = SLICE$0.call(arguments, 0);
+      return emptyMap().withMutations(function(map ) {
+        for (var i = 0; i < keyValues.length; i += 2) {
+          if (i + 1 >= keyValues.length) {
+            throw new Error('Missing value for key: ' + keyValues[i]);
+          }
+          map.set(keyValues[i], keyValues[i + 1]);
+        }
+      });
+    };
+
+    Map.prototype.toString = function() {
+      return this.__toString('Map {', '}');
+    };
+
+    // @pragma Access
+
+    Map.prototype.get = function(k, notSetValue) {
+      return this._root ?
+        this._root.get(0, undefined, k, notSetValue) :
+        notSetValue;
+    };
+
+    // @pragma Modification
+
+    Map.prototype.set = function(k, v) {
+      return updateMap(this, k, v);
+    };
+
+    Map.prototype.setIn = function(keyPath, v) {
+      return this.updateIn(keyPath, NOT_SET, function()  {return v});
+    };
+
+    Map.prototype.remove = function(k) {
+      return updateMap(this, k, NOT_SET);
+    };
+
+    Map.prototype.deleteIn = function(keyPath) {
+      return this.updateIn(keyPath, function()  {return NOT_SET});
+    };
+
+    Map.prototype.update = function(k, notSetValue, updater) {
+      return arguments.length === 1 ?
+        k(this) :
+        this.updateIn([k], notSetValue, updater);
+    };
+
+    Map.prototype.updateIn = function(keyPath, notSetValue, updater) {
+      if (!updater) {
+        updater = notSetValue;
+        notSetValue = undefined;
+      }
+      var updatedValue = updateInDeepMap(
+        this,
+        forceIterator(keyPath),
+        notSetValue,
+        updater
+      );
+      return updatedValue === NOT_SET ? undefined : updatedValue;
+    };
+
+    Map.prototype.clear = function() {
+      if (this.size === 0) {
+        return this;
+      }
+      if (this.__ownerID) {
+        this.size = 0;
+        this._root = null;
+        this.__hash = undefined;
+        this.__altered = true;
+        return this;
+      }
+      return emptyMap();
+    };
+
+    // @pragma Composition
+
+    Map.prototype.merge = function(/*...iters*/) {
+      return mergeIntoMapWith(this, undefined, arguments);
+    };
+
+    Map.prototype.mergeWith = function(merger) {var iters = SLICE$0.call(arguments, 1);
+      return mergeIntoMapWith(this, merger, iters);
+    };
+
+    Map.prototype.mergeIn = function(keyPath) {var iters = SLICE$0.call(arguments, 1);
+      return this.updateIn(
+        keyPath,
+        emptyMap(),
+        function(m ) {return typeof m.merge === 'function' ?
+          m.merge.apply(m, iters) :
+          iters[iters.length - 1]}
+      );
+    };
+
+    Map.prototype.mergeDeep = function(/*...iters*/) {
+      return mergeIntoMapWith(this, deepMerger, arguments);
+    };
+
+    Map.prototype.mergeDeepWith = function(merger) {var iters = SLICE$0.call(arguments, 1);
+      return mergeIntoMapWith(this, deepMergerWith(merger), iters);
+    };
+
+    Map.prototype.mergeDeepIn = function(keyPath) {var iters = SLICE$0.call(arguments, 1);
+      return this.updateIn(
+        keyPath,
+        emptyMap(),
+        function(m ) {return typeof m.mergeDeep === 'function' ?
+          m.mergeDeep.apply(m, iters) :
+          iters[iters.length - 1]}
+      );
+    };
+
+    Map.prototype.sort = function(comparator) {
+      // Late binding
+      return OrderedMap(sortFactory(this, comparator));
+    };
+
+    Map.prototype.sortBy = function(mapper, comparator) {
+      // Late binding
+      return OrderedMap(sortFactory(this, comparator, mapper));
+    };
+
+    // @pragma Mutability
+
+    Map.prototype.withMutations = function(fn) {
+      var mutable = this.asMutable();
+      fn(mutable);
+      return mutable.wasAltered() ? mutable.__ensureOwner(this.__ownerID) : this;
+    };
+
+    Map.prototype.asMutable = function() {
+      return this.__ownerID ? this : this.__ensureOwner(new OwnerID());
+    };
+
+    Map.prototype.asImmutable = function() {
+      return this.__ensureOwner();
+    };
+
+    Map.prototype.wasAltered = function() {
+      return this.__altered;
+    };
+
+    Map.prototype.__iterator = function(type, reverse) {
+      return new MapIterator(this, type, reverse);
+    };
+
+    Map.prototype.__iterate = function(fn, reverse) {var this$0 = this;
+      var iterations = 0;
+      this._root && this._root.iterate(function(entry ) {
+        iterations++;
+        return fn(entry[1], entry[0], this$0);
+      }, reverse);
+      return iterations;
+    };
+
+    Map.prototype.__ensureOwner = function(ownerID) {
+      if (ownerID === this.__ownerID) {
+        return this;
+      }
+      if (!ownerID) {
+        this.__ownerID = ownerID;
+        this.__altered = false;
+        return this;
+      }
+      return makeMap(this.size, this._root, ownerID, this.__hash);
+    };
+
+
+  function isMap(maybeMap) {
+    return !!(maybeMap && maybeMap[IS_MAP_SENTINEL]);
+  }
+
+  Map.isMap = isMap;
+
+  var IS_MAP_SENTINEL = '@@__IMMUTABLE_MAP__@@';
+
+  var MapPrototype = Map.prototype;
+  MapPrototype[IS_MAP_SENTINEL] = true;
+  MapPrototype[DELETE] = MapPrototype.remove;
+  MapPrototype.removeIn = MapPrototype.deleteIn;
+
+
+  // #pragma Trie Nodes
+
+
+
+    function ArrayMapNode(ownerID, entries) {
+      this.ownerID = ownerID;
+      this.entries = entries;
+    }
+
+    ArrayMapNode.prototype.get = function(shift, keyHash, key, notSetValue) {
+      var entries = this.entries;
+      for (var ii = 0, len = entries.length; ii < len; ii++) {
+        if (is(key, entries[ii][0])) {
+          return entries[ii][1];
+        }
+      }
+      return notSetValue;
+    };
+
+    ArrayMapNode.prototype.update = function(ownerID, shift, keyHash, key, value, didChangeSize, didAlter) {
+      var removed = value === NOT_SET;
+
+      var entries = this.entries;
+      var idx = 0;
+      for (var len = entries.length; idx < len; idx++) {
+        if (is(key, entries[idx][0])) {
+          break;
+        }
+      }
+      var exists = idx < len;
+
+      if (exists ? entries[idx][1] === value : removed) {
+        return this;
+      }
+
+      SetRef(didAlter);
+      (removed || !exists) && SetRef(didChangeSize);
+
+      if (removed && entries.length === 1) {
+        return; // undefined
+      }
+
+      if (!exists && !removed && entries.length >= MAX_ARRAY_MAP_SIZE) {
+        return createNodes(ownerID, entries, key, value);
+      }
+
+      var isEditable = ownerID && ownerID === this.ownerID;
+      var newEntries = isEditable ? entries : arrCopy(entries);
+
+      if (exists) {
+        if (removed) {
+          idx === len - 1 ? newEntries.pop() : (newEntries[idx] = newEntries.pop());
+        } else {
+          newEntries[idx] = [key, value];
+        }
+      } else {
+        newEntries.push([key, value]);
+      }
+
+      if (isEditable) {
+        this.entries = newEntries;
+        return this;
+      }
+
+      return new ArrayMapNode(ownerID, newEntries);
+    };
+
+
+
+
+    function BitmapIndexedNode(ownerID, bitmap, nodes) {
+      this.ownerID = ownerID;
+      this.bitmap = bitmap;
+      this.nodes = nodes;
+    }
+
+    BitmapIndexedNode.prototype.get = function(shift, keyHash, key, notSetValue) {
+      if (keyHash === undefined) {
+        keyHash = hash(key);
+      }
+      var bit = (1 << ((shift === 0 ? keyHash : keyHash >>> shift) & MASK));
+      var bitmap = this.bitmap;
+      return (bitmap & bit) === 0 ? notSetValue :
+        this.nodes[popCount(bitmap & (bit - 1))].get(shift + SHIFT, keyHash, key, notSetValue);
+    };
+
+    BitmapIndexedNode.prototype.update = function(ownerID, shift, keyHash, key, value, didChangeSize, didAlter) {
+      if (keyHash === undefined) {
+        keyHash = hash(key);
+      }
+      var keyHashFrag = (shift === 0 ? keyHash : keyHash >>> shift) & MASK;
+      var bit = 1 << keyHashFrag;
+      var bitmap = this.bitmap;
+      var exists = (bitmap & bit) !== 0;
+
+      if (!exists && value === NOT_SET) {
+        return this;
+      }
+
+      var idx = popCount(bitmap & (bit - 1));
+      var nodes = this.nodes;
+      var node = exists ? nodes[idx] : undefined;
+      var newNode = updateNode(node, ownerID, shift + SHIFT, keyHash, key, value, didChangeSize, didAlter);
+
+      if (newNode === node) {
+        return this;
+      }
+
+      if (!exists && newNode && nodes.length >= MAX_BITMAP_INDEXED_SIZE) {
+        return expandNodes(ownerID, nodes, bitmap, keyHashFrag, newNode);
+      }
+
+      if (exists && !newNode && nodes.length === 2 && isLeafNode(nodes[idx ^ 1])) {
+        return nodes[idx ^ 1];
+      }
+
+      if (exists && newNode && nodes.length === 1 && isLeafNode(newNode)) {
+        return newNode;
+      }
+
+      var isEditable = ownerID && ownerID === this.ownerID;
+      var newBitmap = exists ? newNode ? bitmap : bitmap ^ bit : bitmap | bit;
+      var newNodes = exists ? newNode ?
+        setIn(nodes, idx, newNode, isEditable) :
+        spliceOut(nodes, idx, isEditable) :
+        spliceIn(nodes, idx, newNode, isEditable);
+
+      if (isEditable) {
+        this.bitmap = newBitmap;
+        this.nodes = newNodes;
+        return this;
+      }
+
+      return new BitmapIndexedNode(ownerID, newBitmap, newNodes);
+    };
+
+
+
+
+    function HashArrayMapNode(ownerID, count, nodes) {
+      this.ownerID = ownerID;
+      this.count = count;
+      this.nodes = nodes;
+    }
+
+    HashArrayMapNode.prototype.get = function(shift, keyHash, key, notSetValue) {
+      if (keyHash === undefined) {
+        keyHash = hash(key);
+      }
+      var idx = (shift === 0 ? keyHash : keyHash >>> shift) & MASK;
+      var node = this.nodes[idx];
+      return node ? node.get(shift + SHIFT, keyHash, key, notSetValue) : notSetValue;
+    };
+
+    HashArrayMapNode.prototype.update = function(ownerID, shift, keyHash, key, value, didChangeSize, didAlter) {
+      if (keyHash === undefined) {
+        keyHash = hash(key);
+      }
+      var idx = (shift === 0 ? keyHash : keyHash >>> shift) & MASK;
+      var removed = value === NOT_SET;
+      var nodes = this.nodes;
+      var node = nodes[idx];
+
+      if (removed && !node) {
+        return this;
+      }
+
+      var newNode = updateNode(node, ownerID, shift + SHIFT, keyHash, key, value, didChangeSize, didAlter);
+      if (newNode === node) {
+        return this;
+      }
+
+      var newCount = this.count;
+      if (!node) {
+        newCount++;
+      } else if (!newNode) {
+        newCount--;
+        if (newCount < MIN_HASH_ARRAY_MAP_SIZE) {
+          return packNodes(ownerID, nodes, newCount, idx);
+        }
+      }
+
+      var isEditable = ownerID && ownerID === this.ownerID;
+      var newNodes = setIn(nodes, idx, newNode, isEditable);
+
+      if (isEditable) {
+        this.count = newCount;
+        this.nodes = newNodes;
+        return this;
+      }
+
+      return new HashArrayMapNode(ownerID, newCount, newNodes);
+    };
+
+
+
+
+    function HashCollisionNode(ownerID, keyHash, entries) {
+      this.ownerID = ownerID;
+      this.keyHash = keyHash;
+      this.entries = entries;
+    }
+
+    HashCollisionNode.prototype.get = function(shift, keyHash, key, notSetValue) {
+      var entries = this.entries;
+      for (var ii = 0, len = entries.length; ii < len; ii++) {
+        if (is(key, entries[ii][0])) {
+          return entries[ii][1];
+        }
+      }
+      return notSetValue;
+    };
+
+    HashCollisionNode.prototype.update = function(ownerID, shift, keyHash, key, value, didChangeSize, didAlter) {
+      if (keyHash === undefined) {
+        keyHash = hash(key);
+      }
+
+      var removed = value === NOT_SET;
+
+      if (keyHash !== this.keyHash) {
+        if (removed) {
+          return this;
+        }
+        SetRef(didAlter);
+        SetRef(didChangeSize);
+        return mergeIntoNode(this, ownerID, shift, keyHash, [key, value]);
+      }
+
+      var entries = this.entries;
+      var idx = 0;
+      for (var len = entries.length; idx < len; idx++) {
+        if (is(key, entries[idx][0])) {
+          break;
+        }
+      }
+      var exists = idx < len;
+
+      if (exists ? entries[idx][1] === value : removed) {
+        return this;
+      }
+
+      SetRef(didAlter);
+      (removed || !exists) && SetRef(didChangeSize);
+
+      if (removed && len === 2) {
+        return new ValueNode(ownerID, this.keyHash, entries[idx ^ 1]);
+      }
+
+      var isEditable = ownerID && ownerID === this.ownerID;
+      var newEntries = isEditable ? entries : arrCopy(entries);
+
+      if (exists) {
+        if (removed) {
+          idx === len - 1 ? newEntries.pop() : (newEntries[idx] = newEntries.pop());
+        } else {
+          newEntries[idx] = [key, value];
+        }
+      } else {
+        newEntries.push([key, value]);
+      }
+
+      if (isEditable) {
+        this.entries = newEntries;
+        return this;
+      }
+
+      return new HashCollisionNode(ownerID, this.keyHash, newEntries);
+    };
+
+
+
+
+    function ValueNode(ownerID, keyHash, entry) {
+      this.ownerID = ownerID;
+      this.keyHash = keyHash;
+      this.entry = entry;
+    }
+
+    ValueNode.prototype.get = function(shift, keyHash, key, notSetValue) {
+      return is(key, this.entry[0]) ? this.entry[1] : notSetValue;
+    };
+
+    ValueNode.prototype.update = function(ownerID, shift, keyHash, key, value, didChangeSize, didAlter) {
+      var removed = value === NOT_SET;
+      var keyMatch = is(key, this.entry[0]);
+      if (keyMatch ? value === this.entry[1] : removed) {
+        return this;
+      }
+
+      SetRef(didAlter);
+
+      if (removed) {
+        SetRef(didChangeSize);
+        return; // undefined
+      }
+
+      if (keyMatch) {
+        if (ownerID && ownerID === this.ownerID) {
+          this.entry[1] = value;
+          return this;
+        }
+        return new ValueNode(ownerID, this.keyHash, [key, value]);
+      }
+
+      SetRef(didChangeSize);
+      return mergeIntoNode(this, ownerID, shift, hash(key), [key, value]);
+    };
+
+
+
+  // #pragma Iterators
+
+  ArrayMapNode.prototype.iterate =
+  HashCollisionNode.prototype.iterate = function (fn, reverse) {
+    var entries = this.entries;
+    for (var ii = 0, maxIndex = entries.length - 1; ii <= maxIndex; ii++) {
+      if (fn(entries[reverse ? maxIndex - ii : ii]) === false) {
+        return false;
+      }
+    }
+  }
+
+  BitmapIndexedNode.prototype.iterate =
+  HashArrayMapNode.prototype.iterate = function (fn, reverse) {
+    var nodes = this.nodes;
+    for (var ii = 0, maxIndex = nodes.length - 1; ii <= maxIndex; ii++) {
+      var node = nodes[reverse ? maxIndex - ii : ii];
+      if (node && node.iterate(fn, reverse) === false) {
+        return false;
+      }
+    }
+  }
+
+  ValueNode.prototype.iterate = function (fn, reverse) {
+    return fn(this.entry);
+  }
+
+  createClass(MapIterator, Iterator);
+
+    function MapIterator(map, type, reverse) {
+      this._type = type;
+      this._reverse = reverse;
+      this._stack = map._root && mapIteratorFrame(map._root);
+    }
+
+    MapIterator.prototype.next = function() {
+      var type = this._type;
+      var stack = this._stack;
+      while (stack) {
+        var node = stack.node;
+        var index = stack.index++;
+        var maxIndex;
+        if (node.entry) {
+          if (index === 0) {
+            return mapIteratorValue(type, node.entry);
+          }
+        } else if (node.entries) {
+          maxIndex = node.entries.length - 1;
+          if (index <= maxIndex) {
+            return mapIteratorValue(type, node.entries[this._reverse ? maxIndex - index : index]);
+          }
+        } else {
+          maxIndex = node.nodes.length - 1;
+          if (index <= maxIndex) {
+            var subNode = node.nodes[this._reverse ? maxIndex - index : index];
+            if (subNode) {
+              if (subNode.entry) {
+                return mapIteratorValue(type, subNode.entry);
+              }
+              stack = this._stack = mapIteratorFrame(subNode, stack);
+            }
+            continue;
+          }
+        }
+        stack = this._stack = this._stack.__prev;
+      }
+      return iteratorDone();
+    };
+
+
+  function mapIteratorValue(type, entry) {
+    return iteratorValue(type, entry[0], entry[1]);
+  }
+
+  function mapIteratorFrame(node, prev) {
+    return {
+      node: node,
+      index: 0,
+      __prev: prev
+    };
+  }
+
+  function makeMap(size, root, ownerID, hash) {
+    var map = Object.create(MapPrototype);
+    map.size = size;
+    map._root = root;
+    map.__ownerID = ownerID;
+    map.__hash = hash;
+    map.__altered = false;
+    return map;
+  }
+
+  var EMPTY_MAP;
+  function emptyMap() {
+    return EMPTY_MAP || (EMPTY_MAP = makeMap(0));
+  }
+
+  function updateMap(map, k, v) {
+    var newRoot;
+    var newSize;
+    if (!map._root) {
+      if (v === NOT_SET) {
+        return map;
+      }
+      newSize = 1;
+      newRoot = new ArrayMapNode(map.__ownerID, [[k, v]]);
+    } else {
+      var didChangeSize = MakeRef(CHANGE_LENGTH);
+      var didAlter = MakeRef(DID_ALTER);
+      newRoot = updateNode(map._root, map.__ownerID, 0, undefined, k, v, didChangeSize, didAlter);
+      if (!didAlter.value) {
+        return map;
+      }
+      newSize = map.size + (didChangeSize.value ? v === NOT_SET ? -1 : 1 : 0);
+    }
+    if (map.__ownerID) {
+      map.size = newSize;
+      map._root = newRoot;
+      map.__hash = undefined;
+      map.__altered = true;
+      return map;
+    }
+    return newRoot ? makeMap(newSize, newRoot) : emptyMap();
+  }
+
+  function updateNode(node, ownerID, shift, keyHash, key, value, didChangeSize, didAlter) {
+    if (!node) {
+      if (value === NOT_SET) {
+        return node;
+      }
+      SetRef(didAlter);
+      SetRef(didChangeSize);
+      return new ValueNode(ownerID, keyHash, [key, value]);
+    }
+    return node.update(ownerID, shift, keyHash, key, value, didChangeSize, didAlter);
+  }
+
+  function isLeafNode(node) {
+    return node.constructor === ValueNode || node.constructor === HashCollisionNode;
+  }
+
+  function mergeIntoNode(node, ownerID, shift, keyHash, entry) {
+    if (node.keyHash === keyHash) {
+      return new HashCollisionNode(ownerID, keyHash, [node.entry, entry]);
+    }
+
+    var idx1 = (shift === 0 ? node.keyHash : node.keyHash >>> shift) & MASK;
+    var idx2 = (shift === 0 ? keyHash : keyHash >>> shift) & MASK;
+
+    var newNode;
+    var nodes = idx1 === idx2 ?
+      [mergeIntoNode(node, ownerID, shift + SHIFT, keyHash, entry)] :
+      ((newNode = new ValueNode(ownerID, keyHash, entry)), idx1 < idx2 ? [node, newNode] : [newNode, node]);
+
+    return new BitmapIndexedNode(ownerID, (1 << idx1) | (1 << idx2), nodes);
+  }
+
+  function createNodes(ownerID, entries, key, value) {
+    if (!ownerID) {
+      ownerID = new OwnerID();
+    }
+    var node = new ValueNode(ownerID, hash(key), [key, value]);
+    for (var ii = 0; ii < entries.length; ii++) {
+      var entry = entries[ii];
+      node = node.update(ownerID, 0, undefined, entry[0], entry[1]);
+    }
+    return node;
+  }
+
+  function packNodes(ownerID, nodes, count, excluding) {
+    var bitmap = 0;
+    var packedII = 0;
+    var packedNodes = new Array(count);
+    for (var ii = 0, bit = 1, len = nodes.length; ii < len; ii++, bit <<= 1) {
+      var node = nodes[ii];
+      if (node !== undefined && ii !== excluding) {
+        bitmap |= bit;
+        packedNodes[packedII++] = node;
+      }
+    }
+    return new BitmapIndexedNode(ownerID, bitmap, packedNodes);
+  }
+
+  function expandNodes(ownerID, nodes, bitmap, including, node) {
+    var count = 0;
+    var expandedNodes = new Array(SIZE);
+    for (var ii = 0; bitmap !== 0; ii++, bitmap >>>= 1) {
+      expandedNodes[ii] = bitmap & 1 ? nodes[count++] : undefined;
+    }
+    expandedNodes[including] = node;
+    return new HashArrayMapNode(ownerID, count + 1, expandedNodes);
+  }
+
+  function mergeIntoMapWith(map, merger, iterables) {
+    var iters = [];
+    for (var ii = 0; ii < iterables.length; ii++) {
+      var value = iterables[ii];
+      var iter = KeyedIterable(value);
+      if (!isIterable(value)) {
+        iter = iter.map(function(v ) {return fromJS(v)});
+      }
+      iters.push(iter);
+    }
+    return mergeIntoCollectionWith(map, merger, iters);
+  }
+
+  function deepMerger(existing, value, key) {
+    return existing && existing.mergeDeep && isIterable(value) ?
+      existing.mergeDeep(value) :
+      is(existing, value) ? existing : value;
+  }
+
+  function deepMergerWith(merger) {
+    return function(existing, value, key)  {
+      if (existing && existing.mergeDeepWith && isIterable(value)) {
+        return existing.mergeDeepWith(merger, value);
+      }
+      var nextValue = merger(existing, value, key);
+      return is(existing, nextValue) ? existing : nextValue;
+    };
+  }
+
+  function mergeIntoCollectionWith(collection, merger, iters) {
+    iters = iters.filter(function(x ) {return x.size !== 0});
+    if (iters.length === 0) {
+      return collection;
+    }
+    if (collection.size === 0 && !collection.__ownerID && iters.length === 1) {
+      return collection.constructor(iters[0]);
+    }
+    return collection.withMutations(function(collection ) {
+      var mergeIntoMap = merger ?
+        function(value, key)  {
+          collection.update(key, NOT_SET, function(existing )
+            {return existing === NOT_SET ? value : merger(existing, value, key)}
+          );
+        } :
+        function(value, key)  {
+          collection.set(key, value);
+        }
+      for (var ii = 0; ii < iters.length; ii++) {
+        iters[ii].forEach(mergeIntoMap);
+      }
+    });
+  }
+
+  function updateInDeepMap(existing, keyPathIter, notSetValue, updater) {
+    var isNotSet = existing === NOT_SET;
+    var step = keyPathIter.next();
+    if (step.done) {
+      var existingValue = isNotSet ? notSetValue : existing;
+      var newValue = updater(existingValue);
+      return newValue === existingValue ? existing : newValue;
+    }
+    invariant(
+      isNotSet || (existing && existing.set),
+      'invalid keyPath'
+    );
+    var key = step.value;
+    var nextExisting = isNotSet ? NOT_SET : existing.get(key, NOT_SET);
+    var nextUpdated = updateInDeepMap(
+      nextExisting,
+      keyPathIter,
+      notSetValue,
+      updater
+    );
+    return nextUpdated === nextExisting ? existing :
+      nextUpdated === NOT_SET ? existing.remove(key) :
+      (isNotSet ? emptyMap() : existing).set(key, nextUpdated);
+  }
+
+  function popCount(x) {
+    x = x - ((x >> 1) & 0x55555555);
+    x = (x & 0x33333333) + ((x >> 2) & 0x33333333);
+    x = (x + (x >> 4)) & 0x0f0f0f0f;
+    x = x + (x >> 8);
+    x = x + (x >> 16);
+    return x & 0x7f;
+  }
+
+  function setIn(array, idx, val, canEdit) {
+    var newArray = canEdit ? array : arrCopy(array);
+    newArray[idx] = val;
+    return newArray;
+  }
+
+  function spliceIn(array, idx, val, canEdit) {
+    var newLen = array.length + 1;
+    if (canEdit && idx + 1 === newLen) {
+      array[idx] = val;
+      return array;
+    }
+    var newArray = new Array(newLen);
+    var after = 0;
+    for (var ii = 0; ii < newLen; ii++) {
+      if (ii === idx) {
+        newArray[ii] = val;
+        after = -1;
+      } else {
+        newArray[ii] = array[ii + after];
+      }
+    }
+    return newArray;
+  }
+
+  function spliceOut(array, idx, canEdit) {
+    var newLen = array.length - 1;
+    if (canEdit && idx === newLen) {
+      array.pop();
+      return array;
+    }
+    var newArray = new Array(newLen);
+    var after = 0;
+    for (var ii = 0; ii < newLen; ii++) {
+      if (ii === idx) {
+        after = 1;
+      }
+      newArray[ii] = array[ii + after];
+    }
+    return newArray;
+  }
+
+  var MAX_ARRAY_MAP_SIZE = SIZE / 4;
+  var MAX_BITMAP_INDEXED_SIZE = SIZE / 2;
+  var MIN_HASH_ARRAY_MAP_SIZE = SIZE / 4;
+
+  createClass(List, IndexedCollection);
+
+    // @pragma Construction
+
+    function List(value) {
+      var empty = emptyList();
+      if (value === null || value === undefined) {
+        return empty;
+      }
+      if (isList(value)) {
+        return value;
+      }
+      var iter = IndexedIterable(value);
+      var size = iter.size;
+      if (size === 0) {
+        return empty;
+      }
+      assertNotInfinite(size);
+      if (size > 0 && size < SIZE) {
+        return makeList(0, size, SHIFT, null, new VNode(iter.toArray()));
+      }
+      return empty.withMutations(function(list ) {
+        list.setSize(size);
+        iter.forEach(function(v, i)  {return list.set(i, v)});
+      });
+    }
+
+    List.of = function(/*...values*/) {
+      return this(arguments);
+    };
+
+    List.prototype.toString = function() {
+      return this.__toString('List [', ']');
+    };
+
+    // @pragma Access
+
+    List.prototype.get = function(index, notSetValue) {
+      index = wrapIndex(this, index);
+      if (index >= 0 && index < this.size) {
+        index += this._origin;
+        var node = listNodeFor(this, index);
+        return node && node.array[index & MASK];
+      }
+      return notSetValue;
+    };
+
+    // @pragma Modification
+
+    List.prototype.set = function(index, value) {
+      return updateList(this, index, value);
+    };
+
+    List.prototype.remove = function(index) {
+      return !this.has(index) ? this :
+        index === 0 ? this.shift() :
+        index === this.size - 1 ? this.pop() :
+        this.splice(index, 1);
+    };
+
+    List.prototype.insert = function(index, value) {
+      return this.splice(index, 0, value);
+    };
+
+    List.prototype.clear = function() {
+      if (this.size === 0) {
+        return this;
+      }
+      if (this.__ownerID) {
+        this.size = this._origin = this._capacity = 0;
+        this._level = SHIFT;
+        this._root = this._tail = null;
+        this.__hash = undefined;
+        this.__altered = true;
+        return this;
+      }
+      return emptyList();
+    };
+
+    List.prototype.push = function(/*...values*/) {
+      var values = arguments;
+      var oldSize = this.size;
+      return this.withMutations(function(list ) {
+        setListBounds(list, 0, oldSize + values.length);
+        for (var ii = 0; ii < values.length; ii++) {
+          list.set(oldSize + ii, values[ii]);
+        }
+      });
+    };
+
+    List.prototype.pop = function() {
+      return setListBounds(this, 0, -1);
+    };
+
+    List.prototype.unshift = function(/*...values*/) {
+      var values = arguments;
+      return this.withMutations(function(list ) {
+        setListBounds(list, -values.length);
+        for (var ii = 0; ii < values.length; ii++) {
+          list.set(ii, values[ii]);
+        }
+      });
+    };
+
+    List.prototype.shift = function() {
+      return setListBounds(this, 1);
+    };
+
+    // @pragma Composition
+
+    List.prototype.merge = function(/*...iters*/) {
+      return mergeIntoListWith(this, undefined, arguments);
+    };
+
+    List.prototype.mergeWith = function(merger) {var iters = SLICE$0.call(arguments, 1);
+      return mergeIntoListWith(this, merger, iters);
+    };
+
+    List.prototype.mergeDeep = function(/*...iters*/) {
+      return mergeIntoListWith(this, deepMerger, arguments);
+    };
+
+    List.prototype.mergeDeepWith = function(merger) {var iters = SLICE$0.call(arguments, 1);
+      return mergeIntoListWith(this, deepMergerWith(merger), iters);
+    };
+
+    List.prototype.setSize = function(size) {
+      return setListBounds(this, 0, size);
+    };
+
+    // @pragma Iteration
+
+    List.prototype.slice = function(begin, end) {
+      var size = this.size;
+      if (wholeSlice(begin, end, size)) {
+        return this;
+      }
+      return setListBounds(
+        this,
+        resolveBegin(begin, size),
+        resolveEnd(end, size)
+      );
+    };
+
+    List.prototype.__iterator = function(type, reverse) {
+      var index = 0;
+      var values = iterateList(this, reverse);
+      return new Iterator(function()  {
+        var value = values();
+        return value === DONE ?
+          iteratorDone() :
+          iteratorValue(type, index++, value);
+      });
+    };
+
+    List.prototype.__iterate = function(fn, reverse) {
+      var index = 0;
+      var values = iterateList(this, reverse);
+      var value;
+      while ((value = values()) !== DONE) {
+        if (fn(value, index++, this) === false) {
+          break;
+        }
+      }
+      return index;
+    };
+
+    List.prototype.__ensureOwner = function(ownerID) {
+      if (ownerID === this.__ownerID) {
+        return this;
+      }
+      if (!ownerID) {
+        this.__ownerID = ownerID;
+        return this;
+      }
+      return makeList(this._origin, this._capacity, this._level, this._root, this._tail, ownerID, this.__hash);
+    };
+
+
+  function isList(maybeList) {
+    return !!(maybeList && maybeList[IS_LIST_SENTINEL]);
+  }
+
+  List.isList = isList;
+
+  var IS_LIST_SENTINEL = '@@__IMMUTABLE_LIST__@@';
+
+  var ListPrototype = List.prototype;
+  ListPrototype[IS_LIST_SENTINEL] = true;
+  ListPrototype[DELETE] = ListPrototype.remove;
+  ListPrototype.setIn = MapPrototype.setIn;
+  ListPrototype.deleteIn =
+  ListPrototype.removeIn = MapPrototype.removeIn;
+  ListPrototype.update = MapPrototype.update;
+  ListPrototype.updateIn = MapPrototype.updateIn;
+  ListPrototype.mergeIn = MapPrototype.mergeIn;
+  ListPrototype.mergeDeepIn = MapPrototype.mergeDeepIn;
+  ListPrototype.withMutations = MapPrototype.withMutations;
+  ListPrototype.asMutable = MapPrototype.asMutable;
+  ListPrototype.asImmutable = MapPrototype.asImmutable;
+  ListPrototype.wasAltered = MapPrototype.wasAltered;
+
+
+
+    function VNode(array, ownerID) {
+      this.array = array;
+      this.ownerID = ownerID;
+    }
+
+    // TODO: seems like these methods are very similar
+
+    VNode.prototype.removeBefore = function(ownerID, level, index) {
+      if (index === level ? 1 << level : 0 || this.array.length === 0) {
+        return this;
+      }
+      var originIndex = (index >>> level) & MASK;
+      if (originIndex >= this.array.length) {
+        return new VNode([], ownerID);
+      }
+      var removingFirst = originIndex === 0;
+      var newChild;
+      if (level > 0) {
+        var oldChild = this.array[originIndex];
+        newChild = oldChild && oldChild.removeBefore(ownerID, level - SHIFT, index);
+        if (newChild === oldChild && removingFirst) {
+          return this;
+        }
+      }
+      if (removingFirst && !newChild) {
+        return this;
+      }
+      var editable = editableVNode(this, ownerID);
+      if (!removingFirst) {
+        for (var ii = 0; ii < originIndex; ii++) {
+          editable.array[ii] = undefined;
+        }
+      }
+      if (newChild) {
+        editable.array[originIndex] = newChild;
+      }
+      return editable;
+    };
+
+    VNode.prototype.removeAfter = function(ownerID, level, index) {
+      if (index === (level ? 1 << level : 0) || this.array.length === 0) {
+        return this;
+      }
+      var sizeIndex = ((index - 1) >>> level) & MASK;
+      if (sizeIndex >= this.array.length) {
+        return this;
+      }
+
+      var newChild;
+      if (level > 0) {
+        var oldChild = this.array[sizeIndex];
+        newChild = oldChild && oldChild.removeAfter(ownerID, level - SHIFT, index);
+        if (newChild === oldChild && sizeIndex === this.array.length - 1) {
+          return this;
+        }
+      }
+
+      var editable = editableVNode(this, ownerID);
+      editable.array.splice(sizeIndex + 1);
+      if (newChild) {
+        editable.array[sizeIndex] = newChild;
+      }
+      return editable;
+    };
+
+
+
+  var DONE = {};
+
+  function iterateList(list, reverse) {
+    var left = list._origin;
+    var right = list._capacity;
+    var tailPos = getTailOffset(right);
+    var tail = list._tail;
+
+    return iterateNodeOrLeaf(list._root, list._level, 0);
+
+    function iterateNodeOrLeaf(node, level, offset) {
+      return level === 0 ?
+        iterateLeaf(node, offset) :
+        iterateNode(node, level, offset);
+    }
+
+    function iterateLeaf(node, offset) {
+      var array = offset === tailPos ? tail && tail.array : node && node.array;
+      var from = offset > left ? 0 : left - offset;
+      var to = right - offset;
+      if (to > SIZE) {
+        to = SIZE;
+      }
+      return function()  {
+        if (from === to) {
+          return DONE;
+        }
+        var idx = reverse ? --to : from++;
+        return array && array[idx];
+      };
+    }
+
+    function iterateNode(node, level, offset) {
+      var values;
+      var array = node && node.array;
+      var from = offset > left ? 0 : (left - offset) >> level;
+      var to = ((right - offset) >> level) + 1;
+      if (to > SIZE) {
+        to = SIZE;
+      }
+      return function()  {
+        do {
+          if (values) {
+            var value = values();
+            if (value !== DONE) {
+              return value;
+            }
+            values = null;
+          }
+          if (from === to) {
+            return DONE;
+          }
+          var idx = reverse ? --to : from++;
+          values = iterateNodeOrLeaf(
+            array && array[idx], level - SHIFT, offset + (idx << level)
+          );
+        } while (true);
+      };
+    }
+  }
+
+  function makeList(origin, capacity, level, root, tail, ownerID, hash) {
+    var list = Object.create(ListPrototype);
+    list.size = capacity - origin;
+    list._origin = origin;
+    list._capacity = capacity;
+    list._level = level;
+    list._root = root;
+    list._tail = tail;
+    list.__ownerID = ownerID;
+    list.__hash = hash;
+    list.__altered = false;
+    return list;
+  }
+
+  var EMPTY_LIST;
+  function emptyList() {
+    return EMPTY_LIST || (EMPTY_LIST = makeList(0, 0, SHIFT));
+  }
+
+  function updateList(list, index, value) {
+    index = wrapIndex(list, index);
+
+    if (index !== index) {
+      return list;
+    }
+
+    if (index >= list.size || index < 0) {
+      return list.withMutations(function(list ) {
+        index < 0 ?
+          setListBounds(list, index).set(0, value) :
+          setListBounds(list, 0, index + 1).set(index, value)
+      });
+    }
+
+    index += list._origin;
+
+    var newTail = list._tail;
+    var newRoot = list._root;
+    var didAlter = MakeRef(DID_ALTER);
+    if (index >= getTailOffset(list._capacity)) {
+      newTail = updateVNode(newTail, list.__ownerID, 0, index, value, didAlter);
+    } else {
+      newRoot = updateVNode(newRoot, list.__ownerID, list._level, index, value, didAlter);
+    }
+
+    if (!didAlter.value) {
+      return list;
+    }
+
+    if (list.__ownerID) {
+      list._root = newRoot;
+      list._tail = newTail;
+      list.__hash = undefined;
+      list.__altered = true;
+      return list;
+    }
+    return makeList(list._origin, list._capacity, list._level, newRoot, newTail);
+  }
+
+  function updateVNode(node, ownerID, level, index, value, didAlter) {
+    var idx = (index >>> level) & MASK;
+    var nodeHas = node && idx < node.array.length;
+    if (!nodeHas && value === undefined) {
+      return node;
+    }
+
+    var newNode;
+
+    if (level > 0) {
+      var lowerNode = node && node.array[idx];
+      var newLowerNode = updateVNode(lowerNode, ownerID, level - SHIFT, index, value, didAlter);
+      if (newLowerNode === lowerNode) {
+        return node;
+      }
+      newNode = editableVNode(node, ownerID);
+      newNode.array[idx] = newLowerNode;
+      return newNode;
+    }
+
+    if (nodeHas && node.array[idx] === value) {
+      return node;
+    }
+
+    SetRef(didAlter);
+
+    newNode = editableVNode(node, ownerID);
+    if (value === undefined && idx === newNode.array.length - 1) {
+      newNode.array.pop();
+    } else {
+      newNode.array[idx] = value;
+    }
+    return newNode;
+  }
+
+  function editableVNode(node, ownerID) {
+    if (ownerID && node && ownerID === node.ownerID) {
+      return node;
+    }
+    return new VNode(node ? node.array.slice() : [], ownerID);
+  }
+
+  function listNodeFor(list, rawIndex) {
+    if (rawIndex >= getTailOffset(list._capacity)) {
+      return list._tail;
+    }
+    if (rawIndex < 1 << (list._level + SHIFT)) {
+      var node = list._root;
+      var level = list._level;
+      while (node && level > 0) {
+        node = node.array[(rawIndex >>> level) & MASK];
+        level -= SHIFT;
+      }
+      return node;
+    }
+  }
+
+  function setListBounds(list, begin, end) {
+    // Sanitize begin & end using this shorthand for ToInt32(argument)
+    // http://www.ecma-international.org/ecma-262/6.0/#sec-toint32
+    if (begin !== undefined) {
+      begin = begin | 0;
+    }
+    if (end !== undefined) {
+      end = end | 0;
+    }
+    var owner = list.__ownerID || new OwnerID();
+    var oldOrigin = list._origin;
+    var oldCapacity = list._capacity;
+    var newOrigin = oldOrigin + begin;
+    var newCapacity = end === undefined ? oldCapacity : end < 0 ? oldCapacity + end : oldOrigin + end;
+    if (newOrigin === oldOrigin && newCapacity === oldCapacity) {
+      return list;
+    }
+
+    // If it's going to end after it starts, it's empty.
+    if (newOrigin >= newCapacity) {
+      return list.clear();
+    }
+
+    var newLevel = list._level;
+    var newRoot = list._root;
+
+    // New origin might need creating a higher root.
+    var offsetShift = 0;
+    while (newOrigin + offsetShift < 0) {
+      newRoot = new VNode(newRoot && newRoot.array.length ? [undefined, newRoot] : [], owner);
+      newLevel += SHIFT;
+      offsetShift += 1 << newLevel;
+    }
+    if (offsetShift) {
+      newOrigin += offsetShift;
+      oldOrigin += offsetShift;
+      newCapacity += offsetShift;
+      oldCapacity += offsetShift;
+    }
+
+    var oldTailOffset = getTailOffset(oldCapacity);
+    var newTailOffset = getTailOffset(newCapacity);
+
+    // New size might need creating a higher root.
+    while (newTailOffset >= 1 << (newLevel + SHIFT)) {
+      newRoot = new VNode(newRoot && newRoot.array.length ? [newRoot] : [], owner);
+      newLevel += SHIFT;
+    }
+
+    // Locate or create the new tail.
+    var oldTail = list._tail;
+    var newTail = newTailOffset < oldTailOffset ?
+      listNodeFor(list, newCapacity - 1) :
+      newTailOffset > oldTailOffset ? new VNode([], owner) : oldTail;
+
+    // Merge Tail into tree.
+    if (oldTail && newTailOffset > oldTailOffset && newOrigin < oldCapacity && oldTail.array.length) {
+      newRoot = editableVNode(newRoot, owner);
+      var node = newRoot;
+      for (var level = newLevel; level > SHIFT; level -= SHIFT) {
+        var idx = (oldTailOffset >>> level) & MASK;
+        node = node.array[idx] = editableVNode(node.array[idx], owner);
+      }
+      node.array[(oldTailOffset >>> SHIFT) & MASK] = oldTail;
+    }
+
+    // If the size has been reduced, there's a chance the tail needs to be trimmed.
+    if (newCapacity < oldCapacity) {
+      newTail = newTail && newTail.removeAfter(owner, 0, newCapacity);
+    }
+
+    // If the new origin is within the tail, then we do not need a root.
+    if (newOrigin >= newTailOffset) {
+      newOrigin -= newTailOffset;
+      newCapacity -= newTailOffset;
+      newLevel = SHIFT;
+      newRoot = null;
+      newTail = newTail && newTail.removeBefore(owner, 0, newOrigin);
+
+    // Otherwise, if the root has been trimmed, garbage collect.
+    } else if (newOrigin > oldOrigin || newTailOffset < oldTailOffset) {
+      offsetShift = 0;
+
+      // Identify the new top root node of the subtree of the old root.
+      while (newRoot) {
+        var beginIndex = (newOrigin >>> newLevel) & MASK;
+        if (beginIndex !== (newTailOffset >>> newLevel) & MASK) {
+          break;
+        }
+        if (beginIndex) {
+          offsetShift += (1 << newLevel) * beginIndex;
+        }
+        newLevel -= SHIFT;
+        newRoot = newRoot.array[beginIndex];
+      }
+
+      // Trim the new sides of the new root.
+      if (newRoot && newOrigin > oldOrigin) {
+        newRoot = newRoot.removeBefore(owner, newLevel, newOrigin - offsetShift);
+      }
+      if (newRoot && newTailOffset < oldTailOffset) {
+        newRoot = newRoot.removeAfter(owner, newLevel, newTailOffset - offsetShift);
+      }
+      if (offsetShift) {
+        newOrigin -= offsetShift;
+        newCapacity -= offsetShift;
+      }
+    }
+
+    if (list.__ownerID) {
+      list.size = newCapacity - newOrigin;
+      list._origin = newOrigin;
+      list._capacity = newCapacity;
+      list._level = newLevel;
+      list._root = newRoot;
+      list._tail = newTail;
+      list.__hash = undefined;
+      list.__altered = true;
+      return list;
+    }
+    return makeList(newOrigin, newCapacity, newLevel, newRoot, newTail);
+  }
+
+  function mergeIntoListWith(list, merger, iterables) {
+    var iters = [];
+    var maxSize = 0;
+    for (var ii = 0; ii < iterables.length; ii++) {
+      var value = iterables[ii];
+      var iter = IndexedIterable(value);
+      if (iter.size > maxSize) {
+        maxSize = iter.size;
+      }
+      if (!isIterable(value)) {
+        iter = iter.map(function(v ) {return fromJS(v)});
+      }
+      iters.push(iter);
+    }
+    if (maxSize > list.size) {
+      list = list.setSize(maxSize);
+    }
+    return mergeIntoCollectionWith(list, merger, iters);
+  }
+
+  function getTailOffset(size) {
+    return size < SIZE ? 0 : (((size - 1) >>> SHIFT) << SHIFT);
+  }
+
+  createClass(OrderedMap, Map);
+
+    // @pragma Construction
+
+    function OrderedMap(value) {
+      return value === null || value === undefined ? emptyOrderedMap() :
+        isOrderedMap(value) ? value :
+        emptyOrderedMap().withMutations(function(map ) {
+          var iter = KeyedIterable(value);
+          assertNotInfinite(iter.size);
+          iter.forEach(function(v, k)  {return map.set(k, v)});
+        });
+    }
+
+    OrderedMap.of = function(/*...values*/) {
+      return this(arguments);
+    };
+
+    OrderedMap.prototype.toString = function() {
+      return this.__toString('OrderedMap {', '}');
+    };
+
+    // @pragma Access
+
+    OrderedMap.prototype.get = function(k, notSetValue) {
+      var index = this._map.get(k);
+      return index !== undefined ? this._list.get(index)[1] : notSetValue;
+    };
+
+    // @pragma Modification
+
+    OrderedMap.prototype.clear = function() {
+      if (this.size === 0) {
+        return this;
+      }
+      if (this.__ownerID) {
+        this.size = 0;
+        this._map.clear();
+        this._list.clear();
+        return this;
+      }
+      return emptyOrderedMap();
+    };
+
+    OrderedMap.prototype.set = function(k, v) {
+      return updateOrderedMap(this, k, v);
+    };
+
+    OrderedMap.prototype.remove = function(k) {
+      return updateOrderedMap(this, k, NOT_SET);
+    };
+
+    OrderedMap.prototype.wasAltered = function() {
+      return this._map.wasAltered() || this._list.wasAltered();
+    };
+
+    OrderedMap.prototype.__iterate = function(fn, reverse) {var this$0 = this;
+      return this._list.__iterate(
+        function(entry ) {return entry && fn(entry[1], entry[0], this$0)},
+        reverse
+      );
+    };
+
+    OrderedMap.prototype.__iterator = function(type, reverse) {
+      return this._list.fromEntrySeq().__iterator(type, reverse);
+    };
+
+    OrderedMap.prototype.__ensureOwner = function(ownerID) {
+      if (ownerID === this.__ownerID) {
+        return this;
+      }
+      var newMap = this._map.__ensureOwner(ownerID);
+      var newList = this._list.__ensureOwner(ownerID);
+      if (!ownerID) {
+        this.__ownerID = ownerID;
+        this._map = newMap;
+        this._list = newList;
+        return this;
+      }
+      return makeOrderedMap(newMap, newList, ownerID, this.__hash);
+    };
+
+
+  function isOrderedMap(maybeOrderedMap) {
+    return isMap(maybeOrderedMap) && isOrdered(maybeOrderedMap);
+  }
+
+  OrderedMap.isOrderedMap = isOrderedMap;
+
+  OrderedMap.prototype[IS_ORDERED_SENTINEL] = true;
+  OrderedMap.prototype[DELETE] = OrderedMap.prototype.remove;
+
+
+
+  function makeOrderedMap(map, list, ownerID, hash) {
+    var omap = Object.create(OrderedMap.prototype);
+    omap.size = map ? map.size : 0;
+    omap._map = map;
+    omap._list = list;
+    omap.__ownerID = ownerID;
+    omap.__hash = hash;
+    return omap;
+  }
+
+  var EMPTY_ORDERED_MAP;
+  function emptyOrderedMap() {
+    return EMPTY_ORDERED_MAP || (EMPTY_ORDERED_MAP = makeOrderedMap(emptyMap(), emptyList()));
+  }
+
+  function updateOrderedMap(omap, k, v) {
+    var map = omap._map;
+    var list = omap._list;
+    var i = map.get(k);
+    var has = i !== undefined;
+    var newMap;
+    var newList;
+    if (v === NOT_SET) { // removed
+      if (!has) {
+        return omap;
+      }
+      if (list.size >= SIZE && list.size >= map.size * 2) {
+        newList = list.filter(function(entry, idx)  {return entry !== undefined && i !== idx});
+        newMap = newList.toKeyedSeq().map(function(entry ) {return entry[0]}).flip().toMap();
+        if (omap.__ownerID) {
+          newMap.__ownerID = newList.__ownerID = omap.__ownerID;
+        }
+      } else {
+        newMap = map.remove(k);
+        newList = i === list.size - 1 ? list.pop() : list.set(i, undefined);
+      }
+    } else {
+      if (has) {
+        if (v === list.get(i)[1]) {
+          return omap;
+        }
+        newMap = map;
+        newList = list.set(i, [k, v]);
+      } else {
+        newMap = map.set(k, list.size);
+        newList = list.set(list.size, [k, v]);
+      }
+    }
+    if (omap.__ownerID) {
+      omap.size = newMap.size;
+      omap._map = newMap;
+      omap._list = newList;
+      omap.__hash = undefined;
+      return omap;
+    }
+    return makeOrderedMap(newMap, newList);
+  }
+
+  createClass(ToKeyedSequence, KeyedSeq);
+    function ToKeyedSequence(indexed, useKeys) {
+      this._iter = indexed;
+      this._useKeys = useKeys;
+      this.size = indexed.size;
+    }
+
+    ToKeyedSequence.prototype.get = function(key, notSetValue) {
+      return this._iter.get(key, notSetValue);
+    };
+
+    ToKeyedSequence.prototype.has = function(key) {
+      return this._iter.has(key);
+    };
+
+    ToKeyedSequence.prototype.valueSeq = function() {
+      return this._iter.valueSeq();
+    };
+
+    ToKeyedSequence.prototype.reverse = function() {var this$0 = this;
+      var reversedSequence = reverseFactory(this, true);
+      if (!this._useKeys) {
+        reversedSequence.valueSeq = function()  {return this$0._iter.toSeq().reverse()};
+      }
+      return reversedSequence;
+    };
+
+    ToKeyedSequence.prototype.map = function(mapper, context) {var this$0 = this;
+      var mappedSequence = mapFactory(this, mapper, context);
+      if (!this._useKeys) {
+        mappedSequence.valueSeq = function()  {return this$0._iter.toSeq().map(mapper, context)};
+      }
+      return mappedSequence;
+    };
+
+    ToKeyedSequence.prototype.__iterate = function(fn, reverse) {var this$0 = this;
+      var ii;
+      return this._iter.__iterate(
+        this._useKeys ?
+          function(v, k)  {return fn(v, k, this$0)} :
+          ((ii = reverse ? resolveSize(this) : 0),
+            function(v ) {return fn(v, reverse ? --ii : ii++, this$0)}),
+        reverse
+      );
+    };
+
+    ToKeyedSequence.prototype.__iterator = function(type, reverse) {
+      if (this._useKeys) {
+        return this._iter.__iterator(type, reverse);
+      }
+      var iterator = this._iter.__iterator(ITERATE_VALUES, reverse);
+      var ii = reverse ? resolveSize(this) : 0;
+      return new Iterator(function()  {
+        var step = iterator.next();
+        return step.done ? step :
+          iteratorValue(type, reverse ? --ii : ii++, step.value, step);
+      });
+    };
+
+  ToKeyedSequence.prototype[IS_ORDERED_SENTINEL] = true;
+
+
+  createClass(ToIndexedSequence, IndexedSeq);
+    function ToIndexedSequence(iter) {
+      this._iter = iter;
+      this.size = iter.size;
+    }
+
+    ToIndexedSequence.prototype.includes = function(value) {
+      return this._iter.includes(value);
+    };
+
+    ToIndexedSequence.prototype.__iterate = function(fn, reverse) {var this$0 = this;
+      var iterations = 0;
+      return this._iter.__iterate(function(v ) {return fn(v, iterations++, this$0)}, reverse);
+    };
+
+    ToIndexedSequence.prototype.__iterator = function(type, reverse) {
+      var iterator = this._iter.__iterator(ITERATE_VALUES, reverse);
+      var iterations = 0;
+      return new Iterator(function()  {
+        var step = iterator.next();
+        return step.done ? step :
+          iteratorValue(type, iterations++, step.value, step)
+      });
+    };
+
+
+
+  createClass(ToSetSequence, SetSeq);
+    function ToSetSequence(iter) {
+      this._iter = iter;
+      this.size = iter.size;
+    }
+
+    ToSetSequence.prototype.has = function(key) {
+      return this._iter.includes(key);
+    };
+
+    ToSetSequence.prototype.__iterate = function(fn, reverse) {var this$0 = this;
+      return this._iter.__iterate(function(v ) {return fn(v, v, this$0)}, reverse);
+    };
+
+    ToSetSequence.prototype.__iterator = function(type, reverse) {
+      var iterator = this._iter.__iterator(ITERATE_VALUES, reverse);
+      return new Iterator(function()  {
+        var step = iterator.next();
+        return step.done ? step :
+          iteratorValue(type, step.value, step.value, step);
+      });
+    };
+
+
+
+  createClass(FromEntriesSequence, KeyedSeq);
+    function FromEntriesSequence(entries) {
+      this._iter = entries;
+      this.size = entries.size;
+    }
+
+    FromEntriesSequence.prototype.entrySeq = function() {
+      return this._iter.toSeq();
+    };
+
+    FromEntriesSequence.prototype.__iterate = function(fn, reverse) {var this$0 = this;
+      return this._iter.__iterate(function(entry ) {
+        // Check if entry exists first so array access doesn't throw for holes
+        // in the parent iteration.
+        if (entry) {
+          validateEntry(entry);
+          var indexedIterable = isIterable(entry);
+          return fn(
+            indexedIterable ? entry.get(1) : entry[1],
+            indexedIterable ? entry.get(0) : entry[0],
+            this$0
+          );
+        }
+      }, reverse);
+    };
+
+    FromEntriesSequence.prototype.__iterator = function(type, reverse) {
+      var iterator = this._iter.__iterator(ITERATE_VALUES, reverse);
+      return new Iterator(function()  {
+        while (true) {
+          var step = iterator.next();
+          if (step.done) {
+            return step;
+          }
+          var entry = step.value;
+          // Check if entry exists first so array access doesn't throw for holes
+          // in the parent iteration.
+          if (entry) {
+            validateEntry(entry);
+            var indexedIterable = isIterable(entry);
+            return iteratorValue(
+              type,
+              indexedIterable ? entry.get(0) : entry[0],
+              indexedIterable ? entry.get(1) : entry[1],
+              step
+            );
+          }
+        }
+      });
+    };
+
+
+  ToIndexedSequence.prototype.cacheResult =
+  ToKeyedSequence.prototype.cacheResult =
+  ToSetSequence.prototype.cacheResult =
+  FromEntriesSequence.prototype.cacheResult =
+    cacheResultThrough;
+
+
+  function flipFactory(iterable) {
+    var flipSequence = makeSequence(iterable);
+    flipSequence._iter = iterable;
+    flipSequence.size = iterable.size;
+    flipSequence.flip = function()  {return iterable};
+    flipSequence.reverse = function () {
+      var reversedSequence = iterable.reverse.apply(this); // super.reverse()
+      reversedSequence.flip = function()  {return iterable.reverse()};
+      return reversedSequence;
+    };
+    flipSequence.has = function(key ) {return iterable.includes(key)};
+    flipSequence.includes = function(key ) {return iterable.has(key)};
+    flipSequence.cacheResult = cacheResultThrough;
+    flipSequence.__iterateUncached = function (fn, reverse) {var this$0 = this;
+      return iterable.__iterate(function(v, k)  {return fn(k, v, this$0) !== false}, reverse);
+    }
+    flipSequence.__iteratorUncached = function(type, reverse) {
+      if (type === ITERATE_ENTRIES) {
+        var iterator = iterable.__iterator(type, reverse);
+        return new Iterator(function()  {
+          var step = iterator.next();
+          if (!step.done) {
+            var k = step.value[0];
+            step.value[0] = step.value[1];
+            step.value[1] = k;
+          }
+          return step;
+        });
+      }
+      return iterable.__iterator(
+        type === ITERATE_VALUES ? ITERATE_KEYS : ITERATE_VALUES,
+        reverse
+      );
+    }
+    return flipSequence;
+  }
+
+
+  function mapFactory(iterable, mapper, context) {
+    var mappedSequence = makeSequence(iterable);
+    mappedSequence.size = iterable.size;
+    mappedSequence.has = function(key ) {return iterable.has(key)};
+    mappedSequence.get = function(key, notSetValue)  {
+      var v = iterable.get(key, NOT_SET);
+      return v === NOT_SET ?
+        notSetValue :
+        mapper.call(context, v, key, iterable);
+    };
+    mappedSequence.__iterateUncached = function (fn, reverse) {var this$0 = this;
+      return iterable.__iterate(
+        function(v, k, c)  {return fn(mapper.call(context, v, k, c), k, this$0) !== false},
+        reverse
+      );
+    }
+    mappedSequence.__iteratorUncached = function (type, reverse) {
+      var iterator = iterable.__iterator(ITERATE_ENTRIES, reverse);
+      return new Iterator(function()  {
+        var step = iterator.next();
+        if (step.done) {
+          return step;
+        }
+        var entry = step.value;
+        var key = entry[0];
+        return iteratorValue(
+          type,
+          key,
+          mapper.call(context, entry[1], key, iterable),
+          step
+        );
+      });
+    }
+    return mappedSequence;
+  }
+
+
+  function reverseFactory(iterable, useKeys) {
+    var reversedSequence = makeSequence(iterable);
+    reversedSequence._iter = iterable;
+    reversedSequence.size = iterable.size;
+    reversedSequence.reverse = function()  {return iterable};
+    if (iterable.flip) {
+      reversedSequence.flip = function () {
+        var flipSequence = flipFactory(iterable);
+        flipSequence.reverse = function()  {return iterable.flip()};
+        return flipSequence;
+      };
+    }
+    reversedSequence.get = function(key, notSetValue) 
+      {return iterable.get(useKeys ? key : -1 - key, notSetValue)};
+    reversedSequence.has = function(key )
+      {return iterable.has(useKeys ? key : -1 - key)};
+    reversedSequence.includes = function(value ) {return iterable.includes(value)};
+    reversedSequence.cacheResult = cacheResultThrough;
+    reversedSequence.__iterate = function (fn, reverse) {var this$0 = this;
+      return iterable.__iterate(function(v, k)  {return fn(v, k, this$0)}, !reverse);
+    };
+    reversedSequence.__iterator =
+      function(type, reverse)  {return iterable.__iterator(type, !reverse)};
+    return reversedSequence;
+  }
+
+
+  function filterFactory(iterable, predicate, context, useKeys) {
+    var filterSequence = makeSequence(iterable);
+    if (useKeys) {
+      filterSequence.has = function(key ) {
+        var v = iterable.get(key, NOT_SET);
+        return v !== NOT_SET && !!predicate.call(context, v, key, iterable);
+      };
+      filterSequence.get = function(key, notSetValue)  {
+        var v = iterable.get(key, NOT_SET);
+        return v !== NOT_SET && predicate.call(context, v, key, iterable) ?
+          v : notSetValue;
+      };
+    }
+    filterSequence.__iterateUncached = function (fn, reverse) {var this$0 = this;
+      var iterations = 0;
+      iterable.__iterate(function(v, k, c)  {
+        if (predicate.call(context, v, k, c)) {
+          iterations++;
+          return fn(v, useKeys ? k : iterations - 1, this$0);
+        }
+      }, reverse);
+      return iterations;
+    };
+    filterSequence.__iteratorUncached = function (type, reverse) {
+      var iterator = iterable.__iterator(ITERATE_ENTRIES, reverse);
+      var iterations = 0;
+      return new Iterator(function()  {
+        while (true) {
+          var step = iterator.next();
+          if (step.done) {
+            return step;
+          }
+          var entry = step.value;
+          var key = entry[0];
+          var value = entry[1];
+          if (predicate.call(context, value, key, iterable)) {
+            return iteratorValue(type, useKeys ? key : iterations++, value, step);
+          }
+        }
+      });
+    }
+    return filterSequence;
+  }
+
+
+  function countByFactory(iterable, grouper, context) {
+    var groups = Map().asMutable();
+    iterable.__iterate(function(v, k)  {
+      groups.update(
+        grouper.call(context, v, k, iterable),
+        0,
+        function(a ) {return a + 1}
+      );
+    });
+    return groups.asImmutable();
+  }
+
+
+  function groupByFactory(iterable, grouper, context) {
+    var isKeyedIter = isKeyed(iterable);
+    var groups = (isOrdered(iterable) ? OrderedMap() : Map()).asMutable();
+    iterable.__iterate(function(v, k)  {
+      groups.update(
+        grouper.call(context, v, k, iterable),
+        function(a ) {return (a = a || [], a.push(isKeyedIter ? [k, v] : v), a)}
+      );
+    });
+    var coerce = iterableClass(iterable);
+    return groups.map(function(arr ) {return reify(iterable, coerce(arr))});
+  }
+
+
+  function sliceFactory(iterable, begin, end, useKeys) {
+    var originalSize = iterable.size;
+
+    // Sanitize begin & end using this shorthand for ToInt32(argument)
+    // http://www.ecma-international.org/ecma-262/6.0/#sec-toint32
+    if (begin !== undefined) {
+      begin = begin | 0;
+    }
+    if (end !== undefined) {
+      if (end === Infinity) {
+        end = originalSize;
+      } else {
+        end = end | 0;
+      }
+    }
+
+    if (wholeSlice(begin, end, originalSize)) {
+      return iterable;
+    }
+
+    var resolvedBegin = resolveBegin(begin, originalSize);
+    var resolvedEnd = resolveEnd(end, originalSize);
+
+    // begin or end will be NaN if they were provided as negative numbers and
+    // this iterable's size is unknown. In that case, cache first so there is
+    // a known size and these do not resolve to NaN.
+    if (resolvedBegin !== resolvedBegin || resolvedEnd !== resolvedEnd) {
+      return sliceFactory(iterable.toSeq().cacheResult(), begin, end, useKeys);
+    }
+
+    // Note: resolvedEnd is undefined when the original sequence's length is
+    // unknown and this slice did not supply an end and should contain all
+    // elements after resolvedBegin.
+    // In that case, resolvedSize will be NaN and sliceSize will remain undefined.
+    var resolvedSize = resolvedEnd - resolvedBegin;
+    var sliceSize;
+    if (resolvedSize === resolvedSize) {
+      sliceSize = resolvedSize < 0 ? 0 : resolvedSize;
+    }
+
+    var sliceSeq = makeSequence(iterable);
+
+    // If iterable.size is undefined, the size of the realized sliceSeq is
+    // unknown at this point unless the number of items to slice is 0
+    sliceSeq.size = sliceSize === 0 ? sliceSize : iterable.size && sliceSize || undefined;
+
+    if (!useKeys && isSeq(iterable) && sliceSize >= 0) {
+      sliceSeq.get = function (index, notSetValue) {
+        index = wrapIndex(this, index);
+        return index >= 0 && index < sliceSize ?
+          iterable.get(index + resolvedBegin, notSetValue) :
+          notSetValue;
+      }
+    }
+
+    sliceSeq.__iterateUncached = function(fn, reverse) {var this$0 = this;
+      if (sliceSize === 0) {
+        return 0;
+      }
+      if (reverse) {
+        return this.cacheResult().__iterate(fn, reverse);
+      }
+      var skipped = 0;
+      var isSkipping = true;
+      var iterations = 0;
+      iterable.__iterate(function(v, k)  {
+        if (!(isSkipping && (isSkipping = skipped++ < resolvedBegin))) {
+          iterations++;
+          return fn(v, useKeys ? k : iterations - 1, this$0) !== false &&
+                 iterations !== sliceSize;
+        }
+      });
+      return iterations;
+    };
+
+    sliceSeq.__iteratorUncached = function(type, reverse) {
+      if (sliceSize !== 0 && reverse) {
+        return this.cacheResult().__iterator(type, reverse);
+      }
+      // Don't bother instantiating parent iterator if taking 0.
+      var iterator = sliceSize !== 0 && iterable.__iterator(type, reverse);
+      var skipped = 0;
+      var iterations = 0;
+      return new Iterator(function()  {
+        while (skipped++ < resolvedBegin) {
+          iterator.next();
+        }
+        if (++iterations > sliceSize) {
+          return iteratorDone();
+        }
+        var step = iterator.next();
+        if (useKeys || type === ITERATE_VALUES) {
+          return step;
+        } else if (type === ITERATE_KEYS) {
+          return iteratorValue(type, iterations - 1, undefined, step);
+        } else {
+          return iteratorValue(type, iterations - 1, step.value[1], step);
+        }
+      });
+    }
+
+    return sliceSeq;
+  }
+
+
+  function takeWhileFactory(iterable, predicate, context) {
+    var takeSequence = makeSequence(iterable);
+    takeSequence.__iterateUncached = function(fn, reverse) {var this$0 = this;
+      if (reverse) {
+        return this.cacheResult().__iterate(fn, reverse);
+      }
+      var iterations = 0;
+      iterable.__iterate(function(v, k, c) 
+        {return predicate.call(context, v, k, c) && ++iterations && fn(v, k, this$0)}
+      );
+      return iterations;
+    };
+    takeSequence.__iteratorUncached = function(type, reverse) {var this$0 = this;
+      if (reverse) {
+        return this.cacheResult().__iterator(type, reverse);
+      }
+      var iterator = iterable.__iterator(ITERATE_ENTRIES, reverse);
+      var iterating = true;
+      return new Iterator(function()  {
+        if (!iterating) {
+          return iteratorDone();
+        }
+        var step = iterator.next();
+        if (step.done) {
+          return step;
+        }
+        var entry = step.value;
+        var k = entry[0];
+        var v = entry[1];
+        if (!predicate.call(context, v, k, this$0)) {
+          iterating = false;
+          return iteratorDone();
+        }
+        return type === ITERATE_ENTRIES ? step :
+          iteratorValue(type, k, v, step);
+      });
+    };
+    return takeSequence;
+  }
+
+
+  function skipWhileFactory(iterable, predicate, context, useKeys) {
+    var skipSequence = makeSequence(iterable);
+    skipSequence.__iterateUncached = function (fn, reverse) {var this$0 = this;
+      if (reverse) {
+        return this.cacheResult().__iterate(fn, reverse);
+      }
+      var isSkipping = true;
+      var iterations = 0;
+      iterable.__iterate(function(v, k, c)  {
+        if (!(isSkipping && (isSkipping = predicate.call(context, v, k, c)))) {
+          iterations++;
+          return fn(v, useKeys ? k : iterations - 1, this$0);
+        }
+      });
+      return iterations;
+    };
+    skipSequence.__iteratorUncached = function(type, reverse) {var this$0 = this;
+      if (reverse) {
+        return this.cacheResult().__iterator(type, reverse);
+      }
+      var iterator = iterable.__iterator(ITERATE_ENTRIES, reverse);
+      var skipping = true;
+      var iterations = 0;
+      return new Iterator(function()  {
+        var step, k, v;
+        do {
+          step = iterator.next();
+          if (step.done) {
+            if (useKeys || type === ITERATE_VALUES) {
+              return step;
+            } else if (type === ITERATE_KEYS) {
+              return iteratorValue(type, iterations++, undefined, step);
+            } else {
+              return iteratorValue(type, iterations++, step.value[1], step);
+            }
+          }
+          var entry = step.value;
+          k = entry[0];
+          v = entry[1];
+          skipping && (skipping = predicate.call(context, v, k, this$0));
+        } while (skipping);
+        return type === ITERATE_ENTRIES ? step :
+          iteratorValue(type, k, v, step);
+      });
+    };
+    return skipSequence;
+  }
+
+
+  function concatFactory(iterable, values) {
+    var isKeyedIterable = isKeyed(iterable);
+    var iters = [iterable].concat(values).map(function(v ) {
+      if (!isIterable(v)) {
+        v = isKeyedIterable ?
+          keyedSeqFromValue(v) :
+          indexedSeqFromValue(Array.isArray(v) ? v : [v]);
+      } else if (isKeyedIterable) {
+        v = KeyedIterable(v);
+      }
+      return v;
+    }).filter(function(v ) {return v.size !== 0});
+
+    if (iters.length === 0) {
+      return iterable;
+    }
+
+    if (iters.length === 1) {
+      var singleton = iters[0];
+      if (singleton === iterable ||
+          isKeyedIterable && isKeyed(singleton) ||
+          isIndexed(iterable) && isIndexed(singleton)) {
+        return singleton;
+      }
+    }
+
+    var concatSeq = new ArraySeq(iters);
+    if (isKeyedIterable) {
+      concatSeq = concatSeq.toKeyedSeq();
+    } else if (!isIndexed(iterable)) {
+      concatSeq = concatSeq.toSetSeq();
+    }
+    concatSeq = concatSeq.flatten(true);
+    concatSeq.size = iters.reduce(
+      function(sum, seq)  {
+        if (sum !== undefined) {
+          var size = seq.size;
+          if (size !== undefined) {
+            return sum + size;
+          }
+        }
+      },
+      0
+    );
+    return concatSeq;
+  }
+
+
+  function flattenFactory(iterable, depth, useKeys) {
+    var flatSequence = makeSequence(iterable);
+    flatSequence.__iterateUncached = function(fn, reverse) {
+      var iterations = 0;
+      var stopped = false;
+      function flatDeep(iter, currentDepth) {var this$0 = this;
+        iter.__iterate(function(v, k)  {
+          if ((!depth || currentDepth < depth) && isIterable(v)) {
+            flatDeep(v, currentDepth + 1);
+          } else if (fn(v, useKeys ? k : iterations++, this$0) === false) {
+            stopped = true;
+          }
+          return !stopped;
+        }, reverse);
+      }
+      flatDeep(iterable, 0);
+      return iterations;
+    }
+    flatSequence.__iteratorUncached = function(type, reverse) {
+      var iterator = iterable.__iterator(type, reverse);
+      var stack = [];
+      var iterations = 0;
+      return new Iterator(function()  {
+        while (iterator) {
+          var step = iterator.next();
+          if (step.done !== false) {
+            iterator = stack.pop();
+            continue;
+          }
+          var v = step.value;
+          if (type === ITERATE_ENTRIES) {
+            v = v[1];
+          }
+          if ((!depth || stack.length < depth) && isIterable(v)) {
+            stack.push(iterator);
+            iterator = v.__iterator(type, reverse);
+          } else {
+            return useKeys ? step : iteratorValue(type, iterations++, v, step);
+          }
+        }
+        return iteratorDone();
+      });
+    }
+    return flatSequence;
+  }
+
+
+  function flatMapFactory(iterable, mapper, context) {
+    var coerce = iterableClass(iterable);
+    return iterable.toSeq().map(
+      function(v, k)  {return coerce(mapper.call(context, v, k, iterable))}
+    ).flatten(true);
+  }
+
+
+  function interposeFactory(iterable, separator) {
+    var interposedSequence = makeSequence(iterable);
+    interposedSequence.size = iterable.size && iterable.size * 2 -1;
+    interposedSequence.__iterateUncached = function(fn, reverse) {var this$0 = this;
+      var iterations = 0;
+      iterable.__iterate(function(v, k) 
+        {return (!iterations || fn(separator, iterations++, this$0) !== false) &&
+        fn(v, iterations++, this$0) !== false},
+        reverse
+      );
+      return iterations;
+    };
+    interposedSequence.__iteratorUncached = function(type, reverse) {
+      var iterator = iterable.__iterator(ITERATE_VALUES, reverse);
+      var iterations = 0;
+      var step;
+      return new Iterator(function()  {
+        if (!step || iterations % 2) {
+          step = iterator.next();
+          if (step.done) {
+            return step;
+          }
+        }
+        return iterations % 2 ?
+          iteratorValue(type, iterations++, separator) :
+          iteratorValue(type, iterations++, step.value, step);
+      });
+    };
+    return interposedSequence;
+  }
+
+
+  function sortFactory(iterable, comparator, mapper) {
+    if (!comparator) {
+      comparator = defaultComparator;
+    }
+    var isKeyedIterable = isKeyed(iterable);
+    var index = 0;
+    var entries = iterable.toSeq().map(
+      function(v, k)  {return [k, v, index++, mapper ? mapper(v, k, iterable) : v]}
+    ).toArray();
+    entries.sort(function(a, b)  {return comparator(a[3], b[3]) || a[2] - b[2]}).forEach(
+      isKeyedIterable ?
+      function(v, i)  { entries[i].length = 2; } :
+      function(v, i)  { entries[i] = v[1]; }
+    );
+    return isKeyedIterable ? KeyedSeq(entries) :
+      isIndexed(iterable) ? IndexedSeq(entries) :
+      SetSeq(entries);
+  }
+
+
+  function maxFactory(iterable, comparator, mapper) {
+    if (!comparator) {
+      comparator = defaultComparator;
+    }
+    if (mapper) {
+      var entry = iterable.toSeq()
+        .map(function(v, k)  {return [v, mapper(v, k, iterable)]})
+        .reduce(function(a, b)  {return maxCompare(comparator, a[1], b[1]) ? b : a});
+      return entry && entry[0];
+    } else {
+      return iterable.reduce(function(a, b)  {return maxCompare(comparator, a, b) ? b : a});
+    }
+  }
+
+  function maxCompare(comparator, a, b) {
+    var comp = comparator(b, a);
+    // b is considered the new max if the comparator declares them equal, but
+    // they are not equal and b is in fact a nullish value.
+    return (comp === 0 && b !== a && (b === undefined || b === null || b !== b)) || comp > 0;
+  }
+
+
+  function zipWithFactory(keyIter, zipper, iters) {
+    var zipSequence = makeSequence(keyIter);
+    zipSequence.size = new ArraySeq(iters).map(function(i ) {return i.size}).min();
+    // Note: this a generic base implementation of __iterate in terms of
+    // __iterator which may be more generically useful in the future.
+    zipSequence.__iterate = function(fn, reverse) {
+      /* generic:
+      var iterator = this.__iterator(ITERATE_ENTRIES, reverse);
+      var step;
+      var iterations = 0;
+      while (!(step = iterator.next()).done) {
+        iterations++;
+        if (fn(step.value[1], step.value[0], this) === false) {
+          break;
+        }
+      }
+      return iterations;
+      */
+      // indexed:
+      var iterator = this.__iterator(ITERATE_VALUES, reverse);
+      var step;
+      var iterations = 0;
+      while (!(step = iterator.next()).done) {
+        if (fn(step.value, iterations++, this) === false) {
+          break;
+        }
+      }
+      return iterations;
+    };
+    zipSequence.__iteratorUncached = function(type, reverse) {
+      var iterators = iters.map(function(i )
+        {return (i = Iterable(i), getIterator(reverse ? i.reverse() : i))}
+      );
+      var iterations = 0;
+      var isDone = false;
+      return new Iterator(function()  {
+        var steps;
+        if (!isDone) {
+          steps = iterators.map(function(i ) {return i.next()});
+          isDone = steps.some(function(s ) {return s.done});
+        }
+        if (isDone) {
+          return iteratorDone();
+        }
+        return iteratorValue(
+          type,
+          iterations++,
+          zipper.apply(null, steps.map(function(s ) {return s.value}))
+        );
+      });
+    };
+    return zipSequence
+  }
+
+
+  // #pragma Helper Functions
+
+  function reify(iter, seq) {
+    return isSeq(iter) ? seq : iter.constructor(seq);
+  }
+
+  function validateEntry(entry) {
+    if (entry !== Object(entry)) {
+      throw new TypeError('Expected [K, V] tuple: ' + entry);
+    }
+  }
+
+  function resolveSize(iter) {
+    assertNotInfinite(iter.size);
+    return ensureSize(iter);
+  }
+
+  function iterableClass(iterable) {
+    return isKeyed(iterable) ? KeyedIterable :
+      isIndexed(iterable) ? IndexedIterable :
+      SetIterable;
+  }
+
+  function makeSequence(iterable) {
+    return Object.create(
+      (
+        isKeyed(iterable) ? KeyedSeq :
+        isIndexed(iterable) ? IndexedSeq :
+        SetSeq
+      ).prototype
+    );
+  }
+
+  function cacheResultThrough() {
+    if (this._iter.cacheResult) {
+      this._iter.cacheResult();
+      this.size = this._iter.size;
+      return this;
+    } else {
+      return Seq.prototype.cacheResult.call(this);
+    }
+  }
+
+  function defaultComparator(a, b) {
+    return a > b ? 1 : a < b ? -1 : 0;
+  }
+
+  function forceIterator(keyPath) {
+    var iter = getIterator(keyPath);
+    if (!iter) {
+      // Array might not be iterable in this environment, so we need a fallback
+      // to our wrapped type.
+      if (!isArrayLike(keyPath)) {
+        throw new TypeError('Expected iterable or array-like: ' + keyPath);
+      }
+      iter = getIterator(Iterable(keyPath));
+    }
+    return iter;
+  }
+
+  createClass(Record, KeyedCollection);
+
+    function Record(defaultValues, name) {
+      var hasInitialized;
+
+      var RecordType = function Record(values) {
+        if (values instanceof RecordType) {
+          return values;
+        }
+        if (!(this instanceof RecordType)) {
+          return new RecordType(values);
+        }
+        if (!hasInitialized) {
+          hasInitialized = true;
+          var keys = Object.keys(defaultValues);
+          setProps(RecordTypePrototype, keys);
+          RecordTypePrototype.size = keys.length;
+          RecordTypePrototype._name = name;
+          RecordTypePrototype._keys = keys;
+          RecordTypePrototype._defaultValues = defaultValues;
+        }
+        this._map = Map(values);
+      };
+
+      var RecordTypePrototype = RecordType.prototype = Object.create(RecordPrototype);
+      RecordTypePrototype.constructor = RecordType;
+
+      return RecordType;
+    }
+
+    Record.prototype.toString = function() {
+      return this.__toString(recordName(this) + ' {', '}');
+    };
+
+    // @pragma Access
+
+    Record.prototype.has = function(k) {
+      return this._defaultValues.hasOwnProperty(k);
+    };
+
+    Record.prototype.get = function(k, notSetValue) {
+      if (!this.has(k)) {
+        return notSetValue;
+      }
+      var defaultVal = this._defaultValues[k];
+      return this._map ? this._map.get(k, defaultVal) : defaultVal;
+    };
+
+    // @pragma Modification
+
+    Record.prototype.clear = function() {
+      if (this.__ownerID) {
+        this._map && this._map.clear();
+        return this;
+      }
+      var RecordType = this.constructor;
+      return RecordType._empty || (RecordType._empty = makeRecord(this, emptyMap()));
+    };
+
+    Record.prototype.set = function(k, v) {
+      if (!this.has(k)) {
+        throw new Error('Cannot set unknown key "' + k + '" on ' + recordName(this));
+      }
+      if (this._map && !this._map.has(k)) {
+        var defaultVal = this._defaultValues[k];
+        if (v === defaultVal) {
+          return this;
+        }
+      }
+      var newMap = this._map && this._map.set(k, v);
+      if (this.__ownerID || newMap === this._map) {
+        return this;
+      }
+      return makeRecord(this, newMap);
+    };
+
+    Record.prototype.remove = function(k) {
+      if (!this.has(k)) {
+        return this;
+      }
+      var newMap = this._map && this._map.remove(k);
+      if (this.__ownerID || newMap === this._map) {
+        return this;
+      }
+      return makeRecord(this, newMap);
+    };
+
+    Record.prototype.wasAltered = function() {
+      return this._map.wasAltered();
+    };
+
+    Record.prototype.__iterator = function(type, reverse) {var this$0 = this;
+      return KeyedIterable(this._defaultValues).map(function(_, k)  {return this$0.get(k)}).__iterator(type, reverse);
+    };
+
+    Record.prototype.__iterate = function(fn, reverse) {var this$0 = this;
+      return KeyedIterable(this._defaultValues).map(function(_, k)  {return this$0.get(k)}).__iterate(fn, reverse);
+    };
+
+    Record.prototype.__ensureOwner = function(ownerID) {
+      if (ownerID === this.__ownerID) {
+        return this;
+      }
+      var newMap = this._map && this._map.__ensureOwner(ownerID);
+      if (!ownerID) {
+        this.__ownerID = ownerID;
+        this._map = newMap;
+        return this;
+      }
+      return makeRecord(this, newMap, ownerID);
+    };
+
+
+  var RecordPrototype = Record.prototype;
+  RecordPrototype[DELETE] = RecordPrototype.remove;
+  RecordPrototype.deleteIn =
+  RecordPrototype.removeIn = MapPrototype.removeIn;
+  RecordPrototype.merge = MapPrototype.merge;
+  RecordPrototype.mergeWith = MapPrototype.mergeWith;
+  RecordPrototype.mergeIn = MapPrototype.mergeIn;
+  RecordPrototype.mergeDeep = MapPrototype.mergeDeep;
+  RecordPrototype.mergeDeepWith = MapPrototype.mergeDeepWith;
+  RecordPrototype.mergeDeepIn = MapPrototype.mergeDeepIn;
+  RecordPrototype.setIn = MapPrototype.setIn;
+  RecordPrototype.update = MapPrototype.update;
+  RecordPrototype.updateIn = MapPrototype.updateIn;
+  RecordPrototype.withMutations = MapPrototype.withMutations;
+  RecordPrototype.asMutable = MapPrototype.asMutable;
+  RecordPrototype.asImmutable = MapPrototype.asImmutable;
+
+
+  function makeRecord(likeRecord, map, ownerID) {
+    var record = Object.create(Object.getPrototypeOf(likeRecord));
+    record._map = map;
+    record.__ownerID = ownerID;
+    return record;
+  }
+
+  function recordName(record) {
+    return record._name || record.constructor.name || 'Record';
+  }
+
+  function setProps(prototype, names) {
+    try {
+      names.forEach(setProp.bind(undefined, prototype));
+    } catch (error) {
+      // Object.defineProperty failed. Probably IE8.
+    }
+  }
+
+  function setProp(prototype, name) {
+    Object.defineProperty(prototype, name, {
+      get: function() {
+        return this.get(name);
+      },
+      set: function(value) {
+        invariant(this.__ownerID, 'Cannot set on an immutable record.');
+        this.set(name, value);
+      }
+    });
+  }
+
+  createClass(Set, SetCollection);
+
+    // @pragma Construction
+
+    function Set(value) {
+      return value === null || value === undefined ? emptySet() :
+        isSet(value) && !isOrdered(value) ? value :
+        emptySet().withMutations(function(set ) {
+          var iter = SetIterable(value);
+          assertNotInfinite(iter.size);
+          iter.forEach(function(v ) {return set.add(v)});
+        });
+    }
+
+    Set.of = function(/*...values*/) {
+      return this(arguments);
+    };
+
+    Set.fromKeys = function(value) {
+      return this(KeyedIterable(value).keySeq());
+    };
+
+    Set.prototype.toString = function() {
+      return this.__toString('Set {', '}');
+    };
+
+    // @pragma Access
+
+    Set.prototype.has = function(value) {
+      return this._map.has(value);
+    };
+
+    // @pragma Modification
+
+    Set.prototype.add = function(value) {
+      return updateSet(this, this._map.set(value, true));
+    };
+
+    Set.prototype.remove = function(value) {
+      return updateSet(this, this._map.remove(value));
+    };
+
+    Set.prototype.clear = function() {
+      return updateSet(this, this._map.clear());
+    };
+
+    // @pragma Composition
+
+    Set.prototype.union = function() {var iters = SLICE$0.call(arguments, 0);
+      iters = iters.filter(function(x ) {return x.size !== 0});
+      if (iters.length === 0) {
+        return this;
+      }
+      if (this.size === 0 && !this.__ownerID && iters.length === 1) {
+        return this.constructor(iters[0]);
+      }
+      return this.withMutations(function(set ) {
+        for (var ii = 0; ii < iters.length; ii++) {
+          SetIterable(iters[ii]).forEach(function(value ) {return set.add(value)});
+        }
+      });
+    };
+
+    Set.prototype.intersect = function() {var iters = SLICE$0.call(arguments, 0);
+      if (iters.length === 0) {
+        return this;
+      }
+      iters = iters.map(function(iter ) {return SetIterable(iter)});
+      var originalSet = this;
+      return this.withMutations(function(set ) {
+        originalSet.forEach(function(value ) {
+          if (!iters.every(function(iter ) {return iter.includes(value)})) {
+            set.remove(value);
+          }
+        });
+      });
+    };
+
+    Set.prototype.subtract = function() {var iters = SLICE$0.call(arguments, 0);
+      if (iters.length === 0) {
+        return this;
+      }
+      iters = iters.map(function(iter ) {return SetIterable(iter)});
+      var originalSet = this;
+      return this.withMutations(function(set ) {
+        originalSet.forEach(function(value ) {
+          if (iters.some(function(iter ) {return iter.includes(value)})) {
+            set.remove(value);
+          }
+        });
+      });
+    };
+
+    Set.prototype.merge = function() {
+      return this.union.apply(this, arguments);
+    };
+
+    Set.prototype.mergeWith = function(merger) {var iters = SLICE$0.call(arguments, 1);
+      return this.union.apply(this, iters);
+    };
+
+    Set.prototype.sort = function(comparator) {
+      // Late binding
+      return OrderedSet(sortFactory(this, comparator));
+    };
+
+    Set.prototype.sortBy = function(mapper, comparator) {
+      // Late binding
+      return OrderedSet(sortFactory(this, comparator, mapper));
+    };
+
+    Set.prototype.wasAltered = function() {
+      return this._map.wasAltered();
+    };
+
+    Set.prototype.__iterate = function(fn, reverse) {var this$0 = this;
+      return this._map.__iterate(function(_, k)  {return fn(k, k, this$0)}, reverse);
+    };
+
+    Set.prototype.__iterator = function(type, reverse) {
+      return this._map.map(function(_, k)  {return k}).__iterator(type, reverse);
+    };
+
+    Set.prototype.__ensureOwner = function(ownerID) {
+      if (ownerID === this.__ownerID) {
+        return this;
+      }
+      var newMap = this._map.__ensureOwner(ownerID);
+      if (!ownerID) {
+        this.__ownerID = ownerID;
+        this._map = newMap;
+        return this;
+      }
+      return this.__make(newMap, ownerID);
+    };
+
+
+  function isSet(maybeSet) {
+    return !!(maybeSet && maybeSet[IS_SET_SENTINEL]);
+  }
+
+  Set.isSet = isSet;
+
+  var IS_SET_SENTINEL = '@@__IMMUTABLE_SET__@@';
+
+  var SetPrototype = Set.prototype;
+  SetPrototype[IS_SET_SENTINEL] = true;
+  SetPrototype[DELETE] = SetPrototype.remove;
+  SetPrototype.mergeDeep = SetPrototype.merge;
+  SetPrototype.mergeDeepWith = SetPrototype.mergeWith;
+  SetPrototype.withMutations = MapPrototype.withMutations;
+  SetPrototype.asMutable = MapPrototype.asMutable;
+  SetPrototype.asImmutable = MapPrototype.asImmutable;
+
+  SetPrototype.__empty = emptySet;
+  SetPrototype.__make = makeSet;
+
+  function updateSet(set, newMap) {
+    if (set.__ownerID) {
+      set.size = newMap.size;
+      set._map = newMap;
+      return set;
+    }
+    return newMap === set._map ? set :
+      newMap.size === 0 ? set.__empty() :
+      set.__make(newMap);
+  }
+
+  function makeSet(map, ownerID) {
+    var set = Object.create(SetPrototype);
+    set.size = map ? map.size : 0;
+    set._map = map;
+    set.__ownerID = ownerID;
+    return set;
+  }
+
+  var EMPTY_SET;
+  function emptySet() {
+    return EMPTY_SET || (EMPTY_SET = makeSet(emptyMap()));
+  }
+
+  createClass(OrderedSet, Set);
+
+    // @pragma Construction
+
+    function OrderedSet(value) {
+      return value === null || value === undefined ? emptyOrderedSet() :
+        isOrderedSet(value) ? value :
+        emptyOrderedSet().withMutations(function(set ) {
+          var iter = SetIterable(value);
+          assertNotInfinite(iter.size);
+          iter.forEach(function(v ) {return set.add(v)});
+        });
+    }
+
+    OrderedSet.of = function(/*...values*/) {
+      return this(arguments);
+    };
+
+    OrderedSet.fromKeys = function(value) {
+      return this(KeyedIterable(value).keySeq());
+    };
+
+    OrderedSet.prototype.toString = function() {
+      return this.__toString('OrderedSet {', '}');
+    };
+
+
+  function isOrderedSet(maybeOrderedSet) {
+    return isSet(maybeOrderedSet) && isOrdered(maybeOrderedSet);
+  }
+
+  OrderedSet.isOrderedSet = isOrderedSet;
+
+  var OrderedSetPrototype = OrderedSet.prototype;
+  OrderedSetPrototype[IS_ORDERED_SENTINEL] = true;
+
+  OrderedSetPrototype.__empty = emptyOrderedSet;
+  OrderedSetPrototype.__make = makeOrderedSet;
+
+  function makeOrderedSet(map, ownerID) {
+    var set = Object.create(OrderedSetPrototype);
+    set.size = map ? map.size : 0;
+    set._map = map;
+    set.__ownerID = ownerID;
+    return set;
+  }
+
+  var EMPTY_ORDERED_SET;
+  function emptyOrderedSet() {
+    return EMPTY_ORDERED_SET || (EMPTY_ORDERED_SET = makeOrderedSet(emptyOrderedMap()));
+  }
+
+  createClass(Stack, IndexedCollection);
+
+    // @pragma Construction
+
+    function Stack(value) {
+      return value === null || value === undefined ? emptyStack() :
+        isStack(value) ? value :
+        emptyStack().unshiftAll(value);
+    }
+
+    Stack.of = function(/*...values*/) {
+      return this(arguments);
+    };
+
+    Stack.prototype.toString = function() {
+      return this.__toString('Stack [', ']');
+    };
+
+    // @pragma Access
+
+    Stack.prototype.get = function(index, notSetValue) {
+      var head = this._head;
+      index = wrapIndex(this, index);
+      while (head && index--) {
+        head = head.next;
+      }
+      return head ? head.value : notSetValue;
+    };
+
+    Stack.prototype.peek = function() {
+      return this._head && this._head.value;
+    };
+
+    // @pragma Modification
+
+    Stack.prototype.push = function(/*...values*/) {
+      if (arguments.length === 0) {
+        return this;
+      }
+      var newSize = this.size + arguments.length;
+      var head = this._head;
+      for (var ii = arguments.length - 1; ii >= 0; ii--) {
+        head = {
+          value: arguments[ii],
+          next: head
+        };
+      }
+      if (this.__ownerID) {
+        this.size = newSize;
+        this._head = head;
+        this.__hash = undefined;
+        this.__altered = true;
+        return this;
+      }
+      return makeStack(newSize, head);
+    };
+
+    Stack.prototype.pushAll = function(iter) {
+      iter = IndexedIterable(iter);
+      if (iter.size === 0) {
+        return this;
+      }
+      assertNotInfinite(iter.size);
+      var newSize = this.size;
+      var head = this._head;
+      iter.reverse().forEach(function(value ) {
+        newSize++;
+        head = {
+          value: value,
+          next: head
+        };
+      });
+      if (this.__ownerID) {
+        this.size = newSize;
+        this._head = head;
+        this.__hash = undefined;
+        this.__altered = true;
+        return this;
+      }
+      return makeStack(newSize, head);
+    };
+
+    Stack.prototype.pop = function() {
+      return this.slice(1);
+    };
+
+    Stack.prototype.unshift = function(/*...values*/) {
+      return this.push.apply(this, arguments);
+    };
+
+    Stack.prototype.unshiftAll = function(iter) {
+      return this.pushAll(iter);
+    };
+
+    Stack.prototype.shift = function() {
+      return this.pop.apply(this, arguments);
+    };
+
+    Stack.prototype.clear = function() {
+      if (this.size === 0) {
+        return this;
+      }
+      if (this.__ownerID) {
+        this.size = 0;
+        this._head = undefined;
+        this.__hash = undefined;
+        this.__altered = true;
+        return this;
+      }
+      return emptyStack();
+    };
+
+    Stack.prototype.slice = function(begin, end) {
+      if (wholeSlice(begin, end, this.size)) {
+        return this;
+      }
+      var resolvedBegin = resolveBegin(begin, this.size);
+      var resolvedEnd = resolveEnd(end, this.size);
+      if (resolvedEnd !== this.size) {
+        // super.slice(begin, end);
+        return IndexedCollection.prototype.slice.call(this, begin, end);
+      }
+      var newSize = this.size - resolvedBegin;
+      var head = this._head;
+      while (resolvedBegin--) {
+        head = head.next;
+      }
+      if (this.__ownerID) {
+        this.size = newSize;
+        this._head = head;
+        this.__hash = undefined;
+        this.__altered = true;
+        return this;
+      }
+      return makeStack(newSize, head);
+    };
+
+    // @pragma Mutability
+
+    Stack.prototype.__ensureOwner = function(ownerID) {
+      if (ownerID === this.__ownerID) {
+        return this;
+      }
+      if (!ownerID) {
+        this.__ownerID = ownerID;
+        this.__altered = false;
+        return this;
+      }
+      return makeStack(this.size, this._head, ownerID, this.__hash);
+    };
+
+    // @pragma Iteration
+
+    Stack.prototype.__iterate = function(fn, reverse) {
+      if (reverse) {
+        return this.reverse().__iterate(fn);
+      }
+      var iterations = 0;
+      var node = this._head;
+      while (node) {
+        if (fn(node.value, iterations++, this) === false) {
+          break;
+        }
+        node = node.next;
+      }
+      return iterations;
+    };
+
+    Stack.prototype.__iterator = function(type, reverse) {
+      if (reverse) {
+        return this.reverse().__iterator(type);
+      }
+      var iterations = 0;
+      var node = this._head;
+      return new Iterator(function()  {
+        if (node) {
+          var value = node.value;
+          node = node.next;
+          return iteratorValue(type, iterations++, value);
+        }
+        return iteratorDone();
+      });
+    };
+
+
+  function isStack(maybeStack) {
+    return !!(maybeStack && maybeStack[IS_STACK_SENTINEL]);
+  }
+
+  Stack.isStack = isStack;
+
+  var IS_STACK_SENTINEL = '@@__IMMUTABLE_STACK__@@';
+
+  var StackPrototype = Stack.prototype;
+  StackPrototype[IS_STACK_SENTINEL] = true;
+  StackPrototype.withMutations = MapPrototype.withMutations;
+  StackPrototype.asMutable = MapPrototype.asMutable;
+  StackPrototype.asImmutable = MapPrototype.asImmutable;
+  StackPrototype.wasAltered = MapPrototype.wasAltered;
+
+
+  function makeStack(size, head, ownerID, hash) {
+    var map = Object.create(StackPrototype);
+    map.size = size;
+    map._head = head;
+    map.__ownerID = ownerID;
+    map.__hash = hash;
+    map.__altered = false;
+    return map;
+  }
+
+  var EMPTY_STACK;
+  function emptyStack() {
+    return EMPTY_STACK || (EMPTY_STACK = makeStack(0));
+  }
+
+  /**
+   * Contributes additional methods to a constructor
+   */
+  function mixin(ctor, methods) {
+    var keyCopier = function(key ) { ctor.prototype[key] = methods[key]; };
+    Object.keys(methods).forEach(keyCopier);
+    Object.getOwnPropertySymbols &&
+      Object.getOwnPropertySymbols(methods).forEach(keyCopier);
+    return ctor;
+  }
+
+  Iterable.Iterator = Iterator;
+
+  mixin(Iterable, {
+
+    // ### Conversion to other types
+
+    toArray: function() {
+      assertNotInfinite(this.size);
+      var array = new Array(this.size || 0);
+      this.valueSeq().__iterate(function(v, i)  { array[i] = v; });
+      return array;
+    },
+
+    toIndexedSeq: function() {
+      return new ToIndexedSequence(this);
+    },
+
+    toJS: function() {
+      return this.toSeq().map(
+        function(value ) {return value && typeof value.toJS === 'function' ? value.toJS() : value}
+      ).__toJS();
+    },
+
+    toJSON: function() {
+      return this.toSeq().map(
+        function(value ) {return value && typeof value.toJSON === 'function' ? value.toJSON() : value}
+      ).__toJS();
+    },
+
+    toKeyedSeq: function() {
+      return new ToKeyedSequence(this, true);
+    },
+
+    toMap: function() {
+      // Use Late Binding here to solve the circular dependency.
+      return Map(this.toKeyedSeq());
+    },
+
+    toObject: function() {
+      assertNotInfinite(this.size);
+      var object = {};
+      this.__iterate(function(v, k)  { object[k] = v; });
+      return object;
+    },
+
+    toOrderedMap: function() {
+      // Use Late Binding here to solve the circular dependency.
+      return OrderedMap(this.toKeyedSeq());
+    },
+
+    toOrderedSet: function() {
+      // Use Late Binding here to solve the circular dependency.
+      return OrderedSet(isKeyed(this) ? this.valueSeq() : this);
+    },
+
+    toSet: function() {
+      // Use Late Binding here to solve the circular dependency.
+      return Set(isKeyed(this) ? this.valueSeq() : this);
+    },
+
+    toSetSeq: function() {
+      return new ToSetSequence(this);
+    },
+
+    toSeq: function() {
+      return isIndexed(this) ? this.toIndexedSeq() :
+        isKeyed(this) ? this.toKeyedSeq() :
+        this.toSetSeq();
+    },
+
+    toStack: function() {
+      // Use Late Binding here to solve the circular dependency.
+      return Stack(isKeyed(this) ? this.valueSeq() : this);
+    },
+
+    toList: function() {
+      // Use Late Binding here to solve the circular dependency.
+      return List(isKeyed(this) ? this.valueSeq() : this);
+    },
+
+
+    // ### Common JavaScript methods and properties
+
+    toString: function() {
+      return '[Iterable]';
+    },
+
+    __toString: function(head, tail) {
+      if (this.size === 0) {
+        return head + tail;
+      }
+      return head + ' ' + this.toSeq().map(this.__toStringMapper).join(', ') + ' ' + tail;
+    },
+
+
+    // ### ES6 Collection methods (ES6 Array and Map)
+
+    concat: function() {var values = SLICE$0.call(arguments, 0);
+      return reify(this, concatFactory(this, values));
+    },
+
+    includes: function(searchValue) {
+      return this.some(function(value ) {return is(value, searchValue)});
+    },
+
+    entries: function() {
+      return this.__iterator(ITERATE_ENTRIES);
+    },
+
+    every: function(predicate, context) {
+      assertNotInfinite(this.size);
+      var returnValue = true;
+      this.__iterate(function(v, k, c)  {
+        if (!predicate.call(context, v, k, c)) {
+          returnValue = false;
+          return false;
+        }
+      });
+      return returnValue;
+    },
+
+    filter: function(predicate, context) {
+      return reify(this, filterFactory(this, predicate, context, true));
+    },
+
+    find: function(predicate, context, notSetValue) {
+      var entry = this.findEntry(predicate, context);
+      return entry ? entry[1] : notSetValue;
+    },
+
+    forEach: function(sideEffect, context) {
+      assertNotInfinite(this.size);
+      return this.__iterate(context ? sideEffect.bind(context) : sideEffect);
+    },
+
+    join: function(separator) {
+      assertNotInfinite(this.size);
+      separator = separator !== undefined ? '' + separator : ',';
+      var joined = '';
+      var isFirst = true;
+      this.__iterate(function(v ) {
+        isFirst ? (isFirst = false) : (joined += separator);
+        joined += v !== null && v !== undefined ? v.toString() : '';
+      });
+      return joined;
+    },
+
+    keys: function() {
+      return this.__iterator(ITERATE_KEYS);
+    },
+
+    map: function(mapper, context) {
+      return reify(this, mapFactory(this, mapper, context));
+    },
+
+    reduce: function(reducer, initialReduction, context) {
+      assertNotInfinite(this.size);
+      var reduction;
+      var useFirst;
+      if (arguments.length < 2) {
+        useFirst = true;
+      } else {
+        reduction = initialReduction;
+      }
+      this.__iterate(function(v, k, c)  {
+        if (useFirst) {
+          useFirst = false;
+          reduction = v;
+        } else {
+          reduction = reducer.call(context, reduction, v, k, c);
+        }
+      });
+      return reduction;
+    },
+
+    reduceRight: function(reducer, initialReduction, context) {
+      var reversed = this.toKeyedSeq().reverse();
+      return reversed.reduce.apply(reversed, arguments);
+    },
+
+    reverse: function() {
+      return reify(this, reverseFactory(this, true));
+    },
+
+    slice: function(begin, end) {
+      return reify(this, sliceFactory(this, begin, end, true));
+    },
+
+    some: function(predicate, context) {
+      return !this.every(not(predicate), context);
+    },
+
+    sort: function(comparator) {
+      return reify(this, sortFactory(this, comparator));
+    },
+
+    values: function() {
+      return this.__iterator(ITERATE_VALUES);
+    },
+
+
+    // ### More sequential methods
+
+    butLast: function() {
+      return this.slice(0, -1);
+    },
+
+    isEmpty: function() {
+      return this.size !== undefined ? this.size === 0 : !this.some(function()  {return true});
+    },
+
+    count: function(predicate, context) {
+      return ensureSize(
+        predicate ? this.toSeq().filter(predicate, context) : this
+      );
+    },
+
+    countBy: function(grouper, context) {
+      return countByFactory(this, grouper, context);
+    },
+
+    equals: function(other) {
+      return deepEqual(this, other);
+    },
+
+    entrySeq: function() {
+      var iterable = this;
+      if (iterable._cache) {
+        // We cache as an entries array, so we can just return the cache!
+        return new ArraySeq(iterable._cache);
+      }
+      var entriesSequence = iterable.toSeq().map(entryMapper).toIndexedSeq();
+      entriesSequence.fromEntrySeq = function()  {return iterable.toSeq()};
+      return entriesSequence;
+    },
+
+    filterNot: function(predicate, context) {
+      return this.filter(not(predicate), context);
+    },
+
+    findEntry: function(predicate, context, notSetValue) {
+      var found = notSetValue;
+      this.__iterate(function(v, k, c)  {
+        if (predicate.call(context, v, k, c)) {
+          found = [k, v];
+          return false;
+        }
+      });
+      return found;
+    },
+
+    findKey: function(predicate, context) {
+      var entry = this.findEntry(predicate, context);
+      return entry && entry[0];
+    },
+
+    findLast: function(predicate, context, notSetValue) {
+      return this.toKeyedSeq().reverse().find(predicate, context, notSetValue);
+    },
+
+    findLastEntry: function(predicate, context, notSetValue) {
+      return this.toKeyedSeq().reverse().findEntry(predicate, context, notSetValue);
+    },
+
+    findLastKey: function(predicate, context) {
+      return this.toKeyedSeq().reverse().findKey(predicate, context);
+    },
+
+    first: function() {
+      return this.find(returnTrue);
+    },
+
+    flatMap: function(mapper, context) {
+      return reify(this, flatMapFactory(this, mapper, context));
+    },
+
+    flatten: function(depth) {
+      return reify(this, flattenFactory(this, depth, true));
+    },
+
+    fromEntrySeq: function() {
+      return new FromEntriesSequence(this);
+    },
+
+    get: function(searchKey, notSetValue) {
+      return this.find(function(_, key)  {return is(key, searchKey)}, undefined, notSetValue);
+    },
+
+    getIn: function(searchKeyPath, notSetValue) {
+      var nested = this;
+      // Note: in an ES6 environment, we would prefer:
+      // for (var key of searchKeyPath) {
+      var iter = forceIterator(searchKeyPath);
+      var step;
+      while (!(step = iter.next()).done) {
+        var key = step.value;
+        nested = nested && nested.get ? nested.get(key, NOT_SET) : NOT_SET;
+        if (nested === NOT_SET) {
+          return notSetValue;
+        }
+      }
+      return nested;
+    },
+
+    groupBy: function(grouper, context) {
+      return groupByFactory(this, grouper, context);
+    },
+
+    has: function(searchKey) {
+      return this.get(searchKey, NOT_SET) !== NOT_SET;
+    },
+
+    hasIn: function(searchKeyPath) {
+      return this.getIn(searchKeyPath, NOT_SET) !== NOT_SET;
+    },
+
+    isSubset: function(iter) {
+      iter = typeof iter.includes === 'function' ? iter : Iterable(iter);
+      return this.every(function(value ) {return iter.includes(value)});
+    },
+
+    isSuperset: function(iter) {
+      iter = typeof iter.isSubset === 'function' ? iter : Iterable(iter);
+      return iter.isSubset(this);
+    },
+
+    keyOf: function(searchValue) {
+      return this.findKey(function(value ) {return is(value, searchValue)});
+    },
+
+    keySeq: function() {
+      return this.toSeq().map(keyMapper).toIndexedSeq();
+    },
+
+    last: function() {
+      return this.toSeq().reverse().first();
+    },
+
+    lastKeyOf: function(searchValue) {
+      return this.toKeyedSeq().reverse().keyOf(searchValue);
+    },
+
+    max: function(comparator) {
+      return maxFactory(this, comparator);
+    },
+
+    maxBy: function(mapper, comparator) {
+      return maxFactory(this, comparator, mapper);
+    },
+
+    min: function(comparator) {
+      return maxFactory(this, comparator ? neg(comparator) : defaultNegComparator);
+    },
+
+    minBy: function(mapper, comparator) {
+      return maxFactory(this, comparator ? neg(comparator) : defaultNegComparator, mapper);
+    },
+
+    rest: function() {
+      return this.slice(1);
+    },
+
+    skip: function(amount) {
+      return this.slice(Math.max(0, amount));
+    },
+
+    skipLast: function(amount) {
+      return reify(this, this.toSeq().reverse().skip(amount).reverse());
+    },
+
+    skipWhile: function(predicate, context) {
+      return reify(this, skipWhileFactory(this, predicate, context, true));
+    },
+
+    skipUntil: function(predicate, context) {
+      return this.skipWhile(not(predicate), context);
+    },
+
+    sortBy: function(mapper, comparator) {
+      return reify(this, sortFactory(this, comparator, mapper));
+    },
+
+    take: function(amount) {
+      return this.slice(0, Math.max(0, amount));
+    },
+
+    takeLast: function(amount) {
+      return reify(this, this.toSeq().reverse().take(amount).reverse());
+    },
+
+    takeWhile: function(predicate, context) {
+      return reify(this, takeWhileFactory(this, predicate, context));
+    },
+
+    takeUntil: function(predicate, context) {
+      return this.takeWhile(not(predicate), context);
+    },
+
+    valueSeq: function() {
+      return this.toIndexedSeq();
+    },
+
+
+    // ### Hashable Object
+
+    hashCode: function() {
+      return this.__hash || (this.__hash = hashIterable(this));
+    }
+
+
+    // ### Internal
+
+    // abstract __iterate(fn, reverse)
+
+    // abstract __iterator(type, reverse)
+  });
+
+  // var IS_ITERABLE_SENTINEL = '@@__IMMUTABLE_ITERABLE__@@';
+  // var IS_KEYED_SENTINEL = '@@__IMMUTABLE_KEYED__@@';
+  // var IS_INDEXED_SENTINEL = '@@__IMMUTABLE_INDEXED__@@';
+  // var IS_ORDERED_SENTINEL = '@@__IMMUTABLE_ORDERED__@@';
+
+  var IterablePrototype = Iterable.prototype;
+  IterablePrototype[IS_ITERABLE_SENTINEL] = true;
+  IterablePrototype[ITERATOR_SYMBOL] = IterablePrototype.values;
+  IterablePrototype.__toJS = IterablePrototype.toArray;
+  IterablePrototype.__toStringMapper = quoteString;
+  IterablePrototype.inspect =
+  IterablePrototype.toSource = function() { return this.toString(); };
+  IterablePrototype.chain = IterablePrototype.flatMap;
+  IterablePrototype.contains = IterablePrototype.includes;
+
+  mixin(KeyedIterable, {
+
+    // ### More sequential methods
+
+    flip: function() {
+      return reify(this, flipFactory(this));
+    },
+
+    mapEntries: function(mapper, context) {var this$0 = this;
+      var iterations = 0;
+      return reify(this,
+        this.toSeq().map(
+          function(v, k)  {return mapper.call(context, [k, v], iterations++, this$0)}
+        ).fromEntrySeq()
+      );
+    },
+
+    mapKeys: function(mapper, context) {var this$0 = this;
+      return reify(this,
+        this.toSeq().flip().map(
+          function(k, v)  {return mapper.call(context, k, v, this$0)}
+        ).flip()
+      );
+    }
+
+  });
+
+  var KeyedIterablePrototype = KeyedIterable.prototype;
+  KeyedIterablePrototype[IS_KEYED_SENTINEL] = true;
+  KeyedIterablePrototype[ITERATOR_SYMBOL] = IterablePrototype.entries;
+  KeyedIterablePrototype.__toJS = IterablePrototype.toObject;
+  KeyedIterablePrototype.__toStringMapper = function(v, k)  {return JSON.stringify(k) + ': ' + quoteString(v)};
+
+
+
+  mixin(IndexedIterable, {
+
+    // ### Conversion to other types
+
+    toKeyedSeq: function() {
+      return new ToKeyedSequence(this, false);
+    },
+
+
+    // ### ES6 Collection methods (ES6 Array and Map)
+
+    filter: function(predicate, context) {
+      return reify(this, filterFactory(this, predicate, context, false));
+    },
+
+    findIndex: function(predicate, context) {
+      var entry = this.findEntry(predicate, context);
+      return entry ? entry[0] : -1;
+    },
+
+    indexOf: function(searchValue) {
+      var key = this.keyOf(searchValue);
+      return key === undefined ? -1 : key;
+    },
+
+    lastIndexOf: function(searchValue) {
+      var key = this.lastKeyOf(searchValue);
+      return key === undefined ? -1 : key;
+    },
+
+    reverse: function() {
+      return reify(this, reverseFactory(this, false));
+    },
+
+    slice: function(begin, end) {
+      return reify(this, sliceFactory(this, begin, end, false));
+    },
+
+    splice: function(index, removeNum /*, ...values*/) {
+      var numArgs = arguments.length;
+      removeNum = Math.max(removeNum | 0, 0);
+      if (numArgs === 0 || (numArgs === 2 && !removeNum)) {
+        return this;
+      }
+      // If index is negative, it should resolve relative to the size of the
+      // collection. However size may be expensive to compute if not cached, so
+      // only call count() if the number is in fact negative.
+      index = resolveBegin(index, index < 0 ? this.count() : this.size);
+      var spliced = this.slice(0, index);
+      return reify(
+        this,
+        numArgs === 1 ?
+          spliced :
+          spliced.concat(arrCopy(arguments, 2), this.slice(index + removeNum))
+      );
+    },
+
+
+    // ### More collection methods
+
+    findLastIndex: function(predicate, context) {
+      var entry = this.findLastEntry(predicate, context);
+      return entry ? entry[0] : -1;
+    },
+
+    first: function() {
+      return this.get(0);
+    },
+
+    flatten: function(depth) {
+      return reify(this, flattenFactory(this, depth, false));
+    },
+
+    get: function(index, notSetValue) {
+      index = wrapIndex(this, index);
+      return (index < 0 || (this.size === Infinity ||
+          (this.size !== undefined && index > this.size))) ?
+        notSetValue :
+        this.find(function(_, key)  {return key === index}, undefined, notSetValue);
+    },
+
+    has: function(index) {
+      index = wrapIndex(this, index);
+      return index >= 0 && (this.size !== undefined ?
+        this.size === Infinity || index < this.size :
+        this.indexOf(index) !== -1
+      );
+    },
+
+    interpose: function(separator) {
+      return reify(this, interposeFactory(this, separator));
+    },
+
+    interleave: function(/*...iterables*/) {
+      var iterables = [this].concat(arrCopy(arguments));
+      var zipped = zipWithFactory(this.toSeq(), IndexedSeq.of, iterables);
+      var interleaved = zipped.flatten(true);
+      if (zipped.size) {
+        interleaved.size = zipped.size * iterables.length;
+      }
+      return reify(this, interleaved);
+    },
+
+    keySeq: function() {
+      return Range(0, this.size);
+    },
+
+    last: function() {
+      return this.get(-1);
+    },
+
+    skipWhile: function(predicate, context) {
+      return reify(this, skipWhileFactory(this, predicate, context, false));
+    },
+
+    zip: function(/*, ...iterables */) {
+      var iterables = [this].concat(arrCopy(arguments));
+      return reify(this, zipWithFactory(this, defaultZipper, iterables));
+    },
+
+    zipWith: function(zipper/*, ...iterables */) {
+      var iterables = arrCopy(arguments);
+      iterables[0] = this;
+      return reify(this, zipWithFactory(this, zipper, iterables));
+    }
+
+  });
+
+  IndexedIterable.prototype[IS_INDEXED_SENTINEL] = true;
+  IndexedIterable.prototype[IS_ORDERED_SENTINEL] = true;
+
+
+
+  mixin(SetIterable, {
+
+    // ### ES6 Collection methods (ES6 Array and Map)
+
+    get: function(value, notSetValue) {
+      return this.has(value) ? value : notSetValue;
+    },
+
+    includes: function(value) {
+      return this.has(value);
+    },
+
+
+    // ### More sequential methods
+
+    keySeq: function() {
+      return this.valueSeq();
+    }
+
+  });
+
+  SetIterable.prototype.has = IterablePrototype.includes;
+  SetIterable.prototype.contains = SetIterable.prototype.includes;
+
+
+  // Mixin subclasses
+
+  mixin(KeyedSeq, KeyedIterable.prototype);
+  mixin(IndexedSeq, IndexedIterable.prototype);
+  mixin(SetSeq, SetIterable.prototype);
+
+  mixin(KeyedCollection, KeyedIterable.prototype);
+  mixin(IndexedCollection, IndexedIterable.prototype);
+  mixin(SetCollection, SetIterable.prototype);
+
+
+  // #pragma Helper functions
+
+  function keyMapper(v, k) {
+    return k;
+  }
+
+  function entryMapper(v, k) {
+    return [k, v];
+  }
+
+  function not(predicate) {
+    return function() {
+      return !predicate.apply(this, arguments);
+    }
+  }
+
+  function neg(predicate) {
+    return function() {
+      return -predicate.apply(this, arguments);
+    }
+  }
+
+  function quoteString(value) {
+    return typeof value === 'string' ? JSON.stringify(value) : String(value);
+  }
+
+  function defaultZipper() {
+    return arrCopy(arguments);
+  }
+
+  function defaultNegComparator(a, b) {
+    return a < b ? 1 : a > b ? -1 : 0;
+  }
+
+  function hashIterable(iterable) {
+    if (iterable.size === Infinity) {
+      return 0;
+    }
+    var ordered = isOrdered(iterable);
+    var keyed = isKeyed(iterable);
+    var h = ordered ? 1 : 0;
+    var size = iterable.__iterate(
+      keyed ?
+        ordered ?
+          function(v, k)  { h = 31 * h + hashMerge(hash(v), hash(k)) | 0; } :
+          function(v, k)  { h = h + hashMerge(hash(v), hash(k)) | 0; } :
+        ordered ?
+          function(v ) { h = 31 * h + hash(v) | 0; } :
+          function(v ) { h = h + hash(v) | 0; }
+    );
+    return murmurHashOfSize(size, h);
+  }
+
+  function murmurHashOfSize(size, h) {
+    h = imul(h, 0xCC9E2D51);
+    h = imul(h << 15 | h >>> -15, 0x1B873593);
+    h = imul(h << 13 | h >>> -13, 5);
+    h = (h + 0xE6546B64 | 0) ^ size;
+    h = imul(h ^ h >>> 16, 0x85EBCA6B);
+    h = imul(h ^ h >>> 13, 0xC2B2AE35);
+    h = smi(h ^ h >>> 16);
+    return h;
+  }
+
+  function hashMerge(a, b) {
+    return a ^ b + 0x9E3779B9 + (a << 6) + (a >> 2) | 0; // int
+  }
+
+  var Immutable = {
+
+    Iterable: Iterable,
+
+    Seq: Seq,
+    Collection: Collection,
+    Map: Map,
+    OrderedMap: OrderedMap,
+    List: List,
+    Stack: Stack,
+    Set: Set,
+    OrderedSet: OrderedSet,
+
+    Record: Record,
+    Range: Range,
+    Repeat: Repeat,
+
+    is: is,
+    fromJS: fromJS
+
+  };
+
+  return Immutable;
+
+}));
 
 /***/ })
 /******/ ]);

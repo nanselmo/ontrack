@@ -18,7 +18,7 @@ enum ActionType {
   UpdateStudentSubjGradeSci,
   UpdateStudentSubjGradeSocStudies,
 
-  UpdateStudentSETestScore,
+  UpdateStudentSETestPercentile,
 
   SelectHSProgram
 }

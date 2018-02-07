@@ -69,6 +69,7 @@
   },
   "dependencies": {
     "browser-jsonp": "^1.1.5",
+    "immutable": "^3.8.2",
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.5",
     "react-dom": "^15.6.1",

@@ -113,3 +113,10 @@ export const updateStudentSubjGradeSocStudies = (newValue: number) => {
     payload: newValue
   };
 };
+
+export const updateStudentSETestPercentile = (newValue: number) => {
+  return {
+    type: ActionType.UpdateStudentSETestPercentile,
+    payload: newValue
+  }
+};

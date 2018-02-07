@@ -1,44 +1,15 @@
-[WIP] Refactor app, implement redux
+Refactor reducers using immutablejs
 
-* DONE sort hs elements, once, in redux
-  ** this is triggering useless re-sorts on 
-    props change -- maybe the diff isn't so good?
-  ** plan: write the reducers first, then see if
-    you're still having that problem. Good opportunity
-    to find out what's going on.
-* TODO IN FUTURE include immutablejs
+* add immutablejs dependency
+* edit AppState type to include immutablejs
+  wrapper
+  ** I'm finding this surprisingly hard
+* rewrite reducers using immutablejs
+  ** write them slowly this time
+* clean up reducers.ts; move helper
+  functions into own files
 
-* DONE write redux reducers in shared/reducers
-  ** TODO IN FUTURE they are gross. ImmutableJS?
-* TODO IN FUTURE split large reducers file into smaller
-  pieces
-
-* DONE import hs data in StudentDataForm
-  (rather than loading it thru data-access)
-* DONE connect HSDisplay to redux store
-* DONE drastically refactor component tree of HSDisplay
-  ** renamed HSDisplay -> HSProgramsContainer
-* DONE move app data (hs lists, hs req fns) to redux
-  ** DONE import hs req fns into redux
-  ** DONE import hs outcomes into redux
-    *** DONE write helper methods for calculating
-      hs outcomes with studentData
-  ** DONE write helper functions for updating
-  ** DONE import hs lists into redux
-  ** DONE build index of hs categories
-* DONE flatten StudentData.scores into StudentData
-* DONE remove unused score-projection-utils
-* DONE refactor StudentDataForm to expose onChange
-    handlers for each field independently
-* DONE make PathToHS stateless functional component
-* DONE replace StudentInfoDisplay with StudentDataContainer,
-    move wrapper Box element in StudentInfoDisplay into
-    PathToHS component
-* DONE connect StudentDataContainer to redux store
-* DONE remove hardcoded default student data
-* DONE write redux actions in shared/actions
-
-* DONE move StudentDataForm child components up into src/components/
-    student-info-display
-* DONE move spinning-load-icon.scss into shared/styles
-* DONE remove unused old form field components
+* TODO IN FUTURE adapt StudentDataContainer and
+  HSProgramsContainer to use immutablejs objects
+  in mapStateToProps (and mapDispatchToProps if
+  necessary)

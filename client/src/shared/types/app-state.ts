@@ -2,7 +2,10 @@ import StudentData from "shared/types/student-data";
 import CPSProgram from "shared/types/cps-program";
 import SuccessChance from "shared/enums/success-chance";
 
-interface AppState {
+import ImmutableMap from "shared/types/immutable-map";
+
+
+interface AppStateShape {
   
   studentData: StudentData
 
@@ -25,4 +28,5 @@ interface AppState {
   selectedHSProgramID: string | null
 }
 
+type AppState = ImmutableMap<AppStateShape>
 export default AppState;
