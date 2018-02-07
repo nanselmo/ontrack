@@ -24785,14 +24785,25 @@ var createIndexByID = function (programs) {
     }
     return idx;
 };
+var alphaSortPrograms = function (a, b) {
+    if (a.Short_Name < b.Short_Name) {
+        return -1;
+    }
+    else if (a.Short_Name === b.Short_Name) {
+        return 0;
+    }
+    else if (a.Short_Name > b.Short_Name) {
+        return 1;
+    }
+};
 var lookup = function (program_id, programs, index) {
     return programs[index[program_id]];
 };
 var getHSProgramIDs = function (programs) {
-    return programs.filter(is_hs_program_1.default).map(function (program) { return program.ID; });
+    return programs.filter(is_hs_program_1.default).sort(alphaSortPrograms).map(function (program) { return program.ID; });
 };
 var getESProgramIDs = function (programs) {
-    return programs.filter(is_es_program_1.default).map(function (program) { return program.ID; });
+    return programs.filter(is_es_program_1.default).sort(alphaSortPrograms).map(function (program) { return program.ID; });
 };
 var getHSProgramIDsByType = function (programs) {
     var index = createIndexByID(programs);
@@ -50747,26 +50758,7 @@ var multi_select_field_1 = __webpack_require__(261);
 var number_field_1 = __webpack_require__(262);
 var address_tier_calculator_1 = __webpack_require__(263);
 __webpack_require__(274);
-var alphaSort = function (a, b) {
-    if (a.Short_Name < b.Short_Name) {
-        return -1;
-    }
-    else if (a.Short_Name === b.Short_Name) {
-        return 0;
-    }
-    else if (a.Short_Name > b.Short_Name) {
-        return 1;
-    }
-};
 var StudentDataForm = function (props) {
-    var getHSPrograms = function () {
-        console.log("sorting hs programs");
-        return props.hsPrograms.sort(alphaSort);
-    };
-    var getESPrograms = function () {
-        console.log("sorting es programs");
-        return props.esPrograms.sort(alphaSort);
-    };
     var INPUT_DEBOUNCE_TIME = 250;
     var between = function (min, max) {
         return function (curr, next) {
@@ -50822,8 +50814,8 @@ var StudentDataForm = function (props) {
             React.createElement(dropdown_field_1.default, { label: "Are you an English Language Learner?", value: props.studentData.ell ? "true" : "false", onChange: function (ell) { return props.onELLChange(ell === "true" ? true : false); }, debounceTime: INPUT_DEBOUNCE_TIME },
                 React.createElement("option", { value: "true" }, "Yes"),
                 React.createElement("option", { value: "false" }, "No")),
-            React.createElement(combo_box_field_1.default, { label: "What elementary school program are you in now?", value: props.studentData.currESProgramID, data: { records: getESPrograms(), getKey: function (program) { return program.ID; }, getDisplayText: function (program) { return program.Short_Name + " - " + program.Program_Type; } }, onChange: function (program) { return props.onCurrESProgramChange(program.ID); }, debounceTime: INPUT_DEBOUNCE_TIME }),
-            React.createElement(multi_select_field_1.default, { label: "Do you have a sibling in high school? If so, which school?", values: props.studentData.siblingHSProgramIDs, data: { records: getHSPrograms(), getKey: function (program) { return program.ID; }, getDisplayText: function (program) { return program.Short_Name + " - " + program.Program_Type; } }, onChange: function (programs) { return props.onSiblingHSProgramsChange(programs.map(function (program) { return program.ID; })); }, debounceTime: INPUT_DEBOUNCE_TIME }),
+            React.createElement(combo_box_field_1.default, { label: "What elementary school program are you in now?", value: props.studentData.currESProgramID, data: { records: props.esPrograms, getKey: function (program) { return program.ID; }, getDisplayText: function (program) { return program.Short_Name + " - " + program.Program_Type; } }, onChange: function (program) { return props.onCurrESProgramChange(program.ID); }, debounceTime: INPUT_DEBOUNCE_TIME }),
+            React.createElement(multi_select_field_1.default, { label: "Do you have a sibling in high school? If so, which school?", values: props.studentData.siblingHSProgramIDs, data: { records: props.hsPrograms, getKey: function (program) { return program.ID; }, getDisplayText: function (program) { return program.Short_Name + " - " + program.Program_Type; } }, onChange: function (programs) { return props.onSiblingHSProgramsChange(programs.map(function (program) { return program.ID; })); }, debounceTime: INPUT_DEBOUNCE_TIME }),
             React.createElement(address_tier_calculator_1.default, { location: props.studentData.location, onLocationChange: props.onLocationChange }),
             React.createElement(number_field_1.default, { label: "Your 7th grade attendance percentage", value: props.studentData.attendancePercentage, onChange: props.onAttendPercentageChange, limiter: between(0, 100), debounceTime: INPUT_DEBOUNCE_TIME })),
         React.createElement("div", { className: "student-data-form-subheader" }, "Your grades"),

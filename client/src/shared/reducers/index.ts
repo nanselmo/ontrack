@@ -26,16 +26,26 @@ const createIndexByID = (programs: CPSProgram[]): {[id: string]: number} => {
   return idx;
 };
 
+const alphaSortPrograms= (a: CPSProgram, b: CPSProgram) => {
+  if (a.Short_Name < b.Short_Name) {
+    return -1;
+  } else if (a.Short_Name === b.Short_Name) {
+    return 0;
+  } else if (a.Short_Name > b.Short_Name) {
+    return 1;
+  }
+};
+
 const lookup = (program_id: string, programs: CPSProgram[], index: {[id: string]: number}): CPSProgram => {
   return programs[index[program_id]];
 };
 
 const getHSProgramIDs = (programs: CPSProgram[]): string[] => {
-  return programs.filter( isHSProgram ).map( program => program.ID );
+  return programs.filter( isHSProgram ).sort( alphaSortPrograms ).map( program => program.ID );
 };
 
 const getESProgramIDs = (programs: CPSProgram[]): string[] => {
-  return programs.filter( isESProgram ).map( program => program.ID );
+  return programs.filter( isESProgram ).sort( alphaSortPrograms ).map( program => program.ID );
 };
 
 const getHSProgramIDsByType = (programs: CPSProgram[]): {[type: string]: string[]} => {

@@ -2,11 +2,8 @@ import * as React from "react"
 
 import StudentData from "shared/types/student-data";
 import CPSProgram from "shared/types/cps-program";
-import {StudentDataFormStrings as strings} from "shared/l10n/strings";
 import Gender from "shared/enums/gender";
 import StudentLocation from "shared/types/student-location";
-
-import {scoreToString, tryParseScore} from "shared/util/grade-convert";
 
 import DropdownField from "shared/components/ui/fields/dropdown-field";
 import ComboBoxField from "shared/components/ui/fields/combo-box-field";
@@ -16,7 +13,6 @@ import NumberField from "shared/components/ui/fields/number-field";
 import Limiter from "shared/components/ui/fields/limiter";
 
 import AddressTierCalculator from "./address-tier-calculator";
-
 
 import "./student-data-form.scss";
 
@@ -46,28 +42,8 @@ interface StudentDataFormProps {
   onSETestPercentileChange: (pctile: number) => any
 }
 
-const alphaSort = (a: CPSProgram, b: CPSProgram) => {
-  if (a.Short_Name < b.Short_Name) {
-    return -1;
-  } else if (a.Short_Name === b.Short_Name) {
-    return 0;
-  } else if (a.Short_Name > b.Short_Name) {
-    return 1;
-  }
-};
-
 
 const StudentDataForm = (props: StudentDataFormProps) => {
-
-  const getHSPrograms = () => {
-    console.log("sorting hs programs");
-    return props.hsPrograms.sort(alphaSort);
-  };
-
-  const getESPrograms = () => {
-    console.log("sorting es programs");
-    return props.esPrograms.sort(alphaSort);
-  };
 
   const INPUT_DEBOUNCE_TIME = 250; // ms
 
@@ -156,7 +132,7 @@ const StudentDataForm = (props: StudentDataFormProps) => {
           <ComboBoxField
             label="What elementary school program are you in now?"
             value={props.studentData.currESProgramID}
-            data={{records: getESPrograms(), getKey: (program) => program.ID, getDisplayText: (program) => program.Short_Name + " - " + program.Program_Type }}
+            data={{records: props.esPrograms, getKey: (program) => program.ID, getDisplayText: (program) => program.Short_Name + " - " + program.Program_Type }}
             onChange={ (program: CPSProgram) => props.onCurrESProgramChange(program.ID)}
             debounceTime={INPUT_DEBOUNCE_TIME}
           /> 
@@ -164,7 +140,7 @@ const StudentDataForm = (props: StudentDataFormProps) => {
           <MultiSelectField
             label="Do you have a sibling in high school? If so, which school?"
             values={props.studentData.siblingHSProgramIDs}
-            data={{records: getHSPrograms(), getKey: (program) => program.ID, getDisplayText: (program) => program.Short_Name + " - " + program.Program_Type }}
+            data={{records: props.hsPrograms, getKey: (program) => program.ID, getDisplayText: (program) => program.Short_Name + " - " + program.Program_Type }}
             onChange={ (programs: CPSProgram[]) => props.onSiblingHSProgramsChange(programs.map( program => program.ID ) )}
             debounceTime={INPUT_DEBOUNCE_TIME}
           /> 

@@ -1,13 +1,12 @@
 [WIP] Refactor app, implement redux
 
-* TODO test new perf (!)
-* WIP debug 
-* WIP sort hs elements, once, in redux
+* DONE sort hs elements, once, in redux
   ** this is triggering useless re-sorts on 
     props change -- maybe the diff isn't so good?
   ** plan: write the reducers first, then see if
     you're still having that problem. Good opportunity
     to find out what's going on.
+* TODO IN FUTURE include immutablejs
 
 * DONE write redux reducers in shared/reducers
   ** TODO IN FUTURE they are gross. ImmutableJS?
