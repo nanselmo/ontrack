@@ -1,6 +1,6 @@
 import AppState from "shared/types/app-state";
 import Gender from "shared/enums/gender";
-import { Map } from  "immutable";
+import { fromJS } from  "immutable";
 
 import { 
   createIndexByID, 
@@ -14,7 +14,7 @@ import {getAllPrograms} from "shared/util/data-access";
 const allPrograms = getAllPrograms();
 
 
-const initialState: AppState = Map({ 
+const initialState: AppState = fromJS({ 
   studentData: {
     gender: Gender.NOANSWER,
     location: {

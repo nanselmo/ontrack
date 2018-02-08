@@ -25,7 +25,7 @@ const mapStateToProps = (state: AppState) => {
   console.log(state.get('hsData')['hsProgramIDs']);
   return {
     siblingHSProgramIDs: state.getIn(['studentData', 'siblingHSProgramIDs']),
-    hsPrograms: state.get('hsData').hsProgramIDs.map( id => denormalize(id, state.get('hsData').programs, state.get('hsData').index) )
+    hsPrograms: [],
   }
 };
 

@@ -1,6 +1,6 @@
-[WIP] Refactor StudentDataContainer
+Refactor StudentDataContainer
 
-* WIP split StudentDataForm into smaller
+* split StudentDataForm into smaller
   react aware field containers
 
 * TODO IN FUTURE refactor AddressTierCalculator

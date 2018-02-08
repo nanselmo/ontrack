@@ -1,140 +1,46 @@
 import * as React from "react"
-import {connect} from "react-redux";
-import NumberField from "shared/components/ui/fields/number-field";
-import between from "shared/util/limiters/between";
-import AppState from "shared/types/app-state";
-import ScoreType from "shared/types/score-type";
 
-import { updateStudentScore } from "shared/actions";
+import Form from "shared/components/layout/form";
+import SubForm from "shared/components/layout/sub-form";
 
-const INPUT_DEBOUNCE_TIME = 250; //ms
+import GenderField from "./fields/gender-field";
+import IEPField from "./fields/iep-field";
+import ELLField from "./fields/ell-field";
+import LocationField from "./fields/location-field";
+import GradeLevelField from "./fields/grade-level-field";
+import AttendPercentageField from "./fields/attend-percentage-field";
+import CurrESProgramField from "./fields/curr-es-program-field";
+import SiblingHSProgramField from "./fields/sibling-hs-program-field";
 
-import "./student-data-form.scss";
+import NWEAMathField from "./fields/nwea-math-field";
+import NWEAReadField from "./fields/nwea-read-field";
+import SubjGradeMathField from "./fields/subj-grade-math-field";
+import SubjGradeReadField from "./fields/subj-grade-read-field";
+import SubjGradeSciField from "./fields/subj-grade-sci-field";
+import SubjGradeSocStudiesField from "./fields/subj-grade-soc-studies-field";
 
-import IEPInputContainer from "./iep-input-container";
-import ELLInputContainer from "./ell-input-container";
-import GenderInputContainer from "./gender-input-container";
-import LocationInputContainer from "./location-input-container";
-import GradeLevelInputContainer from "./grade-level-input-container";
-import AttendPercentageInputContainer from "./attend-percentage-input-container";
-import CurrESProgramInputContainer from "./curr-es-program-input-container";
-import SiblingHSProgramInputContainer from "./sibling-hs-program-input-container";
-import ScoreInputFactory from "./score-input-factory";
-
-
-import {
-  updateStudentNWEAPercentileMath
-} from "shared/actions";
-
-const Form = (props) => (
-  <div className="student-data-form">
-    {props.children}
-  </div>
-);
-
-const SubForm = (props) => (
-  <div className="student-data-form-subform">
-    <div className="student-data-form-subheader"> 
-      {props.label}
-    </div>
-    {props.children}
-  </div>
-);
-
-
-const mapStateScore = (scoreType: ScoreType) => (state: AppState) => {
-  return { 
-    value: state.getIn(['studentData', scoreType]) 
-  };
-}
-const mapDispatchScore = (scoreType: ScoreType) => (dispatch) => {
-  return { 
-    onChange: (value) => dispatch(updateStudentScore(scoreType, value)) 
-  }
-};
-
-const connectScore = (scoreType: ScoreType) => (elem) => {
-  return connect(
-    mapStateScore(scoreType),
-    mapDispatchScore(scoreType)
-  )(elem);
-}
 
 const StudentDataForm = (props) => {
 
   return (
     <Form>
       <SubForm label="Your student information">
-        <GenderInputContainer/>
-        <IEPInputContainer/>
-        <ELLInputContainer/>
-        <GradeLevelInputContainer/>
-        <LocationInputContainer/>
-        <AttendPercentageInputContainer/>
-        <CurrESProgramInputContainer/>
-        <SiblingHSProgramInputContainer/>
+        <GenderField/>
+        <IEPField/>
+        <ELLField/>
+        <GradeLevelField/>
+        <LocationField/>
+        <AttendPercentageField/>
+        <CurrESProgramField/>
+        <SiblingHSProgramField/>
       </SubForm>
       <SubForm label="Your grades">
-        { connectScore('nweaPercentileMath')( (props) => {
-            return <NumberField
-              label="NWEA Math percentile"
-              value={props.value}
-              onChange={props.onChange}
-              limiter={between(1, 99)}
-              debounceTime={INPUT_DEBOUNCE_TIME}
-            />
-          } ) 
-        }
-        { connectScore('nweaPercentileRead')( (props) => { 
-            return <NumberField
-              label="NWEA Reading percentile"
-              value={props.value}
-              onChange={props.onChange}
-              limiter={between(1, 99)}
-              debounceTime={INPUT_DEBOUNCE_TIME}
-            /> 
-          } )
-        }
-        { connectScore('subjGradeMath')( (props) => {
-            return <NumberField
-              label="Math"
-              value={props.value}
-              onChange={props.onChange}
-              limiter={between(0, 100)}
-              debounceTime={INPUT_DEBOUNCE_TIME}
-            />
-          } )
-        }
-        { connectScore('subjGradeRead')( (props) => {
-            return <NumberField
-              label="Reading"
-              value={props.value}
-              onChange={props.onChange}
-              limiter={between(0, 100)}
-              debounceTime={INPUT_DEBOUNCE_TIME}
-            />
-          } )
-        }
-        { connectScore('subjGradeSci')( (props) => {
-            return <NumberField
-              label="Science"
-              value={props.value}
-              onChange={props.onChange}
-              limiter={between(0, 100)}
-              debounceTime={INPUT_DEBOUNCE_TIME}
-            />
-          } )
-        }
-        { connectScore('subjGradeSocStudies')( (props) => {
-            return <NumberField
-              label="Social Studies"
-              value={props.value}
-              onChange={props.onChange}
-              limiter={between(0, 100)}
-              debounceTime={INPUT_DEBOUNCE_TIME}
-            />
-          } )
-        }
+        <NWEAMathField/>
+        <NWEAReadField/>
+        <SubjGradeMathField/>
+        <SubjGradeReadField/>
+        <SubjGradeSciField/>
+        <SubjGradeSocStudiesField/>
       </SubForm>
     </Form>
   );

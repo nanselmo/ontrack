@@ -19,13 +19,13 @@ const Field = (props) => (
           props.onChange(Gender.MALE);
           break;
         case "female":
-          props.onChange(Gender.MALE);
+          props.onChange(Gender.FEMALE);
           break;
         case "other":
-          props.onChange(Gender.MALE);
+          props.onChange(Gender.OTHER);
           break;
         case "noanswer":
-          props.onChange(Gender.MALE);
+          props.onChange(Gender.NOANSWER);
           break;
         default:
           console.warn(`unrecognized gender: ${gender}`);
