@@ -6,7 +6,6 @@ import ListData from "./list-data";
 import FieldContainer from "./field-container";
 import ComboBoxField from "./combo-box-field";
 
-// TODO remove dependency
 import debounce from "shared/util/debounce";
 
 interface MultiSelectProps<T> {
@@ -33,6 +32,9 @@ const MultiSelectField: React.SFC<MultiSelectProps<any>> = (props) => {
       // replace props.values with new value at index
       const leftHalf = props.values.slice(0, index);
       const rightHalf = props.values.slice(index);
+      console.log("updating props.values");
+      console.log(leftHalf);
+      console.log(rightHalf);
       const newValues = leftHalf.concat(newValue, rightHalf);
       props.onChange(newValues);
     };
@@ -79,7 +81,11 @@ const MultiSelectField: React.SFC<MultiSelectProps<any>> = (props) => {
             />
             <button 
               style={{width: "32px", height: "32px", backgroundColor: "#dfdfdf", border: "1px solid #acacac", borderRadius: "100%", margin: "0 1em", boxShadow: "0px 2px 2px #999" }} 
-              onClick={() => props.onChange(removeElemAtIndex(props.values, i))}>
+              onClick={() => { 
+                console.log('exit button clicked');
+                props.onChange(removeElemAtIndex(props.values, i))
+              }
+              }>
               X
             </button>
           </div>
@@ -87,12 +93,15 @@ const MultiSelectField: React.SFC<MultiSelectProps<any>> = (props) => {
       }) } 
 
       {/* new input field */}
+      { console.log( 'values at second combo box:') }
+      { console.log( props.values ) }
       <ComboBoxField
         value={null}
         onChange={ newValue => {
-          const newValues = props.values ? props.values.concat(newValue)
-                                         : [newValue];
-          console.log(newValues);
+          console.warn( props.values );
+          const newValues = props.values.concat(newValue);
+          //const newValues = props.values ? props.values.concat(newValue)
+          //                               : [newValue];
           props.onChange(newValues);
         } }
         data={data}

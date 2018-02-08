@@ -54,8 +54,6 @@ class NumberField extends React.PureComponent<NumberFieldProps, NumberFieldState
       } else {
         const currValue = this.props.value;
         const nextValue = ev.currentTarget.valueAsNumber;
-        console.log("Numberfield curr: " + currValue);
-        console.log("Numberfield next: " + nextValue);
         this.setState({localValue: nextValue});
         if (this.props.limiter) {
           this.onChange(this.props.limiter(currValue, nextValue));
@@ -69,7 +67,6 @@ class NumberField extends React.PureComponent<NumberFieldProps, NumberFieldState
     const validation = this.props.validator && this.state.localValue !== "" ? this.props.validator(this.state.localValue) 
                                        : FieldValidationState.NEUTRAL;
 
-    console.log("localvalue: " + this.state.localValue);
     return (
       <FieldContainer className={this.props.className} label={this.props.label} validation={validation}>
         <input value={this.state.localValue} type="number" className="field-input-element" onChange={handleChange}/>

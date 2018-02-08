@@ -1,6 +1,6 @@
 import AppState from "shared/types/app-state";
 import Gender from "shared/enums/gender";
-import { fromJS } from  "immutable";
+import { fromJS, List } from  "immutable";
 
 import { 
   createIndexByID, 
@@ -14,7 +14,7 @@ import {getAllPrograms} from "shared/util/data-access";
 const allPrograms = getAllPrograms();
 
 
-const initialState: AppState = fromJS({ 
+let initialStateWithoutPrograms: AppState = fromJS({ 
   studentData: {
     gender: Gender.NOANSWER,
     location: {
@@ -30,7 +30,7 @@ const initialState: AppState = fromJS({
     gpa: 0,
 
     currESProgramID: undefined,
-    siblingHSProgramIDs: undefined,
+    siblingHSProgramIDs: [],
     seTestPercentile: 0,
     nweaPercentileMath: 0,
     nweaPercentileRead: 0,
@@ -43,7 +43,7 @@ const initialState: AppState = fromJS({
   selectedHSProgramID: null,
 
   hsData: {
-    programs: allPrograms, 
+    programs: [], 
     index: createIndexByID(allPrograms),
     hsProgramIDs: getHSProgramIDs(allPrograms),
     esProgramIDs: getESProgramIDs(allPrograms),
@@ -53,5 +53,5 @@ const initialState: AppState = fromJS({
   }
 });
 
-// wrap in immutablejs
+const initialState = initialStateWithoutPrograms.setIn(['hsData', 'programs'], List(allPrograms));
 export default initialState;

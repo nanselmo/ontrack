@@ -1,9 +1,10 @@
-Refactor StudentDataContainer
+Connect CurrentES / SiblingHS fields to redux
 
-* split StudentDataForm into smaller
-  react aware field containers
-
-* TODO IN FUTURE refactor AddressTierCalculator
-  to avoid repeated state updates
-
+* DONE add reselect dependency
+* DONE write memoized mapStateToProps and mapDispatchToProps
+    for currentESProgramField using reselect
+* TODO write memoized mapStateToProps and mapDispatchToProps
+    for siblingHSProgram using reselect
+  ** TODO investigate potential bug in MultiSelectField causing
+    incorrect list of current selections to be passed in onChange
 

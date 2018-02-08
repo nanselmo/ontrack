@@ -2701,8 +2701,6 @@ var NumberField = (function (_super) {
             else {
                 var currValue = _this.props.value;
                 var nextValue = ev.currentTarget.valueAsNumber;
-                console.log("Numberfield curr: " + currValue);
-                console.log("Numberfield next: " + nextValue);
                 _this.setState({ localValue: nextValue });
                 if (_this.props.limiter) {
                     _this.onChange(_this.props.limiter(currValue, nextValue));
@@ -2715,7 +2713,6 @@ var NumberField = (function (_super) {
         };
         var validation = this.props.validator && this.state.localValue !== "" ? this.props.validator(this.state.localValue)
             : field_validation_state_1.default.NEUTRAL;
-        console.log("localvalue: " + this.state.localValue);
         return (React.createElement(field_container_1.default, { className: this.props.className, label: this.props.label, validation: validation },
             React.createElement("input", { value: this.state.localValue, type: "number", className: "field-input-element", onChange: handleChange })));
     };
@@ -12239,7 +12236,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(3);
 var field_validation_state_1 = __webpack_require__(28);
 var field_container_1 = __webpack_require__(35);
-var list_box_1 = __webpack_require__(285);
+var list_box_1 = __webpack_require__(286);
 var debounce_1 = __webpack_require__(45);
 var ComboBoxField = (function (_super) {
     __extends(ComboBoxField, _super);
@@ -25045,7 +25042,9 @@ var rootReducer = function (state, action) {
             console.warn("No reducer for actiontype " + action.type);
             nextState = state;
     }
-    return updateDependentProperties(nextState);
+    var updatedState = updateDependentProperties(nextState);
+    console.log(updatedState.toJS());
+    return updatedState;
 };
 exports.default = rootReducer;
 
@@ -25062,7 +25061,7 @@ var immutable_1 = __webpack_require__(232);
 var reducer_utils_1 = __webpack_require__(233);
 var data_access_1 = __webpack_require__(235);
 var allPrograms = data_access_1.getAllPrograms();
-var initialState = immutable_1.fromJS({
+var initialStateWithoutPrograms = immutable_1.fromJS({
     studentData: {
         gender: gender_1.default.NOANSWER,
         location: {
@@ -25077,7 +25076,7 @@ var initialState = immutable_1.fromJS({
         attendancePercentage: 0,
         gpa: 0,
         currESProgramID: undefined,
-        siblingHSProgramIDs: undefined,
+        siblingHSProgramIDs: [],
         seTestPercentile: 0,
         nweaPercentileMath: 0,
         nweaPercentileRead: 0,
@@ -25088,7 +25087,7 @@ var initialState = immutable_1.fromJS({
     },
     selectedHSProgramID: null,
     hsData: {
-        programs: allPrograms,
+        programs: [],
         index: reducer_utils_1.createIndexByID(allPrograms),
         hsProgramIDs: reducer_utils_1.getHSProgramIDs(allPrograms),
         esProgramIDs: reducer_utils_1.getESProgramIDs(allPrograms),
@@ -25096,6 +25095,7 @@ var initialState = immutable_1.fromJS({
         outcomes: reducer_utils_1.initializeOutcomes(allPrograms)
     }
 });
+var initialState = initialStateWithoutPrograms.setIn(['hsData', 'programs'], immutable_1.List(allPrograms));
 exports.default = initialState;
 
 
@@ -52129,13 +52129,13 @@ var location_field_1 = __webpack_require__(270);
 var grade_level_field_1 = __webpack_require__(282);
 var attend_percentage_field_1 = __webpack_require__(283);
 var curr_es_program_field_1 = __webpack_require__(284);
-var sibling_hs_program_field_1 = __webpack_require__(287);
-var nwea_math_field_1 = __webpack_require__(289);
-var nwea_read_field_1 = __webpack_require__(290);
-var subj_grade_math_field_1 = __webpack_require__(291);
-var subj_grade_read_field_1 = __webpack_require__(292);
-var subj_grade_sci_field_1 = __webpack_require__(293);
-var subj_grade_soc_studies_field_1 = __webpack_require__(294);
+var sibling_hs_program_field_1 = __webpack_require__(288);
+var nwea_math_field_1 = __webpack_require__(290);
+var nwea_read_field_1 = __webpack_require__(291);
+var subj_grade_math_field_1 = __webpack_require__(292);
+var subj_grade_read_field_1 = __webpack_require__(293);
+var subj_grade_sci_field_1 = __webpack_require__(294);
+var subj_grade_soc_studies_field_1 = __webpack_require__(295);
 var StudentDataForm = function (props) {
     return (React.createElement(form_1.default, null,
         React.createElement(sub_form_1.default, { label: "Your student information" },
@@ -53082,23 +53082,46 @@ exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Fie
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(3);
 var react_redux_1 = __webpack_require__(14);
+var reselect_1 = __webpack_require__(285);
 var actions_1 = __webpack_require__(16);
 var combo_box_field_1 = __webpack_require__(114);
 var constants_1 = __webpack_require__(11);
-var Field = function (props) { return (React.createElement(combo_box_field_1.default, { label: "What elementary school program are you in now?", value: props.currESProgramID, data: {
+var Field = function (props) { return (React.createElement(combo_box_field_1.default, { label: "What elementary school program are you in now?", value: props.currESProgram, data: {
         records: props.esPrograms,
         getKey: function (program) { return program.ID; },
-        getDisplayText: function (program) { return program.Short_Name + " - " + program.Program_Type; }
+        getDisplayText: function (program) {
+            return program.Short_Name + " - " + program.Program_Type;
+        }
     }, onChange: function (program) { return props.onChange(program.ID); }, debounceTime: constants_1.INPUT_DEBOUNCE_TIME })); };
+var getPrograms = function (state) { return state.getIn(['hsData', 'programs']); };
+var getProgramIndex = function (state) { return state.getIn(['hsData', 'index']); };
+var getESProgramIDs = function (state) { return state.getIn(['hsData', 'esProgramIDs']); };
+var getCurrESProgramID = function (state) { return state.getIn(['studentData', 'currESProgramID']); };
+var selectESPrograms = reselect_1.createSelector([getESProgramIDs, getPrograms, getProgramIndex], function (ids, programs, index) {
+    var esPrograms = [];
+    ids.forEach(function (id) {
+        var i = index.get(id);
+        var program = programs.get(i);
+        esPrograms.push(program);
+    });
+    return esPrograms;
+});
+var selectCurrESProgram = reselect_1.createSelector([getCurrESProgramID, getPrograms, getProgramIndex], function (id, programs, index) {
+    var i = index.get(id);
+    var program = programs.get(i);
+    return program;
+});
 var mapStateToProps = function (state) {
     return {
-        currESProgramID: state.getIn(['studentData', 'currESProgramID']),
-        esPrograms: [],
+        currESProgram: selectCurrESProgram(state),
+        esPrograms: selectESPrograms(state),
     };
 };
 var mapDispatchToProps = function (dispatch) {
     return {
-        onChange: function (programID) { return dispatch(actions_1.updateStudentCurrESProgram(programID)); }
+        onChange: function (programID) {
+            dispatch(actions_1.updateStudentCurrESProgram(programID));
+        }
     };
 };
 exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Field);
@@ -53110,9 +53133,140 @@ exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Fie
 
 "use strict";
 
+
+exports.__esModule = true;
+exports.defaultMemoize = defaultMemoize;
+exports.createSelectorCreator = createSelectorCreator;
+exports.createStructuredSelector = createStructuredSelector;
+function defaultEqualityCheck(a, b) {
+  return a === b;
+}
+
+function areArgumentsShallowlyEqual(equalityCheck, prev, next) {
+  if (prev === null || next === null || prev.length !== next.length) {
+    return false;
+  }
+
+  // Do this in a for loop (and not a `forEach` or an `every`) so we can determine equality as fast as possible.
+  var length = prev.length;
+  for (var i = 0; i < length; i++) {
+    if (!equalityCheck(prev[i], next[i])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function defaultMemoize(func) {
+  var equalityCheck = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultEqualityCheck;
+
+  var lastArgs = null;
+  var lastResult = null;
+  // we reference arguments instead of spreading them for performance reasons
+  return function () {
+    if (!areArgumentsShallowlyEqual(equalityCheck, lastArgs, arguments)) {
+      // apply arguments instead of spreading for performance.
+      lastResult = func.apply(null, arguments);
+    }
+
+    lastArgs = arguments;
+    return lastResult;
+  };
+}
+
+function getDependencies(funcs) {
+  var dependencies = Array.isArray(funcs[0]) ? funcs[0] : funcs;
+
+  if (!dependencies.every(function (dep) {
+    return typeof dep === 'function';
+  })) {
+    var dependencyTypes = dependencies.map(function (dep) {
+      return typeof dep;
+    }).join(', ');
+    throw new Error('Selector creators expect all input-selectors to be functions, ' + ('instead received the following types: [' + dependencyTypes + ']'));
+  }
+
+  return dependencies;
+}
+
+function createSelectorCreator(memoize) {
+  for (var _len = arguments.length, memoizeOptions = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    memoizeOptions[_key - 1] = arguments[_key];
+  }
+
+  return function () {
+    for (var _len2 = arguments.length, funcs = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      funcs[_key2] = arguments[_key2];
+    }
+
+    var recomputations = 0;
+    var resultFunc = funcs.pop();
+    var dependencies = getDependencies(funcs);
+
+    var memoizedResultFunc = memoize.apply(undefined, [function () {
+      recomputations++;
+      // apply arguments instead of spreading for performance.
+      return resultFunc.apply(null, arguments);
+    }].concat(memoizeOptions));
+
+    // If a selector is called with the exact same arguments we don't need to traverse our dependencies again.
+    var selector = defaultMemoize(function () {
+      var params = [];
+      var length = dependencies.length;
+
+      for (var i = 0; i < length; i++) {
+        // apply arguments instead of spreading and mutate a local list of params for performance.
+        params.push(dependencies[i].apply(null, arguments));
+      }
+
+      // apply arguments instead of spreading for performance.
+      return memoizedResultFunc.apply(null, params);
+    });
+
+    selector.resultFunc = resultFunc;
+    selector.recomputations = function () {
+      return recomputations;
+    };
+    selector.resetRecomputations = function () {
+      return recomputations = 0;
+    };
+    return selector;
+  };
+}
+
+var createSelector = exports.createSelector = createSelectorCreator(defaultMemoize);
+
+function createStructuredSelector(selectors) {
+  var selectorCreator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : createSelector;
+
+  if (typeof selectors !== 'object') {
+    throw new Error('createStructuredSelector expects first argument to be an object ' + ('where each property is a selector, instead received a ' + typeof selectors));
+  }
+  var objectKeys = Object.keys(selectors);
+  return selectorCreator(objectKeys.map(function (key) {
+    return selectors[key];
+  }), function () {
+    for (var _len3 = arguments.length, values = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+      values[_key3] = arguments[_key3];
+    }
+
+    return values.reduce(function (composition, value, index) {
+      composition[objectKeys[index]] = value;
+      return composition;
+    }, {});
+  });
+}
+
+/***/ }),
+/* 286 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(3);
-var list_box_element_1 = __webpack_require__(286);
+var list_box_element_1 = __webpack_require__(287);
 var ListBox = function (props) {
     var className = "list-box " + (props.visible ? "visible" : "");
     return (React.createElement("ul", { className: className }, props.data.records.map(function (opt) { return React.createElement(list_box_element_1.default, { key: props.data.getKey(opt), value: props.data.getKey(opt), selected: props.selected === props.data.getKey(opt), onSelect: function (ev) {
@@ -53124,7 +53278,7 @@ exports.default = ListBox;
 
 
 /***/ }),
-/* 286 */
+/* 287 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53141,7 +53295,7 @@ exports.default = ListBoxElement;
 
 
 /***/ }),
-/* 287 */
+/* 288 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53149,27 +53303,52 @@ exports.default = ListBoxElement;
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(3);
 var react_redux_1 = __webpack_require__(14);
+var reselect_1 = __webpack_require__(285);
 var actions_1 = __webpack_require__(16);
-var multi_select_field_1 = __webpack_require__(288);
+var multi_select_field_1 = __webpack_require__(289);
 var constants_1 = __webpack_require__(11);
-var Field = function (props) { return (React.createElement(multi_select_field_1.default, { label: "Do you have a sibling in high school? If so, which school?", values: props.siblingHSProgramIDs, data: { records: props.hsPrograms, getKey: function (program) { return program.ID; }, getDisplayText: function (program) { return program.Short_Name + " - " + program.Program_Type; } }, onChange: function (programs) { return props.onChange(programs.map(function (program) { return program.ID; })); }, debounceTime: constants_1.INPUT_DEBOUNCE_TIME })); };
+var Field = function (props) { return (React.createElement(multi_select_field_1.default, { label: "Do you have a sibling in high school? If so, which school?", values: props.siblingHSPrograms, data: {
+        records: props.hsPrograms,
+        getKey: function (program) { return program.ID; },
+        getDisplayText: function (program) {
+            return program.Short_Name + " - " + program.Program_Type;
+        }
+    }, onChange: function (programs) { return props.onChange(programs.map(function (program) { return program.ID; })); }, debounceTime: constants_1.INPUT_DEBOUNCE_TIME })); };
+var getPrograms = function (state) { return state.getIn(['hsData', 'programs']); };
+var getProgramIndex = function (state) { return state.getIn(['hsData', 'index']); };
+var getHSProgramIDs = function (state) { return state.getIn(['hsData', 'hsProgramIDs']); };
+var getSiblingHSProgramIDs = function (state) { return state.getIn(['studentData', 'siblingHSProgramIDs']); };
+var selectPrograms = function (ids, allPrograms, index) {
+    var selectedPrograms = [];
+    ids.forEach(function (id) {
+        console.log(id);
+        var i = index.get(id);
+        var program = allPrograms.get(i);
+        selectedPrograms.push(program);
+    });
+    return selectedPrograms;
+};
+var selectHSPrograms = reselect_1.createSelector([getHSProgramIDs, getPrograms, getProgramIndex], selectPrograms);
+var selectSiblingHSPrograms = reselect_1.createSelector([getSiblingHSProgramIDs, getPrograms, getProgramIndex], selectPrograms);
 var mapStateToProps = function (state) {
-    console.log(state.get('hsData')['hsProgramIDs']);
     return {
-        siblingHSProgramIDs: state.getIn(['studentData', 'siblingHSProgramIDs']),
-        hsPrograms: [],
+        siblingHSPrograms: selectSiblingHSPrograms(state),
+        hsPrograms: selectHSPrograms(state)
     };
 };
 var mapDispatchToProps = function (dispatch) {
     return {
-        onChange: function (programIDs) { return dispatch(actions_1.updateStudentSiblingHSPrograms(programIDs)); }
+        onChange: function (programIDs) {
+            console.log(programIDs);
+            dispatch(actions_1.updateStudentSiblingHSPrograms(programIDs));
+        }
     };
 };
 exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Field);
 
 
 /***/ }),
-/* 288 */
+/* 289 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53184,6 +53363,9 @@ var MultiSelectField = function (props) {
         return function (newValue) {
             var leftHalf = props.values.slice(0, index);
             var rightHalf = props.values.slice(index);
+            console.log("updating props.values");
+            console.log(leftHalf);
+            console.log(rightHalf);
             var newValues = leftHalf.concat(newValue, rightHalf);
             props.onChange(newValues);
         };
@@ -53214,12 +53396,16 @@ var MultiSelectField = function (props) {
         props.values && props.values.map(function (value, i) {
             return (React.createElement("div", { key: props.data.getKey(value), style: { width: "100%", display: "flex", flexDirection: "row", alignItems: "center" } },
                 React.createElement(combo_box_field_1.default, { value: value, onChange: createOnChangeHandler(i), data: data, debounceTime: props.debounceTime }),
-                React.createElement("button", { style: { width: "32px", height: "32px", backgroundColor: "#dfdfdf", border: "1px solid #acacac", borderRadius: "100%", margin: "0 1em", boxShadow: "0px 2px 2px #999" }, onClick: function () { return props.onChange(removeElemAtIndex(props.values, i)); } }, "X")));
+                React.createElement("button", { style: { width: "32px", height: "32px", backgroundColor: "#dfdfdf", border: "1px solid #acacac", borderRadius: "100%", margin: "0 1em", boxShadow: "0px 2px 2px #999" }, onClick: function () {
+                        console.log('exit button clicked');
+                        props.onChange(removeElemAtIndex(props.values, i));
+                    } }, "X")));
         }),
+        console.log('values at second combo box:'),
+        console.log(props.values),
         React.createElement(combo_box_field_1.default, { value: null, onChange: function (newValue) {
-                var newValues = props.values ? props.values.concat(newValue)
-                    : [newValue];
-                console.log(newValues);
+                console.warn(props.values);
+                var newValues = props.values.concat(newValue);
                 props.onChange(newValues);
             }, data: data, debounceTime: props.debounceTime })));
 };
@@ -53227,7 +53413,7 @@ exports.default = MultiSelectField;
 
 
 /***/ }),
-/* 289 */
+/* 290 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53246,7 +53432,7 @@ exports.default = connect_score_type_1.default(score_type_1.default.nweaPercenti
 
 
 /***/ }),
-/* 290 */
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53265,7 +53451,7 @@ exports.default = connect_score_type_1.default(score_type_1.default.nweaPercenti
 
 
 /***/ }),
-/* 291 */
+/* 292 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53284,7 +53470,7 @@ exports.default = connect_score_type_1.default(score_type_1.default.subjGradeMat
 
 
 /***/ }),
-/* 292 */
+/* 293 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53303,7 +53489,7 @@ exports.default = connect_score_type_1.default(score_type_1.default.subjGradeRea
 
 
 /***/ }),
-/* 293 */
+/* 294 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53322,7 +53508,7 @@ exports.default = connect_score_type_1.default(score_type_1.default.subjGradeSci
 
 
 /***/ }),
-/* 294 */
+/* 295 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
