@@ -38,7 +38,6 @@ class TextField extends React.PureComponent<TextFieldProps, TextFieldState> {
       localValue: props.value ? props.value : ""
     }
     this.onChange = props.debounceTime ? debounce(props.onChange, props.debounceTime) : props.onChange
-
   }
 
   private onChange: Function;
@@ -47,6 +46,7 @@ class TextField extends React.PureComponent<TextFieldProps, TextFieldState> {
     if (this.state.localValue !== "") {
       this.setState({localValue: nextProps.value ? nextProps.value : ""});
     }
+    this.onChange = nextProps.debounceTime ? debounce(nextProps.onChange, nextProps.debounceTime) : nextProps.onChange
   }
 
   render() {

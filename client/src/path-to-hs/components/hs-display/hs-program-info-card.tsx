@@ -1,15 +1,13 @@
 import * as React from "react";
 
-import CPSProgram from "shared/types/cps-program";
+import HSProgram from "shared/types/hs-program";
 import SuccessChance from "shared/enums/success-chance";
 
 import "./hs-program-info-card.scss";
 
 interface HSInfoCardProps {
-  program: CPSProgram 
+  program: HSProgram 
   visible: boolean
-  applicationSuccess: SuccessChance
-  selectionSuccess: SuccessChance
   style: Object
 }
 
@@ -40,6 +38,7 @@ const HSProgramInfoCard = (props: HSInfoCardProps) => {
     return msg;
   };
 
+  // TODO move this waayyyy out of here
   const createHSBoundLink = (name: string): string => {
     // remove "HS" from end
     let words = name.split(" ");
@@ -67,7 +66,7 @@ const HSProgramInfoCard = (props: HSInfoCardProps) => {
     <div style={props.style} className={`hs-info-card-container ${props.visible ? "visible" : "" }`}>
       <div className="hs-info-card">
         <div className="hs-info-card-program-name">
-          {`${props.program.Short_Name} - ${props.program.Program_Type} Program`}
+          {`${props.program.shortname} - ${props.program.programType} Program`}
         </div>
         <div className="hs-info-card-requirement-container">
           <div className="hs-info-card-requirement">
@@ -76,11 +75,11 @@ const HSProgramInfoCard = (props: HSInfoCardProps) => {
                 To Apply:
               </div>
               <div className="hs-info-card-req-desc">
-                {props.program.Application_Requirements}
+                {props.program.applicationReqDescription}
               </div>
             </div>
             <div className="hs-info-card-req-success">
-              {toMessage(props.applicationSuccess)}
+              {toMessage(props.program.applicationOutcome)}
             </div>
           </div>
           <div className="hs-info-card-requirement">
@@ -89,17 +88,17 @@ const HSProgramInfoCard = (props: HSInfoCardProps) => {
                 To Be Selected:
               </div>
               <div className="hs-info-card-req-desc">
-                {props.program.Program_Selections}
+                {props.program.selectionReqDescription}
               </div>
             </div>
             <div className="hs-info-card-req-success">
-              {toMessage(props.selectionSuccess)}
+              {toMessage(props.program.selectionOutcome)}
             </div>
           </div>
         </div>
         <div className="hs-links-container">
-          <a className="hs-link" target="_none" href={props.program.CPS_School_Profile}>School Website</a>
-          <a className="hs-link" target="_none" href={createHSBoundLink(props.program.Short_Name)}>HS Bound School Page</a>
+          <a className="hs-link" target="_none" href={props.program.cpsLink}>School Website</a>
+          <a className="hs-link" target="_none" href={createHSBoundLink(props.program.shortname)}>HS Bound School Page</a>
         </div>
       </div>
     </div>

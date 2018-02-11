@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 94);
+/******/ 	return __webpack_require__(__webpack_require__.s = 115);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -332,7 +332,7 @@ module.exports = invariant;
 
 
 
-var emptyFunction = __webpack_require__(10);
+var emptyFunction = __webpack_require__(9);
 
 /**
  * Similar to invariant but only logs a warning if the condition is not met.
@@ -393,6 +393,16 @@ module.exports = warning;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+module.exports = __webpack_require__(22);
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -431,16 +441,6 @@ function reactProdInvariant(code) {
 }
 
 module.exports = reactProdInvariant;
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = __webpack_require__(19);
-
 
 /***/ }),
 /* 5 */
@@ -556,10 +556,10 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
 
 
-var _prodInvariant = __webpack_require__(3);
+var _prodInvariant = __webpack_require__(4);
 
-var DOMProperty = __webpack_require__(16);
-var ReactDOMComponentFlags = __webpack_require__(64);
+var DOMProperty = __webpack_require__(17);
+var ReactDOMComponentFlags = __webpack_require__(73);
 
 var invariant = __webpack_require__(1);
 
@@ -799,9 +799,9 @@ module.exports = ExecutionEnvironment;
 
 
 
-var _prodInvariant = __webpack_require__(20);
+var _prodInvariant = __webpack_require__(23);
 
-var ReactCurrentOwner = __webpack_require__(13);
+var ReactCurrentOwner = __webpack_require__(12);
 
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
@@ -1171,36 +1171,6 @@ module.exports = ReactComponentTreeHook;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright 2016-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * 
- */
-
-
-
-// Trust the developer to only use ReactInstrumentation with a __DEV__ check
-
-var debugTool = null;
-
-if (process.env.NODE_ENV !== 'production') {
-  var ReactDebugTool = __webpack_require__(121);
-  debugTool = ReactDebugTool;
-}
-
-module.exports = { debugTool: debugTool };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
 
 
 /**
@@ -1241,448 +1211,47 @@ emptyFunction.thatReturnsArgument = function (arg) {
 module.exports = emptyFunction;
 
 /***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright 2016-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * 
+ */
+
+
+
+// Trust the developer to only use ReactInstrumentation with a __DEV__ check
+
+var debugTool = null;
+
+if (process.env.NODE_ENV !== 'production') {
+  var ReactDebugTool = __webpack_require__(141);
+  debugTool = ReactDebugTool;
+}
+
+module.exports = { debugTool: debugTool };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
 /* 11 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function(useSourceMap) {
-	var list = [];
+"use strict";
 
-	// return the list of modules as css string
-	list.toString = function toString() {
-		return this.map(function (item) {
-			var content = cssWithMappingToString(item, useSourceMap);
-			if(item[2]) {
-				return "@media " + item[2] + "{" + content + "}";
-			} else {
-				return content;
-			}
-		}).join("");
-	};
-
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
-
-function cssWithMappingToString(item, useSourceMap) {
-	var content = item[1] || '';
-	var cssMapping = item[3];
-	if (!cssMapping) {
-		return content;
-	}
-
-	if (useSourceMap && typeof btoa === 'function') {
-		var sourceMapping = toComment(cssMapping);
-		var sourceURLs = cssMapping.sources.map(function (source) {
-			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
-		});
-
-		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
-	}
-
-	return [content].join('\n');
-}
-
-// Adapted from convert-source-map (MIT)
-function toComment(sourceMap) {
-	// eslint-disable-next-line no-undef
-	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
-
-	return '/*# ' + data + ' */';
-}
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.INPUT_DEBOUNCE_TIME = 250;
 
 
 /***/ }),
 /* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-
-var stylesInDom = {};
-
-var	memoize = function (fn) {
-	var memo;
-
-	return function () {
-		if (typeof memo === "undefined") memo = fn.apply(this, arguments);
-		return memo;
-	};
-};
-
-var isOldIE = memoize(function () {
-	// Test for IE <= 9 as proposed by Browserhacks
-	// @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
-	// Tests for existence of standard globals is to allow style-loader
-	// to operate correctly into non-standard environments
-	// @see https://github.com/webpack-contrib/style-loader/issues/177
-	return window && document && document.all && !window.atob;
-});
-
-var getElement = (function (fn) {
-	var memo = {};
-
-	return function(selector) {
-		if (typeof memo[selector] === "undefined") {
-			memo[selector] = fn.call(this, selector);
-		}
-
-		return memo[selector]
-	};
-})(function (target) {
-	return document.querySelector(target)
-});
-
-var singleton = null;
-var	singletonCounter = 0;
-var	stylesInsertedAtTop = [];
-
-var	fixUrls = __webpack_require__(200);
-
-module.exports = function(list, options) {
-	if (typeof DEBUG !== "undefined" && DEBUG) {
-		if (typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
-	}
-
-	options = options || {};
-
-	options.attrs = typeof options.attrs === "object" ? options.attrs : {};
-
-	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-	// tags it will allow on a page
-	if (!options.singleton) options.singleton = isOldIE();
-
-	// By default, add <style> tags to the <head> element
-	if (!options.insertInto) options.insertInto = "head";
-
-	// By default, add <style> tags to the bottom of the target
-	if (!options.insertAt) options.insertAt = "bottom";
-
-	var styles = listToStyles(list, options);
-
-	addStylesToDom(styles, options);
-
-	return function update (newList) {
-		var mayRemove = [];
-
-		for (var i = 0; i < styles.length; i++) {
-			var item = styles[i];
-			var domStyle = stylesInDom[item.id];
-
-			domStyle.refs--;
-			mayRemove.push(domStyle);
-		}
-
-		if(newList) {
-			var newStyles = listToStyles(newList, options);
-			addStylesToDom(newStyles, options);
-		}
-
-		for (var i = 0; i < mayRemove.length; i++) {
-			var domStyle = mayRemove[i];
-
-			if(domStyle.refs === 0) {
-				for (var j = 0; j < domStyle.parts.length; j++) domStyle.parts[j]();
-
-				delete stylesInDom[domStyle.id];
-			}
-		}
-	};
-};
-
-function addStylesToDom (styles, options) {
-	for (var i = 0; i < styles.length; i++) {
-		var item = styles[i];
-		var domStyle = stylesInDom[item.id];
-
-		if(domStyle) {
-			domStyle.refs++;
-
-			for(var j = 0; j < domStyle.parts.length; j++) {
-				domStyle.parts[j](item.parts[j]);
-			}
-
-			for(; j < item.parts.length; j++) {
-				domStyle.parts.push(addStyle(item.parts[j], options));
-			}
-		} else {
-			var parts = [];
-
-			for(var j = 0; j < item.parts.length; j++) {
-				parts.push(addStyle(item.parts[j], options));
-			}
-
-			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
-		}
-	}
-}
-
-function listToStyles (list, options) {
-	var styles = [];
-	var newStyles = {};
-
-	for (var i = 0; i < list.length; i++) {
-		var item = list[i];
-		var id = options.base ? item[0] + options.base : item[0];
-		var css = item[1];
-		var media = item[2];
-		var sourceMap = item[3];
-		var part = {css: css, media: media, sourceMap: sourceMap};
-
-		if(!newStyles[id]) styles.push(newStyles[id] = {id: id, parts: [part]});
-		else newStyles[id].parts.push(part);
-	}
-
-	return styles;
-}
-
-function insertStyleElement (options, style) {
-	var target = getElement(options.insertInto)
-
-	if (!target) {
-		throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
-	}
-
-	var lastStyleElementInsertedAtTop = stylesInsertedAtTop[stylesInsertedAtTop.length - 1];
-
-	if (options.insertAt === "top") {
-		if (!lastStyleElementInsertedAtTop) {
-			target.insertBefore(style, target.firstChild);
-		} else if (lastStyleElementInsertedAtTop.nextSibling) {
-			target.insertBefore(style, lastStyleElementInsertedAtTop.nextSibling);
-		} else {
-			target.appendChild(style);
-		}
-		stylesInsertedAtTop.push(style);
-	} else if (options.insertAt === "bottom") {
-		target.appendChild(style);
-	} else {
-		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
-	}
-}
-
-function removeStyleElement (style) {
-	if (style.parentNode === null) return false;
-	style.parentNode.removeChild(style);
-
-	var idx = stylesInsertedAtTop.indexOf(style);
-	if(idx >= 0) {
-		stylesInsertedAtTop.splice(idx, 1);
-	}
-}
-
-function createStyleElement (options) {
-	var style = document.createElement("style");
-
-	options.attrs.type = "text/css";
-
-	addAttrs(style, options.attrs);
-	insertStyleElement(options, style);
-
-	return style;
-}
-
-function createLinkElement (options) {
-	var link = document.createElement("link");
-
-	options.attrs.type = "text/css";
-	options.attrs.rel = "stylesheet";
-
-	addAttrs(link, options.attrs);
-	insertStyleElement(options, link);
-
-	return link;
-}
-
-function addAttrs (el, attrs) {
-	Object.keys(attrs).forEach(function (key) {
-		el.setAttribute(key, attrs[key]);
-	});
-}
-
-function addStyle (obj, options) {
-	var style, update, remove, result;
-
-	// If a transform function was defined, run it on the css
-	if (options.transform && obj.css) {
-	    result = options.transform(obj.css);
-
-	    if (result) {
-	    	// If transform returns a value, use that instead of the original css.
-	    	// This allows running runtime transformations on the css.
-	    	obj.css = result;
-	    } else {
-	    	// If the transform function returns a falsy value, don't add this css.
-	    	// This allows conditional loading of css
-	    	return function() {
-	    		// noop
-	    	};
-	    }
-	}
-
-	if (options.singleton) {
-		var styleIndex = singletonCounter++;
-
-		style = singleton || (singleton = createStyleElement(options));
-
-		update = applyToSingletonTag.bind(null, style, styleIndex, false);
-		remove = applyToSingletonTag.bind(null, style, styleIndex, true);
-
-	} else if (
-		obj.sourceMap &&
-		typeof URL === "function" &&
-		typeof URL.createObjectURL === "function" &&
-		typeof URL.revokeObjectURL === "function" &&
-		typeof Blob === "function" &&
-		typeof btoa === "function"
-	) {
-		style = createLinkElement(options);
-		update = updateLink.bind(null, style, options);
-		remove = function () {
-			removeStyleElement(style);
-
-			if(style.href) URL.revokeObjectURL(style.href);
-		};
-	} else {
-		style = createStyleElement(options);
-		update = applyToTag.bind(null, style);
-		remove = function () {
-			removeStyleElement(style);
-		};
-	}
-
-	update(obj);
-
-	return function updateStyle (newObj) {
-		if (newObj) {
-			if (
-				newObj.css === obj.css &&
-				newObj.media === obj.media &&
-				newObj.sourceMap === obj.sourceMap
-			) {
-				return;
-			}
-
-			update(obj = newObj);
-		} else {
-			remove();
-		}
-	};
-}
-
-var replaceText = (function () {
-	var textStore = [];
-
-	return function (index, replacement) {
-		textStore[index] = replacement;
-
-		return textStore.filter(Boolean).join('\n');
-	};
-})();
-
-function applyToSingletonTag (style, index, remove, obj) {
-	var css = remove ? "" : obj.css;
-
-	if (style.styleSheet) {
-		style.styleSheet.cssText = replaceText(index, css);
-	} else {
-		var cssNode = document.createTextNode(css);
-		var childNodes = style.childNodes;
-
-		if (childNodes[index]) style.removeChild(childNodes[index]);
-
-		if (childNodes.length) {
-			style.insertBefore(cssNode, childNodes[index]);
-		} else {
-			style.appendChild(cssNode);
-		}
-	}
-}
-
-function applyToTag (style, obj) {
-	var css = obj.css;
-	var media = obj.media;
-
-	if(media) {
-		style.setAttribute("media", media)
-	}
-
-	if(style.styleSheet) {
-		style.styleSheet.cssText = css;
-	} else {
-		while(style.firstChild) {
-			style.removeChild(style.firstChild);
-		}
-
-		style.appendChild(document.createTextNode(css));
-	}
-}
-
-function updateLink (link, options, obj) {
-	var css = obj.css;
-	var sourceMap = obj.sourceMap;
-
-	/*
-		If convertToAbsoluteUrls isn't defined, but sourcemaps are enabled
-		and there is no publicPath defined then lets turn convertToAbsoluteUrls
-		on by default.  Otherwise default to the convertToAbsoluteUrls option
-		directly
-	*/
-	var autoFixUrls = options.convertToAbsoluteUrls === undefined && sourceMap;
-
-	if (options.convertToAbsoluteUrls || autoFixUrls) {
-		css = fixUrls(css);
-	}
-
-	if (sourceMap) {
-		// http://stackoverflow.com/a/26603875
-		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
-	}
-
-	var blob = new Blob([css], { type: "text/css" });
-
-	var oldSrc = link.href;
-
-	link.href = URL.createObjectURL(blob);
-
-	if(oldSrc) URL.revokeObjectURL(oldSrc);
-}
-
-
-/***/ }),
-/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1716,7 +1285,7 @@ var ReactCurrentOwner = {
 module.exports = ReactCurrentOwner;
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1732,14 +1301,14 @@ module.exports = ReactCurrentOwner;
 
 
 
-var _prodInvariant = __webpack_require__(3),
+var _prodInvariant = __webpack_require__(4),
     _assign = __webpack_require__(5);
 
-var CallbackQueue = __webpack_require__(68);
-var PooledClass = __webpack_require__(18);
-var ReactFeatureFlags = __webpack_require__(69);
-var ReactReconciler = __webpack_require__(21);
-var Transaction = __webpack_require__(33);
+var CallbackQueue = __webpack_require__(77);
+var PooledClass = __webpack_require__(19);
+var ReactFeatureFlags = __webpack_require__(78);
+var ReactReconciler = __webpack_require__(24);
+var Transaction = __webpack_require__(39);
 
 var invariant = __webpack_require__(1);
 
@@ -1973,6 +1542,25 @@ module.exports = ReactUpdates;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
+/* 14 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(238);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(110);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(243);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
+
+
+
+
+
+
+/***/ }),
 /* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1991,9 +1579,9 @@ module.exports = ReactUpdates;
 
 var _assign = __webpack_require__(5);
 
-var PooledClass = __webpack_require__(18);
+var PooledClass = __webpack_require__(19);
 
-var emptyFunction = __webpack_require__(10);
+var emptyFunction = __webpack_require__(9);
 var warning = __webpack_require__(2);
 
 var didWarnForAddedNewProperty = false;
@@ -2249,6 +1837,149 @@ function getPooledWarningPropertyDefinition(propName, getVal) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var action_type_1 = __webpack_require__(104);
+exports.selectHSProgram = function (newValue) {
+    return {
+        type: action_type_1.default.SelectHSProgram,
+        payload: newValue
+    };
+};
+exports.updateStudentAttendPercentage = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentAttendPercentage,
+        payload: newValue
+    };
+};
+exports.updateStudentELLStatus = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentELLStatus,
+        payload: newValue
+    };
+};
+exports.updateStudentGender = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentGender,
+        payload: newValue
+    };
+};
+exports.updateStudentGradeLevel = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentGradeLevel,
+        payload: newValue
+    };
+};
+exports.updateStudentPrevGradeLevel = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentPrevGradeLevel,
+        payload: newValue
+    };
+};
+exports.updateStudentIEPStatus = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentIEPStatus,
+        payload: newValue
+    };
+};
+exports.updateStudentLocation = function (location) {
+    return {
+        type: action_type_1.default.UpdateStudentLocation,
+        payload: location
+    };
+};
+exports.updateStudentCurrESProgram = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentCurrESProgram,
+        payload: newValue
+    };
+};
+exports.updateStudentSiblingHSPrograms = function (newValues) {
+    return {
+        type: action_type_1.default.UpdateStudentSiblingHSPrograms,
+        payload: newValues
+    };
+};
+exports.updateStudentNWEAPercentileMath = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentNWEAPercentileMath,
+        payload: newValue
+    };
+};
+exports.updateStudentNWEAPercentileRead = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentNWEAPercentileRead,
+        payload: newValue
+    };
+};
+exports.updateStudentSubjGradeMath = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentSubjGradeMath,
+        payload: newValue
+    };
+};
+exports.updateStudentSubjGradeRead = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentSubjGradeRead,
+        payload: newValue
+    };
+};
+exports.updateStudentSubjGradeSci = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentSubjGradeSci,
+        payload: newValue
+    };
+};
+exports.updateStudentSubjGradeSocStudies = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentSubjGradeSocStudies,
+        payload: newValue
+    };
+};
+exports.updateStudentSETestPercentile = function (newValue) {
+    return {
+        type: action_type_1.default.UpdateStudentSETestPercentile,
+        payload: newValue
+    };
+};
+exports.updateStudentScore = function (scoreType, newValue) {
+    var actionType;
+    switch (scoreType) {
+        case "nweaPercentileMath":
+            actionType = action_type_1.default.UpdateStudentNWEAPercentileMath;
+            break;
+        case "nweaPercentileRead":
+            actionType = action_type_1.default.UpdateStudentNWEAPercentileRead;
+            break;
+        case "subjGradeMath":
+            actionType = action_type_1.default.UpdateStudentSubjGradeMath;
+            break;
+        case "subjGradeRead":
+            actionType = action_type_1.default.UpdateStudentSubjGradeRead;
+            break;
+        case "subjGradeSci":
+            actionType = action_type_1.default.UpdateStudentSubjGradeSci;
+            break;
+        case "subjGradeSocStudies":
+            actionType = action_type_1.default.UpdateStudentSubjGradeSocStudies;
+            break;
+        case "seTestPercentile":
+            actionType = action_type_1.default.UpdateStudentSETestPercentile;
+        default:
+            throw new Error("Unrecognized ScoreType: " + scoreType);
+    }
+    return {
+        type: actionType,
+        payload: newValue
+    };
+};
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -2261,7 +1992,7 @@ function getPooledWarningPropertyDefinition(propName, getVal) {
 
 
 
-var _prodInvariant = __webpack_require__(3);
+var _prodInvariant = __webpack_require__(4);
 
 var invariant = __webpack_require__(1);
 
@@ -2460,7 +2191,7 @@ module.exports = DOMProperty;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2478,13 +2209,13 @@ module.exports = DOMProperty;
 
 var _assign = __webpack_require__(5);
 
-var ReactCurrentOwner = __webpack_require__(13);
+var ReactCurrentOwner = __webpack_require__(12);
 
 var warning = __webpack_require__(2);
-var canDefineProperty = __webpack_require__(30);
+var canDefineProperty = __webpack_require__(36);
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 
-var REACT_ELEMENT_TYPE = __webpack_require__(59);
+var REACT_ELEMENT_TYPE = __webpack_require__(68);
 
 var RESERVED_PROPS = {
   key: true,
@@ -2807,7 +2538,7 @@ module.exports = ReactElement;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2824,7 +2555,7 @@ module.exports = ReactElement;
 
 
 
-var _prodInvariant = __webpack_require__(3);
+var _prodInvariant = __webpack_require__(4);
 
 var invariant = __webpack_require__(1);
 
@@ -2925,7 +2656,101 @@ module.exports = PooledClass;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 19 */
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var field_validation_state_1 = __webpack_require__(28);
+var field_container_1 = __webpack_require__(35);
+var debounce_1 = __webpack_require__(45);
+var NumberField = (function (_super) {
+    __extends(NumberField, _super);
+    function NumberField(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = {
+            localValue: props.value ? props.value : ""
+        };
+        _this.onChange = props.debounceTime ? debounce_1.default(props.onChange, props.debounceTime) : props.onChange;
+        return _this;
+    }
+    NumberField.prototype.componentWillReceiveProps = function (nextProps) {
+        if (this.state.localValue !== "") {
+            this.setState({ localValue: nextProps.value ? nextProps.value : "" });
+        }
+        this.onChange = nextProps.debounceTime ? debounce_1.default(nextProps.onChange, nextProps.debounceTime) : nextProps.onChange;
+    };
+    NumberField.prototype.render = function () {
+        var _this = this;
+        var handleChange = function (ev) {
+            if (ev.currentTarget.value === "") {
+                _this.setState({ localValue: "" });
+                return false;
+            }
+            else {
+                var currValue = _this.props.value;
+                var nextValue = ev.currentTarget.valueAsNumber;
+                _this.setState({ localValue: nextValue });
+                if (_this.props.limiter) {
+                    _this.onChange(_this.props.limiter(currValue, nextValue));
+                }
+                else {
+                    _this.onChange(nextValue);
+                }
+                return true;
+            }
+        };
+        var validation = this.props.validator && this.state.localValue !== "" ? this.props.validator(this.state.localValue)
+            : field_validation_state_1.default.NEUTRAL;
+        return (React.createElement(field_container_1.default, { className: this.props.className, label: this.props.label, validation: validation },
+            React.createElement("input", { value: this.state.localValue, type: "number", className: "field-input-element", onChange: handleChange })));
+    };
+    return NumberField;
+}(React.PureComponent));
+;
+exports.default = NumberField;
+
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var between = function (min, max) {
+    return function (curr, next) {
+        if (Number.isNaN(next)) {
+            return curr;
+        }
+        else if (next < min) {
+            return min;
+        }
+        else if (next > max) {
+            return max;
+        }
+        else {
+            return next;
+        }
+    };
+};
+exports.default = between;
+
+
+/***/ }),
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2943,24 +2768,24 @@ module.exports = PooledClass;
 
 var _assign = __webpack_require__(5);
 
-var ReactBaseClasses = __webpack_require__(57);
-var ReactChildren = __webpack_require__(95);
-var ReactDOMFactories = __webpack_require__(99);
-var ReactElement = __webpack_require__(17);
-var ReactPropTypes = __webpack_require__(103);
-var ReactVersion = __webpack_require__(106);
+var ReactBaseClasses = __webpack_require__(66);
+var ReactChildren = __webpack_require__(116);
+var ReactDOMFactories = __webpack_require__(120);
+var ReactElement = __webpack_require__(18);
+var ReactPropTypes = __webpack_require__(124);
+var ReactVersion = __webpack_require__(126);
 
-var createReactClass = __webpack_require__(107);
-var onlyChild = __webpack_require__(109);
+var createReactClass = __webpack_require__(127);
+var onlyChild = __webpack_require__(129);
 
 var createElement = ReactElement.createElement;
 var createFactory = ReactElement.createFactory;
 var cloneElement = ReactElement.cloneElement;
 
 if (process.env.NODE_ENV !== 'production') {
-  var lowPriorityWarning = __webpack_require__(39);
-  var canDefineProperty = __webpack_require__(30);
-  var ReactElementValidator = __webpack_require__(61);
+  var lowPriorityWarning = __webpack_require__(46);
+  var canDefineProperty = __webpack_require__(36);
+  var ReactElementValidator = __webpack_require__(70);
   var didWarnPropTypesDeprecated = false;
   createElement = ReactElementValidator.createElement;
   createFactory = ReactElementValidator.createFactory;
@@ -3063,7 +2888,7 @@ module.exports = React;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 20 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3107,7 +2932,7 @@ function reactProdInvariant(code) {
 module.exports = reactProdInvariant;
 
 /***/ }),
-/* 21 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3123,8 +2948,8 @@ module.exports = reactProdInvariant;
 
 
 
-var ReactRef = __webpack_require__(119);
-var ReactInstrumentation = __webpack_require__(9);
+var ReactRef = __webpack_require__(139);
+var ReactInstrumentation = __webpack_require__(10);
 
 var warning = __webpack_require__(2);
 
@@ -3279,7 +3104,7 @@ module.exports = ReactReconciler;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 22 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3295,11 +3120,11 @@ module.exports = ReactReconciler;
 
 
 
-var DOMNamespaces = __webpack_require__(46);
-var setInnerHTML = __webpack_require__(35);
+var DOMNamespaces = __webpack_require__(54);
+var setInnerHTML = __webpack_require__(41);
 
-var createMicrosoftUnsafeLocalFunction = __webpack_require__(47);
-var setTextContent = __webpack_require__(73);
+var createMicrosoftUnsafeLocalFunction = __webpack_require__(55);
+var setTextContent = __webpack_require__(82);
 
 var ELEMENT_NODE_TYPE = 1;
 var DOCUMENT_FRAGMENT_NODE_TYPE = 11;
@@ -3402,7 +3227,448 @@ DOMLazyTree.queueText = queueText;
 module.exports = DOMLazyTree;
 
 /***/ }),
-/* 23 */
+/* 26 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+
+var stylesInDom = {};
+
+var	memoize = function (fn) {
+	var memo;
+
+	return function () {
+		if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+		return memo;
+	};
+};
+
+var isOldIE = memoize(function () {
+	// Test for IE <= 9 as proposed by Browserhacks
+	// @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
+	// Tests for existence of standard globals is to allow style-loader
+	// to operate correctly into non-standard environments
+	// @see https://github.com/webpack-contrib/style-loader/issues/177
+	return window && document && document.all && !window.atob;
+});
+
+var getElement = (function (fn) {
+	var memo = {};
+
+	return function(selector) {
+		if (typeof memo[selector] === "undefined") {
+			memo[selector] = fn.call(this, selector);
+		}
+
+		return memo[selector]
+	};
+})(function (target) {
+	return document.querySelector(target)
+});
+
+var singleton = null;
+var	singletonCounter = 0;
+var	stylesInsertedAtTop = [];
+
+var	fixUrls = __webpack_require__(254);
+
+module.exports = function(list, options) {
+	if (typeof DEBUG !== "undefined" && DEBUG) {
+		if (typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+	}
+
+	options = options || {};
+
+	options.attrs = typeof options.attrs === "object" ? options.attrs : {};
+
+	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+	// tags it will allow on a page
+	if (!options.singleton) options.singleton = isOldIE();
+
+	// By default, add <style> tags to the <head> element
+	if (!options.insertInto) options.insertInto = "head";
+
+	// By default, add <style> tags to the bottom of the target
+	if (!options.insertAt) options.insertAt = "bottom";
+
+	var styles = listToStyles(list, options);
+
+	addStylesToDom(styles, options);
+
+	return function update (newList) {
+		var mayRemove = [];
+
+		for (var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+
+			domStyle.refs--;
+			mayRemove.push(domStyle);
+		}
+
+		if(newList) {
+			var newStyles = listToStyles(newList, options);
+			addStylesToDom(newStyles, options);
+		}
+
+		for (var i = 0; i < mayRemove.length; i++) {
+			var domStyle = mayRemove[i];
+
+			if(domStyle.refs === 0) {
+				for (var j = 0; j < domStyle.parts.length; j++) domStyle.parts[j]();
+
+				delete stylesInDom[domStyle.id];
+			}
+		}
+	};
+};
+
+function addStylesToDom (styles, options) {
+	for (var i = 0; i < styles.length; i++) {
+		var item = styles[i];
+		var domStyle = stylesInDom[item.id];
+
+		if(domStyle) {
+			domStyle.refs++;
+
+			for(var j = 0; j < domStyle.parts.length; j++) {
+				domStyle.parts[j](item.parts[j]);
+			}
+
+			for(; j < item.parts.length; j++) {
+				domStyle.parts.push(addStyle(item.parts[j], options));
+			}
+		} else {
+			var parts = [];
+
+			for(var j = 0; j < item.parts.length; j++) {
+				parts.push(addStyle(item.parts[j], options));
+			}
+
+			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+		}
+	}
+}
+
+function listToStyles (list, options) {
+	var styles = [];
+	var newStyles = {};
+
+	for (var i = 0; i < list.length; i++) {
+		var item = list[i];
+		var id = options.base ? item[0] + options.base : item[0];
+		var css = item[1];
+		var media = item[2];
+		var sourceMap = item[3];
+		var part = {css: css, media: media, sourceMap: sourceMap};
+
+		if(!newStyles[id]) styles.push(newStyles[id] = {id: id, parts: [part]});
+		else newStyles[id].parts.push(part);
+	}
+
+	return styles;
+}
+
+function insertStyleElement (options, style) {
+	var target = getElement(options.insertInto)
+
+	if (!target) {
+		throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
+	}
+
+	var lastStyleElementInsertedAtTop = stylesInsertedAtTop[stylesInsertedAtTop.length - 1];
+
+	if (options.insertAt === "top") {
+		if (!lastStyleElementInsertedAtTop) {
+			target.insertBefore(style, target.firstChild);
+		} else if (lastStyleElementInsertedAtTop.nextSibling) {
+			target.insertBefore(style, lastStyleElementInsertedAtTop.nextSibling);
+		} else {
+			target.appendChild(style);
+		}
+		stylesInsertedAtTop.push(style);
+	} else if (options.insertAt === "bottom") {
+		target.appendChild(style);
+	} else {
+		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+	}
+}
+
+function removeStyleElement (style) {
+	if (style.parentNode === null) return false;
+	style.parentNode.removeChild(style);
+
+	var idx = stylesInsertedAtTop.indexOf(style);
+	if(idx >= 0) {
+		stylesInsertedAtTop.splice(idx, 1);
+	}
+}
+
+function createStyleElement (options) {
+	var style = document.createElement("style");
+
+	options.attrs.type = "text/css";
+
+	addAttrs(style, options.attrs);
+	insertStyleElement(options, style);
+
+	return style;
+}
+
+function createLinkElement (options) {
+	var link = document.createElement("link");
+
+	options.attrs.type = "text/css";
+	options.attrs.rel = "stylesheet";
+
+	addAttrs(link, options.attrs);
+	insertStyleElement(options, link);
+
+	return link;
+}
+
+function addAttrs (el, attrs) {
+	Object.keys(attrs).forEach(function (key) {
+		el.setAttribute(key, attrs[key]);
+	});
+}
+
+function addStyle (obj, options) {
+	var style, update, remove, result;
+
+	// If a transform function was defined, run it on the css
+	if (options.transform && obj.css) {
+	    result = options.transform(obj.css);
+
+	    if (result) {
+	    	// If transform returns a value, use that instead of the original css.
+	    	// This allows running runtime transformations on the css.
+	    	obj.css = result;
+	    } else {
+	    	// If the transform function returns a falsy value, don't add this css.
+	    	// This allows conditional loading of css
+	    	return function() {
+	    		// noop
+	    	};
+	    }
+	}
+
+	if (options.singleton) {
+		var styleIndex = singletonCounter++;
+
+		style = singleton || (singleton = createStyleElement(options));
+
+		update = applyToSingletonTag.bind(null, style, styleIndex, false);
+		remove = applyToSingletonTag.bind(null, style, styleIndex, true);
+
+	} else if (
+		obj.sourceMap &&
+		typeof URL === "function" &&
+		typeof URL.createObjectURL === "function" &&
+		typeof URL.revokeObjectURL === "function" &&
+		typeof Blob === "function" &&
+		typeof btoa === "function"
+	) {
+		style = createLinkElement(options);
+		update = updateLink.bind(null, style, options);
+		remove = function () {
+			removeStyleElement(style);
+
+			if(style.href) URL.revokeObjectURL(style.href);
+		};
+	} else {
+		style = createStyleElement(options);
+		update = applyToTag.bind(null, style);
+		remove = function () {
+			removeStyleElement(style);
+		};
+	}
+
+	update(obj);
+
+	return function updateStyle (newObj) {
+		if (newObj) {
+			if (
+				newObj.css === obj.css &&
+				newObj.media === obj.media &&
+				newObj.sourceMap === obj.sourceMap
+			) {
+				return;
+			}
+
+			update(obj = newObj);
+		} else {
+			remove();
+		}
+	};
+}
+
+var replaceText = (function () {
+	var textStore = [];
+
+	return function (index, replacement) {
+		textStore[index] = replacement;
+
+		return textStore.filter(Boolean).join('\n');
+	};
+})();
+
+function applyToSingletonTag (style, index, remove, obj) {
+	var css = remove ? "" : obj.css;
+
+	if (style.styleSheet) {
+		style.styleSheet.cssText = replaceText(index, css);
+	} else {
+		var cssNode = document.createTextNode(css);
+		var childNodes = style.childNodes;
+
+		if (childNodes[index]) style.removeChild(childNodes[index]);
+
+		if (childNodes.length) {
+			style.insertBefore(cssNode, childNodes[index]);
+		} else {
+			style.appendChild(cssNode);
+		}
+	}
+}
+
+function applyToTag (style, obj) {
+	var css = obj.css;
+	var media = obj.media;
+
+	if(media) {
+		style.setAttribute("media", media)
+	}
+
+	if(style.styleSheet) {
+		style.styleSheet.cssText = css;
+	} else {
+		while(style.firstChild) {
+			style.removeChild(style.firstChild);
+		}
+
+		style.appendChild(document.createTextNode(css));
+	}
+}
+
+function updateLink (link, options, obj) {
+	var css = obj.css;
+	var sourceMap = obj.sourceMap;
+
+	/*
+		If convertToAbsoluteUrls isn't defined, but sourcemaps are enabled
+		and there is no publicPath defined then lets turn convertToAbsoluteUrls
+		on by default.  Otherwise default to the convertToAbsoluteUrls option
+		directly
+	*/
+	var autoFixUrls = options.convertToAbsoluteUrls === undefined && sourceMap;
+
+	if (options.convertToAbsoluteUrls || autoFixUrls) {
+		css = fixUrls(css);
+	}
+
+	if (sourceMap) {
+		// http://stackoverflow.com/a/26603875
+		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+	}
+
+	var blob = new Blob([css], { type: "text/css" });
+
+	var oldSrc = link.href;
+
+	link.href = URL.createObjectURL(blob);
+
+	if(oldSrc) URL.revokeObjectURL(oldSrc);
+}
+
+
+/***/ }),
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3419,27 +3685,51 @@ exports.default = FieldValidationState;
 
 
 /***/ }),
-/* 24 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var SuccessChance;
-(function (SuccessChance) {
-    SuccessChance[SuccessChance["CERTAIN"] = 0] = "CERTAIN";
-    SuccessChance[SuccessChance["LIKELY"] = 1] = "LIKELY";
-    SuccessChance[SuccessChance["UNCERTAIN"] = 2] = "UNCERTAIN";
-    SuccessChance[SuccessChance["UNLIKELY"] = 3] = "UNLIKELY";
-    SuccessChance[SuccessChance["NONE"] = 4] = "NONE";
-    SuccessChance[SuccessChance["NOTIMPLEMENTED"] = 5] = "NOTIMPLEMENTED";
-})(SuccessChance || (SuccessChance = {}));
-;
-exports.default = SuccessChance;
+var ScoreType;
+(function (ScoreType) {
+    ScoreType["nweaPercentileMath"] = "nweaPercentileMath";
+    ScoreType["nweaPercentileRead"] = "nweaPercentileRead";
+    ScoreType["subjGradeMath"] = "subjGradeMath";
+    ScoreType["subjGradeRead"] = "subjGradeRead";
+    ScoreType["subjGradeSci"] = "subjGradeSci";
+    ScoreType["subjGradeSocStudies"] = "subjGradeSocStudies";
+})(ScoreType || (ScoreType = {}));
+exports.default = ScoreType;
 
 
 /***/ }),
-/* 25 */
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var react_redux_1 = __webpack_require__(14);
+var actions_1 = __webpack_require__(16);
+var mapStateScore = function (scoreType) { return function (state) {
+    return {
+        value: state.getIn(['studentData', scoreType])
+    };
+}; };
+var mapDispatchScore = function (scoreType) { return function (dispatch) {
+    return {
+        onChange: function (value) { return dispatch(actions_1.updateStudentScore(scoreType, value)); }
+    };
+}; };
+var connectScoreType = function (scoreType) { return function (elem) {
+    return react_redux_1.connect(mapStateScore(scoreType), mapDispatchScore(scoreType))(elem);
+}; };
+exports.default = connectScoreType;
+
+
+/***/ }),
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3455,11 +3745,11 @@ exports.default = SuccessChance;
 
 
 
-var EventPluginHub = __webpack_require__(26);
-var EventPluginUtils = __webpack_require__(40);
+var EventPluginHub = __webpack_require__(32);
+var EventPluginUtils = __webpack_require__(48);
 
-var accumulateInto = __webpack_require__(65);
-var forEachAccumulated = __webpack_require__(66);
+var accumulateInto = __webpack_require__(74);
+var forEachAccumulated = __webpack_require__(75);
 var warning = __webpack_require__(2);
 
 var getListener = EventPluginHub.getListener;
@@ -3579,7 +3869,7 @@ module.exports = EventPropagators;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 26 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3595,14 +3885,14 @@ module.exports = EventPropagators;
 
 
 
-var _prodInvariant = __webpack_require__(3);
+var _prodInvariant = __webpack_require__(4);
 
-var EventPluginRegistry = __webpack_require__(32);
-var EventPluginUtils = __webpack_require__(40);
-var ReactErrorUtils = __webpack_require__(41);
+var EventPluginRegistry = __webpack_require__(38);
+var EventPluginUtils = __webpack_require__(48);
+var ReactErrorUtils = __webpack_require__(49);
 
-var accumulateInto = __webpack_require__(65);
-var forEachAccumulated = __webpack_require__(66);
+var accumulateInto = __webpack_require__(74);
+var forEachAccumulated = __webpack_require__(75);
 var invariant = __webpack_require__(1);
 
 /**
@@ -3859,7 +4149,7 @@ module.exports = EventPluginHub;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 27 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3877,7 +4167,7 @@ module.exports = EventPluginHub;
 
 var SyntheticEvent = __webpack_require__(15);
 
-var getEventTarget = __webpack_require__(42);
+var getEventTarget = __webpack_require__(50);
 
 /**
  * @interface UIEvent
@@ -3923,7 +4213,7 @@ SyntheticEvent.augmentClass(SyntheticUIEvent, UIEventInterface);
 module.exports = SyntheticUIEvent;
 
 /***/ }),
-/* 28 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3974,15 +4264,15 @@ var ReactInstanceMap = {
 module.exports = ReactInstanceMap;
 
 /***/ }),
-/* 29 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-__webpack_require__(207);
-var field_label_1 = __webpack_require__(209);
+var React = __webpack_require__(3);
+__webpack_require__(266);
+var field_label_1 = __webpack_require__(268);
 var FieldContainer = function (props) { return (React.createElement("div", { className: "field-container" + " " + props.className },
     props.label &&
         React.createElement(field_label_1.default, null, props.label),
@@ -3991,7 +4281,7 @@ exports.default = FieldContainer;
 
 
 /***/ }),
-/* 30 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4023,7 +4313,7 @@ module.exports = canDefineProperty;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 31 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4049,7 +4339,7 @@ module.exports = emptyObject;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 32 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4066,7 +4356,7 @@ module.exports = emptyObject;
 
 
 
-var _prodInvariant = __webpack_require__(3);
+var _prodInvariant = __webpack_require__(4);
 
 var invariant = __webpack_require__(1);
 
@@ -4308,7 +4598,7 @@ module.exports = EventPluginRegistry;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 33 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4325,7 +4615,7 @@ module.exports = EventPluginRegistry;
 
 
 
-var _prodInvariant = __webpack_require__(3);
+var _prodInvariant = __webpack_require__(4);
 
 var invariant = __webpack_require__(1);
 
@@ -4542,7 +4832,7 @@ module.exports = TransactionImpl;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 34 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4558,10 +4848,10 @@ module.exports = TransactionImpl;
 
 
 
-var SyntheticUIEvent = __webpack_require__(27);
-var ViewportMetrics = __webpack_require__(72);
+var SyntheticUIEvent = __webpack_require__(33);
+var ViewportMetrics = __webpack_require__(81);
 
-var getEventModifierState = __webpack_require__(44);
+var getEventModifierState = __webpack_require__(52);
 
 /**
  * @interface MouseEvent
@@ -4619,7 +4909,7 @@ SyntheticUIEvent.augmentClass(SyntheticMouseEvent, MouseEventInterface);
 module.exports = SyntheticMouseEvent;
 
 /***/ }),
-/* 35 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4636,12 +4926,12 @@ module.exports = SyntheticMouseEvent;
 
 
 var ExecutionEnvironment = __webpack_require__(7);
-var DOMNamespaces = __webpack_require__(46);
+var DOMNamespaces = __webpack_require__(54);
 
 var WHITESPACE_TEST = /^[ \r\n\t\f]/;
 var NONVISIBLE_TEST = /<(!--|link|noscript|meta|script|style)[ \r\n\t\f\/>]/;
 
-var createMicrosoftUnsafeLocalFunction = __webpack_require__(47);
+var createMicrosoftUnsafeLocalFunction = __webpack_require__(55);
 
 // SVG temp container for IE lacking innerHTML
 var reusableSVGContainer;
@@ -4722,7 +5012,7 @@ if (ExecutionEnvironment.canUseDOM) {
 module.exports = setInnerHTML;
 
 /***/ }),
-/* 36 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4849,7 +5139,7 @@ function escapeTextContentForBrowser(text) {
 module.exports = escapeTextContentForBrowser;
 
 /***/ }),
-/* 37 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4867,12 +5157,12 @@ module.exports = escapeTextContentForBrowser;
 
 var _assign = __webpack_require__(5);
 
-var EventPluginRegistry = __webpack_require__(32);
-var ReactEventEmitterMixin = __webpack_require__(145);
-var ViewportMetrics = __webpack_require__(72);
+var EventPluginRegistry = __webpack_require__(38);
+var ReactEventEmitterMixin = __webpack_require__(165);
+var ViewportMetrics = __webpack_require__(81);
 
-var getVendorPrefixedEventName = __webpack_require__(146);
-var isEventSupported = __webpack_require__(43);
+var getVendorPrefixedEventName = __webpack_require__(166);
+var isEventSupported = __webpack_require__(51);
 
 /**
  * Summary of `ReactBrowserEventEmitter` event handling:
@@ -5178,7 +5468,62 @@ var ReactBrowserEventEmitter = _assign({}, ReactEventEmitterMixin, {
 module.exports = ReactBrowserEventEmitter;
 
 /***/ }),
-/* 38 */
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var field_validation_state_1 = __webpack_require__(28);
+var field_container_1 = __webpack_require__(35);
+var debounce_1 = __webpack_require__(45);
+var DropdownField = (function (_super) {
+    __extends(DropdownField, _super);
+    function DropdownField(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = {
+            localValue: props.value ? props.value : ""
+        };
+        _this.onChange = props.debounceTime ? debounce_1.default(props.onChange, props.debounceTime) : props.onChange;
+        return _this;
+    }
+    DropdownField.prototype.componentWillReceiveProps = function (nextProps) {
+        this.setState({ localValue: nextProps.value });
+        this.onChange = nextProps.debounceTime ? debounce_1.default(nextProps.onChange, nextProps.debounceTime) : nextProps.onChange;
+    };
+    DropdownField.prototype.render = function () {
+        var _this = this;
+        var validation = this.props.validator ? this.props.validator(this.state.localValue)
+            : field_validation_state_1.default.NEUTRAL;
+        var handleChange = function (ev) {
+            var newValue = ev.currentTarget.value;
+            var shouldUpdate = _this.props.restrictor ? _this.props.restrictor(newValue)
+                : true;
+            if (shouldUpdate) {
+                _this.onChange(newValue);
+            }
+        };
+        return (React.createElement(field_container_1.default, { className: this.props.className, label: this.props.label, validation: validation },
+            React.createElement("select", { className: "field-input-element", onChange: handleChange }, this.props.children)));
+    };
+    return DropdownField;
+}(React.PureComponent));
+exports.default = DropdownField;
+
+
+/***/ }),
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5206,7 +5551,7 @@ exports.default = debounce;
 
 
 /***/ }),
-/* 39 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5277,7 +5622,28 @@ module.exports = lowPriorityWarning;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 40 */
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright 2013-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
+
+
+
+var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
+
+module.exports = ReactPropTypesSecret;
+
+
+/***/ }),
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5293,9 +5659,9 @@ module.exports = lowPriorityWarning;
 
 
 
-var _prodInvariant = __webpack_require__(3);
+var _prodInvariant = __webpack_require__(4);
 
-var ReactErrorUtils = __webpack_require__(41);
+var ReactErrorUtils = __webpack_require__(49);
 
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
@@ -5509,7 +5875,7 @@ module.exports = EventPluginUtils;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 41 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5591,7 +5957,7 @@ module.exports = ReactErrorUtils;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 42 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5631,7 +5997,7 @@ function getEventTarget(nativeEvent) {
 module.exports = getEventTarget;
 
 /***/ }),
-/* 43 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5696,7 +6062,7 @@ function isEventSupported(eventNameSuffix, capture) {
 module.exports = isEventSupported;
 
 /***/ }),
-/* 44 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5744,7 +6110,7 @@ function getEventModifierState(nativeEvent) {
 module.exports = getEventModifierState;
 
 /***/ }),
-/* 45 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5760,14 +6126,14 @@ module.exports = getEventModifierState;
 
 
 
-var DOMLazyTree = __webpack_require__(22);
-var Danger = __webpack_require__(130);
+var DOMLazyTree = __webpack_require__(25);
+var Danger = __webpack_require__(150);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactInstrumentation = __webpack_require__(9);
+var ReactInstrumentation = __webpack_require__(10);
 
-var createMicrosoftUnsafeLocalFunction = __webpack_require__(47);
-var setInnerHTML = __webpack_require__(35);
-var setTextContent = __webpack_require__(73);
+var createMicrosoftUnsafeLocalFunction = __webpack_require__(55);
+var setInnerHTML = __webpack_require__(41);
+var setTextContent = __webpack_require__(82);
 
 function getNodeAfter(parentNode, node) {
   // Special case for text components, which return [open, close] comments
@@ -5976,7 +6342,7 @@ module.exports = DOMChildrenOperations;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 46 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6001,7 +6367,7 @@ var DOMNamespaces = {
 module.exports = DOMNamespaces;
 
 /***/ }),
-/* 47 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6038,7 +6404,7 @@ var createMicrosoftUnsafeLocalFunction = function (func) {
 module.exports = createMicrosoftUnsafeLocalFunction;
 
 /***/ }),
-/* 48 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6054,12 +6420,12 @@ module.exports = createMicrosoftUnsafeLocalFunction;
 
 
 
-var _prodInvariant = __webpack_require__(3);
+var _prodInvariant = __webpack_require__(4);
 
-var ReactPropTypesSecret = __webpack_require__(77);
-var propTypesFactory = __webpack_require__(62);
+var ReactPropTypesSecret = __webpack_require__(86);
+var propTypesFactory = __webpack_require__(71);
 
-var React = __webpack_require__(19);
+var React = __webpack_require__(22);
 var PropTypes = propTypesFactory(React.isValidElement);
 
 var invariant = __webpack_require__(1);
@@ -6182,7 +6548,7 @@ module.exports = LinkedValueUtils;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 49 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6199,7 +6565,7 @@ module.exports = LinkedValueUtils;
 
 
 
-var _prodInvariant = __webpack_require__(3);
+var _prodInvariant = __webpack_require__(4);
 
 var invariant = __webpack_require__(1);
 
@@ -6232,7 +6598,7 @@ module.exports = ReactComponentEnvironment;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 50 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6305,7 +6671,7 @@ function shallowEqual(objA, objB) {
 module.exports = shallowEqual;
 
 /***/ }),
-/* 51 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6352,7 +6718,7 @@ function shouldUpdateReactComponent(prevElement, nextElement) {
 module.exports = shouldUpdateReactComponent;
 
 /***/ }),
-/* 52 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6416,7 +6782,7 @@ var KeyEscapeUtils = {
 module.exports = KeyEscapeUtils;
 
 /***/ }),
-/* 53 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6432,12 +6798,12 @@ module.exports = KeyEscapeUtils;
 
 
 
-var _prodInvariant = __webpack_require__(3);
+var _prodInvariant = __webpack_require__(4);
 
-var ReactCurrentOwner = __webpack_require__(13);
-var ReactInstanceMap = __webpack_require__(28);
-var ReactInstrumentation = __webpack_require__(9);
-var ReactUpdates = __webpack_require__(14);
+var ReactCurrentOwner = __webpack_require__(12);
+var ReactInstanceMap = __webpack_require__(34);
+var ReactInstrumentation = __webpack_require__(10);
+var ReactUpdates = __webpack_require__(13);
 
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
@@ -6656,7 +7022,7 @@ module.exports = ReactUpdateQueue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 54 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6674,7 +7040,7 @@ module.exports = ReactUpdateQueue;
 
 var _assign = __webpack_require__(5);
 
-var emptyFunction = __webpack_require__(10);
+var emptyFunction = __webpack_require__(9);
 var warning = __webpack_require__(2);
 
 var validateDOMNesting = emptyFunction;
@@ -7033,7 +7399,7 @@ module.exports = validateDOMNesting;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 55 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7088,24 +7454,107 @@ function getEventCharCode(nativeEvent) {
 module.exports = getEventCharCode;
 
 /***/ }),
-/* 56 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 64 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__baseGetTag_js__ = __webpack_require__(216);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getPrototype_js__ = __webpack_require__(221);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__isObjectLike_js__ = __webpack_require__(223);
 
-Object.defineProperty(exports, "__esModule", { value: true });
-var Gender;
-(function (Gender) {
-    Gender[Gender["MALE"] = 0] = "MALE";
-    Gender[Gender["FEMALE"] = 1] = "FEMALE";
-    Gender[Gender["OTHER"] = 2] = "OTHER";
-    Gender[Gender["NOANSWER"] = 3] = "NOANSWER";
-})(Gender || (Gender = {}));
-exports.default = Gender;
+
+
+
+/** `Object#toString` result references. */
+var objectTag = '[object Object]';
+
+/** Used for built-in method references. */
+var funcProto = Function.prototype,
+    objectProto = Object.prototype;
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = funcProto.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/** Used to infer the `Object` constructor. */
+var objectCtorString = funcToString.call(Object);
+
+/**
+ * Checks if `value` is a plain object, that is, an object created by the
+ * `Object` constructor or one with a `[[Prototype]]` of `null`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.8.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ * }
+ *
+ * _.isPlainObject(new Foo);
+ * // => false
+ *
+ * _.isPlainObject([1, 2, 3]);
+ * // => false
+ *
+ * _.isPlainObject({ 'x': 0, 'y': 0 });
+ * // => true
+ *
+ * _.isPlainObject(Object.create(null));
+ * // => true
+ */
+function isPlainObject(value) {
+  if (!__WEBPACK_IMPORTED_MODULE_2__isObjectLike_js__["a" /* default */](value) || __WEBPACK_IMPORTED_MODULE_0__baseGetTag_js__["a" /* default */](value) != objectTag) {
+    return false;
+  }
+  var proto = __WEBPACK_IMPORTED_MODULE_1__getPrototype_js__["a" /* default */](value);
+  if (proto === null) {
+    return true;
+  }
+  var Ctor = hasOwnProperty.call(proto, 'constructor') && proto.constructor;
+  return typeof Ctor == 'function' && Ctor instanceof Ctor &&
+    funcToString.call(Ctor) == objectCtorString;
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (isPlainObject);
 
 
 /***/ }),
-/* 57 */
+/* 65 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = warning;
+/**
+ * Prints a warning in the console if it exists.
+ *
+ * @param {String} message The warning message.
+ * @returns {void}
+ */
+function warning(message) {
+  /* eslint-disable no-console */
+  if (typeof console !== 'undefined' && typeof console.error === 'function') {
+    console.error(message);
+  }
+  /* eslint-enable no-console */
+  try {
+    // This error was thrown as a convenience so that if you enable
+    // "break on all exceptions" in your console,
+    // it would pause the execution at this line.
+    throw new Error(message);
+    /* eslint-disable no-empty */
+  } catch (e) {}
+  /* eslint-enable no-empty */
+}
+
+/***/ }),
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7121,15 +7570,15 @@ exports.default = Gender;
 
 
 
-var _prodInvariant = __webpack_require__(20),
+var _prodInvariant = __webpack_require__(23),
     _assign = __webpack_require__(5);
 
-var ReactNoopUpdateQueue = __webpack_require__(58);
+var ReactNoopUpdateQueue = __webpack_require__(67);
 
-var canDefineProperty = __webpack_require__(30);
-var emptyObject = __webpack_require__(31);
+var canDefineProperty = __webpack_require__(36);
+var emptyObject = __webpack_require__(37);
 var invariant = __webpack_require__(1);
-var lowPriorityWarning = __webpack_require__(39);
+var lowPriorityWarning = __webpack_require__(46);
 
 /**
  * Base class helpers for the updating state of a component.
@@ -7254,7 +7703,7 @@ module.exports = {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 58 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7355,7 +7804,7 @@ module.exports = ReactNoopUpdateQueue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 59 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7380,7 +7829,7 @@ var REACT_ELEMENT_TYPE = typeof Symbol === 'function' && Symbol['for'] && Symbol
 module.exports = REACT_ELEMENT_TYPE;
 
 /***/ }),
-/* 60 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7426,7 +7875,7 @@ function getIteratorFn(maybeIterable) {
 module.exports = getIteratorFn;
 
 /***/ }),
-/* 61 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7449,16 +7898,16 @@ module.exports = getIteratorFn;
 
 
 
-var ReactCurrentOwner = __webpack_require__(13);
+var ReactCurrentOwner = __webpack_require__(12);
 var ReactComponentTreeHook = __webpack_require__(8);
-var ReactElement = __webpack_require__(17);
+var ReactElement = __webpack_require__(18);
 
-var checkReactTypeSpec = __webpack_require__(100);
+var checkReactTypeSpec = __webpack_require__(121);
 
-var canDefineProperty = __webpack_require__(30);
-var getIteratorFn = __webpack_require__(60);
+var canDefineProperty = __webpack_require__(36);
+var getIteratorFn = __webpack_require__(69);
 var warning = __webpack_require__(2);
-var lowPriorityWarning = __webpack_require__(39);
+var lowPriorityWarning = __webpack_require__(46);
 
 function getDeclarationErrorAddendum() {
   if (ReactCurrentOwner.current) {
@@ -7687,7 +8136,7 @@ module.exports = ReactElementValidator;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 62 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7706,7 +8155,7 @@ module.exports = ReactElementValidator;
 // Therefore we re-export development-only version with all the PropTypes checks here.
 // However if one is migrating to the `prop-types` npm library, they will go through the
 // `index.js` entry point, and it will branch depending on the environment.
-var factory = __webpack_require__(104);
+var factory = __webpack_require__(72);
 module.exports = function(isValidElement) {
   // It is still allowed in 15.5.
   var throwOnDirectAccess = false;
@@ -7715,11 +8164,11 @@ module.exports = function(isValidElement) {
 
 
 /***/ }),
-/* 63 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/**
+/* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
  *
@@ -7730,13 +8179,512 @@ module.exports = function(isValidElement) {
 
 
 
-var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
+var emptyFunction = __webpack_require__(9);
+var invariant = __webpack_require__(1);
+var warning = __webpack_require__(2);
 
-module.exports = ReactPropTypesSecret;
+var ReactPropTypesSecret = __webpack_require__(47);
+var checkPropTypes = __webpack_require__(125);
 
+module.exports = function(isValidElement, throwOnDirectAccess) {
+  /* global Symbol */
+  var ITERATOR_SYMBOL = typeof Symbol === 'function' && Symbol.iterator;
+  var FAUX_ITERATOR_SYMBOL = '@@iterator'; // Before Symbol spec.
+
+  /**
+   * Returns the iterator method function contained on the iterable object.
+   *
+   * Be sure to invoke the function with the iterable as context:
+   *
+   *     var iteratorFn = getIteratorFn(myIterable);
+   *     if (iteratorFn) {
+   *       var iterator = iteratorFn.call(myIterable);
+   *       ...
+   *     }
+   *
+   * @param {?object} maybeIterable
+   * @return {?function}
+   */
+  function getIteratorFn(maybeIterable) {
+    var iteratorFn = maybeIterable && (ITERATOR_SYMBOL && maybeIterable[ITERATOR_SYMBOL] || maybeIterable[FAUX_ITERATOR_SYMBOL]);
+    if (typeof iteratorFn === 'function') {
+      return iteratorFn;
+    }
+  }
+
+  /**
+   * Collection of methods that allow declaration and validation of props that are
+   * supplied to React components. Example usage:
+   *
+   *   var Props = require('ReactPropTypes');
+   *   var MyArticle = React.createClass({
+   *     propTypes: {
+   *       // An optional string prop named "description".
+   *       description: Props.string,
+   *
+   *       // A required enum prop named "category".
+   *       category: Props.oneOf(['News','Photos']).isRequired,
+   *
+   *       // A prop named "dialog" that requires an instance of Dialog.
+   *       dialog: Props.instanceOf(Dialog).isRequired
+   *     },
+   *     render: function() { ... }
+   *   });
+   *
+   * A more formal specification of how these methods are used:
+   *
+   *   type := array|bool|func|object|number|string|oneOf([...])|instanceOf(...)
+   *   decl := ReactPropTypes.{type}(.isRequired)?
+   *
+   * Each and every declaration produces a function with the same signature. This
+   * allows the creation of custom validation functions. For example:
+   *
+   *  var MyLink = React.createClass({
+   *    propTypes: {
+   *      // An optional string or URI prop named "href".
+   *      href: function(props, propName, componentName) {
+   *        var propValue = props[propName];
+   *        if (propValue != null && typeof propValue !== 'string' &&
+   *            !(propValue instanceof URI)) {
+   *          return new Error(
+   *            'Expected a string or an URI for ' + propName + ' in ' +
+   *            componentName
+   *          );
+   *        }
+   *      }
+   *    },
+   *    render: function() {...}
+   *  });
+   *
+   * @internal
+   */
+
+  var ANONYMOUS = '<<anonymous>>';
+
+  // Important!
+  // Keep this list in sync with production version in `./factoryWithThrowingShims.js`.
+  var ReactPropTypes = {
+    array: createPrimitiveTypeChecker('array'),
+    bool: createPrimitiveTypeChecker('boolean'),
+    func: createPrimitiveTypeChecker('function'),
+    number: createPrimitiveTypeChecker('number'),
+    object: createPrimitiveTypeChecker('object'),
+    string: createPrimitiveTypeChecker('string'),
+    symbol: createPrimitiveTypeChecker('symbol'),
+
+    any: createAnyTypeChecker(),
+    arrayOf: createArrayOfTypeChecker,
+    element: createElementTypeChecker(),
+    instanceOf: createInstanceTypeChecker,
+    node: createNodeChecker(),
+    objectOf: createObjectOfTypeChecker,
+    oneOf: createEnumTypeChecker,
+    oneOfType: createUnionTypeChecker,
+    shape: createShapeTypeChecker
+  };
+
+  /**
+   * inlined Object.is polyfill to avoid requiring consumers ship their own
+   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
+   */
+  /*eslint-disable no-self-compare*/
+  function is(x, y) {
+    // SameValue algorithm
+    if (x === y) {
+      // Steps 1-5, 7-10
+      // Steps 6.b-6.e: +0 != -0
+      return x !== 0 || 1 / x === 1 / y;
+    } else {
+      // Step 6.a: NaN == NaN
+      return x !== x && y !== y;
+    }
+  }
+  /*eslint-enable no-self-compare*/
+
+  /**
+   * We use an Error-like object for backward compatibility as people may call
+   * PropTypes directly and inspect their output. However, we don't use real
+   * Errors anymore. We don't inspect their stack anyway, and creating them
+   * is prohibitively expensive if they are created too often, such as what
+   * happens in oneOfType() for any type before the one that matched.
+   */
+  function PropTypeError(message) {
+    this.message = message;
+    this.stack = '';
+  }
+  // Make `instanceof Error` still work for returned errors.
+  PropTypeError.prototype = Error.prototype;
+
+  function createChainableTypeChecker(validate) {
+    if (process.env.NODE_ENV !== 'production') {
+      var manualPropTypeCallCache = {};
+      var manualPropTypeWarningCount = 0;
+    }
+    function checkType(isRequired, props, propName, componentName, location, propFullName, secret) {
+      componentName = componentName || ANONYMOUS;
+      propFullName = propFullName || propName;
+
+      if (secret !== ReactPropTypesSecret) {
+        if (throwOnDirectAccess) {
+          // New behavior only for users of `prop-types` package
+          invariant(
+            false,
+            'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
+            'Use `PropTypes.checkPropTypes()` to call them. ' +
+            'Read more at http://fb.me/use-check-prop-types'
+          );
+        } else if (process.env.NODE_ENV !== 'production' && typeof console !== 'undefined') {
+          // Old behavior for people using React.PropTypes
+          var cacheKey = componentName + ':' + propName;
+          if (
+            !manualPropTypeCallCache[cacheKey] &&
+            // Avoid spamming the console because they are often not actionable except for lib authors
+            manualPropTypeWarningCount < 3
+          ) {
+            warning(
+              false,
+              'You are manually calling a React.PropTypes validation ' +
+              'function for the `%s` prop on `%s`. This is deprecated ' +
+              'and will throw in the standalone `prop-types` package. ' +
+              'You may be seeing this warning due to a third-party PropTypes ' +
+              'library. See https://fb.me/react-warning-dont-call-proptypes ' + 'for details.',
+              propFullName,
+              componentName
+            );
+            manualPropTypeCallCache[cacheKey] = true;
+            manualPropTypeWarningCount++;
+          }
+        }
+      }
+      if (props[propName] == null) {
+        if (isRequired) {
+          if (props[propName] === null) {
+            return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required ' + ('in `' + componentName + '`, but its value is `null`.'));
+          }
+          return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required in ' + ('`' + componentName + '`, but its value is `undefined`.'));
+        }
+        return null;
+      } else {
+        return validate(props, propName, componentName, location, propFullName);
+      }
+    }
+
+    var chainedCheckType = checkType.bind(null, false);
+    chainedCheckType.isRequired = checkType.bind(null, true);
+
+    return chainedCheckType;
+  }
+
+  function createPrimitiveTypeChecker(expectedType) {
+    function validate(props, propName, componentName, location, propFullName, secret) {
+      var propValue = props[propName];
+      var propType = getPropType(propValue);
+      if (propType !== expectedType) {
+        // `propValue` being instance of, say, date/regexp, pass the 'object'
+        // check, but we can offer a more precise error message here rather than
+        // 'of type `object`'.
+        var preciseType = getPreciseType(propValue);
+
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + preciseType + '` supplied to `' + componentName + '`, expected ') + ('`' + expectedType + '`.'));
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createAnyTypeChecker() {
+    return createChainableTypeChecker(emptyFunction.thatReturnsNull);
+  }
+
+  function createArrayOfTypeChecker(typeChecker) {
+    function validate(props, propName, componentName, location, propFullName) {
+      if (typeof typeChecker !== 'function') {
+        return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside arrayOf.');
+      }
+      var propValue = props[propName];
+      if (!Array.isArray(propValue)) {
+        var propType = getPropType(propValue);
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected an array.'));
+      }
+      for (var i = 0; i < propValue.length; i++) {
+        var error = typeChecker(propValue, i, componentName, location, propFullName + '[' + i + ']', ReactPropTypesSecret);
+        if (error instanceof Error) {
+          return error;
+        }
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createElementTypeChecker() {
+    function validate(props, propName, componentName, location, propFullName) {
+      var propValue = props[propName];
+      if (!isValidElement(propValue)) {
+        var propType = getPropType(propValue);
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected a single ReactElement.'));
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createInstanceTypeChecker(expectedClass) {
+    function validate(props, propName, componentName, location, propFullName) {
+      if (!(props[propName] instanceof expectedClass)) {
+        var expectedClassName = expectedClass.name || ANONYMOUS;
+        var actualClassName = getClassName(props[propName]);
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + actualClassName + '` supplied to `' + componentName + '`, expected ') + ('instance of `' + expectedClassName + '`.'));
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createEnumTypeChecker(expectedValues) {
+    if (!Array.isArray(expectedValues)) {
+      process.env.NODE_ENV !== 'production' ? warning(false, 'Invalid argument supplied to oneOf, expected an instance of array.') : void 0;
+      return emptyFunction.thatReturnsNull;
+    }
+
+    function validate(props, propName, componentName, location, propFullName) {
+      var propValue = props[propName];
+      for (var i = 0; i < expectedValues.length; i++) {
+        if (is(propValue, expectedValues[i])) {
+          return null;
+        }
+      }
+
+      var valuesString = JSON.stringify(expectedValues);
+      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of value `' + propValue + '` ' + ('supplied to `' + componentName + '`, expected one of ' + valuesString + '.'));
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createObjectOfTypeChecker(typeChecker) {
+    function validate(props, propName, componentName, location, propFullName) {
+      if (typeof typeChecker !== 'function') {
+        return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside objectOf.');
+      }
+      var propValue = props[propName];
+      var propType = getPropType(propValue);
+      if (propType !== 'object') {
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected an object.'));
+      }
+      for (var key in propValue) {
+        if (propValue.hasOwnProperty(key)) {
+          var error = typeChecker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
+          if (error instanceof Error) {
+            return error;
+          }
+        }
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createUnionTypeChecker(arrayOfTypeCheckers) {
+    if (!Array.isArray(arrayOfTypeCheckers)) {
+      process.env.NODE_ENV !== 'production' ? warning(false, 'Invalid argument supplied to oneOfType, expected an instance of array.') : void 0;
+      return emptyFunction.thatReturnsNull;
+    }
+
+    for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
+      var checker = arrayOfTypeCheckers[i];
+      if (typeof checker !== 'function') {
+        warning(
+          false,
+          'Invalid argument supplid to oneOfType. Expected an array of check functions, but ' +
+          'received %s at index %s.',
+          getPostfixForTypeWarning(checker),
+          i
+        );
+        return emptyFunction.thatReturnsNull;
+      }
+    }
+
+    function validate(props, propName, componentName, location, propFullName) {
+      for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
+        var checker = arrayOfTypeCheckers[i];
+        if (checker(props, propName, componentName, location, propFullName, ReactPropTypesSecret) == null) {
+          return null;
+        }
+      }
+
+      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`.'));
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createNodeChecker() {
+    function validate(props, propName, componentName, location, propFullName) {
+      if (!isNode(props[propName])) {
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`, expected a ReactNode.'));
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createShapeTypeChecker(shapeTypes) {
+    function validate(props, propName, componentName, location, propFullName) {
+      var propValue = props[propName];
+      var propType = getPropType(propValue);
+      if (propType !== 'object') {
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type `' + propType + '` ' + ('supplied to `' + componentName + '`, expected `object`.'));
+      }
+      for (var key in shapeTypes) {
+        var checker = shapeTypes[key];
+        if (!checker) {
+          continue;
+        }
+        var error = checker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
+        if (error) {
+          return error;
+        }
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function isNode(propValue) {
+    switch (typeof propValue) {
+      case 'number':
+      case 'string':
+      case 'undefined':
+        return true;
+      case 'boolean':
+        return !propValue;
+      case 'object':
+        if (Array.isArray(propValue)) {
+          return propValue.every(isNode);
+        }
+        if (propValue === null || isValidElement(propValue)) {
+          return true;
+        }
+
+        var iteratorFn = getIteratorFn(propValue);
+        if (iteratorFn) {
+          var iterator = iteratorFn.call(propValue);
+          var step;
+          if (iteratorFn !== propValue.entries) {
+            while (!(step = iterator.next()).done) {
+              if (!isNode(step.value)) {
+                return false;
+              }
+            }
+          } else {
+            // Iterator will provide entry [k,v] tuples rather than values.
+            while (!(step = iterator.next()).done) {
+              var entry = step.value;
+              if (entry) {
+                if (!isNode(entry[1])) {
+                  return false;
+                }
+              }
+            }
+          }
+        } else {
+          return false;
+        }
+
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  function isSymbol(propType, propValue) {
+    // Native Symbol.
+    if (propType === 'symbol') {
+      return true;
+    }
+
+    // 19.4.3.5 Symbol.prototype[@@toStringTag] === 'Symbol'
+    if (propValue['@@toStringTag'] === 'Symbol') {
+      return true;
+    }
+
+    // Fallback for non-spec compliant Symbols which are polyfilled.
+    if (typeof Symbol === 'function' && propValue instanceof Symbol) {
+      return true;
+    }
+
+    return false;
+  }
+
+  // Equivalent of `typeof` but with special handling for array and regexp.
+  function getPropType(propValue) {
+    var propType = typeof propValue;
+    if (Array.isArray(propValue)) {
+      return 'array';
+    }
+    if (propValue instanceof RegExp) {
+      // Old webkits (at least until Android 4.0) return 'function' rather than
+      // 'object' for typeof a RegExp. We'll normalize this here so that /bla/
+      // passes PropTypes.object.
+      return 'object';
+    }
+    if (isSymbol(propType, propValue)) {
+      return 'symbol';
+    }
+    return propType;
+  }
+
+  // This handles more types than `getPropType`. Only used for error messages.
+  // See `createPrimitiveTypeChecker`.
+  function getPreciseType(propValue) {
+    if (typeof propValue === 'undefined' || propValue === null) {
+      return '' + propValue;
+    }
+    var propType = getPropType(propValue);
+    if (propType === 'object') {
+      if (propValue instanceof Date) {
+        return 'date';
+      } else if (propValue instanceof RegExp) {
+        return 'regexp';
+      }
+    }
+    return propType;
+  }
+
+  // Returns a string that is postfixed to a warning about an invalid type.
+  // For example, "undefined" or "of type array"
+  function getPostfixForTypeWarning(value) {
+    var type = getPreciseType(value);
+    switch (type) {
+      case 'array':
+      case 'object':
+        return 'an ' + type;
+      case 'boolean':
+      case 'date':
+      case 'regexp':
+        return 'a ' + type;
+      default:
+        return type;
+    }
+  }
+
+  // Returns class name of the object, if any.
+  function getClassName(propValue) {
+    if (!propValue.constructor || !propValue.constructor.name) {
+      return ANONYMOUS;
+    }
+    return propValue.constructor.name;
+  }
+
+  ReactPropTypes.checkPropTypes = checkPropTypes;
+  ReactPropTypes.PropTypes = ReactPropTypes;
+
+  return ReactPropTypes;
+};
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 64 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7759,7 +8707,7 @@ var ReactDOMComponentFlags = {
 module.exports = ReactDOMComponentFlags;
 
 /***/ }),
-/* 65 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7776,7 +8724,7 @@ module.exports = ReactDOMComponentFlags;
 
 
 
-var _prodInvariant = __webpack_require__(3);
+var _prodInvariant = __webpack_require__(4);
 
 var invariant = __webpack_require__(1);
 
@@ -7823,7 +8771,7 @@ module.exports = accumulateInto;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 66 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7859,7 +8807,7 @@ function forEachAccumulated(arr, cb, scope) {
 module.exports = forEachAccumulated;
 
 /***/ }),
-/* 67 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7897,7 +8845,7 @@ function getTextContentAccessor() {
 module.exports = getTextContentAccessor;
 
 /***/ }),
-/* 68 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7914,11 +8862,11 @@ module.exports = getTextContentAccessor;
 
 
 
-var _prodInvariant = __webpack_require__(3);
+var _prodInvariant = __webpack_require__(4);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var PooledClass = __webpack_require__(18);
+var PooledClass = __webpack_require__(19);
 
 var invariant = __webpack_require__(1);
 
@@ -8022,7 +8970,7 @@ module.exports = PooledClass.addPoolingTo(CallbackQueue);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 69 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8049,7 +8997,7 @@ var ReactFeatureFlags = {
 module.exports = ReactFeatureFlags;
 
 /***/ }),
-/* 70 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8177,7 +9125,7 @@ var inputValueTracking = {
 module.exports = inputValueTracking;
 
 /***/ }),
-/* 71 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8233,7 +9181,7 @@ function isTextInputElement(elem) {
 module.exports = isTextInputElement;
 
 /***/ }),
-/* 72 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8263,7 +9211,7 @@ var ViewportMetrics = {
 module.exports = ViewportMetrics;
 
 /***/ }),
-/* 73 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8280,8 +9228,8 @@ module.exports = ViewportMetrics;
 
 
 var ExecutionEnvironment = __webpack_require__(7);
-var escapeTextContentForBrowser = __webpack_require__(36);
-var setInnerHTML = __webpack_require__(35);
+var escapeTextContentForBrowser = __webpack_require__(42);
+var setInnerHTML = __webpack_require__(41);
 
 /**
  * Set the textContent property of a node, ensuring that whitespace is preserved
@@ -8320,7 +9268,7 @@ if (ExecutionEnvironment.canUseDOM) {
 module.exports = setTextContent;
 
 /***/ }),
-/* 74 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8352,7 +9300,7 @@ function focusNode(node) {
 module.exports = focusNode;
 
 /***/ }),
-/* 75 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8511,7 +9459,7 @@ var CSSProperty = {
 module.exports = CSSProperty;
 
 /***/ }),
-/* 76 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8527,11 +9475,11 @@ module.exports = CSSProperty;
 
 
 
-var DOMProperty = __webpack_require__(16);
+var DOMProperty = __webpack_require__(17);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactInstrumentation = __webpack_require__(9);
+var ReactInstrumentation = __webpack_require__(10);
 
-var quoteAttributeValueForBrowser = __webpack_require__(144);
+var quoteAttributeValueForBrowser = __webpack_require__(164);
 var warning = __webpack_require__(2);
 
 var VALID_ATTRIBUTE_NAME_REGEX = new RegExp('^[' + DOMProperty.ATTRIBUTE_NAME_START_CHAR + '][' + DOMProperty.ATTRIBUTE_NAME_CHAR + ']*$');
@@ -8752,7 +9700,7 @@ module.exports = DOMPropertyOperations;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 77 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8774,7 +9722,7 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 module.exports = ReactPropTypesSecret;
 
 /***/ }),
-/* 78 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8792,9 +9740,9 @@ module.exports = ReactPropTypesSecret;
 
 var _assign = __webpack_require__(5);
 
-var LinkedValueUtils = __webpack_require__(48);
+var LinkedValueUtils = __webpack_require__(56);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactUpdates = __webpack_require__(14);
+var ReactUpdates = __webpack_require__(13);
 
 var warning = __webpack_require__(2);
 
@@ -8980,7 +9928,7 @@ module.exports = ReactDOMSelect;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 79 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8996,14 +9944,14 @@ module.exports = ReactDOMSelect;
 
 
 
-var _prodInvariant = __webpack_require__(3),
+var _prodInvariant = __webpack_require__(4),
     _assign = __webpack_require__(5);
 
-var ReactCompositeComponent = __webpack_require__(152);
-var ReactEmptyComponent = __webpack_require__(81);
-var ReactHostComponent = __webpack_require__(82);
+var ReactCompositeComponent = __webpack_require__(172);
+var ReactEmptyComponent = __webpack_require__(90);
+var ReactHostComponent = __webpack_require__(91);
 
-var getNextDebugID = __webpack_require__(155);
+var getNextDebugID = __webpack_require__(175);
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
 
@@ -9115,7 +10063,7 @@ module.exports = instantiateReactComponent;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 80 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9132,9 +10080,9 @@ module.exports = instantiateReactComponent;
 
 
 
-var _prodInvariant = __webpack_require__(3);
+var _prodInvariant = __webpack_require__(4);
 
-var React = __webpack_require__(19);
+var React = __webpack_require__(22);
 
 var invariant = __webpack_require__(1);
 
@@ -9161,7 +10109,7 @@ module.exports = ReactNodeTypes;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 81 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9196,7 +10144,7 @@ ReactEmptyComponent.injection = ReactEmptyComponentInjection;
 module.exports = ReactEmptyComponent;
 
 /***/ }),
-/* 82 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9212,7 +10160,7 @@ module.exports = ReactEmptyComponent;
 
 
 
-var _prodInvariant = __webpack_require__(3);
+var _prodInvariant = __webpack_require__(4);
 
 var invariant = __webpack_require__(1);
 
@@ -9270,7 +10218,7 @@ module.exports = ReactHostComponent;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 83 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9286,14 +10234,14 @@ module.exports = ReactHostComponent;
 
 
 
-var _prodInvariant = __webpack_require__(3);
+var _prodInvariant = __webpack_require__(4);
 
-var ReactCurrentOwner = __webpack_require__(13);
-var REACT_ELEMENT_TYPE = __webpack_require__(156);
+var ReactCurrentOwner = __webpack_require__(12);
+var REACT_ELEMENT_TYPE = __webpack_require__(176);
 
-var getIteratorFn = __webpack_require__(157);
+var getIteratorFn = __webpack_require__(177);
 var invariant = __webpack_require__(1);
-var KeyEscapeUtils = __webpack_require__(52);
+var KeyEscapeUtils = __webpack_require__(60);
 var warning = __webpack_require__(2);
 
 var SEPARATOR = '.';
@@ -9452,7 +10400,7 @@ module.exports = traverseAllChildren;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 84 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9476,7 +10424,7 @@ module.exports = traverseAllChildren;
  * @typechecks
  */
 
-var emptyFunction = __webpack_require__(10);
+var emptyFunction = __webpack_require__(9);
 
 /**
  * Upstream version of event listener. Does not take into account specific
@@ -9542,7 +10490,7 @@ module.exports = EventListener;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 85 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9558,11 +10506,11 @@ module.exports = EventListener;
 
 
 
-var ReactDOMSelection = __webpack_require__(169);
+var ReactDOMSelection = __webpack_require__(189);
 
-var containsNode = __webpack_require__(171);
-var focusNode = __webpack_require__(74);
-var getActiveElement = __webpack_require__(86);
+var containsNode = __webpack_require__(191);
+var focusNode = __webpack_require__(83);
+var getActiveElement = __webpack_require__(95);
 
 function isInDocument(node) {
   return containsNode(document.documentElement, node);
@@ -9670,7 +10618,7 @@ var ReactInputSelection = {
 module.exports = ReactInputSelection;
 
 /***/ }),
-/* 86 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9714,7 +10662,7 @@ function getActiveElement(doc) /*?DOMElement*/{
 module.exports = getActiveElement;
 
 /***/ }),
-/* 87 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9730,29 +10678,29 @@ module.exports = getActiveElement;
 
 
 
-var _prodInvariant = __webpack_require__(3);
+var _prodInvariant = __webpack_require__(4);
 
-var DOMLazyTree = __webpack_require__(22);
-var DOMProperty = __webpack_require__(16);
-var React = __webpack_require__(19);
-var ReactBrowserEventEmitter = __webpack_require__(37);
-var ReactCurrentOwner = __webpack_require__(13);
+var DOMLazyTree = __webpack_require__(25);
+var DOMProperty = __webpack_require__(17);
+var React = __webpack_require__(22);
+var ReactBrowserEventEmitter = __webpack_require__(43);
+var ReactCurrentOwner = __webpack_require__(12);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactDOMContainerInfo = __webpack_require__(186);
-var ReactDOMFeatureFlags = __webpack_require__(187);
-var ReactFeatureFlags = __webpack_require__(69);
-var ReactInstanceMap = __webpack_require__(28);
-var ReactInstrumentation = __webpack_require__(9);
-var ReactMarkupChecksum = __webpack_require__(188);
-var ReactReconciler = __webpack_require__(21);
-var ReactUpdateQueue = __webpack_require__(53);
-var ReactUpdates = __webpack_require__(14);
+var ReactDOMContainerInfo = __webpack_require__(206);
+var ReactDOMFeatureFlags = __webpack_require__(207);
+var ReactFeatureFlags = __webpack_require__(78);
+var ReactInstanceMap = __webpack_require__(34);
+var ReactInstrumentation = __webpack_require__(10);
+var ReactMarkupChecksum = __webpack_require__(208);
+var ReactReconciler = __webpack_require__(24);
+var ReactUpdateQueue = __webpack_require__(61);
+var ReactUpdates = __webpack_require__(13);
 
-var emptyObject = __webpack_require__(31);
-var instantiateReactComponent = __webpack_require__(79);
+var emptyObject = __webpack_require__(37);
+var instantiateReactComponent = __webpack_require__(88);
 var invariant = __webpack_require__(1);
-var setInnerHTML = __webpack_require__(35);
-var shouldUpdateReactComponent = __webpack_require__(51);
+var setInnerHTML = __webpack_require__(41);
+var shouldUpdateReactComponent = __webpack_require__(59);
 var warning = __webpack_require__(2);
 
 var ATTR_NAME = DOMProperty.ID_ATTRIBUTE_NAME;
@@ -10258,7 +11206,7 @@ module.exports = ReactMount;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 88 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10274,7 +11222,7 @@ module.exports = ReactMount;
 
 
 
-var ReactNodeTypes = __webpack_require__(80);
+var ReactNodeTypes = __webpack_require__(89);
 
 function getHostComponentFromComposite(inst) {
   var type;
@@ -10293,33 +11241,1098 @@ function getHostComponentFromComposite(inst) {
 module.exports = getHostComponentFromComposite;
 
 /***/ }),
-/* 89 */
+/* 98 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__createStore__ = __webpack_require__(99);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__combineReducers__ = __webpack_require__(227);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__bindActionCreators__ = __webpack_require__(228);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__applyMiddleware__ = __webpack_require__(229);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__compose__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_warning__ = __webpack_require__(102);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createStore", function() { return __WEBPACK_IMPORTED_MODULE_0__createStore__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "combineReducers", function() { return __WEBPACK_IMPORTED_MODULE_1__combineReducers__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "bindActionCreators", function() { return __WEBPACK_IMPORTED_MODULE_2__bindActionCreators__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "applyMiddleware", function() { return __WEBPACK_IMPORTED_MODULE_3__applyMiddleware__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "compose", function() { return __WEBPACK_IMPORTED_MODULE_4__compose__["a"]; });
+
+
+
+
+
+
+
+/*
+* This is a dummy function to check if the function name has been altered by minification.
+* If the function has been minified and NODE_ENV !== 'production', warn the user.
+*/
+function isCrushed() {}
+
+if (process.env.NODE_ENV !== 'production' && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed') {
+  __WEBPACK_IMPORTED_MODULE_5__utils_warning__["a" /* default */]('You are currently using minified code outside of NODE_ENV === \'production\'. ' + 'This means that you are running a slower development build of Redux. ' + 'You can use loose-envify (https://github.com/zertosh/loose-envify) for browserify ' + 'or DefinePlugin for webpack (http://stackoverflow.com/questions/30030031) ' + 'to ensure you have the correct code for your production build.');
+}
+
+
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
+
+/***/ }),
+/* 99 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ActionTypes; });
+/* harmony export (immutable) */ __webpack_exports__["b"] = createStore;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_es_isPlainObject__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_symbol_observable__ = __webpack_require__(224);
+
+
+
+/**
+ * These are private action types reserved by Redux.
+ * For any unknown actions, you must return the current state.
+ * If the current state is undefined, you must return the initial state.
+ * Do not reference these action types directly in your code.
+ */
+var ActionTypes = {
+  INIT: '@@redux/INIT'
+
+  /**
+   * Creates a Redux store that holds the state tree.
+   * The only way to change the data in the store is to call `dispatch()` on it.
+   *
+   * There should only be a single store in your app. To specify how different
+   * parts of the state tree respond to actions, you may combine several reducers
+   * into a single reducer function by using `combineReducers`.
+   *
+   * @param {Function} reducer A function that returns the next state tree, given
+   * the current state tree and the action to handle.
+   *
+   * @param {any} [preloadedState] The initial state. You may optionally specify it
+   * to hydrate the state from the server in universal apps, or to restore a
+   * previously serialized user session.
+   * If you use `combineReducers` to produce the root reducer function, this must be
+   * an object with the same shape as `combineReducers` keys.
+   *
+   * @param {Function} [enhancer] The store enhancer. You may optionally specify it
+   * to enhance the store with third-party capabilities such as middleware,
+   * time travel, persistence, etc. The only store enhancer that ships with Redux
+   * is `applyMiddleware()`.
+   *
+   * @returns {Store} A Redux store that lets you read the state, dispatch actions
+   * and subscribe to changes.
+   */
+};function createStore(reducer, preloadedState, enhancer) {
+  var _ref2;
+
+  if (typeof preloadedState === 'function' && typeof enhancer === 'undefined') {
+    enhancer = preloadedState;
+    preloadedState = undefined;
+  }
+
+  if (typeof enhancer !== 'undefined') {
+    if (typeof enhancer !== 'function') {
+      throw new Error('Expected the enhancer to be a function.');
+    }
+
+    return enhancer(createStore)(reducer, preloadedState);
+  }
+
+  if (typeof reducer !== 'function') {
+    throw new Error('Expected the reducer to be a function.');
+  }
+
+  var currentReducer = reducer;
+  var currentState = preloadedState;
+  var currentListeners = [];
+  var nextListeners = currentListeners;
+  var isDispatching = false;
+
+  function ensureCanMutateNextListeners() {
+    if (nextListeners === currentListeners) {
+      nextListeners = currentListeners.slice();
+    }
+  }
+
+  /**
+   * Reads the state tree managed by the store.
+   *
+   * @returns {any} The current state tree of your application.
+   */
+  function getState() {
+    return currentState;
+  }
+
+  /**
+   * Adds a change listener. It will be called any time an action is dispatched,
+   * and some part of the state tree may potentially have changed. You may then
+   * call `getState()` to read the current state tree inside the callback.
+   *
+   * You may call `dispatch()` from a change listener, with the following
+   * caveats:
+   *
+   * 1. The subscriptions are snapshotted just before every `dispatch()` call.
+   * If you subscribe or unsubscribe while the listeners are being invoked, this
+   * will not have any effect on the `dispatch()` that is currently in progress.
+   * However, the next `dispatch()` call, whether nested or not, will use a more
+   * recent snapshot of the subscription list.
+   *
+   * 2. The listener should not expect to see all state changes, as the state
+   * might have been updated multiple times during a nested `dispatch()` before
+   * the listener is called. It is, however, guaranteed that all subscribers
+   * registered before the `dispatch()` started will be called with the latest
+   * state by the time it exits.
+   *
+   * @param {Function} listener A callback to be invoked on every dispatch.
+   * @returns {Function} A function to remove this change listener.
+   */
+  function subscribe(listener) {
+    if (typeof listener !== 'function') {
+      throw new Error('Expected listener to be a function.');
+    }
+
+    var isSubscribed = true;
+
+    ensureCanMutateNextListeners();
+    nextListeners.push(listener);
+
+    return function unsubscribe() {
+      if (!isSubscribed) {
+        return;
+      }
+
+      isSubscribed = false;
+
+      ensureCanMutateNextListeners();
+      var index = nextListeners.indexOf(listener);
+      nextListeners.splice(index, 1);
+    };
+  }
+
+  /**
+   * Dispatches an action. It is the only way to trigger a state change.
+   *
+   * The `reducer` function, used to create the store, will be called with the
+   * current state tree and the given `action`. Its return value will
+   * be considered the **next** state of the tree, and the change listeners
+   * will be notified.
+   *
+   * The base implementation only supports plain object actions. If you want to
+   * dispatch a Promise, an Observable, a thunk, or something else, you need to
+   * wrap your store creating function into the corresponding middleware. For
+   * example, see the documentation for the `redux-thunk` package. Even the
+   * middleware will eventually dispatch plain object actions using this method.
+   *
+   * @param {Object} action A plain object representing “what changed”. It is
+   * a good idea to keep actions serializable so you can record and replay user
+   * sessions, or use the time travelling `redux-devtools`. An action must have
+   * a `type` property which may not be `undefined`. It is a good idea to use
+   * string constants for action types.
+   *
+   * @returns {Object} For convenience, the same action object you dispatched.
+   *
+   * Note that, if you use a custom middleware, it may wrap `dispatch()` to
+   * return something else (for example, a Promise you can await).
+   */
+  function dispatch(action) {
+    if (!__WEBPACK_IMPORTED_MODULE_0_lodash_es_isPlainObject__["a" /* default */](action)) {
+      throw new Error('Actions must be plain objects. ' + 'Use custom middleware for async actions.');
+    }
+
+    if (typeof action.type === 'undefined') {
+      throw new Error('Actions may not have an undefined "type" property. ' + 'Have you misspelled a constant?');
+    }
+
+    if (isDispatching) {
+      throw new Error('Reducers may not dispatch actions.');
+    }
+
+    try {
+      isDispatching = true;
+      currentState = currentReducer(currentState, action);
+    } finally {
+      isDispatching = false;
+    }
+
+    var listeners = currentListeners = nextListeners;
+    for (var i = 0; i < listeners.length; i++) {
+      var listener = listeners[i];
+      listener();
+    }
+
+    return action;
+  }
+
+  /**
+   * Replaces the reducer currently used by the store to calculate the state.
+   *
+   * You might need this if your app implements code splitting and you want to
+   * load some of the reducers dynamically. You might also need this if you
+   * implement a hot reloading mechanism for Redux.
+   *
+   * @param {Function} nextReducer The reducer for the store to use instead.
+   * @returns {void}
+   */
+  function replaceReducer(nextReducer) {
+    if (typeof nextReducer !== 'function') {
+      throw new Error('Expected the nextReducer to be a function.');
+    }
+
+    currentReducer = nextReducer;
+    dispatch({ type: ActionTypes.INIT });
+  }
+
+  /**
+   * Interoperability point for observable/reactive libraries.
+   * @returns {observable} A minimal observable of state changes.
+   * For more information, see the observable proposal:
+   * https://github.com/tc39/proposal-observable
+   */
+  function observable() {
+    var _ref;
+
+    var outerSubscribe = subscribe;
+    return _ref = {
+      /**
+       * The minimal observable subscription method.
+       * @param {Object} observer Any object that can be used as an observer.
+       * The observer object should have a `next` method.
+       * @returns {subscription} An object with an `unsubscribe` method that can
+       * be used to unsubscribe the observable from the store, and prevent further
+       * emission of values from the observable.
+       */
+      subscribe: function subscribe(observer) {
+        if (typeof observer !== 'object') {
+          throw new TypeError('Expected the observer to be an object.');
+        }
+
+        function observeState() {
+          if (observer.next) {
+            observer.next(getState());
+          }
+        }
+
+        observeState();
+        var unsubscribe = outerSubscribe(observeState);
+        return { unsubscribe: unsubscribe };
+      }
+    }, _ref[__WEBPACK_IMPORTED_MODULE_1_symbol_observable__["a" /* default */]] = function () {
+      return this;
+    }, _ref;
+  }
+
+  // When a store is created, an "INIT" action is dispatched so that every
+  // reducer returns their initial state. This effectively populates
+  // the initial state tree.
+  dispatch({ type: ActionTypes.INIT });
+
+  return _ref2 = {
+    dispatch: dispatch,
+    subscribe: subscribe,
+    getState: getState,
+    replaceReducer: replaceReducer
+  }, _ref2[__WEBPACK_IMPORTED_MODULE_1_symbol_observable__["a" /* default */]] = observable, _ref2;
+}
+
+/***/ }),
+/* 100 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__root_js__ = __webpack_require__(217);
+
+
+/** Built-in value references. */
+var Symbol = __WEBPACK_IMPORTED_MODULE_0__root_js__["a" /* default */].Symbol;
+
+/* harmony default export */ __webpack_exports__["a"] = (Symbol);
+
+
+/***/ }),
+/* 101 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 102 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = warning;
+/**
+ * Prints a warning in the console if it exists.
+ *
+ * @param {String} message The warning message.
+ * @returns {void}
+ */
+function warning(message) {
+  /* eslint-disable no-console */
+  if (typeof console !== 'undefined' && typeof console.error === 'function') {
+    console.error(message);
+  }
+  /* eslint-enable no-console */
+  try {
+    // This error was thrown as a convenience so that if you enable
+    // "break on all exceptions" in your console,
+    // it would pause the execution at this line.
+    throw new Error(message);
+    /* eslint-disable no-empty */
+  } catch (e) {}
+  /* eslint-enable no-empty */
+}
+
+/***/ }),
+/* 103 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = compose;
+/**
+ * Composes single-argument functions from right to left. The rightmost
+ * function can take multiple arguments as it provides the signature for
+ * the resulting composite function.
+ *
+ * @param {...Function} funcs The functions to compose.
+ * @returns {Function} A function obtained by composing the argument functions
+ * from right to left. For example, compose(f, g, h) is identical to doing
+ * (...args) => f(g(h(...args))).
+ */
+
+function compose() {
+  for (var _len = arguments.length, funcs = Array(_len), _key = 0; _key < _len; _key++) {
+    funcs[_key] = arguments[_key];
+  }
+
+  if (funcs.length === 0) {
+    return function (arg) {
+      return arg;
+    };
+  }
+
+  if (funcs.length === 1) {
+    return funcs[0];
+  }
+
+  return funcs.reduce(function (a, b) {
+    return function () {
+      return a(b.apply(undefined, arguments));
+    };
+  });
+}
+
+/***/ }),
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-__webpack_require__(202);
-var Box = function (props) {
-    var widthClass = "width-" + props.width;
-    var heightClass = "height-" + props.height;
-    var zLevelClass = "";
-    if (props.zLevel) {
-        zLevelClass = "zlevel-" + props.zLevel;
-    }
-    var responsiveMobileClass = "";
-    if (props.responsiveBehavior && props.responsiveBehavior.mobile) {
-        responsiveMobileClass = "mobile-" + props.responsiveBehavior.mobile;
-    }
-    var className = "box " + widthClass + " " + heightClass + " " + zLevelClass + " " + responsiveMobileClass;
-    return (React.createElement("div", { className: className, style: props.flex }, props.children));
-};
-exports.default = Box;
+var ActionType;
+(function (ActionType) {
+    ActionType[ActionType["UpdateStudentGender"] = 0] = "UpdateStudentGender";
+    ActionType[ActionType["UpdateStudentLocation"] = 1] = "UpdateStudentLocation";
+    ActionType[ActionType["UpdateStudentGradeLevel"] = 2] = "UpdateStudentGradeLevel";
+    ActionType[ActionType["UpdateStudentPrevGradeLevel"] = 3] = "UpdateStudentPrevGradeLevel";
+    ActionType[ActionType["UpdateStudentELLStatus"] = 4] = "UpdateStudentELLStatus";
+    ActionType[ActionType["UpdateStudentIEPStatus"] = 5] = "UpdateStudentIEPStatus";
+    ActionType[ActionType["UpdateStudentAttendPercentage"] = 6] = "UpdateStudentAttendPercentage";
+    ActionType[ActionType["UpdateStudentCurrESProgram"] = 7] = "UpdateStudentCurrESProgram";
+    ActionType[ActionType["UpdateStudentSiblingHSPrograms"] = 8] = "UpdateStudentSiblingHSPrograms";
+    ActionType[ActionType["UpdateStudentNWEAPercentileMath"] = 9] = "UpdateStudentNWEAPercentileMath";
+    ActionType[ActionType["UpdateStudentNWEAPercentileRead"] = 10] = "UpdateStudentNWEAPercentileRead";
+    ActionType[ActionType["UpdateStudentSubjGradeMath"] = 11] = "UpdateStudentSubjGradeMath";
+    ActionType[ActionType["UpdateStudentSubjGradeRead"] = 12] = "UpdateStudentSubjGradeRead";
+    ActionType[ActionType["UpdateStudentSubjGradeSci"] = 13] = "UpdateStudentSubjGradeSci";
+    ActionType[ActionType["UpdateStudentSubjGradeSocStudies"] = 14] = "UpdateStudentSubjGradeSocStudies";
+    ActionType[ActionType["UpdateStudentSETestPercentile"] = 15] = "UpdateStudentSETestPercentile";
+    ActionType[ActionType["SelectHSProgram"] = 16] = "SelectHSProgram";
+})(ActionType || (ActionType = {}));
+exports.default = ActionType;
 
 
 /***/ }),
-/* 90 */
+/* 105 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Gender;
+(function (Gender) {
+    Gender[Gender["MALE"] = 0] = "MALE";
+    Gender[Gender["FEMALE"] = 1] = "FEMALE";
+    Gender[Gender["OTHER"] = 2] = "OTHER";
+    Gender[Gender["NOANSWER"] = 3] = "NOANSWER";
+})(Gender || (Gender = {}));
+exports.default = Gender;
+
+
+/***/ }),
+/* 106 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var isHSProgram = function (program) {
+    if (program.Primary_Category === "HS") {
+        if (program.Program_Type === "Academic Center") {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+    else {
+        return false;
+    }
+};
+exports.default = isHSProgram;
+
+
+/***/ }),
+/* 107 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var isESProgram = function (program) {
+    if (program.Primary_Category === "ES") {
+        return true;
+    }
+    else if (program.Primary_Category === "HS") {
+        if (program.Program_Type === "Academic Center") {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    else {
+        return false;
+    }
+};
+exports.default = isESProgram;
+
+
+/***/ }),
+/* 108 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright 2013-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
+
+if (process.env.NODE_ENV !== 'production') {
+  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
+    Symbol.for &&
+    Symbol.for('react.element')) ||
+    0xeac7;
+
+  var isValidElement = function(object) {
+    return typeof object === 'object' &&
+      object !== null &&
+      object.$$typeof === REACT_ELEMENT_TYPE;
+  };
+
+  // By explicitly using `prop-types` you are opting into new development behavior.
+  // http://fb.me/prop-types-in-prod
+  var throwOnDirectAccess = true;
+  module.exports = __webpack_require__(72)(isValidElement, throwOnDirectAccess);
+} else {
+  // By explicitly using `prop-types` you are opting into new production behavior.
+  // http://fb.me/prop-types-in-prod
+  module.exports = __webpack_require__(239)();
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 109 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return subscriptionShape; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return storeShape; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types__ = __webpack_require__(108);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_prop_types__);
+
+
+var subscriptionShape = __WEBPACK_IMPORTED_MODULE_0_prop_types___default.a.shape({
+  trySubscribe: __WEBPACK_IMPORTED_MODULE_0_prop_types___default.a.func.isRequired,
+  tryUnsubscribe: __WEBPACK_IMPORTED_MODULE_0_prop_types___default.a.func.isRequired,
+  notifyNestedSubs: __WEBPACK_IMPORTED_MODULE_0_prop_types___default.a.func.isRequired,
+  isSubscribed: __WEBPACK_IMPORTED_MODULE_0_prop_types___default.a.func.isRequired
+});
+
+var storeShape = __WEBPACK_IMPORTED_MODULE_0_prop_types___default.a.shape({
+  subscribe: __WEBPACK_IMPORTED_MODULE_0_prop_types___default.a.func.isRequired,
+  dispatch: __WEBPACK_IMPORTED_MODULE_0_prop_types___default.a.func.isRequired,
+  getState: __WEBPACK_IMPORTED_MODULE_0_prop_types___default.a.func.isRequired
+});
+
+/***/ }),
+/* 110 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony export (immutable) */ __webpack_exports__["a"] = connectAdvanced;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_hoist_non_react_statics__ = __webpack_require__(240);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_hoist_non_react_statics___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_hoist_non_react_statics__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(241);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_Subscription__ = __webpack_require__(242);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_PropTypes__ = __webpack_require__(109);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+
+
+
+
+
+
+
+var hotReloadingVersion = 0;
+var dummyState = {};
+function noop() {}
+function makeSelectorStateful(sourceSelector, store) {
+  // wrap the selector in an object that tracks its results between runs.
+  var selector = {
+    run: function runComponentSelector(props) {
+      try {
+        var nextProps = sourceSelector(store.getState(), props);
+        if (nextProps !== selector.props || selector.error) {
+          selector.shouldComponentUpdate = true;
+          selector.props = nextProps;
+          selector.error = null;
+        }
+      } catch (error) {
+        selector.shouldComponentUpdate = true;
+        selector.error = error;
+      }
+    }
+  };
+
+  return selector;
+}
+
+function connectAdvanced(
+/*
+  selectorFactory is a func that is responsible for returning the selector function used to
+  compute new props from state, props, and dispatch. For example:
+     export default connectAdvanced((dispatch, options) => (state, props) => ({
+      thing: state.things[props.thingId],
+      saveThing: fields => dispatch(actionCreators.saveThing(props.thingId, fields)),
+    }))(YourComponent)
+   Access to dispatch is provided to the factory so selectorFactories can bind actionCreators
+  outside of their selector as an optimization. Options passed to connectAdvanced are passed to
+  the selectorFactory, along with displayName and WrappedComponent, as the second argument.
+   Note that selectorFactory is responsible for all caching/memoization of inbound and outbound
+  props. Do not use connectAdvanced directly without memoizing results between calls to your
+  selector, otherwise the Connect component will re-render on every state or props change.
+*/
+selectorFactory) {
+  var _contextTypes, _childContextTypes;
+
+  var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+      _ref$getDisplayName = _ref.getDisplayName,
+      getDisplayName = _ref$getDisplayName === undefined ? function (name) {
+    return 'ConnectAdvanced(' + name + ')';
+  } : _ref$getDisplayName,
+      _ref$methodName = _ref.methodName,
+      methodName = _ref$methodName === undefined ? 'connectAdvanced' : _ref$methodName,
+      _ref$renderCountProp = _ref.renderCountProp,
+      renderCountProp = _ref$renderCountProp === undefined ? undefined : _ref$renderCountProp,
+      _ref$shouldHandleStat = _ref.shouldHandleStateChanges,
+      shouldHandleStateChanges = _ref$shouldHandleStat === undefined ? true : _ref$shouldHandleStat,
+      _ref$storeKey = _ref.storeKey,
+      storeKey = _ref$storeKey === undefined ? 'store' : _ref$storeKey,
+      _ref$withRef = _ref.withRef,
+      withRef = _ref$withRef === undefined ? false : _ref$withRef,
+      connectOptions = _objectWithoutProperties(_ref, ['getDisplayName', 'methodName', 'renderCountProp', 'shouldHandleStateChanges', 'storeKey', 'withRef']);
+
+  var subscriptionKey = storeKey + 'Subscription';
+  var version = hotReloadingVersion++;
+
+  var contextTypes = (_contextTypes = {}, _contextTypes[storeKey] = __WEBPACK_IMPORTED_MODULE_4__utils_PropTypes__["a" /* storeShape */], _contextTypes[subscriptionKey] = __WEBPACK_IMPORTED_MODULE_4__utils_PropTypes__["b" /* subscriptionShape */], _contextTypes);
+  var childContextTypes = (_childContextTypes = {}, _childContextTypes[subscriptionKey] = __WEBPACK_IMPORTED_MODULE_4__utils_PropTypes__["b" /* subscriptionShape */], _childContextTypes);
+
+  return function wrapWithConnect(WrappedComponent) {
+    __WEBPACK_IMPORTED_MODULE_1_invariant___default.a(typeof WrappedComponent == 'function', 'You must pass a component to the function returned by ' + ('connect. Instead received ' + JSON.stringify(WrappedComponent)));
+
+    var wrappedComponentName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
+
+    var displayName = getDisplayName(wrappedComponentName);
+
+    var selectorFactoryOptions = _extends({}, connectOptions, {
+      getDisplayName: getDisplayName,
+      methodName: methodName,
+      renderCountProp: renderCountProp,
+      shouldHandleStateChanges: shouldHandleStateChanges,
+      storeKey: storeKey,
+      withRef: withRef,
+      displayName: displayName,
+      wrappedComponentName: wrappedComponentName,
+      WrappedComponent: WrappedComponent
+    });
+
+    var Connect = function (_Component) {
+      _inherits(Connect, _Component);
+
+      function Connect(props, context) {
+        _classCallCheck(this, Connect);
+
+        var _this = _possibleConstructorReturn(this, _Component.call(this, props, context));
+
+        _this.version = version;
+        _this.state = {};
+        _this.renderCount = 0;
+        _this.store = props[storeKey] || context[storeKey];
+        _this.propsMode = Boolean(props[storeKey]);
+        _this.setWrappedInstance = _this.setWrappedInstance.bind(_this);
+
+        __WEBPACK_IMPORTED_MODULE_1_invariant___default.a(_this.store, 'Could not find "' + storeKey + '" in either the context or props of ' + ('"' + displayName + '". Either wrap the root component in a <Provider>, ') + ('or explicitly pass "' + storeKey + '" as a prop to "' + displayName + '".'));
+
+        _this.initSelector();
+        _this.initSubscription();
+        return _this;
+      }
+
+      Connect.prototype.getChildContext = function getChildContext() {
+        var _ref2;
+
+        // If this component received store from props, its subscription should be transparent
+        // to any descendants receiving store+subscription from context; it passes along
+        // subscription passed to it. Otherwise, it shadows the parent subscription, which allows
+        // Connect to control ordering of notifications to flow top-down.
+        var subscription = this.propsMode ? null : this.subscription;
+        return _ref2 = {}, _ref2[subscriptionKey] = subscription || this.context[subscriptionKey], _ref2;
+      };
+
+      Connect.prototype.componentDidMount = function componentDidMount() {
+        if (!shouldHandleStateChanges) return;
+
+        // componentWillMount fires during server side rendering, but componentDidMount and
+        // componentWillUnmount do not. Because of this, trySubscribe happens during ...didMount.
+        // Otherwise, unsubscription would never take place during SSR, causing a memory leak.
+        // To handle the case where a child component may have triggered a state change by
+        // dispatching an action in its componentWillMount, we have to re-run the select and maybe
+        // re-render.
+        this.subscription.trySubscribe();
+        this.selector.run(this.props);
+        if (this.selector.shouldComponentUpdate) this.forceUpdate();
+      };
+
+      Connect.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+        this.selector.run(nextProps);
+      };
+
+      Connect.prototype.shouldComponentUpdate = function shouldComponentUpdate() {
+        return this.selector.shouldComponentUpdate;
+      };
+
+      Connect.prototype.componentWillUnmount = function componentWillUnmount() {
+        if (this.subscription) this.subscription.tryUnsubscribe();
+        this.subscription = null;
+        this.notifyNestedSubs = noop;
+        this.store = null;
+        this.selector.run = noop;
+        this.selector.shouldComponentUpdate = false;
+      };
+
+      Connect.prototype.getWrappedInstance = function getWrappedInstance() {
+        __WEBPACK_IMPORTED_MODULE_1_invariant___default.a(withRef, 'To access the wrapped instance, you need to specify ' + ('{ withRef: true } in the options argument of the ' + methodName + '() call.'));
+        return this.wrappedInstance;
+      };
+
+      Connect.prototype.setWrappedInstance = function setWrappedInstance(ref) {
+        this.wrappedInstance = ref;
+      };
+
+      Connect.prototype.initSelector = function initSelector() {
+        var sourceSelector = selectorFactory(this.store.dispatch, selectorFactoryOptions);
+        this.selector = makeSelectorStateful(sourceSelector, this.store);
+        this.selector.run(this.props);
+      };
+
+      Connect.prototype.initSubscription = function initSubscription() {
+        if (!shouldHandleStateChanges) return;
+
+        // parentSub's source should match where store came from: props vs. context. A component
+        // connected to the store via props shouldn't use subscription from context, or vice versa.
+        var parentSub = (this.propsMode ? this.props : this.context)[subscriptionKey];
+        this.subscription = new __WEBPACK_IMPORTED_MODULE_3__utils_Subscription__["a" /* default */](this.store, parentSub, this.onStateChange.bind(this));
+
+        // `notifyNestedSubs` is duplicated to handle the case where the component is  unmounted in
+        // the middle of the notification loop, where `this.subscription` will then be null. An
+        // extra null check every change can be avoided by copying the method onto `this` and then
+        // replacing it with a no-op on unmount. This can probably be avoided if Subscription's
+        // listeners logic is changed to not call listeners that have been unsubscribed in the
+        // middle of the notification loop.
+        this.notifyNestedSubs = this.subscription.notifyNestedSubs.bind(this.subscription);
+      };
+
+      Connect.prototype.onStateChange = function onStateChange() {
+        this.selector.run(this.props);
+
+        if (!this.selector.shouldComponentUpdate) {
+          this.notifyNestedSubs();
+        } else {
+          this.componentDidUpdate = this.notifyNestedSubsOnComponentDidUpdate;
+          this.setState(dummyState);
+        }
+      };
+
+      Connect.prototype.notifyNestedSubsOnComponentDidUpdate = function notifyNestedSubsOnComponentDidUpdate() {
+        // `componentDidUpdate` is conditionally implemented when `onStateChange` determines it
+        // needs to notify nested subs. Once called, it unimplements itself until further state
+        // changes occur. Doing it this way vs having a permanent `componentDidUpdate` that does
+        // a boolean check every time avoids an extra method call most of the time, resulting
+        // in some perf boost.
+        this.componentDidUpdate = undefined;
+        this.notifyNestedSubs();
+      };
+
+      Connect.prototype.isSubscribed = function isSubscribed() {
+        return Boolean(this.subscription) && this.subscription.isSubscribed();
+      };
+
+      Connect.prototype.addExtraProps = function addExtraProps(props) {
+        if (!withRef && !renderCountProp && !(this.propsMode && this.subscription)) return props;
+        // make a shallow copy so that fields added don't leak to the original selector.
+        // this is especially important for 'ref' since that's a reference back to the component
+        // instance. a singleton memoized selector would then be holding a reference to the
+        // instance, preventing the instance from being garbage collected, and that would be bad
+        var withExtras = _extends({}, props);
+        if (withRef) withExtras.ref = this.setWrappedInstance;
+        if (renderCountProp) withExtras[renderCountProp] = this.renderCount++;
+        if (this.propsMode && this.subscription) withExtras[subscriptionKey] = this.subscription;
+        return withExtras;
+      };
+
+      Connect.prototype.render = function render() {
+        var selector = this.selector;
+        selector.shouldComponentUpdate = false;
+
+        if (selector.error) {
+          throw selector.error;
+        } else {
+          return __WEBPACK_IMPORTED_MODULE_2_react__["createElement"](WrappedComponent, this.addExtraProps(selector.props));
+        }
+      };
+
+      return Connect;
+    }(__WEBPACK_IMPORTED_MODULE_2_react__["Component"]);
+
+    Connect.WrappedComponent = WrappedComponent;
+    Connect.displayName = displayName;
+    Connect.childContextTypes = childContextTypes;
+    Connect.contextTypes = contextTypes;
+    Connect.propTypes = contextTypes;
+
+    if (process.env.NODE_ENV !== 'production') {
+      Connect.prototype.componentWillUpdate = function componentWillUpdate() {
+        var _this2 = this;
+
+        // We are hot reloading!
+        if (this.version !== version) {
+          this.version = version;
+          this.initSelector();
+
+          // If any connected descendants don't hot reload (and resubscribe in the process), their
+          // listeners will be lost when we unsubscribe. Unfortunately, by copying over all
+          // listeners, this does mean that the old versions of connected descendants will still be
+          // notified of state changes; however, their onStateChange function is a no-op so this
+          // isn't a huge deal.
+          var oldListeners = [];
+
+          if (this.subscription) {
+            oldListeners = this.subscription.listeners.get();
+            this.subscription.tryUnsubscribe();
+          }
+          this.initSubscription();
+          if (shouldHandleStateChanges) {
+            this.subscription.trySubscribe();
+            oldListeners.forEach(function (listener) {
+              return _this2.subscription.listeners.subscribe(listener);
+            });
+          }
+        }
+      };
+    }
+
+    return __WEBPACK_IMPORTED_MODULE_0_hoist_non_react_statics___default.a(Connect, WrappedComponent);
+  };
+}
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
+
+/***/ }),
+/* 111 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony export (immutable) */ __webpack_exports__["a"] = wrapMapToPropsConstant;
+/* unused harmony export getDependsOnOwnProps */
+/* harmony export (immutable) */ __webpack_exports__["b"] = wrapMapToPropsFunc;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_verifyPlainObject__ = __webpack_require__(112);
+
+
+function wrapMapToPropsConstant(getConstant) {
+  return function initConstantSelector(dispatch, options) {
+    var constant = getConstant(dispatch, options);
+
+    function constantSelector() {
+      return constant;
+    }
+    constantSelector.dependsOnOwnProps = false;
+    return constantSelector;
+  };
+}
+
+// dependsOnOwnProps is used by createMapToPropsProxy to determine whether to pass props as args
+// to the mapToProps function being wrapped. It is also used by makePurePropsSelector to determine
+// whether mapToProps needs to be invoked when props have changed.
+// 
+// A length of one signals that mapToProps does not depend on props from the parent component.
+// A length of zero is assumed to mean mapToProps is getting args via arguments or ...args and
+// therefore not reporting its length accurately..
+function getDependsOnOwnProps(mapToProps) {
+  return mapToProps.dependsOnOwnProps !== null && mapToProps.dependsOnOwnProps !== undefined ? Boolean(mapToProps.dependsOnOwnProps) : mapToProps.length !== 1;
+}
+
+// Used by whenMapStateToPropsIsFunction and whenMapDispatchToPropsIsFunction,
+// this function wraps mapToProps in a proxy function which does several things:
+// 
+//  * Detects whether the mapToProps function being called depends on props, which
+//    is used by selectorFactory to decide if it should reinvoke on props changes.
+//    
+//  * On first call, handles mapToProps if returns another function, and treats that
+//    new function as the true mapToProps for subsequent calls.
+//    
+//  * On first call, verifies the first result is a plain object, in order to warn
+//    the developer that their mapToProps function is not returning a valid result.
+//    
+function wrapMapToPropsFunc(mapToProps, methodName) {
+  return function initProxySelector(dispatch, _ref) {
+    var displayName = _ref.displayName;
+
+    var proxy = function mapToPropsProxy(stateOrDispatch, ownProps) {
+      return proxy.dependsOnOwnProps ? proxy.mapToProps(stateOrDispatch, ownProps) : proxy.mapToProps(stateOrDispatch);
+    };
+
+    // allow detectFactoryAndVerify to get ownProps
+    proxy.dependsOnOwnProps = true;
+
+    proxy.mapToProps = function detectFactoryAndVerify(stateOrDispatch, ownProps) {
+      proxy.mapToProps = mapToProps;
+      proxy.dependsOnOwnProps = getDependsOnOwnProps(mapToProps);
+      var props = proxy(stateOrDispatch, ownProps);
+
+      if (typeof props === 'function') {
+        proxy.mapToProps = props;
+        proxy.dependsOnOwnProps = getDependsOnOwnProps(props);
+        props = proxy(stateOrDispatch, ownProps);
+      }
+
+      if (process.env.NODE_ENV !== 'production') __WEBPACK_IMPORTED_MODULE_0__utils_verifyPlainObject__["a" /* default */](props, displayName, methodName);
+
+      return props;
+    };
+
+    return proxy;
+  };
+}
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
+
+/***/ }),
+/* 112 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = verifyPlainObject;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_es_isPlainObject__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__warning__ = __webpack_require__(65);
+
+
+
+function verifyPlainObject(value, displayName, methodName) {
+  if (!__WEBPACK_IMPORTED_MODULE_0_lodash_es_isPlainObject__["a" /* default */](value)) {
+    __WEBPACK_IMPORTED_MODULE_1__warning__["a" /* default */](methodName + '() in ' + displayName + ' must return a plain object. Instead received ' + value + '.');
+  }
+}
+
+/***/ }),
+/* 113 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+exports.defaultMemoize = defaultMemoize;
+exports.createSelectorCreator = createSelectorCreator;
+exports.createStructuredSelector = createStructuredSelector;
+function defaultEqualityCheck(a, b) {
+  return a === b;
+}
+
+function areArgumentsShallowlyEqual(equalityCheck, prev, next) {
+  if (prev === null || next === null || prev.length !== next.length) {
+    return false;
+  }
+
+  // Do this in a for loop (and not a `forEach` or an `every`) so we can determine equality as fast as possible.
+  var length = prev.length;
+  for (var i = 0; i < length; i++) {
+    if (!equalityCheck(prev[i], next[i])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function defaultMemoize(func) {
+  var equalityCheck = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultEqualityCheck;
+
+  var lastArgs = null;
+  var lastResult = null;
+  // we reference arguments instead of spreading them for performance reasons
+  return function () {
+    if (!areArgumentsShallowlyEqual(equalityCheck, lastArgs, arguments)) {
+      // apply arguments instead of spreading for performance.
+      lastResult = func.apply(null, arguments);
+    }
+
+    lastArgs = arguments;
+    return lastResult;
+  };
+}
+
+function getDependencies(funcs) {
+  var dependencies = Array.isArray(funcs[0]) ? funcs[0] : funcs;
+
+  if (!dependencies.every(function (dep) {
+    return typeof dep === 'function';
+  })) {
+    var dependencyTypes = dependencies.map(function (dep) {
+      return typeof dep;
+    }).join(', ');
+    throw new Error('Selector creators expect all input-selectors to be functions, ' + ('instead received the following types: [' + dependencyTypes + ']'));
+  }
+
+  return dependencies;
+}
+
+function createSelectorCreator(memoize) {
+  for (var _len = arguments.length, memoizeOptions = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    memoizeOptions[_key - 1] = arguments[_key];
+  }
+
+  return function () {
+    for (var _len2 = arguments.length, funcs = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      funcs[_key2] = arguments[_key2];
+    }
+
+    var recomputations = 0;
+    var resultFunc = funcs.pop();
+    var dependencies = getDependencies(funcs);
+
+    var memoizedResultFunc = memoize.apply(undefined, [function () {
+      recomputations++;
+      // apply arguments instead of spreading for performance.
+      return resultFunc.apply(null, arguments);
+    }].concat(memoizeOptions));
+
+    // If a selector is called with the exact same arguments we don't need to traverse our dependencies again.
+    var selector = defaultMemoize(function () {
+      var params = [];
+      var length = dependencies.length;
+
+      for (var i = 0; i < length; i++) {
+        // apply arguments instead of spreading and mutate a local list of params for performance.
+        params.push(dependencies[i].apply(null, arguments));
+      }
+
+      // apply arguments instead of spreading for performance.
+      return memoizedResultFunc.apply(null, params);
+    });
+
+    selector.resultFunc = resultFunc;
+    selector.recomputations = function () {
+      return recomputations;
+    };
+    selector.resetRecomputations = function () {
+      return recomputations = 0;
+    };
+    return selector;
+  };
+}
+
+var createSelector = exports.createSelector = createSelectorCreator(defaultMemoize);
+
+function createStructuredSelector(selectors) {
+  var selectorCreator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : createSelector;
+
+  if (typeof selectors !== 'object') {
+    throw new Error('createStructuredSelector expects first argument to be an object ' + ('where each property is a selector, instead received a ' + typeof selectors));
+  }
+  var objectKeys = Object.keys(selectors);
+  return selectorCreator(objectKeys.map(function (key) {
+    return selectors[key];
+  }), function () {
+    for (var _len3 = arguments.length, values = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+      values[_key3] = arguments[_key3];
+    }
+
+    return values.reduce(function (composition, value, index) {
+      composition[objectKeys[index]] = value;
+      return composition;
+    }, {});
+  });
+}
+
+/***/ }),
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10335,11 +12348,11 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var field_validation_state_1 = __webpack_require__(23);
-var field_container_1 = __webpack_require__(29);
-var list_box_1 = __webpack_require__(210);
-var debounce_1 = __webpack_require__(38);
+var React = __webpack_require__(3);
+var field_validation_state_1 = __webpack_require__(28);
+var field_container_1 = __webpack_require__(35);
+var list_box_1 = __webpack_require__(286);
+var debounce_1 = __webpack_require__(45);
 var ComboBoxField = (function (_super) {
     __extends(ComboBoxField, _super);
     function ComboBoxField(props) {
@@ -10368,6 +12381,7 @@ var ComboBoxField = (function (_super) {
         this.setState({
             searchString: nextProps.value ? nextProps.data.getDisplayText(nextProps.value) : "",
         });
+        this.onChange = nextProps.debounceTime ? debounce_1.default(nextProps.onChange, nextProps.debounceTime) : nextProps.onChange;
     };
     ComboBoxField.prototype.render = function () {
         var _this = this;
@@ -10395,209 +12409,24 @@ exports.default = ComboBoxField;
 
 
 /***/ }),
-/* 91 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var is_es_program_1 = __webpack_require__(227);
-var is_hs_program_1 = __webpack_require__(228);
-var cpsPrograms = __webpack_require__(229);
-exports.getAllProgramsByProgramType = function () {
-    var programs = groupByProgramType(cpsPrograms);
-    return programs;
-};
-exports.getHSPrograms = function () {
-    var programs = cpsPrograms.filter(is_hs_program_1.default);
-    return programs;
-};
-exports.getHSProgramsByType = function () {
-    var programs = groupByProgramType(cpsPrograms.filter(is_hs_program_1.default));
-    return programs;
-};
-exports.getESPrograms = function () {
-    var programs = cpsPrograms.filter(is_es_program_1.default);
-    return programs;
-};
-var groupByProgramType = function (allPrograms) {
-    var programs = {};
-    for (var i = 0; i < allPrograms.length; i++) {
-        var program = allPrograms[i];
-        var programType = program.Program_Type;
-        if (!programs[programType]) {
-            programs[programType] = [];
-        }
-        programs[programType].push(program);
-    }
-    return programs;
-};
+var React = __webpack_require__(3);
+var react_dom_1 = __webpack_require__(130);
+var redux_1 = __webpack_require__(98);
+var reducers_1 = __webpack_require__(230);
+var react_redux_1 = __webpack_require__(14);
+var path_to_hs_1 = __webpack_require__(250);
+react_dom_1.render((React.createElement(react_redux_1.Provider, { store: redux_1.createStore(reducers_1.default) },
+    React.createElement(path_to_hs_1.default, null))), document.getElementById("root"));
 
 
 /***/ }),
-/* 92 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var hs_req_fns_ts_1 = __webpack_require__(236);
-var success_chance_1 = __webpack_require__(24);
-var getReqFn = function (program) {
-    var applFnID = program.Application_Requirements_Fn;
-    var selFnID = program.Program_Selections_Fn;
-    var defaultReqFn = function (student, program) {
-        return { outcome: success_chance_1.default.NOTIMPLEMENTED };
-    };
-    var applicationReqFn;
-    var selectionReqFn;
-    if (hs_req_fns_ts_1.default[applFnID]) {
-        applicationReqFn = hs_req_fns_ts_1.default[applFnID].fn;
-    }
-    else {
-        console.warn("Cannot locate application requirement for " + (program.Short_Name + " - " + program.Program_Type));
-        applicationReqFn = defaultReqFn;
-    }
-    if (hs_req_fns_ts_1.default[selFnID]) {
-        selectionReqFn = hs_req_fns_ts_1.default[selFnID].fn;
-    }
-    else {
-        console.warn("Cannot locate selection requirement for " + (program.Short_Name + " - " + program.Program_Type));
-        selectionReqFn = defaultReqFn;
-    }
-    return { application: applicationReqFn, selection: selectionReqFn };
-};
-exports.default = getReqFn;
-
-
-/***/ }),
-/* 93 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var score_type_1 = __webpack_require__(238);
-exports.GradeConvertErrors = {
-    BadScoreType: new Error("Incorrect ScoreType passed to GradeConvert method"),
-    BadScore: new Error("Bad score passed to GradeConvert method"),
-    BadPercentile: new Error("Bad percentile passed to GradeConvert method")
-};
-exports.scoreToString = function (score, scoreType) {
-    if (scoreType in score_type_1.default) {
-        return score.toString(10);
-    }
-    else {
-        throw exports.GradeConvertErrors.BadScoreType;
-    }
-};
-exports.tryParseScore = function (str, scoreType) {
-    if (scoreType in score_type_1.default) {
-        var score = Number.parseInt(str, 10);
-        if (Number.isNaN(score)) {
-            return [false, null];
-        }
-        else {
-            return [true, score];
-        }
-    }
-    else {
-        throw exports.GradeConvertErrors.BadScoreType;
-    }
-};
-exports.toGPA = function (scores) {
-    var toPoints = function (score) {
-        var letterGrade = exports.toLetterGrade(score);
-        switch (letterGrade) {
-            case "A":
-                return 4;
-            case "B":
-                return 3;
-            case "C":
-                return 2;
-            case "D":
-                return 1;
-            case "F":
-                return 0;
-        }
-    };
-    var numGrades = scores.length;
-    var gradePointSum = scores.map(toPoints).reduce(function (a, b) { return a + b; });
-    return gradePointSum / numGrades;
-};
-var letterGradeHighScores = {
-    A: 100,
-    B: 89,
-    C: 79,
-    D: 69,
-    F: 59
-};
-var isLetterGrade = function (strScore) {
-    var letterGrades = ["A", "B", "C", "D", "F"];
-    if (letterGrades.indexOf(strScore.toUpperCase()) !== -1) {
-        return true;
-    }
-    else {
-        return false;
-    }
-};
-var isNumberGrade = function (strScore) {
-    var intScore = Number.parseInt(strScore, 10);
-    var parseSuccessful = !Number.isNaN(intScore);
-    if (parseSuccessful) {
-        if (intScore >= 0 && intScore <= 100) {
-            return true;
-        }
-    }
-    else {
-        return false;
-    }
-};
-var toNumberGrade = function (strScore) {
-    if (isLetterGrade(strScore)) {
-        return Number.parseInt(strScore);
-    }
-    else if (isNumberGrade(strScore)) {
-        return letterGradeHighScores[strScore];
-    }
-    else {
-        throw new Error("toNumberGrade parse failed with " + strScore);
-    }
-};
-exports.toLetterGrade = function (grade) {
-    if (grade <= letterGradeHighScores["F"]) {
-        return "F";
-    }
-    else if (grade <= letterGradeHighScores["D"]) {
-        return "D";
-    }
-    else if (grade <= letterGradeHighScores["C"]) {
-        return "C";
-    }
-    else if (grade <= letterGradeHighScores["B"]) {
-        return "B";
-    }
-    else {
-        return "A";
-    }
-};
-
-
-/***/ }),
-/* 94 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var react_dom_1 = __webpack_require__(110);
-var path_to_hs_1 = __webpack_require__(196);
-react_dom_1.render((React.createElement(path_to_hs_1.default, null)), document.getElementById("root"));
-
-
-/***/ }),
-/* 95 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10613,11 +12442,11 @@ react_dom_1.render((React.createElement(path_to_hs_1.default, null)), document.g
 
 
 
-var PooledClass = __webpack_require__(96);
-var ReactElement = __webpack_require__(17);
+var PooledClass = __webpack_require__(117);
+var ReactElement = __webpack_require__(18);
 
-var emptyFunction = __webpack_require__(10);
-var traverseAllChildren = __webpack_require__(97);
+var emptyFunction = __webpack_require__(9);
+var traverseAllChildren = __webpack_require__(118);
 
 var twoArgumentPooler = PooledClass.twoArgumentPooler;
 var fourArgumentPooler = PooledClass.fourArgumentPooler;
@@ -10793,7 +12622,7 @@ var ReactChildren = {
 module.exports = ReactChildren;
 
 /***/ }),
-/* 96 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10810,7 +12639,7 @@ module.exports = ReactChildren;
 
 
 
-var _prodInvariant = __webpack_require__(20);
+var _prodInvariant = __webpack_require__(23);
 
 var invariant = __webpack_require__(1);
 
@@ -10911,7 +12740,7 @@ module.exports = PooledClass;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 97 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10927,14 +12756,14 @@ module.exports = PooledClass;
 
 
 
-var _prodInvariant = __webpack_require__(20);
+var _prodInvariant = __webpack_require__(23);
 
-var ReactCurrentOwner = __webpack_require__(13);
-var REACT_ELEMENT_TYPE = __webpack_require__(59);
+var ReactCurrentOwner = __webpack_require__(12);
+var REACT_ELEMENT_TYPE = __webpack_require__(68);
 
-var getIteratorFn = __webpack_require__(60);
+var getIteratorFn = __webpack_require__(69);
 var invariant = __webpack_require__(1);
-var KeyEscapeUtils = __webpack_require__(98);
+var KeyEscapeUtils = __webpack_require__(119);
 var warning = __webpack_require__(2);
 
 var SEPARATOR = '.';
@@ -11093,7 +12922,7 @@ module.exports = traverseAllChildren;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 98 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11157,7 +12986,7 @@ var KeyEscapeUtils = {
 module.exports = KeyEscapeUtils;
 
 /***/ }),
-/* 99 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11173,7 +13002,7 @@ module.exports = KeyEscapeUtils;
 
 
 
-var ReactElement = __webpack_require__(17);
+var ReactElement = __webpack_require__(18);
 
 /**
  * Create a factory that creates HTML tag elements.
@@ -11182,7 +13011,7 @@ var ReactElement = __webpack_require__(17);
  */
 var createDOMFactory = ReactElement.createFactory;
 if (process.env.NODE_ENV !== 'production') {
-  var ReactElementValidator = __webpack_require__(61);
+  var ReactElementValidator = __webpack_require__(70);
   createDOMFactory = ReactElementValidator.createFactory;
 }
 
@@ -11332,7 +13161,7 @@ module.exports = ReactDOMFactories;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 100 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11348,10 +13177,10 @@ module.exports = ReactDOMFactories;
 
 
 
-var _prodInvariant = __webpack_require__(20);
+var _prodInvariant = __webpack_require__(23);
 
-var ReactPropTypeLocationNames = __webpack_require__(101);
-var ReactPropTypesSecret = __webpack_require__(102);
+var ReactPropTypeLocationNames = __webpack_require__(122);
+var ReactPropTypesSecret = __webpack_require__(123);
 
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
@@ -11425,7 +13254,7 @@ module.exports = checkReactTypeSpec;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 101 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11456,7 +13285,7 @@ module.exports = ReactPropTypeLocationNames;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 102 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11478,7 +13307,7 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 module.exports = ReactPropTypesSecret;
 
 /***/ }),
-/* 103 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11494,535 +13323,15 @@ module.exports = ReactPropTypesSecret;
 
 
 
-var _require = __webpack_require__(17),
+var _require = __webpack_require__(18),
     isValidElement = _require.isValidElement;
 
-var factory = __webpack_require__(62);
+var factory = __webpack_require__(71);
 
 module.exports = factory(isValidElement);
 
 /***/ }),
-/* 104 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright 2013-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
-
-
-
-var emptyFunction = __webpack_require__(10);
-var invariant = __webpack_require__(1);
-var warning = __webpack_require__(2);
-
-var ReactPropTypesSecret = __webpack_require__(63);
-var checkPropTypes = __webpack_require__(105);
-
-module.exports = function(isValidElement, throwOnDirectAccess) {
-  /* global Symbol */
-  var ITERATOR_SYMBOL = typeof Symbol === 'function' && Symbol.iterator;
-  var FAUX_ITERATOR_SYMBOL = '@@iterator'; // Before Symbol spec.
-
-  /**
-   * Returns the iterator method function contained on the iterable object.
-   *
-   * Be sure to invoke the function with the iterable as context:
-   *
-   *     var iteratorFn = getIteratorFn(myIterable);
-   *     if (iteratorFn) {
-   *       var iterator = iteratorFn.call(myIterable);
-   *       ...
-   *     }
-   *
-   * @param {?object} maybeIterable
-   * @return {?function}
-   */
-  function getIteratorFn(maybeIterable) {
-    var iteratorFn = maybeIterable && (ITERATOR_SYMBOL && maybeIterable[ITERATOR_SYMBOL] || maybeIterable[FAUX_ITERATOR_SYMBOL]);
-    if (typeof iteratorFn === 'function') {
-      return iteratorFn;
-    }
-  }
-
-  /**
-   * Collection of methods that allow declaration and validation of props that are
-   * supplied to React components. Example usage:
-   *
-   *   var Props = require('ReactPropTypes');
-   *   var MyArticle = React.createClass({
-   *     propTypes: {
-   *       // An optional string prop named "description".
-   *       description: Props.string,
-   *
-   *       // A required enum prop named "category".
-   *       category: Props.oneOf(['News','Photos']).isRequired,
-   *
-   *       // A prop named "dialog" that requires an instance of Dialog.
-   *       dialog: Props.instanceOf(Dialog).isRequired
-   *     },
-   *     render: function() { ... }
-   *   });
-   *
-   * A more formal specification of how these methods are used:
-   *
-   *   type := array|bool|func|object|number|string|oneOf([...])|instanceOf(...)
-   *   decl := ReactPropTypes.{type}(.isRequired)?
-   *
-   * Each and every declaration produces a function with the same signature. This
-   * allows the creation of custom validation functions. For example:
-   *
-   *  var MyLink = React.createClass({
-   *    propTypes: {
-   *      // An optional string or URI prop named "href".
-   *      href: function(props, propName, componentName) {
-   *        var propValue = props[propName];
-   *        if (propValue != null && typeof propValue !== 'string' &&
-   *            !(propValue instanceof URI)) {
-   *          return new Error(
-   *            'Expected a string or an URI for ' + propName + ' in ' +
-   *            componentName
-   *          );
-   *        }
-   *      }
-   *    },
-   *    render: function() {...}
-   *  });
-   *
-   * @internal
-   */
-
-  var ANONYMOUS = '<<anonymous>>';
-
-  // Important!
-  // Keep this list in sync with production version in `./factoryWithThrowingShims.js`.
-  var ReactPropTypes = {
-    array: createPrimitiveTypeChecker('array'),
-    bool: createPrimitiveTypeChecker('boolean'),
-    func: createPrimitiveTypeChecker('function'),
-    number: createPrimitiveTypeChecker('number'),
-    object: createPrimitiveTypeChecker('object'),
-    string: createPrimitiveTypeChecker('string'),
-    symbol: createPrimitiveTypeChecker('symbol'),
-
-    any: createAnyTypeChecker(),
-    arrayOf: createArrayOfTypeChecker,
-    element: createElementTypeChecker(),
-    instanceOf: createInstanceTypeChecker,
-    node: createNodeChecker(),
-    objectOf: createObjectOfTypeChecker,
-    oneOf: createEnumTypeChecker,
-    oneOfType: createUnionTypeChecker,
-    shape: createShapeTypeChecker
-  };
-
-  /**
-   * inlined Object.is polyfill to avoid requiring consumers ship their own
-   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
-   */
-  /*eslint-disable no-self-compare*/
-  function is(x, y) {
-    // SameValue algorithm
-    if (x === y) {
-      // Steps 1-5, 7-10
-      // Steps 6.b-6.e: +0 != -0
-      return x !== 0 || 1 / x === 1 / y;
-    } else {
-      // Step 6.a: NaN == NaN
-      return x !== x && y !== y;
-    }
-  }
-  /*eslint-enable no-self-compare*/
-
-  /**
-   * We use an Error-like object for backward compatibility as people may call
-   * PropTypes directly and inspect their output. However, we don't use real
-   * Errors anymore. We don't inspect their stack anyway, and creating them
-   * is prohibitively expensive if they are created too often, such as what
-   * happens in oneOfType() for any type before the one that matched.
-   */
-  function PropTypeError(message) {
-    this.message = message;
-    this.stack = '';
-  }
-  // Make `instanceof Error` still work for returned errors.
-  PropTypeError.prototype = Error.prototype;
-
-  function createChainableTypeChecker(validate) {
-    if (process.env.NODE_ENV !== 'production') {
-      var manualPropTypeCallCache = {};
-      var manualPropTypeWarningCount = 0;
-    }
-    function checkType(isRequired, props, propName, componentName, location, propFullName, secret) {
-      componentName = componentName || ANONYMOUS;
-      propFullName = propFullName || propName;
-
-      if (secret !== ReactPropTypesSecret) {
-        if (throwOnDirectAccess) {
-          // New behavior only for users of `prop-types` package
-          invariant(
-            false,
-            'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
-            'Use `PropTypes.checkPropTypes()` to call them. ' +
-            'Read more at http://fb.me/use-check-prop-types'
-          );
-        } else if (process.env.NODE_ENV !== 'production' && typeof console !== 'undefined') {
-          // Old behavior for people using React.PropTypes
-          var cacheKey = componentName + ':' + propName;
-          if (
-            !manualPropTypeCallCache[cacheKey] &&
-            // Avoid spamming the console because they are often not actionable except for lib authors
-            manualPropTypeWarningCount < 3
-          ) {
-            warning(
-              false,
-              'You are manually calling a React.PropTypes validation ' +
-              'function for the `%s` prop on `%s`. This is deprecated ' +
-              'and will throw in the standalone `prop-types` package. ' +
-              'You may be seeing this warning due to a third-party PropTypes ' +
-              'library. See https://fb.me/react-warning-dont-call-proptypes ' + 'for details.',
-              propFullName,
-              componentName
-            );
-            manualPropTypeCallCache[cacheKey] = true;
-            manualPropTypeWarningCount++;
-          }
-        }
-      }
-      if (props[propName] == null) {
-        if (isRequired) {
-          if (props[propName] === null) {
-            return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required ' + ('in `' + componentName + '`, but its value is `null`.'));
-          }
-          return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required in ' + ('`' + componentName + '`, but its value is `undefined`.'));
-        }
-        return null;
-      } else {
-        return validate(props, propName, componentName, location, propFullName);
-      }
-    }
-
-    var chainedCheckType = checkType.bind(null, false);
-    chainedCheckType.isRequired = checkType.bind(null, true);
-
-    return chainedCheckType;
-  }
-
-  function createPrimitiveTypeChecker(expectedType) {
-    function validate(props, propName, componentName, location, propFullName, secret) {
-      var propValue = props[propName];
-      var propType = getPropType(propValue);
-      if (propType !== expectedType) {
-        // `propValue` being instance of, say, date/regexp, pass the 'object'
-        // check, but we can offer a more precise error message here rather than
-        // 'of type `object`'.
-        var preciseType = getPreciseType(propValue);
-
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + preciseType + '` supplied to `' + componentName + '`, expected ') + ('`' + expectedType + '`.'));
-      }
-      return null;
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function createAnyTypeChecker() {
-    return createChainableTypeChecker(emptyFunction.thatReturnsNull);
-  }
-
-  function createArrayOfTypeChecker(typeChecker) {
-    function validate(props, propName, componentName, location, propFullName) {
-      if (typeof typeChecker !== 'function') {
-        return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside arrayOf.');
-      }
-      var propValue = props[propName];
-      if (!Array.isArray(propValue)) {
-        var propType = getPropType(propValue);
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected an array.'));
-      }
-      for (var i = 0; i < propValue.length; i++) {
-        var error = typeChecker(propValue, i, componentName, location, propFullName + '[' + i + ']', ReactPropTypesSecret);
-        if (error instanceof Error) {
-          return error;
-        }
-      }
-      return null;
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function createElementTypeChecker() {
-    function validate(props, propName, componentName, location, propFullName) {
-      var propValue = props[propName];
-      if (!isValidElement(propValue)) {
-        var propType = getPropType(propValue);
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected a single ReactElement.'));
-      }
-      return null;
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function createInstanceTypeChecker(expectedClass) {
-    function validate(props, propName, componentName, location, propFullName) {
-      if (!(props[propName] instanceof expectedClass)) {
-        var expectedClassName = expectedClass.name || ANONYMOUS;
-        var actualClassName = getClassName(props[propName]);
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + actualClassName + '` supplied to `' + componentName + '`, expected ') + ('instance of `' + expectedClassName + '`.'));
-      }
-      return null;
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function createEnumTypeChecker(expectedValues) {
-    if (!Array.isArray(expectedValues)) {
-      process.env.NODE_ENV !== 'production' ? warning(false, 'Invalid argument supplied to oneOf, expected an instance of array.') : void 0;
-      return emptyFunction.thatReturnsNull;
-    }
-
-    function validate(props, propName, componentName, location, propFullName) {
-      var propValue = props[propName];
-      for (var i = 0; i < expectedValues.length; i++) {
-        if (is(propValue, expectedValues[i])) {
-          return null;
-        }
-      }
-
-      var valuesString = JSON.stringify(expectedValues);
-      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of value `' + propValue + '` ' + ('supplied to `' + componentName + '`, expected one of ' + valuesString + '.'));
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function createObjectOfTypeChecker(typeChecker) {
-    function validate(props, propName, componentName, location, propFullName) {
-      if (typeof typeChecker !== 'function') {
-        return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside objectOf.');
-      }
-      var propValue = props[propName];
-      var propType = getPropType(propValue);
-      if (propType !== 'object') {
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected an object.'));
-      }
-      for (var key in propValue) {
-        if (propValue.hasOwnProperty(key)) {
-          var error = typeChecker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
-          if (error instanceof Error) {
-            return error;
-          }
-        }
-      }
-      return null;
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function createUnionTypeChecker(arrayOfTypeCheckers) {
-    if (!Array.isArray(arrayOfTypeCheckers)) {
-      process.env.NODE_ENV !== 'production' ? warning(false, 'Invalid argument supplied to oneOfType, expected an instance of array.') : void 0;
-      return emptyFunction.thatReturnsNull;
-    }
-
-    for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
-      var checker = arrayOfTypeCheckers[i];
-      if (typeof checker !== 'function') {
-        warning(
-          false,
-          'Invalid argument supplid to oneOfType. Expected an array of check functions, but ' +
-          'received %s at index %s.',
-          getPostfixForTypeWarning(checker),
-          i
-        );
-        return emptyFunction.thatReturnsNull;
-      }
-    }
-
-    function validate(props, propName, componentName, location, propFullName) {
-      for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
-        var checker = arrayOfTypeCheckers[i];
-        if (checker(props, propName, componentName, location, propFullName, ReactPropTypesSecret) == null) {
-          return null;
-        }
-      }
-
-      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`.'));
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function createNodeChecker() {
-    function validate(props, propName, componentName, location, propFullName) {
-      if (!isNode(props[propName])) {
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`, expected a ReactNode.'));
-      }
-      return null;
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function createShapeTypeChecker(shapeTypes) {
-    function validate(props, propName, componentName, location, propFullName) {
-      var propValue = props[propName];
-      var propType = getPropType(propValue);
-      if (propType !== 'object') {
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type `' + propType + '` ' + ('supplied to `' + componentName + '`, expected `object`.'));
-      }
-      for (var key in shapeTypes) {
-        var checker = shapeTypes[key];
-        if (!checker) {
-          continue;
-        }
-        var error = checker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
-        if (error) {
-          return error;
-        }
-      }
-      return null;
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function isNode(propValue) {
-    switch (typeof propValue) {
-      case 'number':
-      case 'string':
-      case 'undefined':
-        return true;
-      case 'boolean':
-        return !propValue;
-      case 'object':
-        if (Array.isArray(propValue)) {
-          return propValue.every(isNode);
-        }
-        if (propValue === null || isValidElement(propValue)) {
-          return true;
-        }
-
-        var iteratorFn = getIteratorFn(propValue);
-        if (iteratorFn) {
-          var iterator = iteratorFn.call(propValue);
-          var step;
-          if (iteratorFn !== propValue.entries) {
-            while (!(step = iterator.next()).done) {
-              if (!isNode(step.value)) {
-                return false;
-              }
-            }
-          } else {
-            // Iterator will provide entry [k,v] tuples rather than values.
-            while (!(step = iterator.next()).done) {
-              var entry = step.value;
-              if (entry) {
-                if (!isNode(entry[1])) {
-                  return false;
-                }
-              }
-            }
-          }
-        } else {
-          return false;
-        }
-
-        return true;
-      default:
-        return false;
-    }
-  }
-
-  function isSymbol(propType, propValue) {
-    // Native Symbol.
-    if (propType === 'symbol') {
-      return true;
-    }
-
-    // 19.4.3.5 Symbol.prototype[@@toStringTag] === 'Symbol'
-    if (propValue['@@toStringTag'] === 'Symbol') {
-      return true;
-    }
-
-    // Fallback for non-spec compliant Symbols which are polyfilled.
-    if (typeof Symbol === 'function' && propValue instanceof Symbol) {
-      return true;
-    }
-
-    return false;
-  }
-
-  // Equivalent of `typeof` but with special handling for array and regexp.
-  function getPropType(propValue) {
-    var propType = typeof propValue;
-    if (Array.isArray(propValue)) {
-      return 'array';
-    }
-    if (propValue instanceof RegExp) {
-      // Old webkits (at least until Android 4.0) return 'function' rather than
-      // 'object' for typeof a RegExp. We'll normalize this here so that /bla/
-      // passes PropTypes.object.
-      return 'object';
-    }
-    if (isSymbol(propType, propValue)) {
-      return 'symbol';
-    }
-    return propType;
-  }
-
-  // This handles more types than `getPropType`. Only used for error messages.
-  // See `createPrimitiveTypeChecker`.
-  function getPreciseType(propValue) {
-    if (typeof propValue === 'undefined' || propValue === null) {
-      return '' + propValue;
-    }
-    var propType = getPropType(propValue);
-    if (propType === 'object') {
-      if (propValue instanceof Date) {
-        return 'date';
-      } else if (propValue instanceof RegExp) {
-        return 'regexp';
-      }
-    }
-    return propType;
-  }
-
-  // Returns a string that is postfixed to a warning about an invalid type.
-  // For example, "undefined" or "of type array"
-  function getPostfixForTypeWarning(value) {
-    var type = getPreciseType(value);
-    switch (type) {
-      case 'array':
-      case 'object':
-        return 'an ' + type;
-      case 'boolean':
-      case 'date':
-      case 'regexp':
-        return 'a ' + type;
-      default:
-        return type;
-    }
-  }
-
-  // Returns class name of the object, if any.
-  function getClassName(propValue) {
-    if (!propValue.constructor || !propValue.constructor.name) {
-      return ANONYMOUS;
-    }
-    return propValue.constructor.name;
-  }
-
-  ReactPropTypes.checkPropTypes = checkPropTypes;
-  ReactPropTypes.PropTypes = ReactPropTypes;
-
-  return ReactPropTypes;
-};
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 105 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12040,7 +13349,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 if (process.env.NODE_ENV !== 'production') {
   var invariant = __webpack_require__(1);
   var warning = __webpack_require__(2);
-  var ReactPropTypesSecret = __webpack_require__(63);
+  var ReactPropTypesSecret = __webpack_require__(47);
   var loggedTypeFailures = {};
 }
 
@@ -12091,7 +13400,7 @@ module.exports = checkPropTypes;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 106 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12110,7 +13419,7 @@ module.exports = checkPropTypes;
 module.exports = '15.6.1';
 
 /***/ }),
-/* 107 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12126,19 +13435,19 @@ module.exports = '15.6.1';
 
 
 
-var _require = __webpack_require__(57),
+var _require = __webpack_require__(66),
     Component = _require.Component;
 
-var _require2 = __webpack_require__(17),
+var _require2 = __webpack_require__(18),
     isValidElement = _require2.isValidElement;
 
-var ReactNoopUpdateQueue = __webpack_require__(58);
-var factory = __webpack_require__(108);
+var ReactNoopUpdateQueue = __webpack_require__(67);
+var factory = __webpack_require__(128);
 
 module.exports = factory(Component, isValidElement, ReactNoopUpdateQueue);
 
 /***/ }),
-/* 108 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12156,7 +13465,7 @@ module.exports = factory(Component, isValidElement, ReactNoopUpdateQueue);
 
 var _assign = __webpack_require__(5);
 
-var emptyObject = __webpack_require__(31);
+var emptyObject = __webpack_require__(37);
 var _invariant = __webpack_require__(1);
 
 if (process.env.NODE_ENV !== 'production') {
@@ -13018,7 +14327,7 @@ module.exports = factory;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 109 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13033,9 +14342,9 @@ module.exports = factory;
  */
 
 
-var _prodInvariant = __webpack_require__(20);
+var _prodInvariant = __webpack_require__(23);
 
-var ReactElement = __webpack_require__(17);
+var ReactElement = __webpack_require__(18);
 
 var invariant = __webpack_require__(1);
 
@@ -13062,17 +14371,17 @@ module.exports = onlyChild;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 110 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(111);
+module.exports = __webpack_require__(131);
 
 
 /***/ }),
-/* 111 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13091,15 +14400,15 @@ module.exports = __webpack_require__(111);
 
 
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactDefaultInjection = __webpack_require__(112);
-var ReactMount = __webpack_require__(87);
-var ReactReconciler = __webpack_require__(21);
-var ReactUpdates = __webpack_require__(14);
-var ReactVersion = __webpack_require__(190);
+var ReactDefaultInjection = __webpack_require__(132);
+var ReactMount = __webpack_require__(96);
+var ReactReconciler = __webpack_require__(24);
+var ReactUpdates = __webpack_require__(13);
+var ReactVersion = __webpack_require__(210);
 
-var findDOMNode = __webpack_require__(191);
-var getHostComponentFromComposite = __webpack_require__(88);
-var renderSubtreeIntoContainer = __webpack_require__(192);
+var findDOMNode = __webpack_require__(211);
+var getHostComponentFromComposite = __webpack_require__(97);
+var renderSubtreeIntoContainer = __webpack_require__(212);
 var warning = __webpack_require__(2);
 
 ReactDefaultInjection.inject();
@@ -13175,10 +14484,10 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 if (process.env.NODE_ENV !== 'production') {
-  var ReactInstrumentation = __webpack_require__(9);
-  var ReactDOMUnknownPropertyHook = __webpack_require__(193);
-  var ReactDOMNullInputValuePropHook = __webpack_require__(194);
-  var ReactDOMInvalidARIAHook = __webpack_require__(195);
+  var ReactInstrumentation = __webpack_require__(10);
+  var ReactDOMUnknownPropertyHook = __webpack_require__(213);
+  var ReactDOMNullInputValuePropHook = __webpack_require__(214);
+  var ReactDOMInvalidARIAHook = __webpack_require__(215);
 
   ReactInstrumentation.debugTool.addHook(ReactDOMUnknownPropertyHook);
   ReactInstrumentation.debugTool.addHook(ReactDOMNullInputValuePropHook);
@@ -13189,7 +14498,7 @@ module.exports = ReactDOM;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 112 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13205,25 +14514,25 @@ module.exports = ReactDOM;
 
 
 
-var ARIADOMPropertyConfig = __webpack_require__(113);
-var BeforeInputEventPlugin = __webpack_require__(114);
-var ChangeEventPlugin = __webpack_require__(118);
-var DefaultEventPluginOrder = __webpack_require__(126);
-var EnterLeaveEventPlugin = __webpack_require__(127);
-var HTMLDOMPropertyConfig = __webpack_require__(128);
-var ReactComponentBrowserEnvironment = __webpack_require__(129);
-var ReactDOMComponent = __webpack_require__(135);
+var ARIADOMPropertyConfig = __webpack_require__(133);
+var BeforeInputEventPlugin = __webpack_require__(134);
+var ChangeEventPlugin = __webpack_require__(138);
+var DefaultEventPluginOrder = __webpack_require__(146);
+var EnterLeaveEventPlugin = __webpack_require__(147);
+var HTMLDOMPropertyConfig = __webpack_require__(148);
+var ReactComponentBrowserEnvironment = __webpack_require__(149);
+var ReactDOMComponent = __webpack_require__(155);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactDOMEmptyComponent = __webpack_require__(161);
-var ReactDOMTreeTraversal = __webpack_require__(162);
-var ReactDOMTextComponent = __webpack_require__(163);
-var ReactDefaultBatchingStrategy = __webpack_require__(164);
-var ReactEventListener = __webpack_require__(165);
-var ReactInjection = __webpack_require__(167);
-var ReactReconcileTransaction = __webpack_require__(168);
-var SVGDOMPropertyConfig = __webpack_require__(174);
-var SelectEventPlugin = __webpack_require__(175);
-var SimpleEventPlugin = __webpack_require__(176);
+var ReactDOMEmptyComponent = __webpack_require__(181);
+var ReactDOMTreeTraversal = __webpack_require__(182);
+var ReactDOMTextComponent = __webpack_require__(183);
+var ReactDefaultBatchingStrategy = __webpack_require__(184);
+var ReactEventListener = __webpack_require__(185);
+var ReactInjection = __webpack_require__(187);
+var ReactReconcileTransaction = __webpack_require__(188);
+var SVGDOMPropertyConfig = __webpack_require__(194);
+var SelectEventPlugin = __webpack_require__(195);
+var SimpleEventPlugin = __webpack_require__(196);
 
 var alreadyInjected = false;
 
@@ -13280,7 +14589,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 113 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13359,7 +14668,7 @@ var ARIADOMPropertyConfig = {
 module.exports = ARIADOMPropertyConfig;
 
 /***/ }),
-/* 114 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13375,11 +14684,11 @@ module.exports = ARIADOMPropertyConfig;
 
 
 
-var EventPropagators = __webpack_require__(25);
+var EventPropagators = __webpack_require__(31);
 var ExecutionEnvironment = __webpack_require__(7);
-var FallbackCompositionState = __webpack_require__(115);
-var SyntheticCompositionEvent = __webpack_require__(116);
-var SyntheticInputEvent = __webpack_require__(117);
+var FallbackCompositionState = __webpack_require__(135);
+var SyntheticCompositionEvent = __webpack_require__(136);
+var SyntheticInputEvent = __webpack_require__(137);
 
 var END_KEYCODES = [9, 13, 27, 32]; // Tab, Return, Esc, Space
 var START_KEYCODE = 229;
@@ -13748,7 +15057,7 @@ var BeforeInputEventPlugin = {
 module.exports = BeforeInputEventPlugin;
 
 /***/ }),
-/* 115 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13766,9 +15075,9 @@ module.exports = BeforeInputEventPlugin;
 
 var _assign = __webpack_require__(5);
 
-var PooledClass = __webpack_require__(18);
+var PooledClass = __webpack_require__(19);
 
-var getTextContentAccessor = __webpack_require__(67);
+var getTextContentAccessor = __webpack_require__(76);
 
 /**
  * This helper class stores information about text content of a target node,
@@ -13848,7 +15157,7 @@ PooledClass.addPoolingTo(FallbackCompositionState);
 module.exports = FallbackCompositionState;
 
 /***/ }),
-/* 116 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13889,7 +15198,7 @@ SyntheticEvent.augmentClass(SyntheticCompositionEvent, CompositionEventInterface
 module.exports = SyntheticCompositionEvent;
 
 /***/ }),
-/* 117 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13931,7 +15240,7 @@ SyntheticEvent.augmentClass(SyntheticInputEvent, InputEventInterface);
 module.exports = SyntheticInputEvent;
 
 /***/ }),
-/* 118 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13947,17 +15256,17 @@ module.exports = SyntheticInputEvent;
 
 
 
-var EventPluginHub = __webpack_require__(26);
-var EventPropagators = __webpack_require__(25);
+var EventPluginHub = __webpack_require__(32);
+var EventPropagators = __webpack_require__(31);
 var ExecutionEnvironment = __webpack_require__(7);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactUpdates = __webpack_require__(14);
+var ReactUpdates = __webpack_require__(13);
 var SyntheticEvent = __webpack_require__(15);
 
-var inputValueTracking = __webpack_require__(70);
-var getEventTarget = __webpack_require__(42);
-var isEventSupported = __webpack_require__(43);
-var isTextInputElement = __webpack_require__(71);
+var inputValueTracking = __webpack_require__(79);
+var getEventTarget = __webpack_require__(50);
+var isEventSupported = __webpack_require__(51);
+var isTextInputElement = __webpack_require__(80);
 
 var eventTypes = {
   change: {
@@ -14248,7 +15557,7 @@ var ChangeEventPlugin = {
 module.exports = ChangeEventPlugin;
 
 /***/ }),
-/* 119 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14265,7 +15574,7 @@ module.exports = ChangeEventPlugin;
 
 
 
-var ReactOwner = __webpack_require__(120);
+var ReactOwner = __webpack_require__(140);
 
 var ReactRef = {};
 
@@ -14342,7 +15651,7 @@ ReactRef.detachRefs = function (instance, element) {
 module.exports = ReactRef;
 
 /***/ }),
-/* 120 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14359,7 +15668,7 @@ module.exports = ReactRef;
 
 
 
-var _prodInvariant = __webpack_require__(3);
+var _prodInvariant = __webpack_require__(4);
 
 var invariant = __webpack_require__(1);
 
@@ -14441,7 +15750,7 @@ module.exports = ReactOwner;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 121 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14458,12 +15767,12 @@ module.exports = ReactOwner;
 
 
 
-var ReactInvalidSetStateWarningHook = __webpack_require__(122);
-var ReactHostOperationHistoryHook = __webpack_require__(123);
+var ReactInvalidSetStateWarningHook = __webpack_require__(142);
+var ReactHostOperationHistoryHook = __webpack_require__(143);
 var ReactComponentTreeHook = __webpack_require__(8);
 var ExecutionEnvironment = __webpack_require__(7);
 
-var performanceNow = __webpack_require__(124);
+var performanceNow = __webpack_require__(144);
 var warning = __webpack_require__(2);
 
 var hooks = [];
@@ -14808,7 +16117,7 @@ module.exports = ReactDebugTool;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 122 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14851,7 +16160,7 @@ module.exports = ReactInvalidSetStateWarningHook;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 123 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14890,7 +16199,7 @@ var ReactHostOperationHistoryHook = {
 module.exports = ReactHostOperationHistoryHook;
 
 /***/ }),
-/* 124 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14907,7 +16216,7 @@ module.exports = ReactHostOperationHistoryHook;
  * @typechecks
  */
 
-var performance = __webpack_require__(125);
+var performance = __webpack_require__(145);
 
 var performanceNow;
 
@@ -14929,7 +16238,7 @@ if (performance.now) {
 module.exports = performanceNow;
 
 /***/ }),
-/* 125 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14957,7 +16266,7 @@ if (ExecutionEnvironment.canUseDOM) {
 module.exports = performance || {};
 
 /***/ }),
-/* 126 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14988,7 +16297,7 @@ var DefaultEventPluginOrder = ['ResponderEventPlugin', 'SimpleEventPlugin', 'Tap
 module.exports = DefaultEventPluginOrder;
 
 /***/ }),
-/* 127 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15004,9 +16313,9 @@ module.exports = DefaultEventPluginOrder;
 
 
 
-var EventPropagators = __webpack_require__(25);
+var EventPropagators = __webpack_require__(31);
 var ReactDOMComponentTree = __webpack_require__(6);
-var SyntheticMouseEvent = __webpack_require__(34);
+var SyntheticMouseEvent = __webpack_require__(40);
 
 var eventTypes = {
   mouseEnter: {
@@ -15091,7 +16400,7 @@ var EnterLeaveEventPlugin = {
 module.exports = EnterLeaveEventPlugin;
 
 /***/ }),
-/* 128 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15107,7 +16416,7 @@ module.exports = EnterLeaveEventPlugin;
 
 
 
-var DOMProperty = __webpack_require__(16);
+var DOMProperty = __webpack_require__(17);
 
 var MUST_USE_PROPERTY = DOMProperty.injection.MUST_USE_PROPERTY;
 var HAS_BOOLEAN_VALUE = DOMProperty.injection.HAS_BOOLEAN_VALUE;
@@ -15332,7 +16641,7 @@ var HTMLDOMPropertyConfig = {
 module.exports = HTMLDOMPropertyConfig;
 
 /***/ }),
-/* 129 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15348,8 +16657,8 @@ module.exports = HTMLDOMPropertyConfig;
 
 
 
-var DOMChildrenOperations = __webpack_require__(45);
-var ReactDOMIDOperations = __webpack_require__(134);
+var DOMChildrenOperations = __webpack_require__(53);
+var ReactDOMIDOperations = __webpack_require__(154);
 
 /**
  * Abstracts away all functionality of the reconciler that requires knowledge of
@@ -15365,7 +16674,7 @@ var ReactComponentBrowserEnvironment = {
 module.exports = ReactComponentBrowserEnvironment;
 
 /***/ }),
-/* 130 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15381,13 +16690,13 @@ module.exports = ReactComponentBrowserEnvironment;
 
 
 
-var _prodInvariant = __webpack_require__(3);
+var _prodInvariant = __webpack_require__(4);
 
-var DOMLazyTree = __webpack_require__(22);
+var DOMLazyTree = __webpack_require__(25);
 var ExecutionEnvironment = __webpack_require__(7);
 
-var createNodesFromMarkup = __webpack_require__(131);
-var emptyFunction = __webpack_require__(10);
+var createNodesFromMarkup = __webpack_require__(151);
+var emptyFunction = __webpack_require__(9);
 var invariant = __webpack_require__(1);
 
 var Danger = {
@@ -15417,7 +16726,7 @@ module.exports = Danger;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 131 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15438,8 +16747,8 @@ module.exports = Danger;
 
 var ExecutionEnvironment = __webpack_require__(7);
 
-var createArrayFromMixed = __webpack_require__(132);
-var getMarkupWrap = __webpack_require__(133);
+var createArrayFromMixed = __webpack_require__(152);
+var getMarkupWrap = __webpack_require__(153);
 var invariant = __webpack_require__(1);
 
 /**
@@ -15507,7 +16816,7 @@ module.exports = createNodesFromMarkup;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 132 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15640,7 +16949,7 @@ module.exports = createArrayFromMixed;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 133 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15741,7 +17050,7 @@ module.exports = getMarkupWrap;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 134 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15757,7 +17066,7 @@ module.exports = getMarkupWrap;
 
 
 
-var DOMChildrenOperations = __webpack_require__(45);
+var DOMChildrenOperations = __webpack_require__(53);
 var ReactDOMComponentTree = __webpack_require__(6);
 
 /**
@@ -15779,7 +17088,7 @@ var ReactDOMIDOperations = {
 module.exports = ReactDOMIDOperations;
 
 /***/ }),
-/* 135 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15797,35 +17106,35 @@ module.exports = ReactDOMIDOperations;
 
 
 
-var _prodInvariant = __webpack_require__(3),
+var _prodInvariant = __webpack_require__(4),
     _assign = __webpack_require__(5);
 
-var AutoFocusUtils = __webpack_require__(136);
-var CSSPropertyOperations = __webpack_require__(137);
-var DOMLazyTree = __webpack_require__(22);
-var DOMNamespaces = __webpack_require__(46);
-var DOMProperty = __webpack_require__(16);
-var DOMPropertyOperations = __webpack_require__(76);
-var EventPluginHub = __webpack_require__(26);
-var EventPluginRegistry = __webpack_require__(32);
-var ReactBrowserEventEmitter = __webpack_require__(37);
-var ReactDOMComponentFlags = __webpack_require__(64);
+var AutoFocusUtils = __webpack_require__(156);
+var CSSPropertyOperations = __webpack_require__(157);
+var DOMLazyTree = __webpack_require__(25);
+var DOMNamespaces = __webpack_require__(54);
+var DOMProperty = __webpack_require__(17);
+var DOMPropertyOperations = __webpack_require__(85);
+var EventPluginHub = __webpack_require__(32);
+var EventPluginRegistry = __webpack_require__(38);
+var ReactBrowserEventEmitter = __webpack_require__(43);
+var ReactDOMComponentFlags = __webpack_require__(73);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactDOMInput = __webpack_require__(147);
-var ReactDOMOption = __webpack_require__(148);
-var ReactDOMSelect = __webpack_require__(78);
-var ReactDOMTextarea = __webpack_require__(149);
-var ReactInstrumentation = __webpack_require__(9);
-var ReactMultiChild = __webpack_require__(150);
-var ReactServerRenderingTransaction = __webpack_require__(159);
+var ReactDOMInput = __webpack_require__(167);
+var ReactDOMOption = __webpack_require__(168);
+var ReactDOMSelect = __webpack_require__(87);
+var ReactDOMTextarea = __webpack_require__(169);
+var ReactInstrumentation = __webpack_require__(10);
+var ReactMultiChild = __webpack_require__(170);
+var ReactServerRenderingTransaction = __webpack_require__(179);
 
-var emptyFunction = __webpack_require__(10);
-var escapeTextContentForBrowser = __webpack_require__(36);
+var emptyFunction = __webpack_require__(9);
+var escapeTextContentForBrowser = __webpack_require__(42);
 var invariant = __webpack_require__(1);
-var isEventSupported = __webpack_require__(43);
-var shallowEqual = __webpack_require__(50);
-var inputValueTracking = __webpack_require__(70);
-var validateDOMNesting = __webpack_require__(54);
+var isEventSupported = __webpack_require__(51);
+var shallowEqual = __webpack_require__(58);
+var inputValueTracking = __webpack_require__(79);
+var validateDOMNesting = __webpack_require__(62);
 var warning = __webpack_require__(2);
 
 var Flags = ReactDOMComponentFlags;
@@ -16795,7 +18104,7 @@ module.exports = ReactDOMComponent;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 136 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16813,7 +18122,7 @@ module.exports = ReactDOMComponent;
 
 var ReactDOMComponentTree = __webpack_require__(6);
 
-var focusNode = __webpack_require__(74);
+var focusNode = __webpack_require__(83);
 
 var AutoFocusUtils = {
   focusDOMComponent: function () {
@@ -16824,7 +18133,7 @@ var AutoFocusUtils = {
 module.exports = AutoFocusUtils;
 
 /***/ }),
-/* 137 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16840,14 +18149,14 @@ module.exports = AutoFocusUtils;
 
 
 
-var CSSProperty = __webpack_require__(75);
+var CSSProperty = __webpack_require__(84);
 var ExecutionEnvironment = __webpack_require__(7);
-var ReactInstrumentation = __webpack_require__(9);
+var ReactInstrumentation = __webpack_require__(10);
 
-var camelizeStyleName = __webpack_require__(138);
-var dangerousStyleValue = __webpack_require__(140);
-var hyphenateStyleName = __webpack_require__(141);
-var memoizeStringOnly = __webpack_require__(143);
+var camelizeStyleName = __webpack_require__(158);
+var dangerousStyleValue = __webpack_require__(160);
+var hyphenateStyleName = __webpack_require__(161);
+var memoizeStringOnly = __webpack_require__(163);
 var warning = __webpack_require__(2);
 
 var processStyleName = memoizeStringOnly(function (styleName) {
@@ -17045,7 +18354,7 @@ module.exports = CSSPropertyOperations;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 138 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17062,7 +18371,7 @@ module.exports = CSSPropertyOperations;
 
 
 
-var camelize = __webpack_require__(139);
+var camelize = __webpack_require__(159);
 
 var msPattern = /^-ms-/;
 
@@ -17090,7 +18399,7 @@ function camelizeStyleName(string) {
 module.exports = camelizeStyleName;
 
 /***/ }),
-/* 139 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17127,7 +18436,7 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 140 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17143,7 +18452,7 @@ module.exports = camelize;
 
 
 
-var CSSProperty = __webpack_require__(75);
+var CSSProperty = __webpack_require__(84);
 var warning = __webpack_require__(2);
 
 var isUnitlessNumber = CSSProperty.isUnitlessNumber;
@@ -17212,7 +18521,7 @@ module.exports = dangerousStyleValue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 141 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17229,7 +18538,7 @@ module.exports = dangerousStyleValue;
 
 
 
-var hyphenate = __webpack_require__(142);
+var hyphenate = __webpack_require__(162);
 
 var msPattern = /^ms-/;
 
@@ -17256,7 +18565,7 @@ function hyphenateStyleName(string) {
 module.exports = hyphenateStyleName;
 
 /***/ }),
-/* 142 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17294,7 +18603,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 143 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17329,7 +18638,7 @@ function memoizeStringOnly(callback) {
 module.exports = memoizeStringOnly;
 
 /***/ }),
-/* 144 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17345,7 +18654,7 @@ module.exports = memoizeStringOnly;
 
 
 
-var escapeTextContentForBrowser = __webpack_require__(36);
+var escapeTextContentForBrowser = __webpack_require__(42);
 
 /**
  * Escapes attribute value to prevent scripting attacks.
@@ -17360,7 +18669,7 @@ function quoteAttributeValueForBrowser(value) {
 module.exports = quoteAttributeValueForBrowser;
 
 /***/ }),
-/* 145 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17376,7 +18685,7 @@ module.exports = quoteAttributeValueForBrowser;
 
 
 
-var EventPluginHub = __webpack_require__(26);
+var EventPluginHub = __webpack_require__(32);
 
 function runEventQueueInBatch(events) {
   EventPluginHub.enqueueEvents(events);
@@ -17397,7 +18706,7 @@ var ReactEventEmitterMixin = {
 module.exports = ReactEventEmitterMixin;
 
 /***/ }),
-/* 146 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17503,7 +18812,7 @@ function getVendorPrefixedEventName(eventName) {
 module.exports = getVendorPrefixedEventName;
 
 /***/ }),
-/* 147 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17519,13 +18828,13 @@ module.exports = getVendorPrefixedEventName;
 
 
 
-var _prodInvariant = __webpack_require__(3),
+var _prodInvariant = __webpack_require__(4),
     _assign = __webpack_require__(5);
 
-var DOMPropertyOperations = __webpack_require__(76);
-var LinkedValueUtils = __webpack_require__(48);
+var DOMPropertyOperations = __webpack_require__(85);
+var LinkedValueUtils = __webpack_require__(56);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactUpdates = __webpack_require__(14);
+var ReactUpdates = __webpack_require__(13);
 
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
@@ -17796,7 +19105,7 @@ module.exports = ReactDOMInput;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 148 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17814,9 +19123,9 @@ module.exports = ReactDOMInput;
 
 var _assign = __webpack_require__(5);
 
-var React = __webpack_require__(19);
+var React = __webpack_require__(22);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactDOMSelect = __webpack_require__(78);
+var ReactDOMSelect = __webpack_require__(87);
 
 var warning = __webpack_require__(2);
 var didWarnInvalidOptionChildren = false;
@@ -17924,7 +19233,7 @@ module.exports = ReactDOMOption;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 149 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17940,12 +19249,12 @@ module.exports = ReactDOMOption;
 
 
 
-var _prodInvariant = __webpack_require__(3),
+var _prodInvariant = __webpack_require__(4),
     _assign = __webpack_require__(5);
 
-var LinkedValueUtils = __webpack_require__(48);
+var LinkedValueUtils = __webpack_require__(56);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactUpdates = __webpack_require__(14);
+var ReactUpdates = __webpack_require__(13);
 
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
@@ -18090,7 +19399,7 @@ module.exports = ReactDOMTextarea;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 150 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18106,18 +19415,18 @@ module.exports = ReactDOMTextarea;
 
 
 
-var _prodInvariant = __webpack_require__(3);
+var _prodInvariant = __webpack_require__(4);
 
-var ReactComponentEnvironment = __webpack_require__(49);
-var ReactInstanceMap = __webpack_require__(28);
-var ReactInstrumentation = __webpack_require__(9);
+var ReactComponentEnvironment = __webpack_require__(57);
+var ReactInstanceMap = __webpack_require__(34);
+var ReactInstrumentation = __webpack_require__(10);
 
-var ReactCurrentOwner = __webpack_require__(13);
-var ReactReconciler = __webpack_require__(21);
-var ReactChildReconciler = __webpack_require__(151);
+var ReactCurrentOwner = __webpack_require__(12);
+var ReactReconciler = __webpack_require__(24);
+var ReactChildReconciler = __webpack_require__(171);
 
-var emptyFunction = __webpack_require__(10);
-var flattenChildren = __webpack_require__(158);
+var emptyFunction = __webpack_require__(9);
+var flattenChildren = __webpack_require__(178);
 var invariant = __webpack_require__(1);
 
 /**
@@ -18542,7 +19851,7 @@ module.exports = ReactMultiChild;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 151 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18558,12 +19867,12 @@ module.exports = ReactMultiChild;
 
 
 
-var ReactReconciler = __webpack_require__(21);
+var ReactReconciler = __webpack_require__(24);
 
-var instantiateReactComponent = __webpack_require__(79);
-var KeyEscapeUtils = __webpack_require__(52);
-var shouldUpdateReactComponent = __webpack_require__(51);
-var traverseAllChildren = __webpack_require__(83);
+var instantiateReactComponent = __webpack_require__(88);
+var KeyEscapeUtils = __webpack_require__(60);
+var shouldUpdateReactComponent = __webpack_require__(59);
+var traverseAllChildren = __webpack_require__(92);
 var warning = __webpack_require__(2);
 
 var ReactComponentTreeHook;
@@ -18701,7 +20010,7 @@ module.exports = ReactChildReconciler;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 152 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18717,26 +20026,26 @@ module.exports = ReactChildReconciler;
 
 
 
-var _prodInvariant = __webpack_require__(3),
+var _prodInvariant = __webpack_require__(4),
     _assign = __webpack_require__(5);
 
-var React = __webpack_require__(19);
-var ReactComponentEnvironment = __webpack_require__(49);
-var ReactCurrentOwner = __webpack_require__(13);
-var ReactErrorUtils = __webpack_require__(41);
-var ReactInstanceMap = __webpack_require__(28);
-var ReactInstrumentation = __webpack_require__(9);
-var ReactNodeTypes = __webpack_require__(80);
-var ReactReconciler = __webpack_require__(21);
+var React = __webpack_require__(22);
+var ReactComponentEnvironment = __webpack_require__(57);
+var ReactCurrentOwner = __webpack_require__(12);
+var ReactErrorUtils = __webpack_require__(49);
+var ReactInstanceMap = __webpack_require__(34);
+var ReactInstrumentation = __webpack_require__(10);
+var ReactNodeTypes = __webpack_require__(89);
+var ReactReconciler = __webpack_require__(24);
 
 if (process.env.NODE_ENV !== 'production') {
-  var checkReactTypeSpec = __webpack_require__(153);
+  var checkReactTypeSpec = __webpack_require__(173);
 }
 
-var emptyObject = __webpack_require__(31);
+var emptyObject = __webpack_require__(37);
 var invariant = __webpack_require__(1);
-var shallowEqual = __webpack_require__(50);
-var shouldUpdateReactComponent = __webpack_require__(51);
+var shallowEqual = __webpack_require__(58);
+var shouldUpdateReactComponent = __webpack_require__(59);
 var warning = __webpack_require__(2);
 
 var CompositeTypes = {
@@ -19607,7 +20916,7 @@ module.exports = ReactCompositeComponent;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 153 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19623,10 +20932,10 @@ module.exports = ReactCompositeComponent;
 
 
 
-var _prodInvariant = __webpack_require__(3);
+var _prodInvariant = __webpack_require__(4);
 
-var ReactPropTypeLocationNames = __webpack_require__(154);
-var ReactPropTypesSecret = __webpack_require__(77);
+var ReactPropTypeLocationNames = __webpack_require__(174);
+var ReactPropTypesSecret = __webpack_require__(86);
 
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
@@ -19700,7 +21009,7 @@ module.exports = checkReactTypeSpec;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 154 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19731,7 +21040,7 @@ module.exports = ReactPropTypeLocationNames;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 155 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19757,7 +21066,7 @@ function getNextDebugID() {
 module.exports = getNextDebugID;
 
 /***/ }),
-/* 156 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19782,7 +21091,7 @@ var REACT_ELEMENT_TYPE = typeof Symbol === 'function' && Symbol['for'] && Symbol
 module.exports = REACT_ELEMENT_TYPE;
 
 /***/ }),
-/* 157 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19828,7 +21137,7 @@ function getIteratorFn(maybeIterable) {
 module.exports = getIteratorFn;
 
 /***/ }),
-/* 158 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19845,8 +21154,8 @@ module.exports = getIteratorFn;
 
 
 
-var KeyEscapeUtils = __webpack_require__(52);
-var traverseAllChildren = __webpack_require__(83);
+var KeyEscapeUtils = __webpack_require__(60);
+var traverseAllChildren = __webpack_require__(92);
 var warning = __webpack_require__(2);
 
 var ReactComponentTreeHook;
@@ -19910,7 +21219,7 @@ module.exports = flattenChildren;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 159 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19928,10 +21237,10 @@ module.exports = flattenChildren;
 
 var _assign = __webpack_require__(5);
 
-var PooledClass = __webpack_require__(18);
-var Transaction = __webpack_require__(33);
-var ReactInstrumentation = __webpack_require__(9);
-var ReactServerUpdateQueue = __webpack_require__(160);
+var PooledClass = __webpack_require__(19);
+var Transaction = __webpack_require__(39);
+var ReactInstrumentation = __webpack_require__(10);
+var ReactServerUpdateQueue = __webpack_require__(180);
 
 /**
  * Executed within the scope of the `Transaction` instance. Consider these as
@@ -20006,7 +21315,7 @@ module.exports = ReactServerRenderingTransaction;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 160 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20025,7 +21334,7 @@ module.exports = ReactServerRenderingTransaction;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var ReactUpdateQueue = __webpack_require__(53);
+var ReactUpdateQueue = __webpack_require__(61);
 
 var warning = __webpack_require__(2);
 
@@ -20151,7 +21460,7 @@ module.exports = ReactServerUpdateQueue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 161 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20169,7 +21478,7 @@ module.exports = ReactServerUpdateQueue;
 
 var _assign = __webpack_require__(5);
 
-var DOMLazyTree = __webpack_require__(22);
+var DOMLazyTree = __webpack_require__(25);
 var ReactDOMComponentTree = __webpack_require__(6);
 
 var ReactDOMEmptyComponent = function (instantiate) {
@@ -20216,7 +21525,7 @@ _assign(ReactDOMEmptyComponent.prototype, {
 module.exports = ReactDOMEmptyComponent;
 
 /***/ }),
-/* 162 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20232,7 +21541,7 @@ module.exports = ReactDOMEmptyComponent;
 
 
 
-var _prodInvariant = __webpack_require__(3);
+var _prodInvariant = __webpack_require__(4);
 
 var invariant = __webpack_require__(1);
 
@@ -20358,7 +21667,7 @@ module.exports = {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 163 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20374,16 +21683,16 @@ module.exports = {
 
 
 
-var _prodInvariant = __webpack_require__(3),
+var _prodInvariant = __webpack_require__(4),
     _assign = __webpack_require__(5);
 
-var DOMChildrenOperations = __webpack_require__(45);
-var DOMLazyTree = __webpack_require__(22);
+var DOMChildrenOperations = __webpack_require__(53);
+var DOMLazyTree = __webpack_require__(25);
 var ReactDOMComponentTree = __webpack_require__(6);
 
-var escapeTextContentForBrowser = __webpack_require__(36);
+var escapeTextContentForBrowser = __webpack_require__(42);
 var invariant = __webpack_require__(1);
-var validateDOMNesting = __webpack_require__(54);
+var validateDOMNesting = __webpack_require__(62);
 
 /**
  * Text nodes violate a couple assumptions that React makes about components:
@@ -20526,7 +21835,7 @@ module.exports = ReactDOMTextComponent;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 164 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20544,10 +21853,10 @@ module.exports = ReactDOMTextComponent;
 
 var _assign = __webpack_require__(5);
 
-var ReactUpdates = __webpack_require__(14);
-var Transaction = __webpack_require__(33);
+var ReactUpdates = __webpack_require__(13);
+var Transaction = __webpack_require__(39);
 
-var emptyFunction = __webpack_require__(10);
+var emptyFunction = __webpack_require__(9);
 
 var RESET_BATCHED_UPDATES = {
   initialize: emptyFunction,
@@ -20599,7 +21908,7 @@ var ReactDefaultBatchingStrategy = {
 module.exports = ReactDefaultBatchingStrategy;
 
 /***/ }),
-/* 165 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20617,14 +21926,14 @@ module.exports = ReactDefaultBatchingStrategy;
 
 var _assign = __webpack_require__(5);
 
-var EventListener = __webpack_require__(84);
+var EventListener = __webpack_require__(93);
 var ExecutionEnvironment = __webpack_require__(7);
-var PooledClass = __webpack_require__(18);
+var PooledClass = __webpack_require__(19);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactUpdates = __webpack_require__(14);
+var ReactUpdates = __webpack_require__(13);
 
-var getEventTarget = __webpack_require__(42);
-var getUnboundedScrollPosition = __webpack_require__(166);
+var getEventTarget = __webpack_require__(50);
+var getUnboundedScrollPosition = __webpack_require__(186);
 
 /**
  * Find the deepest React component completely containing the root of the
@@ -20759,7 +22068,7 @@ var ReactEventListener = {
 module.exports = ReactEventListener;
 
 /***/ }),
-/* 166 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20803,7 +22112,7 @@ function getUnboundedScrollPosition(scrollable) {
 module.exports = getUnboundedScrollPosition;
 
 /***/ }),
-/* 167 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20819,14 +22128,14 @@ module.exports = getUnboundedScrollPosition;
 
 
 
-var DOMProperty = __webpack_require__(16);
-var EventPluginHub = __webpack_require__(26);
-var EventPluginUtils = __webpack_require__(40);
-var ReactComponentEnvironment = __webpack_require__(49);
-var ReactEmptyComponent = __webpack_require__(81);
-var ReactBrowserEventEmitter = __webpack_require__(37);
-var ReactHostComponent = __webpack_require__(82);
-var ReactUpdates = __webpack_require__(14);
+var DOMProperty = __webpack_require__(17);
+var EventPluginHub = __webpack_require__(32);
+var EventPluginUtils = __webpack_require__(48);
+var ReactComponentEnvironment = __webpack_require__(57);
+var ReactEmptyComponent = __webpack_require__(90);
+var ReactBrowserEventEmitter = __webpack_require__(43);
+var ReactHostComponent = __webpack_require__(91);
+var ReactUpdates = __webpack_require__(13);
 
 var ReactInjection = {
   Component: ReactComponentEnvironment.injection,
@@ -20842,7 +22151,7 @@ var ReactInjection = {
 module.exports = ReactInjection;
 
 /***/ }),
-/* 168 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20860,13 +22169,13 @@ module.exports = ReactInjection;
 
 var _assign = __webpack_require__(5);
 
-var CallbackQueue = __webpack_require__(68);
-var PooledClass = __webpack_require__(18);
-var ReactBrowserEventEmitter = __webpack_require__(37);
-var ReactInputSelection = __webpack_require__(85);
-var ReactInstrumentation = __webpack_require__(9);
-var Transaction = __webpack_require__(33);
-var ReactUpdateQueue = __webpack_require__(53);
+var CallbackQueue = __webpack_require__(77);
+var PooledClass = __webpack_require__(19);
+var ReactBrowserEventEmitter = __webpack_require__(43);
+var ReactInputSelection = __webpack_require__(94);
+var ReactInstrumentation = __webpack_require__(10);
+var Transaction = __webpack_require__(39);
+var ReactUpdateQueue = __webpack_require__(61);
 
 /**
  * Ensures that, when possible, the selection range (currently selected text
@@ -21026,7 +22335,7 @@ module.exports = ReactReconcileTransaction;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 169 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21044,8 +22353,8 @@ module.exports = ReactReconcileTransaction;
 
 var ExecutionEnvironment = __webpack_require__(7);
 
-var getNodeForCharacterOffset = __webpack_require__(170);
-var getTextContentAccessor = __webpack_require__(67);
+var getNodeForCharacterOffset = __webpack_require__(190);
+var getTextContentAccessor = __webpack_require__(76);
 
 /**
  * While `isCollapsed` is available on the Selection object and `collapsed`
@@ -21243,7 +22552,7 @@ var ReactDOMSelection = {
 module.exports = ReactDOMSelection;
 
 /***/ }),
-/* 170 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21322,7 +22631,7 @@ function getNodeForCharacterOffset(root, offset) {
 module.exports = getNodeForCharacterOffset;
 
 /***/ }),
-/* 171 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21339,7 +22648,7 @@ module.exports = getNodeForCharacterOffset;
  * 
  */
 
-var isTextNode = __webpack_require__(172);
+var isTextNode = __webpack_require__(192);
 
 /*eslint-disable no-bitwise */
 
@@ -21367,7 +22676,7 @@ function containsNode(outerNode, innerNode) {
 module.exports = containsNode;
 
 /***/ }),
-/* 172 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21384,7 +22693,7 @@ module.exports = containsNode;
  * @typechecks
  */
 
-var isNode = __webpack_require__(173);
+var isNode = __webpack_require__(193);
 
 /**
  * @param {*} object The object to check.
@@ -21397,7 +22706,7 @@ function isTextNode(object) {
 module.exports = isTextNode;
 
 /***/ }),
-/* 173 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21427,7 +22736,7 @@ function isNode(object) {
 module.exports = isNode;
 
 /***/ }),
-/* 174 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21734,7 +23043,7 @@ Object.keys(ATTRS).forEach(function (key) {
 module.exports = SVGDOMPropertyConfig;
 
 /***/ }),
-/* 175 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21750,15 +23059,15 @@ module.exports = SVGDOMPropertyConfig;
 
 
 
-var EventPropagators = __webpack_require__(25);
+var EventPropagators = __webpack_require__(31);
 var ExecutionEnvironment = __webpack_require__(7);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactInputSelection = __webpack_require__(85);
+var ReactInputSelection = __webpack_require__(94);
 var SyntheticEvent = __webpack_require__(15);
 
-var getActiveElement = __webpack_require__(86);
-var isTextInputElement = __webpack_require__(71);
-var shallowEqual = __webpack_require__(50);
+var getActiveElement = __webpack_require__(95);
+var isTextInputElement = __webpack_require__(80);
+var shallowEqual = __webpack_require__(58);
 
 var skipSelectionChangeEvent = ExecutionEnvironment.canUseDOM && 'documentMode' in document && document.documentMode <= 11;
 
@@ -21927,7 +23236,7 @@ var SelectEventPlugin = {
 module.exports = SelectEventPlugin;
 
 /***/ }),
-/* 176 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21944,25 +23253,25 @@ module.exports = SelectEventPlugin;
 
 
 
-var _prodInvariant = __webpack_require__(3);
+var _prodInvariant = __webpack_require__(4);
 
-var EventListener = __webpack_require__(84);
-var EventPropagators = __webpack_require__(25);
+var EventListener = __webpack_require__(93);
+var EventPropagators = __webpack_require__(31);
 var ReactDOMComponentTree = __webpack_require__(6);
-var SyntheticAnimationEvent = __webpack_require__(177);
-var SyntheticClipboardEvent = __webpack_require__(178);
+var SyntheticAnimationEvent = __webpack_require__(197);
+var SyntheticClipboardEvent = __webpack_require__(198);
 var SyntheticEvent = __webpack_require__(15);
-var SyntheticFocusEvent = __webpack_require__(179);
-var SyntheticKeyboardEvent = __webpack_require__(180);
-var SyntheticMouseEvent = __webpack_require__(34);
-var SyntheticDragEvent = __webpack_require__(182);
-var SyntheticTouchEvent = __webpack_require__(183);
-var SyntheticTransitionEvent = __webpack_require__(184);
-var SyntheticUIEvent = __webpack_require__(27);
-var SyntheticWheelEvent = __webpack_require__(185);
+var SyntheticFocusEvent = __webpack_require__(199);
+var SyntheticKeyboardEvent = __webpack_require__(200);
+var SyntheticMouseEvent = __webpack_require__(40);
+var SyntheticDragEvent = __webpack_require__(202);
+var SyntheticTouchEvent = __webpack_require__(203);
+var SyntheticTransitionEvent = __webpack_require__(204);
+var SyntheticUIEvent = __webpack_require__(33);
+var SyntheticWheelEvent = __webpack_require__(205);
 
-var emptyFunction = __webpack_require__(10);
-var getEventCharCode = __webpack_require__(55);
+var emptyFunction = __webpack_require__(9);
+var getEventCharCode = __webpack_require__(63);
 var invariant = __webpack_require__(1);
 
 /**
@@ -22159,7 +23468,7 @@ module.exports = SimpleEventPlugin;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 177 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22203,7 +23512,7 @@ SyntheticEvent.augmentClass(SyntheticAnimationEvent, AnimationEventInterface);
 module.exports = SyntheticAnimationEvent;
 
 /***/ }),
-/* 178 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22246,7 +23555,7 @@ SyntheticEvent.augmentClass(SyntheticClipboardEvent, ClipboardEventInterface);
 module.exports = SyntheticClipboardEvent;
 
 /***/ }),
-/* 179 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22262,7 +23571,7 @@ module.exports = SyntheticClipboardEvent;
 
 
 
-var SyntheticUIEvent = __webpack_require__(27);
+var SyntheticUIEvent = __webpack_require__(33);
 
 /**
  * @interface FocusEvent
@@ -22287,7 +23596,7 @@ SyntheticUIEvent.augmentClass(SyntheticFocusEvent, FocusEventInterface);
 module.exports = SyntheticFocusEvent;
 
 /***/ }),
-/* 180 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22303,11 +23612,11 @@ module.exports = SyntheticFocusEvent;
 
 
 
-var SyntheticUIEvent = __webpack_require__(27);
+var SyntheticUIEvent = __webpack_require__(33);
 
-var getEventCharCode = __webpack_require__(55);
-var getEventKey = __webpack_require__(181);
-var getEventModifierState = __webpack_require__(44);
+var getEventCharCode = __webpack_require__(63);
+var getEventKey = __webpack_require__(201);
+var getEventModifierState = __webpack_require__(52);
 
 /**
  * @interface KeyboardEvent
@@ -22376,7 +23685,7 @@ SyntheticUIEvent.augmentClass(SyntheticKeyboardEvent, KeyboardEventInterface);
 module.exports = SyntheticKeyboardEvent;
 
 /***/ }),
-/* 181 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22392,7 +23701,7 @@ module.exports = SyntheticKeyboardEvent;
 
 
 
-var getEventCharCode = __webpack_require__(55);
+var getEventCharCode = __webpack_require__(63);
 
 /**
  * Normalization of deprecated HTML5 `key` values
@@ -22493,7 +23802,7 @@ function getEventKey(nativeEvent) {
 module.exports = getEventKey;
 
 /***/ }),
-/* 182 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22509,7 +23818,7 @@ module.exports = getEventKey;
 
 
 
-var SyntheticMouseEvent = __webpack_require__(34);
+var SyntheticMouseEvent = __webpack_require__(40);
 
 /**
  * @interface DragEvent
@@ -22534,7 +23843,7 @@ SyntheticMouseEvent.augmentClass(SyntheticDragEvent, DragEventInterface);
 module.exports = SyntheticDragEvent;
 
 /***/ }),
-/* 183 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22550,9 +23859,9 @@ module.exports = SyntheticDragEvent;
 
 
 
-var SyntheticUIEvent = __webpack_require__(27);
+var SyntheticUIEvent = __webpack_require__(33);
 
-var getEventModifierState = __webpack_require__(44);
+var getEventModifierState = __webpack_require__(52);
 
 /**
  * @interface TouchEvent
@@ -22584,7 +23893,7 @@ SyntheticUIEvent.augmentClass(SyntheticTouchEvent, TouchEventInterface);
 module.exports = SyntheticTouchEvent;
 
 /***/ }),
-/* 184 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22628,7 +23937,7 @@ SyntheticEvent.augmentClass(SyntheticTransitionEvent, TransitionEventInterface);
 module.exports = SyntheticTransitionEvent;
 
 /***/ }),
-/* 185 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22644,7 +23953,7 @@ module.exports = SyntheticTransitionEvent;
 
 
 
-var SyntheticMouseEvent = __webpack_require__(34);
+var SyntheticMouseEvent = __webpack_require__(40);
 
 /**
  * @interface WheelEvent
@@ -22684,7 +23993,7 @@ SyntheticMouseEvent.augmentClass(SyntheticWheelEvent, WheelEventInterface);
 module.exports = SyntheticWheelEvent;
 
 /***/ }),
-/* 186 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22700,7 +24009,7 @@ module.exports = SyntheticWheelEvent;
 
 
 
-var validateDOMNesting = __webpack_require__(54);
+var validateDOMNesting = __webpack_require__(62);
 
 var DOC_NODE_TYPE = 9;
 
@@ -22723,7 +24032,7 @@ module.exports = ReactDOMContainerInfo;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 187 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22747,7 +24056,7 @@ var ReactDOMFeatureFlags = {
 module.exports = ReactDOMFeatureFlags;
 
 /***/ }),
-/* 188 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22763,7 +24072,7 @@ module.exports = ReactDOMFeatureFlags;
 
 
 
-var adler32 = __webpack_require__(189);
+var adler32 = __webpack_require__(209);
 
 var TAG_END = /\/?>/;
 var COMMENT_START = /^<\!\-\-/;
@@ -22802,7 +24111,7 @@ var ReactMarkupChecksum = {
 module.exports = ReactMarkupChecksum;
 
 /***/ }),
-/* 189 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22851,7 +24160,7 @@ function adler32(data) {
 module.exports = adler32;
 
 /***/ }),
-/* 190 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22870,7 +24179,7 @@ module.exports = adler32;
 module.exports = '15.6.1';
 
 /***/ }),
-/* 191 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22886,13 +24195,13 @@ module.exports = '15.6.1';
 
 
 
-var _prodInvariant = __webpack_require__(3);
+var _prodInvariant = __webpack_require__(4);
 
-var ReactCurrentOwner = __webpack_require__(13);
+var ReactCurrentOwner = __webpack_require__(12);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactInstanceMap = __webpack_require__(28);
+var ReactInstanceMap = __webpack_require__(34);
 
-var getHostComponentFromComposite = __webpack_require__(88);
+var getHostComponentFromComposite = __webpack_require__(97);
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
 
@@ -22936,7 +24245,7 @@ module.exports = findDOMNode;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 192 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22952,12 +24261,12 @@ module.exports = findDOMNode;
 
 
 
-var ReactMount = __webpack_require__(87);
+var ReactMount = __webpack_require__(96);
 
 module.exports = ReactMount.renderSubtreeIntoContainer;
 
 /***/ }),
-/* 193 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22973,8 +24282,8 @@ module.exports = ReactMount.renderSubtreeIntoContainer;
 
 
 
-var DOMProperty = __webpack_require__(16);
-var EventPluginRegistry = __webpack_require__(32);
+var DOMProperty = __webpack_require__(17);
+var EventPluginRegistry = __webpack_require__(38);
 var ReactComponentTreeHook = __webpack_require__(8);
 
 var warning = __webpack_require__(2);
@@ -23075,7 +24384,7 @@ module.exports = ReactDOMUnknownPropertyHook;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 194 */
+/* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23124,7 +24433,7 @@ module.exports = ReactDOMNullInputValuePropHook;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 195 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23140,7 +24449,7 @@ module.exports = ReactDOMNullInputValuePropHook;
 
 
 
-var DOMProperty = __webpack_require__(16);
+var DOMProperty = __webpack_require__(17);
 var ReactComponentTreeHook = __webpack_require__(8);
 
 var warning = __webpack_require__(2);
@@ -23223,1152 +24532,262 @@ module.exports = ReactDOMInvalidARIAHook;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 196 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 216 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var page_1 = __webpack_require__(197);
-var student_info_display_1 = __webpack_require__(201);
-var hs_display_1 = __webpack_require__(232);
-var hardcoded_1 = __webpack_require__(253);
-var data_access_ts_1 = __webpack_require__(91);
-var hsPrograms = data_access_ts_1.getHSProgramsByType();
-var calculate_gpa_1 = __webpack_require__(254);
-var PathToHS = (function (_super) {
-    __extends(PathToHS, _super);
-    function PathToHS(props) {
-        var _this = _super.call(this, props) || this;
-        _this.handleStudentDataChange = function (newStudentData) {
-            newStudentData.gpa = calculate_gpa_1.default(newStudentData.scores);
-            console.log(newStudentData);
-            _this.setState({
-                studentData: newStudentData,
-            });
-        };
-        var HS_APPLICATION_GRADE_LEVEL = 7;
-        _this.state = {
-            studentData: hardcoded_1.MOCK_STUDENT_DATA,
-        };
-        return _this;
-    }
-    PathToHS.prototype.render = function () {
-        return (React.createElement(page_1.default, null,
-            React.createElement(student_info_display_1.default, { studentData: this.state.studentData, onStudentDataChange: this.handleStudentDataChange }),
-            React.createElement(hs_display_1.default, { hsData: hsPrograms, studentData: this.state.studentData })));
-    };
-    return PathToHS;
-}(React.Component));
-;
-exports.default = PathToHS;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Symbol_js__ = __webpack_require__(100);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getRawTag_js__ = __webpack_require__(219);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__objectToString_js__ = __webpack_require__(220);
 
 
-/***/ }),
-/* 197 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-__webpack_require__(198);
-var Page = function (props) {
-    return (React.createElement("div", { className: "page" }, props.children));
-};
-exports.default = Page;
 
 
-/***/ }),
-/* 198 */
-/***/ (function(module, exports, __webpack_require__) {
+/** `Object#toString` result references. */
+var nullTag = '[object Null]',
+    undefinedTag = '[object Undefined]';
 
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(199);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(12)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./page.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./page.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 199 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(11)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".page {\n  height: 100vh;\n  width: 100vw;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 200 */
-/***/ (function(module, exports) {
-
+/** Built-in value references. */
+var symToStringTag = __WEBPACK_IMPORTED_MODULE_0__Symbol_js__["a" /* default */] ? __WEBPACK_IMPORTED_MODULE_0__Symbol_js__["a" /* default */].toStringTag : undefined;
 
 /**
- * When source maps are enabled, `style-loader` uses a link element with a data-uri to
- * embed the css on the page. This breaks all relative urls because now they are relative to a
- * bundle instead of the current page.
+ * The base implementation of `getTag` without fallbacks for buggy environments.
  *
- * One solution is to only use full urls, but that may be impossible.
- *
- * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
- *
- * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
- *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
  */
-
-module.exports = function (css) {
-  // get current location
-  var location = typeof window !== "undefined" && window.location;
-
-  if (!location) {
-    throw new Error("fixUrls requires window.location");
+function baseGetTag(value) {
+  if (value == null) {
+    return value === undefined ? undefinedTag : nullTag;
   }
-
-	// blank or null?
-	if (!css || typeof css !== "string") {
-	  return css;
-  }
-
-  var baseUrl = location.protocol + "//" + location.host;
-  var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
-
-	// convert each url(...)
-	/*
-	This regular expression is just a way to recursively match brackets within
-	a string.
-
-	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
-	   (  = Start a capturing group
-	     (?:  = Start a non-capturing group
-	         [^)(]  = Match anything that isn't a parentheses
-	         |  = OR
-	         \(  = Match a start parentheses
-	             (?:  = Start another non-capturing groups
-	                 [^)(]+  = Match anything that isn't a parentheses
-	                 |  = OR
-	                 \(  = Match a start parentheses
-	                     [^)(]*  = Match anything that isn't a parentheses
-	                 \)  = Match a end parentheses
-	             )  = End Group
-              *\) = Match anything and then a close parens
-          )  = Close non-capturing group
-          *  = Match anything
-       )  = Close capturing group
-	 \)  = Match a close parens
-
-	 /gi  = Get all matches, not the first.  Be case insensitive.
-	 */
-	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function(fullMatch, origUrl) {
-		// strip quotes (if they exist)
-		var unquotedOrigUrl = origUrl
-			.trim()
-			.replace(/^"(.*)"$/, function(o, $1){ return $1; })
-			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
-
-		// already a full url? no change
-		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/)/i.test(unquotedOrigUrl)) {
-		  return fullMatch;
-		}
-
-		// convert the url to a full url
-		var newUrl;
-
-		if (unquotedOrigUrl.indexOf("//") === 0) {
-		  	//TODO: should we add protocol?
-			newUrl = unquotedOrigUrl;
-		} else if (unquotedOrigUrl.indexOf("/") === 0) {
-			// path should be relative to the base url
-			newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
-		} else {
-			// path should be relative to current directory
-			newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
-		}
-
-		// send back the fixed url(...)
-		return "url(" + JSON.stringify(newUrl) + ")";
-	});
-
-	// send back the fixed css
-	return fixedCss;
-};
-
-
-/***/ }),
-/* 201 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var box_1 = __webpack_require__(89);
-var student_data_form_1 = __webpack_require__(204);
-var StudentInfoDisplay = function (props) {
-    return (React.createElement(box_1.default, { width: "half", height: "full", flex: {
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center"
-        }, responsiveBehavior: { mobile: "fullscreen" } },
-        React.createElement(student_data_form_1.default, { studentData: props.studentData, onChange: props.onStudentDataChange })));
-};
-exports.default = StudentInfoDisplay;
-
-
-/***/ }),
-/* 202 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(203);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(12)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./box.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./box.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
+  return (symToStringTag && symToStringTag in Object(value))
+    ? __WEBPACK_IMPORTED_MODULE_1__getRawTag_js__["a" /* default */](value)
+    : __WEBPACK_IMPORTED_MODULE_2__objectToString_js__["a" /* default */](value);
 }
 
-/***/ }),
-/* 203 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(11)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".box {\n  border: 2px solid #9e9e9e;\n  padding: 0.25em 0.5em;\n  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n  position: relative;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n  -webkit-box-align: stretch;\n      -ms-flex-align: stretch;\n          align-items: stretch; }\n\n.box.width-quarter {\n  width: 25%;\n  -ms-flex-preferred-size: 25%;\n      flex-basis: 25%; }\n\n.box.width-half {\n  width: 50%;\n  -ms-flex-preferred-size: 50%;\n      flex-basis: 50%; }\n\n.box.width-full {\n  width: 100%;\n  -ms-flex-preferred-size: 100%;\n      flex-basis: 100%; }\n\n.box.height-quarter {\n  height: 25%; }\n\n.box.height-half {\n  height: 50%; }\n\n.box.height-full {\n  height: 100%; }\n\n.box.zlevel-1 {\n  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); }\n\n.box.zlevel-2 {\n  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); }\n\n.box.zlevel-3 {\n  -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); }\n\n.box.zlevel-4 {\n  -webkit-box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);\n          box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); }\n\n.box.zlevel-5 {\n  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);\n          box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22); }\n\n@media (max-width: 450px) {\n  .box {\n    margin: 0;\n    padding: 10px 5px; }\n  .box.mobile-disappear {\n    display: none; }\n  .box.mobile-fullscreen {\n    width: 100%;\n    -ms-flex-preferred-size: 100%;\n        flex-basis: 100%; } }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 204 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var clone_1 = __webpack_require__(205);
-var gender_1 = __webpack_require__(56);
-var dropdown_field_1 = __webpack_require__(206);
-var combo_box_field_1 = __webpack_require__(90);
-var multi_select_field_1 = __webpack_require__(212);
-var number_field_1 = __webpack_require__(213);
-var address_tier_calculator_1 = __webpack_require__(214);
-var data_access_1 = __webpack_require__(91);
-var alphaSort = function (a, b) {
-    if (a.Short_Name < b.Short_Name) {
-        return -1;
-    }
-    else if (a.Short_Name === b.Short_Name) {
-        return 0;
-    }
-    else if (a.Short_Name > b.Short_Name) {
-        return 1;
-    }
-};
-var esPrograms = data_access_1.getESPrograms().sort(alphaSort);
-var hsPrograms = data_access_1.getHSPrograms().sort(alphaSort);
-__webpack_require__(230);
-var StudentDataForm = function (props) {
-    var INPUT_DEBOUNCE_TIME = 250;
-    var updateStudentData = function (prop, value) {
-        console.log(prop + ": " + value);
-        if (props.studentData[prop] !== value) {
-            var newStudentData = clone_1.cloneAndExtend(props.studentData, (_a = {}, _a[prop] = value, _a));
-            props.onChange(newStudentData);
-        }
-        var _a;
-    };
-    var updateStudentScores = function (prop, value) {
-        if (props.studentData.scores[prop] !== value) {
-            var newStudentScores = clone_1.cloneAndExtend(props.studentData.scores, (_a = {}, _a[prop] = value, _a));
-            var newStudentData = clone_1.cloneAndExtend(props.studentData, { scores: newStudentScores });
-            props.onChange(newStudentData);
-        }
-        var _a;
-    };
-    var between = function (min, max) {
-        return function (curr, next) {
-            if (Number.isNaN(next)) {
-                return curr;
-            }
-            else if (next < min) {
-                return min;
-            }
-            else if (next > max) {
-                return max;
-            }
-            else {
-                return next;
-            }
-        };
-    };
-    return (React.createElement("div", { className: "student-data-form" },
-        React.createElement("div", { className: "student-data-form-subheader" }, "Your student information"),
-        React.createElement("div", { className: "student-data-form-subform" },
-            React.createElement(dropdown_field_1.default, { label: "What grade are you in?", value: props.studentData.gradeLevel.toString(), onChange: function (grade) { return updateStudentData("gradeLevel", grade); }, debounceTime: INPUT_DEBOUNCE_TIME },
-                React.createElement("option", { value: "4" }, "4th grade"),
-                React.createElement("option", { value: "5" }, "5th grade"),
-                React.createElement("option", { value: "6" }, "6th grade"),
-                React.createElement("option", { value: "7" }, "7th grade"),
-                React.createElement("option", { value: "8" }, "8th grade")),
-            React.createElement(dropdown_field_1.default, { label: "What's your gender?", value: props.studentData.gender.toString(), onChange: function (gender) { return updateStudentData("gender", gender); }, debounceTime: INPUT_DEBOUNCE_TIME },
-                React.createElement("option", { value: gender_1.default.MALE.toString() }, "Boy"),
-                React.createElement("option", { value: gender_1.default.FEMALE.toString() }, "Girl"),
-                React.createElement("option", { value: gender_1.default.OTHER.toString() }, "Other"),
-                React.createElement("option", { value: gender_1.default.NOANSWER.toString() }, "Prefer not to answer")),
-            React.createElement(dropdown_field_1.default, { label: "Do you have an IEP?", value: props.studentData.iep ? "true" : "false", onChange: function (iep) { return updateStudentData("iep", iep === "true" ? true : false); }, debounceTime: INPUT_DEBOUNCE_TIME },
-                React.createElement("option", { value: "true" }, "Yes"),
-                React.createElement("option", { value: "false" }, "No")),
-            React.createElement(dropdown_field_1.default, { label: "Are you an English Language Learner?", value: props.studentData.ell ? "true" : "false", onChange: function (ell) { return updateStudentData("ell", ell === "true" ? true : false); }, debounceTime: INPUT_DEBOUNCE_TIME },
-                React.createElement("option", { value: "true" }, "Yes"),
-                React.createElement("option", { value: "false" }, "No")),
-            React.createElement(combo_box_field_1.default, { label: "What elementary school program are you in now?", value: props.studentData.currESProgram, data: { records: esPrograms, getKey: function (program) { return program.ID; }, getDisplayText: function (program) { return program.Short_Name + " - " + program.Program_Type; } }, onChange: function (currESProgram) { return updateStudentData("currESProgram", currESProgram); }, debounceTime: INPUT_DEBOUNCE_TIME }),
-            React.createElement(multi_select_field_1.default, { label: "Do you have a sibling in high school? If so, which school?", values: props.studentData.siblingHSPrograms, data: { records: hsPrograms, getKey: function (program) { return program.ID; }, getDisplayText: function (program) { return program.Short_Name + " - " + program.Program_Type; } }, onChange: function (siblingHSPrograms) { return updateStudentData("siblingHSPrograms", siblingHSPrograms); }, debounceTime: INPUT_DEBOUNCE_TIME }),
-            React.createElement(address_tier_calculator_1.default, { address: props.studentData.address, tier: props.studentData.tier, geolocation: props.studentData.geolocation, onAddressChange: function (address) { return updateStudentData("address", address); }, onTierChange: function (tier) { return updateStudentData("tier", tier); }, onGeolocationChange: function (geolocation) { return updateStudentData("geolocation", geolocation); } }),
-            React.createElement(number_field_1.default, { label: "Your 7th grade attendance percentage", value: props.studentData.attendancePercentage, onChange: function (attendancePercentage) { return updateStudentData("attendancePercentage", attendancePercentage); }, limiter: between(0, 100), debounceTime: INPUT_DEBOUNCE_TIME })),
-        React.createElement("div", { className: "student-data-form-subheader" }, "Your grades"),
-        React.createElement("div", { className: "student-data-form-subform" },
-            React.createElement(number_field_1.default, { label: "NWEA Math percentile", value: props.studentData.scores.nweaPercentileMath, onChange: function (nweaPercentileMath) { return updateStudentScores("nweaPercentileMath", nweaPercentileMath); }, limiter: between(1, 99), debounceTime: INPUT_DEBOUNCE_TIME }),
-            React.createElement(number_field_1.default, { label: "NWEA Reading percentile", value: props.studentData.scores.nweaPercentileRead, onChange: function (nweaPercentileRead) { return updateStudentScores("nweaPercentileRead", nweaPercentileRead); }, limiter: between(1, 99), debounceTime: INPUT_DEBOUNCE_TIME }),
-            React.createElement(number_field_1.default, { label: "Your Math grade", value: props.studentData.scores.subjGradeMath, onChange: function (subjGradeMath) { return updateStudentScores("subjGradeMath", subjGradeMath); }, limiter: between(0, 100), debounceTime: INPUT_DEBOUNCE_TIME }),
-            React.createElement(number_field_1.default, { label: "Your Reading grade", value: props.studentData.scores.subjGradeRead, onChange: function (subjGradeRead) { return updateStudentScores("subjGradeRead", subjGradeRead); }, limiter: between(0, 100), debounceTime: INPUT_DEBOUNCE_TIME }),
-            React.createElement(number_field_1.default, { label: "Your Science grade", value: props.studentData.scores.subjGradeSci, onChange: function (subjGradeSci) { return updateStudentScores("subjGradeSci", subjGradeSci); }, limiter: between(0, 100), debounceTime: INPUT_DEBOUNCE_TIME }),
-            React.createElement(number_field_1.default, { label: "Your Social Studies grade", value: props.studentData.scores.subjGradeSocStudies, onChange: function (subjGradeSocStudies) { return updateStudentScores("subjGradeSocStudies", subjGradeSocStudies); }, limiter: between(0, 100), debounceTime: INPUT_DEBOUNCE_TIME }),
-            React.createElement(number_field_1.default, { label: "Your Selective Enrollment test percentile", value: props.studentData.seTestPercentile, onChange: function (seTestPercentile) { return updateStudentData("seTestPercentile", seTestPercentile); }, limiter: between(1, 99), debounceTime: INPUT_DEBOUNCE_TIME }))));
-};
-exports.default = StudentDataForm;
-
-
-/***/ }),
-/* 205 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.clone = function (src) {
-    if (src === undefined) {
-        return undefined;
-    }
-    else {
-        return Object.assign({}, src);
-    }
-};
-exports.cloneAndExtend = function (targetObject) {
-    var sourceObjects = [];
-    for (var _i = 1; _i < arguments.length; _i++) {
-        sourceObjects[_i - 1] = arguments[_i];
-    }
-    return Object.assign.apply(Object, [{}, targetObject].concat(sourceObjects));
-};
-
-
-/***/ }),
-/* 206 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var field_validation_state_1 = __webpack_require__(23);
-var field_container_1 = __webpack_require__(29);
-var debounce_1 = __webpack_require__(38);
-var DropdownField = (function (_super) {
-    __extends(DropdownField, _super);
-    function DropdownField(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {
-            localValue: props.value ? props.value : ""
-        };
-        _this.onChange = props.debounceTime ? debounce_1.default(props.onChange, props.debounceTime) : props.onChange;
-        return _this;
-    }
-    DropdownField.prototype.componentWillReceiveProps = function (nextProps) {
-        this.setState({ localValue: nextProps.value });
-    };
-    DropdownField.prototype.render = function () {
-        var _this = this;
-        var validation = this.props.validator ? this.props.validator(this.state.localValue)
-            : field_validation_state_1.default.NEUTRAL;
-        var handleChange = function (ev) {
-            var newValue = ev.currentTarget.value;
-            var shouldUpdate = _this.props.restrictor ? _this.props.restrictor(newValue)
-                : true;
-            if (shouldUpdate) {
-                _this.onChange(newValue);
-            }
-        };
-        return (React.createElement(field_container_1.default, { className: this.props.className, label: this.props.label, validation: validation },
-            React.createElement("select", { className: "field-input-element", onChange: handleChange }, this.props.children)));
-    };
-    return DropdownField;
-}(React.PureComponent));
-exports.default = DropdownField;
-
-
-/***/ }),
-/* 207 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(208);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(12)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../../node_modules/sass-loader/lib/loader.js!./main.scss", function() {
-			var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../../node_modules/sass-loader/lib/loader.js!./main.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 208 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(11)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, "/* ----------------------------------------------------------------------------------------------------\n\nSuper Form Reset\n\nA couple of things to watch out for:\n\n- IE8: If a text input doesn't have padding on all sides or none the text won't be centered.\n- The default border sizes on text inputs in all UAs seem to be slightly different. You're better off using custom borders.\n- You NEED to set the font-size and family on all form elements\n- Search inputs need to have their appearance reset and the box-sizing set to content-box to match other UAs\n- You can style the upload button in webkit using ::-webkit-file-upload-button\n- ::-webkit-file-upload-button selectors can't be used in the same selector as normal ones. FF and IE freak out.\n- IE: You don't need to fake inline-block with labels and form controls in IE. They function as inline-block.\n- By turning off ::-webkit-search-decoration, it removes the extra whitespace on the left on search inputs\n\n----------------------------------------------------------------------------------------------------*/\ninput, label, select, button, textarea {\n  margin: 0;\n  border: 0;\n  padding: 0;\n  display: inline-block;\n  vertical-align: middle;\n  white-space: normal;\n  background: none;\n  line-height: 1;\n  /* Browsers have different default form fonts */\n  font-size: 13px;\n  font-family: Arial; }\n/* Remove the stupid outer glow in Webkit */\ninput:focus {\n  outline: 0; }\n/* Box Sizing Reset\n-----------------------------------------------*/\n/* All of our custom controls should be what we expect them to be */\ninput, textarea {\n  -webkit-box-sizing: content-box;\n  box-sizing: content-box; }\n/* These elements are usually rendered a certain way by the browser */\nbutton, input[type=reset], input[type=button], input[type=submit], input[type=checkbox], input[type=radio], select {\n  -webkit-box-sizing: border-box;\n  box-sizing: border-box; }\n/* Text Inputs\n-----------------------------------------------*/\n/* Button Controls\n-----------------------------------------------*/\ninput[type=checkbox], input[type=radio] {\n  width: 13px;\n  height: 13px; }\n/* File Uploads\n-----------------------------------------------*/\n/* Search Input\n-----------------------------------------------*/\n/* Make webkit render the search input like a normal text field */\ninput[type=search] {\n  -webkit-appearance: textfield;\n  -webkit-box-sizing: content-box; }\n/* Turn off the recent search for webkit. It adds about 15px padding on the left */\n::-webkit-search-decoration {\n  display: none; }\n/* Buttons\n-----------------------------------------------*/\nbutton, input[type=\"reset\"], input[type=\"button\"], input[type=\"submit\"] {\n  /* Fix IE7 display bug */\n  overflow: visible;\n  width: auto; }\n/* IE8 and FF freak out if this rule is within another selector */\n::-webkit-file-upload-button {\n  padding: 0;\n  border: 0;\n  background: none; }\n/* Textarea\n-----------------------------------------------*/\ntextarea {\n  /* Move the label to the top */\n  vertical-align: top;\n  /* Turn off scroll bars in IE unless needed */\n  overflow: auto; }\n/* Selects\n-----------------------------------------------*/\nselect[multiple] {\n  /* Move the label to the top */\n  vertical-align: top; }\n.field-container {\n  max-width: 100%;\n  padding: 0.5em;\n  margin: 0.25em; }\n.field-container.field-validation-success > .field-label {\n  color: green; }\n.field-container.field-validation-success > .field-input-element {\n  border: 2px solid green;\n  -webkit-box-shadow: 0px 0px 3px green;\n          box-shadow: 0px 0px 3px green; }\n.field-container.field-validation-warning > .field-label {\n  color: yellow; }\n.field-container.field-validation-warning > .field-input-element {\n  border: 2px solid yellow;\n  -webkit-box-shadow: 0px 0px 3px yellow;\n          box-shadow: 0px 0px 3px yellow; }\n.field-container.field-validation-failure > .field-label {\n  color: red; }\n.field-container.field-validation-failure > .field-input-element {\n  border: 2px solid red;\n  -webkit-box-shadow: 0px 0px 3px red;\n          box-shadow: 0px 0px 3px red; }\n.field-label {\n  font-size: 90%;\n  color: #444; }\n.field-input-element {\n  font-size: 100%;\n  padding: 5px;\n  border: 1px solid #ddd;\n  border-radius: 2px; }\n.list-box {\n  visibility: hidden;\n  height: 100px;\n  width: 100%;\n  overflow-y: auto;\n  position: absolute;\n  top: 20px;\n  left: 0;\n  z-index: 9;\n  list-style: none;\n  margin: 0;\n  padding: 0; }\n.list-box.visible {\n  visibility: visible; }\n.list-box-element {\n  cursor: default;\n  text-decoration: none;\n  margin-left: 0;\n  padding-left: 0;\n  padding: 0.25em;\n  width: 100%;\n  border-bottom: 1px dotted gray;\n  background-color: white;\n  -webkit-transition: background-color 100ms ease;\n  transition: background-color 100ms ease; }\n.list-box-element:hover {\n  background-color: gray; }\n.list-box-element.selected {\n  background-color: blue;\n  color: white; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 209 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var FieldLabel = function (props) { return React.createElement("div", { className: "field-label" }, props.children); };
-exports.default = FieldLabel;
-
-
-/***/ }),
-/* 210 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var list_box_element_1 = __webpack_require__(211);
-var ListBox = function (props) {
-    var className = "list-box " + (props.visible ? "visible" : "");
-    return (React.createElement("ul", { className: className }, props.data.records.map(function (opt) { return React.createElement(list_box_element_1.default, { key: props.data.getKey(opt), value: props.data.getKey(opt), selected: props.selected === props.data.getKey(opt), onSelect: function (ev) {
-            props.selected === props.data.getKey(opt) ? props.onChange(null)
-                : props.onChange(opt);
-        } }, props.data.getDisplayText(opt)); })));
-};
-exports.default = ListBox;
-
-
-/***/ }),
-/* 211 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var ListBoxElement = function (props) {
-    return (React.createElement("li", { className: "list-box-element", onMouseDown: function (ev) {
-            ev.stopPropagation();
-            props.onSelect(ev);
-        } }, props.children));
-};
-exports.default = ListBoxElement;
-
-
-/***/ }),
-/* 212 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var field_validation_state_1 = __webpack_require__(23);
-var field_container_1 = __webpack_require__(29);
-var combo_box_field_1 = __webpack_require__(90);
-var MultiSelectField = function (props) {
-    var createOnChangeHandler = function (index) {
-        return function (newValue) {
-            var leftHalf = props.values.slice(0, index);
-            var rightHalf = props.values.slice(index);
-            var newValues = leftHalf.concat(newValue, rightHalf);
-            props.onChange(newValues);
-        };
-    };
-    var removeFromListData = function (data, elementsToRemove) {
-        var keysToRemove = elementsToRemove.map(data.getKey);
-        var isNotElementToRemove = function (elem) { return keysToRemove.indexOf(data.getKey(elem)) === -1; };
-        var newRecords = data.records.filter(isNotElementToRemove);
-        return {
-            records: newRecords,
-            getDisplayText: data.getDisplayText,
-            getKey: data.getKey,
-        };
-    };
-    var data = removeFromListData(props.data, props.values);
-    var removeElemAtIndex = function (arr, i) {
-        if (arr.length === 0) {
-            return [];
-        }
-        else if (arr.length === 1) {
-            return [];
-        }
-        else {
-            return arr.slice(0, i).concat(arr.slice(i));
-        }
-    };
-    return (React.createElement(field_container_1.default, { label: props.label, validation: field_validation_state_1.default.NEUTRAL },
-        props.values && props.values.map(function (value, i) {
-            return (React.createElement("div", { key: props.data.getKey(value), style: { width: "100%", display: "flex", flexDirection: "row", alignItems: "center" } },
-                React.createElement(combo_box_field_1.default, { value: value, onChange: createOnChangeHandler(i), data: data, debounceTime: props.debounceTime }),
-                React.createElement("button", { style: { width: "32px", height: "32px", backgroundColor: "#dfdfdf", border: "1px solid #acacac", borderRadius: "100%", margin: "0 1em", boxShadow: "0px 2px 2px #999" }, onClick: function () { return props.onChange(removeElemAtIndex(props.values, i)); } }, "X")));
-        }),
-        React.createElement(combo_box_field_1.default, { value: null, onChange: function (newValue) {
-                var newValues = props.values ? props.values.concat(newValue)
-                    : [newValue];
-                console.log(newValues);
-                props.onChange(newValues);
-            }, data: data, debounceTime: props.debounceTime })));
-};
-exports.default = MultiSelectField;
-
-
-/***/ }),
-/* 213 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var field_validation_state_1 = __webpack_require__(23);
-var field_container_1 = __webpack_require__(29);
-var debounce_1 = __webpack_require__(38);
-var NumberField = (function (_super) {
-    __extends(NumberField, _super);
-    function NumberField(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {
-            localValue: props.value ? props.value : ""
-        };
-        _this.onChange = props.debounceTime ? debounce_1.default(props.onChange, props.debounceTime) : props.onChange;
-        return _this;
-    }
-    NumberField.prototype.componentWillReceiveProps = function (nextProps) {
-        if (this.state.localValue !== "") {
-            this.setState({ localValue: nextProps.value ? nextProps.value : "" });
-        }
-    };
-    NumberField.prototype.render = function () {
-        var _this = this;
-        var handleChange = function (ev) {
-            if (ev.currentTarget.value === "") {
-                _this.setState({ localValue: "" });
-                return false;
-            }
-            else {
-                var currValue = _this.props.value;
-                var nextValue = ev.currentTarget.valueAsNumber;
-                console.log("Numberfield curr: " + currValue);
-                console.log("Numberfield next: " + nextValue);
-                _this.setState({ localValue: nextValue });
-                if (_this.props.limiter) {
-                    _this.onChange(_this.props.limiter(currValue, nextValue));
-                }
-                else {
-                    _this.onChange(nextValue);
-                }
-                return true;
-            }
-        };
-        var validation = this.props.validator && this.state.localValue !== "" ? this.props.validator(this.state.localValue)
-            : field_validation_state_1.default.NEUTRAL;
-        console.log("localvalue: " + this.state.localValue);
-        return (React.createElement(field_container_1.default, { className: this.props.className, label: this.props.label, validation: validation },
-            React.createElement("input", { value: this.state.localValue, type: "number", className: "field-input-element", onChange: handleChange })));
-    };
-    return NumberField;
-}(React.PureComponent));
-;
-exports.default = NumberField;
-
-
-/***/ }),
-/* 214 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var timeout_1 = __webpack_require__(215);
-var text_field_1 = __webpack_require__(216);
-var field_validation_state_1 = __webpack_require__(23);
-var get_tier_1 = __webpack_require__(217);
-__webpack_require__(223);
-__webpack_require__(225);
-var AddressTierCalculator = (function (_super) {
-    __extends(AddressTierCalculator, _super);
-    function AddressTierCalculator(props) {
-        var _this = _super.call(this, props) || this;
-        _this.setRequestInProgress = function (isInProgress) {
-            if (isInProgress !== _this.state.requestInProgress) {
-                _this.setState({
-                    requestInProgress: isInProgress
-                });
-            }
-        };
-        _this.handleAddressChange = function (address) {
-            var TIMEOUT_DELAY = 1000;
-            _this.setState({
-                address: address,
-                addressValidationState: field_validation_state_1.default.NEUTRAL,
-                tier: null
-            });
-            var validate = function (address) {
-                return address && address.length > 5;
-            };
-            var newTimeout = new timeout_1.default(function () {
-                _this.setRequestInProgress(true);
-                if (validate(address)) {
-                    get_tier_1.getTier(address).then(function (_a) {
-                        var tier = _a.tier, geo = _a.geo;
-                        _this.setState({
-                            tier: tier,
-                            geo: geo,
-                            addressValidationState: field_validation_state_1.default.SUCCESS
-                        });
-                        _this.setRequestInProgress(false);
-                        _this.props.onAddressChange(address.trim());
-                        _this.props.onTierChange(tier);
-                        _this.props.onGeolocationChange(geo);
-                    }).catch(function (err) {
-                        if (err === get_tier_1.GetTierError.InvalidAddressErr) {
-                            _this.setState({
-                                addressValidationState: field_validation_state_1.default.FAILURE
-                            });
-                            _this.setRequestInProgress(false);
-                        }
-                        else if (err === get_tier_1.GetTierError.NoTierFoundErr) {
-                            _this.setState({
-                                addressValidationState: field_validation_state_1.default.WARNING
-                            });
-                            _this.setRequestInProgress(false);
-                        }
-                        else if (err === get_tier_1.GetTierError.RequestFailedErr) {
-                            _this.setState({
-                                addressValidationState: field_validation_state_1.default.WARNING
-                            });
-                            _this.setRequestInProgress(false);
-                        }
-                    });
-                }
-            }, TIMEOUT_DELAY);
-            if (_this.state.timeoutInstance !== null) {
-                _this.state.timeoutInstance.cancel();
-            }
-            newTimeout.start();
-            _this.setState({
-                timeoutInstance: newTimeout
-            });
-        };
-        _this.state = {
-            address: props.address ? props.address : "",
-            tier: props.tier ? props.tier : "",
-            geo: props.geolocation ? props.geolocation : { latitude: 0, longitude: 0 },
-            timeoutInstance: null,
-            requestInProgress: false,
-            addressValidationState: field_validation_state_1.default.NEUTRAL
-        };
-        return _this;
-    }
-    AddressTierCalculator.prototype.now = function () {
-        return new Date().valueOf();
-    };
-    AddressTierCalculator.prototype.handleTierChange = function (event) {
-        var newTier = event.currentTarget.value;
-        this.props.onTierChange(newTier);
-    };
-    AddressTierCalculator.prototype.displayStatusMessage = function (state) {
-        if (state === "warning") {
-            return "Your address is right, but it doesn't seem to be in the Chicago Public Schools boundary. Are you sure you used the right address?";
-        }
-        else if (state === "error") {
-            return "We can't find your address -- are you sure you entered it correctly?";
-        }
-        else {
-            return "No errors";
-        }
-    };
-    AddressTierCalculator.prototype.render = function () {
-        return React.createElement("div", { className: "address-tier-calculator" },
-            React.createElement(text_field_1.default, { label: "Your street address", value: this.state.address ? this.state.address : " ", onChange: this.handleAddressChange }),
-            React.createElement("div", { className: "tier-display" }, this.state.requestInProgress
-                ? React.createElement("div", { className: "spinning-load-icon" }, "Loading...")
-                : (this.state.tier ? this.state.tier : "")),
-            this.state.addressValidationState !== field_validation_state_1.default.SUCCESS &&
-                this.state.addressValidationState !== field_validation_state_1.default.NEUTRAL &&
-                React.createElement("div", { className: "address-status-message" }, this.displayStatusMessage(this.state.addressValidationState)));
-    };
-    return AddressTierCalculator;
-}(React.Component));
-exports.default = AddressTierCalculator;
-
-
-/***/ }),
-/* 215 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var Timeout = (function () {
-    function Timeout(callback, delay) {
-        var _this = this;
-        this.timerInstance = null;
-        this.callbackExecuted = false;
-        this.callback = function () {
-            _this.callbackExecuted = true;
-            callback();
-        };
-        this.delay = delay;
-    }
-    Timeout.prototype.start = function () {
-        this.timerInstance = setTimeout(this.callback, this.delay);
-    };
-    Timeout.prototype.cancel = function () {
-        if (this.hasStarted()) {
-            clearTimeout(this.timerInstance);
-        }
-    };
-    Timeout.prototype.hasStarted = function () {
-        return this.timerInstance !== null;
-    };
-    Timeout.prototype.hasFinished = function () {
-        return this.callbackExecuted;
-    };
-    return Timeout;
-}());
-exports.default = Timeout;
-
-
-/***/ }),
-/* 216 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var field_validation_state_1 = __webpack_require__(23);
-var field_container_1 = __webpack_require__(29);
-var debounce_1 = __webpack_require__(38);
-var TextField = (function (_super) {
-    __extends(TextField, _super);
-    function TextField(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {
-            localValue: props.value ? props.value : ""
-        };
-        _this.onChange = props.debounceTime ? debounce_1.default(props.onChange, props.debounceTime) : props.onChange;
-        return _this;
-    }
-    TextField.prototype.componentWillReceiveProps = function (nextProps) {
-        if (this.state.localValue !== "") {
-            this.setState({ localValue: nextProps.value ? nextProps.value : "" });
-        }
-    };
-    TextField.prototype.render = function () {
-        var _this = this;
-        var validation = this.props.validator ? this.props.validator(this.state.localValue)
-            : field_validation_state_1.default.NEUTRAL;
-        var handleChange = function (ev) {
-            if (ev.currentTarget.value === "") {
-                _this.setState({ localValue: "" });
-                return false;
-            }
-            else {
-                var currValue = _this.props.value;
-                var nextValue = ev.currentTarget.value;
-                _this.setState({ localValue: nextValue });
-                if (_this.props.limiter) {
-                    _this.onChange(_this.props.limiter(currValue, nextValue));
-                }
-                else {
-                    _this.onChange(nextValue);
-                }
-                return true;
-            }
-        };
-        return (React.createElement(field_container_1.default, { className: this.props.className, label: this.props.label, validation: validation },
-            React.createElement("input", { value: this.state.localValue, type: "text", className: "field-input-element", onChange: handleChange })));
-    };
-    return TextField;
-}(React.PureComponent));
-exports.default = TextField;
+/* harmony default export */ __webpack_exports__["a"] = (baseGetTag);
 
 
 /***/ }),
 /* 217 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__freeGlobal_js__ = __webpack_require__(218);
 
-Object.defineProperty(exports, "__esModule", { value: true });
-var tract_tier_table_1 = __webpack_require__(218);
-var JSONP = __webpack_require__(219);
-exports.GetTierError = {
-    InvalidAddressErr: new Error("Invalid address"),
-    NoTierFoundErr: new Error("No CPS tier found for this address"),
-    RequestFailedErr: new Error("Request Failed"),
-};
-;
-exports.getTier = function (address) {
-    return new Promise(function (resolve, reject) {
-        getTractAndGeo(address).then(function (_a) {
-            var tract = _a.tract, geo = _a.geo;
-            lookupTierFromTract(tract).then(function (tier) {
-                resolve({ tier: tier, geo: geo });
-            }).catch(function (err) { return reject(exports.GetTierError.NoTierFoundErr); });
-        }).catch(function (err) {
-            if (err === exports.GetTierError.RequestFailedErr) {
-                reject(exports.GetTierError.RequestFailedErr);
-            }
-            else {
-                reject(exports.GetTierError.InvalidAddressErr);
-            }
-        });
-    });
-};
-;
-var getTractAndGeo = function (address) {
-    var API_BASE_URL = "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress";
-    var apiParams = {
-        address: address,
-        format: "jsonp",
-        benchmark: "Public_AR_Current",
-        vintage: "Current_Current",
-        layers: "Census Tracts",
-    };
-    var sendRequest = function (baseUrl, params) {
-        return new Promise(function (resolve, reject) {
-            JSONP({
-                url: baseUrl,
-                data: params,
-                success: function (data) { return resolve(data); },
-                error: function (err) {
-                    reject(exports.GetTierError.RequestFailedErr);
-                }
-            });
-        });
-    };
-    var extractTract = function (response) {
-        return response.result.addressMatches[0].geographies["Census Tracts"][0].BASENAME;
-    };
-    var extractGeo = function (response) {
-        var coords = response.result.addressMatches[0].coordinates;
-        return { latitude: coords.y, longitude: coords.x };
-    };
-    return new Promise(function (resolve, reject) {
-        sendRequest(API_BASE_URL, apiParams).then(function (res) {
-            var tract = extractTract(res);
-            var geo = extractGeo(res);
-            resolve({ tract: tract, geo: geo });
-        }).catch(function (e) { return reject(e); });
-    });
-};
-var lookupTierFromTract = function (tract) {
-    return new Promise(function (resolve, reject) {
-        var tier = tract_tier_table_1.default[tract];
-        if (tier === undefined) {
-            reject(exports.GetTierError.NoTierFoundErr);
-        }
-        else {
-            resolve(tier);
-        }
-    });
-};
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = __WEBPACK_IMPORTED_MODULE_0__freeGlobal_js__["a" /* default */] || freeSelf || Function('return this')();
+
+/* harmony default export */ __webpack_exports__["a"] = (root);
 
 
 /***/ }),
 /* 218 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
 
-Object.defineProperty(exports, "__esModule", { value: true });
-var TractTierTable = { "101": "2", "102.01": "3", "102.02": "2", "103": "2", "104": "3", "105.01": "3", "105.02": "2", "105.03": "2", "106": "3", "107.01": "3", "107.02": "2", "201": "3", "202": "4", "203.01": "4", "203.02": "4", "204": "4", "205": "3", "206.01": "3", "206.02": "3", "207.01": "4", "207.02": "3", "208.01": "3", "208.02": "3", "209.01": "3", "209.02": "4", "301.01": "3", "301.02": "4", "301.03": "3", "301.04": "3", "302": "4", "303": "3", "304": "3", "305": "4", "306.01": "3", "306.03": "2", "306.04": "3", "307.01": "3", "307.02": "4", "307.03": "3", "307.06": "4", "308": "4", "309": "4", "310": "4", "311": "3", "312": "3", "313": "3", "314": "4", "315.01": "3", "315.02": "2", "317": "3", "318": "4", "319": "4", "321": "3", "401": "4", "402.01": "4", "402.02": "3", "403": "4", "404.01": "4", "404.02": "3", "406": "4", "407": "4", "408": "4", "409": "4", "501": "4", "502": "4", "503": "4", "505": "4", "506": "4", "507": "4", "508": "4", "509": "4", "510": "4", "511": "4", "512": "4", "513": "4", "514": "4", "601": "4", "602": "4", "603": "4", "604": "4", "605": "4", "608": "4", "609": "4", "610": "4", "611": "4", "612": "4", "615": "4", "618": "3", "619.01": "4", "619.02": "4", "620": "4", "621": "4", "622": "4", "623": "4", "624": "4", "625": "4", "626": "4", "627": "4", "628": "4", "629": "4", "630": "4", "631": "4", "632": "4", "633.01": "4", "633.02": "4", "633.03": "4", "634": "4", "701.01": "4", "701.02": "4", "701.03": "4", "702": "4", "703": "4", "704": "4", "705": "4", "706": "4", "707": "4", "710": "4", "711": "4", "712": "4", "713": "4", "714": "4", "715": "4", "716": "4", "717": "4", "718": "4", "801": "4", "802.01": "4", "802.02": "4", "803": "4", "804": "2", "810": "3", "811": "4", "812.01": "4", "812.02": "4", "813": "4", "814.01": "4", "814.02": "4", "814.03": "4", "815": "4", "816": "4", "817": "4", "818": "4", "819": "3", "901": "4", "902": "4", "903": "4", "1001": "4", "1002": "4", "1003": "4", "1004": "4", "1005": "4", "1006": "4", "1007": "4", "1101": "4", "1102": "3", "1103": "4", "1104": "4", "1105.01": "4", "1105.02": "4", "1201": "4", "1202": "4", "1203": "4", "1204": "4", "1301": "4", "1302": "4", "1303": "4", "1401": "1", "1402": "2", "1403.01": "2", "1403.02": "3", "1404": "4", "1405": "3", "1406.01": "2", "1406.02": "2", "1407.01": "3", "1407.02": "2", "1408": "4", "1502": "3", "1503": "3", "1504.01": "4", "1504.02": "3", "1505.01": "4", "1505.02": "3", "1506": "4", "1507": "3", "1508": "3", "1510.01": "2", "1510.02": "2", "1511": "3", "1512": "3", "1601": "3", "1602": "4", "1603": "3", "1604": "3", "1605.01": "3", "1605.02": "3", "1606.01": "3", "1606.02": "3", "1607": "3", "1608": "3", "1609": "4", "1610": "4", "1611": "4", "1612": "3", "1613": "2", "1701": "4", "1702": "4", "1703": "4", "1704": "4", "1705": "4", "1706": "4", "1707": "4", "1708": "4", "1709": "4", "1710": "4", "1711": "3", "1801": "3", "1901": "1", "1902": "2", "1903": "2", "1904.01": "3", "1904.02": "2", "1906.01": "2", "1906.02": "2", "1907.01": "2", "1907.02": "1", "1908": "2", "1909": "2", "1910": "2", "1911": "2", "1912": "2", "1913.01": "2", "1913.02": "2", "2001": "2", "2002": "1", "2003": "1", "2004.01": "1", "2004.02": "1", "2101": "4", "2104": "2", "2105.01": "2", "2105.02": "2", "2106.01": "3", "2106.02": "2", "2107": "3", "2108": "3", "2109": "3", "2203": "4", "2204": "4", "2205": "3", "2206.01": "3", "2206.02": "3", "2207.01": "2", "2207.02": "2", "2209.01": "1", "2209.02": "2", "2210": "2", "2211": "2", "2212": "3", "2213": "3", "2214": "3", "2215": "3", "2216": "4", "2222": "4", "2225": "2", "2226": "2", "2227": "2", "2228": "1", "2229": "2", "2301": "2", "2302": "1", "2303": "1", "2304": "2", "2305": "1", "2306": "1", "2307": "1", "2308": "3", "2309": "1", "2311": "3", "2312": "1", "2315": "1", "2402": "4", "2403": "4", "2405": "4", "2406": "4", "2407": "3", "2408": "2", "2409": "3", "2410": "1", "2411": "2", "2412": "3", "2413": "3", "2414": "4", "2415": "4", "2416": "4", "2420": "3", "2421": "4", "2422": "4", "2423": "4", "2424": "3", "2425": "2", "2426": "3", "2427": "1", "2428": "3", "2429": "4", "2430": "4", "2431": "3", "2432": "4", "2433": "3", "2434": "3", "2435": "4", "2502": "2", "2503": "1", "2504": "2", "2505": "4", "2506": "3", "2507": "1", "2508": "2", "2510": "1", "2511": "1", "2512": "2", "2513": "2", "2514": "2", "2515": "1", "2516": "2", "2517": "2", "2518": "1", "2519": "1", "2520": "1", "2521.01": "1", "2521.02": "1", "2522.01": "2", "2522.02": "1", "2601": "1", "2602": "1", "2603": "1", "2604": "1", "2605": "2", "2606": "3", "2607": "1", "2608": "1", "2609": "1", "2610": "2", "2705": "1", "2712": "2", "2713": "2", "2714": "2", "2715": "2", "2718": "1", "2801": "4", "2804": "1", "2808": "2", "2809": "1", "2819": "4", "2827": "2", "2828": "4", "2831": "2", "2832": "3", "2838": "3", "2909": "1", "2912": "1", "2916": "1", "2922": "1", "2924": "2", "2925": "2", "3005": "1", "3006": "2", "3007": "1", "3008": "1", "3009": "1", "3011": "1", "3012": "1", "3016": "1", "3017.01": "1", "3017.02": "1", "3018.01": "2", "3018.02": "1", "3018.03": "1", "3102": "3", "3103": "2", "3104": "2", "3105": "1", "3106": "2", "3107": "1", "3108": "1", "3109": "1", "3201": "4", "3204": "4", "3206": "4", "3301": "4", "3302": "4", "3403": "3", "3404": "3", "3405": "3", "3406": "1", "3501": "2", "3504": "1", "3510": "2", "3511": "1", "3514": "1", "3515": "2", "3602": "1", "3801": "2", "3802": "2", "3805": "1", "3807": "2", "3812": "2", "3814": "2", "3815": "2", "3818": "1", "3819": "2", "3901": "3", "3902": "3", "3903": "1", "3904": "1", "3905": "3", "3906": "4", "3907": "4", "4003": "2", "4004": "1", "4005": "1", "4008": "1", "4101": "3", "4102": "3", "4105": "3", "4106": "3", "4107": "3", "4108": "3", "4109": "4", "4110": "4", "4111": "4", "4112": "4", "4201": "2", "4202": "2", "4203": "2", "4204": "2", "4205": "1", "4206": "1", "4207": "1", "4208": "1", "4212": "2", "4301.01": "2", "4301.02": "2", "4302": "2", "4303": "2", "4304": "2", "4305": "2", "4306": "3", "4307": "1", "4308": "3", "4309": "2", "4312": "3", "4313.01": "1", "4313.02": "1", "4314": "1", "4401.01": "1", "4401.02": "1", "4402.01": "3", "4402.02": "3", "4403": "3", "4406": "4", "4407": "3", "4408": "1", "4409": "3", "4503": "3", "4601": "2", "4602": "1", "4603.01": "2", "4603.02": "1", "4604": "3", "4605": "3", "4606": "1", "4607": "1", "4610": "1", "4701": "2", "4801": "4", "4802": "3", "4803": "3", "4804": "4", "4805": "3", "4903": "4", "4904": "4", "4905": "3", "4906": "4", "4907": "3", "4908": "3", "4909.01": "3", "4909.02": "4", "4910": "2", "4911": "4", "4912": "3", "4913": "2", "4914": "2", "5001": "3", "5002": "2", "5003": "2", "5101": "2", "5102": "3", "5103": "3", "5201": "2", "5202": "1", "5203": "3", "5204": "3", "5205": "4", "5206": "3", "5301": "1", "5302": "2", "5303": "4", "5304": "3", "5305.01": "3", "5305.02": "3", "5305.03": "3", "5306": "2", "5401.01": "1", "5401.02": "1", "5501": "3", "5502": "4", "5601": "2", "5602": "3", "5603": "3", "5604": "3", "5607": "3", "5608": "4", "5609": "4", "5610": "4", "5611": "4", "5701": "3", "5702": "3", "5703": "2", "5704": "2", "5705": "2", "5801": "3", "5802": "2", "5803": "1", "5804": "2", "5805.01": "1", "5805.02": "2", "5806": "1", "5807": "2", "5808": "1", "5905": "3", "5906": "3", "5907": "2", "6004": "2", "6006": "2", "6007": "3", "6009": "3", "6103": "1", "6104": "1", "6108": "4", "6110": "1", "6111": "1", "6112": "1", "6113": "1", "6114": "1", "6115": "1", "6116": "1", "6117": "1", "6118": "1", "6119": "1", "6120": "1", "6121": "2", "6201": "3", "6202": "2", "6203": "3", "6204": "3", "6301": "1", "6302": "2", "6303": "2", "6304": "1", "6305": "2", "6308": "2", "6309": "2", "6401": "3", "6403": "4", "6404": "4", "6405": "4", "6406": "3", "6407": "4", "6408": "3", "6501": "2", "6502": "3", "6503.01": "3", "6503.02": "3", "6504": "3", "6505": "3", "6603.01": "1", "6603.02": "2", "6604": "2", "6605": "2", "6606": "1", "6607": "2", "6608": "1", "6609": "1", "6610": "2", "6611": "3", "6701": "1", "6702": "1", "6703": "2", "6704": "2", "6705": "2", "6706": "1", "6707": "1", "6708": "1", "6709": "2", "6711": "1", "6712": "1", "6713": "2", "6714": "2", "6715": "1", "6716": "1", "6718": "1", "6719": "2", "6720": "2", "6805": "1", "6806": "1", "6809": "1", "6810": "1", "6811": "1", "6812": "1", "6813": "1", "6814": "1", "6903": "1", "6904": "1", "6905": "2", "6909": "2", "6910": "3", "6911": "1", "6912": "1", "6913": "3", "6914": "2", "6915": "1", "7001": "3", "7002": "3", "7003.01": "3", "7003.02": "4", "7004.01": "4", "7004.02": "4", "7005.01": "4", "7005.02": "4", "7101": "1", "7102": "1", "7103": "1", "7104": "3", "7105": "2", "7106": "2", "7107": "2", "7108": "2", "7109": "2", "7110": "2", "7111": "3", "7112": "3", "7113": "3", "7114": "2", "7115": "3", "7201": "4", "7202": "4", "7203": "4", "7204": "4", "7205": "4", "7206": "4", "7207": "4", "7301": "3", "7302.01": "2", "7302.02": "3", "7303": "3", "7304": "4", "7305": "4", "7306": "3", "7307": "3", "7401": "4", "7402": "4", "7403": "4", "7404": "4", "7501": "3", "7502": "4", "7503": "4", "7504": "4", "7505": "3", "7506": "4", "7608.01": "3", "7608.02": "4", "7608.03": "4", "7709.02": "4", "8104": "4", "8214.02": "3", "8233.04": "3", "8305": "2", "8306": "3", "8307": "3", "8308": "4", "8309": "4", "8310": "4", "8311": "3", "8312": "1", "8313": "1", "8314": "2", "8315": "3", "8316": "3", "8317": "3", "8318": "4", "8319": "4", "8320": "4", "8321": "3", "8322": "4", "8323": "4", "8324": "4", "8325": "4", "8326": "4", "8329": "3", "8330": "4", "8331": "4", "8333": "3", "8339": "1", "8340": "2", "8342": "2", "8343": "3", "8344": "3", "8345": "1", "8346": "2", "8347": "1", "8348": "1", "8349": "1", "8350": "1", "8351": "2", "8352": "3", "8355": "2", "8356": "2", "8358": "2", "8359": "1", "8360": "3", "8361": "1", "8362": "4", "8363": "3", "8364": "2", "8365": "1", "8366": "2", "8367": "1", "8368": "1", "8369": "2", "8370": "1", "8371": "2", "8373": "2", "8374": "2", "8378": "2", "8380": "2", "8381": "2", "8382": "3", "8383": "2", "8386": "1", "8387": "1", "8388": "1", "8390": "4", "8391": "4", "8392": "2", "8395": "3", "8396": "3", "8397": "3", "8398": "4", "8399": "4", "8400": "4", "8401": "3", "8402": "3", "8403": "2", "8404": "3", "8407": "1", "8408": "1", "8410": "3", "8411": "2", "8412": "1", "8413": "1", "8414": "1", "8415": "1", "8416": "1", "8417": "1", "8418": "2", "8419": "4", "8420": "4", "8421": "1", "8422": "3", "8423": "4", "8424": "3", "8425": "1", "8426": "3", "8428": "2", "8429": "1", "8430": "1", "8431": "2", "8432": "1", "8433": "1", "8434": "2", "8435": "1", "8436": "2", "8437": "4", "8438": "2", "8439": "2", "9801": "0", "3817": "0", "8357": "0", };
-exports.default = TractTierTable;
+/* harmony default export */ __webpack_exports__["a"] = (freeGlobal);
 
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(101)))
 
 /***/ }),
 /* 219 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(module) {var __WEBPACK_AMD_DEFINE_RESULT__;(function() {
-  var JSONP, computedUrl, createElement, encode, noop, objectToURI, random, randomString;
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Symbol_js__ = __webpack_require__(100);
 
-  createElement = function(tag) {
-    return window.document.createElement(tag);
-  };
 
-  encode = window.encodeURIComponent;
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
 
-  random = Math.random;
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
 
-  JSONP = function(options) {
-    var callback, callbackFunc, callbackName, done, head, params, script;
-    if (options == null) {
-      options = {};
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var nativeObjectToString = objectProto.toString;
+
+/** Built-in value references. */
+var symToStringTag = __WEBPACK_IMPORTED_MODULE_0__Symbol_js__["a" /* default */] ? __WEBPACK_IMPORTED_MODULE_0__Symbol_js__["a" /* default */].toStringTag : undefined;
+
+/**
+ * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the raw `toStringTag`.
+ */
+function getRawTag(value) {
+  var isOwn = hasOwnProperty.call(value, symToStringTag),
+      tag = value[symToStringTag];
+
+  try {
+    value[symToStringTag] = undefined;
+    var unmasked = true;
+  } catch (e) {}
+
+  var result = nativeObjectToString.call(value);
+  if (unmasked) {
+    if (isOwn) {
+      value[symToStringTag] = tag;
+    } else {
+      delete value[symToStringTag];
     }
-    params = {
-      data: options.data || {},
-      error: options.error || noop,
-      success: options.success || noop,
-      beforeSend: options.beforeSend || noop,
-      complete: options.complete || noop,
-      url: options.url || ''
-    };
-    params.computedUrl = computedUrl(params);
-    if (params.url.length === 0) {
-      throw new Error('MissingUrl');
-    }
-    done = false;
-    if (params.beforeSend({}, params) !== false) {
-      callbackName = options.callbackName || 'callback';
-      callbackFunc = options.callbackFunc || 'jsonp_' + randomString(15);
-      callback = params.data[callbackName] = callbackFunc;
-      window[callback] = function(data) {
-        window[callback] = null;
-        params.success(data, params);
-        return params.complete(data, params);
-      };
-      script = createElement('script');
-      script.src = computedUrl(params);
-      script.async = true;
-      script.onerror = function(evt) {
-        params.error({
-          url: script.src,
-          event: evt
-        });
-        return params.complete({
-          url: script.src,
-          event: evt
-        }, params);
-      };
-      script.onload = script.onreadystatechange = function() {
-        var ref, ref1;
-        if (done || ((ref = this.readyState) !== 'loaded' && ref !== 'complete')) {
-          return;
-        }
-        done = true;
-        if (script) {
-          script.onload = script.onreadystatechange = null;
-          if ((ref1 = script.parentNode) != null) {
-            ref1.removeChild(script);
-          }
-          return script = null;
-        }
-      };
-      head = window.document.getElementsByTagName('head')[0] || window.document.documentElement;
-      head.insertBefore(script, head.firstChild);
-    }
-    return {
-      abort: function() {
-        window[callback] = function() {
-          return window[callback] = null;
-        };
-        done = true;
-        if (script != null ? script.parentNode : void 0) {
-          script.onload = script.onreadystatechange = null;
-          script.parentNode.removeChild(script);
-          return script = null;
-        }
-      }
-    };
-  };
-
-  noop = function() {
-    return void 0;
-  };
-
-  computedUrl = function(params) {
-    var url;
-    url = params.url;
-    url += params.url.indexOf('?') < 0 ? '?' : '&';
-    url += objectToURI(params.data);
-    return url;
-  };
-
-  randomString = function(length) {
-    var str;
-    str = '';
-    while (str.length < length) {
-      str += random().toString(36).slice(2, 3);
-    }
-    return str;
-  };
-
-  objectToURI = function(obj) {
-    var data, key, value;
-    data = (function() {
-      var results;
-      results = [];
-      for (key in obj) {
-        value = obj[key];
-        results.push(encode(key) + '=' + encode(value));
-      }
-      return results;
-    })();
-    return data.join('&');
-  };
-
-  if ("function" !== "undefined" && __webpack_require__(221) !== null ? __webpack_require__(222) : void 0) {
-    !(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
-      return JSONP;
-    }.call(exports, __webpack_require__, exports, module),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-  } else if (typeof module !== "undefined" && module !== null ? module.exports : void 0) {
-    module.exports = JSONP;
-  } else {
-    this.JSONP = JSONP;
   }
+  return result;
+}
 
-}).call(this);
+/* harmony default export */ __webpack_exports__["a"] = (getRawTag);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(220)(module)))
 
 /***/ }),
 /* 220 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var nativeObjectToString = objectProto.toString;
+
+/**
+ * Converts `value` to a string using `Object.prototype.toString`.
+ *
+ * @private
+ * @param {*} value The value to convert.
+ * @returns {string} Returns the converted string.
+ */
+function objectToString(value) {
+  return nativeObjectToString.call(value);
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (objectToString);
+
+
+/***/ }),
+/* 221 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__overArg_js__ = __webpack_require__(222);
+
+
+/** Built-in value references. */
+var getPrototype = __WEBPACK_IMPORTED_MODULE_0__overArg_js__["a" /* default */](Object.getPrototypeOf, Object);
+
+/* harmony default export */ __webpack_exports__["a"] = (getPrototype);
+
+
+/***/ }),
+/* 222 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/**
+ * Creates a unary function that invokes `func` with its argument transformed.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {Function} transform The argument transform.
+ * @returns {Function} Returns the new function.
+ */
+function overArg(func, transform) {
+  return function(arg) {
+    return func(transform(arg));
+  };
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (overArg);
+
+
+/***/ }),
+/* 223 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return value != null && typeof value == 'object';
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (isObjectLike);
+
+
+/***/ }),
+/* 224 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global, module) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ponyfill_js__ = __webpack_require__(226);
+/* global window */
+
+
+var root;
+
+if (typeof self !== 'undefined') {
+  root = self;
+} else if (typeof window !== 'undefined') {
+  root = window;
+} else if (typeof global !== 'undefined') {
+  root = global;
+} else if (true) {
+  root = module;
+} else {
+  root = Function('return this')();
+}
+
+var result = __WEBPACK_IMPORTED_MODULE_0__ponyfill_js__["a" /* default */](root);
+/* harmony default export */ __webpack_exports__["a"] = (result);
+
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(101), __webpack_require__(225)(module)))
+
+/***/ }),
+/* 225 */
 /***/ (function(module, exports) {
 
-module.exports = function(module) {
-	if(!module.webpackPolyfill) {
-		module.deprecate = function() {};
-		module.paths = [];
+module.exports = function(originalModule) {
+	if(!originalModule.webpackPolyfill) {
+		var module = Object.create(originalModule);
 		// module.parent = undefined by default
 		if(!module.children) module.children = [];
 		Object.defineProperty(module, "loaded", {
@@ -24383,6 +24802,9 @@ module.exports = function(module) {
 				return module.i;
 			}
 		});
+		Object.defineProperty(module, "exports", {
+			enumerable: true,
+		});
 		module.webpackPolyfill = 1;
 	}
 	return module;
@@ -24390,164 +24812,5558 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 221 */
-/***/ (function(module, exports) {
-
-module.exports = function() {
-	throw new Error("define cannot be used indirect");
-};
-
-
-/***/ }),
-/* 222 */
-/***/ (function(module, exports) {
-
-/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
-module.exports = __webpack_amd_options__;
-
-/* WEBPACK VAR INJECTION */}.call(exports, {}))
-
-/***/ }),
-/* 223 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(224);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(12)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../../node_modules/sass-loader/lib/loader.js!./address-tier-calculator.scss", function() {
-			var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../../node_modules/sass-loader/lib/loader.js!./address-tier-calculator.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 224 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(11)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".address-tier-calculator {\n  margin-top: 10px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: baseline;\n      -ms-flex-align: baseline;\n          align-items: baseline; }\n\n.address-field-wrapper {\n  -webkit-box-flex: 3;\n      -ms-flex: 3 0 auto;\n          flex: 3 0 auto;\n  position: relative; }\n\n.tier-display-wrapper {\n  -webkit-box-flex: 1;\n      -ms-flex: 1 0 auto;\n          flex: 1 0 auto; }\n\n.address-status-message {\n  position: absolute;\n  color: #9e9e9e;\n  font-size: 90%;\n  font-style: italic; }\n\n.tier-display {\n  padding: 6px 10px;\n  border: 1px dotted #9e9e9e;\n  border-radius: 6px;\n  text-align: center;\n  font-size: 125%; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 225 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(226);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(12)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../../node_modules/sass-loader/lib/loader.js!./spinning-load-icon.scss", function() {
-			var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../../node_modules/sass-loader/lib/loader.js!./spinning-load-icon.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
 /* 226 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(11)(undefined);
-// imports
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = symbolObservablePonyfill;
+function symbolObservablePonyfill(root) {
+	var result;
+	var Symbol = root.Symbol;
 
+	if (typeof Symbol === 'function') {
+		if (Symbol.observable) {
+			result = Symbol.observable;
+		} else {
+			result = Symbol('observable');
+			Symbol.observable = result;
+		}
+	} else {
+		result = '@@observable';
+	}
 
-// module
-exports.push([module.i, ".spinning-load-icon, .spinning-load-icon:after {\n  border-radius: 50%;\n  width: 2em;\n  height: 2em; }\n\n.spinning-load-icon {\n  font-size: 10px;\n  position: relative;\n  text-indent: -9999em;\n  border-top: 4px solid #95e57a;\n  border-right: 4px solid #95e57a;\n  border-bottom: 4px solid #95e57a;\n  border-left: 2px solid #ffffff;\n  -webkit-transform: translateZ(0);\n  transform: translateZ(0);\n  -webkit-animation: load8 1.1s infinite linear;\n  animation: load8 1.1s infinite linear; }\n\n@-webkit-keyframes load8 {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg);\n    border-top: 4px solid #95e57a;\n    border-right: 4px solid #95e57a;\n    border-bottom: 4px solid #95e57a; }\n  50% {\n    -webkit-transform: rotate(180deg);\n    transform: rotate(180deg);\n    border-top: 4px solid #dbdb74;\n    border-right: 4px solid #dbdb74;\n    border-bottom: 4px solid #dbdb74; }\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n    border-top: 4px solid #95e57a;\n    border-right: 4px solid #95e57a;\n    border-bottom: 4px solid #95e57a; } }\n\n@keyframes load8 {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg);\n    border-top: 4px solid #95e57a;\n    border-right: 4px solid #95e57a;\n    border-bottom: 4px solid #95e57a; }\n  50% {\n    -webkit-transform: rotate(180deg);\n    transform: rotate(180deg);\n    border-top: 4px solid #dbdb74;\n    border-right: 4px solid #dbdb74;\n    border-bottom: 4px solid #dbdb74; }\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n    border-top: 4px solid #95e57a;\n    border-right: 4px solid #95e57a;\n    border-bottom: 4px solid #95e57a; } }\n", ""]);
-
-// exports
+	return result;
+};
 
 
 /***/ }),
 /* 227 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony export (immutable) */ __webpack_exports__["a"] = combineReducers;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__createStore__ = __webpack_require__(99);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash_es_isPlainObject__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_warning__ = __webpack_require__(102);
 
-Object.defineProperty(exports, "__esModule", { value: true });
-var isESProgram = function (program) {
-    if (program.Primary_Category === "ES") {
-        return true;
-    }
-    else if (program.Primary_Category === "HS") {
-        if (program.Program_Type === "Academic Center") {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-    else {
-        return false;
-    }
-};
-exports.default = isESProgram;
 
+
+
+function getUndefinedStateErrorMessage(key, action) {
+  var actionType = action && action.type;
+  var actionName = actionType && '"' + actionType.toString() + '"' || 'an action';
+
+  return 'Given action ' + actionName + ', reducer "' + key + '" returned undefined. ' + 'To ignore an action, you must explicitly return the previous state. ' + 'If you want this reducer to hold no value, you can return null instead of undefined.';
+}
+
+function getUnexpectedStateShapeWarningMessage(inputState, reducers, action, unexpectedKeyCache) {
+  var reducerKeys = Object.keys(reducers);
+  var argumentName = action && action.type === __WEBPACK_IMPORTED_MODULE_0__createStore__["a" /* ActionTypes */].INIT ? 'preloadedState argument passed to createStore' : 'previous state received by the reducer';
+
+  if (reducerKeys.length === 0) {
+    return 'Store does not have a valid reducer. Make sure the argument passed ' + 'to combineReducers is an object whose values are reducers.';
+  }
+
+  if (!__WEBPACK_IMPORTED_MODULE_1_lodash_es_isPlainObject__["a" /* default */](inputState)) {
+    return 'The ' + argumentName + ' has unexpected type of "' + {}.toString.call(inputState).match(/\s([a-z|A-Z]+)/)[1] + '". Expected argument to be an object with the following ' + ('keys: "' + reducerKeys.join('", "') + '"');
+  }
+
+  var unexpectedKeys = Object.keys(inputState).filter(function (key) {
+    return !reducers.hasOwnProperty(key) && !unexpectedKeyCache[key];
+  });
+
+  unexpectedKeys.forEach(function (key) {
+    unexpectedKeyCache[key] = true;
+  });
+
+  if (unexpectedKeys.length > 0) {
+    return 'Unexpected ' + (unexpectedKeys.length > 1 ? 'keys' : 'key') + ' ' + ('"' + unexpectedKeys.join('", "') + '" found in ' + argumentName + '. ') + 'Expected to find one of the known reducer keys instead: ' + ('"' + reducerKeys.join('", "') + '". Unexpected keys will be ignored.');
+  }
+}
+
+function assertReducerShape(reducers) {
+  Object.keys(reducers).forEach(function (key) {
+    var reducer = reducers[key];
+    var initialState = reducer(undefined, { type: __WEBPACK_IMPORTED_MODULE_0__createStore__["a" /* ActionTypes */].INIT });
+
+    if (typeof initialState === 'undefined') {
+      throw new Error('Reducer "' + key + '" returned undefined during initialization. ' + 'If the state passed to the reducer is undefined, you must ' + 'explicitly return the initial state. The initial state may ' + 'not be undefined. If you don\'t want to set a value for this reducer, ' + 'you can use null instead of undefined.');
+    }
+
+    var type = '@@redux/PROBE_UNKNOWN_ACTION_' + Math.random().toString(36).substring(7).split('').join('.');
+    if (typeof reducer(undefined, { type: type }) === 'undefined') {
+      throw new Error('Reducer "' + key + '" returned undefined when probed with a random type. ' + ('Don\'t try to handle ' + __WEBPACK_IMPORTED_MODULE_0__createStore__["a" /* ActionTypes */].INIT + ' or other actions in "redux/*" ') + 'namespace. They are considered private. Instead, you must return the ' + 'current state for any unknown actions, unless it is undefined, ' + 'in which case you must return the initial state, regardless of the ' + 'action type. The initial state may not be undefined, but can be null.');
+    }
+  });
+}
+
+/**
+ * Turns an object whose values are different reducer functions, into a single
+ * reducer function. It will call every child reducer, and gather their results
+ * into a single state object, whose keys correspond to the keys of the passed
+ * reducer functions.
+ *
+ * @param {Object} reducers An object whose values correspond to different
+ * reducer functions that need to be combined into one. One handy way to obtain
+ * it is to use ES6 `import * as reducers` syntax. The reducers may never return
+ * undefined for any action. Instead, they should return their initial state
+ * if the state passed to them was undefined, and the current state for any
+ * unrecognized action.
+ *
+ * @returns {Function} A reducer function that invokes every reducer inside the
+ * passed object, and builds a state object with the same shape.
+ */
+function combineReducers(reducers) {
+  var reducerKeys = Object.keys(reducers);
+  var finalReducers = {};
+  for (var i = 0; i < reducerKeys.length; i++) {
+    var key = reducerKeys[i];
+
+    if (process.env.NODE_ENV !== 'production') {
+      if (typeof reducers[key] === 'undefined') {
+        __WEBPACK_IMPORTED_MODULE_2__utils_warning__["a" /* default */]('No reducer provided for key "' + key + '"');
+      }
+    }
+
+    if (typeof reducers[key] === 'function') {
+      finalReducers[key] = reducers[key];
+    }
+  }
+  var finalReducerKeys = Object.keys(finalReducers);
+
+  var unexpectedKeyCache = void 0;
+  if (process.env.NODE_ENV !== 'production') {
+    unexpectedKeyCache = {};
+  }
+
+  var shapeAssertionError = void 0;
+  try {
+    assertReducerShape(finalReducers);
+  } catch (e) {
+    shapeAssertionError = e;
+  }
+
+  return function combination() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var action = arguments[1];
+
+    if (shapeAssertionError) {
+      throw shapeAssertionError;
+    }
+
+    if (process.env.NODE_ENV !== 'production') {
+      var warningMessage = getUnexpectedStateShapeWarningMessage(state, finalReducers, action, unexpectedKeyCache);
+      if (warningMessage) {
+        __WEBPACK_IMPORTED_MODULE_2__utils_warning__["a" /* default */](warningMessage);
+      }
+    }
+
+    var hasChanged = false;
+    var nextState = {};
+    for (var _i = 0; _i < finalReducerKeys.length; _i++) {
+      var _key = finalReducerKeys[_i];
+      var reducer = finalReducers[_key];
+      var previousStateForKey = state[_key];
+      var nextStateForKey = reducer(previousStateForKey, action);
+      if (typeof nextStateForKey === 'undefined') {
+        var errorMessage = getUndefinedStateErrorMessage(_key, action);
+        throw new Error(errorMessage);
+      }
+      nextState[_key] = nextStateForKey;
+      hasChanged = hasChanged || nextStateForKey !== previousStateForKey;
+    }
+    return hasChanged ? nextState : state;
+  };
+}
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
 /* 228 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = bindActionCreators;
+function bindActionCreator(actionCreator, dispatch) {
+  return function () {
+    return dispatch(actionCreator.apply(undefined, arguments));
+  };
+}
+
+/**
+ * Turns an object whose values are action creators, into an object with the
+ * same keys, but with every function wrapped into a `dispatch` call so they
+ * may be invoked directly. This is just a convenience method, as you can call
+ * `store.dispatch(MyActionCreators.doSomething())` yourself just fine.
+ *
+ * For convenience, you can also pass a single function as the first argument,
+ * and get a function in return.
+ *
+ * @param {Function|Object} actionCreators An object whose values are action
+ * creator functions. One handy way to obtain it is to use ES6 `import * as`
+ * syntax. You may also pass a single function.
+ *
+ * @param {Function} dispatch The `dispatch` function available on your Redux
+ * store.
+ *
+ * @returns {Function|Object} The object mimicking the original object, but with
+ * every action creator wrapped into the `dispatch` call. If you passed a
+ * function as `actionCreators`, the return value will also be a single
+ * function.
+ */
+function bindActionCreators(actionCreators, dispatch) {
+  if (typeof actionCreators === 'function') {
+    return bindActionCreator(actionCreators, dispatch);
+  }
+
+  if (typeof actionCreators !== 'object' || actionCreators === null) {
+    throw new Error('bindActionCreators expected an object or a function, instead received ' + (actionCreators === null ? 'null' : typeof actionCreators) + '. ' + 'Did you write "import ActionCreators from" instead of "import * as ActionCreators from"?');
+  }
+
+  var keys = Object.keys(actionCreators);
+  var boundActionCreators = {};
+  for (var i = 0; i < keys.length; i++) {
+    var key = keys[i];
+    var actionCreator = actionCreators[key];
+    if (typeof actionCreator === 'function') {
+      boundActionCreators[key] = bindActionCreator(actionCreator, dispatch);
+    }
+  }
+  return boundActionCreators;
+}
+
+/***/ }),
+/* 229 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = applyMiddleware;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__compose__ = __webpack_require__(103);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
+
+/**
+ * Creates a store enhancer that applies middleware to the dispatch method
+ * of the Redux store. This is handy for a variety of tasks, such as expressing
+ * asynchronous actions in a concise manner, or logging every action payload.
+ *
+ * See `redux-thunk` package as an example of the Redux middleware.
+ *
+ * Because middleware is potentially asynchronous, this should be the first
+ * store enhancer in the composition chain.
+ *
+ * Note that each middleware will be given the `dispatch` and `getState` functions
+ * as named arguments.
+ *
+ * @param {...Function} middlewares The middleware chain to be applied.
+ * @returns {Function} A store enhancer applying the middleware.
+ */
+function applyMiddleware() {
+  for (var _len = arguments.length, middlewares = Array(_len), _key = 0; _key < _len; _key++) {
+    middlewares[_key] = arguments[_key];
+  }
+
+  return function (createStore) {
+    return function (reducer, preloadedState, enhancer) {
+      var store = createStore(reducer, preloadedState, enhancer);
+      var _dispatch = store.dispatch;
+      var chain = [];
+
+      var middlewareAPI = {
+        getState: store.getState,
+        dispatch: function dispatch(action) {
+          return _dispatch(action);
+        }
+      };
+      chain = middlewares.map(function (middleware) {
+        return middleware(middlewareAPI);
+      });
+      _dispatch = __WEBPACK_IMPORTED_MODULE_0__compose__["a" /* default */].apply(undefined, chain)(store.dispatch);
+
+      return _extends({}, store, {
+        dispatch: _dispatch
+      });
+    };
+  };
+}
+
+/***/ }),
+/* 230 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var isHSProgram = function (program) {
-    if (program.Primary_Category === "HS") {
-        if (program.Program_Type === "Academic Center") {
-            return false;
-        }
-        else {
-            return true;
-        }
-    }
-    else {
-        return false;
-    }
+var action_type_1 = __webpack_require__(104);
+var initial_state_1 = __webpack_require__(231);
+var updateDependentProperties = function (state) {
+    return state;
 };
-exports.default = isHSProgram;
+var rootReducer = function (state, action) {
+    if (state === void 0) { state = initial_state_1.default; }
+    var nextState;
+    switch (action.type) {
+        case action_type_1.default.UpdateStudentGender:
+            nextState = state.setIn(['studentData', 'gender'], action.payload);
+            break;
+        case action_type_1.default.UpdateStudentLocation:
+            nextState = state.setIn(['studentData', 'location'], action.payload);
+            break;
+        case action_type_1.default.UpdateStudentGradeLevel:
+            nextState = state.setIn(['studentData', 'gradeLevel'], action.payload);
+            break;
+        case action_type_1.default.UpdateStudentPrevGradeLevel:
+            nextState = state.setIn(['studentData', 'prevGradeLevel'], action.payload);
+            break;
+        case action_type_1.default.UpdateStudentIEPStatus:
+            nextState = state.setIn(['studentData', 'iep'], action.payload);
+            break;
+        case action_type_1.default.UpdateStudentELLStatus:
+            nextState = state.setIn(['studentData', 'ell'], action.payload);
+            break;
+        case action_type_1.default.UpdateStudentAttendPercentage:
+            nextState = state.setIn(['studentData', 'attendancePercentage'], action.payload);
+            break;
+        case action_type_1.default.UpdateStudentCurrESProgram:
+            nextState = state.setIn(['studentData', 'currESProgramID'], action.payload);
+            break;
+        case action_type_1.default.UpdateStudentSiblingHSPrograms:
+            nextState = state.setIn(['studentData', 'siblingHSProgramIDs'], action.payload);
+            break;
+        case action_type_1.default.UpdateStudentSETestPercentile:
+            nextState = state.setIn(['studentData', 'seTestPercentile'], action.payload);
+            break;
+        case action_type_1.default.UpdateStudentNWEAPercentileMath:
+            nextState = state.setIn(['studentData', 'nweaPercentileMath'], action.payload);
+            break;
+        case action_type_1.default.UpdateStudentNWEAPercentileRead:
+            nextState = state.setIn(['studentData', 'nweaPercentileRead'], action.payload);
+            break;
+        case action_type_1.default.UpdateStudentSubjGradeMath:
+            nextState = state.setIn(['studentData', 'subjGradeMath'], action.payload);
+            break;
+        case action_type_1.default.UpdateStudentSubjGradeRead:
+            nextState = state.setIn(['studentData', 'subjGradeRead'], action.payload);
+            break;
+        case action_type_1.default.UpdateStudentSubjGradeSci:
+            nextState = state.setIn(['studentData', 'subjGradeSci'], action.payload);
+            break;
+        case action_type_1.default.UpdateStudentSubjGradeSocStudies:
+            nextState = state.setIn(['studentData', 'subjGradeSocStudies'], action.payload);
+            break;
+        case action_type_1.default.SelectHSProgram:
+            nextState = state.set('selectedHSProgramID', action.payload);
+            break;
+        default:
+            console.warn("No reducer for actiontype " + action.type);
+            nextState = state;
+    }
+    var updatedState = updateDependentProperties(nextState);
+    console.log(updatedState.toJS());
+    return updatedState;
+};
+exports.default = rootReducer;
 
 
 /***/ }),
-/* 229 */
+/* 231 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var gender_1 = __webpack_require__(105);
+var immutable_1 = __webpack_require__(232);
+var reducer_utils_1 = __webpack_require__(233);
+var data_access_1 = __webpack_require__(236);
+var allPrograms = data_access_1.getAllPrograms();
+var initialState = immutable_1.fromJS({
+    studentData: {
+        gender: gender_1.default.NOANSWER,
+        location: {
+            address: "",
+            tier: "",
+            geo: { latitude: 0, longitude: 0 },
+        },
+        gradeLevel: 0,
+        prevGradeLevel: 0,
+        iep: false,
+        ell: false,
+        attendancePercentage: 0,
+        gpa: 0,
+        currESProgramID: undefined,
+        siblingHSProgramIDs: [],
+        seTestPercentile: 0,
+        nweaPercentileMath: 0,
+        nweaPercentileRead: 0,
+        subjGradeMath: 0,
+        subjGradeRead: 0,
+        subjGradeSci: 0,
+        subjGradeSocStudies: 0,
+    },
+    selectedHSProgramID: null,
+    hsData: {
+        programs: immutable_1.List(allPrograms),
+        index: reducer_utils_1.createIndexByID(allPrograms),
+        hsProgramIDs: reducer_utils_1.getHSProgramIDs(allPrograms),
+        esProgramIDs: reducer_utils_1.getESProgramIDs(allPrograms),
+        hsProgramIDsByType: reducer_utils_1.getHSProgramIDsByType(allPrograms),
+        outcomes: reducer_utils_1.initializeOutcomes(allPrograms)
+    }
+});
+exports.default = initialState;
+
+
+/***/ }),
+/* 232 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+(function (global, factory) {
+   true ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global.Immutable = factory());
+}(this, function () { 'use strict';var SLICE$0 = Array.prototype.slice;
+
+  function createClass(ctor, superClass) {
+    if (superClass) {
+      ctor.prototype = Object.create(superClass.prototype);
+    }
+    ctor.prototype.constructor = ctor;
+  }
+
+  function Iterable(value) {
+      return isIterable(value) ? value : Seq(value);
+    }
+
+
+  createClass(KeyedIterable, Iterable);
+    function KeyedIterable(value) {
+      return isKeyed(value) ? value : KeyedSeq(value);
+    }
+
+
+  createClass(IndexedIterable, Iterable);
+    function IndexedIterable(value) {
+      return isIndexed(value) ? value : IndexedSeq(value);
+    }
+
+
+  createClass(SetIterable, Iterable);
+    function SetIterable(value) {
+      return isIterable(value) && !isAssociative(value) ? value : SetSeq(value);
+    }
+
+
+
+  function isIterable(maybeIterable) {
+    return !!(maybeIterable && maybeIterable[IS_ITERABLE_SENTINEL]);
+  }
+
+  function isKeyed(maybeKeyed) {
+    return !!(maybeKeyed && maybeKeyed[IS_KEYED_SENTINEL]);
+  }
+
+  function isIndexed(maybeIndexed) {
+    return !!(maybeIndexed && maybeIndexed[IS_INDEXED_SENTINEL]);
+  }
+
+  function isAssociative(maybeAssociative) {
+    return isKeyed(maybeAssociative) || isIndexed(maybeAssociative);
+  }
+
+  function isOrdered(maybeOrdered) {
+    return !!(maybeOrdered && maybeOrdered[IS_ORDERED_SENTINEL]);
+  }
+
+  Iterable.isIterable = isIterable;
+  Iterable.isKeyed = isKeyed;
+  Iterable.isIndexed = isIndexed;
+  Iterable.isAssociative = isAssociative;
+  Iterable.isOrdered = isOrdered;
+
+  Iterable.Keyed = KeyedIterable;
+  Iterable.Indexed = IndexedIterable;
+  Iterable.Set = SetIterable;
+
+
+  var IS_ITERABLE_SENTINEL = '@@__IMMUTABLE_ITERABLE__@@';
+  var IS_KEYED_SENTINEL = '@@__IMMUTABLE_KEYED__@@';
+  var IS_INDEXED_SENTINEL = '@@__IMMUTABLE_INDEXED__@@';
+  var IS_ORDERED_SENTINEL = '@@__IMMUTABLE_ORDERED__@@';
+
+  // Used for setting prototype methods that IE8 chokes on.
+  var DELETE = 'delete';
+
+  // Constants describing the size of trie nodes.
+  var SHIFT = 5; // Resulted in best performance after ______?
+  var SIZE = 1 << SHIFT;
+  var MASK = SIZE - 1;
+
+  // A consistent shared value representing "not set" which equals nothing other
+  // than itself, and nothing that could be provided externally.
+  var NOT_SET = {};
+
+  // Boolean references, Rough equivalent of `bool &`.
+  var CHANGE_LENGTH = { value: false };
+  var DID_ALTER = { value: false };
+
+  function MakeRef(ref) {
+    ref.value = false;
+    return ref;
+  }
+
+  function SetRef(ref) {
+    ref && (ref.value = true);
+  }
+
+  // A function which returns a value representing an "owner" for transient writes
+  // to tries. The return value will only ever equal itself, and will not equal
+  // the return of any subsequent call of this function.
+  function OwnerID() {}
+
+  // http://jsperf.com/copy-array-inline
+  function arrCopy(arr, offset) {
+    offset = offset || 0;
+    var len = Math.max(0, arr.length - offset);
+    var newArr = new Array(len);
+    for (var ii = 0; ii < len; ii++) {
+      newArr[ii] = arr[ii + offset];
+    }
+    return newArr;
+  }
+
+  function ensureSize(iter) {
+    if (iter.size === undefined) {
+      iter.size = iter.__iterate(returnTrue);
+    }
+    return iter.size;
+  }
+
+  function wrapIndex(iter, index) {
+    // This implements "is array index" which the ECMAString spec defines as:
+    //
+    //     A String property name P is an array index if and only if
+    //     ToString(ToUint32(P)) is equal to P and ToUint32(P) is not equal
+    //     to 2^32−1.
+    //
+    // http://www.ecma-international.org/ecma-262/6.0/#sec-array-exotic-objects
+    if (typeof index !== 'number') {
+      var uint32Index = index >>> 0; // N >>> 0 is shorthand for ToUint32
+      if ('' + uint32Index !== index || uint32Index === 4294967295) {
+        return NaN;
+      }
+      index = uint32Index;
+    }
+    return index < 0 ? ensureSize(iter) + index : index;
+  }
+
+  function returnTrue() {
+    return true;
+  }
+
+  function wholeSlice(begin, end, size) {
+    return (begin === 0 || (size !== undefined && begin <= -size)) &&
+      (end === undefined || (size !== undefined && end >= size));
+  }
+
+  function resolveBegin(begin, size) {
+    return resolveIndex(begin, size, 0);
+  }
+
+  function resolveEnd(end, size) {
+    return resolveIndex(end, size, size);
+  }
+
+  function resolveIndex(index, size, defaultIndex) {
+    return index === undefined ?
+      defaultIndex :
+      index < 0 ?
+        Math.max(0, size + index) :
+        size === undefined ?
+          index :
+          Math.min(size, index);
+  }
+
+  /* global Symbol */
+
+  var ITERATE_KEYS = 0;
+  var ITERATE_VALUES = 1;
+  var ITERATE_ENTRIES = 2;
+
+  var REAL_ITERATOR_SYMBOL = typeof Symbol === 'function' && Symbol.iterator;
+  var FAUX_ITERATOR_SYMBOL = '@@iterator';
+
+  var ITERATOR_SYMBOL = REAL_ITERATOR_SYMBOL || FAUX_ITERATOR_SYMBOL;
+
+
+  function Iterator(next) {
+      this.next = next;
+    }
+
+    Iterator.prototype.toString = function() {
+      return '[Iterator]';
+    };
+
+
+  Iterator.KEYS = ITERATE_KEYS;
+  Iterator.VALUES = ITERATE_VALUES;
+  Iterator.ENTRIES = ITERATE_ENTRIES;
+
+  Iterator.prototype.inspect =
+  Iterator.prototype.toSource = function () { return this.toString(); }
+  Iterator.prototype[ITERATOR_SYMBOL] = function () {
+    return this;
+  };
+
+
+  function iteratorValue(type, k, v, iteratorResult) {
+    var value = type === 0 ? k : type === 1 ? v : [k, v];
+    iteratorResult ? (iteratorResult.value = value) : (iteratorResult = {
+      value: value, done: false
+    });
+    return iteratorResult;
+  }
+
+  function iteratorDone() {
+    return { value: undefined, done: true };
+  }
+
+  function hasIterator(maybeIterable) {
+    return !!getIteratorFn(maybeIterable);
+  }
+
+  function isIterator(maybeIterator) {
+    return maybeIterator && typeof maybeIterator.next === 'function';
+  }
+
+  function getIterator(iterable) {
+    var iteratorFn = getIteratorFn(iterable);
+    return iteratorFn && iteratorFn.call(iterable);
+  }
+
+  function getIteratorFn(iterable) {
+    var iteratorFn = iterable && (
+      (REAL_ITERATOR_SYMBOL && iterable[REAL_ITERATOR_SYMBOL]) ||
+      iterable[FAUX_ITERATOR_SYMBOL]
+    );
+    if (typeof iteratorFn === 'function') {
+      return iteratorFn;
+    }
+  }
+
+  function isArrayLike(value) {
+    return value && typeof value.length === 'number';
+  }
+
+  createClass(Seq, Iterable);
+    function Seq(value) {
+      return value === null || value === undefined ? emptySequence() :
+        isIterable(value) ? value.toSeq() : seqFromValue(value);
+    }
+
+    Seq.of = function(/*...values*/) {
+      return Seq(arguments);
+    };
+
+    Seq.prototype.toSeq = function() {
+      return this;
+    };
+
+    Seq.prototype.toString = function() {
+      return this.__toString('Seq {', '}');
+    };
+
+    Seq.prototype.cacheResult = function() {
+      if (!this._cache && this.__iterateUncached) {
+        this._cache = this.entrySeq().toArray();
+        this.size = this._cache.length;
+      }
+      return this;
+    };
+
+    // abstract __iterateUncached(fn, reverse)
+
+    Seq.prototype.__iterate = function(fn, reverse) {
+      return seqIterate(this, fn, reverse, true);
+    };
+
+    // abstract __iteratorUncached(type, reverse)
+
+    Seq.prototype.__iterator = function(type, reverse) {
+      return seqIterator(this, type, reverse, true);
+    };
+
+
+
+  createClass(KeyedSeq, Seq);
+    function KeyedSeq(value) {
+      return value === null || value === undefined ?
+        emptySequence().toKeyedSeq() :
+        isIterable(value) ?
+          (isKeyed(value) ? value.toSeq() : value.fromEntrySeq()) :
+          keyedSeqFromValue(value);
+    }
+
+    KeyedSeq.prototype.toKeyedSeq = function() {
+      return this;
+    };
+
+
+
+  createClass(IndexedSeq, Seq);
+    function IndexedSeq(value) {
+      return value === null || value === undefined ? emptySequence() :
+        !isIterable(value) ? indexedSeqFromValue(value) :
+        isKeyed(value) ? value.entrySeq() : value.toIndexedSeq();
+    }
+
+    IndexedSeq.of = function(/*...values*/) {
+      return IndexedSeq(arguments);
+    };
+
+    IndexedSeq.prototype.toIndexedSeq = function() {
+      return this;
+    };
+
+    IndexedSeq.prototype.toString = function() {
+      return this.__toString('Seq [', ']');
+    };
+
+    IndexedSeq.prototype.__iterate = function(fn, reverse) {
+      return seqIterate(this, fn, reverse, false);
+    };
+
+    IndexedSeq.prototype.__iterator = function(type, reverse) {
+      return seqIterator(this, type, reverse, false);
+    };
+
+
+
+  createClass(SetSeq, Seq);
+    function SetSeq(value) {
+      return (
+        value === null || value === undefined ? emptySequence() :
+        !isIterable(value) ? indexedSeqFromValue(value) :
+        isKeyed(value) ? value.entrySeq() : value
+      ).toSetSeq();
+    }
+
+    SetSeq.of = function(/*...values*/) {
+      return SetSeq(arguments);
+    };
+
+    SetSeq.prototype.toSetSeq = function() {
+      return this;
+    };
+
+
+
+  Seq.isSeq = isSeq;
+  Seq.Keyed = KeyedSeq;
+  Seq.Set = SetSeq;
+  Seq.Indexed = IndexedSeq;
+
+  var IS_SEQ_SENTINEL = '@@__IMMUTABLE_SEQ__@@';
+
+  Seq.prototype[IS_SEQ_SENTINEL] = true;
+
+
+
+  createClass(ArraySeq, IndexedSeq);
+    function ArraySeq(array) {
+      this._array = array;
+      this.size = array.length;
+    }
+
+    ArraySeq.prototype.get = function(index, notSetValue) {
+      return this.has(index) ? this._array[wrapIndex(this, index)] : notSetValue;
+    };
+
+    ArraySeq.prototype.__iterate = function(fn, reverse) {
+      var array = this._array;
+      var maxIndex = array.length - 1;
+      for (var ii = 0; ii <= maxIndex; ii++) {
+        if (fn(array[reverse ? maxIndex - ii : ii], ii, this) === false) {
+          return ii + 1;
+        }
+      }
+      return ii;
+    };
+
+    ArraySeq.prototype.__iterator = function(type, reverse) {
+      var array = this._array;
+      var maxIndex = array.length - 1;
+      var ii = 0;
+      return new Iterator(function() 
+        {return ii > maxIndex ?
+          iteratorDone() :
+          iteratorValue(type, ii, array[reverse ? maxIndex - ii++ : ii++])}
+      );
+    };
+
+
+
+  createClass(ObjectSeq, KeyedSeq);
+    function ObjectSeq(object) {
+      var keys = Object.keys(object);
+      this._object = object;
+      this._keys = keys;
+      this.size = keys.length;
+    }
+
+    ObjectSeq.prototype.get = function(key, notSetValue) {
+      if (notSetValue !== undefined && !this.has(key)) {
+        return notSetValue;
+      }
+      return this._object[key];
+    };
+
+    ObjectSeq.prototype.has = function(key) {
+      return this._object.hasOwnProperty(key);
+    };
+
+    ObjectSeq.prototype.__iterate = function(fn, reverse) {
+      var object = this._object;
+      var keys = this._keys;
+      var maxIndex = keys.length - 1;
+      for (var ii = 0; ii <= maxIndex; ii++) {
+        var key = keys[reverse ? maxIndex - ii : ii];
+        if (fn(object[key], key, this) === false) {
+          return ii + 1;
+        }
+      }
+      return ii;
+    };
+
+    ObjectSeq.prototype.__iterator = function(type, reverse) {
+      var object = this._object;
+      var keys = this._keys;
+      var maxIndex = keys.length - 1;
+      var ii = 0;
+      return new Iterator(function()  {
+        var key = keys[reverse ? maxIndex - ii : ii];
+        return ii++ > maxIndex ?
+          iteratorDone() :
+          iteratorValue(type, key, object[key]);
+      });
+    };
+
+  ObjectSeq.prototype[IS_ORDERED_SENTINEL] = true;
+
+
+  createClass(IterableSeq, IndexedSeq);
+    function IterableSeq(iterable) {
+      this._iterable = iterable;
+      this.size = iterable.length || iterable.size;
+    }
+
+    IterableSeq.prototype.__iterateUncached = function(fn, reverse) {
+      if (reverse) {
+        return this.cacheResult().__iterate(fn, reverse);
+      }
+      var iterable = this._iterable;
+      var iterator = getIterator(iterable);
+      var iterations = 0;
+      if (isIterator(iterator)) {
+        var step;
+        while (!(step = iterator.next()).done) {
+          if (fn(step.value, iterations++, this) === false) {
+            break;
+          }
+        }
+      }
+      return iterations;
+    };
+
+    IterableSeq.prototype.__iteratorUncached = function(type, reverse) {
+      if (reverse) {
+        return this.cacheResult().__iterator(type, reverse);
+      }
+      var iterable = this._iterable;
+      var iterator = getIterator(iterable);
+      if (!isIterator(iterator)) {
+        return new Iterator(iteratorDone);
+      }
+      var iterations = 0;
+      return new Iterator(function()  {
+        var step = iterator.next();
+        return step.done ? step : iteratorValue(type, iterations++, step.value);
+      });
+    };
+
+
+
+  createClass(IteratorSeq, IndexedSeq);
+    function IteratorSeq(iterator) {
+      this._iterator = iterator;
+      this._iteratorCache = [];
+    }
+
+    IteratorSeq.prototype.__iterateUncached = function(fn, reverse) {
+      if (reverse) {
+        return this.cacheResult().__iterate(fn, reverse);
+      }
+      var iterator = this._iterator;
+      var cache = this._iteratorCache;
+      var iterations = 0;
+      while (iterations < cache.length) {
+        if (fn(cache[iterations], iterations++, this) === false) {
+          return iterations;
+        }
+      }
+      var step;
+      while (!(step = iterator.next()).done) {
+        var val = step.value;
+        cache[iterations] = val;
+        if (fn(val, iterations++, this) === false) {
+          break;
+        }
+      }
+      return iterations;
+    };
+
+    IteratorSeq.prototype.__iteratorUncached = function(type, reverse) {
+      if (reverse) {
+        return this.cacheResult().__iterator(type, reverse);
+      }
+      var iterator = this._iterator;
+      var cache = this._iteratorCache;
+      var iterations = 0;
+      return new Iterator(function()  {
+        if (iterations >= cache.length) {
+          var step = iterator.next();
+          if (step.done) {
+            return step;
+          }
+          cache[iterations] = step.value;
+        }
+        return iteratorValue(type, iterations, cache[iterations++]);
+      });
+    };
+
+
+
+
+  // # pragma Helper functions
+
+  function isSeq(maybeSeq) {
+    return !!(maybeSeq && maybeSeq[IS_SEQ_SENTINEL]);
+  }
+
+  var EMPTY_SEQ;
+
+  function emptySequence() {
+    return EMPTY_SEQ || (EMPTY_SEQ = new ArraySeq([]));
+  }
+
+  function keyedSeqFromValue(value) {
+    var seq =
+      Array.isArray(value) ? new ArraySeq(value).fromEntrySeq() :
+      isIterator(value) ? new IteratorSeq(value).fromEntrySeq() :
+      hasIterator(value) ? new IterableSeq(value).fromEntrySeq() :
+      typeof value === 'object' ? new ObjectSeq(value) :
+      undefined;
+    if (!seq) {
+      throw new TypeError(
+        'Expected Array or iterable object of [k, v] entries, '+
+        'or keyed object: ' + value
+      );
+    }
+    return seq;
+  }
+
+  function indexedSeqFromValue(value) {
+    var seq = maybeIndexedSeqFromValue(value);
+    if (!seq) {
+      throw new TypeError(
+        'Expected Array or iterable object of values: ' + value
+      );
+    }
+    return seq;
+  }
+
+  function seqFromValue(value) {
+    var seq = maybeIndexedSeqFromValue(value) ||
+      (typeof value === 'object' && new ObjectSeq(value));
+    if (!seq) {
+      throw new TypeError(
+        'Expected Array or iterable object of values, or keyed object: ' + value
+      );
+    }
+    return seq;
+  }
+
+  function maybeIndexedSeqFromValue(value) {
+    return (
+      isArrayLike(value) ? new ArraySeq(value) :
+      isIterator(value) ? new IteratorSeq(value) :
+      hasIterator(value) ? new IterableSeq(value) :
+      undefined
+    );
+  }
+
+  function seqIterate(seq, fn, reverse, useKeys) {
+    var cache = seq._cache;
+    if (cache) {
+      var maxIndex = cache.length - 1;
+      for (var ii = 0; ii <= maxIndex; ii++) {
+        var entry = cache[reverse ? maxIndex - ii : ii];
+        if (fn(entry[1], useKeys ? entry[0] : ii, seq) === false) {
+          return ii + 1;
+        }
+      }
+      return ii;
+    }
+    return seq.__iterateUncached(fn, reverse);
+  }
+
+  function seqIterator(seq, type, reverse, useKeys) {
+    var cache = seq._cache;
+    if (cache) {
+      var maxIndex = cache.length - 1;
+      var ii = 0;
+      return new Iterator(function()  {
+        var entry = cache[reverse ? maxIndex - ii : ii];
+        return ii++ > maxIndex ?
+          iteratorDone() :
+          iteratorValue(type, useKeys ? entry[0] : ii - 1, entry[1]);
+      });
+    }
+    return seq.__iteratorUncached(type, reverse);
+  }
+
+  function fromJS(json, converter) {
+    return converter ?
+      fromJSWith(converter, json, '', {'': json}) :
+      fromJSDefault(json);
+  }
+
+  function fromJSWith(converter, json, key, parentJSON) {
+    if (Array.isArray(json)) {
+      return converter.call(parentJSON, key, IndexedSeq(json).map(function(v, k)  {return fromJSWith(converter, v, k, json)}));
+    }
+    if (isPlainObj(json)) {
+      return converter.call(parentJSON, key, KeyedSeq(json).map(function(v, k)  {return fromJSWith(converter, v, k, json)}));
+    }
+    return json;
+  }
+
+  function fromJSDefault(json) {
+    if (Array.isArray(json)) {
+      return IndexedSeq(json).map(fromJSDefault).toList();
+    }
+    if (isPlainObj(json)) {
+      return KeyedSeq(json).map(fromJSDefault).toMap();
+    }
+    return json;
+  }
+
+  function isPlainObj(value) {
+    return value && (value.constructor === Object || value.constructor === undefined);
+  }
+
+  /**
+   * An extension of the "same-value" algorithm as [described for use by ES6 Map
+   * and Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map#Key_equality)
+   *
+   * NaN is considered the same as NaN, however -0 and 0 are considered the same
+   * value, which is different from the algorithm described by
+   * [`Object.is`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is).
+   *
+   * This is extended further to allow Objects to describe the values they
+   * represent, by way of `valueOf` or `equals` (and `hashCode`).
+   *
+   * Note: because of this extension, the key equality of Immutable.Map and the
+   * value equality of Immutable.Set will differ from ES6 Map and Set.
+   *
+   * ### Defining custom values
+   *
+   * The easiest way to describe the value an object represents is by implementing
+   * `valueOf`. For example, `Date` represents a value by returning a unix
+   * timestamp for `valueOf`:
+   *
+   *     var date1 = new Date(1234567890000); // Fri Feb 13 2009 ...
+   *     var date2 = new Date(1234567890000);
+   *     date1.valueOf(); // 1234567890000
+   *     assert( date1 !== date2 );
+   *     assert( Immutable.is( date1, date2 ) );
+   *
+   * Note: overriding `valueOf` may have other implications if you use this object
+   * where JavaScript expects a primitive, such as implicit string coercion.
+   *
+   * For more complex types, especially collections, implementing `valueOf` may
+   * not be performant. An alternative is to implement `equals` and `hashCode`.
+   *
+   * `equals` takes another object, presumably of similar type, and returns true
+   * if the it is equal. Equality is symmetrical, so the same result should be
+   * returned if this and the argument are flipped.
+   *
+   *     assert( a.equals(b) === b.equals(a) );
+   *
+   * `hashCode` returns a 32bit integer number representing the object which will
+   * be used to determine how to store the value object in a Map or Set. You must
+   * provide both or neither methods, one must not exist without the other.
+   *
+   * Also, an important relationship between these methods must be upheld: if two
+   * values are equal, they *must* return the same hashCode. If the values are not
+   * equal, they might have the same hashCode; this is called a hash collision,
+   * and while undesirable for performance reasons, it is acceptable.
+   *
+   *     if (a.equals(b)) {
+   *       assert( a.hashCode() === b.hashCode() );
+   *     }
+   *
+   * All Immutable collections implement `equals` and `hashCode`.
+   *
+   */
+  function is(valueA, valueB) {
+    if (valueA === valueB || (valueA !== valueA && valueB !== valueB)) {
+      return true;
+    }
+    if (!valueA || !valueB) {
+      return false;
+    }
+    if (typeof valueA.valueOf === 'function' &&
+        typeof valueB.valueOf === 'function') {
+      valueA = valueA.valueOf();
+      valueB = valueB.valueOf();
+      if (valueA === valueB || (valueA !== valueA && valueB !== valueB)) {
+        return true;
+      }
+      if (!valueA || !valueB) {
+        return false;
+      }
+    }
+    if (typeof valueA.equals === 'function' &&
+        typeof valueB.equals === 'function' &&
+        valueA.equals(valueB)) {
+      return true;
+    }
+    return false;
+  }
+
+  function deepEqual(a, b) {
+    if (a === b) {
+      return true;
+    }
+
+    if (
+      !isIterable(b) ||
+      a.size !== undefined && b.size !== undefined && a.size !== b.size ||
+      a.__hash !== undefined && b.__hash !== undefined && a.__hash !== b.__hash ||
+      isKeyed(a) !== isKeyed(b) ||
+      isIndexed(a) !== isIndexed(b) ||
+      isOrdered(a) !== isOrdered(b)
+    ) {
+      return false;
+    }
+
+    if (a.size === 0 && b.size === 0) {
+      return true;
+    }
+
+    var notAssociative = !isAssociative(a);
+
+    if (isOrdered(a)) {
+      var entries = a.entries();
+      return b.every(function(v, k)  {
+        var entry = entries.next().value;
+        return entry && is(entry[1], v) && (notAssociative || is(entry[0], k));
+      }) && entries.next().done;
+    }
+
+    var flipped = false;
+
+    if (a.size === undefined) {
+      if (b.size === undefined) {
+        if (typeof a.cacheResult === 'function') {
+          a.cacheResult();
+        }
+      } else {
+        flipped = true;
+        var _ = a;
+        a = b;
+        b = _;
+      }
+    }
+
+    var allEqual = true;
+    var bSize = b.__iterate(function(v, k)  {
+      if (notAssociative ? !a.has(v) :
+          flipped ? !is(v, a.get(k, NOT_SET)) : !is(a.get(k, NOT_SET), v)) {
+        allEqual = false;
+        return false;
+      }
+    });
+
+    return allEqual && a.size === bSize;
+  }
+
+  createClass(Repeat, IndexedSeq);
+
+    function Repeat(value, times) {
+      if (!(this instanceof Repeat)) {
+        return new Repeat(value, times);
+      }
+      this._value = value;
+      this.size = times === undefined ? Infinity : Math.max(0, times);
+      if (this.size === 0) {
+        if (EMPTY_REPEAT) {
+          return EMPTY_REPEAT;
+        }
+        EMPTY_REPEAT = this;
+      }
+    }
+
+    Repeat.prototype.toString = function() {
+      if (this.size === 0) {
+        return 'Repeat []';
+      }
+      return 'Repeat [ ' + this._value + ' ' + this.size + ' times ]';
+    };
+
+    Repeat.prototype.get = function(index, notSetValue) {
+      return this.has(index) ? this._value : notSetValue;
+    };
+
+    Repeat.prototype.includes = function(searchValue) {
+      return is(this._value, searchValue);
+    };
+
+    Repeat.prototype.slice = function(begin, end) {
+      var size = this.size;
+      return wholeSlice(begin, end, size) ? this :
+        new Repeat(this._value, resolveEnd(end, size) - resolveBegin(begin, size));
+    };
+
+    Repeat.prototype.reverse = function() {
+      return this;
+    };
+
+    Repeat.prototype.indexOf = function(searchValue) {
+      if (is(this._value, searchValue)) {
+        return 0;
+      }
+      return -1;
+    };
+
+    Repeat.prototype.lastIndexOf = function(searchValue) {
+      if (is(this._value, searchValue)) {
+        return this.size;
+      }
+      return -1;
+    };
+
+    Repeat.prototype.__iterate = function(fn, reverse) {
+      for (var ii = 0; ii < this.size; ii++) {
+        if (fn(this._value, ii, this) === false) {
+          return ii + 1;
+        }
+      }
+      return ii;
+    };
+
+    Repeat.prototype.__iterator = function(type, reverse) {var this$0 = this;
+      var ii = 0;
+      return new Iterator(function() 
+        {return ii < this$0.size ? iteratorValue(type, ii++, this$0._value) : iteratorDone()}
+      );
+    };
+
+    Repeat.prototype.equals = function(other) {
+      return other instanceof Repeat ?
+        is(this._value, other._value) :
+        deepEqual(other);
+    };
+
+
+  var EMPTY_REPEAT;
+
+  function invariant(condition, error) {
+    if (!condition) throw new Error(error);
+  }
+
+  createClass(Range, IndexedSeq);
+
+    function Range(start, end, step) {
+      if (!(this instanceof Range)) {
+        return new Range(start, end, step);
+      }
+      invariant(step !== 0, 'Cannot step a Range by 0');
+      start = start || 0;
+      if (end === undefined) {
+        end = Infinity;
+      }
+      step = step === undefined ? 1 : Math.abs(step);
+      if (end < start) {
+        step = -step;
+      }
+      this._start = start;
+      this._end = end;
+      this._step = step;
+      this.size = Math.max(0, Math.ceil((end - start) / step - 1) + 1);
+      if (this.size === 0) {
+        if (EMPTY_RANGE) {
+          return EMPTY_RANGE;
+        }
+        EMPTY_RANGE = this;
+      }
+    }
+
+    Range.prototype.toString = function() {
+      if (this.size === 0) {
+        return 'Range []';
+      }
+      return 'Range [ ' +
+        this._start + '...' + this._end +
+        (this._step !== 1 ? ' by ' + this._step : '') +
+      ' ]';
+    };
+
+    Range.prototype.get = function(index, notSetValue) {
+      return this.has(index) ?
+        this._start + wrapIndex(this, index) * this._step :
+        notSetValue;
+    };
+
+    Range.prototype.includes = function(searchValue) {
+      var possibleIndex = (searchValue - this._start) / this._step;
+      return possibleIndex >= 0 &&
+        possibleIndex < this.size &&
+        possibleIndex === Math.floor(possibleIndex);
+    };
+
+    Range.prototype.slice = function(begin, end) {
+      if (wholeSlice(begin, end, this.size)) {
+        return this;
+      }
+      begin = resolveBegin(begin, this.size);
+      end = resolveEnd(end, this.size);
+      if (end <= begin) {
+        return new Range(0, 0);
+      }
+      return new Range(this.get(begin, this._end), this.get(end, this._end), this._step);
+    };
+
+    Range.prototype.indexOf = function(searchValue) {
+      var offsetValue = searchValue - this._start;
+      if (offsetValue % this._step === 0) {
+        var index = offsetValue / this._step;
+        if (index >= 0 && index < this.size) {
+          return index
+        }
+      }
+      return -1;
+    };
+
+    Range.prototype.lastIndexOf = function(searchValue) {
+      return this.indexOf(searchValue);
+    };
+
+    Range.prototype.__iterate = function(fn, reverse) {
+      var maxIndex = this.size - 1;
+      var step = this._step;
+      var value = reverse ? this._start + maxIndex * step : this._start;
+      for (var ii = 0; ii <= maxIndex; ii++) {
+        if (fn(value, ii, this) === false) {
+          return ii + 1;
+        }
+        value += reverse ? -step : step;
+      }
+      return ii;
+    };
+
+    Range.prototype.__iterator = function(type, reverse) {
+      var maxIndex = this.size - 1;
+      var step = this._step;
+      var value = reverse ? this._start + maxIndex * step : this._start;
+      var ii = 0;
+      return new Iterator(function()  {
+        var v = value;
+        value += reverse ? -step : step;
+        return ii > maxIndex ? iteratorDone() : iteratorValue(type, ii++, v);
+      });
+    };
+
+    Range.prototype.equals = function(other) {
+      return other instanceof Range ?
+        this._start === other._start &&
+        this._end === other._end &&
+        this._step === other._step :
+        deepEqual(this, other);
+    };
+
+
+  var EMPTY_RANGE;
+
+  createClass(Collection, Iterable);
+    function Collection() {
+      throw TypeError('Abstract');
+    }
+
+
+  createClass(KeyedCollection, Collection);function KeyedCollection() {}
+
+  createClass(IndexedCollection, Collection);function IndexedCollection() {}
+
+  createClass(SetCollection, Collection);function SetCollection() {}
+
+
+  Collection.Keyed = KeyedCollection;
+  Collection.Indexed = IndexedCollection;
+  Collection.Set = SetCollection;
+
+  var imul =
+    typeof Math.imul === 'function' && Math.imul(0xffffffff, 2) === -2 ?
+    Math.imul :
+    function imul(a, b) {
+      a = a | 0; // int
+      b = b | 0; // int
+      var c = a & 0xffff;
+      var d = b & 0xffff;
+      // Shift by 0 fixes the sign on the high part.
+      return (c * d) + ((((a >>> 16) * d + c * (b >>> 16)) << 16) >>> 0) | 0; // int
+    };
+
+  // v8 has an optimization for storing 31-bit signed numbers.
+  // Values which have either 00 or 11 as the high order bits qualify.
+  // This function drops the highest order bit in a signed number, maintaining
+  // the sign bit.
+  function smi(i32) {
+    return ((i32 >>> 1) & 0x40000000) | (i32 & 0xBFFFFFFF);
+  }
+
+  function hash(o) {
+    if (o === false || o === null || o === undefined) {
+      return 0;
+    }
+    if (typeof o.valueOf === 'function') {
+      o = o.valueOf();
+      if (o === false || o === null || o === undefined) {
+        return 0;
+      }
+    }
+    if (o === true) {
+      return 1;
+    }
+    var type = typeof o;
+    if (type === 'number') {
+      if (o !== o || o === Infinity) {
+        return 0;
+      }
+      var h = o | 0;
+      if (h !== o) {
+        h ^= o * 0xFFFFFFFF;
+      }
+      while (o > 0xFFFFFFFF) {
+        o /= 0xFFFFFFFF;
+        h ^= o;
+      }
+      return smi(h);
+    }
+    if (type === 'string') {
+      return o.length > STRING_HASH_CACHE_MIN_STRLEN ? cachedHashString(o) : hashString(o);
+    }
+    if (typeof o.hashCode === 'function') {
+      return o.hashCode();
+    }
+    if (type === 'object') {
+      return hashJSObj(o);
+    }
+    if (typeof o.toString === 'function') {
+      return hashString(o.toString());
+    }
+    throw new Error('Value type ' + type + ' cannot be hashed.');
+  }
+
+  function cachedHashString(string) {
+    var hash = stringHashCache[string];
+    if (hash === undefined) {
+      hash = hashString(string);
+      if (STRING_HASH_CACHE_SIZE === STRING_HASH_CACHE_MAX_SIZE) {
+        STRING_HASH_CACHE_SIZE = 0;
+        stringHashCache = {};
+      }
+      STRING_HASH_CACHE_SIZE++;
+      stringHashCache[string] = hash;
+    }
+    return hash;
+  }
+
+  // http://jsperf.com/hashing-strings
+  function hashString(string) {
+    // This is the hash from JVM
+    // The hash code for a string is computed as
+    // s[0] * 31 ^ (n - 1) + s[1] * 31 ^ (n - 2) + ... + s[n - 1],
+    // where s[i] is the ith character of the string and n is the length of
+    // the string. We "mod" the result to make it between 0 (inclusive) and 2^31
+    // (exclusive) by dropping high bits.
+    var hash = 0;
+    for (var ii = 0; ii < string.length; ii++) {
+      hash = 31 * hash + string.charCodeAt(ii) | 0;
+    }
+    return smi(hash);
+  }
+
+  function hashJSObj(obj) {
+    var hash;
+    if (usingWeakMap) {
+      hash = weakMap.get(obj);
+      if (hash !== undefined) {
+        return hash;
+      }
+    }
+
+    hash = obj[UID_HASH_KEY];
+    if (hash !== undefined) {
+      return hash;
+    }
+
+    if (!canDefineProperty) {
+      hash = obj.propertyIsEnumerable && obj.propertyIsEnumerable[UID_HASH_KEY];
+      if (hash !== undefined) {
+        return hash;
+      }
+
+      hash = getIENodeHash(obj);
+      if (hash !== undefined) {
+        return hash;
+      }
+    }
+
+    hash = ++objHashUID;
+    if (objHashUID & 0x40000000) {
+      objHashUID = 0;
+    }
+
+    if (usingWeakMap) {
+      weakMap.set(obj, hash);
+    } else if (isExtensible !== undefined && isExtensible(obj) === false) {
+      throw new Error('Non-extensible objects are not allowed as keys.');
+    } else if (canDefineProperty) {
+      Object.defineProperty(obj, UID_HASH_KEY, {
+        'enumerable': false,
+        'configurable': false,
+        'writable': false,
+        'value': hash
+      });
+    } else if (obj.propertyIsEnumerable !== undefined &&
+               obj.propertyIsEnumerable === obj.constructor.prototype.propertyIsEnumerable) {
+      // Since we can't define a non-enumerable property on the object
+      // we'll hijack one of the less-used non-enumerable properties to
+      // save our hash on it. Since this is a function it will not show up in
+      // `JSON.stringify` which is what we want.
+      obj.propertyIsEnumerable = function() {
+        return this.constructor.prototype.propertyIsEnumerable.apply(this, arguments);
+      };
+      obj.propertyIsEnumerable[UID_HASH_KEY] = hash;
+    } else if (obj.nodeType !== undefined) {
+      // At this point we couldn't get the IE `uniqueID` to use as a hash
+      // and we couldn't use a non-enumerable property to exploit the
+      // dontEnum bug so we simply add the `UID_HASH_KEY` on the node
+      // itself.
+      obj[UID_HASH_KEY] = hash;
+    } else {
+      throw new Error('Unable to set a non-enumerable property on object.');
+    }
+
+    return hash;
+  }
+
+  // Get references to ES5 object methods.
+  var isExtensible = Object.isExtensible;
+
+  // True if Object.defineProperty works as expected. IE8 fails this test.
+  var canDefineProperty = (function() {
+    try {
+      Object.defineProperty({}, '@', {});
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }());
+
+  // IE has a `uniqueID` property on DOM nodes. We can construct the hash from it
+  // and avoid memory leaks from the IE cloneNode bug.
+  function getIENodeHash(node) {
+    if (node && node.nodeType > 0) {
+      switch (node.nodeType) {
+        case 1: // Element
+          return node.uniqueID;
+        case 9: // Document
+          return node.documentElement && node.documentElement.uniqueID;
+      }
+    }
+  }
+
+  // If possible, use a WeakMap.
+  var usingWeakMap = typeof WeakMap === 'function';
+  var weakMap;
+  if (usingWeakMap) {
+    weakMap = new WeakMap();
+  }
+
+  var objHashUID = 0;
+
+  var UID_HASH_KEY = '__immutablehash__';
+  if (typeof Symbol === 'function') {
+    UID_HASH_KEY = Symbol(UID_HASH_KEY);
+  }
+
+  var STRING_HASH_CACHE_MIN_STRLEN = 16;
+  var STRING_HASH_CACHE_MAX_SIZE = 255;
+  var STRING_HASH_CACHE_SIZE = 0;
+  var stringHashCache = {};
+
+  function assertNotInfinite(size) {
+    invariant(
+      size !== Infinity,
+      'Cannot perform this action with an infinite size.'
+    );
+  }
+
+  createClass(Map, KeyedCollection);
+
+    // @pragma Construction
+
+    function Map(value) {
+      return value === null || value === undefined ? emptyMap() :
+        isMap(value) && !isOrdered(value) ? value :
+        emptyMap().withMutations(function(map ) {
+          var iter = KeyedIterable(value);
+          assertNotInfinite(iter.size);
+          iter.forEach(function(v, k)  {return map.set(k, v)});
+        });
+    }
+
+    Map.of = function() {var keyValues = SLICE$0.call(arguments, 0);
+      return emptyMap().withMutations(function(map ) {
+        for (var i = 0; i < keyValues.length; i += 2) {
+          if (i + 1 >= keyValues.length) {
+            throw new Error('Missing value for key: ' + keyValues[i]);
+          }
+          map.set(keyValues[i], keyValues[i + 1]);
+        }
+      });
+    };
+
+    Map.prototype.toString = function() {
+      return this.__toString('Map {', '}');
+    };
+
+    // @pragma Access
+
+    Map.prototype.get = function(k, notSetValue) {
+      return this._root ?
+        this._root.get(0, undefined, k, notSetValue) :
+        notSetValue;
+    };
+
+    // @pragma Modification
+
+    Map.prototype.set = function(k, v) {
+      return updateMap(this, k, v);
+    };
+
+    Map.prototype.setIn = function(keyPath, v) {
+      return this.updateIn(keyPath, NOT_SET, function()  {return v});
+    };
+
+    Map.prototype.remove = function(k) {
+      return updateMap(this, k, NOT_SET);
+    };
+
+    Map.prototype.deleteIn = function(keyPath) {
+      return this.updateIn(keyPath, function()  {return NOT_SET});
+    };
+
+    Map.prototype.update = function(k, notSetValue, updater) {
+      return arguments.length === 1 ?
+        k(this) :
+        this.updateIn([k], notSetValue, updater);
+    };
+
+    Map.prototype.updateIn = function(keyPath, notSetValue, updater) {
+      if (!updater) {
+        updater = notSetValue;
+        notSetValue = undefined;
+      }
+      var updatedValue = updateInDeepMap(
+        this,
+        forceIterator(keyPath),
+        notSetValue,
+        updater
+      );
+      return updatedValue === NOT_SET ? undefined : updatedValue;
+    };
+
+    Map.prototype.clear = function() {
+      if (this.size === 0) {
+        return this;
+      }
+      if (this.__ownerID) {
+        this.size = 0;
+        this._root = null;
+        this.__hash = undefined;
+        this.__altered = true;
+        return this;
+      }
+      return emptyMap();
+    };
+
+    // @pragma Composition
+
+    Map.prototype.merge = function(/*...iters*/) {
+      return mergeIntoMapWith(this, undefined, arguments);
+    };
+
+    Map.prototype.mergeWith = function(merger) {var iters = SLICE$0.call(arguments, 1);
+      return mergeIntoMapWith(this, merger, iters);
+    };
+
+    Map.prototype.mergeIn = function(keyPath) {var iters = SLICE$0.call(arguments, 1);
+      return this.updateIn(
+        keyPath,
+        emptyMap(),
+        function(m ) {return typeof m.merge === 'function' ?
+          m.merge.apply(m, iters) :
+          iters[iters.length - 1]}
+      );
+    };
+
+    Map.prototype.mergeDeep = function(/*...iters*/) {
+      return mergeIntoMapWith(this, deepMerger, arguments);
+    };
+
+    Map.prototype.mergeDeepWith = function(merger) {var iters = SLICE$0.call(arguments, 1);
+      return mergeIntoMapWith(this, deepMergerWith(merger), iters);
+    };
+
+    Map.prototype.mergeDeepIn = function(keyPath) {var iters = SLICE$0.call(arguments, 1);
+      return this.updateIn(
+        keyPath,
+        emptyMap(),
+        function(m ) {return typeof m.mergeDeep === 'function' ?
+          m.mergeDeep.apply(m, iters) :
+          iters[iters.length - 1]}
+      );
+    };
+
+    Map.prototype.sort = function(comparator) {
+      // Late binding
+      return OrderedMap(sortFactory(this, comparator));
+    };
+
+    Map.prototype.sortBy = function(mapper, comparator) {
+      // Late binding
+      return OrderedMap(sortFactory(this, comparator, mapper));
+    };
+
+    // @pragma Mutability
+
+    Map.prototype.withMutations = function(fn) {
+      var mutable = this.asMutable();
+      fn(mutable);
+      return mutable.wasAltered() ? mutable.__ensureOwner(this.__ownerID) : this;
+    };
+
+    Map.prototype.asMutable = function() {
+      return this.__ownerID ? this : this.__ensureOwner(new OwnerID());
+    };
+
+    Map.prototype.asImmutable = function() {
+      return this.__ensureOwner();
+    };
+
+    Map.prototype.wasAltered = function() {
+      return this.__altered;
+    };
+
+    Map.prototype.__iterator = function(type, reverse) {
+      return new MapIterator(this, type, reverse);
+    };
+
+    Map.prototype.__iterate = function(fn, reverse) {var this$0 = this;
+      var iterations = 0;
+      this._root && this._root.iterate(function(entry ) {
+        iterations++;
+        return fn(entry[1], entry[0], this$0);
+      }, reverse);
+      return iterations;
+    };
+
+    Map.prototype.__ensureOwner = function(ownerID) {
+      if (ownerID === this.__ownerID) {
+        return this;
+      }
+      if (!ownerID) {
+        this.__ownerID = ownerID;
+        this.__altered = false;
+        return this;
+      }
+      return makeMap(this.size, this._root, ownerID, this.__hash);
+    };
+
+
+  function isMap(maybeMap) {
+    return !!(maybeMap && maybeMap[IS_MAP_SENTINEL]);
+  }
+
+  Map.isMap = isMap;
+
+  var IS_MAP_SENTINEL = '@@__IMMUTABLE_MAP__@@';
+
+  var MapPrototype = Map.prototype;
+  MapPrototype[IS_MAP_SENTINEL] = true;
+  MapPrototype[DELETE] = MapPrototype.remove;
+  MapPrototype.removeIn = MapPrototype.deleteIn;
+
+
+  // #pragma Trie Nodes
+
+
+
+    function ArrayMapNode(ownerID, entries) {
+      this.ownerID = ownerID;
+      this.entries = entries;
+    }
+
+    ArrayMapNode.prototype.get = function(shift, keyHash, key, notSetValue) {
+      var entries = this.entries;
+      for (var ii = 0, len = entries.length; ii < len; ii++) {
+        if (is(key, entries[ii][0])) {
+          return entries[ii][1];
+        }
+      }
+      return notSetValue;
+    };
+
+    ArrayMapNode.prototype.update = function(ownerID, shift, keyHash, key, value, didChangeSize, didAlter) {
+      var removed = value === NOT_SET;
+
+      var entries = this.entries;
+      var idx = 0;
+      for (var len = entries.length; idx < len; idx++) {
+        if (is(key, entries[idx][0])) {
+          break;
+        }
+      }
+      var exists = idx < len;
+
+      if (exists ? entries[idx][1] === value : removed) {
+        return this;
+      }
+
+      SetRef(didAlter);
+      (removed || !exists) && SetRef(didChangeSize);
+
+      if (removed && entries.length === 1) {
+        return; // undefined
+      }
+
+      if (!exists && !removed && entries.length >= MAX_ARRAY_MAP_SIZE) {
+        return createNodes(ownerID, entries, key, value);
+      }
+
+      var isEditable = ownerID && ownerID === this.ownerID;
+      var newEntries = isEditable ? entries : arrCopy(entries);
+
+      if (exists) {
+        if (removed) {
+          idx === len - 1 ? newEntries.pop() : (newEntries[idx] = newEntries.pop());
+        } else {
+          newEntries[idx] = [key, value];
+        }
+      } else {
+        newEntries.push([key, value]);
+      }
+
+      if (isEditable) {
+        this.entries = newEntries;
+        return this;
+      }
+
+      return new ArrayMapNode(ownerID, newEntries);
+    };
+
+
+
+
+    function BitmapIndexedNode(ownerID, bitmap, nodes) {
+      this.ownerID = ownerID;
+      this.bitmap = bitmap;
+      this.nodes = nodes;
+    }
+
+    BitmapIndexedNode.prototype.get = function(shift, keyHash, key, notSetValue) {
+      if (keyHash === undefined) {
+        keyHash = hash(key);
+      }
+      var bit = (1 << ((shift === 0 ? keyHash : keyHash >>> shift) & MASK));
+      var bitmap = this.bitmap;
+      return (bitmap & bit) === 0 ? notSetValue :
+        this.nodes[popCount(bitmap & (bit - 1))].get(shift + SHIFT, keyHash, key, notSetValue);
+    };
+
+    BitmapIndexedNode.prototype.update = function(ownerID, shift, keyHash, key, value, didChangeSize, didAlter) {
+      if (keyHash === undefined) {
+        keyHash = hash(key);
+      }
+      var keyHashFrag = (shift === 0 ? keyHash : keyHash >>> shift) & MASK;
+      var bit = 1 << keyHashFrag;
+      var bitmap = this.bitmap;
+      var exists = (bitmap & bit) !== 0;
+
+      if (!exists && value === NOT_SET) {
+        return this;
+      }
+
+      var idx = popCount(bitmap & (bit - 1));
+      var nodes = this.nodes;
+      var node = exists ? nodes[idx] : undefined;
+      var newNode = updateNode(node, ownerID, shift + SHIFT, keyHash, key, value, didChangeSize, didAlter);
+
+      if (newNode === node) {
+        return this;
+      }
+
+      if (!exists && newNode && nodes.length >= MAX_BITMAP_INDEXED_SIZE) {
+        return expandNodes(ownerID, nodes, bitmap, keyHashFrag, newNode);
+      }
+
+      if (exists && !newNode && nodes.length === 2 && isLeafNode(nodes[idx ^ 1])) {
+        return nodes[idx ^ 1];
+      }
+
+      if (exists && newNode && nodes.length === 1 && isLeafNode(newNode)) {
+        return newNode;
+      }
+
+      var isEditable = ownerID && ownerID === this.ownerID;
+      var newBitmap = exists ? newNode ? bitmap : bitmap ^ bit : bitmap | bit;
+      var newNodes = exists ? newNode ?
+        setIn(nodes, idx, newNode, isEditable) :
+        spliceOut(nodes, idx, isEditable) :
+        spliceIn(nodes, idx, newNode, isEditable);
+
+      if (isEditable) {
+        this.bitmap = newBitmap;
+        this.nodes = newNodes;
+        return this;
+      }
+
+      return new BitmapIndexedNode(ownerID, newBitmap, newNodes);
+    };
+
+
+
+
+    function HashArrayMapNode(ownerID, count, nodes) {
+      this.ownerID = ownerID;
+      this.count = count;
+      this.nodes = nodes;
+    }
+
+    HashArrayMapNode.prototype.get = function(shift, keyHash, key, notSetValue) {
+      if (keyHash === undefined) {
+        keyHash = hash(key);
+      }
+      var idx = (shift === 0 ? keyHash : keyHash >>> shift) & MASK;
+      var node = this.nodes[idx];
+      return node ? node.get(shift + SHIFT, keyHash, key, notSetValue) : notSetValue;
+    };
+
+    HashArrayMapNode.prototype.update = function(ownerID, shift, keyHash, key, value, didChangeSize, didAlter) {
+      if (keyHash === undefined) {
+        keyHash = hash(key);
+      }
+      var idx = (shift === 0 ? keyHash : keyHash >>> shift) & MASK;
+      var removed = value === NOT_SET;
+      var nodes = this.nodes;
+      var node = nodes[idx];
+
+      if (removed && !node) {
+        return this;
+      }
+
+      var newNode = updateNode(node, ownerID, shift + SHIFT, keyHash, key, value, didChangeSize, didAlter);
+      if (newNode === node) {
+        return this;
+      }
+
+      var newCount = this.count;
+      if (!node) {
+        newCount++;
+      } else if (!newNode) {
+        newCount--;
+        if (newCount < MIN_HASH_ARRAY_MAP_SIZE) {
+          return packNodes(ownerID, nodes, newCount, idx);
+        }
+      }
+
+      var isEditable = ownerID && ownerID === this.ownerID;
+      var newNodes = setIn(nodes, idx, newNode, isEditable);
+
+      if (isEditable) {
+        this.count = newCount;
+        this.nodes = newNodes;
+        return this;
+      }
+
+      return new HashArrayMapNode(ownerID, newCount, newNodes);
+    };
+
+
+
+
+    function HashCollisionNode(ownerID, keyHash, entries) {
+      this.ownerID = ownerID;
+      this.keyHash = keyHash;
+      this.entries = entries;
+    }
+
+    HashCollisionNode.prototype.get = function(shift, keyHash, key, notSetValue) {
+      var entries = this.entries;
+      for (var ii = 0, len = entries.length; ii < len; ii++) {
+        if (is(key, entries[ii][0])) {
+          return entries[ii][1];
+        }
+      }
+      return notSetValue;
+    };
+
+    HashCollisionNode.prototype.update = function(ownerID, shift, keyHash, key, value, didChangeSize, didAlter) {
+      if (keyHash === undefined) {
+        keyHash = hash(key);
+      }
+
+      var removed = value === NOT_SET;
+
+      if (keyHash !== this.keyHash) {
+        if (removed) {
+          return this;
+        }
+        SetRef(didAlter);
+        SetRef(didChangeSize);
+        return mergeIntoNode(this, ownerID, shift, keyHash, [key, value]);
+      }
+
+      var entries = this.entries;
+      var idx = 0;
+      for (var len = entries.length; idx < len; idx++) {
+        if (is(key, entries[idx][0])) {
+          break;
+        }
+      }
+      var exists = idx < len;
+
+      if (exists ? entries[idx][1] === value : removed) {
+        return this;
+      }
+
+      SetRef(didAlter);
+      (removed || !exists) && SetRef(didChangeSize);
+
+      if (removed && len === 2) {
+        return new ValueNode(ownerID, this.keyHash, entries[idx ^ 1]);
+      }
+
+      var isEditable = ownerID && ownerID === this.ownerID;
+      var newEntries = isEditable ? entries : arrCopy(entries);
+
+      if (exists) {
+        if (removed) {
+          idx === len - 1 ? newEntries.pop() : (newEntries[idx] = newEntries.pop());
+        } else {
+          newEntries[idx] = [key, value];
+        }
+      } else {
+        newEntries.push([key, value]);
+      }
+
+      if (isEditable) {
+        this.entries = newEntries;
+        return this;
+      }
+
+      return new HashCollisionNode(ownerID, this.keyHash, newEntries);
+    };
+
+
+
+
+    function ValueNode(ownerID, keyHash, entry) {
+      this.ownerID = ownerID;
+      this.keyHash = keyHash;
+      this.entry = entry;
+    }
+
+    ValueNode.prototype.get = function(shift, keyHash, key, notSetValue) {
+      return is(key, this.entry[0]) ? this.entry[1] : notSetValue;
+    };
+
+    ValueNode.prototype.update = function(ownerID, shift, keyHash, key, value, didChangeSize, didAlter) {
+      var removed = value === NOT_SET;
+      var keyMatch = is(key, this.entry[0]);
+      if (keyMatch ? value === this.entry[1] : removed) {
+        return this;
+      }
+
+      SetRef(didAlter);
+
+      if (removed) {
+        SetRef(didChangeSize);
+        return; // undefined
+      }
+
+      if (keyMatch) {
+        if (ownerID && ownerID === this.ownerID) {
+          this.entry[1] = value;
+          return this;
+        }
+        return new ValueNode(ownerID, this.keyHash, [key, value]);
+      }
+
+      SetRef(didChangeSize);
+      return mergeIntoNode(this, ownerID, shift, hash(key), [key, value]);
+    };
+
+
+
+  // #pragma Iterators
+
+  ArrayMapNode.prototype.iterate =
+  HashCollisionNode.prototype.iterate = function (fn, reverse) {
+    var entries = this.entries;
+    for (var ii = 0, maxIndex = entries.length - 1; ii <= maxIndex; ii++) {
+      if (fn(entries[reverse ? maxIndex - ii : ii]) === false) {
+        return false;
+      }
+    }
+  }
+
+  BitmapIndexedNode.prototype.iterate =
+  HashArrayMapNode.prototype.iterate = function (fn, reverse) {
+    var nodes = this.nodes;
+    for (var ii = 0, maxIndex = nodes.length - 1; ii <= maxIndex; ii++) {
+      var node = nodes[reverse ? maxIndex - ii : ii];
+      if (node && node.iterate(fn, reverse) === false) {
+        return false;
+      }
+    }
+  }
+
+  ValueNode.prototype.iterate = function (fn, reverse) {
+    return fn(this.entry);
+  }
+
+  createClass(MapIterator, Iterator);
+
+    function MapIterator(map, type, reverse) {
+      this._type = type;
+      this._reverse = reverse;
+      this._stack = map._root && mapIteratorFrame(map._root);
+    }
+
+    MapIterator.prototype.next = function() {
+      var type = this._type;
+      var stack = this._stack;
+      while (stack) {
+        var node = stack.node;
+        var index = stack.index++;
+        var maxIndex;
+        if (node.entry) {
+          if (index === 0) {
+            return mapIteratorValue(type, node.entry);
+          }
+        } else if (node.entries) {
+          maxIndex = node.entries.length - 1;
+          if (index <= maxIndex) {
+            return mapIteratorValue(type, node.entries[this._reverse ? maxIndex - index : index]);
+          }
+        } else {
+          maxIndex = node.nodes.length - 1;
+          if (index <= maxIndex) {
+            var subNode = node.nodes[this._reverse ? maxIndex - index : index];
+            if (subNode) {
+              if (subNode.entry) {
+                return mapIteratorValue(type, subNode.entry);
+              }
+              stack = this._stack = mapIteratorFrame(subNode, stack);
+            }
+            continue;
+          }
+        }
+        stack = this._stack = this._stack.__prev;
+      }
+      return iteratorDone();
+    };
+
+
+  function mapIteratorValue(type, entry) {
+    return iteratorValue(type, entry[0], entry[1]);
+  }
+
+  function mapIteratorFrame(node, prev) {
+    return {
+      node: node,
+      index: 0,
+      __prev: prev
+    };
+  }
+
+  function makeMap(size, root, ownerID, hash) {
+    var map = Object.create(MapPrototype);
+    map.size = size;
+    map._root = root;
+    map.__ownerID = ownerID;
+    map.__hash = hash;
+    map.__altered = false;
+    return map;
+  }
+
+  var EMPTY_MAP;
+  function emptyMap() {
+    return EMPTY_MAP || (EMPTY_MAP = makeMap(0));
+  }
+
+  function updateMap(map, k, v) {
+    var newRoot;
+    var newSize;
+    if (!map._root) {
+      if (v === NOT_SET) {
+        return map;
+      }
+      newSize = 1;
+      newRoot = new ArrayMapNode(map.__ownerID, [[k, v]]);
+    } else {
+      var didChangeSize = MakeRef(CHANGE_LENGTH);
+      var didAlter = MakeRef(DID_ALTER);
+      newRoot = updateNode(map._root, map.__ownerID, 0, undefined, k, v, didChangeSize, didAlter);
+      if (!didAlter.value) {
+        return map;
+      }
+      newSize = map.size + (didChangeSize.value ? v === NOT_SET ? -1 : 1 : 0);
+    }
+    if (map.__ownerID) {
+      map.size = newSize;
+      map._root = newRoot;
+      map.__hash = undefined;
+      map.__altered = true;
+      return map;
+    }
+    return newRoot ? makeMap(newSize, newRoot) : emptyMap();
+  }
+
+  function updateNode(node, ownerID, shift, keyHash, key, value, didChangeSize, didAlter) {
+    if (!node) {
+      if (value === NOT_SET) {
+        return node;
+      }
+      SetRef(didAlter);
+      SetRef(didChangeSize);
+      return new ValueNode(ownerID, keyHash, [key, value]);
+    }
+    return node.update(ownerID, shift, keyHash, key, value, didChangeSize, didAlter);
+  }
+
+  function isLeafNode(node) {
+    return node.constructor === ValueNode || node.constructor === HashCollisionNode;
+  }
+
+  function mergeIntoNode(node, ownerID, shift, keyHash, entry) {
+    if (node.keyHash === keyHash) {
+      return new HashCollisionNode(ownerID, keyHash, [node.entry, entry]);
+    }
+
+    var idx1 = (shift === 0 ? node.keyHash : node.keyHash >>> shift) & MASK;
+    var idx2 = (shift === 0 ? keyHash : keyHash >>> shift) & MASK;
+
+    var newNode;
+    var nodes = idx1 === idx2 ?
+      [mergeIntoNode(node, ownerID, shift + SHIFT, keyHash, entry)] :
+      ((newNode = new ValueNode(ownerID, keyHash, entry)), idx1 < idx2 ? [node, newNode] : [newNode, node]);
+
+    return new BitmapIndexedNode(ownerID, (1 << idx1) | (1 << idx2), nodes);
+  }
+
+  function createNodes(ownerID, entries, key, value) {
+    if (!ownerID) {
+      ownerID = new OwnerID();
+    }
+    var node = new ValueNode(ownerID, hash(key), [key, value]);
+    for (var ii = 0; ii < entries.length; ii++) {
+      var entry = entries[ii];
+      node = node.update(ownerID, 0, undefined, entry[0], entry[1]);
+    }
+    return node;
+  }
+
+  function packNodes(ownerID, nodes, count, excluding) {
+    var bitmap = 0;
+    var packedII = 0;
+    var packedNodes = new Array(count);
+    for (var ii = 0, bit = 1, len = nodes.length; ii < len; ii++, bit <<= 1) {
+      var node = nodes[ii];
+      if (node !== undefined && ii !== excluding) {
+        bitmap |= bit;
+        packedNodes[packedII++] = node;
+      }
+    }
+    return new BitmapIndexedNode(ownerID, bitmap, packedNodes);
+  }
+
+  function expandNodes(ownerID, nodes, bitmap, including, node) {
+    var count = 0;
+    var expandedNodes = new Array(SIZE);
+    for (var ii = 0; bitmap !== 0; ii++, bitmap >>>= 1) {
+      expandedNodes[ii] = bitmap & 1 ? nodes[count++] : undefined;
+    }
+    expandedNodes[including] = node;
+    return new HashArrayMapNode(ownerID, count + 1, expandedNodes);
+  }
+
+  function mergeIntoMapWith(map, merger, iterables) {
+    var iters = [];
+    for (var ii = 0; ii < iterables.length; ii++) {
+      var value = iterables[ii];
+      var iter = KeyedIterable(value);
+      if (!isIterable(value)) {
+        iter = iter.map(function(v ) {return fromJS(v)});
+      }
+      iters.push(iter);
+    }
+    return mergeIntoCollectionWith(map, merger, iters);
+  }
+
+  function deepMerger(existing, value, key) {
+    return existing && existing.mergeDeep && isIterable(value) ?
+      existing.mergeDeep(value) :
+      is(existing, value) ? existing : value;
+  }
+
+  function deepMergerWith(merger) {
+    return function(existing, value, key)  {
+      if (existing && existing.mergeDeepWith && isIterable(value)) {
+        return existing.mergeDeepWith(merger, value);
+      }
+      var nextValue = merger(existing, value, key);
+      return is(existing, nextValue) ? existing : nextValue;
+    };
+  }
+
+  function mergeIntoCollectionWith(collection, merger, iters) {
+    iters = iters.filter(function(x ) {return x.size !== 0});
+    if (iters.length === 0) {
+      return collection;
+    }
+    if (collection.size === 0 && !collection.__ownerID && iters.length === 1) {
+      return collection.constructor(iters[0]);
+    }
+    return collection.withMutations(function(collection ) {
+      var mergeIntoMap = merger ?
+        function(value, key)  {
+          collection.update(key, NOT_SET, function(existing )
+            {return existing === NOT_SET ? value : merger(existing, value, key)}
+          );
+        } :
+        function(value, key)  {
+          collection.set(key, value);
+        }
+      for (var ii = 0; ii < iters.length; ii++) {
+        iters[ii].forEach(mergeIntoMap);
+      }
+    });
+  }
+
+  function updateInDeepMap(existing, keyPathIter, notSetValue, updater) {
+    var isNotSet = existing === NOT_SET;
+    var step = keyPathIter.next();
+    if (step.done) {
+      var existingValue = isNotSet ? notSetValue : existing;
+      var newValue = updater(existingValue);
+      return newValue === existingValue ? existing : newValue;
+    }
+    invariant(
+      isNotSet || (existing && existing.set),
+      'invalid keyPath'
+    );
+    var key = step.value;
+    var nextExisting = isNotSet ? NOT_SET : existing.get(key, NOT_SET);
+    var nextUpdated = updateInDeepMap(
+      nextExisting,
+      keyPathIter,
+      notSetValue,
+      updater
+    );
+    return nextUpdated === nextExisting ? existing :
+      nextUpdated === NOT_SET ? existing.remove(key) :
+      (isNotSet ? emptyMap() : existing).set(key, nextUpdated);
+  }
+
+  function popCount(x) {
+    x = x - ((x >> 1) & 0x55555555);
+    x = (x & 0x33333333) + ((x >> 2) & 0x33333333);
+    x = (x + (x >> 4)) & 0x0f0f0f0f;
+    x = x + (x >> 8);
+    x = x + (x >> 16);
+    return x & 0x7f;
+  }
+
+  function setIn(array, idx, val, canEdit) {
+    var newArray = canEdit ? array : arrCopy(array);
+    newArray[idx] = val;
+    return newArray;
+  }
+
+  function spliceIn(array, idx, val, canEdit) {
+    var newLen = array.length + 1;
+    if (canEdit && idx + 1 === newLen) {
+      array[idx] = val;
+      return array;
+    }
+    var newArray = new Array(newLen);
+    var after = 0;
+    for (var ii = 0; ii < newLen; ii++) {
+      if (ii === idx) {
+        newArray[ii] = val;
+        after = -1;
+      } else {
+        newArray[ii] = array[ii + after];
+      }
+    }
+    return newArray;
+  }
+
+  function spliceOut(array, idx, canEdit) {
+    var newLen = array.length - 1;
+    if (canEdit && idx === newLen) {
+      array.pop();
+      return array;
+    }
+    var newArray = new Array(newLen);
+    var after = 0;
+    for (var ii = 0; ii < newLen; ii++) {
+      if (ii === idx) {
+        after = 1;
+      }
+      newArray[ii] = array[ii + after];
+    }
+    return newArray;
+  }
+
+  var MAX_ARRAY_MAP_SIZE = SIZE / 4;
+  var MAX_BITMAP_INDEXED_SIZE = SIZE / 2;
+  var MIN_HASH_ARRAY_MAP_SIZE = SIZE / 4;
+
+  createClass(List, IndexedCollection);
+
+    // @pragma Construction
+
+    function List(value) {
+      var empty = emptyList();
+      if (value === null || value === undefined) {
+        return empty;
+      }
+      if (isList(value)) {
+        return value;
+      }
+      var iter = IndexedIterable(value);
+      var size = iter.size;
+      if (size === 0) {
+        return empty;
+      }
+      assertNotInfinite(size);
+      if (size > 0 && size < SIZE) {
+        return makeList(0, size, SHIFT, null, new VNode(iter.toArray()));
+      }
+      return empty.withMutations(function(list ) {
+        list.setSize(size);
+        iter.forEach(function(v, i)  {return list.set(i, v)});
+      });
+    }
+
+    List.of = function(/*...values*/) {
+      return this(arguments);
+    };
+
+    List.prototype.toString = function() {
+      return this.__toString('List [', ']');
+    };
+
+    // @pragma Access
+
+    List.prototype.get = function(index, notSetValue) {
+      index = wrapIndex(this, index);
+      if (index >= 0 && index < this.size) {
+        index += this._origin;
+        var node = listNodeFor(this, index);
+        return node && node.array[index & MASK];
+      }
+      return notSetValue;
+    };
+
+    // @pragma Modification
+
+    List.prototype.set = function(index, value) {
+      return updateList(this, index, value);
+    };
+
+    List.prototype.remove = function(index) {
+      return !this.has(index) ? this :
+        index === 0 ? this.shift() :
+        index === this.size - 1 ? this.pop() :
+        this.splice(index, 1);
+    };
+
+    List.prototype.insert = function(index, value) {
+      return this.splice(index, 0, value);
+    };
+
+    List.prototype.clear = function() {
+      if (this.size === 0) {
+        return this;
+      }
+      if (this.__ownerID) {
+        this.size = this._origin = this._capacity = 0;
+        this._level = SHIFT;
+        this._root = this._tail = null;
+        this.__hash = undefined;
+        this.__altered = true;
+        return this;
+      }
+      return emptyList();
+    };
+
+    List.prototype.push = function(/*...values*/) {
+      var values = arguments;
+      var oldSize = this.size;
+      return this.withMutations(function(list ) {
+        setListBounds(list, 0, oldSize + values.length);
+        for (var ii = 0; ii < values.length; ii++) {
+          list.set(oldSize + ii, values[ii]);
+        }
+      });
+    };
+
+    List.prototype.pop = function() {
+      return setListBounds(this, 0, -1);
+    };
+
+    List.prototype.unshift = function(/*...values*/) {
+      var values = arguments;
+      return this.withMutations(function(list ) {
+        setListBounds(list, -values.length);
+        for (var ii = 0; ii < values.length; ii++) {
+          list.set(ii, values[ii]);
+        }
+      });
+    };
+
+    List.prototype.shift = function() {
+      return setListBounds(this, 1);
+    };
+
+    // @pragma Composition
+
+    List.prototype.merge = function(/*...iters*/) {
+      return mergeIntoListWith(this, undefined, arguments);
+    };
+
+    List.prototype.mergeWith = function(merger) {var iters = SLICE$0.call(arguments, 1);
+      return mergeIntoListWith(this, merger, iters);
+    };
+
+    List.prototype.mergeDeep = function(/*...iters*/) {
+      return mergeIntoListWith(this, deepMerger, arguments);
+    };
+
+    List.prototype.mergeDeepWith = function(merger) {var iters = SLICE$0.call(arguments, 1);
+      return mergeIntoListWith(this, deepMergerWith(merger), iters);
+    };
+
+    List.prototype.setSize = function(size) {
+      return setListBounds(this, 0, size);
+    };
+
+    // @pragma Iteration
+
+    List.prototype.slice = function(begin, end) {
+      var size = this.size;
+      if (wholeSlice(begin, end, size)) {
+        return this;
+      }
+      return setListBounds(
+        this,
+        resolveBegin(begin, size),
+        resolveEnd(end, size)
+      );
+    };
+
+    List.prototype.__iterator = function(type, reverse) {
+      var index = 0;
+      var values = iterateList(this, reverse);
+      return new Iterator(function()  {
+        var value = values();
+        return value === DONE ?
+          iteratorDone() :
+          iteratorValue(type, index++, value);
+      });
+    };
+
+    List.prototype.__iterate = function(fn, reverse) {
+      var index = 0;
+      var values = iterateList(this, reverse);
+      var value;
+      while ((value = values()) !== DONE) {
+        if (fn(value, index++, this) === false) {
+          break;
+        }
+      }
+      return index;
+    };
+
+    List.prototype.__ensureOwner = function(ownerID) {
+      if (ownerID === this.__ownerID) {
+        return this;
+      }
+      if (!ownerID) {
+        this.__ownerID = ownerID;
+        return this;
+      }
+      return makeList(this._origin, this._capacity, this._level, this._root, this._tail, ownerID, this.__hash);
+    };
+
+
+  function isList(maybeList) {
+    return !!(maybeList && maybeList[IS_LIST_SENTINEL]);
+  }
+
+  List.isList = isList;
+
+  var IS_LIST_SENTINEL = '@@__IMMUTABLE_LIST__@@';
+
+  var ListPrototype = List.prototype;
+  ListPrototype[IS_LIST_SENTINEL] = true;
+  ListPrototype[DELETE] = ListPrototype.remove;
+  ListPrototype.setIn = MapPrototype.setIn;
+  ListPrototype.deleteIn =
+  ListPrototype.removeIn = MapPrototype.removeIn;
+  ListPrototype.update = MapPrototype.update;
+  ListPrototype.updateIn = MapPrototype.updateIn;
+  ListPrototype.mergeIn = MapPrototype.mergeIn;
+  ListPrototype.mergeDeepIn = MapPrototype.mergeDeepIn;
+  ListPrototype.withMutations = MapPrototype.withMutations;
+  ListPrototype.asMutable = MapPrototype.asMutable;
+  ListPrototype.asImmutable = MapPrototype.asImmutable;
+  ListPrototype.wasAltered = MapPrototype.wasAltered;
+
+
+
+    function VNode(array, ownerID) {
+      this.array = array;
+      this.ownerID = ownerID;
+    }
+
+    // TODO: seems like these methods are very similar
+
+    VNode.prototype.removeBefore = function(ownerID, level, index) {
+      if (index === level ? 1 << level : 0 || this.array.length === 0) {
+        return this;
+      }
+      var originIndex = (index >>> level) & MASK;
+      if (originIndex >= this.array.length) {
+        return new VNode([], ownerID);
+      }
+      var removingFirst = originIndex === 0;
+      var newChild;
+      if (level > 0) {
+        var oldChild = this.array[originIndex];
+        newChild = oldChild && oldChild.removeBefore(ownerID, level - SHIFT, index);
+        if (newChild === oldChild && removingFirst) {
+          return this;
+        }
+      }
+      if (removingFirst && !newChild) {
+        return this;
+      }
+      var editable = editableVNode(this, ownerID);
+      if (!removingFirst) {
+        for (var ii = 0; ii < originIndex; ii++) {
+          editable.array[ii] = undefined;
+        }
+      }
+      if (newChild) {
+        editable.array[originIndex] = newChild;
+      }
+      return editable;
+    };
+
+    VNode.prototype.removeAfter = function(ownerID, level, index) {
+      if (index === (level ? 1 << level : 0) || this.array.length === 0) {
+        return this;
+      }
+      var sizeIndex = ((index - 1) >>> level) & MASK;
+      if (sizeIndex >= this.array.length) {
+        return this;
+      }
+
+      var newChild;
+      if (level > 0) {
+        var oldChild = this.array[sizeIndex];
+        newChild = oldChild && oldChild.removeAfter(ownerID, level - SHIFT, index);
+        if (newChild === oldChild && sizeIndex === this.array.length - 1) {
+          return this;
+        }
+      }
+
+      var editable = editableVNode(this, ownerID);
+      editable.array.splice(sizeIndex + 1);
+      if (newChild) {
+        editable.array[sizeIndex] = newChild;
+      }
+      return editable;
+    };
+
+
+
+  var DONE = {};
+
+  function iterateList(list, reverse) {
+    var left = list._origin;
+    var right = list._capacity;
+    var tailPos = getTailOffset(right);
+    var tail = list._tail;
+
+    return iterateNodeOrLeaf(list._root, list._level, 0);
+
+    function iterateNodeOrLeaf(node, level, offset) {
+      return level === 0 ?
+        iterateLeaf(node, offset) :
+        iterateNode(node, level, offset);
+    }
+
+    function iterateLeaf(node, offset) {
+      var array = offset === tailPos ? tail && tail.array : node && node.array;
+      var from = offset > left ? 0 : left - offset;
+      var to = right - offset;
+      if (to > SIZE) {
+        to = SIZE;
+      }
+      return function()  {
+        if (from === to) {
+          return DONE;
+        }
+        var idx = reverse ? --to : from++;
+        return array && array[idx];
+      };
+    }
+
+    function iterateNode(node, level, offset) {
+      var values;
+      var array = node && node.array;
+      var from = offset > left ? 0 : (left - offset) >> level;
+      var to = ((right - offset) >> level) + 1;
+      if (to > SIZE) {
+        to = SIZE;
+      }
+      return function()  {
+        do {
+          if (values) {
+            var value = values();
+            if (value !== DONE) {
+              return value;
+            }
+            values = null;
+          }
+          if (from === to) {
+            return DONE;
+          }
+          var idx = reverse ? --to : from++;
+          values = iterateNodeOrLeaf(
+            array && array[idx], level - SHIFT, offset + (idx << level)
+          );
+        } while (true);
+      };
+    }
+  }
+
+  function makeList(origin, capacity, level, root, tail, ownerID, hash) {
+    var list = Object.create(ListPrototype);
+    list.size = capacity - origin;
+    list._origin = origin;
+    list._capacity = capacity;
+    list._level = level;
+    list._root = root;
+    list._tail = tail;
+    list.__ownerID = ownerID;
+    list.__hash = hash;
+    list.__altered = false;
+    return list;
+  }
+
+  var EMPTY_LIST;
+  function emptyList() {
+    return EMPTY_LIST || (EMPTY_LIST = makeList(0, 0, SHIFT));
+  }
+
+  function updateList(list, index, value) {
+    index = wrapIndex(list, index);
+
+    if (index !== index) {
+      return list;
+    }
+
+    if (index >= list.size || index < 0) {
+      return list.withMutations(function(list ) {
+        index < 0 ?
+          setListBounds(list, index).set(0, value) :
+          setListBounds(list, 0, index + 1).set(index, value)
+      });
+    }
+
+    index += list._origin;
+
+    var newTail = list._tail;
+    var newRoot = list._root;
+    var didAlter = MakeRef(DID_ALTER);
+    if (index >= getTailOffset(list._capacity)) {
+      newTail = updateVNode(newTail, list.__ownerID, 0, index, value, didAlter);
+    } else {
+      newRoot = updateVNode(newRoot, list.__ownerID, list._level, index, value, didAlter);
+    }
+
+    if (!didAlter.value) {
+      return list;
+    }
+
+    if (list.__ownerID) {
+      list._root = newRoot;
+      list._tail = newTail;
+      list.__hash = undefined;
+      list.__altered = true;
+      return list;
+    }
+    return makeList(list._origin, list._capacity, list._level, newRoot, newTail);
+  }
+
+  function updateVNode(node, ownerID, level, index, value, didAlter) {
+    var idx = (index >>> level) & MASK;
+    var nodeHas = node && idx < node.array.length;
+    if (!nodeHas && value === undefined) {
+      return node;
+    }
+
+    var newNode;
+
+    if (level > 0) {
+      var lowerNode = node && node.array[idx];
+      var newLowerNode = updateVNode(lowerNode, ownerID, level - SHIFT, index, value, didAlter);
+      if (newLowerNode === lowerNode) {
+        return node;
+      }
+      newNode = editableVNode(node, ownerID);
+      newNode.array[idx] = newLowerNode;
+      return newNode;
+    }
+
+    if (nodeHas && node.array[idx] === value) {
+      return node;
+    }
+
+    SetRef(didAlter);
+
+    newNode = editableVNode(node, ownerID);
+    if (value === undefined && idx === newNode.array.length - 1) {
+      newNode.array.pop();
+    } else {
+      newNode.array[idx] = value;
+    }
+    return newNode;
+  }
+
+  function editableVNode(node, ownerID) {
+    if (ownerID && node && ownerID === node.ownerID) {
+      return node;
+    }
+    return new VNode(node ? node.array.slice() : [], ownerID);
+  }
+
+  function listNodeFor(list, rawIndex) {
+    if (rawIndex >= getTailOffset(list._capacity)) {
+      return list._tail;
+    }
+    if (rawIndex < 1 << (list._level + SHIFT)) {
+      var node = list._root;
+      var level = list._level;
+      while (node && level > 0) {
+        node = node.array[(rawIndex >>> level) & MASK];
+        level -= SHIFT;
+      }
+      return node;
+    }
+  }
+
+  function setListBounds(list, begin, end) {
+    // Sanitize begin & end using this shorthand for ToInt32(argument)
+    // http://www.ecma-international.org/ecma-262/6.0/#sec-toint32
+    if (begin !== undefined) {
+      begin = begin | 0;
+    }
+    if (end !== undefined) {
+      end = end | 0;
+    }
+    var owner = list.__ownerID || new OwnerID();
+    var oldOrigin = list._origin;
+    var oldCapacity = list._capacity;
+    var newOrigin = oldOrigin + begin;
+    var newCapacity = end === undefined ? oldCapacity : end < 0 ? oldCapacity + end : oldOrigin + end;
+    if (newOrigin === oldOrigin && newCapacity === oldCapacity) {
+      return list;
+    }
+
+    // If it's going to end after it starts, it's empty.
+    if (newOrigin >= newCapacity) {
+      return list.clear();
+    }
+
+    var newLevel = list._level;
+    var newRoot = list._root;
+
+    // New origin might need creating a higher root.
+    var offsetShift = 0;
+    while (newOrigin + offsetShift < 0) {
+      newRoot = new VNode(newRoot && newRoot.array.length ? [undefined, newRoot] : [], owner);
+      newLevel += SHIFT;
+      offsetShift += 1 << newLevel;
+    }
+    if (offsetShift) {
+      newOrigin += offsetShift;
+      oldOrigin += offsetShift;
+      newCapacity += offsetShift;
+      oldCapacity += offsetShift;
+    }
+
+    var oldTailOffset = getTailOffset(oldCapacity);
+    var newTailOffset = getTailOffset(newCapacity);
+
+    // New size might need creating a higher root.
+    while (newTailOffset >= 1 << (newLevel + SHIFT)) {
+      newRoot = new VNode(newRoot && newRoot.array.length ? [newRoot] : [], owner);
+      newLevel += SHIFT;
+    }
+
+    // Locate or create the new tail.
+    var oldTail = list._tail;
+    var newTail = newTailOffset < oldTailOffset ?
+      listNodeFor(list, newCapacity - 1) :
+      newTailOffset > oldTailOffset ? new VNode([], owner) : oldTail;
+
+    // Merge Tail into tree.
+    if (oldTail && newTailOffset > oldTailOffset && newOrigin < oldCapacity && oldTail.array.length) {
+      newRoot = editableVNode(newRoot, owner);
+      var node = newRoot;
+      for (var level = newLevel; level > SHIFT; level -= SHIFT) {
+        var idx = (oldTailOffset >>> level) & MASK;
+        node = node.array[idx] = editableVNode(node.array[idx], owner);
+      }
+      node.array[(oldTailOffset >>> SHIFT) & MASK] = oldTail;
+    }
+
+    // If the size has been reduced, there's a chance the tail needs to be trimmed.
+    if (newCapacity < oldCapacity) {
+      newTail = newTail && newTail.removeAfter(owner, 0, newCapacity);
+    }
+
+    // If the new origin is within the tail, then we do not need a root.
+    if (newOrigin >= newTailOffset) {
+      newOrigin -= newTailOffset;
+      newCapacity -= newTailOffset;
+      newLevel = SHIFT;
+      newRoot = null;
+      newTail = newTail && newTail.removeBefore(owner, 0, newOrigin);
+
+    // Otherwise, if the root has been trimmed, garbage collect.
+    } else if (newOrigin > oldOrigin || newTailOffset < oldTailOffset) {
+      offsetShift = 0;
+
+      // Identify the new top root node of the subtree of the old root.
+      while (newRoot) {
+        var beginIndex = (newOrigin >>> newLevel) & MASK;
+        if (beginIndex !== (newTailOffset >>> newLevel) & MASK) {
+          break;
+        }
+        if (beginIndex) {
+          offsetShift += (1 << newLevel) * beginIndex;
+        }
+        newLevel -= SHIFT;
+        newRoot = newRoot.array[beginIndex];
+      }
+
+      // Trim the new sides of the new root.
+      if (newRoot && newOrigin > oldOrigin) {
+        newRoot = newRoot.removeBefore(owner, newLevel, newOrigin - offsetShift);
+      }
+      if (newRoot && newTailOffset < oldTailOffset) {
+        newRoot = newRoot.removeAfter(owner, newLevel, newTailOffset - offsetShift);
+      }
+      if (offsetShift) {
+        newOrigin -= offsetShift;
+        newCapacity -= offsetShift;
+      }
+    }
+
+    if (list.__ownerID) {
+      list.size = newCapacity - newOrigin;
+      list._origin = newOrigin;
+      list._capacity = newCapacity;
+      list._level = newLevel;
+      list._root = newRoot;
+      list._tail = newTail;
+      list.__hash = undefined;
+      list.__altered = true;
+      return list;
+    }
+    return makeList(newOrigin, newCapacity, newLevel, newRoot, newTail);
+  }
+
+  function mergeIntoListWith(list, merger, iterables) {
+    var iters = [];
+    var maxSize = 0;
+    for (var ii = 0; ii < iterables.length; ii++) {
+      var value = iterables[ii];
+      var iter = IndexedIterable(value);
+      if (iter.size > maxSize) {
+        maxSize = iter.size;
+      }
+      if (!isIterable(value)) {
+        iter = iter.map(function(v ) {return fromJS(v)});
+      }
+      iters.push(iter);
+    }
+    if (maxSize > list.size) {
+      list = list.setSize(maxSize);
+    }
+    return mergeIntoCollectionWith(list, merger, iters);
+  }
+
+  function getTailOffset(size) {
+    return size < SIZE ? 0 : (((size - 1) >>> SHIFT) << SHIFT);
+  }
+
+  createClass(OrderedMap, Map);
+
+    // @pragma Construction
+
+    function OrderedMap(value) {
+      return value === null || value === undefined ? emptyOrderedMap() :
+        isOrderedMap(value) ? value :
+        emptyOrderedMap().withMutations(function(map ) {
+          var iter = KeyedIterable(value);
+          assertNotInfinite(iter.size);
+          iter.forEach(function(v, k)  {return map.set(k, v)});
+        });
+    }
+
+    OrderedMap.of = function(/*...values*/) {
+      return this(arguments);
+    };
+
+    OrderedMap.prototype.toString = function() {
+      return this.__toString('OrderedMap {', '}');
+    };
+
+    // @pragma Access
+
+    OrderedMap.prototype.get = function(k, notSetValue) {
+      var index = this._map.get(k);
+      return index !== undefined ? this._list.get(index)[1] : notSetValue;
+    };
+
+    // @pragma Modification
+
+    OrderedMap.prototype.clear = function() {
+      if (this.size === 0) {
+        return this;
+      }
+      if (this.__ownerID) {
+        this.size = 0;
+        this._map.clear();
+        this._list.clear();
+        return this;
+      }
+      return emptyOrderedMap();
+    };
+
+    OrderedMap.prototype.set = function(k, v) {
+      return updateOrderedMap(this, k, v);
+    };
+
+    OrderedMap.prototype.remove = function(k) {
+      return updateOrderedMap(this, k, NOT_SET);
+    };
+
+    OrderedMap.prototype.wasAltered = function() {
+      return this._map.wasAltered() || this._list.wasAltered();
+    };
+
+    OrderedMap.prototype.__iterate = function(fn, reverse) {var this$0 = this;
+      return this._list.__iterate(
+        function(entry ) {return entry && fn(entry[1], entry[0], this$0)},
+        reverse
+      );
+    };
+
+    OrderedMap.prototype.__iterator = function(type, reverse) {
+      return this._list.fromEntrySeq().__iterator(type, reverse);
+    };
+
+    OrderedMap.prototype.__ensureOwner = function(ownerID) {
+      if (ownerID === this.__ownerID) {
+        return this;
+      }
+      var newMap = this._map.__ensureOwner(ownerID);
+      var newList = this._list.__ensureOwner(ownerID);
+      if (!ownerID) {
+        this.__ownerID = ownerID;
+        this._map = newMap;
+        this._list = newList;
+        return this;
+      }
+      return makeOrderedMap(newMap, newList, ownerID, this.__hash);
+    };
+
+
+  function isOrderedMap(maybeOrderedMap) {
+    return isMap(maybeOrderedMap) && isOrdered(maybeOrderedMap);
+  }
+
+  OrderedMap.isOrderedMap = isOrderedMap;
+
+  OrderedMap.prototype[IS_ORDERED_SENTINEL] = true;
+  OrderedMap.prototype[DELETE] = OrderedMap.prototype.remove;
+
+
+
+  function makeOrderedMap(map, list, ownerID, hash) {
+    var omap = Object.create(OrderedMap.prototype);
+    omap.size = map ? map.size : 0;
+    omap._map = map;
+    omap._list = list;
+    omap.__ownerID = ownerID;
+    omap.__hash = hash;
+    return omap;
+  }
+
+  var EMPTY_ORDERED_MAP;
+  function emptyOrderedMap() {
+    return EMPTY_ORDERED_MAP || (EMPTY_ORDERED_MAP = makeOrderedMap(emptyMap(), emptyList()));
+  }
+
+  function updateOrderedMap(omap, k, v) {
+    var map = omap._map;
+    var list = omap._list;
+    var i = map.get(k);
+    var has = i !== undefined;
+    var newMap;
+    var newList;
+    if (v === NOT_SET) { // removed
+      if (!has) {
+        return omap;
+      }
+      if (list.size >= SIZE && list.size >= map.size * 2) {
+        newList = list.filter(function(entry, idx)  {return entry !== undefined && i !== idx});
+        newMap = newList.toKeyedSeq().map(function(entry ) {return entry[0]}).flip().toMap();
+        if (omap.__ownerID) {
+          newMap.__ownerID = newList.__ownerID = omap.__ownerID;
+        }
+      } else {
+        newMap = map.remove(k);
+        newList = i === list.size - 1 ? list.pop() : list.set(i, undefined);
+      }
+    } else {
+      if (has) {
+        if (v === list.get(i)[1]) {
+          return omap;
+        }
+        newMap = map;
+        newList = list.set(i, [k, v]);
+      } else {
+        newMap = map.set(k, list.size);
+        newList = list.set(list.size, [k, v]);
+      }
+    }
+    if (omap.__ownerID) {
+      omap.size = newMap.size;
+      omap._map = newMap;
+      omap._list = newList;
+      omap.__hash = undefined;
+      return omap;
+    }
+    return makeOrderedMap(newMap, newList);
+  }
+
+  createClass(ToKeyedSequence, KeyedSeq);
+    function ToKeyedSequence(indexed, useKeys) {
+      this._iter = indexed;
+      this._useKeys = useKeys;
+      this.size = indexed.size;
+    }
+
+    ToKeyedSequence.prototype.get = function(key, notSetValue) {
+      return this._iter.get(key, notSetValue);
+    };
+
+    ToKeyedSequence.prototype.has = function(key) {
+      return this._iter.has(key);
+    };
+
+    ToKeyedSequence.prototype.valueSeq = function() {
+      return this._iter.valueSeq();
+    };
+
+    ToKeyedSequence.prototype.reverse = function() {var this$0 = this;
+      var reversedSequence = reverseFactory(this, true);
+      if (!this._useKeys) {
+        reversedSequence.valueSeq = function()  {return this$0._iter.toSeq().reverse()};
+      }
+      return reversedSequence;
+    };
+
+    ToKeyedSequence.prototype.map = function(mapper, context) {var this$0 = this;
+      var mappedSequence = mapFactory(this, mapper, context);
+      if (!this._useKeys) {
+        mappedSequence.valueSeq = function()  {return this$0._iter.toSeq().map(mapper, context)};
+      }
+      return mappedSequence;
+    };
+
+    ToKeyedSequence.prototype.__iterate = function(fn, reverse) {var this$0 = this;
+      var ii;
+      return this._iter.__iterate(
+        this._useKeys ?
+          function(v, k)  {return fn(v, k, this$0)} :
+          ((ii = reverse ? resolveSize(this) : 0),
+            function(v ) {return fn(v, reverse ? --ii : ii++, this$0)}),
+        reverse
+      );
+    };
+
+    ToKeyedSequence.prototype.__iterator = function(type, reverse) {
+      if (this._useKeys) {
+        return this._iter.__iterator(type, reverse);
+      }
+      var iterator = this._iter.__iterator(ITERATE_VALUES, reverse);
+      var ii = reverse ? resolveSize(this) : 0;
+      return new Iterator(function()  {
+        var step = iterator.next();
+        return step.done ? step :
+          iteratorValue(type, reverse ? --ii : ii++, step.value, step);
+      });
+    };
+
+  ToKeyedSequence.prototype[IS_ORDERED_SENTINEL] = true;
+
+
+  createClass(ToIndexedSequence, IndexedSeq);
+    function ToIndexedSequence(iter) {
+      this._iter = iter;
+      this.size = iter.size;
+    }
+
+    ToIndexedSequence.prototype.includes = function(value) {
+      return this._iter.includes(value);
+    };
+
+    ToIndexedSequence.prototype.__iterate = function(fn, reverse) {var this$0 = this;
+      var iterations = 0;
+      return this._iter.__iterate(function(v ) {return fn(v, iterations++, this$0)}, reverse);
+    };
+
+    ToIndexedSequence.prototype.__iterator = function(type, reverse) {
+      var iterator = this._iter.__iterator(ITERATE_VALUES, reverse);
+      var iterations = 0;
+      return new Iterator(function()  {
+        var step = iterator.next();
+        return step.done ? step :
+          iteratorValue(type, iterations++, step.value, step)
+      });
+    };
+
+
+
+  createClass(ToSetSequence, SetSeq);
+    function ToSetSequence(iter) {
+      this._iter = iter;
+      this.size = iter.size;
+    }
+
+    ToSetSequence.prototype.has = function(key) {
+      return this._iter.includes(key);
+    };
+
+    ToSetSequence.prototype.__iterate = function(fn, reverse) {var this$0 = this;
+      return this._iter.__iterate(function(v ) {return fn(v, v, this$0)}, reverse);
+    };
+
+    ToSetSequence.prototype.__iterator = function(type, reverse) {
+      var iterator = this._iter.__iterator(ITERATE_VALUES, reverse);
+      return new Iterator(function()  {
+        var step = iterator.next();
+        return step.done ? step :
+          iteratorValue(type, step.value, step.value, step);
+      });
+    };
+
+
+
+  createClass(FromEntriesSequence, KeyedSeq);
+    function FromEntriesSequence(entries) {
+      this._iter = entries;
+      this.size = entries.size;
+    }
+
+    FromEntriesSequence.prototype.entrySeq = function() {
+      return this._iter.toSeq();
+    };
+
+    FromEntriesSequence.prototype.__iterate = function(fn, reverse) {var this$0 = this;
+      return this._iter.__iterate(function(entry ) {
+        // Check if entry exists first so array access doesn't throw for holes
+        // in the parent iteration.
+        if (entry) {
+          validateEntry(entry);
+          var indexedIterable = isIterable(entry);
+          return fn(
+            indexedIterable ? entry.get(1) : entry[1],
+            indexedIterable ? entry.get(0) : entry[0],
+            this$0
+          );
+        }
+      }, reverse);
+    };
+
+    FromEntriesSequence.prototype.__iterator = function(type, reverse) {
+      var iterator = this._iter.__iterator(ITERATE_VALUES, reverse);
+      return new Iterator(function()  {
+        while (true) {
+          var step = iterator.next();
+          if (step.done) {
+            return step;
+          }
+          var entry = step.value;
+          // Check if entry exists first so array access doesn't throw for holes
+          // in the parent iteration.
+          if (entry) {
+            validateEntry(entry);
+            var indexedIterable = isIterable(entry);
+            return iteratorValue(
+              type,
+              indexedIterable ? entry.get(0) : entry[0],
+              indexedIterable ? entry.get(1) : entry[1],
+              step
+            );
+          }
+        }
+      });
+    };
+
+
+  ToIndexedSequence.prototype.cacheResult =
+  ToKeyedSequence.prototype.cacheResult =
+  ToSetSequence.prototype.cacheResult =
+  FromEntriesSequence.prototype.cacheResult =
+    cacheResultThrough;
+
+
+  function flipFactory(iterable) {
+    var flipSequence = makeSequence(iterable);
+    flipSequence._iter = iterable;
+    flipSequence.size = iterable.size;
+    flipSequence.flip = function()  {return iterable};
+    flipSequence.reverse = function () {
+      var reversedSequence = iterable.reverse.apply(this); // super.reverse()
+      reversedSequence.flip = function()  {return iterable.reverse()};
+      return reversedSequence;
+    };
+    flipSequence.has = function(key ) {return iterable.includes(key)};
+    flipSequence.includes = function(key ) {return iterable.has(key)};
+    flipSequence.cacheResult = cacheResultThrough;
+    flipSequence.__iterateUncached = function (fn, reverse) {var this$0 = this;
+      return iterable.__iterate(function(v, k)  {return fn(k, v, this$0) !== false}, reverse);
+    }
+    flipSequence.__iteratorUncached = function(type, reverse) {
+      if (type === ITERATE_ENTRIES) {
+        var iterator = iterable.__iterator(type, reverse);
+        return new Iterator(function()  {
+          var step = iterator.next();
+          if (!step.done) {
+            var k = step.value[0];
+            step.value[0] = step.value[1];
+            step.value[1] = k;
+          }
+          return step;
+        });
+      }
+      return iterable.__iterator(
+        type === ITERATE_VALUES ? ITERATE_KEYS : ITERATE_VALUES,
+        reverse
+      );
+    }
+    return flipSequence;
+  }
+
+
+  function mapFactory(iterable, mapper, context) {
+    var mappedSequence = makeSequence(iterable);
+    mappedSequence.size = iterable.size;
+    mappedSequence.has = function(key ) {return iterable.has(key)};
+    mappedSequence.get = function(key, notSetValue)  {
+      var v = iterable.get(key, NOT_SET);
+      return v === NOT_SET ?
+        notSetValue :
+        mapper.call(context, v, key, iterable);
+    };
+    mappedSequence.__iterateUncached = function (fn, reverse) {var this$0 = this;
+      return iterable.__iterate(
+        function(v, k, c)  {return fn(mapper.call(context, v, k, c), k, this$0) !== false},
+        reverse
+      );
+    }
+    mappedSequence.__iteratorUncached = function (type, reverse) {
+      var iterator = iterable.__iterator(ITERATE_ENTRIES, reverse);
+      return new Iterator(function()  {
+        var step = iterator.next();
+        if (step.done) {
+          return step;
+        }
+        var entry = step.value;
+        var key = entry[0];
+        return iteratorValue(
+          type,
+          key,
+          mapper.call(context, entry[1], key, iterable),
+          step
+        );
+      });
+    }
+    return mappedSequence;
+  }
+
+
+  function reverseFactory(iterable, useKeys) {
+    var reversedSequence = makeSequence(iterable);
+    reversedSequence._iter = iterable;
+    reversedSequence.size = iterable.size;
+    reversedSequence.reverse = function()  {return iterable};
+    if (iterable.flip) {
+      reversedSequence.flip = function () {
+        var flipSequence = flipFactory(iterable);
+        flipSequence.reverse = function()  {return iterable.flip()};
+        return flipSequence;
+      };
+    }
+    reversedSequence.get = function(key, notSetValue) 
+      {return iterable.get(useKeys ? key : -1 - key, notSetValue)};
+    reversedSequence.has = function(key )
+      {return iterable.has(useKeys ? key : -1 - key)};
+    reversedSequence.includes = function(value ) {return iterable.includes(value)};
+    reversedSequence.cacheResult = cacheResultThrough;
+    reversedSequence.__iterate = function (fn, reverse) {var this$0 = this;
+      return iterable.__iterate(function(v, k)  {return fn(v, k, this$0)}, !reverse);
+    };
+    reversedSequence.__iterator =
+      function(type, reverse)  {return iterable.__iterator(type, !reverse)};
+    return reversedSequence;
+  }
+
+
+  function filterFactory(iterable, predicate, context, useKeys) {
+    var filterSequence = makeSequence(iterable);
+    if (useKeys) {
+      filterSequence.has = function(key ) {
+        var v = iterable.get(key, NOT_SET);
+        return v !== NOT_SET && !!predicate.call(context, v, key, iterable);
+      };
+      filterSequence.get = function(key, notSetValue)  {
+        var v = iterable.get(key, NOT_SET);
+        return v !== NOT_SET && predicate.call(context, v, key, iterable) ?
+          v : notSetValue;
+      };
+    }
+    filterSequence.__iterateUncached = function (fn, reverse) {var this$0 = this;
+      var iterations = 0;
+      iterable.__iterate(function(v, k, c)  {
+        if (predicate.call(context, v, k, c)) {
+          iterations++;
+          return fn(v, useKeys ? k : iterations - 1, this$0);
+        }
+      }, reverse);
+      return iterations;
+    };
+    filterSequence.__iteratorUncached = function (type, reverse) {
+      var iterator = iterable.__iterator(ITERATE_ENTRIES, reverse);
+      var iterations = 0;
+      return new Iterator(function()  {
+        while (true) {
+          var step = iterator.next();
+          if (step.done) {
+            return step;
+          }
+          var entry = step.value;
+          var key = entry[0];
+          var value = entry[1];
+          if (predicate.call(context, value, key, iterable)) {
+            return iteratorValue(type, useKeys ? key : iterations++, value, step);
+          }
+        }
+      });
+    }
+    return filterSequence;
+  }
+
+
+  function countByFactory(iterable, grouper, context) {
+    var groups = Map().asMutable();
+    iterable.__iterate(function(v, k)  {
+      groups.update(
+        grouper.call(context, v, k, iterable),
+        0,
+        function(a ) {return a + 1}
+      );
+    });
+    return groups.asImmutable();
+  }
+
+
+  function groupByFactory(iterable, grouper, context) {
+    var isKeyedIter = isKeyed(iterable);
+    var groups = (isOrdered(iterable) ? OrderedMap() : Map()).asMutable();
+    iterable.__iterate(function(v, k)  {
+      groups.update(
+        grouper.call(context, v, k, iterable),
+        function(a ) {return (a = a || [], a.push(isKeyedIter ? [k, v] : v), a)}
+      );
+    });
+    var coerce = iterableClass(iterable);
+    return groups.map(function(arr ) {return reify(iterable, coerce(arr))});
+  }
+
+
+  function sliceFactory(iterable, begin, end, useKeys) {
+    var originalSize = iterable.size;
+
+    // Sanitize begin & end using this shorthand for ToInt32(argument)
+    // http://www.ecma-international.org/ecma-262/6.0/#sec-toint32
+    if (begin !== undefined) {
+      begin = begin | 0;
+    }
+    if (end !== undefined) {
+      if (end === Infinity) {
+        end = originalSize;
+      } else {
+        end = end | 0;
+      }
+    }
+
+    if (wholeSlice(begin, end, originalSize)) {
+      return iterable;
+    }
+
+    var resolvedBegin = resolveBegin(begin, originalSize);
+    var resolvedEnd = resolveEnd(end, originalSize);
+
+    // begin or end will be NaN if they were provided as negative numbers and
+    // this iterable's size is unknown. In that case, cache first so there is
+    // a known size and these do not resolve to NaN.
+    if (resolvedBegin !== resolvedBegin || resolvedEnd !== resolvedEnd) {
+      return sliceFactory(iterable.toSeq().cacheResult(), begin, end, useKeys);
+    }
+
+    // Note: resolvedEnd is undefined when the original sequence's length is
+    // unknown and this slice did not supply an end and should contain all
+    // elements after resolvedBegin.
+    // In that case, resolvedSize will be NaN and sliceSize will remain undefined.
+    var resolvedSize = resolvedEnd - resolvedBegin;
+    var sliceSize;
+    if (resolvedSize === resolvedSize) {
+      sliceSize = resolvedSize < 0 ? 0 : resolvedSize;
+    }
+
+    var sliceSeq = makeSequence(iterable);
+
+    // If iterable.size is undefined, the size of the realized sliceSeq is
+    // unknown at this point unless the number of items to slice is 0
+    sliceSeq.size = sliceSize === 0 ? sliceSize : iterable.size && sliceSize || undefined;
+
+    if (!useKeys && isSeq(iterable) && sliceSize >= 0) {
+      sliceSeq.get = function (index, notSetValue) {
+        index = wrapIndex(this, index);
+        return index >= 0 && index < sliceSize ?
+          iterable.get(index + resolvedBegin, notSetValue) :
+          notSetValue;
+      }
+    }
+
+    sliceSeq.__iterateUncached = function(fn, reverse) {var this$0 = this;
+      if (sliceSize === 0) {
+        return 0;
+      }
+      if (reverse) {
+        return this.cacheResult().__iterate(fn, reverse);
+      }
+      var skipped = 0;
+      var isSkipping = true;
+      var iterations = 0;
+      iterable.__iterate(function(v, k)  {
+        if (!(isSkipping && (isSkipping = skipped++ < resolvedBegin))) {
+          iterations++;
+          return fn(v, useKeys ? k : iterations - 1, this$0) !== false &&
+                 iterations !== sliceSize;
+        }
+      });
+      return iterations;
+    };
+
+    sliceSeq.__iteratorUncached = function(type, reverse) {
+      if (sliceSize !== 0 && reverse) {
+        return this.cacheResult().__iterator(type, reverse);
+      }
+      // Don't bother instantiating parent iterator if taking 0.
+      var iterator = sliceSize !== 0 && iterable.__iterator(type, reverse);
+      var skipped = 0;
+      var iterations = 0;
+      return new Iterator(function()  {
+        while (skipped++ < resolvedBegin) {
+          iterator.next();
+        }
+        if (++iterations > sliceSize) {
+          return iteratorDone();
+        }
+        var step = iterator.next();
+        if (useKeys || type === ITERATE_VALUES) {
+          return step;
+        } else if (type === ITERATE_KEYS) {
+          return iteratorValue(type, iterations - 1, undefined, step);
+        } else {
+          return iteratorValue(type, iterations - 1, step.value[1], step);
+        }
+      });
+    }
+
+    return sliceSeq;
+  }
+
+
+  function takeWhileFactory(iterable, predicate, context) {
+    var takeSequence = makeSequence(iterable);
+    takeSequence.__iterateUncached = function(fn, reverse) {var this$0 = this;
+      if (reverse) {
+        return this.cacheResult().__iterate(fn, reverse);
+      }
+      var iterations = 0;
+      iterable.__iterate(function(v, k, c) 
+        {return predicate.call(context, v, k, c) && ++iterations && fn(v, k, this$0)}
+      );
+      return iterations;
+    };
+    takeSequence.__iteratorUncached = function(type, reverse) {var this$0 = this;
+      if (reverse) {
+        return this.cacheResult().__iterator(type, reverse);
+      }
+      var iterator = iterable.__iterator(ITERATE_ENTRIES, reverse);
+      var iterating = true;
+      return new Iterator(function()  {
+        if (!iterating) {
+          return iteratorDone();
+        }
+        var step = iterator.next();
+        if (step.done) {
+          return step;
+        }
+        var entry = step.value;
+        var k = entry[0];
+        var v = entry[1];
+        if (!predicate.call(context, v, k, this$0)) {
+          iterating = false;
+          return iteratorDone();
+        }
+        return type === ITERATE_ENTRIES ? step :
+          iteratorValue(type, k, v, step);
+      });
+    };
+    return takeSequence;
+  }
+
+
+  function skipWhileFactory(iterable, predicate, context, useKeys) {
+    var skipSequence = makeSequence(iterable);
+    skipSequence.__iterateUncached = function (fn, reverse) {var this$0 = this;
+      if (reverse) {
+        return this.cacheResult().__iterate(fn, reverse);
+      }
+      var isSkipping = true;
+      var iterations = 0;
+      iterable.__iterate(function(v, k, c)  {
+        if (!(isSkipping && (isSkipping = predicate.call(context, v, k, c)))) {
+          iterations++;
+          return fn(v, useKeys ? k : iterations - 1, this$0);
+        }
+      });
+      return iterations;
+    };
+    skipSequence.__iteratorUncached = function(type, reverse) {var this$0 = this;
+      if (reverse) {
+        return this.cacheResult().__iterator(type, reverse);
+      }
+      var iterator = iterable.__iterator(ITERATE_ENTRIES, reverse);
+      var skipping = true;
+      var iterations = 0;
+      return new Iterator(function()  {
+        var step, k, v;
+        do {
+          step = iterator.next();
+          if (step.done) {
+            if (useKeys || type === ITERATE_VALUES) {
+              return step;
+            } else if (type === ITERATE_KEYS) {
+              return iteratorValue(type, iterations++, undefined, step);
+            } else {
+              return iteratorValue(type, iterations++, step.value[1], step);
+            }
+          }
+          var entry = step.value;
+          k = entry[0];
+          v = entry[1];
+          skipping && (skipping = predicate.call(context, v, k, this$0));
+        } while (skipping);
+        return type === ITERATE_ENTRIES ? step :
+          iteratorValue(type, k, v, step);
+      });
+    };
+    return skipSequence;
+  }
+
+
+  function concatFactory(iterable, values) {
+    var isKeyedIterable = isKeyed(iterable);
+    var iters = [iterable].concat(values).map(function(v ) {
+      if (!isIterable(v)) {
+        v = isKeyedIterable ?
+          keyedSeqFromValue(v) :
+          indexedSeqFromValue(Array.isArray(v) ? v : [v]);
+      } else if (isKeyedIterable) {
+        v = KeyedIterable(v);
+      }
+      return v;
+    }).filter(function(v ) {return v.size !== 0});
+
+    if (iters.length === 0) {
+      return iterable;
+    }
+
+    if (iters.length === 1) {
+      var singleton = iters[0];
+      if (singleton === iterable ||
+          isKeyedIterable && isKeyed(singleton) ||
+          isIndexed(iterable) && isIndexed(singleton)) {
+        return singleton;
+      }
+    }
+
+    var concatSeq = new ArraySeq(iters);
+    if (isKeyedIterable) {
+      concatSeq = concatSeq.toKeyedSeq();
+    } else if (!isIndexed(iterable)) {
+      concatSeq = concatSeq.toSetSeq();
+    }
+    concatSeq = concatSeq.flatten(true);
+    concatSeq.size = iters.reduce(
+      function(sum, seq)  {
+        if (sum !== undefined) {
+          var size = seq.size;
+          if (size !== undefined) {
+            return sum + size;
+          }
+        }
+      },
+      0
+    );
+    return concatSeq;
+  }
+
+
+  function flattenFactory(iterable, depth, useKeys) {
+    var flatSequence = makeSequence(iterable);
+    flatSequence.__iterateUncached = function(fn, reverse) {
+      var iterations = 0;
+      var stopped = false;
+      function flatDeep(iter, currentDepth) {var this$0 = this;
+        iter.__iterate(function(v, k)  {
+          if ((!depth || currentDepth < depth) && isIterable(v)) {
+            flatDeep(v, currentDepth + 1);
+          } else if (fn(v, useKeys ? k : iterations++, this$0) === false) {
+            stopped = true;
+          }
+          return !stopped;
+        }, reverse);
+      }
+      flatDeep(iterable, 0);
+      return iterations;
+    }
+    flatSequence.__iteratorUncached = function(type, reverse) {
+      var iterator = iterable.__iterator(type, reverse);
+      var stack = [];
+      var iterations = 0;
+      return new Iterator(function()  {
+        while (iterator) {
+          var step = iterator.next();
+          if (step.done !== false) {
+            iterator = stack.pop();
+            continue;
+          }
+          var v = step.value;
+          if (type === ITERATE_ENTRIES) {
+            v = v[1];
+          }
+          if ((!depth || stack.length < depth) && isIterable(v)) {
+            stack.push(iterator);
+            iterator = v.__iterator(type, reverse);
+          } else {
+            return useKeys ? step : iteratorValue(type, iterations++, v, step);
+          }
+        }
+        return iteratorDone();
+      });
+    }
+    return flatSequence;
+  }
+
+
+  function flatMapFactory(iterable, mapper, context) {
+    var coerce = iterableClass(iterable);
+    return iterable.toSeq().map(
+      function(v, k)  {return coerce(mapper.call(context, v, k, iterable))}
+    ).flatten(true);
+  }
+
+
+  function interposeFactory(iterable, separator) {
+    var interposedSequence = makeSequence(iterable);
+    interposedSequence.size = iterable.size && iterable.size * 2 -1;
+    interposedSequence.__iterateUncached = function(fn, reverse) {var this$0 = this;
+      var iterations = 0;
+      iterable.__iterate(function(v, k) 
+        {return (!iterations || fn(separator, iterations++, this$0) !== false) &&
+        fn(v, iterations++, this$0) !== false},
+        reverse
+      );
+      return iterations;
+    };
+    interposedSequence.__iteratorUncached = function(type, reverse) {
+      var iterator = iterable.__iterator(ITERATE_VALUES, reverse);
+      var iterations = 0;
+      var step;
+      return new Iterator(function()  {
+        if (!step || iterations % 2) {
+          step = iterator.next();
+          if (step.done) {
+            return step;
+          }
+        }
+        return iterations % 2 ?
+          iteratorValue(type, iterations++, separator) :
+          iteratorValue(type, iterations++, step.value, step);
+      });
+    };
+    return interposedSequence;
+  }
+
+
+  function sortFactory(iterable, comparator, mapper) {
+    if (!comparator) {
+      comparator = defaultComparator;
+    }
+    var isKeyedIterable = isKeyed(iterable);
+    var index = 0;
+    var entries = iterable.toSeq().map(
+      function(v, k)  {return [k, v, index++, mapper ? mapper(v, k, iterable) : v]}
+    ).toArray();
+    entries.sort(function(a, b)  {return comparator(a[3], b[3]) || a[2] - b[2]}).forEach(
+      isKeyedIterable ?
+      function(v, i)  { entries[i].length = 2; } :
+      function(v, i)  { entries[i] = v[1]; }
+    );
+    return isKeyedIterable ? KeyedSeq(entries) :
+      isIndexed(iterable) ? IndexedSeq(entries) :
+      SetSeq(entries);
+  }
+
+
+  function maxFactory(iterable, comparator, mapper) {
+    if (!comparator) {
+      comparator = defaultComparator;
+    }
+    if (mapper) {
+      var entry = iterable.toSeq()
+        .map(function(v, k)  {return [v, mapper(v, k, iterable)]})
+        .reduce(function(a, b)  {return maxCompare(comparator, a[1], b[1]) ? b : a});
+      return entry && entry[0];
+    } else {
+      return iterable.reduce(function(a, b)  {return maxCompare(comparator, a, b) ? b : a});
+    }
+  }
+
+  function maxCompare(comparator, a, b) {
+    var comp = comparator(b, a);
+    // b is considered the new max if the comparator declares them equal, but
+    // they are not equal and b is in fact a nullish value.
+    return (comp === 0 && b !== a && (b === undefined || b === null || b !== b)) || comp > 0;
+  }
+
+
+  function zipWithFactory(keyIter, zipper, iters) {
+    var zipSequence = makeSequence(keyIter);
+    zipSequence.size = new ArraySeq(iters).map(function(i ) {return i.size}).min();
+    // Note: this a generic base implementation of __iterate in terms of
+    // __iterator which may be more generically useful in the future.
+    zipSequence.__iterate = function(fn, reverse) {
+      /* generic:
+      var iterator = this.__iterator(ITERATE_ENTRIES, reverse);
+      var step;
+      var iterations = 0;
+      while (!(step = iterator.next()).done) {
+        iterations++;
+        if (fn(step.value[1], step.value[0], this) === false) {
+          break;
+        }
+      }
+      return iterations;
+      */
+      // indexed:
+      var iterator = this.__iterator(ITERATE_VALUES, reverse);
+      var step;
+      var iterations = 0;
+      while (!(step = iterator.next()).done) {
+        if (fn(step.value, iterations++, this) === false) {
+          break;
+        }
+      }
+      return iterations;
+    };
+    zipSequence.__iteratorUncached = function(type, reverse) {
+      var iterators = iters.map(function(i )
+        {return (i = Iterable(i), getIterator(reverse ? i.reverse() : i))}
+      );
+      var iterations = 0;
+      var isDone = false;
+      return new Iterator(function()  {
+        var steps;
+        if (!isDone) {
+          steps = iterators.map(function(i ) {return i.next()});
+          isDone = steps.some(function(s ) {return s.done});
+        }
+        if (isDone) {
+          return iteratorDone();
+        }
+        return iteratorValue(
+          type,
+          iterations++,
+          zipper.apply(null, steps.map(function(s ) {return s.value}))
+        );
+      });
+    };
+    return zipSequence
+  }
+
+
+  // #pragma Helper Functions
+
+  function reify(iter, seq) {
+    return isSeq(iter) ? seq : iter.constructor(seq);
+  }
+
+  function validateEntry(entry) {
+    if (entry !== Object(entry)) {
+      throw new TypeError('Expected [K, V] tuple: ' + entry);
+    }
+  }
+
+  function resolveSize(iter) {
+    assertNotInfinite(iter.size);
+    return ensureSize(iter);
+  }
+
+  function iterableClass(iterable) {
+    return isKeyed(iterable) ? KeyedIterable :
+      isIndexed(iterable) ? IndexedIterable :
+      SetIterable;
+  }
+
+  function makeSequence(iterable) {
+    return Object.create(
+      (
+        isKeyed(iterable) ? KeyedSeq :
+        isIndexed(iterable) ? IndexedSeq :
+        SetSeq
+      ).prototype
+    );
+  }
+
+  function cacheResultThrough() {
+    if (this._iter.cacheResult) {
+      this._iter.cacheResult();
+      this.size = this._iter.size;
+      return this;
+    } else {
+      return Seq.prototype.cacheResult.call(this);
+    }
+  }
+
+  function defaultComparator(a, b) {
+    return a > b ? 1 : a < b ? -1 : 0;
+  }
+
+  function forceIterator(keyPath) {
+    var iter = getIterator(keyPath);
+    if (!iter) {
+      // Array might not be iterable in this environment, so we need a fallback
+      // to our wrapped type.
+      if (!isArrayLike(keyPath)) {
+        throw new TypeError('Expected iterable or array-like: ' + keyPath);
+      }
+      iter = getIterator(Iterable(keyPath));
+    }
+    return iter;
+  }
+
+  createClass(Record, KeyedCollection);
+
+    function Record(defaultValues, name) {
+      var hasInitialized;
+
+      var RecordType = function Record(values) {
+        if (values instanceof RecordType) {
+          return values;
+        }
+        if (!(this instanceof RecordType)) {
+          return new RecordType(values);
+        }
+        if (!hasInitialized) {
+          hasInitialized = true;
+          var keys = Object.keys(defaultValues);
+          setProps(RecordTypePrototype, keys);
+          RecordTypePrototype.size = keys.length;
+          RecordTypePrototype._name = name;
+          RecordTypePrototype._keys = keys;
+          RecordTypePrototype._defaultValues = defaultValues;
+        }
+        this._map = Map(values);
+      };
+
+      var RecordTypePrototype = RecordType.prototype = Object.create(RecordPrototype);
+      RecordTypePrototype.constructor = RecordType;
+
+      return RecordType;
+    }
+
+    Record.prototype.toString = function() {
+      return this.__toString(recordName(this) + ' {', '}');
+    };
+
+    // @pragma Access
+
+    Record.prototype.has = function(k) {
+      return this._defaultValues.hasOwnProperty(k);
+    };
+
+    Record.prototype.get = function(k, notSetValue) {
+      if (!this.has(k)) {
+        return notSetValue;
+      }
+      var defaultVal = this._defaultValues[k];
+      return this._map ? this._map.get(k, defaultVal) : defaultVal;
+    };
+
+    // @pragma Modification
+
+    Record.prototype.clear = function() {
+      if (this.__ownerID) {
+        this._map && this._map.clear();
+        return this;
+      }
+      var RecordType = this.constructor;
+      return RecordType._empty || (RecordType._empty = makeRecord(this, emptyMap()));
+    };
+
+    Record.prototype.set = function(k, v) {
+      if (!this.has(k)) {
+        throw new Error('Cannot set unknown key "' + k + '" on ' + recordName(this));
+      }
+      if (this._map && !this._map.has(k)) {
+        var defaultVal = this._defaultValues[k];
+        if (v === defaultVal) {
+          return this;
+        }
+      }
+      var newMap = this._map && this._map.set(k, v);
+      if (this.__ownerID || newMap === this._map) {
+        return this;
+      }
+      return makeRecord(this, newMap);
+    };
+
+    Record.prototype.remove = function(k) {
+      if (!this.has(k)) {
+        return this;
+      }
+      var newMap = this._map && this._map.remove(k);
+      if (this.__ownerID || newMap === this._map) {
+        return this;
+      }
+      return makeRecord(this, newMap);
+    };
+
+    Record.prototype.wasAltered = function() {
+      return this._map.wasAltered();
+    };
+
+    Record.prototype.__iterator = function(type, reverse) {var this$0 = this;
+      return KeyedIterable(this._defaultValues).map(function(_, k)  {return this$0.get(k)}).__iterator(type, reverse);
+    };
+
+    Record.prototype.__iterate = function(fn, reverse) {var this$0 = this;
+      return KeyedIterable(this._defaultValues).map(function(_, k)  {return this$0.get(k)}).__iterate(fn, reverse);
+    };
+
+    Record.prototype.__ensureOwner = function(ownerID) {
+      if (ownerID === this.__ownerID) {
+        return this;
+      }
+      var newMap = this._map && this._map.__ensureOwner(ownerID);
+      if (!ownerID) {
+        this.__ownerID = ownerID;
+        this._map = newMap;
+        return this;
+      }
+      return makeRecord(this, newMap, ownerID);
+    };
+
+
+  var RecordPrototype = Record.prototype;
+  RecordPrototype[DELETE] = RecordPrototype.remove;
+  RecordPrototype.deleteIn =
+  RecordPrototype.removeIn = MapPrototype.removeIn;
+  RecordPrototype.merge = MapPrototype.merge;
+  RecordPrototype.mergeWith = MapPrototype.mergeWith;
+  RecordPrototype.mergeIn = MapPrototype.mergeIn;
+  RecordPrototype.mergeDeep = MapPrototype.mergeDeep;
+  RecordPrototype.mergeDeepWith = MapPrototype.mergeDeepWith;
+  RecordPrototype.mergeDeepIn = MapPrototype.mergeDeepIn;
+  RecordPrototype.setIn = MapPrototype.setIn;
+  RecordPrototype.update = MapPrototype.update;
+  RecordPrototype.updateIn = MapPrototype.updateIn;
+  RecordPrototype.withMutations = MapPrototype.withMutations;
+  RecordPrototype.asMutable = MapPrototype.asMutable;
+  RecordPrototype.asImmutable = MapPrototype.asImmutable;
+
+
+  function makeRecord(likeRecord, map, ownerID) {
+    var record = Object.create(Object.getPrototypeOf(likeRecord));
+    record._map = map;
+    record.__ownerID = ownerID;
+    return record;
+  }
+
+  function recordName(record) {
+    return record._name || record.constructor.name || 'Record';
+  }
+
+  function setProps(prototype, names) {
+    try {
+      names.forEach(setProp.bind(undefined, prototype));
+    } catch (error) {
+      // Object.defineProperty failed. Probably IE8.
+    }
+  }
+
+  function setProp(prototype, name) {
+    Object.defineProperty(prototype, name, {
+      get: function() {
+        return this.get(name);
+      },
+      set: function(value) {
+        invariant(this.__ownerID, 'Cannot set on an immutable record.');
+        this.set(name, value);
+      }
+    });
+  }
+
+  createClass(Set, SetCollection);
+
+    // @pragma Construction
+
+    function Set(value) {
+      return value === null || value === undefined ? emptySet() :
+        isSet(value) && !isOrdered(value) ? value :
+        emptySet().withMutations(function(set ) {
+          var iter = SetIterable(value);
+          assertNotInfinite(iter.size);
+          iter.forEach(function(v ) {return set.add(v)});
+        });
+    }
+
+    Set.of = function(/*...values*/) {
+      return this(arguments);
+    };
+
+    Set.fromKeys = function(value) {
+      return this(KeyedIterable(value).keySeq());
+    };
+
+    Set.prototype.toString = function() {
+      return this.__toString('Set {', '}');
+    };
+
+    // @pragma Access
+
+    Set.prototype.has = function(value) {
+      return this._map.has(value);
+    };
+
+    // @pragma Modification
+
+    Set.prototype.add = function(value) {
+      return updateSet(this, this._map.set(value, true));
+    };
+
+    Set.prototype.remove = function(value) {
+      return updateSet(this, this._map.remove(value));
+    };
+
+    Set.prototype.clear = function() {
+      return updateSet(this, this._map.clear());
+    };
+
+    // @pragma Composition
+
+    Set.prototype.union = function() {var iters = SLICE$0.call(arguments, 0);
+      iters = iters.filter(function(x ) {return x.size !== 0});
+      if (iters.length === 0) {
+        return this;
+      }
+      if (this.size === 0 && !this.__ownerID && iters.length === 1) {
+        return this.constructor(iters[0]);
+      }
+      return this.withMutations(function(set ) {
+        for (var ii = 0; ii < iters.length; ii++) {
+          SetIterable(iters[ii]).forEach(function(value ) {return set.add(value)});
+        }
+      });
+    };
+
+    Set.prototype.intersect = function() {var iters = SLICE$0.call(arguments, 0);
+      if (iters.length === 0) {
+        return this;
+      }
+      iters = iters.map(function(iter ) {return SetIterable(iter)});
+      var originalSet = this;
+      return this.withMutations(function(set ) {
+        originalSet.forEach(function(value ) {
+          if (!iters.every(function(iter ) {return iter.includes(value)})) {
+            set.remove(value);
+          }
+        });
+      });
+    };
+
+    Set.prototype.subtract = function() {var iters = SLICE$0.call(arguments, 0);
+      if (iters.length === 0) {
+        return this;
+      }
+      iters = iters.map(function(iter ) {return SetIterable(iter)});
+      var originalSet = this;
+      return this.withMutations(function(set ) {
+        originalSet.forEach(function(value ) {
+          if (iters.some(function(iter ) {return iter.includes(value)})) {
+            set.remove(value);
+          }
+        });
+      });
+    };
+
+    Set.prototype.merge = function() {
+      return this.union.apply(this, arguments);
+    };
+
+    Set.prototype.mergeWith = function(merger) {var iters = SLICE$0.call(arguments, 1);
+      return this.union.apply(this, iters);
+    };
+
+    Set.prototype.sort = function(comparator) {
+      // Late binding
+      return OrderedSet(sortFactory(this, comparator));
+    };
+
+    Set.prototype.sortBy = function(mapper, comparator) {
+      // Late binding
+      return OrderedSet(sortFactory(this, comparator, mapper));
+    };
+
+    Set.prototype.wasAltered = function() {
+      return this._map.wasAltered();
+    };
+
+    Set.prototype.__iterate = function(fn, reverse) {var this$0 = this;
+      return this._map.__iterate(function(_, k)  {return fn(k, k, this$0)}, reverse);
+    };
+
+    Set.prototype.__iterator = function(type, reverse) {
+      return this._map.map(function(_, k)  {return k}).__iterator(type, reverse);
+    };
+
+    Set.prototype.__ensureOwner = function(ownerID) {
+      if (ownerID === this.__ownerID) {
+        return this;
+      }
+      var newMap = this._map.__ensureOwner(ownerID);
+      if (!ownerID) {
+        this.__ownerID = ownerID;
+        this._map = newMap;
+        return this;
+      }
+      return this.__make(newMap, ownerID);
+    };
+
+
+  function isSet(maybeSet) {
+    return !!(maybeSet && maybeSet[IS_SET_SENTINEL]);
+  }
+
+  Set.isSet = isSet;
+
+  var IS_SET_SENTINEL = '@@__IMMUTABLE_SET__@@';
+
+  var SetPrototype = Set.prototype;
+  SetPrototype[IS_SET_SENTINEL] = true;
+  SetPrototype[DELETE] = SetPrototype.remove;
+  SetPrototype.mergeDeep = SetPrototype.merge;
+  SetPrototype.mergeDeepWith = SetPrototype.mergeWith;
+  SetPrototype.withMutations = MapPrototype.withMutations;
+  SetPrototype.asMutable = MapPrototype.asMutable;
+  SetPrototype.asImmutable = MapPrototype.asImmutable;
+
+  SetPrototype.__empty = emptySet;
+  SetPrototype.__make = makeSet;
+
+  function updateSet(set, newMap) {
+    if (set.__ownerID) {
+      set.size = newMap.size;
+      set._map = newMap;
+      return set;
+    }
+    return newMap === set._map ? set :
+      newMap.size === 0 ? set.__empty() :
+      set.__make(newMap);
+  }
+
+  function makeSet(map, ownerID) {
+    var set = Object.create(SetPrototype);
+    set.size = map ? map.size : 0;
+    set._map = map;
+    set.__ownerID = ownerID;
+    return set;
+  }
+
+  var EMPTY_SET;
+  function emptySet() {
+    return EMPTY_SET || (EMPTY_SET = makeSet(emptyMap()));
+  }
+
+  createClass(OrderedSet, Set);
+
+    // @pragma Construction
+
+    function OrderedSet(value) {
+      return value === null || value === undefined ? emptyOrderedSet() :
+        isOrderedSet(value) ? value :
+        emptyOrderedSet().withMutations(function(set ) {
+          var iter = SetIterable(value);
+          assertNotInfinite(iter.size);
+          iter.forEach(function(v ) {return set.add(v)});
+        });
+    }
+
+    OrderedSet.of = function(/*...values*/) {
+      return this(arguments);
+    };
+
+    OrderedSet.fromKeys = function(value) {
+      return this(KeyedIterable(value).keySeq());
+    };
+
+    OrderedSet.prototype.toString = function() {
+      return this.__toString('OrderedSet {', '}');
+    };
+
+
+  function isOrderedSet(maybeOrderedSet) {
+    return isSet(maybeOrderedSet) && isOrdered(maybeOrderedSet);
+  }
+
+  OrderedSet.isOrderedSet = isOrderedSet;
+
+  var OrderedSetPrototype = OrderedSet.prototype;
+  OrderedSetPrototype[IS_ORDERED_SENTINEL] = true;
+
+  OrderedSetPrototype.__empty = emptyOrderedSet;
+  OrderedSetPrototype.__make = makeOrderedSet;
+
+  function makeOrderedSet(map, ownerID) {
+    var set = Object.create(OrderedSetPrototype);
+    set.size = map ? map.size : 0;
+    set._map = map;
+    set.__ownerID = ownerID;
+    return set;
+  }
+
+  var EMPTY_ORDERED_SET;
+  function emptyOrderedSet() {
+    return EMPTY_ORDERED_SET || (EMPTY_ORDERED_SET = makeOrderedSet(emptyOrderedMap()));
+  }
+
+  createClass(Stack, IndexedCollection);
+
+    // @pragma Construction
+
+    function Stack(value) {
+      return value === null || value === undefined ? emptyStack() :
+        isStack(value) ? value :
+        emptyStack().unshiftAll(value);
+    }
+
+    Stack.of = function(/*...values*/) {
+      return this(arguments);
+    };
+
+    Stack.prototype.toString = function() {
+      return this.__toString('Stack [', ']');
+    };
+
+    // @pragma Access
+
+    Stack.prototype.get = function(index, notSetValue) {
+      var head = this._head;
+      index = wrapIndex(this, index);
+      while (head && index--) {
+        head = head.next;
+      }
+      return head ? head.value : notSetValue;
+    };
+
+    Stack.prototype.peek = function() {
+      return this._head && this._head.value;
+    };
+
+    // @pragma Modification
+
+    Stack.prototype.push = function(/*...values*/) {
+      if (arguments.length === 0) {
+        return this;
+      }
+      var newSize = this.size + arguments.length;
+      var head = this._head;
+      for (var ii = arguments.length - 1; ii >= 0; ii--) {
+        head = {
+          value: arguments[ii],
+          next: head
+        };
+      }
+      if (this.__ownerID) {
+        this.size = newSize;
+        this._head = head;
+        this.__hash = undefined;
+        this.__altered = true;
+        return this;
+      }
+      return makeStack(newSize, head);
+    };
+
+    Stack.prototype.pushAll = function(iter) {
+      iter = IndexedIterable(iter);
+      if (iter.size === 0) {
+        return this;
+      }
+      assertNotInfinite(iter.size);
+      var newSize = this.size;
+      var head = this._head;
+      iter.reverse().forEach(function(value ) {
+        newSize++;
+        head = {
+          value: value,
+          next: head
+        };
+      });
+      if (this.__ownerID) {
+        this.size = newSize;
+        this._head = head;
+        this.__hash = undefined;
+        this.__altered = true;
+        return this;
+      }
+      return makeStack(newSize, head);
+    };
+
+    Stack.prototype.pop = function() {
+      return this.slice(1);
+    };
+
+    Stack.prototype.unshift = function(/*...values*/) {
+      return this.push.apply(this, arguments);
+    };
+
+    Stack.prototype.unshiftAll = function(iter) {
+      return this.pushAll(iter);
+    };
+
+    Stack.prototype.shift = function() {
+      return this.pop.apply(this, arguments);
+    };
+
+    Stack.prototype.clear = function() {
+      if (this.size === 0) {
+        return this;
+      }
+      if (this.__ownerID) {
+        this.size = 0;
+        this._head = undefined;
+        this.__hash = undefined;
+        this.__altered = true;
+        return this;
+      }
+      return emptyStack();
+    };
+
+    Stack.prototype.slice = function(begin, end) {
+      if (wholeSlice(begin, end, this.size)) {
+        return this;
+      }
+      var resolvedBegin = resolveBegin(begin, this.size);
+      var resolvedEnd = resolveEnd(end, this.size);
+      if (resolvedEnd !== this.size) {
+        // super.slice(begin, end);
+        return IndexedCollection.prototype.slice.call(this, begin, end);
+      }
+      var newSize = this.size - resolvedBegin;
+      var head = this._head;
+      while (resolvedBegin--) {
+        head = head.next;
+      }
+      if (this.__ownerID) {
+        this.size = newSize;
+        this._head = head;
+        this.__hash = undefined;
+        this.__altered = true;
+        return this;
+      }
+      return makeStack(newSize, head);
+    };
+
+    // @pragma Mutability
+
+    Stack.prototype.__ensureOwner = function(ownerID) {
+      if (ownerID === this.__ownerID) {
+        return this;
+      }
+      if (!ownerID) {
+        this.__ownerID = ownerID;
+        this.__altered = false;
+        return this;
+      }
+      return makeStack(this.size, this._head, ownerID, this.__hash);
+    };
+
+    // @pragma Iteration
+
+    Stack.prototype.__iterate = function(fn, reverse) {
+      if (reverse) {
+        return this.reverse().__iterate(fn);
+      }
+      var iterations = 0;
+      var node = this._head;
+      while (node) {
+        if (fn(node.value, iterations++, this) === false) {
+          break;
+        }
+        node = node.next;
+      }
+      return iterations;
+    };
+
+    Stack.prototype.__iterator = function(type, reverse) {
+      if (reverse) {
+        return this.reverse().__iterator(type);
+      }
+      var iterations = 0;
+      var node = this._head;
+      return new Iterator(function()  {
+        if (node) {
+          var value = node.value;
+          node = node.next;
+          return iteratorValue(type, iterations++, value);
+        }
+        return iteratorDone();
+      });
+    };
+
+
+  function isStack(maybeStack) {
+    return !!(maybeStack && maybeStack[IS_STACK_SENTINEL]);
+  }
+
+  Stack.isStack = isStack;
+
+  var IS_STACK_SENTINEL = '@@__IMMUTABLE_STACK__@@';
+
+  var StackPrototype = Stack.prototype;
+  StackPrototype[IS_STACK_SENTINEL] = true;
+  StackPrototype.withMutations = MapPrototype.withMutations;
+  StackPrototype.asMutable = MapPrototype.asMutable;
+  StackPrototype.asImmutable = MapPrototype.asImmutable;
+  StackPrototype.wasAltered = MapPrototype.wasAltered;
+
+
+  function makeStack(size, head, ownerID, hash) {
+    var map = Object.create(StackPrototype);
+    map.size = size;
+    map._head = head;
+    map.__ownerID = ownerID;
+    map.__hash = hash;
+    map.__altered = false;
+    return map;
+  }
+
+  var EMPTY_STACK;
+  function emptyStack() {
+    return EMPTY_STACK || (EMPTY_STACK = makeStack(0));
+  }
+
+  /**
+   * Contributes additional methods to a constructor
+   */
+  function mixin(ctor, methods) {
+    var keyCopier = function(key ) { ctor.prototype[key] = methods[key]; };
+    Object.keys(methods).forEach(keyCopier);
+    Object.getOwnPropertySymbols &&
+      Object.getOwnPropertySymbols(methods).forEach(keyCopier);
+    return ctor;
+  }
+
+  Iterable.Iterator = Iterator;
+
+  mixin(Iterable, {
+
+    // ### Conversion to other types
+
+    toArray: function() {
+      assertNotInfinite(this.size);
+      var array = new Array(this.size || 0);
+      this.valueSeq().__iterate(function(v, i)  { array[i] = v; });
+      return array;
+    },
+
+    toIndexedSeq: function() {
+      return new ToIndexedSequence(this);
+    },
+
+    toJS: function() {
+      return this.toSeq().map(
+        function(value ) {return value && typeof value.toJS === 'function' ? value.toJS() : value}
+      ).__toJS();
+    },
+
+    toJSON: function() {
+      return this.toSeq().map(
+        function(value ) {return value && typeof value.toJSON === 'function' ? value.toJSON() : value}
+      ).__toJS();
+    },
+
+    toKeyedSeq: function() {
+      return new ToKeyedSequence(this, true);
+    },
+
+    toMap: function() {
+      // Use Late Binding here to solve the circular dependency.
+      return Map(this.toKeyedSeq());
+    },
+
+    toObject: function() {
+      assertNotInfinite(this.size);
+      var object = {};
+      this.__iterate(function(v, k)  { object[k] = v; });
+      return object;
+    },
+
+    toOrderedMap: function() {
+      // Use Late Binding here to solve the circular dependency.
+      return OrderedMap(this.toKeyedSeq());
+    },
+
+    toOrderedSet: function() {
+      // Use Late Binding here to solve the circular dependency.
+      return OrderedSet(isKeyed(this) ? this.valueSeq() : this);
+    },
+
+    toSet: function() {
+      // Use Late Binding here to solve the circular dependency.
+      return Set(isKeyed(this) ? this.valueSeq() : this);
+    },
+
+    toSetSeq: function() {
+      return new ToSetSequence(this);
+    },
+
+    toSeq: function() {
+      return isIndexed(this) ? this.toIndexedSeq() :
+        isKeyed(this) ? this.toKeyedSeq() :
+        this.toSetSeq();
+    },
+
+    toStack: function() {
+      // Use Late Binding here to solve the circular dependency.
+      return Stack(isKeyed(this) ? this.valueSeq() : this);
+    },
+
+    toList: function() {
+      // Use Late Binding here to solve the circular dependency.
+      return List(isKeyed(this) ? this.valueSeq() : this);
+    },
+
+
+    // ### Common JavaScript methods and properties
+
+    toString: function() {
+      return '[Iterable]';
+    },
+
+    __toString: function(head, tail) {
+      if (this.size === 0) {
+        return head + tail;
+      }
+      return head + ' ' + this.toSeq().map(this.__toStringMapper).join(', ') + ' ' + tail;
+    },
+
+
+    // ### ES6 Collection methods (ES6 Array and Map)
+
+    concat: function() {var values = SLICE$0.call(arguments, 0);
+      return reify(this, concatFactory(this, values));
+    },
+
+    includes: function(searchValue) {
+      return this.some(function(value ) {return is(value, searchValue)});
+    },
+
+    entries: function() {
+      return this.__iterator(ITERATE_ENTRIES);
+    },
+
+    every: function(predicate, context) {
+      assertNotInfinite(this.size);
+      var returnValue = true;
+      this.__iterate(function(v, k, c)  {
+        if (!predicate.call(context, v, k, c)) {
+          returnValue = false;
+          return false;
+        }
+      });
+      return returnValue;
+    },
+
+    filter: function(predicate, context) {
+      return reify(this, filterFactory(this, predicate, context, true));
+    },
+
+    find: function(predicate, context, notSetValue) {
+      var entry = this.findEntry(predicate, context);
+      return entry ? entry[1] : notSetValue;
+    },
+
+    forEach: function(sideEffect, context) {
+      assertNotInfinite(this.size);
+      return this.__iterate(context ? sideEffect.bind(context) : sideEffect);
+    },
+
+    join: function(separator) {
+      assertNotInfinite(this.size);
+      separator = separator !== undefined ? '' + separator : ',';
+      var joined = '';
+      var isFirst = true;
+      this.__iterate(function(v ) {
+        isFirst ? (isFirst = false) : (joined += separator);
+        joined += v !== null && v !== undefined ? v.toString() : '';
+      });
+      return joined;
+    },
+
+    keys: function() {
+      return this.__iterator(ITERATE_KEYS);
+    },
+
+    map: function(mapper, context) {
+      return reify(this, mapFactory(this, mapper, context));
+    },
+
+    reduce: function(reducer, initialReduction, context) {
+      assertNotInfinite(this.size);
+      var reduction;
+      var useFirst;
+      if (arguments.length < 2) {
+        useFirst = true;
+      } else {
+        reduction = initialReduction;
+      }
+      this.__iterate(function(v, k, c)  {
+        if (useFirst) {
+          useFirst = false;
+          reduction = v;
+        } else {
+          reduction = reducer.call(context, reduction, v, k, c);
+        }
+      });
+      return reduction;
+    },
+
+    reduceRight: function(reducer, initialReduction, context) {
+      var reversed = this.toKeyedSeq().reverse();
+      return reversed.reduce.apply(reversed, arguments);
+    },
+
+    reverse: function() {
+      return reify(this, reverseFactory(this, true));
+    },
+
+    slice: function(begin, end) {
+      return reify(this, sliceFactory(this, begin, end, true));
+    },
+
+    some: function(predicate, context) {
+      return !this.every(not(predicate), context);
+    },
+
+    sort: function(comparator) {
+      return reify(this, sortFactory(this, comparator));
+    },
+
+    values: function() {
+      return this.__iterator(ITERATE_VALUES);
+    },
+
+
+    // ### More sequential methods
+
+    butLast: function() {
+      return this.slice(0, -1);
+    },
+
+    isEmpty: function() {
+      return this.size !== undefined ? this.size === 0 : !this.some(function()  {return true});
+    },
+
+    count: function(predicate, context) {
+      return ensureSize(
+        predicate ? this.toSeq().filter(predicate, context) : this
+      );
+    },
+
+    countBy: function(grouper, context) {
+      return countByFactory(this, grouper, context);
+    },
+
+    equals: function(other) {
+      return deepEqual(this, other);
+    },
+
+    entrySeq: function() {
+      var iterable = this;
+      if (iterable._cache) {
+        // We cache as an entries array, so we can just return the cache!
+        return new ArraySeq(iterable._cache);
+      }
+      var entriesSequence = iterable.toSeq().map(entryMapper).toIndexedSeq();
+      entriesSequence.fromEntrySeq = function()  {return iterable.toSeq()};
+      return entriesSequence;
+    },
+
+    filterNot: function(predicate, context) {
+      return this.filter(not(predicate), context);
+    },
+
+    findEntry: function(predicate, context, notSetValue) {
+      var found = notSetValue;
+      this.__iterate(function(v, k, c)  {
+        if (predicate.call(context, v, k, c)) {
+          found = [k, v];
+          return false;
+        }
+      });
+      return found;
+    },
+
+    findKey: function(predicate, context) {
+      var entry = this.findEntry(predicate, context);
+      return entry && entry[0];
+    },
+
+    findLast: function(predicate, context, notSetValue) {
+      return this.toKeyedSeq().reverse().find(predicate, context, notSetValue);
+    },
+
+    findLastEntry: function(predicate, context, notSetValue) {
+      return this.toKeyedSeq().reverse().findEntry(predicate, context, notSetValue);
+    },
+
+    findLastKey: function(predicate, context) {
+      return this.toKeyedSeq().reverse().findKey(predicate, context);
+    },
+
+    first: function() {
+      return this.find(returnTrue);
+    },
+
+    flatMap: function(mapper, context) {
+      return reify(this, flatMapFactory(this, mapper, context));
+    },
+
+    flatten: function(depth) {
+      return reify(this, flattenFactory(this, depth, true));
+    },
+
+    fromEntrySeq: function() {
+      return new FromEntriesSequence(this);
+    },
+
+    get: function(searchKey, notSetValue) {
+      return this.find(function(_, key)  {return is(key, searchKey)}, undefined, notSetValue);
+    },
+
+    getIn: function(searchKeyPath, notSetValue) {
+      var nested = this;
+      // Note: in an ES6 environment, we would prefer:
+      // for (var key of searchKeyPath) {
+      var iter = forceIterator(searchKeyPath);
+      var step;
+      while (!(step = iter.next()).done) {
+        var key = step.value;
+        nested = nested && nested.get ? nested.get(key, NOT_SET) : NOT_SET;
+        if (nested === NOT_SET) {
+          return notSetValue;
+        }
+      }
+      return nested;
+    },
+
+    groupBy: function(grouper, context) {
+      return groupByFactory(this, grouper, context);
+    },
+
+    has: function(searchKey) {
+      return this.get(searchKey, NOT_SET) !== NOT_SET;
+    },
+
+    hasIn: function(searchKeyPath) {
+      return this.getIn(searchKeyPath, NOT_SET) !== NOT_SET;
+    },
+
+    isSubset: function(iter) {
+      iter = typeof iter.includes === 'function' ? iter : Iterable(iter);
+      return this.every(function(value ) {return iter.includes(value)});
+    },
+
+    isSuperset: function(iter) {
+      iter = typeof iter.isSubset === 'function' ? iter : Iterable(iter);
+      return iter.isSubset(this);
+    },
+
+    keyOf: function(searchValue) {
+      return this.findKey(function(value ) {return is(value, searchValue)});
+    },
+
+    keySeq: function() {
+      return this.toSeq().map(keyMapper).toIndexedSeq();
+    },
+
+    last: function() {
+      return this.toSeq().reverse().first();
+    },
+
+    lastKeyOf: function(searchValue) {
+      return this.toKeyedSeq().reverse().keyOf(searchValue);
+    },
+
+    max: function(comparator) {
+      return maxFactory(this, comparator);
+    },
+
+    maxBy: function(mapper, comparator) {
+      return maxFactory(this, comparator, mapper);
+    },
+
+    min: function(comparator) {
+      return maxFactory(this, comparator ? neg(comparator) : defaultNegComparator);
+    },
+
+    minBy: function(mapper, comparator) {
+      return maxFactory(this, comparator ? neg(comparator) : defaultNegComparator, mapper);
+    },
+
+    rest: function() {
+      return this.slice(1);
+    },
+
+    skip: function(amount) {
+      return this.slice(Math.max(0, amount));
+    },
+
+    skipLast: function(amount) {
+      return reify(this, this.toSeq().reverse().skip(amount).reverse());
+    },
+
+    skipWhile: function(predicate, context) {
+      return reify(this, skipWhileFactory(this, predicate, context, true));
+    },
+
+    skipUntil: function(predicate, context) {
+      return this.skipWhile(not(predicate), context);
+    },
+
+    sortBy: function(mapper, comparator) {
+      return reify(this, sortFactory(this, comparator, mapper));
+    },
+
+    take: function(amount) {
+      return this.slice(0, Math.max(0, amount));
+    },
+
+    takeLast: function(amount) {
+      return reify(this, this.toSeq().reverse().take(amount).reverse());
+    },
+
+    takeWhile: function(predicate, context) {
+      return reify(this, takeWhileFactory(this, predicate, context));
+    },
+
+    takeUntil: function(predicate, context) {
+      return this.takeWhile(not(predicate), context);
+    },
+
+    valueSeq: function() {
+      return this.toIndexedSeq();
+    },
+
+
+    // ### Hashable Object
+
+    hashCode: function() {
+      return this.__hash || (this.__hash = hashIterable(this));
+    }
+
+
+    // ### Internal
+
+    // abstract __iterate(fn, reverse)
+
+    // abstract __iterator(type, reverse)
+  });
+
+  // var IS_ITERABLE_SENTINEL = '@@__IMMUTABLE_ITERABLE__@@';
+  // var IS_KEYED_SENTINEL = '@@__IMMUTABLE_KEYED__@@';
+  // var IS_INDEXED_SENTINEL = '@@__IMMUTABLE_INDEXED__@@';
+  // var IS_ORDERED_SENTINEL = '@@__IMMUTABLE_ORDERED__@@';
+
+  var IterablePrototype = Iterable.prototype;
+  IterablePrototype[IS_ITERABLE_SENTINEL] = true;
+  IterablePrototype[ITERATOR_SYMBOL] = IterablePrototype.values;
+  IterablePrototype.__toJS = IterablePrototype.toArray;
+  IterablePrototype.__toStringMapper = quoteString;
+  IterablePrototype.inspect =
+  IterablePrototype.toSource = function() { return this.toString(); };
+  IterablePrototype.chain = IterablePrototype.flatMap;
+  IterablePrototype.contains = IterablePrototype.includes;
+
+  mixin(KeyedIterable, {
+
+    // ### More sequential methods
+
+    flip: function() {
+      return reify(this, flipFactory(this));
+    },
+
+    mapEntries: function(mapper, context) {var this$0 = this;
+      var iterations = 0;
+      return reify(this,
+        this.toSeq().map(
+          function(v, k)  {return mapper.call(context, [k, v], iterations++, this$0)}
+        ).fromEntrySeq()
+      );
+    },
+
+    mapKeys: function(mapper, context) {var this$0 = this;
+      return reify(this,
+        this.toSeq().flip().map(
+          function(k, v)  {return mapper.call(context, k, v, this$0)}
+        ).flip()
+      );
+    }
+
+  });
+
+  var KeyedIterablePrototype = KeyedIterable.prototype;
+  KeyedIterablePrototype[IS_KEYED_SENTINEL] = true;
+  KeyedIterablePrototype[ITERATOR_SYMBOL] = IterablePrototype.entries;
+  KeyedIterablePrototype.__toJS = IterablePrototype.toObject;
+  KeyedIterablePrototype.__toStringMapper = function(v, k)  {return JSON.stringify(k) + ': ' + quoteString(v)};
+
+
+
+  mixin(IndexedIterable, {
+
+    // ### Conversion to other types
+
+    toKeyedSeq: function() {
+      return new ToKeyedSequence(this, false);
+    },
+
+
+    // ### ES6 Collection methods (ES6 Array and Map)
+
+    filter: function(predicate, context) {
+      return reify(this, filterFactory(this, predicate, context, false));
+    },
+
+    findIndex: function(predicate, context) {
+      var entry = this.findEntry(predicate, context);
+      return entry ? entry[0] : -1;
+    },
+
+    indexOf: function(searchValue) {
+      var key = this.keyOf(searchValue);
+      return key === undefined ? -1 : key;
+    },
+
+    lastIndexOf: function(searchValue) {
+      var key = this.lastKeyOf(searchValue);
+      return key === undefined ? -1 : key;
+    },
+
+    reverse: function() {
+      return reify(this, reverseFactory(this, false));
+    },
+
+    slice: function(begin, end) {
+      return reify(this, sliceFactory(this, begin, end, false));
+    },
+
+    splice: function(index, removeNum /*, ...values*/) {
+      var numArgs = arguments.length;
+      removeNum = Math.max(removeNum | 0, 0);
+      if (numArgs === 0 || (numArgs === 2 && !removeNum)) {
+        return this;
+      }
+      // If index is negative, it should resolve relative to the size of the
+      // collection. However size may be expensive to compute if not cached, so
+      // only call count() if the number is in fact negative.
+      index = resolveBegin(index, index < 0 ? this.count() : this.size);
+      var spliced = this.slice(0, index);
+      return reify(
+        this,
+        numArgs === 1 ?
+          spliced :
+          spliced.concat(arrCopy(arguments, 2), this.slice(index + removeNum))
+      );
+    },
+
+
+    // ### More collection methods
+
+    findLastIndex: function(predicate, context) {
+      var entry = this.findLastEntry(predicate, context);
+      return entry ? entry[0] : -1;
+    },
+
+    first: function() {
+      return this.get(0);
+    },
+
+    flatten: function(depth) {
+      return reify(this, flattenFactory(this, depth, false));
+    },
+
+    get: function(index, notSetValue) {
+      index = wrapIndex(this, index);
+      return (index < 0 || (this.size === Infinity ||
+          (this.size !== undefined && index > this.size))) ?
+        notSetValue :
+        this.find(function(_, key)  {return key === index}, undefined, notSetValue);
+    },
+
+    has: function(index) {
+      index = wrapIndex(this, index);
+      return index >= 0 && (this.size !== undefined ?
+        this.size === Infinity || index < this.size :
+        this.indexOf(index) !== -1
+      );
+    },
+
+    interpose: function(separator) {
+      return reify(this, interposeFactory(this, separator));
+    },
+
+    interleave: function(/*...iterables*/) {
+      var iterables = [this].concat(arrCopy(arguments));
+      var zipped = zipWithFactory(this.toSeq(), IndexedSeq.of, iterables);
+      var interleaved = zipped.flatten(true);
+      if (zipped.size) {
+        interleaved.size = zipped.size * iterables.length;
+      }
+      return reify(this, interleaved);
+    },
+
+    keySeq: function() {
+      return Range(0, this.size);
+    },
+
+    last: function() {
+      return this.get(-1);
+    },
+
+    skipWhile: function(predicate, context) {
+      return reify(this, skipWhileFactory(this, predicate, context, false));
+    },
+
+    zip: function(/*, ...iterables */) {
+      var iterables = [this].concat(arrCopy(arguments));
+      return reify(this, zipWithFactory(this, defaultZipper, iterables));
+    },
+
+    zipWith: function(zipper/*, ...iterables */) {
+      var iterables = arrCopy(arguments);
+      iterables[0] = this;
+      return reify(this, zipWithFactory(this, zipper, iterables));
+    }
+
+  });
+
+  IndexedIterable.prototype[IS_INDEXED_SENTINEL] = true;
+  IndexedIterable.prototype[IS_ORDERED_SENTINEL] = true;
+
+
+
+  mixin(SetIterable, {
+
+    // ### ES6 Collection methods (ES6 Array and Map)
+
+    get: function(value, notSetValue) {
+      return this.has(value) ? value : notSetValue;
+    },
+
+    includes: function(value) {
+      return this.has(value);
+    },
+
+
+    // ### More sequential methods
+
+    keySeq: function() {
+      return this.valueSeq();
+    }
+
+  });
+
+  SetIterable.prototype.has = IterablePrototype.includes;
+  SetIterable.prototype.contains = SetIterable.prototype.includes;
+
+
+  // Mixin subclasses
+
+  mixin(KeyedSeq, KeyedIterable.prototype);
+  mixin(IndexedSeq, IndexedIterable.prototype);
+  mixin(SetSeq, SetIterable.prototype);
+
+  mixin(KeyedCollection, KeyedIterable.prototype);
+  mixin(IndexedCollection, IndexedIterable.prototype);
+  mixin(SetCollection, SetIterable.prototype);
+
+
+  // #pragma Helper functions
+
+  function keyMapper(v, k) {
+    return k;
+  }
+
+  function entryMapper(v, k) {
+    return [k, v];
+  }
+
+  function not(predicate) {
+    return function() {
+      return !predicate.apply(this, arguments);
+    }
+  }
+
+  function neg(predicate) {
+    return function() {
+      return -predicate.apply(this, arguments);
+    }
+  }
+
+  function quoteString(value) {
+    return typeof value === 'string' ? JSON.stringify(value) : String(value);
+  }
+
+  function defaultZipper() {
+    return arrCopy(arguments);
+  }
+
+  function defaultNegComparator(a, b) {
+    return a < b ? 1 : a > b ? -1 : 0;
+  }
+
+  function hashIterable(iterable) {
+    if (iterable.size === Infinity) {
+      return 0;
+    }
+    var ordered = isOrdered(iterable);
+    var keyed = isKeyed(iterable);
+    var h = ordered ? 1 : 0;
+    var size = iterable.__iterate(
+      keyed ?
+        ordered ?
+          function(v, k)  { h = 31 * h + hashMerge(hash(v), hash(k)) | 0; } :
+          function(v, k)  { h = h + hashMerge(hash(v), hash(k)) | 0; } :
+        ordered ?
+          function(v ) { h = 31 * h + hash(v) | 0; } :
+          function(v ) { h = h + hash(v) | 0; }
+    );
+    return murmurHashOfSize(size, h);
+  }
+
+  function murmurHashOfSize(size, h) {
+    h = imul(h, 0xCC9E2D51);
+    h = imul(h << 15 | h >>> -15, 0x1B873593);
+    h = imul(h << 13 | h >>> -13, 5);
+    h = (h + 0xE6546B64 | 0) ^ size;
+    h = imul(h ^ h >>> 16, 0x85EBCA6B);
+    h = imul(h ^ h >>> 13, 0xC2B2AE35);
+    h = smi(h ^ h >>> 16);
+    return h;
+  }
+
+  function hashMerge(a, b) {
+    return a ^ b + 0x9E3779B9 + (a << 6) + (a >> 2) | 0; // int
+  }
+
+  var Immutable = {
+
+    Iterable: Iterable,
+
+    Seq: Seq,
+    Collection: Collection,
+    Map: Map,
+    OrderedMap: OrderedMap,
+    List: List,
+    Stack: Stack,
+    Set: Set,
+    OrderedSet: OrderedSet,
+
+    Record: Record,
+    Range: Range,
+    Repeat: Repeat,
+
+    is: is,
+    fromJS: fromJS
+
+  };
+
+  return Immutable;
+
+}));
+
+/***/ }),
+/* 233 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var success_chance_1 = __webpack_require__(234);
+var is_hs_program_1 = __webpack_require__(106);
+var is_es_program_1 = __webpack_require__(107);
+var denormalize_1 = __webpack_require__(235);
+exports.createIndexByID = function (programs) {
+    var idx = {};
+    for (var i = 0; i < programs.length; i++) {
+        var program = programs[i];
+        idx[program.ID] = i;
+    }
+    return idx;
+};
+var alphaSortPrograms = function (a, b) {
+    if (a.Short_Name < b.Short_Name) {
+        return -1;
+    }
+    else if (a.Short_Name === b.Short_Name) {
+        return 0;
+    }
+    else if (a.Short_Name > b.Short_Name) {
+        return 1;
+    }
+};
+exports.getHSProgramIDs = function (programs) {
+    return programs.filter(is_hs_program_1.default).sort(alphaSortPrograms).map(function (program) { return program.ID; });
+};
+exports.getESProgramIDs = function (programs) {
+    return programs.filter(is_es_program_1.default).sort(alphaSortPrograms).map(function (program) { return program.ID; });
+};
+exports.getHSProgramIDsByType = function (programs) {
+    var index = exports.createIndexByID(programs);
+    var hsProgramIDs = exports.getHSProgramIDs(programs);
+    var hsProgramIDsByType = {};
+    for (var i = 0; i < hsProgramIDs.length; i++) {
+        var id = hsProgramIDs[i];
+        var program = denormalize_1.default(id, programs, index);
+        var type = program.Program_Type;
+        if (!hsProgramIDsByType[type]) {
+            hsProgramIDsByType[type] = [];
+        }
+        hsProgramIDsByType[type].push(id);
+    }
+    return hsProgramIDsByType;
+};
+exports.initializeOutcomes = function (programs) {
+    var outcomes = {};
+    for (var i = 0; i < programs.length; i++) {
+        var program = programs[i];
+        var id = program.ID;
+        outcomes[id] = {
+            application: success_chance_1.default.NOTIMPLEMENTED,
+            selection: success_chance_1.default.NOTIMPLEMENTED
+        };
+    }
+    return outcomes;
+};
+exports.calculateOutcomes = function (programs, studentData, reqFnLookup) {
+    var outcomes = {};
+    for (var i = 0; i < programs.length; i++) {
+        var program = programs[i];
+        var id = program.ID;
+        var reqFns = reqFnLookup(program);
+        try {
+            outcomes[id] = {
+                application: reqFns.application(studentData, program).outcome,
+                selection: reqFns.selection(studentData, program).outcome
+            };
+        }
+        catch (e) {
+            console.error(e);
+            console.error(program);
+            console.warn(reqFns);
+        }
+    }
+    return outcomes;
+};
+
+
+/***/ }),
+/* 234 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var SuccessChance;
+(function (SuccessChance) {
+    SuccessChance[SuccessChance["CERTAIN"] = 0] = "CERTAIN";
+    SuccessChance[SuccessChance["LIKELY"] = 1] = "LIKELY";
+    SuccessChance[SuccessChance["UNCERTAIN"] = 2] = "UNCERTAIN";
+    SuccessChance[SuccessChance["UNLIKELY"] = 3] = "UNLIKELY";
+    SuccessChance[SuccessChance["NONE"] = 4] = "NONE";
+    SuccessChance[SuccessChance["NOTIMPLEMENTED"] = 5] = "NOTIMPLEMENTED";
+})(SuccessChance || (SuccessChance = {}));
+;
+exports.default = SuccessChance;
+
+
+/***/ }),
+/* 235 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var denormalize = function (id, records, index) {
+    try {
+        return records[index[id]];
+    }
+    catch (e) {
+        return null;
+    }
+};
+exports.default = denormalize;
+
+
+/***/ }),
+/* 236 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var is_es_program_1 = __webpack_require__(107);
+var is_hs_program_1 = __webpack_require__(106);
+var cpsPrograms = __webpack_require__(237);
+exports.getAllPrograms = function () {
+    return cpsPrograms;
+};
+exports.getAllProgramsByProgramType = function () {
+    var programs = groupByProgramType(cpsPrograms);
+    return programs;
+};
+exports.getHSPrograms = function () {
+    var programs = cpsPrograms.filter(is_hs_program_1.default);
+    return programs;
+};
+exports.getHSProgramsByType = function () {
+    var programs = groupByProgramType(cpsPrograms.filter(is_hs_program_1.default));
+    return programs;
+};
+exports.getESPrograms = function () {
+    var programs = cpsPrograms.filter(is_es_program_1.default);
+    return programs;
+};
+var groupByProgramType = function (allPrograms) {
+    var programs = {};
+    for (var i = 0; i < allPrograms.length; i++) {
+        var program = allPrograms[i];
+        var programType = program.Program_Type;
+        if (!programs[programType]) {
+            programs[programType] = [];
+        }
+        programs[programType].push(program);
+    }
+    return programs;
+};
+
+
+/***/ }),
+/* 237 */
 /***/ (function(module, exports) {
 
 module.exports = [
@@ -45398,13 +51214,839 @@ module.exports = [
 ];
 
 /***/ }),
-/* 230 */
+/* 238 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony export (immutable) */ __webpack_exports__["a"] = createProvider;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(108);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_PropTypes__ = __webpack_require__(109);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_warning__ = __webpack_require__(65);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+var didWarnAboutReceivingStore = false;
+function warnAboutReceivingStore() {
+  if (didWarnAboutReceivingStore) {
+    return;
+  }
+  didWarnAboutReceivingStore = true;
+
+  __WEBPACK_IMPORTED_MODULE_3__utils_warning__["a" /* default */]('<Provider> does not support changing `store` on the fly. ' + 'It is most likely that you see this error because you updated to ' + 'Redux 2.x and React Redux 2.x which no longer hot reload reducers ' + 'automatically. See https://github.com/reactjs/react-redux/releases/' + 'tag/v2.0.0 for the migration instructions.');
+}
+
+function createProvider() {
+  var _Provider$childContex;
+
+  var storeKey = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'store';
+  var subKey = arguments[1];
+
+  var subscriptionKey = subKey || storeKey + 'Subscription';
+
+  var Provider = function (_Component) {
+    _inherits(Provider, _Component);
+
+    Provider.prototype.getChildContext = function getChildContext() {
+      var _ref;
+
+      return _ref = {}, _ref[storeKey] = this[storeKey], _ref[subscriptionKey] = null, _ref;
+    };
+
+    function Provider(props, context) {
+      _classCallCheck(this, Provider);
+
+      var _this = _possibleConstructorReturn(this, _Component.call(this, props, context));
+
+      _this[storeKey] = props.store;
+      return _this;
+    }
+
+    Provider.prototype.render = function render() {
+      return __WEBPACK_IMPORTED_MODULE_0_react__["Children"].only(this.props.children);
+    };
+
+    return Provider;
+  }(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+  if (process.env.NODE_ENV !== 'production') {
+    Provider.prototype.componentWillReceiveProps = function (nextProps) {
+      if (this[storeKey] !== nextProps.store) {
+        warnAboutReceivingStore();
+      }
+    };
+  }
+
+  Provider.propTypes = {
+    store: __WEBPACK_IMPORTED_MODULE_2__utils_PropTypes__["a" /* storeShape */].isRequired,
+    children: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.element.isRequired
+  };
+  Provider.childContextTypes = (_Provider$childContex = {}, _Provider$childContex[storeKey] = __WEBPACK_IMPORTED_MODULE_2__utils_PropTypes__["a" /* storeShape */].isRequired, _Provider$childContex[subscriptionKey] = __WEBPACK_IMPORTED_MODULE_2__utils_PropTypes__["b" /* subscriptionShape */], _Provider$childContex);
+
+  return Provider;
+}
+
+/* harmony default export */ __webpack_exports__["b"] = (createProvider());
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
+
+/***/ }),
+/* 239 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright 2013-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
+
+
+
+var emptyFunction = __webpack_require__(9);
+var invariant = __webpack_require__(1);
+var ReactPropTypesSecret = __webpack_require__(47);
+
+module.exports = function() {
+  function shim(props, propName, componentName, location, propFullName, secret) {
+    if (secret === ReactPropTypesSecret) {
+      // It is still safe when called from React.
+      return;
+    }
+    invariant(
+      false,
+      'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
+      'Use PropTypes.checkPropTypes() to call them. ' +
+      'Read more at http://fb.me/use-check-prop-types'
+    );
+  };
+  shim.isRequired = shim;
+  function getShim() {
+    return shim;
+  };
+  // Important!
+  // Keep this list in sync with production version in `./factoryWithTypeCheckers.js`.
+  var ReactPropTypes = {
+    array: shim,
+    bool: shim,
+    func: shim,
+    number: shim,
+    object: shim,
+    string: shim,
+    symbol: shim,
+
+    any: shim,
+    arrayOf: getShim,
+    element: shim,
+    instanceOf: getShim,
+    node: shim,
+    objectOf: getShim,
+    oneOf: getShim,
+    oneOfType: getShim,
+    shape: getShim
+  };
+
+  ReactPropTypes.checkPropTypes = emptyFunction;
+  ReactPropTypes.PropTypes = ReactPropTypes;
+
+  return ReactPropTypes;
+};
+
+
+/***/ }),
+/* 240 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright 2015, Yahoo! Inc.
+ * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
+ */
+
+
+var REACT_STATICS = {
+    childContextTypes: true,
+    contextTypes: true,
+    defaultProps: true,
+    displayName: true,
+    getDefaultProps: true,
+    mixins: true,
+    propTypes: true,
+    type: true
+};
+
+var KNOWN_STATICS = {
+  name: true,
+  length: true,
+  prototype: true,
+  caller: true,
+  callee: true,
+  arguments: true,
+  arity: true
+};
+
+var defineProperty = Object.defineProperty;
+var getOwnPropertyNames = Object.getOwnPropertyNames;
+var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+var getPrototypeOf = Object.getPrototypeOf;
+var objectPrototype = getPrototypeOf && getPrototypeOf(Object);
+
+module.exports = function hoistNonReactStatics(targetComponent, sourceComponent, blacklist) {
+    if (typeof sourceComponent !== 'string') { // don't hoist over string (html) components
+
+        if (objectPrototype) {
+            var inheritedComponent = getPrototypeOf(sourceComponent);
+            if (inheritedComponent && inheritedComponent !== objectPrototype) {
+                hoistNonReactStatics(targetComponent, inheritedComponent, blacklist);
+            }
+        }
+
+        var keys = getOwnPropertyNames(sourceComponent);
+
+        if (getOwnPropertySymbols) {
+            keys = keys.concat(getOwnPropertySymbols(sourceComponent));
+        }
+
+        for (var i = 0; i < keys.length; ++i) {
+            var key = keys[i];
+            if (!REACT_STATICS[key] && !KNOWN_STATICS[key] && (!blacklist || !blacklist[key])) {
+                var descriptor = getOwnPropertyDescriptor(sourceComponent, key);
+                try { // Avoid failures from read-only properties
+                    defineProperty(targetComponent, key, descriptor);
+                } catch (e) {}
+            }
+        }
+
+        return targetComponent;
+    }
+
+    return targetComponent;
+};
+
+
+/***/ }),
+/* 241 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
+
+
+
+/**
+ * Use invariant() to assert state which your program assumes to be true.
+ *
+ * Provide sprintf-style format (only %s is supported) and arguments
+ * to provide information about what broke and what you were
+ * expecting.
+ *
+ * The invariant message will be stripped in production, but the invariant
+ * will remain to ensure logic does not differ in production.
+ */
+
+var invariant = function(condition, format, a, b, c, d, e, f) {
+  if (process.env.NODE_ENV !== 'production') {
+    if (format === undefined) {
+      throw new Error('invariant requires an error message argument');
+    }
+  }
+
+  if (!condition) {
+    var error;
+    if (format === undefined) {
+      error = new Error(
+        'Minified exception occurred; use the non-minified dev environment ' +
+        'for the full error message and additional helpful warnings.'
+      );
+    } else {
+      var args = [a, b, c, d, e, f];
+      var argIndex = 0;
+      error = new Error(
+        format.replace(/%s/g, function() { return args[argIndex++]; })
+      );
+      error.name = 'Invariant Violation';
+    }
+
+    error.framesToPop = 1; // we don't care about invariant's own frame
+    throw error;
+  }
+};
+
+module.exports = invariant;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 242 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Subscription; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+// encapsulates the subscription logic for connecting a component to the redux store, as
+// well as nesting subscriptions of descendant components, so that we can ensure the
+// ancestor components re-render before descendants
+
+var CLEARED = null;
+var nullListeners = {
+  notify: function notify() {}
+};
+
+function createListenerCollection() {
+  // the current/next pattern is copied from redux's createStore code.
+  // TODO: refactor+expose that code to be reusable here?
+  var current = [];
+  var next = [];
+
+  return {
+    clear: function clear() {
+      next = CLEARED;
+      current = CLEARED;
+    },
+    notify: function notify() {
+      var listeners = current = next;
+      for (var i = 0; i < listeners.length; i++) {
+        listeners[i]();
+      }
+    },
+    get: function get() {
+      return next;
+    },
+    subscribe: function subscribe(listener) {
+      var isSubscribed = true;
+      if (next === current) next = current.slice();
+      next.push(listener);
+
+      return function unsubscribe() {
+        if (!isSubscribed || current === CLEARED) return;
+        isSubscribed = false;
+
+        if (next === current) next = current.slice();
+        next.splice(next.indexOf(listener), 1);
+      };
+    }
+  };
+}
+
+var Subscription = function () {
+  function Subscription(store, parentSub, onStateChange) {
+    _classCallCheck(this, Subscription);
+
+    this.store = store;
+    this.parentSub = parentSub;
+    this.onStateChange = onStateChange;
+    this.unsubscribe = null;
+    this.listeners = nullListeners;
+  }
+
+  Subscription.prototype.addNestedSub = function addNestedSub(listener) {
+    this.trySubscribe();
+    return this.listeners.subscribe(listener);
+  };
+
+  Subscription.prototype.notifyNestedSubs = function notifyNestedSubs() {
+    this.listeners.notify();
+  };
+
+  Subscription.prototype.isSubscribed = function isSubscribed() {
+    return Boolean(this.unsubscribe);
+  };
+
+  Subscription.prototype.trySubscribe = function trySubscribe() {
+    if (!this.unsubscribe) {
+      this.unsubscribe = this.parentSub ? this.parentSub.addNestedSub(this.onStateChange) : this.store.subscribe(this.onStateChange);
+
+      this.listeners = createListenerCollection();
+    }
+  };
+
+  Subscription.prototype.tryUnsubscribe = function tryUnsubscribe() {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+      this.unsubscribe = null;
+      this.listeners.clear();
+      this.listeners = nullListeners;
+    }
+  };
+
+  return Subscription;
+}();
+
+
+
+/***/ }),
+/* 243 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export createConnect */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_connectAdvanced__ = __webpack_require__(110);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_shallowEqual__ = __webpack_require__(244);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mapDispatchToProps__ = __webpack_require__(245);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mapStateToProps__ = __webpack_require__(246);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mergeProps__ = __webpack_require__(247);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__selectorFactory__ = __webpack_require__(248);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+
+
+
+
+
+
+
+/*
+  connect is a facade over connectAdvanced. It turns its args into a compatible
+  selectorFactory, which has the signature:
+
+    (dispatch, options) => (nextState, nextOwnProps) => nextFinalProps
+  
+  connect passes its args to connectAdvanced as options, which will in turn pass them to
+  selectorFactory each time a Connect component instance is instantiated or hot reloaded.
+
+  selectorFactory returns a final props selector from its mapStateToProps,
+  mapStateToPropsFactories, mapDispatchToProps, mapDispatchToPropsFactories, mergeProps,
+  mergePropsFactories, and pure args.
+
+  The resulting final props selector is called by the Connect component instance whenever
+  it receives new props or store state.
+ */
+
+function match(arg, factories, name) {
+  for (var i = factories.length - 1; i >= 0; i--) {
+    var result = factories[i](arg);
+    if (result) return result;
+  }
+
+  return function (dispatch, options) {
+    throw new Error('Invalid value of type ' + typeof arg + ' for ' + name + ' argument when connecting component ' + options.wrappedComponentName + '.');
+  };
+}
+
+function strictEqual(a, b) {
+  return a === b;
+}
+
+// createConnect with default args builds the 'official' connect behavior. Calling it with
+// different options opens up some testing and extensibility scenarios
+function createConnect() {
+  var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      _ref$connectHOC = _ref.connectHOC,
+      connectHOC = _ref$connectHOC === undefined ? __WEBPACK_IMPORTED_MODULE_0__components_connectAdvanced__["a" /* default */] : _ref$connectHOC,
+      _ref$mapStateToPropsF = _ref.mapStateToPropsFactories,
+      mapStateToPropsFactories = _ref$mapStateToPropsF === undefined ? __WEBPACK_IMPORTED_MODULE_3__mapStateToProps__["a" /* default */] : _ref$mapStateToPropsF,
+      _ref$mapDispatchToPro = _ref.mapDispatchToPropsFactories,
+      mapDispatchToPropsFactories = _ref$mapDispatchToPro === undefined ? __WEBPACK_IMPORTED_MODULE_2__mapDispatchToProps__["a" /* default */] : _ref$mapDispatchToPro,
+      _ref$mergePropsFactor = _ref.mergePropsFactories,
+      mergePropsFactories = _ref$mergePropsFactor === undefined ? __WEBPACK_IMPORTED_MODULE_4__mergeProps__["a" /* default */] : _ref$mergePropsFactor,
+      _ref$selectorFactory = _ref.selectorFactory,
+      selectorFactory = _ref$selectorFactory === undefined ? __WEBPACK_IMPORTED_MODULE_5__selectorFactory__["a" /* default */] : _ref$selectorFactory;
+
+  return function connect(mapStateToProps, mapDispatchToProps, mergeProps) {
+    var _ref2 = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {},
+        _ref2$pure = _ref2.pure,
+        pure = _ref2$pure === undefined ? true : _ref2$pure,
+        _ref2$areStatesEqual = _ref2.areStatesEqual,
+        areStatesEqual = _ref2$areStatesEqual === undefined ? strictEqual : _ref2$areStatesEqual,
+        _ref2$areOwnPropsEqua = _ref2.areOwnPropsEqual,
+        areOwnPropsEqual = _ref2$areOwnPropsEqua === undefined ? __WEBPACK_IMPORTED_MODULE_1__utils_shallowEqual__["a" /* default */] : _ref2$areOwnPropsEqua,
+        _ref2$areStatePropsEq = _ref2.areStatePropsEqual,
+        areStatePropsEqual = _ref2$areStatePropsEq === undefined ? __WEBPACK_IMPORTED_MODULE_1__utils_shallowEqual__["a" /* default */] : _ref2$areStatePropsEq,
+        _ref2$areMergedPropsE = _ref2.areMergedPropsEqual,
+        areMergedPropsEqual = _ref2$areMergedPropsE === undefined ? __WEBPACK_IMPORTED_MODULE_1__utils_shallowEqual__["a" /* default */] : _ref2$areMergedPropsE,
+        extraOptions = _objectWithoutProperties(_ref2, ['pure', 'areStatesEqual', 'areOwnPropsEqual', 'areStatePropsEqual', 'areMergedPropsEqual']);
+
+    var initMapStateToProps = match(mapStateToProps, mapStateToPropsFactories, 'mapStateToProps');
+    var initMapDispatchToProps = match(mapDispatchToProps, mapDispatchToPropsFactories, 'mapDispatchToProps');
+    var initMergeProps = match(mergeProps, mergePropsFactories, 'mergeProps');
+
+    return connectHOC(selectorFactory, _extends({
+      // used in error messages
+      methodName: 'connect',
+
+      // used to compute Connect's displayName from the wrapped component's displayName.
+      getDisplayName: function getDisplayName(name) {
+        return 'Connect(' + name + ')';
+      },
+
+      // if mapStateToProps is falsy, the Connect component doesn't subscribe to store state changes
+      shouldHandleStateChanges: Boolean(mapStateToProps),
+
+      // passed through to selectorFactory
+      initMapStateToProps: initMapStateToProps,
+      initMapDispatchToProps: initMapDispatchToProps,
+      initMergeProps: initMergeProps,
+      pure: pure,
+      areStatesEqual: areStatesEqual,
+      areOwnPropsEqual: areOwnPropsEqual,
+      areStatePropsEqual: areStatePropsEqual,
+      areMergedPropsEqual: areMergedPropsEqual
+
+    }, extraOptions));
+  };
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (createConnect());
+
+/***/ }),
+/* 244 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = shallowEqual;
+var hasOwn = Object.prototype.hasOwnProperty;
+
+function is(x, y) {
+  if (x === y) {
+    return x !== 0 || y !== 0 || 1 / x === 1 / y;
+  } else {
+    return x !== x && y !== y;
+  }
+}
+
+function shallowEqual(objA, objB) {
+  if (is(objA, objB)) return true;
+
+  if (typeof objA !== 'object' || objA === null || typeof objB !== 'object' || objB === null) {
+    return false;
+  }
+
+  var keysA = Object.keys(objA);
+  var keysB = Object.keys(objB);
+
+  if (keysA.length !== keysB.length) return false;
+
+  for (var i = 0; i < keysA.length; i++) {
+    if (!hasOwn.call(objB, keysA[i]) || !is(objA[keysA[i]], objB[keysA[i]])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+/***/ }),
+/* 245 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export whenMapDispatchToPropsIsFunction */
+/* unused harmony export whenMapDispatchToPropsIsMissing */
+/* unused harmony export whenMapDispatchToPropsIsObject */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_redux__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__wrapMapToProps__ = __webpack_require__(111);
+
+
+
+function whenMapDispatchToPropsIsFunction(mapDispatchToProps) {
+  return typeof mapDispatchToProps === 'function' ? __WEBPACK_IMPORTED_MODULE_1__wrapMapToProps__["b" /* wrapMapToPropsFunc */](mapDispatchToProps, 'mapDispatchToProps') : undefined;
+}
+
+function whenMapDispatchToPropsIsMissing(mapDispatchToProps) {
+  return !mapDispatchToProps ? __WEBPACK_IMPORTED_MODULE_1__wrapMapToProps__["a" /* wrapMapToPropsConstant */](function (dispatch) {
+    return { dispatch: dispatch };
+  }) : undefined;
+}
+
+function whenMapDispatchToPropsIsObject(mapDispatchToProps) {
+  return mapDispatchToProps && typeof mapDispatchToProps === 'object' ? __WEBPACK_IMPORTED_MODULE_1__wrapMapToProps__["a" /* wrapMapToPropsConstant */](function (dispatch) {
+    return __WEBPACK_IMPORTED_MODULE_0_redux__["bindActionCreators"](mapDispatchToProps, dispatch);
+  }) : undefined;
+}
+
+/* harmony default export */ __webpack_exports__["a"] = ([whenMapDispatchToPropsIsFunction, whenMapDispatchToPropsIsMissing, whenMapDispatchToPropsIsObject]);
+
+/***/ }),
+/* 246 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export whenMapStateToPropsIsFunction */
+/* unused harmony export whenMapStateToPropsIsMissing */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__wrapMapToProps__ = __webpack_require__(111);
+
+
+function whenMapStateToPropsIsFunction(mapStateToProps) {
+  return typeof mapStateToProps === 'function' ? __WEBPACK_IMPORTED_MODULE_0__wrapMapToProps__["b" /* wrapMapToPropsFunc */](mapStateToProps, 'mapStateToProps') : undefined;
+}
+
+function whenMapStateToPropsIsMissing(mapStateToProps) {
+  return !mapStateToProps ? __WEBPACK_IMPORTED_MODULE_0__wrapMapToProps__["a" /* wrapMapToPropsConstant */](function () {
+    return {};
+  }) : undefined;
+}
+
+/* harmony default export */ __webpack_exports__["a"] = ([whenMapStateToPropsIsFunction, whenMapStateToPropsIsMissing]);
+
+/***/ }),
+/* 247 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/* unused harmony export defaultMergeProps */
+/* unused harmony export wrapMergePropsFunc */
+/* unused harmony export whenMergePropsIsFunction */
+/* unused harmony export whenMergePropsIsOmitted */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_verifyPlainObject__ = __webpack_require__(112);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
+
+function defaultMergeProps(stateProps, dispatchProps, ownProps) {
+  return _extends({}, ownProps, stateProps, dispatchProps);
+}
+
+function wrapMergePropsFunc(mergeProps) {
+  return function initMergePropsProxy(dispatch, _ref) {
+    var displayName = _ref.displayName,
+        pure = _ref.pure,
+        areMergedPropsEqual = _ref.areMergedPropsEqual;
+
+    var hasRunOnce = false;
+    var mergedProps = void 0;
+
+    return function mergePropsProxy(stateProps, dispatchProps, ownProps) {
+      var nextMergedProps = mergeProps(stateProps, dispatchProps, ownProps);
+
+      if (hasRunOnce) {
+        if (!pure || !areMergedPropsEqual(nextMergedProps, mergedProps)) mergedProps = nextMergedProps;
+      } else {
+        hasRunOnce = true;
+        mergedProps = nextMergedProps;
+
+        if (process.env.NODE_ENV !== 'production') __WEBPACK_IMPORTED_MODULE_0__utils_verifyPlainObject__["a" /* default */](mergedProps, displayName, 'mergeProps');
+      }
+
+      return mergedProps;
+    };
+  };
+}
+
+function whenMergePropsIsFunction(mergeProps) {
+  return typeof mergeProps === 'function' ? wrapMergePropsFunc(mergeProps) : undefined;
+}
+
+function whenMergePropsIsOmitted(mergeProps) {
+  return !mergeProps ? function () {
+    return defaultMergeProps;
+  } : undefined;
+}
+
+/* harmony default export */ __webpack_exports__["a"] = ([whenMergePropsIsFunction, whenMergePropsIsOmitted]);
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
+
+/***/ }),
+/* 248 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/* unused harmony export impureFinalPropsSelectorFactory */
+/* unused harmony export pureFinalPropsSelectorFactory */
+/* harmony export (immutable) */ __webpack_exports__["a"] = finalPropsSelectorFactory;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__verifySubselectors__ = __webpack_require__(249);
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+
+
+function impureFinalPropsSelectorFactory(mapStateToProps, mapDispatchToProps, mergeProps, dispatch) {
+  return function impureFinalPropsSelector(state, ownProps) {
+    return mergeProps(mapStateToProps(state, ownProps), mapDispatchToProps(dispatch, ownProps), ownProps);
+  };
+}
+
+function pureFinalPropsSelectorFactory(mapStateToProps, mapDispatchToProps, mergeProps, dispatch, _ref) {
+  var areStatesEqual = _ref.areStatesEqual,
+      areOwnPropsEqual = _ref.areOwnPropsEqual,
+      areStatePropsEqual = _ref.areStatePropsEqual;
+
+  var hasRunAtLeastOnce = false;
+  var state = void 0;
+  var ownProps = void 0;
+  var stateProps = void 0;
+  var dispatchProps = void 0;
+  var mergedProps = void 0;
+
+  function handleFirstCall(firstState, firstOwnProps) {
+    state = firstState;
+    ownProps = firstOwnProps;
+    stateProps = mapStateToProps(state, ownProps);
+    dispatchProps = mapDispatchToProps(dispatch, ownProps);
+    mergedProps = mergeProps(stateProps, dispatchProps, ownProps);
+    hasRunAtLeastOnce = true;
+    return mergedProps;
+  }
+
+  function handleNewPropsAndNewState() {
+    stateProps = mapStateToProps(state, ownProps);
+
+    if (mapDispatchToProps.dependsOnOwnProps) dispatchProps = mapDispatchToProps(dispatch, ownProps);
+
+    mergedProps = mergeProps(stateProps, dispatchProps, ownProps);
+    return mergedProps;
+  }
+
+  function handleNewProps() {
+    if (mapStateToProps.dependsOnOwnProps) stateProps = mapStateToProps(state, ownProps);
+
+    if (mapDispatchToProps.dependsOnOwnProps) dispatchProps = mapDispatchToProps(dispatch, ownProps);
+
+    mergedProps = mergeProps(stateProps, dispatchProps, ownProps);
+    return mergedProps;
+  }
+
+  function handleNewState() {
+    var nextStateProps = mapStateToProps(state, ownProps);
+    var statePropsChanged = !areStatePropsEqual(nextStateProps, stateProps);
+    stateProps = nextStateProps;
+
+    if (statePropsChanged) mergedProps = mergeProps(stateProps, dispatchProps, ownProps);
+
+    return mergedProps;
+  }
+
+  function handleSubsequentCalls(nextState, nextOwnProps) {
+    var propsChanged = !areOwnPropsEqual(nextOwnProps, ownProps);
+    var stateChanged = !areStatesEqual(nextState, state);
+    state = nextState;
+    ownProps = nextOwnProps;
+
+    if (propsChanged && stateChanged) return handleNewPropsAndNewState();
+    if (propsChanged) return handleNewProps();
+    if (stateChanged) return handleNewState();
+    return mergedProps;
+  }
+
+  return function pureFinalPropsSelector(nextState, nextOwnProps) {
+    return hasRunAtLeastOnce ? handleSubsequentCalls(nextState, nextOwnProps) : handleFirstCall(nextState, nextOwnProps);
+  };
+}
+
+// TODO: Add more comments
+
+// If pure is true, the selector returned by selectorFactory will memoize its results,
+// allowing connectAdvanced's shouldComponentUpdate to return false if final
+// props have not changed. If false, the selector will always return a new
+// object and shouldComponentUpdate will always return true.
+
+function finalPropsSelectorFactory(dispatch, _ref2) {
+  var initMapStateToProps = _ref2.initMapStateToProps,
+      initMapDispatchToProps = _ref2.initMapDispatchToProps,
+      initMergeProps = _ref2.initMergeProps,
+      options = _objectWithoutProperties(_ref2, ['initMapStateToProps', 'initMapDispatchToProps', 'initMergeProps']);
+
+  var mapStateToProps = initMapStateToProps(dispatch, options);
+  var mapDispatchToProps = initMapDispatchToProps(dispatch, options);
+  var mergeProps = initMergeProps(dispatch, options);
+
+  if (process.env.NODE_ENV !== 'production') {
+    __WEBPACK_IMPORTED_MODULE_0__verifySubselectors__["a" /* default */](mapStateToProps, mapDispatchToProps, mergeProps, options.displayName);
+  }
+
+  var selectorFactory = options.pure ? pureFinalPropsSelectorFactory : impureFinalPropsSelectorFactory;
+
+  return selectorFactory(mapStateToProps, mapDispatchToProps, mergeProps, dispatch, options);
+}
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
+
+/***/ }),
+/* 249 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = verifySubselectors;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_warning__ = __webpack_require__(65);
+
+
+function verify(selector, methodName, displayName) {
+  if (!selector) {
+    throw new Error('Unexpected value for ' + methodName + ' in ' + displayName + '.');
+  } else if (methodName === 'mapStateToProps' || methodName === 'mapDispatchToProps') {
+    if (!selector.hasOwnProperty('dependsOnOwnProps')) {
+      __WEBPACK_IMPORTED_MODULE_0__utils_warning__["a" /* default */]('The selector for ' + methodName + ' of ' + displayName + ' did not specify a value for dependsOnOwnProps.');
+    }
+  }
+}
+
+function verifySubselectors(mapStateToProps, mapDispatchToProps, mergeProps, displayName) {
+  verify(mapStateToProps, 'mapStateToProps', displayName);
+  verify(mapDispatchToProps, 'mapDispatchToProps', displayName);
+  verify(mergeProps, 'mergeProps', displayName);
+}
+
+/***/ }),
+/* 250 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var page_1 = __webpack_require__(251);
+var box_1 = __webpack_require__(255);
+var student_data_form_1 = __webpack_require__(258);
+var hs_program_success_chance_key_1 = __webpack_require__(296);
+var hs_programs_container_1 = __webpack_require__(299);
+var PathToHS = function (props) {
+    return (React.createElement(page_1.default, null,
+        React.createElement(box_1.default, { width: "half", height: "full", flex: {
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center"
+            }, responsiveBehavior: { mobile: "fullscreen" } },
+            React.createElement(student_data_form_1.default, null)),
+        React.createElement(box_1.default, { width: "half", height: "full", responsiveBehavior: { mobile: "fullscreen" } },
+            React.createElement(hs_program_success_chance_key_1.default, null),
+            React.createElement(hs_programs_container_1.default, null))));
+};
+exports.default = PathToHS;
+
+
+/***/ }),
+/* 251 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+__webpack_require__(252);
+var Page = function (props) {
+    return (React.createElement("div", { className: "page" }, props.children));
+};
+exports.default = Page;
+
+
+/***/ }),
+/* 252 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(231);
+var content = __webpack_require__(253);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -45412,14 +52054,14 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(12)(content, options);
+var update = __webpack_require__(27)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../../node_modules/sass-loader/lib/loader.js!./student-data-form.scss", function() {
-			var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../../node_modules/sass-loader/lib/loader.js!./student-data-form.scss");
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./page.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./page.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -45429,79 +52071,538 @@ if(false) {
 }
 
 /***/ }),
-/* 231 */
+/* 253 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(11)(undefined);
+exports = module.exports = __webpack_require__(26)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, ".student-data-form {\n  width: 100%;\n  overflow-y: auto; }\n\n.student-data-form-subform {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  -webkit-box-align: baseline;\n      -ms-flex-align: baseline;\n          align-items: baseline; }\n\n.student-data-form-group {\n  max-width: 300px;\n  -webkit-box-flex: 1;\n      -ms-flex: 1 1 auto;\n          flex: 1 1 auto; }\n\n.student-data-form-header {\n  margin: 1em;\n  font-size: 175%; }\n\n.student-data-form-subheader {\n  font-size: 150%;\n  border-bottom: 1px solid #cacaca;\n  margin: 0.75em; }\n", ""]);
+exports.push([module.i, ".page {\n  height: 100vh;\n  width: 100vw;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap; }\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 232 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 254 */
+/***/ (function(module, exports) {
 
-"use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var box_1 = __webpack_require__(89);
-var hs_program_type_1 = __webpack_require__(233);
-var hs_program_success_chance_key_1 = __webpack_require__(250);
-;
-var HSDisplay = function (props) {
-    return (React.createElement(box_1.default, { width: "half", height: "full", responsiveBehavior: { mobile: "fullscreen" } },
-        React.createElement(hs_program_success_chance_key_1.default, null),
-        React.createElement("div", { style: { width: "100%", height: "100%", overflowY: "auto", overflowX: "hidden" } }, Object.keys(props.hsData).map(function (programType) {
-            return React.createElement(hs_program_type_1.default, { programType: programType, programs: props.hsData[programType], studentData: props.studentData, key: programType });
-        }))));
+/**
+ * When source maps are enabled, `style-loader` uses a link element with a data-uri to
+ * embed the css on the page. This breaks all relative urls because now they are relative to a
+ * bundle instead of the current page.
+ *
+ * One solution is to only use full urls, but that may be impossible.
+ *
+ * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
+ *
+ * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
+ *
+ */
+
+module.exports = function (css) {
+  // get current location
+  var location = typeof window !== "undefined" && window.location;
+
+  if (!location) {
+    throw new Error("fixUrls requires window.location");
+  }
+
+	// blank or null?
+	if (!css || typeof css !== "string") {
+	  return css;
+  }
+
+  var baseUrl = location.protocol + "//" + location.host;
+  var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
+
+	// convert each url(...)
+	/*
+	This regular expression is just a way to recursively match brackets within
+	a string.
+
+	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
+	   (  = Start a capturing group
+	     (?:  = Start a non-capturing group
+	         [^)(]  = Match anything that isn't a parentheses
+	         |  = OR
+	         \(  = Match a start parentheses
+	             (?:  = Start another non-capturing groups
+	                 [^)(]+  = Match anything that isn't a parentheses
+	                 |  = OR
+	                 \(  = Match a start parentheses
+	                     [^)(]*  = Match anything that isn't a parentheses
+	                 \)  = Match a end parentheses
+	             )  = End Group
+              *\) = Match anything and then a close parens
+          )  = Close non-capturing group
+          *  = Match anything
+       )  = Close capturing group
+	 \)  = Match a close parens
+
+	 /gi  = Get all matches, not the first.  Be case insensitive.
+	 */
+	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function(fullMatch, origUrl) {
+		// strip quotes (if they exist)
+		var unquotedOrigUrl = origUrl
+			.trim()
+			.replace(/^"(.*)"$/, function(o, $1){ return $1; })
+			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
+
+		// already a full url? no change
+		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/)/i.test(unquotedOrigUrl)) {
+		  return fullMatch;
+		}
+
+		// convert the url to a full url
+		var newUrl;
+
+		if (unquotedOrigUrl.indexOf("//") === 0) {
+		  	//TODO: should we add protocol?
+			newUrl = unquotedOrigUrl;
+		} else if (unquotedOrigUrl.indexOf("/") === 0) {
+			// path should be relative to the base url
+			newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
+		} else {
+			// path should be relative to current directory
+			newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
+		}
+
+		// send back the fixed url(...)
+		return "url(" + JSON.stringify(newUrl) + ")";
+	});
+
+	// send back the fixed css
+	return fixedCss;
 };
-exports.default = HSDisplay;
 
 
 /***/ }),
-/* 233 */
+/* 255 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var hs_list_1 = __webpack_require__(234);
-__webpack_require__(248);
-var HSProgramType = (function (_super) {
-    __extends(HSProgramType, _super);
-    function HSProgramType() {
-        return _super !== null && _super.apply(this, arguments) || this;
+var React = __webpack_require__(3);
+__webpack_require__(256);
+var Box = function (props) {
+    var widthClass = "width-" + props.width;
+    var heightClass = "height-" + props.height;
+    var zLevelClass = "";
+    if (props.zLevel) {
+        zLevelClass = "zlevel-" + props.zLevel;
     }
-    HSProgramType.prototype.render = function () {
-        return (React.createElement("div", { className: "hs-category-container" },
-            React.createElement("div", { className: "hs-category-title" }, this.props.programType),
-            React.createElement(hs_list_1.default, { highschools: this.props.programs, studentData: this.props.studentData })));
-    };
-    return HSProgramType;
-}(React.PureComponent));
-;
-exports.default = HSProgramType;
+    var responsiveMobileClass = "";
+    if (props.responsiveBehavior && props.responsiveBehavior.mobile) {
+        responsiveMobileClass = "mobile-" + props.responsiveBehavior.mobile;
+    }
+    var className = "box " + widthClass + " " + heightClass + " " + zLevelClass + " " + responsiveMobileClass;
+    return (React.createElement("div", { className: className, style: props.flex }, props.children));
+};
+exports.default = Box;
 
 
 /***/ }),
-/* 234 */
+/* 256 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(257);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(27)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./box.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./box.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 257 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(26)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".box {\n  border: 2px solid #9e9e9e;\n  padding: 0.25em 0.5em;\n  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n  position: relative;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n  -webkit-box-align: stretch;\n      -ms-flex-align: stretch;\n          align-items: stretch; }\n\n.box.width-quarter {\n  width: 25%;\n  -ms-flex-preferred-size: 25%;\n      flex-basis: 25%; }\n\n.box.width-half {\n  width: 50%;\n  -ms-flex-preferred-size: 50%;\n      flex-basis: 50%; }\n\n.box.width-full {\n  width: 100%;\n  -ms-flex-preferred-size: 100%;\n      flex-basis: 100%; }\n\n.box.height-quarter {\n  height: 25%; }\n\n.box.height-half {\n  height: 50%; }\n\n.box.height-full {\n  height: 100%; }\n\n.box.zlevel-1 {\n  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); }\n\n.box.zlevel-2 {\n  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); }\n\n.box.zlevel-3 {\n  -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); }\n\n.box.zlevel-4 {\n  -webkit-box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);\n          box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); }\n\n.box.zlevel-5 {\n  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);\n          box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22); }\n\n@media (max-width: 450px) {\n  .box {\n    margin: 0;\n    padding: 10px 5px; }\n  .box.mobile-disappear {\n    display: none; }\n  .box.mobile-fullscreen {\n    width: 100%;\n    -ms-flex-preferred-size: 100%;\n        flex-basis: 100%; } }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 258 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var form_1 = __webpack_require__(259);
+var sub_form_1 = __webpack_require__(262);
+var gender_field_1 = __webpack_require__(265);
+var iep_field_1 = __webpack_require__(269);
+var ell_field_1 = __webpack_require__(270);
+var location_field_1 = __webpack_require__(271);
+var grade_level_field_1 = __webpack_require__(283);
+var attend_percentage_field_1 = __webpack_require__(284);
+var curr_es_program_field_1 = __webpack_require__(285);
+var sibling_hs_program_field_1 = __webpack_require__(288);
+var nwea_math_field_1 = __webpack_require__(290);
+var nwea_read_field_1 = __webpack_require__(291);
+var subj_grade_math_field_1 = __webpack_require__(292);
+var subj_grade_read_field_1 = __webpack_require__(293);
+var subj_grade_sci_field_1 = __webpack_require__(294);
+var subj_grade_soc_studies_field_1 = __webpack_require__(295);
+var StudentDataForm = function (props) {
+    return (React.createElement(form_1.default, null,
+        React.createElement(sub_form_1.default, { label: "Your student information" },
+            React.createElement(gender_field_1.default, null),
+            React.createElement(iep_field_1.default, null),
+            React.createElement(ell_field_1.default, null),
+            React.createElement(grade_level_field_1.default, null),
+            React.createElement(location_field_1.default, null),
+            React.createElement(attend_percentage_field_1.default, null),
+            React.createElement(curr_es_program_field_1.default, null),
+            React.createElement(sibling_hs_program_field_1.default, null)),
+        React.createElement(sub_form_1.default, { label: "Your grades" },
+            React.createElement(nwea_math_field_1.default, null),
+            React.createElement(nwea_read_field_1.default, null),
+            React.createElement(subj_grade_math_field_1.default, null),
+            React.createElement(subj_grade_read_field_1.default, null),
+            React.createElement(subj_grade_sci_field_1.default, null),
+            React.createElement(subj_grade_soc_studies_field_1.default, null))));
+};
+exports.default = StudentDataForm;
+
+
+/***/ }),
+/* 259 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+__webpack_require__(260);
+var Form = function (props) { return (React.createElement("div", { className: "form" }, props.children)); };
+exports.default = Form;
+
+
+/***/ }),
+/* 260 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(261);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(27)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./form.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./form.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 261 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(26)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".form {\n  width: 100%;\n  overflow-y: auto; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 262 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+__webpack_require__(263);
+var SubForm = function (props) { return (React.createElement("div", { className: "form-subform" },
+    React.createElement("div", { className: "form-subheader" }, props.label),
+    props.children)); };
+exports.default = SubForm;
+
+
+/***/ }),
+/* 263 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(264);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(27)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./sub-form.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./sub-form.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 264 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(26)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".form-subform {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  -webkit-box-align: baseline;\n      -ms-flex-align: baseline;\n          align-items: baseline; }\n\n.form-subheader {\n  font-size: 150%;\n  border-bottom: 1px solid #cacaca;\n  margin: 0.75em; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 265 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var react_redux_1 = __webpack_require__(14);
+var actions_1 = __webpack_require__(16);
+var gender_1 = __webpack_require__(105);
+var dropdown_field_1 = __webpack_require__(44);
+var constants_1 = __webpack_require__(11);
+var Field = function (props) { return (React.createElement(dropdown_field_1.default, { label: "What's your gender?", value: props.gender && props.gender.toString(), onChange: function (gender) {
+        switch (gender) {
+            case "male":
+                props.onChange(gender_1.default.MALE);
+                break;
+            case "female":
+                props.onChange(gender_1.default.FEMALE);
+                break;
+            case "other":
+                props.onChange(gender_1.default.OTHER);
+                break;
+            case "noanswer":
+                props.onChange(gender_1.default.NOANSWER);
+                break;
+            default:
+                console.warn("unrecognized gender: " + gender);
+                break;
+        }
+    }, debounceTime: constants_1.INPUT_DEBOUNCE_TIME },
+    React.createElement("option", { value: "male" }, "Boy"),
+    React.createElement("option", { value: "female" }, "Girl"),
+    React.createElement("option", { value: "other" }, "Other"),
+    React.createElement("option", { value: "noanswer" }, "Prefer not to answer"))); };
+var mapStateToProps = function (state) {
+    return {
+        gender: state.getIn(['studentData', 'gender'])
+    };
+};
+var mapDispatchToProps = function (dispatch) {
+    return {
+        onChange: function (gender) { return dispatch(actions_1.updateStudentGender(gender)); }
+    };
+};
+exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Field);
+
+
+/***/ }),
+/* 266 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(267);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(27)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../../node_modules/sass-loader/lib/loader.js!./main.scss", function() {
+			var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../../node_modules/sass-loader/lib/loader.js!./main.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 267 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(26)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "/* ----------------------------------------------------------------------------------------------------\n\nSuper Form Reset\n\nA couple of things to watch out for:\n\n- IE8: If a text input doesn't have padding on all sides or none the text won't be centered.\n- The default border sizes on text inputs in all UAs seem to be slightly different. You're better off using custom borders.\n- You NEED to set the font-size and family on all form elements\n- Search inputs need to have their appearance reset and the box-sizing set to content-box to match other UAs\n- You can style the upload button in webkit using ::-webkit-file-upload-button\n- ::-webkit-file-upload-button selectors can't be used in the same selector as normal ones. FF and IE freak out.\n- IE: You don't need to fake inline-block with labels and form controls in IE. They function as inline-block.\n- By turning off ::-webkit-search-decoration, it removes the extra whitespace on the left on search inputs\n\n----------------------------------------------------------------------------------------------------*/\ninput, label, select, button, textarea {\n  margin: 0;\n  border: 0;\n  padding: 0;\n  display: inline-block;\n  vertical-align: middle;\n  white-space: normal;\n  background: none;\n  line-height: 1;\n  /* Browsers have different default form fonts */\n  font-size: 13px;\n  font-family: Arial; }\n/* Remove the stupid outer glow in Webkit */\ninput:focus {\n  outline: 0; }\n/* Box Sizing Reset\n-----------------------------------------------*/\n/* All of our custom controls should be what we expect them to be */\ninput, textarea {\n  -webkit-box-sizing: content-box;\n  box-sizing: content-box; }\n/* These elements are usually rendered a certain way by the browser */\nbutton, input[type=reset], input[type=button], input[type=submit], input[type=checkbox], input[type=radio], select {\n  -webkit-box-sizing: border-box;\n  box-sizing: border-box; }\n/* Text Inputs\n-----------------------------------------------*/\n/* Button Controls\n-----------------------------------------------*/\ninput[type=checkbox], input[type=radio] {\n  width: 13px;\n  height: 13px; }\n/* File Uploads\n-----------------------------------------------*/\n/* Search Input\n-----------------------------------------------*/\n/* Make webkit render the search input like a normal text field */\ninput[type=search] {\n  -webkit-appearance: textfield;\n  -webkit-box-sizing: content-box; }\n/* Turn off the recent search for webkit. It adds about 15px padding on the left */\n::-webkit-search-decoration {\n  display: none; }\n/* Buttons\n-----------------------------------------------*/\nbutton, input[type=\"reset\"], input[type=\"button\"], input[type=\"submit\"] {\n  /* Fix IE7 display bug */\n  overflow: visible;\n  width: auto; }\n/* IE8 and FF freak out if this rule is within another selector */\n::-webkit-file-upload-button {\n  padding: 0;\n  border: 0;\n  background: none; }\n/* Textarea\n-----------------------------------------------*/\ntextarea {\n  /* Move the label to the top */\n  vertical-align: top;\n  /* Turn off scroll bars in IE unless needed */\n  overflow: auto; }\n/* Selects\n-----------------------------------------------*/\nselect[multiple] {\n  /* Move the label to the top */\n  vertical-align: top; }\n.field-container {\n  max-width: 100%;\n  padding: 0.5em;\n  margin: 0.25em; }\n.field-container.field-validation-success > .field-label {\n  color: green; }\n.field-container.field-validation-success > .field-input-element {\n  border: 2px solid green;\n  -webkit-box-shadow: 0px 0px 3px green;\n          box-shadow: 0px 0px 3px green; }\n.field-container.field-validation-warning > .field-label {\n  color: yellow; }\n.field-container.field-validation-warning > .field-input-element {\n  border: 2px solid yellow;\n  -webkit-box-shadow: 0px 0px 3px yellow;\n          box-shadow: 0px 0px 3px yellow; }\n.field-container.field-validation-failure > .field-label {\n  color: red; }\n.field-container.field-validation-failure > .field-input-element {\n  border: 2px solid red;\n  -webkit-box-shadow: 0px 0px 3px red;\n          box-shadow: 0px 0px 3px red; }\n.field-label {\n  font-size: 90%;\n  color: #444; }\n.field-input-element {\n  font-size: 100%;\n  padding: 5px;\n  border: 1px solid #ddd;\n  border-radius: 2px; }\n.list-box {\n  visibility: hidden;\n  height: 100px;\n  width: 100%;\n  overflow-y: auto;\n  position: absolute;\n  top: 20px;\n  left: 0;\n  z-index: 9;\n  list-style: none;\n  margin: 0;\n  padding: 0; }\n.list-box.visible {\n  visibility: visible; }\n.list-box-element {\n  cursor: default;\n  text-decoration: none;\n  margin-left: 0;\n  padding-left: 0;\n  padding: 0.25em;\n  width: 100%;\n  border-bottom: 1px dotted gray;\n  background-color: white;\n  -webkit-transition: background-color 100ms ease;\n  transition: background-color 100ms ease; }\n.list-box-element:hover {\n  background-color: gray; }\n.list-box-element.selected {\n  background-color: blue;\n  color: white; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 268 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var FieldLabel = function (props) { return React.createElement("div", { className: "field-label" }, props.children); };
+exports.default = FieldLabel;
+
+
+/***/ }),
+/* 269 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var react_redux_1 = __webpack_require__(14);
+var actions_1 = __webpack_require__(16);
+var dropdown_field_1 = __webpack_require__(44);
+var constants_1 = __webpack_require__(11);
+var Field = function (props) { return (React.createElement(dropdown_field_1.default, { label: "Do you have an IEP?", value: props.iep ? "true" : "false", onChange: function (iep) { return props.onChange(iep === "true" ? true : false); }, debounceTime: constants_1.INPUT_DEBOUNCE_TIME },
+    React.createElement("option", { value: "true" }, "Yes"),
+    React.createElement("option", { value: "false" }, "No"))); };
+var mapStateToProps = function (state) {
+    return {
+        iep: state.getIn(['studentData', 'iep'])
+    };
+};
+var mapDispatchToProps = function (dispatch) {
+    return {
+        onChange: function (iep) { return dispatch(actions_1.updateStudentIEPStatus(iep)); }
+    };
+};
+exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Field);
+
+
+/***/ }),
+/* 270 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var react_redux_1 = __webpack_require__(14);
+var actions_1 = __webpack_require__(16);
+var dropdown_field_1 = __webpack_require__(44);
+var constants_1 = __webpack_require__(11);
+var Field = function (props) { return (React.createElement(dropdown_field_1.default, { label: "Are you an English Language Learner?", value: props.ell ? "true" : "false", onChange: function (ell) { return props.onChange(ell === "true" ? true : false); }, debounceTime: constants_1.INPUT_DEBOUNCE_TIME },
+    React.createElement("option", { value: "true" }, "Yes"),
+    React.createElement("option", { value: "false" }, "No"))); };
+var mapStateToProps = function (state) {
+    return {
+        ell: state.getIn(['studentData', 'ell'])
+    };
+};
+var mapDispatchToProps = function (dispatch) {
+    return {
+        onChange: function (ell) { return dispatch(actions_1.updateStudentELLStatus(ell)); }
+    };
+};
+exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Field);
+
+
+/***/ }),
+/* 271 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var react_redux_1 = __webpack_require__(14);
+var actions_1 = __webpack_require__(16);
+var address_tier_calculator_1 = __webpack_require__(272);
+var Field = function (props) { return (React.createElement(address_tier_calculator_1.default, { location: props.location, onLocationChange: props.onChange })); };
+var mapStateToProps = function (state) {
+    return {
+        location: state.getIn(['studentData', 'location'])
+    };
+};
+var mapDispatchToProps = function (dispatch) {
+    return {
+        onChange: function (location) { return dispatch(actions_1.updateStudentLocation(location)); }
+    };
+};
+exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Field);
+
+
+/***/ }),
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45517,3673 +52618,157 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var success_chance_1 = __webpack_require__(24);
-var get_combined_success_chance_1 = __webpack_require__(235);
-var hs_list_element_1 = __webpack_require__(239);
-__webpack_require__(246);
-var HSList = (function (_super) {
-    __extends(HSList, _super);
-    function HSList(props) {
+var React = __webpack_require__(3);
+var timeout_1 = __webpack_require__(273);
+var text_field_1 = __webpack_require__(274);
+var field_validation_state_1 = __webpack_require__(28);
+var get_tier_1 = __webpack_require__(275);
+__webpack_require__(281);
+var AddressTierCalculator = (function (_super) {
+    __extends(AddressTierCalculator, _super);
+    function AddressTierCalculator(props) {
         var _this = _super.call(this, props) || this;
-        _this.sortBySuccessChance = function (programs, student) {
-            var certain = [];
-            var likely = [];
-            var uncertain = [];
-            var unlikely = [];
-            var none = [];
-            var notimplemented = [];
-            for (var i = 0; i < programs.length; i++) {
-                var program = programs[i];
-                var successChance = get_combined_success_chance_1.default(student, program);
-                switch (successChance) {
-                    case success_chance_1.default.CERTAIN:
-                        certain.push(program);
-                        break;
-                    case success_chance_1.default.LIKELY:
-                        likely.push(program);
-                        break;
-                    case success_chance_1.default.UNCERTAIN:
-                        uncertain.push(program);
-                        break;
-                    case success_chance_1.default.UNLIKELY:
-                        unlikely.push(program);
-                        break;
-                    case success_chance_1.default.NONE:
-                        none.push(program);
-                        break;
-                    case success_chance_1.default.NOTIMPLEMENTED:
-                        notimplemented.push(program);
-                        break;
-                }
+        _this.setRequestInProgress = function (isInProgress) {
+            if (isInProgress !== _this.state.requestInProgress) {
+                _this.setState({
+                    requestInProgress: isInProgress
+                });
             }
-            var sortedPrograms = certain.concat(likely)
-                .concat(uncertain)
-                .concat(unlikely)
-                .concat(none)
-                .concat(notimplemented);
-            return sortedPrograms;
+        };
+        _this.handleAddressChange = function (address) {
+            var TIMEOUT_DELAY = 1000;
+            _this.setState({
+                address: address,
+                addressValidationState: field_validation_state_1.default.NEUTRAL,
+                tier: null
+            });
+            var validate = function (address) {
+                return address && address.length > 5;
+            };
+            var newTimeout = new timeout_1.default(function () {
+                _this.setRequestInProgress(true);
+                if (validate(address)) {
+                    get_tier_1.getTier(address).then(function (_a) {
+                        var tier = _a.tier, geo = _a.geo;
+                        _this.setState({
+                            tier: tier,
+                            geo: geo,
+                            addressValidationState: field_validation_state_1.default.SUCCESS
+                        });
+                        _this.setRequestInProgress(false);
+                        _this.props.onLocationChange({
+                            address: address.trim(),
+                            tier: tier,
+                            geo: geo
+                        });
+                    }).catch(function (err) {
+                        if (err === get_tier_1.GetTierError.InvalidAddressErr) {
+                            _this.setState({
+                                addressValidationState: field_validation_state_1.default.FAILURE
+                            });
+                            _this.setRequestInProgress(false);
+                        }
+                        else if (err === get_tier_1.GetTierError.NoTierFoundErr) {
+                            _this.setState({
+                                addressValidationState: field_validation_state_1.default.WARNING
+                            });
+                            _this.setRequestInProgress(false);
+                        }
+                        else if (err === get_tier_1.GetTierError.RequestFailedErr) {
+                            _this.setState({
+                                addressValidationState: field_validation_state_1.default.WARNING
+                            });
+                            _this.setRequestInProgress(false);
+                        }
+                    });
+                }
+            }, TIMEOUT_DELAY);
+            if (_this.state.timeoutInstance !== null) {
+                _this.state.timeoutInstance.cancel();
+            }
+            newTimeout.start();
+            _this.setState({
+                timeoutInstance: newTimeout
+            });
         };
         _this.state = {
-            selectedProgram: null
+            address: props.address ? props.address : "",
+            tier: props.tier ? props.tier : "",
+            geo: props.geolocation ? props.geolocation : { latitude: 0, longitude: 0 },
+            timeoutInstance: null,
+            requestInProgress: false,
+            addressValidationState: field_validation_state_1.default.NEUTRAL
         };
         return _this;
     }
-    HSList.prototype.render = function () {
-        var _this = this;
-        var sortedHighschools = this.sortBySuccessChance(this.props.highschools, this.props.studentData);
-        return (React.createElement("div", { className: "hs-list" }, sortedHighschools.map(function (hs) { return React.createElement(hs_list_element_1.default, { key: hs.Long_Name, program: hs, studentData: _this.props.studentData, selected: _this.state.selectedProgram && hs.ID === _this.state.selectedProgram.ID, onSelect: function (program) { return _this.setState({ selectedProgram: program }); } }); })));
+    AddressTierCalculator.prototype.now = function () {
+        return new Date().valueOf();
     };
-    return HSList;
-}(React.PureComponent));
-;
-exports.default = HSList;
-
-
-/***/ }),
-/* 235 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var success_chance_1 = __webpack_require__(24);
-var get_req_fns_1 = __webpack_require__(92);
-var getCombinedSuccessChance = function (student, program) {
-    try {
-        var reqFns = get_req_fns_1.default(program);
-        var applicationSuccess = reqFns.application(student, program).outcome;
-        var selectionSuccess = reqFns.selection(student, program).outcome;
-        if (applicationSuccess === success_chance_1.default.CERTAIN || applicationSuccess === success_chance_1.default.LIKELY) {
-            return selectionSuccess;
+    AddressTierCalculator.prototype.displayStatusMessage = function (state) {
+        if (state === "warning") {
+            return "Your address is right, but it doesn't seem to be in the Chicago Public Schools boundary. Are you sure you used the right address?";
+        }
+        else if (state === "error") {
+            return "We can't find your address -- are you sure you entered it correctly?";
         }
         else {
-            return applicationSuccess;
+            return "No errors";
         }
-    }
-    catch (e) {
-        console.log(e);
-        console.log(program);
-    }
-};
-exports.default = getCombinedSuccessChance;
+    };
+    AddressTierCalculator.prototype.render = function () {
+        return React.createElement("div", { className: "address-tier-calculator" },
+            React.createElement(text_field_1.default, { label: "Your street address", value: this.state.address ? this.state.address : " ", onChange: this.handleAddressChange }),
+            React.createElement("div", { className: "tier-display" }, this.state.requestInProgress
+                ? React.createElement("div", { className: "spinning-load-icon" }, "Loading...")
+                : (this.state.tier ? this.state.tier : "")),
+            this.state.addressValidationState !== field_validation_state_1.default.SUCCESS &&
+                this.state.addressValidationState !== field_validation_state_1.default.NEUTRAL &&
+                React.createElement("div", { className: "address-status-message" }, this.displayStatusMessage(this.state.addressValidationState)));
+    };
+    return AddressTierCalculator;
+}(React.Component));
+exports.default = AddressTierCalculator;
 
 
 /***/ }),
-/* 236 */
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var gender_1 = __webpack_require__(56);
-var success_chance_ts_1 = __webpack_require__(24);
-var hs_calc_utils_1 = __webpack_require__(237);
-var seCutoffTable = {
-    "609726": {
-        rank: { avg: 834.15, min: 799, max: 897 },
-        tier1: { avg: 700.76, min: 652, max: 796 },
-        tier2: { avg: 740.36, min: 687, max: 795 },
-        tier3: { avg: 768.40, min: 750, max: 792 },
-        tier4: { avg: 761.50, min: 723, max: 797 },
-    },
-    "609694": {
-        rank: { avg: 823.92, min: 794, max: 880 },
-        tier1: { avg: 706.40, min: 664, max: 791 },
-        tier2: { avg: 757.68, min: 736, max: 790 },
-        tier3: { avg: 772.69, min: 753, max: 791 },
-        tier4: { avg: 740.63, min: 672, max: 792 },
-    },
-    "609678": {
-        rank: { avg: 893.81, min: 889, max: 900 },
-        tier1: { avg: 816.86, min: 771, max: 887 },
-        tier2: { avg: 851.57, min: 823, max: 889 },
-        tier3: { avg: 874.12, min: 861, max: 889 },
-        tier4: { avg: 886.69, min: 883, max: 889 },
-    },
-    "609751": {
-        rank: { avg: 735.59, min: 682, max: 859 },
-        tier1: { avg: 632.20, min: 600, max: 680 },
-        tier2: { avg: 635.16, min: 601, max: 679 },
-        tier3: { avg: 645.55, min: 608, max: 682 },
-        tier4: { avg: 634.43, min: 600, max: 674 },
-    },
-    "609720": {
-        rank: { avg: 878.11, min: 866, max: 900 },
-        tier1: { avg: 738.79, min: 692, max: 863 },
-        tier2: { avg: 808.46, min: 777, max: 865 },
-        tier3: { avg: 839.69, min: 818, max: 866 },
-        tier4: { avg: 855.13, min: 843, max: 865 },
-    },
-    "610391": {
-        rank: { avg: 813.87, min: 774, max: 895 },
-        tier1: { avg: 692.14, min: 655, max: 771 },
-        tier2: { avg: 732.82, min: 700, max: 774 },
-        tier3: { avg: 743.98, min: 720, max: 774 },
-        tier4: { avg: 717.92, min: 672, max: 773 },
-    },
-    "609749": {
-        rank: { avg: 898.85, min: 896, max: 900 },
-        tier1: { avg: 820.31, min: 757, max: 892 },
-        tier2: { avg: 867.55, min: 843, max: 895 },
-        tier3: { avg: 889.04, min: 880, max: 895 },
-        tier4: { avg: 893.92, min: 891, max: 896 },
-    },
-    "609680": {
-        rank: { avg: 899.03, min: 898, max: 900 },
-        tier1: { avg: 837.66, min: 771, max: 897 },
-        tier2: { avg: 875.60, min: 846, max: 897 },
-        tier3: { avg: 886.97, min: 875, max: 898 },
-        tier4: { avg: 895.59, min: 894, max: 898 },
-    },
-    "610547": {
-        rank: { avg: 725.28, min: 678, max: 837 },
-        tier1: { avg: 621.10, min: 601, max: 674 },
-        tier2: { avg: 637.17, min: 600, max: 677 },
-        tier3: { avg: 632.43, min: 601, max: 677 },
-        tier4: { avg: 634.77, min: 603, max: 672 },
-    },
-    "609693": {
-        rank: { avg: 799.38, min: 766, max: 883 },
-        tier1: { avg: 706.44, min: 667, max: 760 },
-        tier2: { avg: 733.79, min: 708, max: 765 },
-        tier3: { avg: 730.68, min: 695, max: 765 },
-        tier4: { avg: 691.26, min: 618, max: 766 },
-    },
-    "609755": {
-        rank: { avg: 890.34, min: 882, max: 900 },
-        tier1: { avg: 823.25, min: 780, max: 880 },
-        tier2: { avg: 846.26, min: 821, max: 880 },
-        tier3: { avg: 860.88, min: 849, max: 882 },
-        tier4: { avg: 877.46, min: 874, max: 882 },
+var Timeout = (function () {
+    function Timeout(callback, delay) {
+        var _this = this;
+        this.timerInstance = null;
+        this.callbackExecuted = false;
+        this.callback = function () {
+            _this.callbackExecuted = true;
+            callback();
+        };
+        this.delay = delay;
     }
-};
-var ibCutoffTable = {
-    "609695": { min: 600 },
-    "610563": { min: 609 },
-    "609698": { min: 350 },
-    "610381": { min: 450 },
-    "609759": { min: 490 },
-    "609756": { min: 650 },
-    "609704": { min: 350 },
-    "609741": { min: 600 },
-    "609713": { min: 375 },
-    "609764": { min: 500 },
-    "609715": { min: 650 },
-    "609718": { min: 600 },
-    "609738": { min: 819 },
-    "609725": { min: 500 },
-    "610529": { min: 520 },
-    "609679": { min: 600 },
-    "609729": { min: 360 },
-    "609730": { min: 575 },
-    "610547": { min: 427 },
-    "609732": { min: 450 },
-    "609734": { min: 836 },
-    "609739": { min: 640 },
-};
-var getSECutoff = function (student, school) {
-    var cutoff = seCutoffTable[school.School_ID];
-    if (cutoff === undefined) {
-        throw new Error("School " + school.Long_Name + " not found in SE Cutoff scores");
-    }
-    switch (student.tier) {
-        case '1':
-            return cutoff.tier1;
-        case '2':
-            return cutoff.tier2;
-        case '3':
-            return cutoff.tier3;
-        case '4':
-            return cutoff.tier4;
-    }
-};
-var getIBCutoff = function (student, school) {
-    var cutoff = ibCutoffTable[school.School_ID];
-    if (cutoff === undefined) {
-        throw new Error("School " + school.Long_Name + " not found in IB Cutoff scores");
-    }
-    return cutoff;
-};
-var getPointsFromCutoff = function (score, cutoff) {
-    var diff = cutoff - score;
-    if (diff <= 0) {
-        return 0;
-    }
-    else {
-        return diff;
-    }
-};
-var average = function () {
-    var nums = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        nums[_i] = arguments[_i];
-    }
-    var count = nums.length;
-    var sum = nums.reduce(function (a, b) { return a + b; });
-    return sum / count;
-};
-var norm = function (value, max, min) {
-    return ((value - min) / (max - min)) * 100;
-};
-var inAttendanceBound = function (student, school) {
-    var ATTEND_RADIUS_MI = 2.5;
-    var tryParseFloat = function (str) {
-        var num = parseFloat(str);
-        if (isNaN(num)) {
-            throw new Error("inAttendanceBound: Cannot parse '" + str + "' as float");
-        }
-        return num;
+    Timeout.prototype.start = function () {
+        this.timerInstance = setTimeout(this.callback, this.delay);
     };
-    var studentLat = student.geolocation.latitude;
-    var studentLong = student.geolocation.longitude;
-    var schoolLat = tryParseFloat(school.School_Latitude);
-    var schoolLong = tryParseFloat(school.School_Longitude);
-    var studentLatRad = Math.PI * studentLat / 180;
-    var schoolLatRad = Math.PI * schoolLat / 180;
-    var theta = studentLong - schoolLong;
-    var thetaRad = Math.PI * theta / 180;
-    var dist = Math.sin(studentLatRad) * Math.sin(schoolLatRad) * Math.cos(studentLatRad) * Math.cos(schoolLatRad) * Math.cos(thetaRad);
-    dist = Math.acos(dist);
-    dist = dist * 180 / Math.PI;
-    dist = dist * 60 * 1.1515;
-    var isInBound = dist < ATTEND_RADIUS_MI;
-    return isInBound;
-};
-var hasSiblingInProgram = function (student, program) {
-    var siblingAttends = student.siblingHSPrograms.some(function (siblingProgram) { return siblingProgram.ID === program.ID; });
-    if (siblingAttends) {
-        return true;
-    }
-    else {
-        return false;
-    }
-};
-var HSReqFns = {
-    "6adf97f83acf6453d4a6a4b1070f3754": {
-        "desc": "None",
-        "programs": [
-            "NOBLE - JOHNSON HS - General Education - Application",
-            "FOUNDATIONS - General Education - Application",
-            "NOBLE - PRITZKER HS - General Education - Application",
-            "PERSPECTIVES - TECH HS - General Education - Application",
-            "FARRAGUT HS - General Education - Application",
-            "URBAN PREP - WEST HS - General Education - Application",
-            "AUSTIN CCA HS - General Education - Application",
-            "CHICAGO VIRTUAL - Charter - Application",
-            "NOBLE - MANSUETO HS - General Education - Application",
-            "ACERO - SOTO HS - General Education - Application",
-            "CICS - LONGWOOD - Charter - Application",
-            "NOBLE - NOBLE HS - General Education - Application",
-            "ACERO - GARCIA HS - General Education - Application",
-            "ASPIRA - EARLY COLLEGE HS - General Education - Application",
-            "NOBLE - UIC HS - General Education - Application",
-            "WELLS HS - Pre-Law - Application",
-            "NOBLE - COMER - General Education - Application",
-            "SCHURZ HS - Accounting & Entrepreneurship - Application",
-            "WASHINGTON HS - General Education - Application",
-            "SCHURZ HS - General Education - Application",
-            "JUAREZ HS - General Education - Application",
-            "CHICAGO VOCATIONAL HS - Agricultural Sciences - Application",
-            "RICHARDS HS - General Education - Application",
-            "BOGAN HS - Entrepreneurship - Application",
-            "DOUGLASS HS - General Education - Application",
-            "LAKE VIEW HS - General Education - Application",
-            "ROOSEVELT HS - Game Programming - Application",
-            "ROOSEVELT HS - Medical & Health Careers - Application",
-            "NORTH-GRAND HS - Culinary Arts - Application",
-            "FOREMAN HS - Digital Media - Application",
-            "PHILLIPS HS - Digital Media - Application",
-            "ALCOTT HS - Pre-Engineering - Application",
-            "CURIE HS - Game Programming & Web Design - Application",
-            "CHICAGO MATH & SCIENCE HS - General Education - Application",
-            "BOWEN HS - Manufacturing - Application",
-            "JUAREZ HS - Culinary Arts - Application",
-            "SULLIVAN HS - Medical & Health Careers - Application",
-            "HUBBARD HS - General Education - Application",
-            "CHICAGO VOCATIONAL HS - Culinary Arts - Application",
-            "CICS - NORTHTOWN HS - General Education - Application",
-            "JULIAN HS - General Education - Application",
-            "SCHURZ HS - Automotive Technology - Application",
-            "CICS - CHICAGOQUEST HS - General Education - Application",
-            "COLLINS HS - Game Programming - Application",
-            "SULLIVAN HS - Accounting - Application",
-            "CHICAGO VIRTUAL - General Education - Application",
-            "SPRY HS - General Education - Application",
-            "FARRAGUT HS - Pre-Law - Application",
-            "NOBLE - BAKER HS - General Education - Application",
-            "CLEMENTE HS - Broadcast Technology - Application",
-            "SOUTH SHORE INTL HS - Medical & Health Careers - Application",
-            "CURIE HS - Accounting - Application",
-            "ROOSEVELT HS - Early Childhood - Application",
-            "PERSPECTIVES - MATH & SCI HS - General Education - Application",
-            "KENNEDY HS - General Education - Application",
-            "KELLY HS - General Education - Application",
-            "FARRAGUT HS - Automotive Technology - Application",
-            "JULIAN HS - Entrepreneurship - Application",
-            "CHICAGO VOCATIONAL HS - Carpentry - Application",
-            "CICS - ELLISON HS - General Education - Application",
-            "NOBLE - BULLS HS - General Education - Application",
-            "JULIAN HS - Allied Health - Application",
-            "ROOSEVELT HS - General Education - Application",
-            "URBAN PREP - ENGLEWOOD HS - General Education - Application",
-            "HYDE PARK HS - Broadcast Technology - Application",
-            "NORTH-GRAND HS - General Education - Application",
-            "GAGE PARK HS - General Education - Application",
-            "UPLIFT HS - General Education - Application",
-            "JUAREZ HS - Automotive Technology - Application",
-            "U OF C - WOODLAWN HS - General Education - Application",
-            "TILDEN HS - General Education - Application",
-            "BOWEN HS - General Education - Application",
-            "DUNBAR HS - Chicago Builds - Application",
-            "TAFT HS - General Education - Application",
-            "MORGAN PARK HS - General Education - Application",
-            "JULIAN HS - Broadcast Technology - Application",
-            "CURIE HS - Early Childhood & Teaching - Application",
-            "CLEMENTE HS - Culinary Arts - Application",
-            "BOGAN HS - Accounting - Application",
-            "NORTH-GRAND HS - Pre-Engineering - Application",
-            "CURIE HS - Automotive Technology - Application",
-            "JUAREZ HS - Medical & Health Careers - Application",
-            "JULIAN HS - Game Programming - Application",
-            "NORTH-GRAND HS - Allied Health - Application",
-            "JUAREZ HS - Architecture - Application",
-            "TILDEN HS - Culinary Arts - Application",
-            "INTRINSIC HS - General Education - Application",
-            "NOBLE - RAUNER HS - General Education - Application",
-            "SCHURZ HS - Digital Media - Application",
-            "FOREMAN HS - Web Design - Application",
-            "PERSPECTIVES - LEADERSHIP HS - General Education - Application",
-            "HYDE PARK HS - Digital Media - Application",
-            "CICS - LONGWOOD - General Education - Application",
-            "CORLISS HS - Early College STEM - Application",
-            "BOWEN HS - Pre-Engineering - Application",
-            "HYDE PARK HS - General Education - Application",
-            "ROOSEVELT HS - Culinary Arts - Application",
-            "FOREMAN HS - General Education - Application",
-            "NOBLE - ROWE CLARK HS - General Education - Application",
-            "CURIE HS - Broadcast Technology - Application",
-            "NOBLE - MUCHIN HS - General Education - Application",
-            "ALCOTT HS - General Education - Application",
-            "RICHARDS HS - Culinary Arts - Application",
-            "FENGER HS - Culinary Arts - Application",
-            "SCHURZ HS - Allied Health - Application",
-            "RABY HS - Culinary Arts - Application",
-            "RABY HS - Pre-Law - Application",
-            "FENGER HS - General Education - Application",
-            "HARPER HS - Culinary Arts - Application",
-            "NOBLE - DRW HS - General Education - Application",
-            "AMUNDSEN HS - General Education - Application",
-            "WILLIAMS HS - Medical & Health Careers - Application",
-            "NOBLE - GOLDER HS - General Education - Application",
-            "RABY HS - Broadcast Technology - Application",
-            "HIRSCH HS - General Education - Application",
-            "STEINMETZ HS - Digital Media - Application",
-            "JULIAN HS - Digital Media - Application",
-            "AUSTIN CCA HS - Manufacturing - Application",
-            "HARPER HS - Digital Media - Application",
-            "DYETT ARTS HS - General Education - Application",
-            "MATHER HS - Pre-Law - Application",
-            "AMUNDSEN HS - Game Programming & Web Design - Application",
-            "SOLORIO HS - General Education - Application",
-            "PERSPECTIVES - JOSLIN HS - General Education - Application",
-            "RICHARDS HS - Accounting - Application",
-            "MATHER HS - Game Programming & Web Design - Application",
-            "EPIC HS - General Education - Application",
-            "BOGAN HS - General Education - Application",
-            "CHICAGO COLLEGIATE - General Education - Application",
-            "CURIE HS - Culinary Arts - Application",
-            "RABY HS - Entrepreneurship - Application",
-            "CLEMENTE HS - Allied Health - Application",
-            "DYETT ARTS HS - Digital Media - Application",
-            "DUNBAR HS - Allied Health - Application",
-            "CHICAGO VOCATIONAL HS - Early College STEM - Application",
-            "HARLAN HS - Digital Media - Application",
-            "DUNBAR HS - Career Academy - Application",
-            "MANLEY HS - Culinary Arts - Application",
-            "CHICAGO VOCATIONAL HS - Diesel Technology - Application",
-            "CURIE HS - Fine Arts & Technology - NEIGHBORHOOD - Application",
-            "CHICAGO VOCATIONAL HS - General Education - Application",
-            "STEINMETZ HS - General Education - Application",
-            "SENN HS - General Education - Application",
-            "WELLS HS - Game Programming - Application",
-            "NOBLE - HANSBERRY HS - General Education - Application",
-            "ROBESON HS - General Education - Application",
-            "CHICAGO VOCATIONAL HS - Medical Assisting - Application",
-            "LAKE VIEW HS - Early College STEM - Application",
-            "CHICAGO VOCATIONAL HS - Cosmetology - Application",
-            "FENGER HS - Carpentry - Application",
-            "HARLAN HS - Web Design - Application",
-            "CURIE HS - Digital Media - Application",
-            "URBAN PREP - BRONZEVILLE HS - General Education - Application",
-            "CURIE HS - Architecture - Application",
-            "KENWOOD HS - General Education - Application",
-            "MATHER HS - General Education - Application",
-            "AUSTIN CCA HS - Pre-Engineering - Application",
-            "ORR HS - General Education - Application",
-            "SULLIVAN HS - General Education - Application",
-            "MANLEY HS - General Education - Application",
-            "HOPE HS - General Education - Application",
-            "NORTH LAWNDALE - CHRISTIANA HS - General Education - Application",
-            "NORTH LAWNDALE - COLLINS HS - General Education - Application",
-            "UPLIFT HS - Teaching - Application",
-            "SCHURZ HS - Pre-Engineering - Application",
-            "ACE TECH HS - General Education - Application",
-            "LEGAL PREP HS - General Education - Application",
-            "ASPIRA - BUSINESS & FINANCE HS - General Education - Application",
-            "JUAREZ HS - Game Programming & Web Design - Application",
-            "PROSSER HS - Career Academy - Application",
-            "HARPER HS - General Education - Application",
-            "INSTITUTO - HEALTH - General Education - Application",
-            "ROOSEVELT HS - Cisco Networking - Application",
-            "INFINITY HS - Science/Technology/Engineering/Math - Application",
-            "CHICAGO TECH HS - Science/Technology/Engineering/Math - Application",
-            "NOBLE - ITW SPEER HS - General Education - Application",
-            "NOBLE - BUTLER HS - General Education - Application",
-            "NOBLE - ACADEMY HS - General Education - Application",
-            "MARSHALL HS - General Education - Application",
-            "MARSHALL HS - Agricultural Sciences - Application",
-            "MARSHALL HS - Culinary Arts - Application"
-        ],
-        "fn": function noReq(studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.CERTAIN };
-        }
-    },
-    "f1a0a3737e921ccaf4617c5eafab5f53": {
-        "desc": "Students are randomly selected by computerized lottery. Contact the school for additional information.",
-        "programs": [
-            "NOBLE - JOHNSON HS - General Education - Selection",
-            "NOBLE - PRITZKER HS - General Education - Selection",
-            "PERSPECTIVES - TECH HS - General Education - Selection",
-            "URBAN PREP - WEST HS - General Education - Selection",
-            "NOBLE - MANSUETO HS - General Education - Selection",
-            "ACERO - SOTO HS - General Education - Selection",
-            "NOBLE - NOBLE HS - General Education - Selection",
-            "ACERO - GARCIA HS - General Education - Selection",
-            "ASPIRA - EARLY COLLEGE HS - General Education - Selection",
-            "NOBLE - UIC HS - General Education - Selection",
-            "NOBLE - COMER - General Education - Selection",
-            "CICS - NORTHTOWN HS - General Education - Selection",
-            "NOBLE - BAKER HS - General Education - Selection",
-            "PERSPECTIVES - MATH & SCI HS - General Education - Selection",
-            "CICS - ELLISON HS - General Education - Selection",
-            "NOBLE - BULLS HS - General Education - Selection",
-            "URBAN PREP - ENGLEWOOD HS - General Education - Selection",
-            "NOBLE - RAUNER HS - General Education - Selection",
-            "PERSPECTIVES - LEADERSHIP HS - General Education - Selection",
-            "CICS - LONGWOOD - General Education - Selection",
-            "NOBLE - ROWE CLARK HS - General Education - Selection",
-            "NOBLE - MUCHIN HS - General Education - Selection",
-            "NOBLE - DRW HS - General Education - Selection",
-            "NOBLE - GOLDER HS - General Education - Selection",
-            "PERSPECTIVES - JOSLIN HS - General Education - Selection",
-            "EPIC HS - General Education - Selection",
-            "NOBLE - HANSBERRY HS - General Education - Selection",
-            "URBAN PREP - BRONZEVILLE HS - General Education - Selection",
-            "ASPIRA - BUSINESS & FINANCE HS - General Education - Selection",
-            "NOBLE - ITW SPEER HS - General Education - Selection",
-            "NOBLE - BUTLER HS - General Education - Selection",
-            "NOBLE - ACADEMY HS - General Education - Selection"
-        ],
-        "fn": function random(studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "ea7a8ea4de4f5cdcc8bc6e7aab6a7962": {
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled at Foundations College Prep, isibling, general.",
-        "programs": [
-            "FOUNDATIONS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "783216956d119ad64639725fa9f4d44b": {
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically. This program only accepts students who live within the school's attendance boundary.",
-        "programs": [
-            "FARRAGUT HS - General Education - Selection",
-            "WASHINGTON HS - General Education - Selection",
-            "HUBBARD HS - General Education - Selection",
-            "KENNEDY HS - General Education - Selection",
-            "KELLY HS - General Education - Selection",
-            "ROOSEVELT HS - General Education - Selection",
-            "BOGAN HS - General Education - Selection",
-            "CURIE HS - Fine Arts & Technology - NEIGHBORHOOD - Selection",
-            "SENN HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "240970c398eb1cf1d65952b71e811d58": {
-        "desc": "If the school receives more applications than there are seats available, students are randomly selected through a computerized lottery.  Priority is given to students currently enrolled in the school and to siblings of students enrolled in the campus.",
-        "programs": [
-            "CHICAGO VIRTUAL - Charter - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "01a561f658ea66df980a6e77eae83235": {
-        "desc": "If the school receives more applications than there are seats available, students are randomly selected through a computerized lottery.  Priority is given to students currently enrolled in the school who wish to continue and to siblings of students enrolled in the campus.",
-        "programs": [
-            "CICS - LONGWOOD - Charter - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "8c431d51587c33009ee9b67a566c042e": {
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "AUSTIN CCA HS - General Education - Selection",
-            "JULIAN HS - General Education - Selection",
-            "NORTH-GRAND HS - General Education - Selection",
-            "GAGE PARK HS - General Education - Selection",
-            "BOWEN HS - General Education - Selection",
-            "FOREMAN HS - General Education - Selection",
-            "FENGER HS - General Education - Selection",
-            "HIRSCH HS - General Education - Selection",
-            "CHICAGO VOCATIONAL HS - General Education - Selection",
-            "ROBESON HS - General Education - Selection",
-            "ORR HS - General Education - Selection",
-            "MANLEY HS - General Education - Selection",
-            "HOPE HS - General Education - Selection",
-            "HARPER HS - General Education - Selection",
-            "INFINITY HS - Science/Technology/Engineering/Math - Selection",
-            "MARSHALL HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "6fddb8b397a12770dbed5afff360213b": {
-        "desc": "Minimum percentile of 75 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.",
-        "programs": [
-            "SOLORIO HS - Double Honors/Scholars - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            var NWEA_MATH_CUTOFF = 75;
-            var NWEA_READ_CUTOFF = 75;
-            var ATTEND_CUTOFF = 95;
-            var progress = {
-                threshold_certain: 100,
-                value: 100 - average(getPointsFromCutoff(studentData.scores.nweaPercentileMath, NWEA_MATH_CUTOFF), getPointsFromCutoff(studentData.scores.nweaPercentileRead, NWEA_READ_CUTOFF), getPointsFromCutoff(studentData.attendancePercentage, ATTEND_CUTOFF)),
-            };
-            if (studentData.scores.nweaPercentileMath >= NWEA_MATH_CUTOFF &&
-                studentData.scores.nweaPercentileRead >= NWEA_READ_CUTOFF &&
-                studentData.attendancePercentage >= ATTEND_CUTOFF) {
-                return { outcome: success_chance_ts_1.default.CERTAIN, progress: progress };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE, progress: progress };
-            }
-        }
-    },
-    "218f3d334a0ceaa37bb7ce57bec10e96": {
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, students enrolled in AUSL schools, general.",
-        "programs": [
-            "SOLORIO HS - Double Honors/Scholars - Selection",
-            "CHICAGO ACADEMY HS - Scholars - Selection",
-            "CHICAGO ACADEMY HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school) ||
-                hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "3086b8e507b2f64e53b85b8ad808e66d": {
-        "desc": "Minimum 2.0 GPA in 7th grade and minimum attendance percentage of 85.",
-        "programs": [
-            "FARRAGUT HS - JROTC - Application",
-            "SCHURZ HS - AVID - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            var GPA_CUTOFF = 2.0;
-            var ATTEND_CUTOFF = 85;
-            var progress = {
-                threshold_certain: 100,
-                value: average(norm(getPointsFromCutoff(studentData.gpa, GPA_CUTOFF), 4.0, 0.0), getPointsFromCutoff(studentData.attendancePercentage, ATTEND_CUTOFF))
-            };
-            if (studentData.gpa >= GPA_CUTOFF && studentData.attendancePercentage >= ATTEND_CUTOFF) {
-                return { outcome: success_chance_ts_1.default.CERTAIN, progress: progress };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE, progress: progress };
-            }
-        }
-    },
-    "d3ddea21fb0e360b470bf095ce6bdfef": {
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: proximity, general.",
-        "programs": [
-            "FARRAGUT HS - JROTC - Selection",
-            "ROBESON HS - Allied Health - Selection",
-            "DUNBAR HS - Chicago Builds - Selection",
-            "SCHURZ HS - AVID - Selection",
-            "PROSSER HS - Career Academy - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "618315c228cf8e591d1909fc8ca41206": {
-        "desc": "Students are selected on a point system. Points are based on 7th grade final GPA and NWEA MAP scores. The school determines the minimum cutoff score for selections.",
-        "programs": [
-            "WELLS HS - Pre-Law - Selection",
-            "ALCOTT HS - Pre-Engineering - Selection",
-            "SULLIVAN HS - Medical & Health Careers - Selection",
-            "FARRAGUT HS - Pre-Law - Selection",
-            "SOUTH SHORE INTL HS - Medical & Health Careers - Selection",
-            "JULIAN HS - Allied Health - Selection",
-            "JUAREZ HS - Medical & Health Careers - Selection",
-            "BOWEN HS - Pre-Engineering - Selection",
-            "WILLIAMS HS - Medical & Health Careers - Selection",
-            "CLEMENTE HS - Allied Health - Selection",
-            "DUNBAR HS - Allied Health - Selection",
-            "CHICAGO VOCATIONAL HS - Medical Assisting - Selection",
-            "SCHURZ HS - Pre-Engineering - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "f661cdb969617a4f2a3923f5c80c190c": {
-        "desc": "General Education and 504 Plan students: Minimum percentile of 50 in both reading and math on NWEA MAP, minimum 2.7 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 50 in reading and math on NWEA MAP.  An Interview is required for all eligible applicants.",
-        "programs": [
-            "DYETT ARTS HS - Music - Application",
-            "DYETT ARTS HS - Visual Arts - Application",
-            "DYETT ARTS HS - Dance - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if (studentData.scores.nweaPercentileMath >= 50 &&
-                    studentData.scores.nweaPercentileRead >= 50 &&
-                    studentData.gpa >= 2.7 &&
-                    studentData.attendancePercentage >= 97) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead >= 50) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "3d86881707e468c9fe2a0ce0f5eeac4f": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the interview.",
-        "programs": [
-            "DYETT ARTS HS - Music - Selection",
-            "DYETT ARTS HS - Visual Arts - Selection",
-            "DYETT ARTS HS - Dance - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "7672890f5b16cd8f5c0cae20d58d1888": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
-        "programs": [
-            "SCHURZ HS - Accounting & Entrepreneurship - Selection",
-            "KELLY HS - Digital Media - Selection",
-            "CHICAGO VOCATIONAL HS - Agricultural Sciences - Selection",
-            "BOGAN HS - Entrepreneurship - Selection",
-            "ROOSEVELT HS - Game Programming - Selection",
-            "NORTH-GRAND HS - Culinary Arts - Selection",
-            "FOREMAN HS - Digital Media - Selection",
-            "PHILLIPS HS - Digital Media - Selection",
-            "CURIE HS - Game Programming & Web Design - Selection",
-            "BOWEN HS - Manufacturing - Selection",
-            "JUAREZ HS - Culinary Arts - Selection",
-            "CHICAGO VOCATIONAL HS - Culinary Arts - Selection",
-            "SCHURZ HS - Automotive Technology - Selection",
-            "COLLINS HS - Game Programming - Selection",
-            "CLEMENTE HS - Broadcast Technology - Selection",
-            "CURIE HS - Accounting - Selection",
-            "ROOSEVELT HS - Early Childhood - Selection",
-            "FARRAGUT HS - Automotive Technology - Selection",
-            "JULIAN HS - Entrepreneurship - Selection",
-            "CHICAGO VOCATIONAL HS - Carpentry - Selection",
-            "HYDE PARK HS - Broadcast Technology - Selection",
-            "JUAREZ HS - Automotive Technology - Selection",
-            "JULIAN HS - Broadcast Technology - Selection",
-            "CURIE HS - Early Childhood & Teaching - Selection",
-            "CLEMENTE HS - Culinary Arts - Selection",
-            "CURIE HS - Automotive Technology - Selection",
-            "JULIAN HS - Game Programming - Selection",
-            "JUAREZ HS - Architecture - Selection",
-            "TILDEN HS - Culinary Arts - Selection",
-            "SCHURZ HS - Digital Media - Selection",
-            "FOREMAN HS - Web Design - Selection",
-            "HYDE PARK HS - Digital Media - Selection",
-            "ROOSEVELT HS - Culinary Arts - Selection",
-            "CURIE HS - Broadcast Technology - Selection",
-            "RICHARDS HS - Culinary Arts - Selection",
-            "FENGER HS - Culinary Arts - Selection",
-            "RABY HS - Culinary Arts - Selection",
-            "HARPER HS - Culinary Arts - Selection",
-            "RABY HS - Broadcast Technology - Selection",
-            "STEINMETZ HS - Digital Media - Selection",
-            "JULIAN HS - Digital Media - Selection",
-            "AUSTIN CCA HS - Manufacturing - Selection",
-            "HARPER HS - Digital Media - Selection",
-            "AMUNDSEN HS - Game Programming & Web Design - Selection",
-            "RICHARDS HS - Accounting - Selection",
-            "MATHER HS - Game Programming & Web Design - Selection",
-            "CURIE HS - Culinary Arts - Selection",
-            "RABY HS - Entrepreneurship - Selection",
-            "CHICAGO VOCATIONAL HS - Early College STEM - Selection",
-            "HARLAN HS - Digital Media - Selection",
-            "MANLEY HS - Culinary Arts - Selection",
-            "CHICAGO VOCATIONAL HS - Diesel Technology - Selection",
-            "WELLS HS - Game Programming - Selection",
-            "FENGER HS - Carpentry - Selection",
-            "HARLAN HS - Web Design - Selection",
-            "CURIE HS - Digital Media - Selection",
-            "CURIE HS - Architecture - Selection",
-            "UPLIFT HS - Teaching - Selection",
-            "JUAREZ HS - Game Programming & Web Design - Selection",
-            "MARSHALL HS - Agricultural Sciences - Selection",
-            "MARSHALL HS - Culinary Arts - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 &&
-                    studentData.scores.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "4ab864cc8934557f435c392c96e5cfc1": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery.\u00a0The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "SCHURZ HS - General Education - Selection",
-            "STEINMETZ HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "ae1af40b734a31b447b1ed50f6e4bc17": {
-        "name": "",
-        "desc": "Minimum combined percentile of 48 in reading and math on NWEA MAP. Attendance at an Information Session is required for eligible applicants.",
-        "programs": [
-            "AIR FORCE HS - Service Learning Academies (Military) - Application",
-            "MARINE LEADERSHIP AT AMES HS - Service Learning Academies (Military) - Application",
-            "RICKOVER MILITARY HS - Service Learning Academies (Military) - Application",
-            "PHOENIX MILITARY HS - Service Learning Academies (Military) - Application",
-            "CARVER MILITARY HS - Service Learning Academies (Military) - Application",
-            "CHICAGO MILITARY HS - Service Learning Academies (Military) - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead >= 48) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-        }
-    },
-    "9a6d8103474c5e8b4988360767a186de": {
-        "name": "",
-        "desc": "During the Information Session, students will sign a Commitment Agreement, complete a Motivation and Perseverance Assessment and write a brief essay. Selections are based on a point system with a maximum of 500 points, derived from 7th grade final (cumulative) grades (100 points), 7th grade NWEA MAP scores (150 points), the two-part assessment (50 for each part), and the essay (100 points).",
-        "programs": [
-            "AIR FORCE HS - Service Learning Academies (Military) - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "459b0b1aaa6e44d897f0a720ba82369e": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary will be randomly selected by computerized lottery. The lottery will be conducted in the following order: sibling, general.",
-        "programs": [
-            "JUAREZ HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "d41d8cd98f00b204e9800998ecf8427e": {
-        "name": "",
-        "desc": "",
-        "programs": [
-            "KELLY HS - Digital Media - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "2317c60e8a1eec08ab495a14ccfd9c64": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery.",
-        "programs": [
-            "RICHARDS HS - General Education - Selection",
-            "TILDEN HS - General Education - Selection",
-            "DYETT ARTS HS - General Education - Selection",
-            "SOLORIO HS - General Education - Selection",
-            "MATHER HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "c32c0804dc719ba6c4c00322e7a69be2": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 45 in both reading and math on NWEA MAP.  IEP and EL students: Minimum NWEA MAP percentile of 50 in one subject (reading or math) and minimum NWEA MAP percentile of 40 in the other subject (reading or math).  Testing is required for all eligible applicants.",
-        "programs": [
-            "BROOKS HS - Academic Center - Application",
-            "TAFT HS - Academic Center - Application",
-            "LANE TECH HS - Academic Center - Application",
-            "MORGAN PARK HS - Academic Center - Application",
-            "KENWOOD HS - Academic Center - Application",
-            "LINDBLOM HS - Academic Center - Application",
-            "YOUNG HS - Academic Center - Application"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "224ce8807abceb6ca72e650988637629": {
-        "name": "",
-        "desc": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for prior year final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
-        "programs": [
-            "BROOKS HS - Academic Center - Selection",
-            "TAFT HS - Academic Center - Selection",
-            "LANE TECH HS - Academic Center - Selection",
-            "MORGAN PARK HS - Academic Center - Selection",
-            "KENWOOD HS - Academic Center - Selection",
-            "LINDBLOM HS - Academic Center - Selection",
-            "YOUNG HS - Academic Center - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "03010a12030cab563c3f5d9115e7aabe": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 45 in both reading and math on NWEA MAP and minimum 2.0 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 90 in reading and math on NWEA MAP, and minimum 2.0 GPA in 7th grade.",
-        "programs": [
-            "STEINMETZ HS - JROTC - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if (studentData.scores.nweaPercentileMath >= 45 &&
-                    studentData.scores.nweaPercentileRead >= 45 &&
-                    studentData.gpa > 2.0) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 90 &&
-                    studentData.gpa > 2.0) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "5096cc5a97943badb78efd427ee13eb6": {
-        "name": "",
-        "desc": "Eligible students are randomly selected by computerized lottery.",
-        "programs": [
-            "STEINMETZ HS - JROTC - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "f6b1cadaa52f894d87ad4246bd4c9b0a": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, general.",
-        "programs": [
-            "DOUGLASS HS - General Education - Selection",
-            "WILLIAMS HS - General Education - Selection",
-            "SENN HS - Digital Journalism - Selection",
-            "NORTH LAWNDALE - CHRISTIANA HS - General Education - Selection",
-            "NORTH LAWNDALE - COLLINS HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school) ||
-                hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "77620df9b5c4a530f21c30267af843ce": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP. An audition/portfolio review is required.",
-        "programs": [
-            "CURIE HS - Dance - Application",
-            "CURIE HS - Music - Application",
-            "CURIE HS - Visual Arts - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 &&
-                    studentData.scores.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "7e51568fc748dec3fd5aa79aae428009": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade final (cumulative) grades, and the audition.",
-        "programs": [
-            "CURIE HS - Dance - Selection",
-            "SENN HS - Dance - Selection",
-            "CURIE HS - Music - Selection",
-            "SENN HS - Music - Selection",
-            "SENN HS - Theatre - Selection",
-            "CURIE HS - Visual Arts - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "0514de51e21823dae4f43b085538f9e6": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.",
-        "programs": [
-            "WESTINGHOUSE HS - Career Academy - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
-                    studentData.gpa >= 3.0 &&
-                    studentData.attendancePercentage >= 95) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 &&
-                    studentData.scores.nweaPercentileRead >= 24 &&
-                    studentData.gpa >= 3.0 &&
-                    studentData.attendancePercentage >= 95) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "d76c385b612c2ef53c62501b074b6134": {
-        "name": "",
-        "desc": "Students are randomly selected by compterized lottery. The lottery is conducted in the following order: proximity, general.",
-        "programs": [
-            "WESTINGHOUSE HS - Career Academy - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "5ee7cff3803c80e025f483be28b57f06": {
-        "name": "",
-        "desc": "This program only accepts students who live within the school's attendance boundary or who attend a Grow Community School (Audubon, Bell, Blaine, Budlong, Burley, Chappell, Coonley, Greeley, Hamilton, Hawthorne, Inter-American, Jahn, Jamieson, McPherson, Nettelhorst, Ravenswood, or Waters). Students are randomly selected by computerized lottery.",
-        "programs": [
-            "LAKE VIEW HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "930c01733b718c40bc1f2af23839e14a": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants.",
-        "programs": [
-            "KELLY HS - International Baccalaureate (IB) - Application",
-            "SOUTH SHORE INTL HS - International Baccalaureate (IB) - Application",
-            "BACK OF THE YARDS HS - International Baccalaureate (IB) - Application",
-            "PROSSER HS - International Baccalaureate (IB) - Application",
-            "STEINMETZ HS - International Baccalaureate (IB) - Application",
-            "MORGAN PARK HS - International Baccalaureate (IB) - Application",
-            "TAFT HS - International Baccalaureate (IB) - Application",
-            "BOGAN HS - International Baccalaureate (IB) - Application",
-            "JUAREZ HS - International Baccalaureate (IB) - Application",
-            "OGDEN HS - International Baccalaureate (IB) - Application",
-            "KENNEDY HS - International Baccalaureate (IB) - Application",
-            "AMUNDSEN HS - International Baccalaureate (IB) - Application",
-            "WASHINGTON HS - International Baccalaureate (IB) - Application",
-            "SCHURZ HS - International Baccalaureate (IB) - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 &&
-                    studentData.scores.nweaPercentileRead >= 24 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "11bdd4bc6af64732a32d73a850bc78a4": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points.The school determines the minimum cutoff score for selections.",
-        "programs": [
-            "KELLY HS - International Baccalaureate (IB) - Selection",
-            "BACK OF THE YARDS HS - International Baccalaureate (IB) - Selection",
-            "JUAREZ HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "f79604e9d7984cc9b43fa3c69abe428d": {
-        "name": "",
-        "desc": "During the Information Session, students will sign a Commitment Agreement, complete a Motivation and Perseverance Assessment and write a brief essay. Selections will be based on a point system with a maximum of 500 points, derived from 7th grade final (cumulative) grades (100 points), 7th grade NWEA MAP scores (150 points), the two-part assessment (50 for each part), and the essay (100 points).",
-        "programs": [
-            "MARINE LEADERSHIP AT AMES HS - Service Learning Academies (Military) - Selection",
-            "RICKOVER MILITARY HS - Service Learning Academies (Military) - Selection",
-            "PHOENIX MILITARY HS - Service Learning Academies (Military) - Selection",
-            "CARVER MILITARY HS - Service Learning Academies (Military) - Selection",
-            "CHICAGO MILITARY HS - Service Learning Academies (Military) - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "4cb799c1cf8b41a3baf1e8d9176463d8": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.",
-        "programs": [
-            "JONES HS - Pre-Engineering - Application",
-            "CRANE MEDICAL HS - Health Sciences - Application",
-            "CHICAGO AGRICULTURE HS - Agricultural Sciences - Application",
-            "HANCOCK HS - Pre-Law - Application",
-            "HANCOCK HS - Pre-Engineering - Application",
-            "JONES HS - Pre-Law - Application",
-            "VON STEUBEN HS - Science - Application",
-            "CLARK HS - Early College STEM - Application",
-            "DISNEY II HS - Fine Arts & Technology - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 &&
-                    studentData.scores.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "0fe94ad9490cc5fe33139f705336bf3d": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on 7th grade final GPA and 7th grade stanines. Students are ranked and selected from high to low. Students residing within the attendance overlay boundary of the school are selected first.",
-        "programs": [
-            "JONES HS - Pre-Engineering - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "0fedde2a8081243a74d2c6a3be90b411": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.",
-        "programs": [
-            "SOUTH SHORE INTL HS - International Baccalaureate (IB) - Selection",
-            "CLEMENTE HS - International Baccalaureate (IB) - Selection",
-            "STEINMETZ HS - International Baccalaureate (IB) - Selection",
-            "HUBBARD HS - International Baccalaureate (IB) - Selection",
-            "BOGAN HS - International Baccalaureate (IB) - Selection",
-            "KENNEDY HS - International Baccalaureate (IB) - Selection",
-            "BRONZEVILLE HS - International Baccalaureate (IB) - Selection",
-            "WASHINGTON HS - International Baccalaureate (IB) - Selection",
-            "SCHURZ HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "70d67060ab98f9cd752d741b32e207ba": {
-        "name": "",
-        "desc": "Student selections are based on points. Students are assigned points for 7th grade final GPA and 7th grade stanines. Each school determines a minimum cutoff score for selections.",
-        "programs": [
-            "ROOSEVELT HS - Medical & Health Careers - Selection",
-            "NORTH-GRAND HS - Pre-Engineering - Selection",
-            "NORTH-GRAND HS - Allied Health - Selection",
-            "SCHURZ HS - Allied Health - Selection",
-            "RABY HS - Pre-Law - Selection",
-            "MATHER HS - Pre-Law - Selection",
-            "ROOSEVELT HS - Cisco Networking - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "eb6acf17c18f9a5177bcdb7a4504672a": {
-        "name": "",
-        "desc": "Minimum percentile of 40 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, LAS Links Assessment composite of 4 or STAMP Assessment at the Intermediate Level.",
-        "programs": [
-            "SCHURZ HS - Dual Language - Application",
-            "BACK OF THE YARDS HS - Dual Language - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "0640ddea233c6c9c97db5dd816b5c24a": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, students currently enrolled in a CPS elementary school with a world language or dual language program, general.",
-        "programs": [
-            "SCHURZ HS - Dual Language - Selection",
-            "BACK OF THE YARDS HS - Dual Language - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "8c1dffabe7825704cbe29a12138cc4d9": {
-        "name": "",
-        "desc": "Students currently enrolled in the school's eighth grade will have a deadline to submit their intent to enroll in ninth grade. For remaining seats, students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "CHICAGO MATH & SCIENCE HS - General Education - Selection",
-            "CICS - CHICAGOQUEST HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "70b7c4a5e527fb50d69ea37b000765d8": {
-        "name": "",
-        "desc": "Minimum percentile of 70 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 93.",
-        "programs": [
-            "CHICAGO ACADEMY HS - Scholars - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.scores.nweaPercentileMath >= 70 &&
-                studentData.scores.nweaPercentileRead >= 70 &&
-                studentData.gpa >= 3.0 &&
-                studentData.attendancePercentage >= 93) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "1d126a086436d78661af2cb249938c72": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum attendance percentage of 92.",
-        "programs": [
-            "MULTICULTURAL HS - Fine and Performing Arts - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (studentData.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "c36c294e63476a7959123bfe85a2c639": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "MULTICULTURAL HS - Fine and Performing Arts - Selection",
-            "CLEMENTE HS - General Education - Selection",
-            "PHILLIPS HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "889af44e3306313029109d465b1c2de6": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum GPA of 2.5 in 7th grade and minimum attendance percentage of 85.",
-        "programs": [
-            "CLEMENTE HS - General Education - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (studentData.gpa >= 2.5 &&
-                    studentData.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "6a02d16ba52a69b937a74a43c6a82769": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance is required at an Information Session for all eligible applicants.",
-        "programs": [
-            "CLEMENTE HS - International Baccalaureate (IB) - Application",
-            "CURIE HS - International Baccalaureate (IB) - Application",
-            "FARRAGUT HS - International Baccalaureate (IB) - Application",
-            "BRONZEVILLE HS - International Baccalaureate (IB) - Application",
-            "HYDE PARK HS - International Baccalaureate (IB) - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 &&
-                    studentData.scores.nweaPercentileRead >= 24 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "1a043655763ab140a0d14f5080d63a2c": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
-        "programs": [
-            "BROOKS HS - Selective Enrollment High School - Application",
-            "YOUNG HS - Selective Enrollment High School - Application",
-            "SOUTH SHORE INTL HS - Selective Enrollment High School - Application",
-            "WESTINGHOUSE HS - Selective Enrollment High School - Application",
-            "LANE TECH HS - Selective Enrollment High School - Application",
-            "HANCOCK HS - Selective Enrollment High School - Application",
-            "LINDBLOM HS - Selective Enrollment High School - Application",
-            "KING HS - Selective Enrollment High School - Application",
-            "PAYTON HS - Selective Enrollment High School - Application",
-            "JONES HS - Selective Enrollment High School - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 &&
-                    studentData.scores.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "bd680e7bc10c03552140e26736221cf7": {
-        "name": "",
-        "desc": "Students are selected on a point system with a maximum of 900 points. Students are assigned points for 7th grade final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
-        "programs": [
-            "BROOKS HS - Selective Enrollment High School - Selection",
-            "YOUNG HS - Selective Enrollment High School - Selection",
-            "NORTHSIDE PREP HS - Selective Enrollment High School - Selection",
-            "SOUTH SHORE INTL HS - Selective Enrollment High School - Selection",
-            "WESTINGHOUSE HS - Selective Enrollment High School - Selection",
-            "LANE TECH HS - Selective Enrollment High School - Selection",
-            "HANCOCK HS - Selective Enrollment High School - Selection",
-            "LINDBLOM HS - Selective Enrollment High School - Selection",
-            "KING HS - Selective Enrollment High School - Selection",
-            "JONES HS - Selective Enrollment High School - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateSEPoints(student);
-            var cutoff = getSECutoff(student, school);
-            if (score >= cutoff.max) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (score >= cutoff.avg) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else if (score >= cutoff.min) {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "94f10272b6ff9ee947b6c7f8e9adc98c": {
-        "name": "",
-        "desc": "Minimum percentile of 24 in both reading and math on NWEA MAP. An interview is required for applicants.",
-        "programs": [
-            "TAFT HS - NJROTC - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.scores.nweaPercentileMath >= 24 &&
-                studentData.scores.nweaPercentileRead >= 24) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "29034b3dd211fc6857c0762ea4431354": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores and the interview.",
-        "programs": [
-            "TAFT HS - NJROTC - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "7ca8e42afc3b2240bdc21e9b02a9b6ff": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 2.75 GPA in 7th grade. An audition is required for students who live outside of the school's attendance boundary.",
-        "programs": [
-            "LINCOLN PARK HS - Vocal Music - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 60 &&
-                    studentData.scores.nweaPercentileRead >= 60 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "abfbe30160c0ed3a6d925da2f6fbe7d6": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility/audition requirements and can be admitted automatically.  Students who live outside of the school's attendance boundary are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade GPA, and the audition.",
-        "programs": [
-            "LINCOLN PARK HS - Vocal Music - Selection",
-            "LINCOLN PARK HS - Instrumental Music - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-            }
-        }
-    },
-    "9653c4a2af98c756aaeeaa36980f9dc5": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 24 in reading and math on NWEA MAP, and minimum attendance percentage of 90.",
-        "programs": [
-            "PHILLIPS HS - General Education - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (studentData.iep || studentData.ell) {
-                    if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 24 &&
-                        studentData.attendancePercentage >= 90) {
-                        return { outcome: success_chance_ts_1.default.CERTAIN };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.NONE };
-                    }
-                }
-                else {
-                    if (studentData.scores.nweaPercentileMath >= 24 &&
-                        studentData.scores.nweaPercentileRead >= 24 &&
-                        studentData.attendancePercentage >= 90) {
-                        return { outcome: success_chance_ts_1.default.CERTAIN };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.NONE };
-                    }
-                }
-            }
-        }
-    },
-    "49bc52caf46148ee777e8d3534f22700": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, proximity, tiers.",
-        "programs": [
-            "CRANE MEDICAL HS - Health Sciences - Selection",
-            "CHICAGO AGRICULTURE HS - Agricultural Sciences - Selection",
-            "VON STEUBEN HS - Science - Selection",
-            "CLARK HS - Early College STEM - Selection",
-            "DISNEY II HS - Fine Arts & Technology - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school) ||
-                hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "61f50de703d591d18f2fb852131bbb9c": {
-        "name": "",
-        "desc": "Studentts are randomly selected by computerized lottery. General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
-        "programs": [
-            "SULLIVAN HS - Accounting - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                if (studentData.iep || studentData.ell) {
-                    if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
-                        return { outcome: success_chance_ts_1.default.LIKELY };
-                    }
-                    else if (studentData.prevGradeLevel !== 7) {
-                        return { outcome: success_chance_ts_1.default.UNLIKELY };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                    }
-                }
-                else {
-                    if (studentData.scores.nweaPercentileMath >= 24 &&
-                        studentData.scores.nweaPercentileRead >= 24) {
-                        return { outcome: success_chance_ts_1.default.LIKELY };
-                    }
-                    else if (studentData.prevGradeLevel !== 7) {
-                        return { outcome: success_chance_ts_1.default.UNLIKELY };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                    }
-                }
-            }
-        }
-    },
-    "3c0f47771fc40565978a3a894bd96705": {
-        "name": "",
-        "desc": "Minimum percentile of 50 in both reading and math on NWEA MAP, and minimum 2.0 GPA in 7th grade.",
-        "programs": [
-            "FENGER HS - Honors - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.scores.nweaPercentileMath >= 50 &&
-                studentData.scores.nweaPercentileRead >= 50 &&
-                studentData.gpa >= 2.0) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "308d8156364219130aef9a7de30a6c8d": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery.",
-        "programs": [
-            "FENGER HS - Honors - Selection",
-            "CHICAGO VIRTUAL - General Education - Selection",
-            "KENWOOD HS - Honors - Selection",
-            "HUBBARD HS - University Scholars - Selection",
-            "DUNBAR HS - Career Academy - Selection",
-            "BRONZEVILLE HS - Honors - Selection",
-            "ACE TECH HS - General Education - Selection",
-            "MORGAN PARK HS - World Language and International Studies - Selection",
-            "CHICAGO TECH HS - Science/Technology/Engineering/Math - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "ab7e9a52b2c607977c432dd5f27c6fe9": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. Each school selects a minimum cutoff score for selections.",
-        "programs": [
-            "PROSSER HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "8f4240fa22d2281a32186e7a65e75011": {
-        "name": "",
-        "desc": "Spry is a three-year, year-round school. Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "SPRY HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "b4dc6bde064d3f16c8bed871ea0cee30": {
-        "name": "",
-        "desc": "Minimum percentile of 50 in reading on NWEA MAP, minimum 2.0 GPA in 7th grade, and minimum attendance percentage of 80.",
-        "programs": [
-            "KELLY HS - AVID - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.scores.nweaPercentileRead >= 50 &&
-                studentData.gpa >= 2.0 &&
-                studentData.attendancePercentage >= 80) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "4ce6d6733bff330b780bc8390660d7cf": {
-        "name": "",
-        "desc": "Students will be selected based on teacher recommendation letter(s) and an interview process.",
-        "programs": [
-            "KELLY HS - AVID - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "cb7238b523517845746779fe18ea174a": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.   IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  Testing is required for all eligible applicants.",
-        "programs": [
-            "NORTHSIDE PREP HS - Selective Enrollment High School - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 &&
-                    studentData.scores.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "14673a83b42347d3fdc6f2fa445c4d2f": {
-        "name": "",
-        "desc": "Student selections are based on points. Students are assigned points for 7th grade final GPA and 7th grade stanines. Students are ranked and selected from high to low. Students residing within the attendance overlay boundary of the school are selected first.",
-        "programs": [
-            "HANCOCK HS - Pre-Law - Selection",
-            "HANCOCK HS - Pre-Engineering - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "3d1c7a20cb38789ce4b0f651200dd9cd": {
-        "name": "",
-        "desc": "Minimum percentile of 75 in both reading and math on NWEA MAP, minimum 3.5 GPA in 7th grade, and minimum attendance percentage of 95.",
-        "programs": [
-            "KENWOOD HS - Honors - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.scores.nweaPercentileMath >= 75 &&
-                studentData.scores.nweaPercentileRead >= 75 &&
-                studentData.gpa >= 3.5 &&
-                studentData.attendancePercentage >= 95) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "027fe7b2d9fd7d9c6e55de49f723852f": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum combined percentile of 40 in reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 30 in reading and math on NWEA MAP, and minimum attendance percentage of 90.",
-        "programs": [
-            "SIMEON HS - Career Academy - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) > 30 &&
-                    studentData.attendancePercentage >= 90) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) > 40 &&
-                    studentData.gpa >= 2.5 &&
-                    studentData.attendancePercentage >= 90) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "47befdd406dee45058f2dbd64a097154": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the combined NWEA MAP scores and the interview.",
-        "programs": [
-            "SIMEON HS - Career Academy - Selection",
-            "SIMEON HS - Honors - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "39fbe111b62498337fb2f7973a18e570": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 85.  IEP and EL students: Minimum combined percentile of 40 in reading and math on NWEA MAP and minimum attendance percentage of 85.",
-        "programs": [
-            "HARLAN HS - General Education - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (studentData.iep || studentData.ell) {
-                    if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 40 &&
-                        studentData.attendancePercentage >= 85) {
-                        return { outcome: success_chance_ts_1.default.CERTAIN };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.NONE };
-                    }
-                }
-                else {
-                    if (studentData.scores.nweaPercentileMath >= 24 &&
-                        studentData.scores.nweaPercentileRead >= 24 &&
-                        studentData.attendancePercentage >= 85) {
-                        return { outcome: success_chance_ts_1.default.CERTAIN };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.NONE };
-                    }
-                }
-            }
-        }
-    },
-    "3e4ad403b3a6a2e998cd7d7b7d179091": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibilty requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "HARLAN HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "f2829bdd4c9bc67e01b90bdd3db46c07": {
-        "name": "",
-        "desc": "Minimum percentile of 50 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 90.",
-        "programs": [
-            "SIMEON HS - Honors - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.scores.nweaPercentileMath >= 50 &&
-                studentData.scores.nweaPercentileRead >= 50 &&
-                studentData.gpa >= 3.0 &&
-                studentData.attendancePercentage >= 90) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "c66032656bbf52edb1c9d6b62ca2e2eb": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum combined percentile of 135 in reading and math on NWEA MAP and minimum 3.0 GPA in 7th grade.",
-        "programs": [
-            "LINCOLN PARK HS - Honors/Double Honors - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 135 &&
-                    studentData.gpa >= 3.0) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "1558a52d4663a54c6a5f06fa10062961": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside the school's attendance boundary are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and 7th grade GPA.",
-        "programs": [
-            "LINCOLN PARK HS - Honors/Double Honors - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-            }
-        }
-    },
-    "f4491f6cf1ebf200770f01271d93ba47": {
-        "name": "",
-        "desc": "Minimum percentile of 80 in both reading and math on NWEA MAP and minimum 3.5 GPA in 7th grade.",
-        "programs": [
-            "CHICAGO AGRICULTURE HS - Scholars - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.scores.nweaPercentileMath >= 80 &&
-                studentData.scores.nweaPercentileRead >= 80 &&
-                studentData.gpa >= 3.5) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "1976701fe4ffdbf53913f7f638f61b26": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. Preference is given to students with a sibling who is currently enrolled and will be enrolled in the upcoming school year.",
-        "programs": [
-            "CHICAGO AGRICULTURE HS - Scholars - Selection",
-            "HARLAN HS - Pre-Engineering - Selection",
-            "CHICAGO AGRICULTURE HS - Honors - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "736b7d124b6930cf8ae642563037eeb9": {
-        "name": "",
-        "desc": "Attendance at an Information Session is not required, but preference is given to students who attend an Information Session.",
-        "programs": [
-            "GOODE HS - Early College STEM - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "85463a98c5a7ba21313aacdaeda48cd0": {
-        "name": "",
-        "desc": "Students are randomly selcted by computerized lottery. The lottery is conducted in the following order: students who live within the school's overlay boundary and attend an Information Session; students who live within the school's network and attend an Information Session; students who live outside of the network and attend an Information Session; students who live within the school's overlay boundary and do not attend an Information Session; students who live within the school's network and do not attend an Information Session; students who live outside of the network and do not attend an Information Session.",
-        "programs": [
-            "GOODE HS - Early College STEM - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "8ccbd2eb3d4e026932b83ee576862b16": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  An audition is required for all eligible applicants.",
-        "programs": [
-            "SENN HS - Dance - Application",
-            "SENN HS - Music - Application",
-            "SENN HS - Theatre - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 &&
-                    studentData.scores.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "7e054e33cdc685f9b099a243e45f0386": {
-        "name": "",
-        "desc": "Minimum 2.5 GPA in 7th grade.",
-        "programs": [
-            "ROBESON HS - Allied Health - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.gpa >= 2.5) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "b3b514880eaa7b9a4db6d6b6308eb1f7": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school selects the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Academic Center.",
-        "programs": [
-            "MORGAN PARK HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "7574e7fa48dfdf030b059dbaff5351b6": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling; students who attend Brennemann, Courtenay, or McCutcheon Elementary Schools; general.",
-        "programs": [
-            "UPLIFT HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "f9d7148f613933f83ad7d81004715614": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled at the University of Chicago Woodlawn, sibling, proximity, general.",
-        "programs": [
-            "U OF C - WOODLAWN HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData) ||
-                hasSiblingInProgram(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "bc314f72be86fc565247301f6d8f99b8": {
-        "name": "",
-        "desc": "Minimum percentile of 40 in both reading and math on NWEA MAP, minimum 2.8 GPA in 7th grade, and minimum attendance percentage of 92.",
-        "programs": [
-            "COLLINS HS - Scholars - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.scores.nweaPercentileMath >= 40 &&
-                studentData.scores.nweaPercentileRead >= 40 &&
-                studentData.gpa >= 2.8 &&
-                studentData.attendancePercentage >= 92) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "685beedfccfae8bdb0649c36f03dfd7a": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in Chalmers, Dvorak, Herzl, Johnson, or Morton Elementary Schools; general.",
-        "programs": [
-            "COLLINS HS - Scholars - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "9a2a27708247d3b692481757756b5226": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum combined percentile of 40 in both reading and math on NWEA MAP, minimum 2.0 GPA in 7th grade, and minimum attendance percentage of 80.  IEP/EL students have no eligibility requirements.",
-        "programs": [
-            "TEAM HS - General Education - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 40 &&
-                    studentData.gpa >= 2.0 &&
-                    studentData.attendancePercentage >= 80) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "8f880cad92a9a0dc49dd8d6ba4209b14": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students with a 7th grade final GPA of 2.5 or higher, general.",
-        "programs": [
-            "TEAM HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.gpa >= 2.5) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "43cabfe5f36cbf1ccbb95a9962d90319": {
-        "name": "",
-        "desc": "Students enrolled in the Taft Academic Center or students who live within the school's attendance boundary can be admitted automatically. This program only accepts students who live within the school's attendance boundary or who attend the school's Academic Center.",
-        "programs": [
-            "TAFT HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "9fad1e147fb546e7a25d0fccba608035": {
-        "name": "",
-        "desc": "Students who are enrolled in the Morgan Park Academic Center and students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "MORGAN PARK HS - General Education - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (inAttendanceBound(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(studentData, schoolData)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "7ef878b115498c24fd96f8891c346480": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 85.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, and minimum attendance percentage of 85.",
-        "programs": [
-            "WILLIAMS HS - General Education - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
-                    studentData.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 &&
-                    studentData.scores.nweaPercentileRead >= 24 &&
-                    studentData.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "01bb8009b315ff8fc0120dbadf71444c": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading on math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.",
-        "programs": [
-            "HUBBARD HS - University Scholars - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
-                    studentData.gpa >= 2.5 &&
-                    studentData.attendancePercentage >= 90) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 &&
-                    studentData.scores.nweaPercentileRead >= 24 &&
-                    studentData.gpa >= 2.5 &&
-                    studentData.attendancePercentage >= 90) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "86b8c5719b264aa9072aa6433644fb60": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade, and minimum attendance percentage of 90.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP, and minimum attendance percentage of 90.",
-        "programs": [
-            "SENN HS - Digital Journalism - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
-                    studentData.attendancePercentage >= 90) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 &&
-                    studentData.scores.nweaPercentileRead >= 24 &&
-                    studentData.gpa >= 2.5 &&
-                    studentData.attendancePercentage >= 90) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "4773ff8378c681fdc3855cec189b446d": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. General Education and 504 Plan Students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
-        "programs": [
-            "BOGAN HS - Accounting - Selection"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else if (studentData.prevGradeLevel !== 7) {
-                    return { outcome: success_chance_ts_1.default.UNLIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 && studentData.scores.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else if (studentData.prevGradeLevel !== 7) {
-                    return { outcome: success_chance_ts_1.default.UNLIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "87bdb6caf5cf899ddb8041511761e58b": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "INTRINSIC HS - General Education - Selection",
-            "YOUNG WOMENS HS - General Education - Selection",
-            "INSTITUTO - HEALTH - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "23e3199eb5514de5456653457f75f366": {
-        "name": "",
-        "desc": "Minimum percentile of 60 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.",
-        "programs": [
-            "KENWOOD HS - Magnet Program - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.scores.nweaPercentileMath >= 60 &&
-                student.scores.nweaPercentileRead >= 60 &&
-                student.gpa >= 3.0 &&
-                student.attendancePercentage >= 95) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "9b26cbed99b12a4c7cfca5a4713c6e17": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in the Kenwood Academic Center, general.",
-        "programs": [
-            "KENWOOD HS - Magnet Program - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "0df5dab7dc2c1e8d8947d27287872269": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibilty requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, Edwards Elementary School.",
-        "programs": [
-            "CURIE HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "9e837f0a671ce67593e611ccf595306a": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the schools attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "CORLISS HS - Early College STEM - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "2fdf00001de412f0e493fa242647bad0": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Academic Center.",
-        "programs": [
-            "TAFT HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "ba2bb65c77d8d0932634f43bb01707cc": {
-        "name": "",
-        "desc": "Students who live within the school's attendance area can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in Carnegie Elementary School, sibling, general.",
-        "programs": [
-            "HYDE PARK HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "08ee4f1aa31d5eb00bbc81c21139188b": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary: None  Students who live outside of the school's attendance boundary: Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 2.75 GPA in 7th grade. An audition is required for students who live outside of the school's attendance boundary.",
-        "programs": [
-            "LINCOLN PARK HS - Instrumental Music - Application"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (student.scores.nweaPercentileMath >= 60 &&
-                    student.scores.nweaPercentileRead >= 60 &&
-                    student.gpa >= 2.75) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "d1b719a6ff9e6979e8f14b2c05b63352": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: Alcott Elementary School students, proximity, general.",
-        "programs": [
-            "ALCOTT HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "f5ef0c0580eb110a06888b1c15313717": {
-        "name": "",
-        "desc": "Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 2.75 GPA in 7th grade. An audition is required for all eligible applicants.",
-        "programs": [
-            "LINCOLN PARK HS - Drama - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.scores.nweaPercentileMath >= 60 &&
-                student.scores.nweaPercentileRead >= 60 &&
-                student.gpa >= 2.75) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "9f4eb5cee59306847a4fa61720f8e54d": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade GPA, and the audition.",
-        "programs": [
-            "LINCOLN PARK HS - Drama - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "625d1f6025c2e892f5573e60ab69f903": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on the NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.",
-        "programs": [
-            "HARLAN HS - Pre-Engineering - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.scores.nweaPercentileMath >= 24 &&
-                    student.scores.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "bc517a96ab40c67deddde65b6a4c07a8": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  A portfolio review is required for all eligible applicants.",
-        "programs": [
-            "SENN HS - Visual Arts - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.scores.nweaPercentileMath >= 24 &&
-                    student.scores.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "cb76bc6620a1921e5f9630e2a39fb8d8": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math, 7th grade final (cumulative) grades, and the portfolio review.",
-        "programs": [
-            "SENN HS - Visual Arts - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "afb0dfcaa0f2cc236b2bd07a0244385e": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary or who attend Grow Community Schools can be admitted automatically. This program only accepts students who live within the school's attendance boundary or attend a Grow Community School.",
-        "programs": [
-            "AMUNDSEN HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "78e3973b67c80b7984271b2a127e9ebf": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum 2.5 GPA in 7th grade and minimum attendance percentage of 85.",
-        "programs": [
-            "KELVYN PARK HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (student.gpa >= 2.5 &&
-                    student.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "03c4df08f6e417f196f6e87415e2064f": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are selected on a point system. Points are based on NWEA MAP scores, 7th grade GPA, and the interview.",
-        "programs": [
-            "KELVYN PARK HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-            }
-        }
-    },
-    "95025d14a97b9b32f5a2c8225c4ddd6e": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance is required at an Information Session for all eliglble applicants.",
-        "programs": [
-            "HUBBARD HS - International Baccalaureate (IB) - Application"
-        ],
-        "fn": function (studentData, schoolData) {
-            if (studentData.iep || studentData.ell) {
-                if ((studentData.scores.nweaPercentileMath + studentData.scores.nweaPercentileRead) >= 48 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (studentData.scores.nweaPercentileMath >= 24 &&
-                    studentData.scores.nweaPercentileRead >= 24 &&
-                    studentData.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "296d2849362aa5311f457ffc834a868b": {
-        "name": "",
-        "desc": "Students are selected on a point system. Students are assigned points for 7th grade final GPA and 7th grade stanines. Students are ranked and selected from high to low. Students residing within the attendance overlay boundary of the school are selected first.",
-        "programs": [
-            "JONES HS - Pre-Law - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "bb9e0e6f1af678dafb340a8e48ff4fbf": {
-        "name": "",
-        "desc": "Minimum percentile of 50 in both reading and math on NWEA MAP and minimum 3.0 GPA in 7th grade.",
-        "programs": [
-            "CHICAGO AGRICULTURE HS - Honors - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.scores.nweaPercentileMath >= 50 &&
-                student.scores.nweaPercentileRead >= 50 &&
-                student.gpa >= 3.0) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "26f5b02fa29f8a9c2b5bc909b844e585": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner,  Madero Middle School.",
-        "programs": [
-            "FARRAGUT HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "6de001ff1207c6d38de87e65f3e11ff3": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled at Chicago Collegiate Charter School, sibling, proximity, general.",
-        "programs": [
-            "CHICAGO COLLEGIATE - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school) ||
-                hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "351d1f100c07b40673b51f4506b0e34e": {
-        "name": "",
-        "desc": "None. All interested students, including students who live within the overlay boundary of the school, must submit apply.",
-        "programs": [
-            "BACK OF THE YARDS HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.CERTAIN };
-        }
-    },
-    "fd100fd06ddf9bd72e2809f6d659faf2": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students who live within the attendance boundaries of Chavez, Daley, Hamline, Hedges, Lara, or Seward Elementary Schools; general.",
-        "programs": [
-            "BACK OF THE YARDS HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "763686fddcad223e9a51aebaac42b61c": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: General Education and 504 Plan students: Minimum percentile of 60 in both reading and math on NWEA MAP, minimum 3.0 GPA in 7th grade, and minimum attendance percentage of 95.  IEP/EL students have no eligibility requirements.",
-        "programs": [
-            "WELLS HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (student.iep || student.ell) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    if (student.scores.nweaPercentileMath >= 60 &&
-                        student.scores.nweaPercentileRead >= 60 &&
-                        student.gpa >= 3.0 &&
-                        student.attendancePercentage >= 95) {
-                        return { outcome: success_chance_ts_1.default.CERTAIN };
-                    }
-                    else {
-                        return { outcome: success_chance_ts_1.default.NONE };
-                    }
-                }
-            }
-        }
-    },
-    "379139122b47f0c7efa0e423df956e30": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: students scoring above designated NWEA MAP percentile, sibling, general.",
-        "programs": [
-            "WELLS HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                var scoredAboveThreshold = student.scores.nweaPercentileMath >= 60 &&
-                    student.scores.nweaPercentileRead >= 60;
-                if (scoredAboveThreshold || hasSiblingInProgram(student, school)) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "69aef50164a2914f16a28630afa50270": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 30 in both reading and math on NWEA MAP, minimum 2.0 GPA in 7th grade and minimum attendance percentage of 85.  IEP and EL students: Minimum combined percentile of 24 in reading and math on NWEA MAP, and minimum attendance percentage of 85.",
-        "programs": [
-            "COLLINS HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 24 &&
-                    student.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "a105512ab5a0eb6536021215baf98ea8": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conducted in the following order: students currently enrolled in Chalmers, Dvorak, Herzl, Johnson, or Morton Elementary Schools; sibling; general.",
-        "programs": [
-            "COLLINS HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "47750c8ffb643412fb55f3f3d6bde14a": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school selects the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, Ogden Elementary School.",
-        "programs": [
-            "OGDEN HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "965d710ce70f9e59e622f51311b5a986": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
-        "programs": [
-            "DYETT ARTS HS - Digital Media - Selection"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else if (student.prevGradeLevel !== 7) {
-                    return { outcome: success_chance_ts_1.default.UNLIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (student.scores.nweaPercentileMath >= 24 &&
-                    student.scores.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else if (student.prevGradeLevel !== 7) {
-                    return { outcome: success_chance_ts_1.default.UNLIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "a6071a83f74612d54c3f659f9cb8a79c": {
-        "name": "",
-        "desc": "General Education/504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eligible applicants.",
-        "programs": [
-            "SENN HS - International Baccalaureate (IB) - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
-                    student.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.scores.nweaPercentileMath >= 24 &&
-                    student.scores.nweaPercentileRead >= 24 &&
-                    student.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "8605454896638a4de5feec75ed536489": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections. Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, Peirce Elementary School.",
-        "programs": [
-            "SENN HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "5e32e9c5ce34b2af75f2ec9e1a6c6643": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 50 in both reading and math on NWEA MAP, minimum 2.5 GPA in 7th grade.    IEP and EL students: Minimum combined percentile of 100 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.",
-        "programs": [
-            "BRONZEVILLE HS - Honors - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 100 &&
-                    student.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.scores.nweaPercentileMath >= 50 &&
-                    student.scores.nweaPercentileRead >= 50 &&
-                    student.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "8a0c487746fe132f3f1925a84c56e9ee": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum 2.5 GPA in 7th grade.  Attendance at an Information Session is required for all eliglble applicants.",
-        "programs": [
-            "LINCOLN PARK HS - International Baccalaureate (IB) - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
-                    student.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.scores.nweaPercentileMath >= 24 &&
-                    student.scores.nweaPercentileRead >= 24 &&
-                    student.gpa >= 2.5) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "8e60c325cf7da2ae7aa09dc4e543590e": {
-        "name": "",
-        "desc": "Students are selected based on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school selects the minimum cutoff score for selections.",
-        "programs": [
-            "LINCOLN PARK HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "f1650d13a99b142887259980d7570270": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.  Preference is given to students who meet the minimum eligibility requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, McPherson Elementary School.",
-        "programs": [
-            "AMUNDSEN HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "2434179e9c2fb95777cc4e0c6c998de1": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Minimum attendance percentage of 95.",
-        "programs": [
-            "WORLD LANGUAGE HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                if (student.attendancePercentage >= 95) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "cbc3d549cb9e0240f077ac3c87b0f671": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Eligible students who live outside of the school's attendance boundary are randomly selected by computerized lottery.\u00a0The lottery is conducted in the following order: sibling, general.",
-        "programs": [
-            "WORLD LANGUAGE HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "5cfeec40267082ca1ee0ca7e469687a7": {
-        "name": "",
-        "desc": "Contact the school for information.",
-        "programs": [
-            "LAKE VIEW HS - Early College STEM - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "01ad18923e7e8de10e8fb09bb2c6722a": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery.  General Education and 504 Plan students: Preference is given to students with percentiles of 24 and above on the NWEA MAP in reading and math. A total of 30% of the seats will be made available to attendance area applicants.  IEP and EL students: Preference is given to students with combined NWEA MAP scores that equal 48 or above.  Note: Repeating 8th graders and students pushed into 8th grade from 6th grade due to age requirements qualify for selection but will be placed in a lower preference group.",
-        "programs": [
-            "CHICAGO VOCATIONAL HS - Cosmetology - Selection"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                if (student.scores.nweaPercentileMath >= 24 &&
-                    student.scores.nweaPercentileRead >= 24) {
-                    return { outcome: success_chance_ts_1.default.LIKELY };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-        }
-    },
-    "94798381edc76846cfb1ec3503fd61b0": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements.  Students who live outside of the school's attendance boundary: Essay",
-        "programs": [
-            "SOCIAL JUSTICE HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "62c57f6f0d8cb1d35fb12bd66840819f": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary have no eligibility requirements and can be admitted automatically.  Students who live outside of the school's attendance boundary are selected on a point system. The points are based on the student essay and NWEA MAP scores.",
-        "programs": [
-            "SOCIAL JUSTICE HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-            }
-        }
-    },
-    "182b0f39bdb6558622d86addc2aae6b7": {
-        "name": "",
-        "desc": "Students are selected on an overall applicant score. Points are based on NWEA MAP scores and 7th grade GPA. Students who live within the school's attendance boundary will be given 50 additional points. The school determines the minimum cutoff score for selections.  Preference is given to students who meet the minimum eligibilty requirements, attend an Information Session, and are enrolled in the school\u2019s Middle Years Programme partner, Carnegie Elementary School.",
-        "programs": [
-            "HYDE PARK HS - International Baccalaureate (IB) - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateIBPoints(student);
-            var cutoff = getIBCutoff(student, school).min;
-            if (inAttendanceBound(student, school)) {
-                var bonusPoints = 50;
-                var adjustedCutoff = cutoff + bonusPoints;
-                if (score >= adjustedCutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (score >= cutoff) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "c7ce3086f4acc55ea53e0c97f71d12aa": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary and students currently enrolled in the Kenwood Academic Center can be admitted automatically. This program only accepts students who live within the school's attendance boundary or who are enrolled in the school's Academic Center.",
-        "programs": [
-            "KENWOOD HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "65f9f712e101af2ba0f44401e01ca729": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on 7th grade final GPA and NWEA MAP scores. The school determines the minimum cutoff score for selections. Preference is given to students who live within the school's attendance boundary.",
-        "programs": [
-            "AUSTIN CCA HS - Pre-Engineering - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "5fbf1b80166fef3a0e0db9557d500465": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 25 in both reading and math on NWEA MAP.   IEP and EL students: Minimum combined percentile of 50 in reading and math on NWEA MAP, and minimum attendance percentage of 85.",
-        "programs": [
-            "CHICAGO ACADEMY HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 50 &&
-                    student.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.scores.nweaPercentileMath >= 25 &&
-                    student.scores.nweaPercentileRead >= 25 &&
-                    student.attendancePercentage >= 85) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "924ceb6aa82922cdb541302a265549eb": {
-        "name": "",
-        "desc": "Students who live within the school's attendance boundary can be admitted automatically.  Students who live outside of the school's attendance boundary are randomly selected by computerized lottery. The lottery is conducted in the following order: students attending Boone, Field, Gale, Hayt, Jordan, Kilmer, McCutcheon, McPherson, or West Ridge Elementary Schools; sibling; general.",
-        "programs": [
-            "SULLIVAN HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (inAttendanceBound(student, school) ||
-                hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "46083386e3daad02ff00ac73d3987286": {
-        "name": "",
-        "desc": "Students are selected on a point system with a maximum of 900 points. Points are based on 7th grade final grades, NWEA MAP scores, and the admissions test, each worth a maximum of 300 points.",
-        "programs": [
-            "PAYTON HS - Selective Enrollment High School - Selection"
-        ],
-        "fn": function (student, school) {
-            var score = hs_calc_utils_1.calculateSEPoints(student);
-            var cutoff = getSECutoff(student, school);
-            if (score >= cutoff.max) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else if (score >= cutoff.avg) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else if (score >= cutoff.min) {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "536556326f56a1875afccbeedde85fb9": {
-        "name": "",
-        "desc": "Students are randomly selected by computerized lottery. The lottery is conduced in the following order: sibling, general.",
-        "programs": [
-            "LEGAL PREP HS - General Education - Selection"
-        ],
-        "fn": function (student, school) {
-            if (hasSiblingInProgram(student, school)) {
-                return { outcome: success_chance_ts_1.default.LIKELY };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.UNCERTAIN };
-            }
-        }
-    },
-    "7cc8a6e9cd27c6a9e8d43b323a961475": {
-        "name": "",
-        "desc": "Applicants must be girls currently enrolled in eighth grade.",
-        "programs": [
-            "YOUNG WOMENS HS - General Education - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.gradeLevel === 8) {
-                if (student.gender === gender_1.default.FEMALE) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else if (student.gender === gender_1.default.OTHER ||
-                    student.gender === gender_1.default.NOANSWER) {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-                else if (student.gender === gender_1.default.MALE) {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.UNCERTAIN };
-                }
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "a787cb9987ca94d3c2370e2cb67d50cc": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 50 in both reading and math on the NWEA MAP and minimum 3.0 GPA in 7th grade.  IEP and EL students: Minimum combined percentile of 60 in reading and math on NWEA MAP.",
-        "programs": [
-            "MORGAN PARK HS - World Language and International Studies - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 60) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.scores.nweaPercentileRead >= 50 &&
-                    student.scores.nweaPercentileMath >= 50 &&
-                    student.gpa >= 3.0) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "d7e3e54b06028c21a40cf58127e2aef4": {
-        "name": "",
-        "desc": "Minimum percentile of 60 in both reading and math on NWEA MAP and minimum 3.0 GPA in 7th grade. Eligible students must submit teacher recommendations and an essay. See www.vonsteuben.org for submission details (click 'Apply' and 'Scholars Program'). Applicants who are not eligible will automatically be included in the computerized lottery selection process for the Von Steuben Science Program.",
-        "programs": [
-            "VON STEUBEN HS - Scholars - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.scores.nweaPercentileMath >= 60 &&
-                student.scores.nweaPercentileRead >= 60 &&
-                student.gpa >= 3.0) {
-                return { outcome: success_chance_ts_1.default.CERTAIN };
-            }
-            else {
-                return { outcome: success_chance_ts_1.default.NONE };
-            }
-        }
-    },
-    "0a7d20d2cdbb736d46e6c7a37e5b7764": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the teacher recommendations and the essay.",
-        "programs": [
-            "VON STEUBEN HS - Scholars - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.NOTIMPLEMENTED };
-        }
-    },
-    "a59652b1328b73b5acb08979a32a9db8": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum attendance percentage of 92.  An audition is required for all eligible applicants.",
-        "programs": [
-            "CHIARTS HS - Music - Vocal - Application",
-            "CHIARTS HS - Theatre - Application",
-            "CHIARTS HS - Music - Instumental - Application",
-            "CHIARTS HS - Dance - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.scores.nweaPercentileMath >= 24 &&
-                    student.scores.nweaPercentileMath >= 24 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "500cba9f742c1244ddaa1c37070299f1": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the audition.",
-        "programs": [
-            "CHIARTS HS - Music - Vocal - Selection",
-            "CHIARTS HS - Theatre - Selection",
-            "CHIARTS HS - Music - Instumental - Selection",
-            "CHIARTS HS - Dance - Selection",
-            "CHIARTS HS - Musical Theatre - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "b89ee63f6f32c43ca9707a85d8dc98e7": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum attendance percentage of 92.   A portfolio review is required for all eligible applicants.",
-        "programs": [
-            "CHIARTS HS - Creative Writing - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.scores.nweaPercentileMath >= 24 &&
-                    student.scores.nweaPercentileMath >= 24 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "fd2b72f8025478fc320959b283c0ff2f": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP scores in reading and math and the portfolio review.",
-        "programs": [
-            "CHIARTS HS - Creative Writing - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "3f45862ca2003745fc3f4e12492abdfa": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP.  A portfolio review is required for all eligible applicants.",
-        "programs": [
-            "CHIARTS HS - Visual Arts - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.scores.nweaPercentileMath >= 24 &&
-                    student.scores.nweaPercentileMath >= 24 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    },
-    "6c2d1016a23c9b0e67736b91a166b594": {
-        "name": "",
-        "desc": "Students are selected on a point system. Points are based on the student's NWEA MAP socres in reading and math and the portfolio review.",
-        "programs": [
-            "CHIARTS HS - Visual Arts - Selection"
-        ],
-        "fn": function (student, school) {
-            return { outcome: success_chance_ts_1.default.UNCERTAIN };
-        }
-    },
-    "ae43e969113d1c6b1b6fe0c0a1321c40": {
-        "name": "",
-        "desc": "General Education and 504 Plan students: Minimum percentile of 24 in both reading and math on NWEA MAP and minimum attendance percentage of 92.  IEP and EL students: Minimum combined percentile of 48 in reading and math on NWEA MAP and minimum attendance percentage of 92. An audition is required for all eligible applicants.",
-        "programs": [
-            "CHIARTS HS - Musical Theatre - Application"
-        ],
-        "fn": function (student, school) {
-            if (student.iep || student.ell) {
-                if ((student.scores.nweaPercentileMath + student.scores.nweaPercentileRead) >= 48 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-            else {
-                if (student.scores.nweaPercentileMath >= 24 &&
-                    student.scores.nweaPercentileMath >= 24 &&
-                    student.attendancePercentage >= 92) {
-                    return { outcome: success_chance_ts_1.default.CERTAIN };
-                }
-                else {
-                    return { outcome: success_chance_ts_1.default.NONE };
-                }
-            }
-        }
-    }
-};
-exports.default = HSReqFns;
+    Timeout.prototype.cancel = function () {
+        if (this.hasStarted()) {
+            clearTimeout(this.timerInstance);
+        }
+    };
+    Timeout.prototype.hasStarted = function () {
+        return this.timerInstance !== null;
+    };
+    Timeout.prototype.hasFinished = function () {
+        return this.callbackExecuted;
+    };
+    return Timeout;
+}());
+exports.default = Timeout;
 
 
 /***/ }),
-/* 237 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var grade_convert_1 = __webpack_require__(93);
-exports.calculateSEPoints = function (student) {
-    var NWEA_SCORE_CONSTANT = 1.515;
-    var nweaMathPoints = Math.round(student.scores.nweaPercentileMath * NWEA_SCORE_CONSTANT);
-    var nweaReadPoints = Math.round(student.scores.nweaPercentileRead * NWEA_SCORE_CONSTANT);
-    var gradePointsLookup = {
-        "A": 75,
-        "B": 50,
-        "C": 25,
-        "D": 0,
-        "F": 0,
-    };
-    var subjGradeMathPoints = gradePointsLookup[grade_convert_1.toLetterGrade(student.scores.subjGradeMath)];
-    var subjGradeReadPoints = gradePointsLookup[grade_convert_1.toLetterGrade(student.scores.subjGradeRead)];
-    var subjGradeSciPoints = gradePointsLookup[grade_convert_1.toLetterGrade(student.scores.subjGradeSci)];
-    var subjGradeSocStudiesPoints = gradePointsLookup[grade_convert_1.toLetterGrade(student.scores.subjGradeSocStudies)];
-    var SE_TEST_PERCENTILE_CONSTANT = 3.03;
-    var seTestPoints = Math.round(student.seTestPercentile * SE_TEST_PERCENTILE_CONSTANT);
-    var sePoints = nweaMathPoints +
-        nweaReadPoints +
-        subjGradeMathPoints +
-        subjGradeReadPoints +
-        subjGradeSciPoints +
-        subjGradeSocStudiesPoints +
-        seTestPoints;
-    return sePoints;
-};
-exports.calculateIBPoints = function (student) {
-    var NWEA_SCORE_CONSTANT = 2.2727;
-    var nweaMathPoints = Math.round(student.scores.nweaPercentileMath * NWEA_SCORE_CONSTANT);
-    var nweaReadPoints = Math.round(student.scores.nweaPercentileRead * NWEA_SCORE_CONSTANT);
-    var gradePointsLookup = {
-        "A": 112.5,
-        "B": 75,
-        "C": 38,
-        "D": 0,
-        "F": 0,
-    };
-    var subjGradeMathPoints = gradePointsLookup[grade_convert_1.toLetterGrade(student.scores.subjGradeMath)];
-    var subjGradeReadPoints = gradePointsLookup[grade_convert_1.toLetterGrade(student.scores.subjGradeRead)];
-    var subjGradeSciPoints = gradePointsLookup[grade_convert_1.toLetterGrade(student.scores.subjGradeSci)];
-    var subjGradeSocStudiesPoints = gradePointsLookup[grade_convert_1.toLetterGrade(student.scores.subjGradeSocStudies)];
-    var ibPoints = nweaMathPoints +
-        nweaReadPoints +
-        subjGradeMathPoints +
-        subjGradeReadPoints +
-        subjGradeSciPoints +
-        subjGradeSocStudiesPoints;
-    return ibPoints;
-};
-
-
-/***/ }),
-/* 238 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var ScoreType;
-(function (ScoreType) {
-    ScoreType["nweaPercentileMath"] = "nweaPercentileMath";
-    ScoreType["nweaPercentileRead"] = "nweaPercentileRead";
-    ScoreType["subjGradeMath"] = "subjGradeMath";
-    ScoreType["subjGradeRead"] = "subjGradeRead";
-    ScoreType["subjGradeSci"] = "subjGradeSci";
-    ScoreType["subjGradeSocStudies"] = "subjGradeSocStudies";
-})(ScoreType || (ScoreType = {}));
-exports.default = ScoreType;
-
-
-/***/ }),
-/* 239 */
+/* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49199,14 +52784,954 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var get_req_fns_1 = __webpack_require__(92);
-var success_chance_1 = __webpack_require__(24);
-var hs_program_info_card_1 = __webpack_require__(240);
-__webpack_require__(243);
-var HSListElement = (function (_super) {
-    __extends(HSListElement, _super);
-    function HSListElement(props) {
+var React = __webpack_require__(3);
+var field_validation_state_1 = __webpack_require__(28);
+var field_container_1 = __webpack_require__(35);
+var debounce_1 = __webpack_require__(45);
+var TextField = (function (_super) {
+    __extends(TextField, _super);
+    function TextField(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = {
+            localValue: props.value ? props.value : ""
+        };
+        _this.onChange = props.debounceTime ? debounce_1.default(props.onChange, props.debounceTime) : props.onChange;
+        return _this;
+    }
+    TextField.prototype.componentWillReceiveProps = function (nextProps) {
+        if (this.state.localValue !== "") {
+            this.setState({ localValue: nextProps.value ? nextProps.value : "" });
+        }
+        this.onChange = nextProps.debounceTime ? debounce_1.default(nextProps.onChange, nextProps.debounceTime) : nextProps.onChange;
+    };
+    TextField.prototype.render = function () {
+        var _this = this;
+        var validation = this.props.validator ? this.props.validator(this.state.localValue)
+            : field_validation_state_1.default.NEUTRAL;
+        var handleChange = function (ev) {
+            if (ev.currentTarget.value === "") {
+                _this.setState({ localValue: "" });
+                return false;
+            }
+            else {
+                var currValue = _this.props.value;
+                var nextValue = ev.currentTarget.value;
+                _this.setState({ localValue: nextValue });
+                if (_this.props.limiter) {
+                    _this.onChange(_this.props.limiter(currValue, nextValue));
+                }
+                else {
+                    _this.onChange(nextValue);
+                }
+                return true;
+            }
+        };
+        return (React.createElement(field_container_1.default, { className: this.props.className, label: this.props.label, validation: validation },
+            React.createElement("input", { value: this.state.localValue, type: "text", className: "field-input-element", onChange: handleChange })));
+    };
+    return TextField;
+}(React.PureComponent));
+exports.default = TextField;
+
+
+/***/ }),
+/* 275 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var tract_tier_table_1 = __webpack_require__(276);
+var JSONP = __webpack_require__(277);
+exports.GetTierError = {
+    InvalidAddressErr: new Error("Invalid address"),
+    NoTierFoundErr: new Error("No CPS tier found for this address"),
+    RequestFailedErr: new Error("Request Failed"),
+};
+;
+exports.getTier = function (address) {
+    return new Promise(function (resolve, reject) {
+        getTractAndGeo(address).then(function (_a) {
+            var tract = _a.tract, geo = _a.geo;
+            lookupTierFromTract(tract).then(function (tier) {
+                resolve({ tier: tier, geo: geo });
+            }).catch(function (err) { return reject(exports.GetTierError.NoTierFoundErr); });
+        }).catch(function (err) {
+            if (err === exports.GetTierError.RequestFailedErr) {
+                reject(exports.GetTierError.RequestFailedErr);
+            }
+            else {
+                reject(exports.GetTierError.InvalidAddressErr);
+            }
+        });
+    });
+};
+;
+var getTractAndGeo = function (address) {
+    var API_BASE_URL = "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress";
+    var apiParams = {
+        address: address,
+        format: "jsonp",
+        benchmark: "Public_AR_Current",
+        vintage: "Current_Current",
+        layers: "Census Tracts",
+    };
+    var sendRequest = function (baseUrl, params) {
+        return new Promise(function (resolve, reject) {
+            JSONP({
+                url: baseUrl,
+                data: params,
+                success: function (data) { return resolve(data); },
+                error: function (err) {
+                    reject(exports.GetTierError.RequestFailedErr);
+                }
+            });
+        });
+    };
+    var extractTract = function (response) {
+        return response.result.addressMatches[0].geographies["Census Tracts"][0].BASENAME;
+    };
+    var extractGeo = function (response) {
+        var coords = response.result.addressMatches[0].coordinates;
+        return { latitude: coords.y, longitude: coords.x };
+    };
+    return new Promise(function (resolve, reject) {
+        sendRequest(API_BASE_URL, apiParams).then(function (res) {
+            var tract = extractTract(res);
+            var geo = extractGeo(res);
+            resolve({ tract: tract, geo: geo });
+        }).catch(function (e) { return reject(e); });
+    });
+};
+var lookupTierFromTract = function (tract) {
+    return new Promise(function (resolve, reject) {
+        var tier = tract_tier_table_1.default[tract];
+        if (tier === undefined) {
+            reject(exports.GetTierError.NoTierFoundErr);
+        }
+        else {
+            resolve(tier);
+        }
+    });
+};
+
+
+/***/ }),
+/* 276 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var TractTierTable = { "101": "2", "102.01": "3", "102.02": "2", "103": "2", "104": "3", "105.01": "3", "105.02": "2", "105.03": "2", "106": "3", "107.01": "3", "107.02": "2", "201": "3", "202": "4", "203.01": "4", "203.02": "4", "204": "4", "205": "3", "206.01": "3", "206.02": "3", "207.01": "4", "207.02": "3", "208.01": "3", "208.02": "3", "209.01": "3", "209.02": "4", "301.01": "3", "301.02": "4", "301.03": "3", "301.04": "3", "302": "4", "303": "3", "304": "3", "305": "4", "306.01": "3", "306.03": "2", "306.04": "3", "307.01": "3", "307.02": "4", "307.03": "3", "307.06": "4", "308": "4", "309": "4", "310": "4", "311": "3", "312": "3", "313": "3", "314": "4", "315.01": "3", "315.02": "2", "317": "3", "318": "4", "319": "4", "321": "3", "401": "4", "402.01": "4", "402.02": "3", "403": "4", "404.01": "4", "404.02": "3", "406": "4", "407": "4", "408": "4", "409": "4", "501": "4", "502": "4", "503": "4", "505": "4", "506": "4", "507": "4", "508": "4", "509": "4", "510": "4", "511": "4", "512": "4", "513": "4", "514": "4", "601": "4", "602": "4", "603": "4", "604": "4", "605": "4", "608": "4", "609": "4", "610": "4", "611": "4", "612": "4", "615": "4", "618": "3", "619.01": "4", "619.02": "4", "620": "4", "621": "4", "622": "4", "623": "4", "624": "4", "625": "4", "626": "4", "627": "4", "628": "4", "629": "4", "630": "4", "631": "4", "632": "4", "633.01": "4", "633.02": "4", "633.03": "4", "634": "4", "701.01": "4", "701.02": "4", "701.03": "4", "702": "4", "703": "4", "704": "4", "705": "4", "706": "4", "707": "4", "710": "4", "711": "4", "712": "4", "713": "4", "714": "4", "715": "4", "716": "4", "717": "4", "718": "4", "801": "4", "802.01": "4", "802.02": "4", "803": "4", "804": "2", "810": "3", "811": "4", "812.01": "4", "812.02": "4", "813": "4", "814.01": "4", "814.02": "4", "814.03": "4", "815": "4", "816": "4", "817": "4", "818": "4", "819": "3", "901": "4", "902": "4", "903": "4", "1001": "4", "1002": "4", "1003": "4", "1004": "4", "1005": "4", "1006": "4", "1007": "4", "1101": "4", "1102": "3", "1103": "4", "1104": "4", "1105.01": "4", "1105.02": "4", "1201": "4", "1202": "4", "1203": "4", "1204": "4", "1301": "4", "1302": "4", "1303": "4", "1401": "1", "1402": "2", "1403.01": "2", "1403.02": "3", "1404": "4", "1405": "3", "1406.01": "2", "1406.02": "2", "1407.01": "3", "1407.02": "2", "1408": "4", "1502": "3", "1503": "3", "1504.01": "4", "1504.02": "3", "1505.01": "4", "1505.02": "3", "1506": "4", "1507": "3", "1508": "3", "1510.01": "2", "1510.02": "2", "1511": "3", "1512": "3", "1601": "3", "1602": "4", "1603": "3", "1604": "3", "1605.01": "3", "1605.02": "3", "1606.01": "3", "1606.02": "3", "1607": "3", "1608": "3", "1609": "4", "1610": "4", "1611": "4", "1612": "3", "1613": "2", "1701": "4", "1702": "4", "1703": "4", "1704": "4", "1705": "4", "1706": "4", "1707": "4", "1708": "4", "1709": "4", "1710": "4", "1711": "3", "1801": "3", "1901": "1", "1902": "2", "1903": "2", "1904.01": "3", "1904.02": "2", "1906.01": "2", "1906.02": "2", "1907.01": "2", "1907.02": "1", "1908": "2", "1909": "2", "1910": "2", "1911": "2", "1912": "2", "1913.01": "2", "1913.02": "2", "2001": "2", "2002": "1", "2003": "1", "2004.01": "1", "2004.02": "1", "2101": "4", "2104": "2", "2105.01": "2", "2105.02": "2", "2106.01": "3", "2106.02": "2", "2107": "3", "2108": "3", "2109": "3", "2203": "4", "2204": "4", "2205": "3", "2206.01": "3", "2206.02": "3", "2207.01": "2", "2207.02": "2", "2209.01": "1", "2209.02": "2", "2210": "2", "2211": "2", "2212": "3", "2213": "3", "2214": "3", "2215": "3", "2216": "4", "2222": "4", "2225": "2", "2226": "2", "2227": "2", "2228": "1", "2229": "2", "2301": "2", "2302": "1", "2303": "1", "2304": "2", "2305": "1", "2306": "1", "2307": "1", "2308": "3", "2309": "1", "2311": "3", "2312": "1", "2315": "1", "2402": "4", "2403": "4", "2405": "4", "2406": "4", "2407": "3", "2408": "2", "2409": "3", "2410": "1", "2411": "2", "2412": "3", "2413": "3", "2414": "4", "2415": "4", "2416": "4", "2420": "3", "2421": "4", "2422": "4", "2423": "4", "2424": "3", "2425": "2", "2426": "3", "2427": "1", "2428": "3", "2429": "4", "2430": "4", "2431": "3", "2432": "4", "2433": "3", "2434": "3", "2435": "4", "2502": "2", "2503": "1", "2504": "2", "2505": "4", "2506": "3", "2507": "1", "2508": "2", "2510": "1", "2511": "1", "2512": "2", "2513": "2", "2514": "2", "2515": "1", "2516": "2", "2517": "2", "2518": "1", "2519": "1", "2520": "1", "2521.01": "1", "2521.02": "1", "2522.01": "2", "2522.02": "1", "2601": "1", "2602": "1", "2603": "1", "2604": "1", "2605": "2", "2606": "3", "2607": "1", "2608": "1", "2609": "1", "2610": "2", "2705": "1", "2712": "2", "2713": "2", "2714": "2", "2715": "2", "2718": "1", "2801": "4", "2804": "1", "2808": "2", "2809": "1", "2819": "4", "2827": "2", "2828": "4", "2831": "2", "2832": "3", "2838": "3", "2909": "1", "2912": "1", "2916": "1", "2922": "1", "2924": "2", "2925": "2", "3005": "1", "3006": "2", "3007": "1", "3008": "1", "3009": "1", "3011": "1", "3012": "1", "3016": "1", "3017.01": "1", "3017.02": "1", "3018.01": "2", "3018.02": "1", "3018.03": "1", "3102": "3", "3103": "2", "3104": "2", "3105": "1", "3106": "2", "3107": "1", "3108": "1", "3109": "1", "3201": "4", "3204": "4", "3206": "4", "3301": "4", "3302": "4", "3403": "3", "3404": "3", "3405": "3", "3406": "1", "3501": "2", "3504": "1", "3510": "2", "3511": "1", "3514": "1", "3515": "2", "3602": "1", "3801": "2", "3802": "2", "3805": "1", "3807": "2", "3812": "2", "3814": "2", "3815": "2", "3818": "1", "3819": "2", "3901": "3", "3902": "3", "3903": "1", "3904": "1", "3905": "3", "3906": "4", "3907": "4", "4003": "2", "4004": "1", "4005": "1", "4008": "1", "4101": "3", "4102": "3", "4105": "3", "4106": "3", "4107": "3", "4108": "3", "4109": "4", "4110": "4", "4111": "4", "4112": "4", "4201": "2", "4202": "2", "4203": "2", "4204": "2", "4205": "1", "4206": "1", "4207": "1", "4208": "1", "4212": "2", "4301.01": "2", "4301.02": "2", "4302": "2", "4303": "2", "4304": "2", "4305": "2", "4306": "3", "4307": "1", "4308": "3", "4309": "2", "4312": "3", "4313.01": "1", "4313.02": "1", "4314": "1", "4401.01": "1", "4401.02": "1", "4402.01": "3", "4402.02": "3", "4403": "3", "4406": "4", "4407": "3", "4408": "1", "4409": "3", "4503": "3", "4601": "2", "4602": "1", "4603.01": "2", "4603.02": "1", "4604": "3", "4605": "3", "4606": "1", "4607": "1", "4610": "1", "4701": "2", "4801": "4", "4802": "3", "4803": "3", "4804": "4", "4805": "3", "4903": "4", "4904": "4", "4905": "3", "4906": "4", "4907": "3", "4908": "3", "4909.01": "3", "4909.02": "4", "4910": "2", "4911": "4", "4912": "3", "4913": "2", "4914": "2", "5001": "3", "5002": "2", "5003": "2", "5101": "2", "5102": "3", "5103": "3", "5201": "2", "5202": "1", "5203": "3", "5204": "3", "5205": "4", "5206": "3", "5301": "1", "5302": "2", "5303": "4", "5304": "3", "5305.01": "3", "5305.02": "3", "5305.03": "3", "5306": "2", "5401.01": "1", "5401.02": "1", "5501": "3", "5502": "4", "5601": "2", "5602": "3", "5603": "3", "5604": "3", "5607": "3", "5608": "4", "5609": "4", "5610": "4", "5611": "4", "5701": "3", "5702": "3", "5703": "2", "5704": "2", "5705": "2", "5801": "3", "5802": "2", "5803": "1", "5804": "2", "5805.01": "1", "5805.02": "2", "5806": "1", "5807": "2", "5808": "1", "5905": "3", "5906": "3", "5907": "2", "6004": "2", "6006": "2", "6007": "3", "6009": "3", "6103": "1", "6104": "1", "6108": "4", "6110": "1", "6111": "1", "6112": "1", "6113": "1", "6114": "1", "6115": "1", "6116": "1", "6117": "1", "6118": "1", "6119": "1", "6120": "1", "6121": "2", "6201": "3", "6202": "2", "6203": "3", "6204": "3", "6301": "1", "6302": "2", "6303": "2", "6304": "1", "6305": "2", "6308": "2", "6309": "2", "6401": "3", "6403": "4", "6404": "4", "6405": "4", "6406": "3", "6407": "4", "6408": "3", "6501": "2", "6502": "3", "6503.01": "3", "6503.02": "3", "6504": "3", "6505": "3", "6603.01": "1", "6603.02": "2", "6604": "2", "6605": "2", "6606": "1", "6607": "2", "6608": "1", "6609": "1", "6610": "2", "6611": "3", "6701": "1", "6702": "1", "6703": "2", "6704": "2", "6705": "2", "6706": "1", "6707": "1", "6708": "1", "6709": "2", "6711": "1", "6712": "1", "6713": "2", "6714": "2", "6715": "1", "6716": "1", "6718": "1", "6719": "2", "6720": "2", "6805": "1", "6806": "1", "6809": "1", "6810": "1", "6811": "1", "6812": "1", "6813": "1", "6814": "1", "6903": "1", "6904": "1", "6905": "2", "6909": "2", "6910": "3", "6911": "1", "6912": "1", "6913": "3", "6914": "2", "6915": "1", "7001": "3", "7002": "3", "7003.01": "3", "7003.02": "4", "7004.01": "4", "7004.02": "4", "7005.01": "4", "7005.02": "4", "7101": "1", "7102": "1", "7103": "1", "7104": "3", "7105": "2", "7106": "2", "7107": "2", "7108": "2", "7109": "2", "7110": "2", "7111": "3", "7112": "3", "7113": "3", "7114": "2", "7115": "3", "7201": "4", "7202": "4", "7203": "4", "7204": "4", "7205": "4", "7206": "4", "7207": "4", "7301": "3", "7302.01": "2", "7302.02": "3", "7303": "3", "7304": "4", "7305": "4", "7306": "3", "7307": "3", "7401": "4", "7402": "4", "7403": "4", "7404": "4", "7501": "3", "7502": "4", "7503": "4", "7504": "4", "7505": "3", "7506": "4", "7608.01": "3", "7608.02": "4", "7608.03": "4", "7709.02": "4", "8104": "4", "8214.02": "3", "8233.04": "3", "8305": "2", "8306": "3", "8307": "3", "8308": "4", "8309": "4", "8310": "4", "8311": "3", "8312": "1", "8313": "1", "8314": "2", "8315": "3", "8316": "3", "8317": "3", "8318": "4", "8319": "4", "8320": "4", "8321": "3", "8322": "4", "8323": "4", "8324": "4", "8325": "4", "8326": "4", "8329": "3", "8330": "4", "8331": "4", "8333": "3", "8339": "1", "8340": "2", "8342": "2", "8343": "3", "8344": "3", "8345": "1", "8346": "2", "8347": "1", "8348": "1", "8349": "1", "8350": "1", "8351": "2", "8352": "3", "8355": "2", "8356": "2", "8358": "2", "8359": "1", "8360": "3", "8361": "1", "8362": "4", "8363": "3", "8364": "2", "8365": "1", "8366": "2", "8367": "1", "8368": "1", "8369": "2", "8370": "1", "8371": "2", "8373": "2", "8374": "2", "8378": "2", "8380": "2", "8381": "2", "8382": "3", "8383": "2", "8386": "1", "8387": "1", "8388": "1", "8390": "4", "8391": "4", "8392": "2", "8395": "3", "8396": "3", "8397": "3", "8398": "4", "8399": "4", "8400": "4", "8401": "3", "8402": "3", "8403": "2", "8404": "3", "8407": "1", "8408": "1", "8410": "3", "8411": "2", "8412": "1", "8413": "1", "8414": "1", "8415": "1", "8416": "1", "8417": "1", "8418": "2", "8419": "4", "8420": "4", "8421": "1", "8422": "3", "8423": "4", "8424": "3", "8425": "1", "8426": "3", "8428": "2", "8429": "1", "8430": "1", "8431": "2", "8432": "1", "8433": "1", "8434": "2", "8435": "1", "8436": "2", "8437": "4", "8438": "2", "8439": "2", "9801": "0", "3817": "0", "8357": "0", };
+exports.default = TractTierTable;
+
+
+/***/ }),
+/* 277 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(module) {var __WEBPACK_AMD_DEFINE_RESULT__;(function() {
+  var JSONP, computedUrl, createElement, encode, noop, objectToURI, random, randomString;
+
+  createElement = function(tag) {
+    return window.document.createElement(tag);
+  };
+
+  encode = window.encodeURIComponent;
+
+  random = Math.random;
+
+  JSONP = function(options) {
+    var callback, callbackFunc, callbackName, done, head, params, script;
+    if (options == null) {
+      options = {};
+    }
+    params = {
+      data: options.data || {},
+      error: options.error || noop,
+      success: options.success || noop,
+      beforeSend: options.beforeSend || noop,
+      complete: options.complete || noop,
+      url: options.url || ''
+    };
+    params.computedUrl = computedUrl(params);
+    if (params.url.length === 0) {
+      throw new Error('MissingUrl');
+    }
+    done = false;
+    if (params.beforeSend({}, params) !== false) {
+      callbackName = options.callbackName || 'callback';
+      callbackFunc = options.callbackFunc || 'jsonp_' + randomString(15);
+      callback = params.data[callbackName] = callbackFunc;
+      window[callback] = function(data) {
+        window[callback] = null;
+        params.success(data, params);
+        return params.complete(data, params);
+      };
+      script = createElement('script');
+      script.src = computedUrl(params);
+      script.async = true;
+      script.onerror = function(evt) {
+        params.error({
+          url: script.src,
+          event: evt
+        });
+        return params.complete({
+          url: script.src,
+          event: evt
+        }, params);
+      };
+      script.onload = script.onreadystatechange = function() {
+        var ref, ref1;
+        if (done || ((ref = this.readyState) !== 'loaded' && ref !== 'complete')) {
+          return;
+        }
+        done = true;
+        if (script) {
+          script.onload = script.onreadystatechange = null;
+          if ((ref1 = script.parentNode) != null) {
+            ref1.removeChild(script);
+          }
+          return script = null;
+        }
+      };
+      head = window.document.getElementsByTagName('head')[0] || window.document.documentElement;
+      head.insertBefore(script, head.firstChild);
+    }
+    return {
+      abort: function() {
+        window[callback] = function() {
+          return window[callback] = null;
+        };
+        done = true;
+        if (script != null ? script.parentNode : void 0) {
+          script.onload = script.onreadystatechange = null;
+          script.parentNode.removeChild(script);
+          return script = null;
+        }
+      }
+    };
+  };
+
+  noop = function() {
+    return void 0;
+  };
+
+  computedUrl = function(params) {
+    var url;
+    url = params.url;
+    url += params.url.indexOf('?') < 0 ? '?' : '&';
+    url += objectToURI(params.data);
+    return url;
+  };
+
+  randomString = function(length) {
+    var str;
+    str = '';
+    while (str.length < length) {
+      str += random().toString(36).slice(2, 3);
+    }
+    return str;
+  };
+
+  objectToURI = function(obj) {
+    var data, key, value;
+    data = (function() {
+      var results;
+      results = [];
+      for (key in obj) {
+        value = obj[key];
+        results.push(encode(key) + '=' + encode(value));
+      }
+      return results;
+    })();
+    return data.join('&');
+  };
+
+  if ("function" !== "undefined" && __webpack_require__(279) !== null ? __webpack_require__(280) : void 0) {
+    !(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
+      return JSONP;
+    }.call(exports, __webpack_require__, exports, module),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else if (typeof module !== "undefined" && module !== null ? module.exports : void 0) {
+    module.exports = JSONP;
+  } else {
+    this.JSONP = JSONP;
+  }
+
+}).call(this);
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(278)(module)))
+
+/***/ }),
+/* 278 */
+/***/ (function(module, exports) {
+
+module.exports = function(module) {
+	if(!module.webpackPolyfill) {
+		module.deprecate = function() {};
+		module.paths = [];
+		// module.parent = undefined by default
+		if(!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function() {
+				return module.i;
+			}
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
+
+
+/***/ }),
+/* 279 */
+/***/ (function(module, exports) {
+
+module.exports = function() {
+	throw new Error("define cannot be used indirect");
+};
+
+
+/***/ }),
+/* 280 */
+/***/ (function(module, exports) {
+
+/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
+module.exports = __webpack_amd_options__;
+
+/* WEBPACK VAR INJECTION */}.call(exports, {}))
+
+/***/ }),
+/* 281 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(282);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(27)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../../node_modules/sass-loader/lib/loader.js!./address-tier-calculator.scss", function() {
+			var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../../node_modules/sass-loader/lib/loader.js!./address-tier-calculator.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 282 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(26)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".spinning-load-icon, .spinning-load-icon:after {\n  border-radius: 50%;\n  width: 2em;\n  height: 2em; }\n\n.spinning-load-icon {\n  font-size: 10px;\n  position: relative;\n  text-indent: -9999em;\n  border-top: 4px solid #95e57a;\n  border-right: 4px solid #95e57a;\n  border-bottom: 4px solid #95e57a;\n  border-left: 2px solid #ffffff;\n  -webkit-transform: translateZ(0);\n  transform: translateZ(0);\n  -webkit-animation: load8 1.1s infinite linear;\n  animation: load8 1.1s infinite linear; }\n\n@-webkit-keyframes load8 {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg);\n    border-top: 4px solid #95e57a;\n    border-right: 4px solid #95e57a;\n    border-bottom: 4px solid #95e57a; }\n  50% {\n    -webkit-transform: rotate(180deg);\n    transform: rotate(180deg);\n    border-top: 4px solid #dbdb74;\n    border-right: 4px solid #dbdb74;\n    border-bottom: 4px solid #dbdb74; }\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n    border-top: 4px solid #95e57a;\n    border-right: 4px solid #95e57a;\n    border-bottom: 4px solid #95e57a; } }\n\n@keyframes load8 {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg);\n    border-top: 4px solid #95e57a;\n    border-right: 4px solid #95e57a;\n    border-bottom: 4px solid #95e57a; }\n  50% {\n    -webkit-transform: rotate(180deg);\n    transform: rotate(180deg);\n    border-top: 4px solid #dbdb74;\n    border-right: 4px solid #dbdb74;\n    border-bottom: 4px solid #dbdb74; }\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n    border-top: 4px solid #95e57a;\n    border-right: 4px solid #95e57a;\n    border-bottom: 4px solid #95e57a; } }\n\n.address-tier-calculator {\n  margin-top: 10px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: baseline;\n      -ms-flex-align: baseline;\n          align-items: baseline; }\n\n.address-field-wrapper {\n  -webkit-box-flex: 3;\n      -ms-flex: 3 0 auto;\n          flex: 3 0 auto;\n  position: relative; }\n\n.tier-display-wrapper {\n  -webkit-box-flex: 1;\n      -ms-flex: 1 0 auto;\n          flex: 1 0 auto; }\n\n.address-status-message {\n  position: absolute;\n  color: #9e9e9e;\n  font-size: 90%;\n  font-style: italic; }\n\n.tier-display {\n  padding: 6px 10px;\n  border: 1px dotted #9e9e9e;\n  border-radius: 6px;\n  text-align: center;\n  font-size: 125%; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 283 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var react_redux_1 = __webpack_require__(14);
+var actions_1 = __webpack_require__(16);
+var dropdown_field_1 = __webpack_require__(44);
+var Field = function (props) { return React.createElement(dropdown_field_1.default, { label: "What grade are you in?", value: props.gradeLevel && props.gradeLevel.toString(), onChange: function (gradeStr) { return props.onChange(parseInt(gradeStr)); }, debounceTime: props.debounceTime },
+    React.createElement("option", { value: "4" }, "4th grade"),
+    React.createElement("option", { value: "5" }, "5th grade"),
+    React.createElement("option", { value: "6" }, "6th grade"),
+    React.createElement("option", { value: "7" }, "7th grade"),
+    React.createElement("option", { value: "8" }, "8th grade")); };
+var mapStateToProps = function (state) {
+    return {
+        gradeLevel: state.getIn(['studentData', 'gradeLevel'])
+    };
+};
+var mapDispatchToProps = function (dispatch) {
+    return {
+        onChange: function (gradeLevel) { return dispatch(actions_1.updateStudentGradeLevel(gradeLevel)); }
+    };
+};
+exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Field);
+
+
+/***/ }),
+/* 284 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var react_redux_1 = __webpack_require__(14);
+var actions_1 = __webpack_require__(16);
+var number_field_1 = __webpack_require__(20);
+var constants_1 = __webpack_require__(11);
+var between_1 = __webpack_require__(21);
+var Field = function (props) { return (React.createElement(number_field_1.default, { label: "Your 7th grade attendance percentage", value: props.attendancePercentage, onChange: props.onChange, limiter: between_1.default(0, 100), debounceTime: constants_1.INPUT_DEBOUNCE_TIME })); };
+var mapStateToProps = function (state) {
+    return {
+        attendancePercentage: state.getIn(['studentData', 'attendancePercentage'])
+    };
+};
+var mapDispatchToProps = function (dispatch) {
+    return {
+        onChange: function (location) { return dispatch(actions_1.updateStudentAttendPercentage(location)); }
+    };
+};
+exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Field);
+
+
+/***/ }),
+/* 285 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var react_redux_1 = __webpack_require__(14);
+var reselect_1 = __webpack_require__(113);
+var actions_1 = __webpack_require__(16);
+var combo_box_field_1 = __webpack_require__(114);
+var constants_1 = __webpack_require__(11);
+var Field = function (props) { return (React.createElement(combo_box_field_1.default, { label: "What elementary school program are you in now?", value: props.currESProgram, data: {
+        records: props.esPrograms,
+        getKey: function (program) { return program.ID; },
+        getDisplayText: function (program) {
+            return program.Short_Name + " - " + program.Program_Type;
+        }
+    }, onChange: function (program) { return props.onChange(program.ID); }, debounceTime: constants_1.INPUT_DEBOUNCE_TIME })); };
+var getPrograms = function (state) { return state.getIn(['hsData', 'programs']); };
+var getProgramIndex = function (state) { return state.getIn(['hsData', 'index']); };
+var getESProgramIDs = function (state) { return state.getIn(['hsData', 'esProgramIDs']); };
+var getCurrESProgramID = function (state) { return state.getIn(['studentData', 'currESProgramID']); };
+var selectESPrograms = reselect_1.createSelector([getESProgramIDs, getPrograms, getProgramIndex], function (ids, programs, index) {
+    var esPrograms = [];
+    ids.forEach(function (id) {
+        var i = index.get(id);
+        var program = programs.get(i);
+        esPrograms.push(program);
+    });
+    return esPrograms;
+});
+var selectCurrESProgram = reselect_1.createSelector([getCurrESProgramID, getPrograms, getProgramIndex], function (id, programs, index) {
+    var i = index.get(id);
+    var program = programs.get(i);
+    return program;
+});
+var mapStateToProps = function (state) {
+    return {
+        currESProgram: selectCurrESProgram(state),
+        esPrograms: selectESPrograms(state),
+    };
+};
+var mapDispatchToProps = function (dispatch) {
+    return {
+        onChange: function (programID) {
+            dispatch(actions_1.updateStudentCurrESProgram(programID));
+        }
+    };
+};
+exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Field);
+
+
+/***/ }),
+/* 286 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var list_box_element_1 = __webpack_require__(287);
+var ListBox = function (props) {
+    var className = "list-box " + (props.visible ? "visible" : "");
+    return (React.createElement("ul", { className: className }, props.data.records.map(function (opt) { return React.createElement(list_box_element_1.default, { key: props.data.getKey(opt), value: props.data.getKey(opt), selected: props.selected === props.data.getKey(opt), onSelect: function (ev) {
+            props.selected === props.data.getKey(opt) ? props.onChange(null)
+                : props.onChange(opt);
+        } }, props.data.getDisplayText(opt)); })));
+};
+exports.default = ListBox;
+
+
+/***/ }),
+/* 287 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var ListBoxElement = function (props) {
+    return (React.createElement("li", { className: "list-box-element", onMouseDown: function (ev) {
+            ev.stopPropagation();
+            props.onSelect(ev);
+        } }, props.children));
+};
+exports.default = ListBoxElement;
+
+
+/***/ }),
+/* 288 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var react_redux_1 = __webpack_require__(14);
+var reselect_1 = __webpack_require__(113);
+var actions_1 = __webpack_require__(16);
+var multi_select_field_1 = __webpack_require__(289);
+var constants_1 = __webpack_require__(11);
+var Field = function (props) { return (React.createElement(multi_select_field_1.default, { label: "Do you have a sibling in high school? If so, which school?", values: props.siblingHSPrograms, data: {
+        records: props.hsPrograms,
+        getKey: function (program) { return program.ID; },
+        getDisplayText: function (program) {
+            return program.Short_Name + " - " + program.Program_Type;
+        }
+    }, onChange: function (programs) { return props.onChange(programs.map(function (program) { return program.ID; })); }, debounceTime: constants_1.INPUT_DEBOUNCE_TIME })); };
+var getPrograms = function (state) { return state.getIn(['hsData', 'programs']); };
+var getProgramIndex = function (state) { return state.getIn(['hsData', 'index']); };
+var getHSProgramIDs = function (state) { return state.getIn(['hsData', 'hsProgramIDs']); };
+var getSiblingHSProgramIDs = function (state) { return state.getIn(['studentData', 'siblingHSProgramIDs']); };
+var selectPrograms = function (ids, allPrograms, index) {
+    var selectedPrograms = [];
+    ids.forEach(function (id) {
+        var i = index.get(id);
+        var program = allPrograms.get(i);
+        selectedPrograms.push(program);
+    });
+    return selectedPrograms;
+};
+var selectHSPrograms = reselect_1.createSelector([getHSProgramIDs, getPrograms, getProgramIndex], selectPrograms);
+var selectSiblingHSPrograms = reselect_1.createSelector([getSiblingHSProgramIDs, getPrograms, getProgramIndex], selectPrograms);
+var mapStateToProps = function (state) {
+    return {
+        siblingHSPrograms: selectSiblingHSPrograms(state),
+        hsPrograms: selectHSPrograms(state)
+    };
+};
+var mapDispatchToProps = function (dispatch) {
+    return {
+        onChange: function (programIDs) {
+            console.log(programIDs);
+            dispatch(actions_1.updateStudentSiblingHSPrograms(programIDs));
+        }
+    };
+};
+exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Field);
+
+
+/***/ }),
+/* 289 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var field_validation_state_1 = __webpack_require__(28);
+var field_container_1 = __webpack_require__(35);
+var combo_box_field_1 = __webpack_require__(114);
+var MultiSelectField = function (props) {
+    var createOnChangeHandler = function (index) {
+        return function (newValue) {
+            var leftHalf = props.values.slice(0, index);
+            var rightHalf = props.values.slice(index);
+            var newValues = leftHalf.concat(newValue, rightHalf);
+            props.onChange(newValues);
+        };
+    };
+    var removeFromListData = function (data, elementsToRemove) {
+        var keysToRemove = elementsToRemove ? elementsToRemove.map(data.getKey) : [];
+        var isNotElementToRemove = function (elem) { return keysToRemove.indexOf(data.getKey(elem)) === -1; };
+        var newRecords = data.records.filter(isNotElementToRemove);
+        return {
+            records: newRecords,
+            getDisplayText: data.getDisplayText,
+            getKey: data.getKey,
+        };
+    };
+    var data = removeFromListData(props.data, props.values);
+    var removeElemAtIndex = function (arr, i) {
+        if (arr.length === 0) {
+            return [];
+        }
+        else if (arr.length === 1) {
+            return [];
+        }
+        else {
+            return arr.slice(0, i).concat(arr.slice(i));
+        }
+    };
+    return (React.createElement(field_container_1.default, { label: props.label, validation: field_validation_state_1.default.NEUTRAL },
+        props.values && props.values.map(function (value, i) {
+            return (React.createElement("div", { key: props.data.getKey(value), style: { width: "100%", display: "flex", flexDirection: "row", alignItems: "center" } },
+                React.createElement(combo_box_field_1.default, { value: value, onChange: createOnChangeHandler(i), data: data, debounceTime: props.debounceTime }),
+                React.createElement("button", { style: { width: "32px", height: "32px", backgroundColor: "#dfdfdf", border: "1px solid #acacac", borderRadius: "100%", margin: "0 1em", boxShadow: "0px 2px 2px #999" }, onClick: function () {
+                        props.onChange(removeElemAtIndex(props.values, i));
+                    } }, "X")));
+        }),
+        React.createElement(combo_box_field_1.default, { value: null, onChange: function (newValue) {
+                var newValues = props.values ? props.values.concat(newValue)
+                    : [newValue];
+                props.onChange(newValues);
+            }, data: data, debounceTime: props.debounceTime })));
+};
+exports.default = MultiSelectField;
+
+
+/***/ }),
+/* 290 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var constants_1 = __webpack_require__(11);
+var between_1 = __webpack_require__(21);
+var score_type_1 = __webpack_require__(29);
+var connect_score_type_1 = __webpack_require__(30);
+var number_field_1 = __webpack_require__(20);
+var Field = function (props) {
+    return React.createElement(number_field_1.default, { label: "NWEA Math percentile", value: props.value, onChange: props.onChange, limiter: between_1.default(1, 99), debounceTime: constants_1.INPUT_DEBOUNCE_TIME });
+};
+exports.default = connect_score_type_1.default(score_type_1.default.nweaPercentileMath)(Field);
+
+
+/***/ }),
+/* 291 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var constants_1 = __webpack_require__(11);
+var between_1 = __webpack_require__(21);
+var score_type_1 = __webpack_require__(29);
+var connect_score_type_1 = __webpack_require__(30);
+var number_field_1 = __webpack_require__(20);
+var Field = function (props) {
+    return React.createElement(number_field_1.default, { label: "NWEA Reading percentile", value: props.value, onChange: props.onChange, limiter: between_1.default(1, 99), debounceTime: constants_1.INPUT_DEBOUNCE_TIME });
+};
+exports.default = connect_score_type_1.default(score_type_1.default.nweaPercentileRead)(Field);
+
+
+/***/ }),
+/* 292 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var constants_1 = __webpack_require__(11);
+var between_1 = __webpack_require__(21);
+var score_type_1 = __webpack_require__(29);
+var connect_score_type_1 = __webpack_require__(30);
+var number_field_1 = __webpack_require__(20);
+var Field = function (props) {
+    return React.createElement(number_field_1.default, { label: "Math Grade", value: props.value, onChange: props.onChange, limiter: between_1.default(0, 100), debounceTime: constants_1.INPUT_DEBOUNCE_TIME });
+};
+exports.default = connect_score_type_1.default(score_type_1.default.subjGradeMath)(Field);
+
+
+/***/ }),
+/* 293 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var constants_1 = __webpack_require__(11);
+var between_1 = __webpack_require__(21);
+var score_type_1 = __webpack_require__(29);
+var connect_score_type_1 = __webpack_require__(30);
+var number_field_1 = __webpack_require__(20);
+var Field = function (props) {
+    return React.createElement(number_field_1.default, { label: "Reading Grade", value: props.value, onChange: props.onChange, limiter: between_1.default(0, 100), debounceTime: constants_1.INPUT_DEBOUNCE_TIME });
+};
+exports.default = connect_score_type_1.default(score_type_1.default.subjGradeRead)(Field);
+
+
+/***/ }),
+/* 294 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var constants_1 = __webpack_require__(11);
+var between_1 = __webpack_require__(21);
+var score_type_1 = __webpack_require__(29);
+var connect_score_type_1 = __webpack_require__(30);
+var number_field_1 = __webpack_require__(20);
+var Field = function (props) {
+    return React.createElement(number_field_1.default, { label: "Science Grade", value: props.value, onChange: props.onChange, limiter: between_1.default(0, 100), debounceTime: constants_1.INPUT_DEBOUNCE_TIME });
+};
+exports.default = connect_score_type_1.default(score_type_1.default.subjGradeSci)(Field);
+
+
+/***/ }),
+/* 295 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var constants_1 = __webpack_require__(11);
+var between_1 = __webpack_require__(21);
+var score_type_1 = __webpack_require__(29);
+var connect_score_type_1 = __webpack_require__(30);
+var number_field_1 = __webpack_require__(20);
+var Field = function (props) {
+    return React.createElement(number_field_1.default, { label: "Social Studies Grade", value: props.value, onChange: props.onChange, limiter: between_1.default(0, 100), debounceTime: constants_1.INPUT_DEBOUNCE_TIME });
+};
+exports.default = connect_score_type_1.default(score_type_1.default.subjGradeSocStudies)(Field);
+
+
+/***/ }),
+/* 296 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+__webpack_require__(297);
+var HSProgramSuccessChanceKey = function (props) {
+    return (React.createElement("div", { className: "hs-program-success-chance-key" },
+        React.createElement("div", { className: "hs-program-success-chance-example" },
+            "You will almost certainly be accepted.",
+            React.createElement("div", { className: "hs-list-element-icon succ-certain" })),
+        React.createElement("div", { className: "hs-program-success-chance-example" },
+            "You're more likely to be accepted than other students.",
+            React.createElement("div", { className: "hs-list-element-icon succ-likely" })),
+        React.createElement("div", { className: "hs-program-success-chance-example" },
+            "You're about as likely to be accepted as other students.",
+            React.createElement("div", { className: "hs-list-element-icon succ-uncertain" })),
+        React.createElement("div", { className: "hs-program-success-chance-example" },
+            "You're less likely to be accepted than other students.",
+            React.createElement("div", { className: "hs-list-element-icon succ-unlikely" })),
+        React.createElement("div", { className: "hs-program-success-chance-example" },
+            "You probably won't be accepted.",
+            React.createElement("div", { className: "hs-list-element-icon succ-none" }))));
+};
+exports.default = HSProgramSuccessChanceKey;
+
+
+/***/ }),
+/* 297 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(298);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(27)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-success-chance-key.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-success-chance-key.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 298 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(26)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".hs-program-success-chance-key {\n  width: 100%;\n  height: 150px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  margin-left: -0.5em;\n  padding-bottom: 0.5em;\n  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n  text-align: center; }\n\n.hs-program-success-chance-example {\n  -webkit-transform: scale(0.85);\n          transform: scale(0.85); }\n\n.hs-program-success-chance-example > .hs-list-element-icon {\n  margin: 0 auto; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 299 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var react_redux_1 = __webpack_require__(14);
+var reselect_1 = __webpack_require__(113);
+var hs_program_list_1 = __webpack_require__(300);
+var actions_1 = __webpack_require__(16);
+;
+var getPrograms = function (state) { return state.getIn(['hsData', 'programs']); };
+var getProgramIndex = function (state) { return state.getIn(['hsData', 'index']); };
+var getHSProgramIDsByType = function (state) { return state.getIn(['hsData', 'hsProgramIDsByType']); };
+var getOutcomes = function (state) { return state.getIn(['hsData', 'outcomes']); };
+var toHSPrograms = function (cpsPrograms, outcomes) {
+    return cpsPrograms.map(function (cpsProgram) {
+        return {
+            id: cpsProgram.ID,
+            longname: cpsProgram.Long_Name,
+            shortname: cpsProgram.Short_Name,
+            programType: cpsProgram.Program_Type,
+            applicationReqDescription: cpsProgram.Application_Requirements,
+            applicationOutcome: outcomes.getIn([cpsProgram.ID, 'application']),
+            selectionReqDescription: cpsProgram.Program_Selections,
+            selectionOutcome: outcomes.getIn([cpsProgram.ID, 'selection']),
+            cpsLink: cpsProgram.CPS_School_Profile,
+            schoolPageLink: cpsProgram.Website,
+            hsBoundLink: ""
+        };
+    });
+};
+var selectPrograms = function (ids, allPrograms, index) {
+    var selectedPrograms = [];
+    ids.forEach(function (id) {
+        var i = index.get(id);
+        var program = allPrograms.get(i);
+        selectedPrograms.push(program);
+    });
+    return selectedPrograms;
+};
+var selectHSProgramsByType = reselect_1.createSelector([getHSProgramIDsByType, getPrograms, getProgramIndex, getOutcomes], function (idsByType, allPrograms, index, outcomes) {
+    console.log(idsByType);
+    console.log(outcomes);
+    var hsProgramsByType = {};
+    idsByType.forEach(function (ids, programType) {
+        var cpsPrograms = selectPrograms(ids, allPrograms, index);
+        var hsPrograms = toHSPrograms(cpsPrograms, outcomes);
+        hsProgramsByType[programType] = hsPrograms;
+    });
+    return hsProgramsByType;
+});
+var mapStateToProps = function (state) {
+    return {
+        hsProgramsByType: selectHSProgramsByType(state),
+        selectedProgramID: state.get('selectedHSProgramID')
+    };
+};
+var mapDispatchToProps = function (dispatch) {
+    return {
+        onSelectedProgramIDChange: function (newID) { return dispatch(actions_1.selectHSProgram(newID)); }
+    };
+};
+var HSProgramsContainer = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(hs_program_list_1.default);
+exports.default = HSProgramsContainer;
+
+
+/***/ }),
+/* 300 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var hs_group_1 = __webpack_require__(301);
+var HSProgramList = function (props) {
+    return (React.createElement("div", { style: { width: "100%", height: "100%", overflowY: "auto", overflowX: "hidden" } }, Object.keys(props.hsProgramsByType).map(function (programType) {
+        var programs = props.hsProgramsByType[programType];
+        return (React.createElement(hs_group_1.default, { key: programType, title: programType, programs: programs, selectedProgramID: props.selectedProgramID, onSelectedProgramIDChange: function (id) { return props.onSelectedProgramIDChange(id); } }));
+    })));
+};
+exports.default = HSProgramList;
+
+
+/***/ }),
+/* 301 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var hs_program_element_1 = __webpack_require__(302);
+__webpack_require__(309);
+var HSGroup = function (props) {
+    return (React.createElement("div", { className: "hs-category-container" },
+        React.createElement("div", { className: "hs-category-title" }, props.title),
+        React.createElement("div", { className: "hs-list" }, props.programs.map(function (hs) {
+            return (React.createElement(hs_program_element_1.default, { key: hs.id, program: hs, selected: hs.id === props.selectedProgramID, onSelect: function (newID) { return props.onSelectedProgramIDChange(newID); } }));
+        }))));
+};
+exports.default = HSGroup;
+
+
+/***/ }),
+/* 302 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var success_chance_1 = __webpack_require__(234);
+var hs_program_info_card_1 = __webpack_require__(303);
+__webpack_require__(306);
+var HSProgramElement = (function (_super) {
+    __extends(HSProgramElement, _super);
+    function HSProgramElement(props) {
         var _this = _super.call(this, props) || this;
         _this.getCombinedSuccessChance = function (application, selection) {
             if (application === success_chance_1.default.CERTAIN || application === success_chance_1.default.LIKELY) {
@@ -49234,59 +53759,46 @@ var HSListElement = (function (_super) {
                     return "succ-not-implemented";
             }
         };
-        var hs = props.program;
-        var reqFns = get_req_fns_1.default(props.program);
-        _this.applicationReqFn = reqFns.application;
-        _this.selectionReqFn = reqFns.selection;
-        var applicationResult = _this.applicationReqFn(props.studentData, props.program);
-        var selectionResult = _this.selectionReqFn(props.studentData, props.program);
         _this.state = {
-            showHSPreview: _this.props.selected,
-            applicationResult: applicationResult,
-            selectionResult: selectionResult,
+            showHSPreview: props.selected,
             pxFromTop: 0
         };
         return _this;
     }
-    HSListElement.prototype.componentWillReceiveProps = function (nextProps) {
-        var applicationResult = this.applicationReqFn(nextProps.studentData, nextProps.program);
-        var selectionResult = this.selectionReqFn(nextProps.studentData, nextProps.program);
+    HSProgramElement.prototype.componentWillReceiveProps = function (nextProps) {
         this.setState({
-            applicationResult: applicationResult,
-            selectionResult: selectionResult,
             showHSPreview: nextProps.selected
         });
     };
-    ;
-    HSListElement.prototype.render = function () {
+    HSProgramElement.prototype.render = function () {
         var _this = this;
+        var className = "hs-list-element-icon " +
+            (this.state.showHSPreview ? "focus " : "") +
+            this.outcomeToClassName(this.getCombinedSuccessChance(this.props.program.applicationOutcome, this.props.program.selectionOutcome));
         return (React.createElement("div", { className: "hs-list-element", ref: function (ref) {
                 if (ref) {
                     _this.setState({ pxFromTop: ref.offsetTop + 50 });
                 }
             } },
-            React.createElement("button", { className: "hs-list-element-icon " + (this.state.showHSPreview ? "focus " : "") + this.outcomeToClassName(this.getCombinedSuccessChance(this.state.applicationResult.outcome, this.state.selectionResult.outcome)), onClick: function () {
-                    _this.props.onSelect(_this.props.program);
-                } }),
-            React.createElement("div", { className: "hs-list-element-shortname" }, this.props.program.Short_Name),
-            React.createElement(hs_program_info_card_1.default, { visible: this.state.showHSPreview, program: this.props.program, applicationSuccess: this.state.applicationResult.outcome, selectionSuccess: this.state.selectionResult.outcome, style: { top: this.state.pxFromTop } })));
+            React.createElement("button", { className: className, onClick: function () { return _this.props.onSelect(_this.props.program.id); } }),
+            React.createElement("div", { className: "hs-list-element-shortname" }, this.props.program.shortname),
+            React.createElement(hs_program_info_card_1.default, { visible: this.state.showHSPreview, program: this.props.program, style: { top: this.state.pxFromTop } })));
     };
-    return HSListElement;
+    return HSProgramElement;
 }(React.PureComponent));
-;
-exports.default = HSListElement;
+exports.default = HSProgramElement;
 
 
 /***/ }),
-/* 240 */
+/* 303 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-var success_chance_1 = __webpack_require__(24);
-__webpack_require__(241);
+var React = __webpack_require__(3);
+var success_chance_1 = __webpack_require__(234);
+__webpack_require__(304);
 var HSProgramInfoCard = function (props) {
     var toMessage = function (success) {
         var msg;
@@ -49334,33 +53846,33 @@ var HSProgramInfoCard = function (props) {
     };
     return (React.createElement("div", { style: props.style, className: "hs-info-card-container " + (props.visible ? "visible" : "") },
         React.createElement("div", { className: "hs-info-card" },
-            React.createElement("div", { className: "hs-info-card-program-name" }, props.program.Short_Name + " - " + props.program.Program_Type + " Program"),
+            React.createElement("div", { className: "hs-info-card-program-name" }, props.program.shortname + " - " + props.program.programType + " Program"),
             React.createElement("div", { className: "hs-info-card-requirement-container" },
                 React.createElement("div", { className: "hs-info-card-requirement" },
                     React.createElement("div", { className: "hs-info-card-req-desc-container" },
                         React.createElement("div", { className: "hs-info-card-req-type" }, "To Apply:"),
-                        React.createElement("div", { className: "hs-info-card-req-desc" }, props.program.Application_Requirements)),
-                    React.createElement("div", { className: "hs-info-card-req-success" }, toMessage(props.applicationSuccess))),
+                        React.createElement("div", { className: "hs-info-card-req-desc" }, props.program.applicationReqDescription)),
+                    React.createElement("div", { className: "hs-info-card-req-success" }, toMessage(props.program.applicationOutcome))),
                 React.createElement("div", { className: "hs-info-card-requirement" },
                     React.createElement("div", { className: "hs-info-card-req-desc-container" },
                         React.createElement("div", { className: "hs-info-card-req-type" }, "To Be Selected:"),
-                        React.createElement("div", { className: "hs-info-card-req-desc" }, props.program.Program_Selections)),
-                    React.createElement("div", { className: "hs-info-card-req-success" }, toMessage(props.selectionSuccess)))),
+                        React.createElement("div", { className: "hs-info-card-req-desc" }, props.program.selectionReqDescription)),
+                    React.createElement("div", { className: "hs-info-card-req-success" }, toMessage(props.program.selectionOutcome)))),
             React.createElement("div", { className: "hs-links-container" },
-                React.createElement("a", { className: "hs-link", target: "_none", href: props.program.CPS_School_Profile }, "School Website"),
-                React.createElement("a", { className: "hs-link", target: "_none", href: createHSBoundLink(props.program.Short_Name) }, "HS Bound School Page")))));
+                React.createElement("a", { className: "hs-link", target: "_none", href: props.program.cpsLink }, "School Website"),
+                React.createElement("a", { className: "hs-link", target: "_none", href: createHSBoundLink(props.program.shortname) }, "HS Bound School Page")))));
 };
 exports.default = HSProgramInfoCard;
 
 
 /***/ }),
-/* 241 */
+/* 304 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(242);
+var content = __webpack_require__(305);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -49368,7 +53880,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(12)(content, options);
+var update = __webpack_require__(27)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -49385,10 +53897,10 @@ if(false) {
 }
 
 /***/ }),
-/* 242 */
+/* 305 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(11)(undefined);
+exports = module.exports = __webpack_require__(26)(undefined);
 // imports
 
 
@@ -49399,13 +53911,13 @@ exports.push([module.i, ".hs-info-card-container {\n  display: none;\n  position
 
 
 /***/ }),
-/* 243 */
+/* 306 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(244);
+var content = __webpack_require__(307);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -49413,14 +53925,14 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(12)(content, options);
+var update = __webpack_require__(27)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-list-element.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-list-element.scss");
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-element.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-element.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -49430,33 +53942,33 @@ if(false) {
 }
 
 /***/ }),
-/* 244 */
+/* 307 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(11)(undefined);
+exports = module.exports = __webpack_require__(26)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, ".hs-list-element {\n  width: 45px;\n  height: 80px;\n  margin: 0 0.5em; }\n\n.hs-list-element-icon {\n  position: relative;\n  width: 45px;\n  height: 45px;\n  padding-top: 2px;\n  margin-bottom: 5px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  border: 2px solid #9e9e9e;\n  border-radius: 100%;\n  background-size: 470px 470px;\n  background: url(" + __webpack_require__(245) + ");\n  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n  z-index: 1;\n  -webkit-transition: -webkit-transform 200ms ease;\n  transition: -webkit-transform 200ms ease;\n  transition: transform 200ms ease;\n  transition: transform 200ms ease, -webkit-transform 200ms ease;\n  -webkit-transform-style: preserve-3d;\n          transform-style: preserve-3d;\n  -webkit-transform: scale(1);\n          transform: scale(1); }\n\n.hs-list-element-icon.focus {\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1); }\n\n.hs-list-element-icon.focus:before {\n  -webkit-transform: translateZ(-1em);\n          transform: translateZ(-1em);\n  position: absolute;\n  content: \"\";\n  z-index: -1;\n  width: 60px;\n  height: 60px;\n  border: 1px solid #adadad;\n  border-radius: 20px 20px 0px 0;\n  background-color: #fafafd; }\n\n.hs-list-element-icon.succ-certain {\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  background-color: #7ff159;\n  border: 5px solid #5bed2a; }\n\n.hs-list-element-icon.succ-likely {\n  background-color: #cef26f;\n  border: 3px solid #beee40; }\n\n.hs-list-element-icon.succ-uncertain {\n  background-color: #feee7e;\n  border: 2px solid #fde74c; }\n\n.hs-list-element-icon.succ-unlikely {\n  background-color: #f7966b;\n  border: 1px solid #f4743b; }\n\n.hs-list-element-icon.succ-none {\n  background-color: white;\n  border: 2px dashed #eee;\n  -webkit-box-shadow: none;\n          box-shadow: none; }\n\n.hs-list-element-icon.succ-not-implemented {\n  background: none;\n  -webkit-box-shadow: none;\n          box-shadow: none;\n  border: 2px dashed #999; }\n\n.hs-list-element-shortname {\n  width: 45px;\n  height: 30px;\n  font-size: 70%;\n  text-align: center;\n  word-wrap: normal;\n  overflow: hidden;\n  text-overflow: ellipsis; }\n", ""]);
+exports.push([module.i, ".hs-list-element {\n  width: 45px;\n  height: 80px;\n  margin: 0 0.5em; }\n\n.hs-list-element-icon {\n  position: relative;\n  width: 45px;\n  height: 45px;\n  padding-top: 2px;\n  margin-bottom: 5px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  border: 2px solid #9e9e9e;\n  border-radius: 100%;\n  background-size: 470px 470px;\n  background: url(" + __webpack_require__(308) + ");\n  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n  z-index: 1;\n  -webkit-transition: -webkit-transform 200ms ease;\n  transition: -webkit-transform 200ms ease;\n  transition: transform 200ms ease;\n  transition: transform 200ms ease, -webkit-transform 200ms ease;\n  -webkit-transform-style: preserve-3d;\n          transform-style: preserve-3d;\n  -webkit-transform: scale(1);\n          transform: scale(1); }\n\n.hs-list-element-icon.focus {\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1); }\n\n.hs-list-element-icon.focus:before {\n  -webkit-transform: translateZ(-1em);\n          transform: translateZ(-1em);\n  position: absolute;\n  content: \"\";\n  z-index: -1;\n  width: 60px;\n  height: 60px;\n  border: 1px solid #adadad;\n  border-radius: 20px 20px 0px 0;\n  background-color: #fafafd; }\n\n.hs-list-element-icon.succ-certain {\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  background-color: #7ff159;\n  border: 5px solid #5bed2a; }\n\n.hs-list-element-icon.succ-likely {\n  background-color: #cef26f;\n  border: 3px solid #beee40; }\n\n.hs-list-element-icon.succ-uncertain {\n  background-color: #feee7e;\n  border: 2px solid #fde74c; }\n\n.hs-list-element-icon.succ-unlikely {\n  background-color: #f7966b;\n  border: 1px solid #f4743b; }\n\n.hs-list-element-icon.succ-none {\n  background-color: white;\n  border: 2px dashed #eee;\n  -webkit-box-shadow: none;\n          box-shadow: none; }\n\n.hs-list-element-icon.succ-not-implemented {\n  background: none;\n  -webkit-box-shadow: none;\n          box-shadow: none;\n  border: 2px dashed #999; }\n\n.hs-list-element-shortname {\n  width: 45px;\n  height: 30px;\n  font-size: 70%;\n  text-align: center;\n  word-wrap: normal;\n  overflow: hidden;\n  text-overflow: ellipsis; }\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 245 */
+/* 308 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "f50e14b4c7654a4c10235e9ddc4b8756.svg";
+module.exports = __webpack_require__.p + "74a558d502f83dd3d4dd265aebb0a5c3.svg";
 
 /***/ }),
-/* 246 */
+/* 309 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(247);
+var content = __webpack_require__(310);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -49464,14 +53976,14 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(12)(content, options);
+var update = __webpack_require__(27)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-list.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-list.scss");
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-group.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-group.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -49481,188 +53993,17 @@ if(false) {
 }
 
 /***/ }),
-/* 247 */
+/* 310 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(11)(undefined);
+exports = module.exports = __webpack_require__(26)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, ".hs-list {\n  width: 100%;\n  min-height: 100px;\n  height: 100%;\n  padding: 1em 0;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center; }\n", ""]);
+exports.push([module.i, ".hs-category-container {\n  width: 100%;\n  height: auto;\n  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n  margin-bottom: 2em; }\n\n.hs-category-title {\n  width: 100%;\n  height: 40px;\n  line-height: 40px;\n  font-size: 130%;\n  -webkit-box-flex: 1;\n      -ms-flex: 1 0 100%;\n          flex: 1 0 100%;\n  border-bottom: 1px solid #cacaca; }\n\n.hs-list {\n  width: 100%;\n  min-height: 100px;\n  height: 100%;\n  padding: 1em 0;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center; }\n", ""]);
 
 // exports
-
-
-/***/ }),
-/* 248 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(249);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(12)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-type.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-type.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 249 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(11)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".hs-category-container {\n  width: 100%;\n  height: auto;\n  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n  margin-bottom: 2em; }\n\n.hs-category-title {\n  width: 100%;\n  height: 40px;\n  line-height: 40px;\n  font-size: 130%;\n  -webkit-box-flex: 1;\n      -ms-flex: 1 0 100%;\n          flex: 1 0 100%;\n  border-bottom: 1px solid #cacaca; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 250 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(4);
-__webpack_require__(251);
-var HSProgramSuccessChanceKey = function (props) {
-    return (React.createElement("div", { className: "hs-program-success-chance-key" },
-        React.createElement("div", { className: "hs-program-success-chance-example" },
-            "You will almost certainly be accepted.",
-            React.createElement("div", { className: "hs-list-element-icon succ-certain" })),
-        React.createElement("div", { className: "hs-program-success-chance-example" },
-            "You're more likely to be accepted than other students.",
-            React.createElement("div", { className: "hs-list-element-icon succ-likely" })),
-        React.createElement("div", { className: "hs-program-success-chance-example" },
-            "You're about as likely to be accepted as other students.",
-            React.createElement("div", { className: "hs-list-element-icon succ-uncertain" })),
-        React.createElement("div", { className: "hs-program-success-chance-example" },
-            "You're less likely to be accepted than other students.",
-            React.createElement("div", { className: "hs-list-element-icon succ-unlikely" })),
-        React.createElement("div", { className: "hs-program-success-chance-example" },
-            "You probably won't be accepted.",
-            React.createElement("div", { className: "hs-list-element-icon succ-none" }))));
-};
-exports.default = HSProgramSuccessChanceKey;
-
-
-/***/ }),
-/* 251 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(252);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(12)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-success-chance-key.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-success-chance-key.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 252 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(11)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".hs-program-success-chance-key {\n  width: 100%;\n  height: 150px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  margin-left: -0.5em;\n  padding-bottom: 0.5em;\n  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n  text-align: center; }\n\n.hs-program-success-chance-example {\n  -webkit-transform: scale(0.85);\n          transform: scale(0.85); }\n\n.hs-program-success-chance-example > .hs-list-element-icon {\n  margin: 0 auto; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 253 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var gender_1 = __webpack_require__(56);
-exports.MOCK_STUDENT_SCORES = {
-    nweaPercentileMath: 50,
-    nweaPercentileRead: 50,
-    subjGradeMath: 90,
-    subjGradeRead: 80,
-    subjGradeSci: 79,
-    subjGradeSocStudies: 66
-};
-exports.MOCK_STUDENT_DATA = {
-    studentFirstName: "Testfella",
-    studentLastName: "McGee",
-    address: "4747 S Marshfield Ave, Chicago IL",
-    ell: true,
-    iep: false,
-    gradeLevel: 8,
-    tier: "4",
-    scores: exports.MOCK_STUDENT_SCORES,
-    attendancePercentage: 85,
-    gpa: 2.5,
-    geolocation: { latitude: 41.8073824, longitude: -87.6657907 },
-    gender: gender_1.default.FEMALE,
-    prevGradeLevel: 7,
-    siblingHSPrograms: []
-};
-
-
-/***/ }),
-/* 254 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var grade_convert_1 = __webpack_require__(93);
-var calculateGPA = function (scores) {
-    return grade_convert_1.toGPA([scores.subjGradeMath,
-        scores.subjGradeRead,
-        scores.subjGradeSci,
-        scores.subjGradeSocStudies]);
-};
-exports.default = calculateGPA;
 
 
 /***/ })

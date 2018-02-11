@@ -1,0 +1,15 @@
+@import "../../../shared/styles/variables";
+
+.form-subform {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+
+.form-subheader {
+  font-size: 150%;
+  border-bottom: $border-light;
+  margin: 0.75em;
+}

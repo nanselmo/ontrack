@@ -6,8 +6,8 @@ export const calculateSEPoints = (student: StudentData): number => {
 
   // calculate points for NWEA scores
   const NWEA_SCORE_CONSTANT = 1.515;
-  const nweaMathPoints = Math.round(student.scores.nweaPercentileMath * NWEA_SCORE_CONSTANT);
-  const nweaReadPoints = Math.round(student.scores.nweaPercentileRead * NWEA_SCORE_CONSTANT);
+  const nweaMathPoints = Math.round(student.nweaPercentileMath * NWEA_SCORE_CONSTANT);
+  const nweaReadPoints = Math.round(student.nweaPercentileRead * NWEA_SCORE_CONSTANT);
 
   // calculate points for subjGrades
   const gradePointsLookup = {
@@ -17,10 +17,10 @@ export const calculateSEPoints = (student: StudentData): number => {
     "D": 0,
     "F": 0,
   }
-  const subjGradeMathPoints = gradePointsLookup[toLetterGrade(student.scores.subjGradeMath)];
-  const subjGradeReadPoints = gradePointsLookup[toLetterGrade(student.scores.subjGradeRead)];
-  const subjGradeSciPoints = gradePointsLookup[toLetterGrade(student.scores.subjGradeSci)];
-  const subjGradeSocStudiesPoints = gradePointsLookup[toLetterGrade(student.scores.subjGradeSocStudies)];
+  const subjGradeMathPoints = gradePointsLookup[toLetterGrade(student.subjGradeMath)];
+  const subjGradeReadPoints = gradePointsLookup[toLetterGrade(student.subjGradeRead)];
+  const subjGradeSciPoints = gradePointsLookup[toLetterGrade(student.subjGradeSci)];
+  const subjGradeSocStudiesPoints = gradePointsLookup[toLetterGrade(student.subjGradeSocStudies)];
 
   // calculate score component for SE Test percentile 
   const SE_TEST_PERCENTILE_CONSTANT = 3.03; 
@@ -40,8 +40,8 @@ export const calculateSEPoints = (student: StudentData): number => {
 export const calculateIBPoints = (student: StudentData): number => {
   // calculate points for NWEA scores
   const NWEA_SCORE_CONSTANT = 2.2727;
-  const nweaMathPoints = Math.round(student.scores.nweaPercentileMath * NWEA_SCORE_CONSTANT);
-  const nweaReadPoints = Math.round(student.scores.nweaPercentileRead * NWEA_SCORE_CONSTANT);
+  const nweaMathPoints = Math.round(student.nweaPercentileMath * NWEA_SCORE_CONSTANT);
+  const nweaReadPoints = Math.round(student.nweaPercentileRead * NWEA_SCORE_CONSTANT);
 
   // calculate score component for subj grades
   const gradePointsLookup = {
@@ -51,10 +51,10 @@ export const calculateIBPoints = (student: StudentData): number => {
     "D": 0,
     "F": 0,
   }
-  const subjGradeMathPoints = gradePointsLookup[toLetterGrade(student.scores.subjGradeMath)];
-  const subjGradeReadPoints = gradePointsLookup[toLetterGrade(student.scores.subjGradeRead)];
-  const subjGradeSciPoints = gradePointsLookup[toLetterGrade(student.scores.subjGradeSci)];
-  const subjGradeSocStudiesPoints = gradePointsLookup[toLetterGrade(student.scores.subjGradeSocStudies)];
+  const subjGradeMathPoints = gradePointsLookup[toLetterGrade(student.subjGradeMath)];
+  const subjGradeReadPoints = gradePointsLookup[toLetterGrade(student.subjGradeRead)];
+  const subjGradeSciPoints = gradePointsLookup[toLetterGrade(student.subjGradeSci)];
+  const subjGradeSocStudiesPoints = gradePointsLookup[toLetterGrade(student.subjGradeSocStudies)];
   
   const ibPoints = nweaMathPoints +
     nweaReadPoints +

@@ -1,6 +1,5 @@
 import TractTierTable from "../data/tract-tier-table"
 import createUrl from "shared/util/create-url";
-import Geolocation from "shared/types/geolocation";
 import * as JSONP from "browser-jsonp";
 
 export const GetTierError = {
@@ -11,7 +10,7 @@ export const GetTierError = {
 
 export interface GetTierResponse {
   tier: string
-  geo: Geolocation
+  geo: {latitude: number, longitude: number}
 };
 
 export const getTier = (address: string): Promise<GetTierResponse> => {
@@ -55,7 +54,7 @@ interface GeocodingAddressMatch {
   }
 }
 
-const getTractAndGeo = (address: string): Promise<{tract: string, geo: Geolocation}> => {
+const getTractAndGeo = (address: string): Promise<{tract: string, geo: {latitude: number, longitude: number}}> => {
   const API_BASE_URL = "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress";
   const apiParams: GeocodingAPIParams = {
     address: address,
@@ -82,7 +81,7 @@ const getTractAndGeo = (address: string): Promise<{tract: string, geo: Geolocati
     return response.result.addressMatches[0].geographies["Census Tracts"][0].BASENAME;
   };
 
-  const extractGeo = (response: GeocodingAPIResponse): Geolocation => {
+  const extractGeo = (response: GeocodingAPIResponse): {latitude: number, longitude: number} => {
     const coords = response.result.addressMatches[0].coordinates;
     return {latitude: coords.y, longitude: coords.x};
   };

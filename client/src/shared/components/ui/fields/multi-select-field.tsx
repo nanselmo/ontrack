@@ -6,7 +6,6 @@ import ListData from "./list-data";
 import FieldContainer from "./field-container";
 import ComboBoxField from "./combo-box-field";
 
-// TODO remove dependency
 import debounce from "shared/util/debounce";
 
 interface MultiSelectProps<T> {
@@ -39,7 +38,7 @@ const MultiSelectField: React.SFC<MultiSelectProps<any>> = (props) => {
   };
 
   const removeFromListData:(<T>(data: ListData<T>, elementsToRemove: T[]) => ListData<T>) = (data, elementsToRemove) => {
-    const keysToRemove = elementsToRemove.map(data.getKey);
+    const keysToRemove = elementsToRemove ? elementsToRemove.map(data.getKey) : [];
     const isNotElementToRemove = elem => keysToRemove.indexOf(data.getKey(elem)) === -1;
     const newRecords = data.records.filter( isNotElementToRemove );
     return {
@@ -79,7 +78,10 @@ const MultiSelectField: React.SFC<MultiSelectProps<any>> = (props) => {
             />
             <button 
               style={{width: "32px", height: "32px", backgroundColor: "#dfdfdf", border: "1px solid #acacac", borderRadius: "100%", margin: "0 1em", boxShadow: "0px 2px 2px #999" }} 
-              onClick={() => props.onChange(removeElemAtIndex(props.values, i))}>
+              onClick={() => { 
+                props.onChange(removeElemAtIndex(props.values, i))
+              }
+              }>
               X
             </button>
           </div>
@@ -92,7 +94,6 @@ const MultiSelectField: React.SFC<MultiSelectProps<any>> = (props) => {
         onChange={ newValue => {
           const newValues = props.values ? props.values.concat(newValue)
                                          : [newValue];
-          console.log(newValues);
           props.onChange(newValues);
         } }
         data={data}

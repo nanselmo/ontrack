@@ -1,15 +1,9 @@
-Add debouncing to shared form fields
+Refactor HSProgramsContainer to use immutableJS
 
-* DONE replace field props restrictor with limiter
-  ** instead of returning bool, limiter returns a valid value
-* DONE extend field props with optional debounceTime prop,
-  which if passed debounces field input by the vlaue of debounceTime
-  miliseconds
-* DONE add Limiter<T> function signature to shared form fields folder
-* DONE add debounce function implementation in shared/util
-* DONE remove lodash debounce dependency from package.json
-* DONE convert shared form fields to stateful components so
-  that ui state is updated even though onChange call is not
-  fired.
-
-* NOTE done for ui latency reasons
+* DONE rewrite HSProgramsContainer mapStateToProps using
+  immutablejs and memoize using reselect
+* DONE rewrite HSProgramsContainer mapDispatchToProps using
+  immutablejs and memoize using reselect
+* DONE change appState type to make state.hsData.hsProgramIDsByType
+  into a plain old javascript object, not an immutableJS object.
+  (We don't expect it to change, so immutableJS offers no benefit.)
