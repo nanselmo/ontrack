@@ -13,8 +13,7 @@ import {
 import {getAllPrograms} from "shared/util/data-access";
 const allPrograms = getAllPrograms();
 
-
-let initialStateWithoutPrograms: AppState = fromJS({ 
+let initialState: AppState = fromJS({ 
   studentData: {
     gender: Gender.NOANSWER,
     location: {
@@ -43,7 +42,7 @@ let initialStateWithoutPrograms: AppState = fromJS({
   selectedHSProgramID: null,
 
   hsData: {
-    programs: [], 
+    programs: List(allPrograms), 
     index: createIndexByID(allPrograms),
     hsProgramIDs: getHSProgramIDs(allPrograms),
     esProgramIDs: getESProgramIDs(allPrograms),
@@ -53,5 +52,4 @@ let initialStateWithoutPrograms: AppState = fromJS({
   }
 });
 
-const initialState = initialStateWithoutPrograms.setIn(['hsData', 'programs'], List(allPrograms));
 export default initialState;

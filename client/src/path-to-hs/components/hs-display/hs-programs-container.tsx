@@ -1,15 +1,17 @@
 import * as React from "react";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
+import { List, Map } from "immutable";
+import { createSelector } from "reselect";
 
 import AppState from "shared/types/app-state";
 import CPSProgram from "shared/types/cps-program";
 import HSProgram from "shared/types/hs-program";
 import SuccessChance from "shared/enums/success-chance";
-import denormalize from "shared/util/denormalize";
 
 import HSProgramList from "./hs-program-list";
 
-import {selectHSProgram} from "shared/actions";
+import { selectHSProgram } from "shared/actions";
+
 
 interface Outcomes {
   [id: string]: {
@@ -18,10 +20,13 @@ interface Outcomes {
   }
 };
 
+const getPrograms = (state: AppState): List<CPSProgram> => state.getIn(['hsData', 'programs']);
+const getProgramIndex = (state: AppState): {[id: string]: number} => state.getIn(['hsData', 'index']);
+const getHSProgramIDsByType = (state: AppState): Map<string, Map<string, any>> => state.getIn(['hsData', 'hsProgramIDsByType']);
+const getOutcomes = (state: AppState): Outcomes => state.getIn(['hsData', 'outcomes']);
 
-const mapStateToProps = (state: AppState) => {
-
-  const toHSProgram = (cpsProgram: CPSProgram, outcomes: Outcomes): HSProgram => {
+const toHSPrograms = (cpsPrograms: CPSProgram[], outcomes): HSProgram[] => {
+  return cpsPrograms.map( cpsProgram => {
     return {
       id: cpsProgram.ID,
       longname: cpsProgram.Long_Name,
@@ -29,33 +34,48 @@ const mapStateToProps = (state: AppState) => {
       programType: cpsProgram.Program_Type,
 
       applicationReqDescription: cpsProgram.Application_Requirements,
-      applicationOutcome: outcomes[cpsProgram.ID].application,
+      applicationOutcome: outcomes.getIn([cpsProgram.ID, 'application']),
       selectionReqDescription: cpsProgram.Program_Selections,
-      selectionOutcome: outcomes[cpsProgram.ID].selection,
+      selectionOutcome: outcomes.getIn([cpsProgram.ID, 'selection']),
       
       cpsLink: cpsProgram.CPS_School_Profile,
       schoolPageLink: cpsProgram.Website,
       hsBoundLink: ""
     }
-  };
-
-  let hsProgramsByType = {};
-
-  const programIDsByType = state.hsData.hsProgramIDsByType;
-  Object.keys(programIDsByType).forEach( programType => {
-    const programIDs: string[] = programIDsByType[programType];
-    // look up programs using index
-    const programs = programIDs.map( id => denormalize(id, state.hsData.programs, state.hsData.index));
-    // transform programs from CPSProgram into HSProgram
-    const hsPrograms = programs.map( program => {
-      return toHSProgram(program, state.hsData.outcomes);
-    });
-    hsProgramsByType[programType] = hsPrograms;
   });
+};
 
+const selectPrograms = (ids, allPrograms, index): CPSProgram[] => {
+  let selectedPrograms = [];
+  ids.forEach( id => {
+    // use index to find cps program corresponding to id
+    const i = index.get(id);
+    const program = allPrograms.get(i);
+    selectedPrograms.push(program);
+  });
+  return selectedPrograms;
+};
+
+const selectHSProgramsByType = createSelector(
+  [getHSProgramIDsByType, getPrograms, getProgramIndex, getOutcomes],
+  (idsByType, allPrograms, index, outcomes) => {
+    console.log(idsByType);
+    console.log(outcomes);
+    let hsProgramsByType = {}; 
+    idsByType.forEach( (ids, programType)=> {
+      const cpsPrograms: CPSProgram[] = selectPrograms(ids, allPrograms, index);
+      const hsPrograms = toHSPrograms(cpsPrograms, outcomes);
+      // TODO sort hsPrograms on outcome
+      hsProgramsByType[programType] = hsPrograms;
+    });
+    return hsProgramsByType;
+  }
+);
+
+const mapStateToProps = (state: AppState) => {
   return {
-    hsProgramsByType: hsProgramsByType,
-    selectedProgramID: state.selectedHSProgramID
+    hsProgramsByType: selectHSProgramsByType(state),
+    selectedProgramID: state.get('selectedHSProgramID')
   }
 };
 

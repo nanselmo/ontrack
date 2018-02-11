@@ -20,16 +20,14 @@ const PathToHS: React.SFC<any> = (props) => {
       >
         <StudentDataForm/>
       </Box>
-      {/*
       <Box 
         width="half" 
         height="full" 
         responsiveBehavior={{mobile: "fullscreen"}}
       >
         <HSProgramSuccessChanceKey/>
-        <HSProgramContainer/>
+        <HSProgramsContainer/>
       </Box>
-      */}
     </Page>
   );
 };

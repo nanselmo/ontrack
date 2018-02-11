@@ -25177,7 +25177,7 @@ var immutable_1 = __webpack_require__(232);
 var reducer_utils_1 = __webpack_require__(233);
 var data_access_1 = __webpack_require__(236);
 var allPrograms = data_access_1.getAllPrograms();
-var initialStateWithoutPrograms = immutable_1.fromJS({
+var initialState = immutable_1.fromJS({
     studentData: {
         gender: gender_1.default.NOANSWER,
         location: {
@@ -25203,7 +25203,7 @@ var initialStateWithoutPrograms = immutable_1.fromJS({
     },
     selectedHSProgramID: null,
     hsData: {
-        programs: [],
+        programs: immutable_1.List(allPrograms),
         index: reducer_utils_1.createIndexByID(allPrograms),
         hsProgramIDs: reducer_utils_1.getHSProgramIDs(allPrograms),
         esProgramIDs: reducer_utils_1.getESProgramIDs(allPrograms),
@@ -25211,7 +25211,6 @@ var initialStateWithoutPrograms = immutable_1.fromJS({
         outcomes: reducer_utils_1.initializeOutcomes(allPrograms)
     }
 });
-var initialState = initialStateWithoutPrograms.setIn(['hsData', 'programs'], immutable_1.List(allPrograms));
 exports.default = initialState;
 
 
@@ -52008,6 +52007,8 @@ var React = __webpack_require__(3);
 var page_1 = __webpack_require__(251);
 var box_1 = __webpack_require__(255);
 var student_data_form_1 = __webpack_require__(258);
+var hs_program_success_chance_key_1 = __webpack_require__(296);
+var hs_programs_container_1 = __webpack_require__(299);
 var PathToHS = function (props) {
     return (React.createElement(page_1.default, null,
         React.createElement(box_1.default, { width: "half", height: "full", flex: {
@@ -52015,7 +52016,10 @@ var PathToHS = function (props) {
                 justifyContent: "center",
                 alignItems: "center"
             }, responsiveBehavior: { mobile: "fullscreen" } },
-            React.createElement(student_data_form_1.default, null))));
+            React.createElement(student_data_form_1.default, null)),
+        React.createElement(box_1.default, { width: "half", height: "full", responsiveBehavior: { mobile: "fullscreen" } },
+            React.createElement(hs_program_success_chance_key_1.default, null),
+            React.createElement(hs_programs_container_1.default, null))));
 };
 exports.default = PathToHS;
 
@@ -53521,6 +53525,485 @@ var Field = function (props) {
     return React.createElement(number_field_1.default, { label: "Social Studies Grade", value: props.value, onChange: props.onChange, limiter: between_1.default(0, 100), debounceTime: constants_1.INPUT_DEBOUNCE_TIME });
 };
 exports.default = connect_score_type_1.default(score_type_1.default.subjGradeSocStudies)(Field);
+
+
+/***/ }),
+/* 296 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+__webpack_require__(297);
+var HSProgramSuccessChanceKey = function (props) {
+    return (React.createElement("div", { className: "hs-program-success-chance-key" },
+        React.createElement("div", { className: "hs-program-success-chance-example" },
+            "You will almost certainly be accepted.",
+            React.createElement("div", { className: "hs-list-element-icon succ-certain" })),
+        React.createElement("div", { className: "hs-program-success-chance-example" },
+            "You're more likely to be accepted than other students.",
+            React.createElement("div", { className: "hs-list-element-icon succ-likely" })),
+        React.createElement("div", { className: "hs-program-success-chance-example" },
+            "You're about as likely to be accepted as other students.",
+            React.createElement("div", { className: "hs-list-element-icon succ-uncertain" })),
+        React.createElement("div", { className: "hs-program-success-chance-example" },
+            "You're less likely to be accepted than other students.",
+            React.createElement("div", { className: "hs-list-element-icon succ-unlikely" })),
+        React.createElement("div", { className: "hs-program-success-chance-example" },
+            "You probably won't be accepted.",
+            React.createElement("div", { className: "hs-list-element-icon succ-none" }))));
+};
+exports.default = HSProgramSuccessChanceKey;
+
+
+/***/ }),
+/* 297 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(298);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(27)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-success-chance-key.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-success-chance-key.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 298 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(26)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".hs-program-success-chance-key {\n  width: 100%;\n  height: 150px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  margin-left: -0.5em;\n  padding-bottom: 0.5em;\n  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n  text-align: center; }\n\n.hs-program-success-chance-example {\n  -webkit-transform: scale(0.85);\n          transform: scale(0.85); }\n\n.hs-program-success-chance-example > .hs-list-element-icon {\n  margin: 0 auto; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 299 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var react_redux_1 = __webpack_require__(14);
+var reselect_1 = __webpack_require__(113);
+var hs_program_list_1 = __webpack_require__(300);
+var actions_1 = __webpack_require__(16);
+;
+var getPrograms = function (state) { return state.getIn(['hsData', 'programs']); };
+var getProgramIndex = function (state) { return state.getIn(['hsData', 'index']); };
+var getHSProgramIDsByType = function (state) { return state.getIn(['hsData', 'hsProgramIDsByType']); };
+var getOutcomes = function (state) { return state.getIn(['hsData', 'outcomes']); };
+var toHSPrograms = function (cpsPrograms, outcomes) {
+    return cpsPrograms.map(function (cpsProgram) {
+        return {
+            id: cpsProgram.ID,
+            longname: cpsProgram.Long_Name,
+            shortname: cpsProgram.Short_Name,
+            programType: cpsProgram.Program_Type,
+            applicationReqDescription: cpsProgram.Application_Requirements,
+            applicationOutcome: outcomes.getIn([cpsProgram.ID, 'application']),
+            selectionReqDescription: cpsProgram.Program_Selections,
+            selectionOutcome: outcomes.getIn([cpsProgram.ID, 'selection']),
+            cpsLink: cpsProgram.CPS_School_Profile,
+            schoolPageLink: cpsProgram.Website,
+            hsBoundLink: ""
+        };
+    });
+};
+var selectPrograms = function (ids, allPrograms, index) {
+    var selectedPrograms = [];
+    ids.forEach(function (id) {
+        var i = index.get(id);
+        var program = allPrograms.get(i);
+        selectedPrograms.push(program);
+    });
+    return selectedPrograms;
+};
+var selectHSProgramsByType = reselect_1.createSelector([getHSProgramIDsByType, getPrograms, getProgramIndex, getOutcomes], function (idsByType, allPrograms, index, outcomes) {
+    console.log(idsByType);
+    console.log(outcomes);
+    var hsProgramsByType = {};
+    idsByType.forEach(function (ids, programType) {
+        var cpsPrograms = selectPrograms(ids, allPrograms, index);
+        var hsPrograms = toHSPrograms(cpsPrograms, outcomes);
+        hsProgramsByType[programType] = hsPrograms;
+    });
+    return hsProgramsByType;
+});
+var mapStateToProps = function (state) {
+    return {
+        hsProgramsByType: selectHSProgramsByType(state),
+        selectedProgramID: state.get('selectedHSProgramID')
+    };
+};
+var mapDispatchToProps = function (dispatch) {
+    return {
+        onSelectedProgramIDChange: function (newID) { return dispatch(actions_1.selectHSProgram(newID)); }
+    };
+};
+var HSProgramsContainer = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(hs_program_list_1.default);
+exports.default = HSProgramsContainer;
+
+
+/***/ }),
+/* 300 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var hs_group_1 = __webpack_require__(301);
+var HSProgramList = function (props) {
+    return (React.createElement("div", { style: { width: "100%", height: "100%", overflowY: "auto", overflowX: "hidden" } }, Object.keys(props.hsProgramsByType).map(function (programType) {
+        var programs = props.hsProgramsByType[programType];
+        return (React.createElement(hs_group_1.default, { key: programType, title: programType, programs: programs, selectedProgramID: props.selectedProgramID, onSelectedProgramIDChange: function (id) { return props.onSelectedProgramIDChange(id); } }));
+    })));
+};
+exports.default = HSProgramList;
+
+
+/***/ }),
+/* 301 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var hs_program_element_1 = __webpack_require__(302);
+__webpack_require__(309);
+var HSGroup = function (props) {
+    return (React.createElement("div", { className: "hs-category-container" },
+        React.createElement("div", { className: "hs-category-title" }, props.title),
+        React.createElement("div", { className: "hs-list" }, props.programs.map(function (hs) {
+            return (React.createElement(hs_program_element_1.default, { key: hs.id, program: hs, selected: hs.id === props.selectedProgramID, onSelect: function (newID) { return props.onSelectedProgramIDChange(newID); } }));
+        }))));
+};
+exports.default = HSGroup;
+
+
+/***/ }),
+/* 302 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var success_chance_1 = __webpack_require__(234);
+var hs_program_info_card_1 = __webpack_require__(303);
+__webpack_require__(306);
+var HSProgramElement = (function (_super) {
+    __extends(HSProgramElement, _super);
+    function HSProgramElement(props) {
+        var _this = _super.call(this, props) || this;
+        _this.getCombinedSuccessChance = function (application, selection) {
+            if (application === success_chance_1.default.CERTAIN || application === success_chance_1.default.LIKELY) {
+                return selection;
+            }
+            else {
+                return application;
+            }
+        };
+        _this.outcomeToClassName = function (outcome) {
+            switch (outcome) {
+                case success_chance_1.default.CERTAIN:
+                    return "succ-certain";
+                case success_chance_1.default.LIKELY:
+                    return "succ-likely";
+                case success_chance_1.default.UNCERTAIN:
+                    return "succ-uncertain";
+                case success_chance_1.default.UNLIKELY:
+                    return "succ-unlikely";
+                case success_chance_1.default.NONE:
+                    return "succ-none";
+                case success_chance_1.default.NOTIMPLEMENTED:
+                    return "succ-not-implemented";
+                default:
+                    return "succ-not-implemented";
+            }
+        };
+        _this.state = {
+            showHSPreview: props.selected,
+            pxFromTop: 0
+        };
+        return _this;
+    }
+    HSProgramElement.prototype.componentWillReceiveProps = function (nextProps) {
+        this.setState({
+            showHSPreview: nextProps.selected
+        });
+    };
+    HSProgramElement.prototype.render = function () {
+        var _this = this;
+        var className = "hs-list-element-icon " +
+            (this.state.showHSPreview ? "focus " : "") +
+            this.outcomeToClassName(this.getCombinedSuccessChance(this.props.program.applicationOutcome, this.props.program.selectionOutcome));
+        return (React.createElement("div", { className: "hs-list-element", ref: function (ref) {
+                if (ref) {
+                    _this.setState({ pxFromTop: ref.offsetTop + 50 });
+                }
+            } },
+            React.createElement("button", { className: className, onClick: function () { return _this.props.onSelect(_this.props.program.id); } }),
+            React.createElement("div", { className: "hs-list-element-shortname" }, this.props.program.shortname),
+            React.createElement(hs_program_info_card_1.default, { visible: this.state.showHSPreview, program: this.props.program, style: { top: this.state.pxFromTop } })));
+    };
+    return HSProgramElement;
+}(React.PureComponent));
+exports.default = HSProgramElement;
+
+
+/***/ }),
+/* 303 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var success_chance_1 = __webpack_require__(234);
+__webpack_require__(304);
+var HSProgramInfoCard = function (props) {
+    var toMessage = function (success) {
+        var msg;
+        switch (success) {
+            case success_chance_1.default.CERTAIN:
+                msg = "You meet this requirement.";
+                break;
+            case success_chance_1.default.LIKELY:
+                msg = "You are more likely to meet this requirement than other people who apply.";
+                break;
+            case success_chance_1.default.UNCERTAIN:
+                msg = "You are just as likely to meet this requirement as everyone else.";
+                break;
+            case success_chance_1.default.UNLIKELY:
+                msg = "You are less likely to meet this requirement than other people who apply.";
+                break;
+            case success_chance_1.default.NONE:
+                msg = "You do not meet this requirement.";
+                break;
+            case success_chance_1.default.NOTIMPLEMENTED:
+                msg = "We don't know enough about this requirement to tell you.";
+                break;
+        }
+        return msg;
+    };
+    var createHSBoundLink = function (name) {
+        var words = name.split(" ");
+        var lastWord = words[words.length - 1];
+        if (lastWord === "HS") {
+            words.pop();
+        }
+        var capitalizedWords = ["TEAM", "UIC", "CCA",];
+        var titleCaseWords = words.map(function (word) {
+            if (capitalizedWords.indexOf(word) === -1) {
+                var letters = word.toLowerCase().split("");
+                letters[0] = letters[0].toUpperCase();
+                return letters.join("");
+            }
+            else {
+                return word;
+            }
+        });
+        var schoolName = titleCaseWords.join("-");
+        return "https://hsbound.org/school/" + schoolName;
+    };
+    return (React.createElement("div", { style: props.style, className: "hs-info-card-container " + (props.visible ? "visible" : "") },
+        React.createElement("div", { className: "hs-info-card" },
+            React.createElement("div", { className: "hs-info-card-program-name" }, props.program.shortname + " - " + props.program.programType + " Program"),
+            React.createElement("div", { className: "hs-info-card-requirement-container" },
+                React.createElement("div", { className: "hs-info-card-requirement" },
+                    React.createElement("div", { className: "hs-info-card-req-desc-container" },
+                        React.createElement("div", { className: "hs-info-card-req-type" }, "To Apply:"),
+                        React.createElement("div", { className: "hs-info-card-req-desc" }, props.program.applicationReqDescription)),
+                    React.createElement("div", { className: "hs-info-card-req-success" }, toMessage(props.program.applicationOutcome))),
+                React.createElement("div", { className: "hs-info-card-requirement" },
+                    React.createElement("div", { className: "hs-info-card-req-desc-container" },
+                        React.createElement("div", { className: "hs-info-card-req-type" }, "To Be Selected:"),
+                        React.createElement("div", { className: "hs-info-card-req-desc" }, props.program.selectionReqDescription)),
+                    React.createElement("div", { className: "hs-info-card-req-success" }, toMessage(props.program.selectionOutcome)))),
+            React.createElement("div", { className: "hs-links-container" },
+                React.createElement("a", { className: "hs-link", target: "_none", href: props.program.cpsLink }, "School Website"),
+                React.createElement("a", { className: "hs-link", target: "_none", href: createHSBoundLink(props.program.shortname) }, "HS Bound School Page")))));
+};
+exports.default = HSProgramInfoCard;
+
+
+/***/ }),
+/* 304 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(305);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(27)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-info-card.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-info-card.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 305 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(26)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".hs-info-card-container {\n  display: none;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: auto;\n  z-index: 99; }\n\n.hs-info-card-container.visible {\n  display: block; }\n\n.hs-info-card {\n  padding: 0.5em;\n  width: 100%;\n  height: 100%;\n  background: #fafafd;\n  -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start; }\n\n.hs-info-card-program-name {\n  font-size: 115%;\n  font-weight: bold;\n  width: 100%;\n  text-align: center; }\n\n.hs-info-card-requirement-container {\n  width: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column; }\n\n.hs-info-card-requirement {\n  width: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row; }\n\n.hs-info-card-req-desc-container {\n  width: 50%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  margin-bottom: 0.5em; }\n\n.hs-info-card-req-type {\n  width: 90px;\n  margin-right: 0.5em; }\n\n.hs-info-card-req-desc {\n  width: 200px;\n  font-size: 80%;\n  padding: 0.5em;\n  background: #e8e8f6;\n  border-radius: 5px;\n  border: 1px solid #eee;\n  margin-right: 0.5em; }\n\n.hs-links-container {\n  width: 100%; }\n\n.hs-link {\n  margin: 1em;\n  padding: 0.5em;\n  color: #fafafd;\n  background-color: #4747b1;\n  border-radius: 7px;\n  -webkit-transition: background-color 200ms ease;\n  transition: background-color 200ms ease; }\n\n.hs-link:hover {\n  color: #fafafd;\n  background-color: #6868c3; }\n\n.hs-link:active {\n  color: #fafafd;\n  background-color: #38388d; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 306 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(307);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(27)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-element.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-program-element.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 307 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(26)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".hs-list-element {\n  width: 45px;\n  height: 80px;\n  margin: 0 0.5em; }\n\n.hs-list-element-icon {\n  position: relative;\n  width: 45px;\n  height: 45px;\n  padding-top: 2px;\n  margin-bottom: 5px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  border: 2px solid #9e9e9e;\n  border-radius: 100%;\n  background-size: 470px 470px;\n  background: url(" + __webpack_require__(308) + ");\n  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n  z-index: 1;\n  -webkit-transition: -webkit-transform 200ms ease;\n  transition: -webkit-transform 200ms ease;\n  transition: transform 200ms ease;\n  transition: transform 200ms ease, -webkit-transform 200ms ease;\n  -webkit-transform-style: preserve-3d;\n          transform-style: preserve-3d;\n  -webkit-transform: scale(1);\n          transform: scale(1); }\n\n.hs-list-element-icon.focus {\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1); }\n\n.hs-list-element-icon.focus:before {\n  -webkit-transform: translateZ(-1em);\n          transform: translateZ(-1em);\n  position: absolute;\n  content: \"\";\n  z-index: -1;\n  width: 60px;\n  height: 60px;\n  border: 1px solid #adadad;\n  border-radius: 20px 20px 0px 0;\n  background-color: #fafafd; }\n\n.hs-list-element-icon.succ-certain {\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  background-color: #7ff159;\n  border: 5px solid #5bed2a; }\n\n.hs-list-element-icon.succ-likely {\n  background-color: #cef26f;\n  border: 3px solid #beee40; }\n\n.hs-list-element-icon.succ-uncertain {\n  background-color: #feee7e;\n  border: 2px solid #fde74c; }\n\n.hs-list-element-icon.succ-unlikely {\n  background-color: #f7966b;\n  border: 1px solid #f4743b; }\n\n.hs-list-element-icon.succ-none {\n  background-color: white;\n  border: 2px dashed #eee;\n  -webkit-box-shadow: none;\n          box-shadow: none; }\n\n.hs-list-element-icon.succ-not-implemented {\n  background: none;\n  -webkit-box-shadow: none;\n          box-shadow: none;\n  border: 2px dashed #999; }\n\n.hs-list-element-shortname {\n  width: 45px;\n  height: 30px;\n  font-size: 70%;\n  text-align: center;\n  word-wrap: normal;\n  overflow: hidden;\n  text-overflow: ellipsis; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 308 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "74a558d502f83dd3d4dd265aebb0a5c3.svg";
+
+/***/ }),
+/* 309 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(310);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(27)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-group.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js??ref--3-2!../../../../node_modules/sass-loader/lib/loader.js!./hs-group.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 310 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(26)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".hs-category-container {\n  width: 100%;\n  height: auto;\n  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n  margin-bottom: 2em; }\n\n.hs-category-title {\n  width: 100%;\n  height: 40px;\n  line-height: 40px;\n  font-size: 130%;\n  -webkit-box-flex: 1;\n      -ms-flex: 1 0 100%;\n          flex: 1 0 100%;\n  border-bottom: 1px solid #cacaca; }\n\n.hs-list {\n  width: 100%;\n  min-height: 100px;\n  height: 100%;\n  padding: 1em 0;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center; }\n", ""]);
+
+// exports
 
 
 /***/ })
