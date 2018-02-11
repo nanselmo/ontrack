@@ -57426,14 +57426,12 @@ var selectPrograms = function (ids, allPrograms, index) {
     return selectedPrograms;
 };
 var selectHSProgramsByType = reselect_1.createSelector([getHSProgramIDsByType, getPrograms, getProgramIndex, getOutcomes], function (idsByType, allPrograms, index, outcomes) {
-    console.log(outcomes.toJS());
     var hsProgramsByType = {};
     idsByType.forEach(function (ids, programType) {
         var cpsPrograms = selectPrograms(ids, allPrograms, index);
         var hsPrograms = toHSPrograms(cpsPrograms, outcomes);
         hsProgramsByType[programType] = hsPrograms;
     });
-    console.log(hsProgramsByType);
     return hsProgramsByType;
 });
 var mapStateToProps = function (state) {

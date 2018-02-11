@@ -13,19 +13,13 @@ import HSProgramList from "./hs-program-list";
 import { selectHSProgram } from "shared/actions";
 
 
-interface Outcomes {
-  [id: string]: {
-    application: SuccessChance
-    selection: SuccessChance
-  }
-};
-
+type Outcomes = Map<string, Map<string, SuccessChance>>;
 const getPrograms = (state: AppState): List<CPSProgram> => state.getIn(['hsData', 'programs']);
 const getProgramIndex = (state: AppState): {[id: string]: number} => state.getIn(['hsData', 'index']);
 const getHSProgramIDsByType = (state: AppState): Map<string, Map<string, any>> => state.getIn(['hsData', 'hsProgramIDsByType']);
 const getOutcomes = (state: AppState): Outcomes => state.getIn(['hsData', 'outcomes']);
 
-const toHSPrograms = (cpsPrograms: CPSProgram[], outcomes): HSProgram[] => {
+const toHSPrograms = (cpsPrograms: CPSProgram[], outcomes: Outcomes): HSProgram[] => {
   return cpsPrograms.map( cpsProgram => {
     return {
       id: cpsProgram.ID,
@@ -59,8 +53,6 @@ const selectPrograms = (ids, allPrograms, index): CPSProgram[] => {
 const selectHSProgramsByType = createSelector(
   [getHSProgramIDsByType, getPrograms, getProgramIndex, getOutcomes],
   (idsByType, allPrograms, index, outcomes) => {
-    console.log(idsByType);
-    console.log(outcomes);
     let hsProgramsByType = {}; 
     idsByType.forEach( (ids, programType)=> {
       const cpsPrograms: CPSProgram[] = selectPrograms(ids, allPrograms, index);
