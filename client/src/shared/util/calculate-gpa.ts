@@ -1,10 +1,7 @@
 import {toGPA} from "shared/util/grade-convert";
 
-const calculateGPA = (scores): number => {
-  return toGPA([scores.subjGradeMath, 
-    scores.subjGradeRead, 
-    scores.subjGradeSci, 
-    scores.subjGradeSocStudies]);
+const calculateGPA = (...grades: number[]): number => {
+  return toGPA([...grades]);
 };
 
 export default calculateGPA;

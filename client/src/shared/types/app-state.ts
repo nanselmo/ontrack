@@ -7,9 +7,9 @@ import ImmutableMap from "shared/types/immutable-map";
 
 interface AppStateShape {
   
-  studentData: StudentData
+  studentData: ImmutableMap<StudentData>
 
-  hsData: {
+  hsData: ImmutableMap<{
     programs: CPSProgram[]
     index: {[id: string]: number}
     hsProgramIDs: string[]
@@ -22,7 +22,7 @@ interface AppStateShape {
         selection: SuccessChance
       }
     }
-  }
+  }>
 
   // HS list
   selectedHSProgramID: string | null

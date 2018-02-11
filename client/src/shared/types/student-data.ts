@@ -2,8 +2,7 @@ import Gender from "shared/enums/gender";
 import GradeLevel from "shared/types/grade-level";
 import StudentLocation from "shared/types/student-location";
 
-export default interface StudentInfo {
-
+export default interface StudentData {
     gender: Gender
     location: StudentLocation
     gradeLevel: number
@@ -21,5 +20,4 @@ export default interface StudentInfo {
     subjGradeRead: number
     subjGradeSci: number
     subjGradeSocStudies: number
-
 }

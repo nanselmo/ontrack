@@ -1,9 +1,13 @@
-Refactor HSProgramsContainer to use immutableJS
+Update req fn outcomes and student gpa on state changes
 
-* DONE rewrite HSProgramsContainer mapStateToProps using
-  immutablejs and memoize using reselect
-* DONE rewrite HSProgramsContainer mapDispatchToProps using
-  immutablejs and memoize using reselect
-* DONE change appState type to make state.hsData.hsProgramIDsByType
-  into a plain old javascript object, not an immutableJS object.
-  (We don't expect it to change, so immutableJS offers no benefit.)
+* write updateDependentProperties function in
+  shared/reducers/index.ts -- updates state based
+  on independent properties that have changed, using
+  new scores to update GPA, etc
+* change implementation of calculateGPA to take
+  array of scores rather than object
+* write selectProgram in shared/util
+* update AppState type to accurately reflect that
+  state is nested immutableJS objects, not just an
+  immutableJS map over plain old javascript objects
+  
