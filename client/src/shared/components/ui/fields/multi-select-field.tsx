@@ -32,9 +32,6 @@ const MultiSelectField: React.SFC<MultiSelectProps<any>> = (props) => {
       // replace props.values with new value at index
       const leftHalf = props.values.slice(0, index);
       const rightHalf = props.values.slice(index);
-      console.log("updating props.values");
-      console.log(leftHalf);
-      console.log(rightHalf);
       const newValues = leftHalf.concat(newValue, rightHalf);
       props.onChange(newValues);
     };
@@ -82,7 +79,6 @@ const MultiSelectField: React.SFC<MultiSelectProps<any>> = (props) => {
             <button 
               style={{width: "32px", height: "32px", backgroundColor: "#dfdfdf", border: "1px solid #acacac", borderRadius: "100%", margin: "0 1em", boxShadow: "0px 2px 2px #999" }} 
               onClick={() => { 
-                console.log('exit button clicked');
                 props.onChange(removeElemAtIndex(props.values, i))
               }
               }>
@@ -93,15 +89,11 @@ const MultiSelectField: React.SFC<MultiSelectProps<any>> = (props) => {
       }) } 
 
       {/* new input field */}
-      { console.log( 'values at second combo box:') }
-      { console.log( props.values ) }
       <ComboBoxField
         value={null}
         onChange={ newValue => {
-          console.warn( props.values );
-          const newValues = props.values.concat(newValue);
-          //const newValues = props.values ? props.values.concat(newValue)
-          //                               : [newValue];
+          const newValues = props.values ? props.values.concat(newValue)
+                                         : [newValue];
           props.onChange(newValues);
         } }
         data={data}

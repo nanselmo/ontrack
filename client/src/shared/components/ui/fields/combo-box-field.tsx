@@ -47,6 +47,7 @@ class ComboBoxField extends React.PureComponent<CboProps<any>, CboState> {
     this.setState({
       searchString: nextProps.value ? nextProps.data.getDisplayText(nextProps.value) : "",
     });
+    this.onChange = nextProps.debounceTime ? debounce(nextProps.onChange, nextProps.debounceTime) : nextProps.onChange;
   }
 
   private filter = (data: ListData<any>, filterString: string) => {

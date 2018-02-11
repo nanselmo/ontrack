@@ -1,10 +1,11 @@
-Connect CurrentES / SiblingHS fields to redux
+Fix bug in shared form field onChange methods
 
-* DONE add reselect dependency
-* DONE write memoized mapStateToProps and mapDispatchToProps
-    for currentESProgramField using reselect
-* TODO write memoized mapStateToProps and mapDispatchToProps
-    for siblingHSProgram using reselect
-  ** TODO investigate potential bug in MultiSelectField causing
-    incorrect list of current selections to be passed in onChange
+* update field onChange methods upon reciept of new props.
+
+* NOTE bug summary: Field onChange prop did not update
+  on receipt of new props, because field component was written
+  to call a ~debounced version~ of props.onChange . The debounced
+  version of props.onChange was an instance member of ComboBoxField
+  that was initialized in constructor BUT THEN NOT UPDATED IN
+  componentWillRecieveProps.
 

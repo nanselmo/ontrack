@@ -35,6 +35,7 @@ class DropdownField extends React.PureComponent<DropdownFieldProps, DropdownFiel
 
   componentWillReceiveProps(nextProps) {
     this.setState({localValue: nextProps.value});
+    this.onChange = nextProps.debounceTime ? debounce(nextProps.onChange, nextProps.debounceTime) : nextProps.onChange
   }
 
   private onChange: Function;

@@ -38,7 +38,6 @@ const getSiblingHSProgramIDs = (state: AppState): List<string> => state.getIn(['
 const selectPrograms = (ids, allPrograms, index): CPSProgram[] => {
     let selectedPrograms = [];
     ids.forEach( id => {
-      console.log(id);
       // use index to find cps program corresponding to id
       const i = index.get(id);
       const program = allPrograms.get(i);

@@ -42,6 +42,7 @@ class NumberField extends React.PureComponent<NumberFieldProps, NumberFieldState
     if (this.state.localValue !== "") {
       this.setState({localValue: nextProps.value ? nextProps.value : ""});
     }
+    this.onChange = nextProps.debounceTime ? debounce(nextProps.onChange, nextProps.debounceTime) : nextProps.onChange
   }
 
   render() {
